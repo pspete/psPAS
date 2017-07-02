@@ -31,7 +31,7 @@ Import-Module psPAS
 Logon to the Vault:
 
 ```
-$token = New-PASSession -Credential $VaultCredentials -BaseURI https:\\PVWA_URL
+$token = New-PASSession -Credential $VaultCredentials -BaseURI https://PVWA_URL
 ```
 
 The New-PASSession output contains:
