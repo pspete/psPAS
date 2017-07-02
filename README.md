@@ -1,5 +1,6 @@
 # psPAS
 **CyberArk PowerShell Module**
+
 PowerShell module for CyberArk Privileged Account Security Web Services REST API.
 
 Exposes all methods of the web service for CyberArk v9.6
@@ -30,7 +31,7 @@ Import-Module psPAS
 Logon to the Vault:
 
 ```
-$token = New-PASSession -Credential $VaultCredentials -BaseURI https:\\PVWA_URL
+$token = New-PASSession -Credential $VaultCredentials -BaseURI https://PVWA_URL
 ```
 
 The New-PASSession output contains:
