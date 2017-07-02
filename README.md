@@ -1,5 +1,6 @@
 # psPAS
 **CyberArk PowerShell Module**
+
 PowerShell module for CyberArk Privileged Account Security Web Services REST API.
 
 Exposes all methods of the web service for CyberArk v9.6
