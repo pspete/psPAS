@@ -4,7 +4,7 @@
     RootModule = 'psPAS.psm1'
 
     # Version number of this module.
-    ModuleVersion = '0.0.01'
+    ModuleVersion = '0.0.02'
 
     # ID used to uniquely identify this module
     GUID = '11c880d2-1430-4bd2-b6e8-f324741b460b'
@@ -85,7 +85,18 @@
                             'Get-PASApplicationAuthenticationMethods',
                             'Add-PASApplicationAuthenticationMethod',
                             'Remove-PASApplication',
-                            'Remove-PASApplicationAuthenticationMethod'
+                            'Remove-PASApplicationAuthenticationMethod',
+                            'Unblock-PASUser',
+                            'Set-PASUser',
+                            'Remove-PASUser',
+                            'New-PASUser',
+                            'Get-PASUser',
+                            'Get-PASLoggedOnUser',
+                            'Add-PASGroupMember',
+                            'Get-PASAccountActivity',
+                            'Get-PASAccountCredentials',
+                            'Add-PASPendingAccount',
+                            'Start-PASCredVerify'
                           )
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
