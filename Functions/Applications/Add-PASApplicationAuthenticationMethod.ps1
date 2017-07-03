@@ -62,7 +62,7 @@ TODO: ParameterSets/DynamicParameters
         [parameter(
             Mandatory=$true
         )]
-        [ValidateSet("path","hash","osUser","machineAddress")]
+        [ValidateSet("path","hash","osUser","machineAddress","certificateserialnumber")]
         [string]$AuthType,
 
         [parameter(
@@ -103,9 +103,9 @@ TODO: ParameterSets/DynamicParameters
 
         }
 
-        if($AuthType -eq "hash"){
+        if(($AuthType -eq "hash") -or ($AuthType -eq "certificateserialnumber")){
             
-            #parameters only relevent to hash authentication
+            #add comment parmater
             New-DynamicParam -Name Comment -DPDictionary $Dictionary
 
         }
