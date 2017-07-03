@@ -1,0 +1,65 @@
+﻿function Get-PASServerLogo{
+<#
+.SYNOPSIS
+Returns details of configured Logo 
+
+.DESCRIPTION
+Gets configuration details of logo displayed in the SafeShare WebGUI
+
+.PARAMETER ImageType
+The requested logo type: Square or Watermark.
+
+.PARAMETER WebSession
+WebRequestSession object returned from New-PASSession
+
+.PARAMETER BaseURI
+PVWA Web Address
+Do not include "/PasswordVault/"
+
+.EXAMPLE
+
+.INPUTS
+WebSession & BaseURI can be piped to the function by propertyname
+
+.OUTPUTS
+
+.NOTES
+
+.LINK
+
+#>
+    [CmdletBinding()]  
+    param(
+        [parameter(
+            Mandatory=$false
+        )]
+        [ValidateSet("Square","Watermark")]
+        [String]$ImageType,
+
+        [parameter(
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
+        )]
+        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+
+        [parameter(
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
+        )]
+        [string]$BaseURI
+    )
+
+    BEGIN{}#begin
+
+    PROCESS{
+
+        #Create URL for request
+        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Logo?type=$ImageType"
+
+        #send request to web service
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+
+    }#process
+
+    END{$result}#end
+}

@@ -105,7 +105,10 @@
                             'New-PASAccountGroup',
                             'New-PASOnboardingRule',
                             'Get-PASOnboardingRule',
-                            'Remove-PASOnboardingRule'
+                            'Remove-PASOnboardingRule',
+                            'Get-PASServer',
+                            'Get-PASServerLogo'
+                            'Get-PASServerWebService'
                           )
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
