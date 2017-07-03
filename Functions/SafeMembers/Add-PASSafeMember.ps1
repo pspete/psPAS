@@ -149,6 +149,7 @@ TODO
             Mandatory=$true
         )]
         [ValidateNotNullOrEmpty()]
+        [ValidateScript({$_ -notmatch ".*(\?).*"})]
         [string]$MemberName,
 
         [parameter(
