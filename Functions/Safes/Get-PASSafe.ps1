@@ -1,13 +1,17 @@
 ﻿function Get-PASSafe{
 <#
 .SYNOPSIS
-Returns information on a specific safe.
+Returns safe details from the vault.
 
 .DESCRIPTION
-Gets infomrtion on a safe in the Vault.
+Gets safe by SafeName, by search query string, or, if no SafeName or search query
+is specified, returns all safes.
 
 .PARAMETER SafeName
-The name of the safe.
+The name of a specific safe to get details of.
+
+.PARAMETER query
+Query String for safe search in the vault
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -35,10 +39,17 @@ PSObject containing safe properties
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$false,
+            ParameterSetName="byName"
         )]
         [ValidateNotNullOrEmpty()]
         [string]$SafeName,
+
+        [parameter(
+            Mandatory=$false,
+            ParameterSetName="byQuery"
+        )]
+        [string]$query,
 
         [parameter(
             Mandatory=$true,
@@ -63,15 +74,39 @@ PSObject containing safe properties
 
     PROCESS{
 
-        #Create URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Safes/$($SafeName | 
+        #Create base URL for request
+        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Safes"
+
+        #If SafeName specified
+        If($($PSCmdlet.ParameterSetName) -eq "byName"){
+            
+            #Build URL from base URL
+            $URI = "$URI/$($SafeName | GetEscapedString)"
         
-            Get-EscapedString)"
+        }
+
+        #If search query specified
+        ElseIf($($PSCmdlet.ParameterSetName) -eq "byQuery"){
+
+            #Get Parameters to include in request
+            $boundParameters = $PSBoundParameters | Get-PASParameters
+
+            #Create Query String, escaped for inclusion in request URL
+            $queryString = ($boundParameters.keys | foreach{
+        
+                "$_=$($boundParameters[$_] | Get-EscapedString)"
+            
+            }) -join '&'
+        
+            #Build URL from base URL
+            $URI = "$URI`?$queryString"
+        
+        }
         
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
     }#process
 
-    END{$result.GetSafeResult}#end
+    END{$result}#end
 }
