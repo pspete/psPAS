@@ -100,7 +100,9 @@
                             'Get-PASSafes',
                             'Get-PASSafe',
                             'Search-PASSafe',
-                            'Get-PASSafeMembers'
+                            'Get-PASSafeMembers',
+                            'Add-PASAccountGroupMember',
+                            'New-PASAccountGroup'
                           )
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
