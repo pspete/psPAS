@@ -118,10 +118,10 @@
              Tags = @('CyberArk', 'REST API', 'REST', 'Web Service')
 
             # A URL to the license for this module.
-             LicenseUri = ''
+             LicenseUri = 'https://github.com/pspete/psPAS/blob/master/LICENSE.md'
 
             # A URL to the main website for this project.
-             ProjectUri = ''
+             ProjectUri = 'https://github.com/pspete/psPAS'
 
             # A URL to an icon representing this module.
             # IconUri = ''
