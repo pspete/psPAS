@@ -105,7 +105,7 @@
                             'Get-PASOnboardingRule',
                             'Remove-PASOnboardingRule',
                             'Get-PASServer',
-                            'Get-PASServerLogo'
+                            'Get-PASSafeShareLogo'
                             'Get-PASServerWebService'
                           )
 

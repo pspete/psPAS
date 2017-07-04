@@ -1,7 +1,7 @@
-﻿function Get-PASServerLogo{
+﻿function Get-PASSafeShareLogo{
 <#
 .SYNOPSIS
-Returns details of configured Logo 
+Returns details of configured SafeShare Logo 
 
 .DESCRIPTION
 Gets configuration details of logo displayed in the SafeShare WebGUI
@@ -24,6 +24,7 @@ WebSession & BaseURI can be piped to the function by propertyname
 .OUTPUTS
 
 .NOTES
+SafeShare no longer available from CyberArk
 
 .LINK
 
@@ -31,7 +32,7 @@ WebSession & BaseURI can be piped to the function by propertyname
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$false
+            Mandatory=$true
         )]
         [ValidateSet("Square","Watermark")]
         [String]$ImageType,
@@ -55,7 +56,7 @@ WebSession & BaseURI can be piped to the function by propertyname
 
         #Create URL for request
         $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Logo?type=$ImageType"
-
+        
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
 
