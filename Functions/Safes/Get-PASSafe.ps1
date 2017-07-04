@@ -4,14 +4,16 @@
 Returns safe details from the vault.
 
 .DESCRIPTION
-Gets safe by SafeName, by search query string, or, if no SafeName or search query
-is specified, returns all safes.
+Gets safe by SafeName, by search query string, or return all safes.
 
 .PARAMETER SafeName
 The name of a specific safe to get details of.
 
 .PARAMETER query
 Query String for safe search in the vault
+
+.PARAMETER FindAll
+Specify to find all safes
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -52,6 +54,12 @@ PSObject containing safe properties
         [string]$query,
 
         [parameter(
+            Mandatory=$false,
+            ParameterSetName="byAll"
+        )]
+        [switch]$FindAll,
+
+        [parameter(
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
@@ -80,13 +88,17 @@ PSObject containing safe properties
         #If SafeName specified
         If($($PSCmdlet.ParameterSetName) -eq "byName"){
             
+            $returnProperty = "GetSafeResult"
+
             #Build URL from base URL
-            $URI = "$URI/$($SafeName | GetEscapedString)"
+            $URI = "$URI/$($SafeName | Get-EscapedString)"
         
         }
 
         #If search query specified
         ElseIf($($PSCmdlet.ParameterSetName) -eq "byQuery"){
+            
+            $returnProperty = "SearchSafesResult"
 
             #Get Parameters to include in request
             $boundParameters = $PSBoundParameters | Get-PASParameters
@@ -102,11 +114,17 @@ PSObject containing safe properties
             $URI = "$URI`?$queryString"
         
         }
+
+        ElseIf($($PSCmdlet.ParameterSetName) -eq "byAll"){
+        
+            $returnProperty = "GetSafesResult"
+        
+        }
         
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
     }#process
 
-    END{$result}#end
+    END{$result.$returnProperty}#end
 }
