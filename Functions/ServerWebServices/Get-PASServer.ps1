@@ -6,10 +6,10 @@ Returns details of the Web Sevice Server
 .DESCRIPTION
 Returns information on Server.
 Returns the name of the Vault configured in the ServerDisplayName configuration parameter
+Appears to need Vault administrator rights
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
-
 
 .PARAMETER WebSession
 WebRequestSession object returned from New-PASSession
