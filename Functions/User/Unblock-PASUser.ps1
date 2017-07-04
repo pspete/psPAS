@@ -77,11 +77,7 @@ User Details
             Get-EscapedString)"
 
         #request body
-        $body = $PSBoundParameters | 
-        
-            Get-PASParameters -ParametersToRemove UserName | 
-
-                ConvertTo-Json
+        $body = $PSBoundParameters | Get-PASParameters -ParametersToRemove UserName
 
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -Headers $sessionToken -WebSession $WebSession
