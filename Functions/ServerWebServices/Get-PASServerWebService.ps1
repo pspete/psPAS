@@ -55,5 +55,10 @@ ServerName, ServerID, ApplicationName & Available Authentication Methods
 
     }#process
 
-    END{$result}#end
+    END{
+        
+        #return results
+        $result | Select ServerName, ServerId, ApplicationName , AuthenticationMethods
+    
+    }#end
 }
