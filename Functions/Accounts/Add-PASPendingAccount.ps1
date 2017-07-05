@@ -10,7 +10,7 @@ The faciliates the privileged account workflow, during which users can identify
 privileged accounts and determine which are onboarded to the vault.eters in the required format.
 
 .PARAMETER UserName
-The safe where the account will be created
+The name of the account user
 
 .PARAMETER Address
 The name or address of the machine where the account is used.
@@ -255,7 +255,7 @@ None
         $body = @{
 
                     #pendingaccount node
-                    "pendingaccount" = $boundParameters | Get-PASParameters
+                    "pendingAccount" = $boundParameters | Get-PASParameters
 
                     #JSON object
                 } | ConvertTo-Json

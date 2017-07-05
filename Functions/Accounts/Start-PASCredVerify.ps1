@@ -69,8 +69,10 @@ None
         #Create URL for request
         $URI = "$BaseURI/PasswordVault/WebServices/PIMServices.svc/Accounts/$AccountID/VerifyCredentials"
 
+        $body = @{} | ConvertTo-Json
+
         #send request to web service
-        Invoke-PASRestMethod -Uri $URI -Method POST -Headers $SessionToken -WebSession $WebSession
+        Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -Headers $SessionToken -WebSession $WebSession
         
     }#process
 

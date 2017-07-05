@@ -127,11 +127,10 @@ to ensure session persistence.
 
             else{
 
-                #status code is of type 20X
+                #status code is of type 20x
                 #If there is a responce from the web request
                 if($webResponse){
 
-                    Write-Debug $webResponse
                     <#
                     200 - OK
                     201 - Created
@@ -141,27 +140,37 @@ to ensure session persistence.
 
                     #If Response has content
                     if($webResponse.content){
-
-                        #Create Return Object from Returned JSON
-                        $PASResponse = ConvertFrom-Json -InputObject $webResponse.content
-
-                        #If Session Variable passed as argument
-                        If($PSBoundParameters.ContainsKey("SessionVariable")){
                         
-                            Write-verbose "SessionVariable Passed; Processing WebSession"
+                        if(($webResponse.headers)["Content-Type"] -match "application/octet-stream"){
                             
-                            #Add WebSession Object to Return Object
-                            $PASResponse | Add-ObjectDetail -PropertyToAdd @{
-                                
-                                #WebSession is stored in sessionVariable variable in current scope
-                                "WebSession" = $(Get-Variable $(Get-Variable sessionVariable).Value).Value
-                            
-                            } -Passthru $false
-                            
+                            [System.Text.Encoding]::Ascii.GetString($($webResponse.content))
+  
                         }
 
-                        #Return Object
-                        $PASResponse
+                        Elseif(($webResponse.headers)["Content-Type"] -match "application/json"){
+
+                            #Create Return Object from Returned JSON
+                            $PASResponse = ConvertFrom-Json -InputObject $webResponse.content
+
+                            #If Session Variable passed as argument
+                            If($PSBoundParameters.ContainsKey("SessionVariable")){
+
+                                Write-verbose "SessionVariable Passed; Processing WebSession"
+                            
+                                #Add WebSession Object to Return Object
+                                $PASResponse | Add-ObjectDetail -PropertyToAdd @{
+                                
+                                    #WebSession is stored in sessionVariable variable in current scope
+                                    "WebSession" = $(Get-Variable $(Get-Variable sessionVariable).Value).Value
+                            
+                                } -Passthru $false
+
+                            }
+
+                            #Return Object
+                            $PASResponse
+
+                        }
 
                     }
 

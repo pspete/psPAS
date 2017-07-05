@@ -75,7 +75,7 @@ and any other set property of the account are contained in output.
     END{
     
         #Return Results
-        $result.Credentials
+        $result
         
     }#end
 
