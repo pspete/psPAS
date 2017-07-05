@@ -68,6 +68,7 @@ TODO: ParameterSets/DynamicParameters
         [parameter(
             Mandatory=$true
         )]
+        [ValidateScript({<#[0-9a-fA-F]+CertSerialnumberValidation#>})]
         [string]$AuthValue,
           
         [parameter(
