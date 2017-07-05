@@ -40,6 +40,7 @@ Session Token, WebSession & BaseURI can be piped by propertyname
 None
 
 .NOTES
+[Ambiguous documentation]
 
 .LINK
 
@@ -87,7 +88,7 @@ None
 
         #Create URL for Request
         $URI = "$baseURI/API/AccountGroups/"
-
+        
         #Create body of request
         $body = $PSBoundParameters | Get-PASParameters | ConvertTo-Json
         

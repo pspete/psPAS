@@ -37,6 +37,7 @@ Session Token, WebSession & BaseURI can be piped by propertyname
 None
 
 .NOTES
+[Ambiguous documentation]
 
 .LINK
 
