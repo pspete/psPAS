@@ -77,7 +77,7 @@ TODO
     END{
     
         #output
-        $result
+        $result.members | Select UserName, Permissions
         
     }#end
 
