@@ -4,7 +4,7 @@
     RootModule = 'psPAS.psm1'
 
     # Version number of this module.
-    ModuleVersion = '0.0.01'
+    ModuleVersion = '0.0.02'
 
     # ID used to uniquely identify this module
     GUID = '11c880d2-1430-4bd2-b6e8-f324741b460b'
@@ -85,7 +85,28 @@
                             'Get-PASApplicationAuthenticationMethods',
                             'Add-PASApplicationAuthenticationMethod',
                             'Remove-PASApplication',
-                            'Remove-PASApplicationAuthenticationMethod'
+                            'Remove-PASApplicationAuthenticationMethod',
+                            'Unblock-PASUser',
+                            'Set-PASUser',
+                            'Remove-PASUser',
+                            'New-PASUser',
+                            'Get-PASUser',
+                            'Get-PASLoggedOnUser',
+                            'Add-PASGroupMember',
+                            'Get-PASAccountActivity',
+                            'Get-PASAccountCredentials',
+                            'Add-PASPendingAccount',
+                            'Start-PASCredVerify',
+                            'Get-PASSafe',
+                            'Get-PASSafeMembers',
+                            'Add-PASAccountGroupMember',
+                            'New-PASAccountGroup',
+                            'New-PASOnboardingRule',
+                            'Get-PASOnboardingRule',
+                            'Remove-PASOnboardingRule',
+                            'Get-PASServer',
+                            'Get-PASSafeShareLogo'
+                            'Get-PASServerWebService'
                           )
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
@@ -97,10 +118,10 @@
              Tags = @('CyberArk', 'REST API', 'REST', 'Web Service')
 
             # A URL to the license for this module.
-             LicenseUri = ''
+             LicenseUri = 'https://github.com/pspete/psPAS/blob/master/LICENSE.md'
 
             # A URL to the main website for this project.
-             ProjectUri = ''
+             ProjectUri = 'https://github.com/pspete/psPAS'
 
             # A URL to an icon representing this module.
             # IconUri = ''

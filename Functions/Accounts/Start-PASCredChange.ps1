@@ -58,7 +58,13 @@ None
         )]
         [ValidateSet('Yes','No')]
         [string]$ImmediateChangeByCPM,
-          
+
+        [parameter(
+            Mandatory=$false
+        )]
+        [ValidateSet('Yes','No')]
+        [string]$ChangeCredForGroup,
+
         [parameter(
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
