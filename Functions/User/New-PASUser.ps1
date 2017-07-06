@@ -28,6 +28,7 @@ Whether or not user will be forced to change password on first logon
 .PARAMETER ExpiryDate
 Expiry Date to set on account.
 Default is Never
+Format: MM/dd/yyyy
 
 .PARAMETER UserTypeName
 The Type of User to create.
@@ -77,42 +78,47 @@ User Details
         [string]$InitialPassword,
         
         [parameter(
-            Mandatory=$true
+            Mandatory=$false
         )]
         [string]$Email,
         
         [parameter(
-            Mandatory=$true
+            Mandatory=$false
         )]
         [string]$FirstName,
         
         [parameter(
-            Mandatory=$true
+            Mandatory=$false
         )]
         [string]$LastName,
         
         [parameter(
-            Mandatory=$true
+            Mandatory=$false
         )]
         [boolean]$ChangePasswordOnTheNextLogon,
         
         [parameter(
-            Mandatory=$true
+            Mandatory=$false
         )]
-        [DateTime]$ExpiryDate,
+        [ValidateScript({
+        
+            $_ -match '^(((0[13578]|1[02])[/](0[1-9]|[12][0-9]|3[01])|(0[469]|11)[/](0[1-9]|[12][0-9]|30)|02[/](0[1-9]|1\d|2[0-8]))[/]\d{4}|02[/]29[/](\d{2}(0[48]|[2468][048]|[13579][26])|([02468][048]|[1359][26])00))$'
+        
+        })]
+        [String]$ExpiryDate,
         
         [parameter(
-            Mandatory=$true
+            Mandatory=$false
         )]
         [string]$UserTypeName,
         
         [parameter(
-            Mandatory=$true
+            Mandatory=$false
         )]
         [boolean]$Disabled,
         
         [parameter(
-            Mandatory=$true
+            Mandatory=$false
         )]
         [string]$Location,
 
