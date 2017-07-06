@@ -73,7 +73,11 @@ User Details
         #Create URL for request
         $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Groups/$($GroupName | 
         
+<<<<<<< HEAD
             Get-EscapedString)/Users"
+=======
+            Get-EscapedString)"
+>>>>>>> refs/remotes/origin/master
 
         #create request body
         $Body = $PSBoundParameters | 
