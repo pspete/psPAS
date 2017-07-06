@@ -28,10 +28,7 @@ Whether or not user will be forced to change password on first logon
 .PARAMETER ExpiryDate
 Expiry Date to set on account.
 Default is Never
-<<<<<<< HEAD
 Format: MM/dd/yyyy
-=======
->>>>>>> refs/remotes/origin/master
 
 .PARAMETER UserTypeName
 The Type of User to create.
@@ -81,43 +78,26 @@ User Details
         [string]$InitialPassword,
         
         [parameter(
-<<<<<<< HEAD
             Mandatory=$false
-=======
-            Mandatory=$true
->>>>>>> refs/remotes/origin/master
         )]
         [string]$Email,
         
         [parameter(
-<<<<<<< HEAD
             Mandatory=$false
-=======
-            Mandatory=$true
->>>>>>> refs/remotes/origin/master
         )]
         [string]$FirstName,
         
         [parameter(
-<<<<<<< HEAD
             Mandatory=$false
-=======
-            Mandatory=$true
->>>>>>> refs/remotes/origin/master
         )]
         [string]$LastName,
         
         [parameter(
-<<<<<<< HEAD
             Mandatory=$false
-=======
-            Mandatory=$true
->>>>>>> refs/remotes/origin/master
         )]
         [boolean]$ChangePasswordOnTheNextLogon,
         
         [parameter(
-<<<<<<< HEAD
             Mandatory=$false
         )]
         [ValidateScript({
@@ -129,32 +109,16 @@ User Details
         
         [parameter(
             Mandatory=$false
-=======
-            Mandatory=$true
-        )]
-        [DateTime]$ExpiryDate,
-        
-        [parameter(
-            Mandatory=$true
->>>>>>> refs/remotes/origin/master
         )]
         [string]$UserTypeName,
         
         [parameter(
-<<<<<<< HEAD
             Mandatory=$false
-=======
-            Mandatory=$true
->>>>>>> refs/remotes/origin/master
         )]
         [boolean]$Disabled,
         
         [parameter(
-<<<<<<< HEAD
             Mandatory=$false
-=======
-            Mandatory=$true
->>>>>>> refs/remotes/origin/master
         )]
         [string]$Location,
 
