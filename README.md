@@ -4,7 +4,7 @@
 
 PowerShell module for CyberArk Privileged Account Security Web Services REST API.
 
-Exposes the available methods of the web service for CyberArk PAS v9.9.
+Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
 ----------
 ## Getting Started
@@ -15,8 +15,8 @@ NOTE: Currently only CyberArk authentication is enabled for the module.
 
  - Requires Powershell v3 (minimum)
  - CyberArk PAS REST API/Web Service
- - If using a CyberArk REST API/Web Service lower than v9.9, not all functions will work (some will - version dependant). 
-	 - Check the CyberArk Web Services SDK for your CyberArk version to determine available functions. 
+	 - Your version of CyberArk determines the supported functions.
+	 - Check the [compatibility table](#CyberArk_Version_Compatibility) to determine what you can use. 
  - A CyberArk user with which to authenticate.
 
 ### Install & Use
@@ -79,3 +79,17 @@ Hat Tips:
 **Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg)) for the unofficial API documentation
 
 Chapeau!
+
+## <a id="CyberArk_Version_Compatibility"></a>CyberArk Version Compatibility
+|CyberArk Version|Supported psPAS Module Functions|
+|:---:|:---|
+|9.0|`New-PASSession`<br/>`Close-PASSession`<br/>`Add-PASAccount`<br/>`Get-PASPolicyACL`<br/>`Add-PASPolicyACL`<br/>`Remove-PASPolicyACL`<br/>`Get-PASAccountACL`<br/>`Add-PASAccountACL`<br/>`Remove-PASAccountACL`<br/><br/>|
+|9.1|All Previous Functions, and:<br/>`Get-PASApplications`<br/>`Get-PASApplication`<br/>`Add-PASApplication`<br/>`Get-PASApplicationAuthenticationMethods`<br/>`Add-PASApplicationAuthenticationMethod`<br/>`Remove-PASApplication`<br/>`Remove-PASApplicationAuthenticationMethod`<br/><br/>|
+|9.2|All Previous Functions, and:<br/>`Add-PASSafe`<br/><br/>|
+|9.3|All Previous Functions, and:<br/>`Get-PASAccount`<br/>`Remove-PASAccount`<br/>`Start-PASCredChange`<br/>`Set-PASSafe`<br/>`Remove-PASSafe`<br/>`Add-PASSafeMember`<br/>`Set-PASSafeMember`<br/>`Remove-PASSafeMember`<br/><br/>|
+|9.4|All Previous Functions<br/><br/>|
+|9.5|All Previous Functions, and:<br/>`Set-PASAccount`<br/><br/>|
+|9.6|All Previous Functions, and:<br/>`Add-PASPublicSSHKey`<br/>`Get-PASPublicSSHKey`<br/>`Remove-PASPublicSSHKey`<br/><br/>|
+|9.7|All Previous Functions, and:<br/>`Get-PASServerWebService`<br/>`Get-PASSafeShareLogo`<br/>`Get-PASServer`<br/>`New-PASUser`<br/>`Set-PASUser`<br/>`Remove-PASUser`<br/>`Get-PASLoggedOnUser`<br/>`Get-PASUser`<br/>`Unblock-PASUser`<br/>`Add-PASGroupMember`<br/>`Add-PASPendingAccount`<br/>`Get-PASAccountCredentials`<br/>`Start-PASCredVerify`<br/>`Get-PASAccountActivity`<br/>`Get-PASSafe`<br/>`Get-PASSafeMembers`<br/><br/>|
+|9.8|All Previous Functions, and:<br/>`New-PASOnboardingRule`<br/>`Remove-PASOnboardingRule`<br/>`Get-PASOnboardingRule`<br/><br/>|
+|9.9|All Previous Functions, and:<br/>`New-PASAccountGroup`<br/>`Add-PASAccountGroupMember`<br/><br/>|
