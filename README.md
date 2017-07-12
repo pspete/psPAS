@@ -77,9 +77,13 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Contributing
 Any and all contributions to this project are appreciated.
+
 The SAML authentication capability needs some attention.
+
 Additional pipeline support and error handling are planned.
+
 There is scope to combine functions with similar abilities.
+
 See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
 
 ## Acknowledgments
