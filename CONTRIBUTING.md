@@ -5,10 +5,15 @@ All contributions welcomed and are appreciated.
 ## Module Conventions
 ### PowerShell Styleguide
 Use the standard *Verb*-*Noun* convention, and only use approved verbs.
+
 All Functions must have Comment Based Help.
 
-###Module Structure
-Any functions which expose documented functionality of the API must exist in the folder under the [Functions](Functions/) directory relevant to the functional area (user, group, safe etc.) of the function (which is based on the structure of the official CyberArk documentation).
+[K&R (One True Brace Style variant)](https://github.com/PoshCode/PowerShellPracticeAndStyle/issues/81) preffered.
+
+### Module Structure
+The [Functions](Functions/) directory structure is based on the of the structure official CyberArk WebServices SDK documentation). 
+Any code exposing documented methods of the API must exist in the folder relevant to the method area (user, group, safe etc.).
+
 Any helper functions, consumed by other functions of the module must exist in the [Private](Private/) directory.
 
 ## Contributing Code
