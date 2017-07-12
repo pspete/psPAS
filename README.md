@@ -8,8 +8,11 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
 ----------
 ## Getting Started
-LDAP, CyberArk and RADIUS authentication can be used from CyberArk version 9.7 onwards.
+LDAP, CyberArk, RADIUS & Shared authentication can be used from CyberArk version 9.7 onwards.
+
 For CyberArk 9.6 and below, only CyberArk authentication is supported.
+
+SAML authentication for the CyberArk REST API is supported from version 9.7, but the psPAS functions to support this are still in development (i.e. not working & not tested). The work in progress functions are included in the module.
 
 ### Prerequisites
 
@@ -72,6 +75,13 @@ Get-PASUser -UserName psPASUser -sessionToken $token.sessionToken -baseURI "http
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
+## Contributing
+Any and all contributions to this project are appreciated.
+The SAML authentication capability needs some attention.
+Additional pipeline support and error handling are planned.
+There is scope to combine functions with similar abilities.
+See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
+
 ## Acknowledgments
 Hat Tips:
 
@@ -91,6 +101,6 @@ Chapeau!
 |9.4|All Previous Functions<br/><br/>|
 |9.5|All Previous Functions, and:<br/>`Set-PASAccount`<br/><br/>|
 |9.6|All Previous Functions, and:<br/>`Add-PASPublicSSHKey`<br/>`Get-PASPublicSSHKey`<br/>`Remove-PASPublicSSHKey`<br/><br/>|
-|9.7|All Previous Functions, and:<br/>`New-PASSession` (CyberArk, LDAP, RADIUS Authentication)<br/>`Get-PASServerWebService`<br/>`Get-PASSafeShareLogo`<br/>`Get-PASServer`<br/>`New-PASUser`<br/>`Set-PASUser`<br/>`Remove-PASUser`<br/>`Get-PASLoggedOnUser`<br/>`Get-PASUser`<br/>`Unblock-PASUser`<br/>`Add-PASGroupMember`<br/>`Add-PASPendingAccount`<br/>`Get-PASAccountCredentials`<br/>`Start-PASCredVerify`<br/>`Get-PASAccountActivity`<br/>`Get-PASSafe`<br/>`Get-PASSafeMembers`<br/><br/>|
+|9.7|All Previous Functions, and:<br/>`New-PASSession` (CyberArk, LDAP, RADIUS Authentication)<br/>`New-PASSAMLSession` (*In Development)<br/>`Close-PASSAMLSession` (*In Development)<br/>`New-PASSharedSession`<br/>`Close-PASSharedSession`<br/>`Get-PASServerWebService`<br/>`Get-PASSafeShareLogo`<br/>`Get-PASServer`<br/>`New-PASUser`<br/>`Set-PASUser`<br/>`Remove-PASUser`<br/>`Get-PASLoggedOnUser`<br/>`Get-PASUser`<br/>`Unblock-PASUser`<br/>`Add-PASGroupMember`<br/>`Add-PASPendingAccount`<br/>`Get-PASAccountCredentials`<br/>`Start-PASCredVerify`<br/>`Get-PASAccountActivity`<br/>`Get-PASSafe`<br/>`Get-PASSafeMembers`<br/><br/>|
 |9.8|All Previous Functions, and:<br/>`New-PASOnboardingRule`<br/>`Remove-PASOnboardingRule`<br/>`Get-PASOnboardingRule`<br/><br/>|
 |9.9|All Previous Functions, and:<br/>`New-PASAccountGroup`<br/>`Add-PASAccountGroupMember`<br/><br/>|
