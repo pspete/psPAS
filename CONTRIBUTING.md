@@ -5,7 +5,9 @@ All contributions welcomed and are appreciated.
 ## Module Conventions
 ### PowerShell Styleguide
 Use the standard *Verb*-*Noun* convention, and only use approved verbs.
+
 All Functions must have Comment Based Help.
+
 [K&R (One True Brace Style variant)](https://github.com/PoshCode/PowerShellPracticeAndStyle/issues/81) preffered.
 
 ### Module Structure
