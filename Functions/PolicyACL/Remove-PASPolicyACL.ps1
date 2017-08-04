@@ -25,8 +25,7 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, PolicyID, webSession & BaseURI can be piped
-by property name
+All parameters can be piped by property name
 
 .OUTPUTS
 None
@@ -46,7 +45,8 @@ None
         [string]$PolicyID,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$Id,
           

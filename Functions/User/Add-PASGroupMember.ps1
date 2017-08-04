@@ -4,7 +4,7 @@
 Adds a vault user as a group member
 
 .DESCRIPTION
-Adds an existing user to a group the vault
+Adds an existing user to an existing group in the vault
 
 .PARAMETER GroupName
 The name of the user
@@ -25,10 +25,10 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession & BaseURI can be piped to the function by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-User Details
+None
 
 .NOTES
 
@@ -38,12 +38,14 @@ User Details
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$GroupName,
         
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$UserName,
         
@@ -87,5 +89,11 @@ User Details
 
     }#process
 
-    END{$result}#end
+    END{
+        if($result){
+
+            $result
+
+        }
+    }#end
 }

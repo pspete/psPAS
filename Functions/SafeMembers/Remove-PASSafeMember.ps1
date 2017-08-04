@@ -27,6 +27,7 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
+All parameters can be piped by property name
 
 .OUTPUTS
 None
@@ -45,8 +46,10 @@ None
         [ValidateNotNullOrEmpty()]
         [string]$SafeName,
 
+        [Alias("UserName")]
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$MemberName,

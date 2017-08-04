@@ -4,7 +4,7 @@
 Returns safe details from the vault.
 
 .DESCRIPTION
-Gets safe by SafeName, by search query string, or return all safes.
+Gets safe by SafeName, by search query string, or, by default will return all safes.
 
 .PARAMETER SafeName
 The name of a specific safe to get details of.
@@ -13,7 +13,8 @@ The name of a specific safe to get details of.
 Query String for safe search in the vault
 
 .PARAMETER FindAll
-Specify to find all safes
+Specify to find all safes.
+If SafeName or query are not specified, FindAll is the default behaviour.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -28,20 +29,27 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession & BaseURI can be piped to the function by propertyname
+SafeName, SessionToken, WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
-PSObject containing safe properties
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding(DefaultParameterSetName="byAll")]  
     param(
         [parameter(
             Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true,
             ParameterSetName="byName"
         )]
         [ValidateNotNullOrEmpty()]
@@ -49,12 +57,14 @@ PSObject containing safe properties
 
         [parameter(
             Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$false,
             ParameterSetName="byQuery"
         )]
         [string]$query,
 
         [parameter(
             Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$false,
             ParameterSetName="byAll"
         )]
         [switch]$FindAll,
@@ -104,7 +114,7 @@ PSObject containing safe properties
             $boundParameters = $PSBoundParameters | Get-PASParameters
 
             #Create Query String, escaped for inclusion in request URL
-            $queryString = ($boundParameters.keys | foreach{
+            $queryString = ($boundParameters.keys | ForEach-Object{
         
                 "$_=$($boundParameters[$_] | Get-EscapedString)"
             
@@ -126,5 +136,20 @@ PSObject containing safe properties
 
     }#process
 
-    END{$result.$returnProperty}#end
+    END{
+        
+        If($result){
+
+            $result.$returnProperty | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe -PropertyToAdd @{
+
+                "sessionToken" = $sessionToken
+                "WebSession" = $WebSession
+                "BaseURI" = $BaseURI
+
+            }
+
+        }
+    
+    }#end
+
 }

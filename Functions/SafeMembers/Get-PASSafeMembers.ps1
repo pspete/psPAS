@@ -23,10 +23,18 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-Session Token, SafeName, WebSession & BaseURI can be piped by property name
+All parameters can be piped by property name
+Accepts pipeline input from *-PASSafe, or any function which 
+contains SafeName in the output
 
 .OUTPUTS
-TODO
+Outputs Object of Custom Type psPAS.CyberArk.Vault.SafeMember
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -77,7 +85,16 @@ TODO
     END{
     
         #output
-        $result.members | Select UserName, Permissions
+        $result.members | Select-Object UserName, Permissions | 
+        
+            Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMember -PropertyToAdd @{
+
+                "SafeName" = $SafeName
+                "sessionToken" = $sessionToken
+                "WebSession" = $WebSession
+                "BaseURI" = $BaseURI
+
+            }
         
     }#end
 

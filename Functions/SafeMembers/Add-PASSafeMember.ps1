@@ -127,10 +127,16 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-Session Token, SafeName, WebSession & BaseURI can be piped by property name
+All parameters can be piped by property name
 
 .OUTPUTS
-TODO
+Outputs Object of Custom Type psPAS.CyberArk.Vault.SafeMemberExtended
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -145,125 +151,149 @@ TODO
         [ValidateNotNullOrEmpty()]
         [string]$SafeName,
 
+        [Alias("UserName")]
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({$_ -notmatch ".*(\?).*"})]
         [string]$MemberName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$SearchIn,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateScript({if($_ -match '^(0[1-9]|1[0-2])[\/](0[1-9]|[12]\d|3[01])[\/]\d{2}$'){
         $true}Else{Throw "$_ must match pattern MM/DD/YY"}})]
         [string]$MembershipExpirationDate,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$UseAccounts,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$RetrieveAccounts,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$ListAccounts,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$AddAccounts,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$UpdateAccountContent,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$UpdateAccountProperties,
 
         [parameter(
             Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true,
             ParameterSetName="CPM"
         )]
         [boolean]$InitiateCPMAccountManagementOperations,
 
         [parameter(
             Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true,
             ParameterSetName="CPM"
         )]
         [boolean]$SpecifyNextAccountContent,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$DeleteAccounts,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$UnlockAccounts,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$ManageSafe,
         
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$ManageSafeMembers,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$BackupSafe,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$ViewAuditLog,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$ViewSafeMembers,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateRange(0,2)]
         [int]$RequestsAuthorizationLevel,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$AccessWithoutConfirmation,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$CreateFolders,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$DeleteFolders,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$MoveAccountsAndFolders,
           
@@ -310,7 +340,7 @@ TODO
         $boundParameters = $PSBoundParameters | Get-PASParameters
 
         #For every passed permission ("Non-Base") parameter
-        $boundParameters.keys | Where{$baseParameters -notcontains $_} | foreach{
+        $boundParameters.keys | Where-Object{$baseParameters -notcontains $_} | ForEach-Object{
             
             #Add Key=Value pair to permissions hashtable
             $permissions[$_]=$boundParameters[$_]
@@ -321,7 +351,7 @@ TODO
         }
 
         #add all required permissions  as value to "Permssions" key
-        $boundParameters["Permissions"] = @($permissions.getenumerator() | foreach{$_})
+        $boundParameters["Permissions"] = @($permissions.getenumerator() | ForEach-Object{$_})
 
         #Create required request object
         $body = @{
@@ -340,13 +370,20 @@ TODO
     END{
     
         #format output
-        $result.member | select MemberName, MembershipExpirationDate, SearchIn, 
+        $result.member | Select-Object MemberName, MembershipExpirationDate, SearchIn, 
 
             @{Name="Permissions";"Expression"={
             
-                $_.Permissions|?{$_.value}|Select -ExpandProperty key}
+                $_.Permissions | Where-Object{$_.value} | Select-Object -ExpandProperty key}
                 
-            }
+            } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMemberExtended -PropertyToAdd @{
+
+                    "SafeName" = $SafeName
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+
+                }
         
     }#end
 

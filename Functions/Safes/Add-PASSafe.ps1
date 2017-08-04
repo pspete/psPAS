@@ -48,10 +48,16 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession & BaseURI can be piped to the function by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-None
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -61,7 +67,8 @@ None
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({$_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*"})]
@@ -69,23 +76,27 @@ None
         [string]$SafeName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(0,100)]
         [string]$Description,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$OLACEnabled,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$ManagingCPM,
 
         [parameter(
             Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true,
             ParameterSetName="Versions"
         )]
         [ValidateRange(1,999)]
@@ -93,6 +104,7 @@ None
 
         [parameter(
             Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true,
             ParameterSetName="Days"
         )]
         [ValidateRange(1,3650)]
@@ -137,5 +149,16 @@ None
 
     }#process
 
-    END{$result.AddSafeResult}#end
+    END{
+        
+        $result.AddSafeResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe -PropertyToAdd @{
+
+            "sessionToken" = $sessionToken
+            "WebSession" = $WebSession
+            "BaseURI" = $BaseURI
+
+        }
+    
+    }#end
+
 }

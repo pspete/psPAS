@@ -23,10 +23,16 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession, BaseURI can be piped by property name
+All parameters can be piped by property name
 
 .OUTPUTS
-Application details
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Application
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -36,7 +42,8 @@ Application details
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$AppID,
           
@@ -66,7 +73,7 @@ Application details
         #URL for Request
         $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Applications/$($AppID | 
         
-            Get-PASEscapedString)"
+            Get-EscapedString)"
     
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
@@ -75,8 +82,18 @@ Application details
 
     END{
     
+        if($result){
+
+            $result.application | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Application -PropertyToAdd @{
+
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+
+            }
+
+        }
         #return result
-        $result.application
         
     }#end
 

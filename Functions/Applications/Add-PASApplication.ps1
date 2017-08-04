@@ -60,15 +60,22 @@ PVWA Web Address
 Do not include "/PasswordVault/"
 
 .EXAMPLE
+
 .INPUTS
+All parameters can be piped by property name
+
 .OUTPUTS
+None
+
 .NOTES
+
 .LINK
 #>
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [ValidateLength(1,127)]
@@ -76,58 +83,68 @@ Do not include "/PasswordVault/"
         [string]$AppID,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(0,29)]
         [string]$Description,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$Location,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateRange(0,23)]
         [int]$AccessPermittedFrom,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateRange(0,23)]
         [int]$AccessPermittedTo,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateScript({if($_ -match '^(0[1-9]|1[0-2])[-](0[1-9]|[12]\d|3[01])[-]\d{4}$'){
         $true}Else{Throw "$_ must match pattern MM-DD-YYYY"}})]
         [string]$ExpirationDate,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$Disabled,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(0,29)]
         [string]$BusinessOwnerFName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$BusinessOwnerLName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [int]$BusinessOwnerEmail,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(0,24)]
         [int]$BusinessOwnerPhone,

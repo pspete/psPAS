@@ -54,7 +54,10 @@ including cookies. Can be supplied to other web servcie requests.
 baseURI; this is the URL provided as an input to this function, it can be piped to 
 other functions from this return object.
 ConnectionNumber; the connectionNumber provided to this function. 
-  
+
+Output uses defined default properties.
+To force all output to be shown, pipe to Select-Object *
+
 .NOTES
 
 .LINK
@@ -88,12 +91,14 @@ ConnectionNumber; the connectionNumber provided to this function.
         [string]$connectionNumber,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipeline=$false
         )]
         [string]$SessionVariable = "PASSession",
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipeline=$false
         )]
         [string]$BaseURI
     )
