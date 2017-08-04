@@ -23,8 +23,17 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
+All parameters can be piped by property name
+Should accept pipeline objects from other *-PASApplication* functions
 
 .OUTPUTS
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Application
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -34,7 +43,8 @@ Do not include "/PasswordVault/"
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$AppID,
           
@@ -69,6 +79,20 @@ Do not include "/PasswordVault/"
 
     }#process
 
-    END{$result.authentication}#end
+    END{
+        
+        if($result){
+
+            $result.authentication | Add-ObjectDetail -typename psPAS.CyberArk.Vault.ApplicationAuth -PropertyToAdd @{
+
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+
+            }
+                
+        }
+    
+    }#end
 
 }

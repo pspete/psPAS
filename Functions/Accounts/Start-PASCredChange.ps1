@@ -54,13 +54,15 @@ None
         [string]$AccountID,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [ValidateSet('Yes','No')]
         [string]$ImmediateChangeByCPM,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [ValidateSet('Yes','No')]
         [string]$ChangeCredForGroup,

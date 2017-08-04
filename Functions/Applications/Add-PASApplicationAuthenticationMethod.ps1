@@ -42,11 +42,15 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
+All parameters can be piped by property name
 
 .OUTPUTS
+None
 
 .NOTES
-TODO: ParameterSets/DynamicParameters 
+Function uses dynamicparameters.
+Dynamic Parameters IsFolder, AllowInternalScripts & Comment do
+not accept input from the pipeline.
 
 .LINK
 
@@ -54,21 +58,24 @@ TODO: ParameterSets/DynamicParameters
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AppID,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("path","hash","osUser","machineAddress","certificateserialnumber")]
         [string]$AuthType,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
-        [ValidateScript({<#[0-9a-fA-F]+CertSerialnumberValidation#>})]
+        #[ValidateScript({<#[0-9a-fA-F]+CertSerialnumberValidation#>})]
         [string]$AuthValue,
           
         [parameter(

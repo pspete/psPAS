@@ -29,7 +29,6 @@ All parameters can be piped by property name
 .OUTPUTS
 None
 
-
 .NOTES
 
 .LINK
@@ -38,7 +37,8 @@ None
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$RuleID,
         

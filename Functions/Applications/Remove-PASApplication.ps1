@@ -21,15 +21,23 @@ PVWA Web Address
 Do not include "/PasswordVault/"
 
 .EXAMPLE
+
 .INPUTS
+All parameters can be piped by property name
+Should accept pipeline objects from other *-PASApplication* functions
+
 .OUTPUTS
+None
+
 .NOTES
+
 .LINK
 #>
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AppID,

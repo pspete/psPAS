@@ -48,21 +48,37 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, SafeName, WebSession & BaseURI 
-can be piped to the function by propertyname
+SafeName, SessionToken, WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
-PSObject containing safe properties.
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
 .LINK
 #>
-    [CmdletBinding()]  
+    [CmdletBinding(DefaultParameterSetName="Update")]  
     param(
-        [parameter(
+        [Parameter(
             Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName=$true,
+            ParameterSetName="Update"
+        )]
+        [Parameter(
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true,
+            ParameterSetName="Days"
+        )]
+        [Parameter(
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true,
+            ParameterSetName="Versions"
         )]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({$_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*"})]
@@ -70,30 +86,35 @@ PSObject containing safe properties.
         [string]$SafeName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [ValidateLength(0,100)]
         [string]$Description,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [boolean]$OLACEnabled,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [string]$ManagingCPM,
 
         [parameter(
-            Mandatory=$true,
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$false,
             ParameterSetName="Versions"
         )]
         [ValidateRange(1,999)]
         [int]$NumberOfVersionsRetention,
 
         [parameter(
-            Mandatory=$true,
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$false,
             ParameterSetName="Days"
         )]
         [ValidateRange(1,3650)]
@@ -136,12 +157,20 @@ PSObject containing safe properties.
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
 
+        if($result){           
+            
+            $result.UpdateSafeResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe -PropertyToAdd @{
+
+                "sessionToken" = $sessionToken
+                "WebSession" = $WebSession
+                "BaseURI" = $BaseURI
+
+            }
+
+        }
+
     }#process
 
-    END{
+    END{}#end
     
-        #return result
-        $result.UpdateSafeResult
-    
-    }#end
 }

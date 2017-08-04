@@ -34,13 +34,18 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-Session Token, WebSession & BaseURI can be piped by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-None
+Outputs Object of Custom Type psPAS.CyberArk.Vault.AccountGroup
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
-[Ambiguous documentation]
+[Ambiguous documentation] YMMV
 
 .LINK
 
@@ -48,18 +53,21 @@ None
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$GroupName,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$GroupPlatform,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$Safe,
 
@@ -97,5 +105,20 @@ None
 
     }#process
 
-    END{$result}#end
+    END{
+        
+        if($result){
+
+            $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup -PropertyToAdd @{
+
+                            "sessionToken" = $sessionToken
+                            "WebSession" = $WebSession
+                            "BaseURI" = $BaseURI
+
+            }
+
+        }
+    
+    }#end
+
 }

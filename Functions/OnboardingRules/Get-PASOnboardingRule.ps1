@@ -20,12 +20,19 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession & BaseURI can be piped to the function by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-PSObject containing safe properties
+Outputs Object of Custom Type psPAS.CyberArk.Vault.OnboardingRule
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
+Not Tested
 
 .LINK
 
@@ -33,7 +40,8 @@ PSObject containing safe properties
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$SafeName,
@@ -71,5 +79,18 @@ PSObject containing safe properties
 
     }#process
 
-    END{$result.AutomaticOnboardingRules}#end
+    END{
+        
+        $result.AutomaticOnboardingRules | 
+            
+            Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
+
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+
+            }
+    
+    }#end
+
 }

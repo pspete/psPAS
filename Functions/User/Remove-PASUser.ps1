@@ -22,10 +22,10 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession & BaseURI can be piped to the function by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-User Details
+None
 
 .NOTES
 
@@ -35,7 +35,8 @@ User Details
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$UserName,
         

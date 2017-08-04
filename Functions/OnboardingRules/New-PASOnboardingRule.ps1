@@ -43,12 +43,19 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession & BaseURI can be piped to the function by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-None
+Outputs Object of Custom Type psPAS.CyberArk.Vault.OnboardingRule
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
+Not Tested
 
 .LINK
 
@@ -56,37 +63,43 @@ None
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(1,99)]
         [string]$DecisionPlatformId,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(1,28)]
         [string]$DecisionSafeName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("Yes","No")]
         [String]$IsAdminUIDFilter,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("Workstation","Server")]
         [string]$MachineTypeFilter,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("Windows","Unix")]
         [string]$SystemTypeFilter,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(0,512)]
         [string]$UserNameFilter,
@@ -125,5 +138,16 @@ None
 
     }#process
 
-    END{$result}#end
+    END{
+        
+        $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
+
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+
+            }
+    
+    }#end
+
 }

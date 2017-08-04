@@ -19,10 +19,16 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession & BaseURI can be piped to the function by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-User Details
+Outputs Object of Custom Type psPAS.CyberArk.Vault.User
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -62,5 +68,16 @@ User Details
 
     }#process
 
-    END{$result}#end
+    END{
+    
+        $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User -PropertyToAdd @{
+
+            "sessionToken" = $sessionToken
+            "WebSession" = $WebSession
+            "BaseURI" = $BaseURI
+            
+        }
+    
+    }#end
+    
 }

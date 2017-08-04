@@ -37,11 +37,21 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-sessionToken, WebSession, BaseURI can be piped by property name
+All parameters can be piped by property name
+Should accept pipeline objects from other *-PASAccount functions
 
 .OUTPUTS
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Account
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
 AccountID, Account Safe, Safe Folder, Account Name,
 and any other set property of the account are contained in output.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 .LINK
@@ -49,13 +59,15 @@ and any other set property of the account are contained in output.
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(0,500)]
         [string]$Keywords,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(0,28)]
         [string]$Safe,
@@ -86,7 +98,7 @@ and any other set property of the account are contained in output.
         $boundParameters = $PSBoundParameters | Get-PASParameters
 
         #Create Query String, escaped for inclusion in request URL
-        $query = ($boundParameters.keys | foreach{
+        $query = ($boundParameters.keys | ForEach-Object{
         
             "$_=$($boundParameters[$_] | Get-EscapedString)"
             
@@ -115,16 +127,16 @@ and any other set property of the account are contained in output.
             }
 
             #Get account details from search result
-            $account = ($result | select accounts).accounts
+            $account = ($result | Select-Object accounts).accounts
 
             #Get account properties from found account
-            $properties = ($account | select -ExpandProperty properties)
+            $properties = ($account | Select-Object -ExpandProperty properties)
 
             #Create output object
             $return = New-object -TypeName psobject -Property @{
                 
                 #Internal Unique ID of Account
-                "AccountID" = $($account | select -ExpandProperty AccountID)
+                "AccountID" = $($account | Select-Object -ExpandProperty AccountID)
 
                 #Number of accounts found by query
                 #"Count" = $count
@@ -147,8 +159,18 @@ and any other set property of the account are contained in output.
 
     END{
     
-        #Return Results
-        $return
+        if($return){
+
+            #Return Results
+            $return | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account -PropertyToAdd @{
+
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+
+            }
+
+        }
         
     }#end
 

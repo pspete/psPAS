@@ -57,8 +57,12 @@ ServerName, ServerID, ApplicationName & Available Authentication Methods
 
     END{
         
-        #return results
-        $result | Select ServerName, ServerId, ApplicationName , AuthenticationMethods
+        if($result){
+            
+            #return results
+            $result | Select-Object ServerName, ServerId, ApplicationName , AuthenticationMethods
     
+        }
+        
     }#end
 }

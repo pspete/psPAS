@@ -36,11 +36,18 @@ Do not include "/PasswordVault/"
 .EXAMPLE
 
 .INPUTS
-SessionToken, UserName, WebSession & BaseURI can be piped to the 
-function by propertyname
+All parameters can be piped by property name
+Should accept pipeline objects from other *-PASUser 
+or *-PASPublicSSHKey functions
 
 .OUTPUTS
-TODO
+Outputs Object of Custom Type psPAS.CyberArk.Vault.PASPublicSSHKey
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -56,7 +63,8 @@ TODO
         [string]$UserName,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateScript({$_ -notmatch "`n"})]
         [string]$PublicSSHKey,
@@ -99,5 +107,21 @@ TODO
 
     }#process
 
-    END{$result.AddUserAuthorizedKeyResult}#end
+    END{
+        if($result){
+            
+            $result.AddUserAuthorizedKeyResult | 
+            
+                Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
+
+                    "UserName" = $UserName
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+
+                }
+
+        }
+    
+    }#end
 }

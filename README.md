@@ -7,12 +7,26 @@ PowerShell module for CyberArk Privileged Account Security Web Services REST API
 Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
 ----------
+## Latest Update
+ - [Pipeline Support](#Pipeline_Support), where possible, across all functions
+	- All output objects now also contain the URL value, Session Token & WebSession information to pass to subsequent functions on the pipeline.
+	- Wherever possible ValueFromPipelinebyPropertyName is set to $true, allowing chained commands like Get-Credential | New-PASSession | Get-PASUser | Set-PASUser 
+ - Secure Strings now required for Initial or Updated password values provided to the following functions:
+	- Add-PASAccount
+	- New-PASUser
+	- Set-PASUser
+	- New-PASSession
+ - [psPAS.Format.ps1xml](psPAS.Format.ps1xml) now included
+	- Defines views and default properties for psPAS output objects
+	- Use "Select-Object *" to see all properties of output objects if you are not seeing a property you expect.
+
+
 ## Getting Started
 LDAP, CyberArk, RADIUS & Shared authentication can be used from CyberArk version 9.7 onwards.
 
 For CyberArk 9.6 and below, only CyberArk authentication is supported.
 
-SAML authentication for the CyberArk REST API is supported from version 9.7, but the psPAS functions to support this are still in development (i.e. not working & not tested). The work in progress functions are included in the module.
+SAML authentication for the CyberArk REST API is supported from version 9.7, but the psPAS functions to support this are still in development (i.e. not working & not tested). The work in progress functions are included in the module - if you are using SAML authentication, have the insight, and are interested in helping getting this to work, let me know.
 
 ### Prerequisites
 
@@ -57,7 +71,7 @@ The New-PASSession output contains:
 	 - For convenience
  - The specified connection Number
 
-This output can be piped into all other functions to provide the values for the necessary default parameters.
+This output can be piped into all other functions to provide the values for the parameters required to communicate with the Web Service:
 ```
 $token | Get-PASAccount -Keywords root -Safe UNIX
 
@@ -66,6 +80,44 @@ $token | Add-PASSafe -SafeName psPAS -ManagingCPM PasswordManager -NumberOfVersi
 A CyberArk authentication token, and the URL of the Web Service, MUST be provided to each function (with the exception of Logon via New-PASSession).
 ```
 Get-PASUser -UserName psPASUser -sessionToken $token.sessionToken -baseURI "http://PVWA"
+```
+### <a id="Pipeline_Support"></a>Working with the Pipeline
+
+The required values from the New-PASSession function are passed along the pipeline as properties of the output of subsequent psPAS functions, allowing you to create chains of commands.
+
+If the output of one function contains the mandatory parameters of another function, which accepts values by property names, you can utilise the pipeline.
+
+Do excercise caution, and test/validate any pipeline operations in a Non-Prod Lab first.
+
+Examples below:
+
+ - Logon, find and update a user, then logoff: 
+```
+Get-Credential | New-PASSession -BaseURI http://PVWA_URL | Get-PASAccount pete | Set-PASAccount -Address 10.10.10.10 -Name Pete-psPAS-Test -UserName pspete | Close-PASSession
+```
+ - Activate a Suspended CyberArk User:
+```
+$cred | New-PASSession -BaseURI http://cyberark | Get-PASUser PebKac | Unblock-PASUser -Suspended $false
+```
+ - Add a User to a group
+ ```
+ $token | Get-PASUser -UserName User | Add-PASGroupMember Group
+ ```
+ - Update Version Retention on all Safes:
+```
+$token | Get-PASSafe | Set-PASSafe -NumberOfVersionsRetention 25
+```
+ - Add an authentication method to an application
+```
+$token | Get-PASApplication -AppID testapp | Add-PASApplicationAuthenticationMethod -AuthType machineAddress -AuthValue "F.Q.D.N"
+```
+ - Remove an authentication method, which matches a condition, from an application
+```
+$token | Get-PASApplication -AppID testapp | Get-PASApplicationAuthenticationMethods | Where-Object{$_.AuthValue -eq "F.Q.D.N"} | Remove-PASApplicationAuthenticationMethod
+```
+ - Delete all authentication methods of an application (... maybe don't try this one in Production...):
+```
+> $token | Get-PASApplication -AppID testapp | Get-PASApplicationAuthenticationMethods | Remove-PASApplicationAuthenticationMethod
 ```
 ## Author
 
