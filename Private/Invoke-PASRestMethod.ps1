@@ -85,7 +85,24 @@ to ensure session persistence.
 
         #Add ContentType for all function calls
         $PSBoundParameters.Add("ContentType",'application/json')
-    
+
+        #If Tls12 Security Protocol is available
+        if(([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") -and 
+
+            #And Tls12 is not already in use
+            (-not ([System.Net.ServicePointManager]::SecurityProtocol -match "Tls12"))){
+
+            Write-Verbose "Setting Security Protocol to TLS12"
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+        }
+
+        Else{
+
+            Write-Debug "Security Protocol: $([System.Net.ServicePointManager]::SecurityProtocol)"
+            
+        }
+
     }
 
     Process{
