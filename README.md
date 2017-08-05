@@ -8,6 +8,7 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
 ----------
 ## Latest Update
+ - Use of TLS 1.2 Security Protocol enforced for Web Requests
  - [Pipeline Support](#Pipeline_Support), where possible, across all functions
 	- All output objects now also contain the URL value, Session Token & WebSession information to pass to subsequent functions on the pipeline.
 	- Wherever possible ValueFromPipelinebyPropertyName is set to $true, allowing chained commands like Get-Credential | New-PASSession | Get-PASUser | Set-PASUser 
@@ -93,7 +94,10 @@ Examples below:
 
  - Logon, find and update a user, then logoff: 
 ```
-Get-Credential | New-PASSession -BaseURI http://PVWA_URL | Get-PASAccount pete | Set-PASAccount -Address 10.10.10.10 -Name Pete-psPAS-Test -UserName pspete | Close-PASSession
+Get-Credential | 
+	New-PASSession -BaseURI http://PVWA_URL | Get-PASAccount pete | 
+		Set-PASAccount -Address 10.10.10.10 -Name Pete-psPAS-Test -UserName pspete | 
+			Close-PASSession
 ```
  - Activate a Suspended CyberArk User:
 ```
@@ -109,15 +113,21 @@ $token | Get-PASSafe | Set-PASSafe -NumberOfVersionsRetention 25
 ```
  - Add an authentication method to an application
 ```
-$token | Get-PASApplication -AppID testapp | Add-PASApplicationAuthenticationMethod -AuthType machineAddress -AuthValue "F.Q.D.N"
+$token | Get-PASApplication -AppID testapp | 
+	Add-PASApplicationAuthenticationMethod -AuthType machineAddress -AuthValue "F.Q.D.N"
 ```
  - Remove an authentication method, which matches a condition, from an application
 ```
-$token | Get-PASApplication -AppID testapp | Get-PASApplicationAuthenticationMethods | Where-Object{$_.AuthValue -eq "F.Q.D.N"} | Remove-PASApplicationAuthenticationMethod
+$token | Get-PASApplication -AppID testapp | 
+	Get-PASApplicationAuthenticationMethods | 
+		Where-Object{$_.AuthValue -eq "F.Q.D.N"} | 
+			Remove-PASApplicationAuthenticationMethod
 ```
  - Delete all authentication methods of an application (... maybe don't try this one in Production...):
 ```
-> $token | Get-PASApplication -AppID testapp | Get-PASApplicationAuthenticationMethods | Remove-PASApplicationAuthenticationMethod
+> $token | Get-PASApplication -AppID testapp | 
+	Get-PASApplicationAuthenticationMethods | 
+		Remove-PASApplicationAuthenticationMethod
 ```
 ## Author
 
