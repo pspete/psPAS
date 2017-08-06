@@ -96,7 +96,10 @@ Examples below:
 
  - Logon, find and update a user, then logoff: 
 ```
-Get-Credential | New-PASSession -BaseURI https://PVWA_URL | Get-PASAccount pete | Set-PASAccount -Address 10.10.10.10 -Name Pete-psPAS-Test -UserName pspete | Close-PASSession
+Get-Credential | 
+	New-PASSession -BaseURI http://PVWA_URL | Get-PASAccount pete | 
+		Set-PASAccount -Address 10.10.10.10 -Name Pete-psPAS-Test -UserName pspete | 
+			Close-PASSession
 ```
  - Activate a Suspended CyberArk User:
 ```
@@ -112,15 +115,21 @@ $token | Get-PASSafe | Set-PASSafe -NumberOfVersionsRetention 25
 ```
  - Add an authentication method to an application
 ```
-$token | Get-PASApplication -AppID testapp | Add-PASApplicationAuthenticationMethod -AuthType machineAddress -AuthValue "F.Q.D.N"
+$token | Get-PASApplication -AppID testapp | 
+	Add-PASApplicationAuthenticationMethod -AuthType machineAddress -AuthValue "F.Q.D.N"
 ```
  - Remove an authentication method, which matches a condition, from an application
 ```
-$token | Get-PASApplication -AppID testapp | Get-PASApplicationAuthenticationMethods | Where-Object{$_.AuthValue -eq "F.Q.D.N"} | Remove-PASApplicationAuthenticationMethod
+$token | Get-PASApplication -AppID testapp | 
+	Get-PASApplicationAuthenticationMethods | 
+		Where-Object{$_.AuthValue -eq "F.Q.D.N"} | 
+			Remove-PASApplicationAuthenticationMethod
 ```
  - Delete all authentication methods of an application (... maybe don't try this one in Production...):
 ```
-> $token | Get-PASApplication -AppID testapp | Get-PASApplicationAuthenticationMethods | Remove-PASApplicationAuthenticationMethod
+> $token | Get-PASApplication -AppID testapp | 
+	Get-PASApplicationAuthenticationMethods | 
+		Remove-PASApplicationAuthenticationMethod
 ```
 ## Author
 
