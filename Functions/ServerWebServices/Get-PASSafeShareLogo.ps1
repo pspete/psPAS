@@ -16,6 +16,10 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
@@ -47,7 +51,13 @@ SafeShare no longer available from CyberArk
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
@@ -55,7 +65,7 @@ SafeShare no longer available from CyberArk
     PROCESS{
 
         #Create URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Logo?type=$ImageType"
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Logo?type=$ImageType"
         
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession

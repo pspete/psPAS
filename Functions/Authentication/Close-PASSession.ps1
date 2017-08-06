@@ -16,6 +16,10 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
@@ -46,7 +50,13 @@ None
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
     )
 
@@ -55,7 +65,7 @@ None
     PROCESS{
 
         #Construct URL for request
-        $URI = "$BaseURI/PasswordVault/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
+        $URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
 
         #Send Logoff Request
         Invoke-PASRestMethod -Uri $URI -Method POST -Headers $sessionToken -WebSession $WebSession

@@ -41,6 +41,10 @@ A string containing the base web address to send te request to.
 Pass the portion the PVWA HTTP address. 
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
@@ -66,7 +70,7 @@ To force all output to be shown, pipe to Select-Object *
     param(  
         [parameter(
             Mandatory=$true,
-            ValueFromPipeline=$true
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [PSCredential]$Credential,
@@ -100,13 +104,19 @@ To force all output to be shown, pipe to Select-Object *
             Mandatory=$true,
             ValueFromPipeline=$false
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+        [parameter(
+            Mandatory=$false,
+            ValueFromPipeline=$false
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{
         
         #Construct URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
+        $URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
 
 
     }#begin
@@ -157,6 +167,9 @@ To force all output to be shown, pipe to Select-Object *
 
             #The Web Service URL the request was sent to
             "BaseURI" = $BaseURI
+
+            #PVWA Application Name/Virtual Directory
+            "PVWAAppName" = $PVWAAppName
 
             #The Connection Number
             "ConnectionNumber" = $connectionNumber

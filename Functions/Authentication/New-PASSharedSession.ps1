@@ -18,6 +18,10 @@ A string containing the base web address to send te request to.
 Pass the portion the PVWA HTTP address. 
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
@@ -44,15 +48,22 @@ ConnectionNumber; the connectionNumber provided to this function.
         [string]$SessionVariable = "PASSession",
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+			ValueFromPipeline=$false
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{
         
         #Construct URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logon"
+        $URI = "$baseURI/$PVWAAppName/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logon"
 
     }#begin
 
@@ -79,6 +90,9 @@ ConnectionNumber; the connectionNumber provided to this function.
 
             #The Web Service URL the request was sent to
             "BaseURI" = $BaseURI
+
+            #PVWA App Name/Virtual Directory
+			"PVWAAppName" = $PVWAAppName
 
             #Set default properties to display in output
         } | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI

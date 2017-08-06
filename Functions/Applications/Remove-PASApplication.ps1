@@ -20,6 +20,10 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
@@ -58,7 +62,13 @@ None
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
@@ -66,7 +76,7 @@ None
     PROCESS{
 
         #Request URL
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Applications/$($AppID | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID | 
         
             Get-EscapedString)/"
         
