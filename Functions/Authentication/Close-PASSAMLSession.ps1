@@ -17,6 +17,10 @@ A string containing the base web address to send te request to.
 Pass the portion the PVWA HTTP address. 
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
@@ -47,7 +51,13 @@ New-PASSAMLSession function needs to be fixed first.
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{
@@ -57,7 +67,7 @@ New-PASSAMLSession function needs to be fixed first.
     PROCESS{
 
         #Construct URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
+        $URI = "$baseURI/$PVWAAppName/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
 
         $Body = @{} | ConvertTo-Json
 

@@ -24,6 +24,10 @@ A string containing the base web address to send te request to.
 Pass the portion the PVWA HTTP address. 
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
@@ -45,7 +49,7 @@ other functions from this return object.
     param(
         [parameter(
             Mandatory=$true,
-            ValueFromPipeline=$true
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [PSCredential]$Credential,
@@ -56,15 +60,22 @@ other functions from this return object.
         [string]$SessionVariable = "PASSession",
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+			ValueFromPipeline=$false
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipeline=$false
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{
         
         #Construct URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
+        $URI = "$baseURI/$PVWAAppName/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
 
     }#begin
 
@@ -99,6 +110,9 @@ other functions from this return object.
 
             #The Web Service URL the request was sent to
             "BaseURI" = $BaseURI
+
+            #The PVWA App Name/Virtual Directory
+			"PVWAAppName" = $PVWAAppName
 
             #Set default properties to display in output
         } | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI

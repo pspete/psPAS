@@ -70,7 +70,8 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
                                     "BaseURI"
                                     "AccountID",
                                     "SessionVariable",
-                                    "WebSession")
+                                    "WebSession",
+                                    "PVWAAppName")
     )
 
     BEGIN{

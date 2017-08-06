@@ -67,6 +67,10 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
@@ -185,7 +189,13 @@ To move accounts to a different folder, Move accounts/folders permission is requ
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
@@ -193,7 +203,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
     PROCESS{
 
         #Create URL for Request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Accounts/$AccountID"
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameters -ParametersToRemove InputObject
@@ -266,6 +276,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
                         "sessionToken" = $sessionToken
                         "WebSession" = $WebSession
                         "BaseURI" = $BaseURI
+					    "PVWAAppName" = $PVWAAppName
 
             }
 

@@ -39,6 +39,10 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
@@ -94,7 +98,13 @@ not accept input from the pipeline.
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     DynamicParam{
@@ -127,7 +137,7 @@ not accept input from the pipeline.
 
     PROCESS{
 
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Applications/$($AppID | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID | 
         
             Get-EscapedString)/Authentications"
         
