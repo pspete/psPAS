@@ -70,7 +70,8 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
                                     "BaseURI"
                                     "AccountID",
                                     "SessionVariable",
-                                    "WebSession")
+                                    "WebSession",
+                                    "PVWAAppName")
     )
 
     BEGIN{
@@ -84,7 +85,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
         #Combine base parameters and any additional parameters to remove
         ($BaseParameters + $ParametersToRemove) | 
         
-            foreach{
+            ForEach-Object{
 
                 Write-Debug "Removing Parameter: $_"
                 #remove specified parameters from passed values

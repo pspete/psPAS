@@ -4,7 +4,7 @@
 Adds a vault user as a group member
 
 .DESCRIPTION
-Adds an existing user to a group the vault
+Adds an existing user to an existing group in the vault
 
 .PARAMETER GroupName
 The name of the user
@@ -22,13 +22,17 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession & BaseURI can be piped to the function by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-User Details
+None
 
 .NOTES
 
@@ -38,12 +42,14 @@ User Details
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$GroupName,
         
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$UserName,
         
@@ -63,7 +69,13 @@ User Details
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
@@ -71,7 +83,7 @@ User Details
     PROCESS{
 
         #Create URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Groups/$($GroupName | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Groups/$($GroupName | 
         
             Get-EscapedString)/Users"
 
@@ -87,5 +99,11 @@ User Details
 
     }#process
 
-    END{$result}#end
+    END{
+        if($result){
+
+            $result
+
+        }
+    }#end
 }

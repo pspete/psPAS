@@ -24,13 +24,24 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
 All parameters can be piped by property name
+Accepts pipeline objects from *-PASUser functions
 
 .OUTPUTS
-TODO
+Outputs Object of Custom Type psPAS.CyberArk.Vault.PASPublicSSHKey
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 .LINK
@@ -58,7 +69,13 @@ TODO
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
     )
 
@@ -67,7 +84,7 @@ TODO
     PROCESS{
 
         #Create URL for request
-        $URI = "$BaseURI/PasswordVault/WebServices/PIMServices.svc/Users/$($UserName | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName | 
             
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys"
 
@@ -76,6 +93,24 @@ TODO
 
     }#process
 
-    END{$result.GetUserAuthorizedKeysResult}#end
+    END{
+        
+        if($result){
+
+            $result.GetUserAuthorizedKeysResult | 
+            
+                Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
+
+                    "UserName" = $UserName
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+					"PVWAAppName" = $PVWAAppName
+
+                }
+
+        }
+        
+    }#end
 
 }

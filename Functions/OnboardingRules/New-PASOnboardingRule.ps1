@@ -40,15 +40,26 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession & BaseURI can be piped to the function by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-None
+Outputs Object of Custom Type psPAS.CyberArk.Vault.OnboardingRule
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
+Not Tested
 
 .LINK
 
@@ -56,37 +67,43 @@ None
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(1,99)]
         [string]$DecisionPlatformId,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(1,28)]
         [string]$DecisionSafeName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("Yes","No")]
         [String]$IsAdminUIDFilter,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("Workstation","Server")]
         [string]$MachineTypeFilter,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("Windows","Unix")]
         [string]$SystemTypeFilter,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateLength(0,512)]
         [string]$UserNameFilter,
@@ -107,7 +124,13 @@ None
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
@@ -115,7 +138,7 @@ None
     PROCESS{
 
         #Create URL for request
-        $URI = "$baseURI/PasswordVault/api/AutomaticOnboardingRules"
+        $URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules"
 
         #create request body
         $body = $PSBoundParameters | Get-PASParameters | ConvertTo-Json
@@ -125,5 +148,17 @@ None
 
     }#process
 
-    END{$result}#end
+    END{
+        
+        $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
+
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+					"PVWAAppName" = $PVWAAppName
+
+            }
+    
+    }#end
+
 }

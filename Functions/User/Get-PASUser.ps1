@@ -19,13 +19,23 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession & BaseURI can be piped to the function by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-User Details
+Outputs Object of Custom Type psPAS.CyberArk.Vault.User
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -35,7 +45,8 @@ User Details
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$UserName,
         
@@ -55,7 +66,13 @@ User Details
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
@@ -63,7 +80,7 @@ User Details
     PROCESS{
 
         #Create URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Users/$($UserName | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName | 
         
             Get-EscapedString)"
 
@@ -72,5 +89,17 @@ User Details
 
     }#process
 
-    END{$result}#end
+    END{
+    
+        $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User -PropertyToAdd @{
+
+            "sessionToken" = $sessionToken
+            "WebSession" = $WebSession
+            "BaseURI" = $BaseURI
+			"PVWAAppName" = $PVWAAppName
+            
+        }
+    
+    }#end
+    
 }

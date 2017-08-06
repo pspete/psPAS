@@ -18,12 +18,10 @@
 param()
 
 #Get function files
-Write-Verbose $PSScriptRoot 
+Get-ChildItem $PSScriptRoot\ -Recurse -Filter "*.ps1" -Exclude "*.ps1xml" | 
 
-Get-ChildItem $PSScriptRoot\ -Recurse -Filter *.ps1 -ErrorAction SilentlyContinue | 
+    ForEach-Object {
 
-    Foreach {
-    
         Try{
             
             #Dot Source each file

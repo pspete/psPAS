@@ -20,13 +20,23 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession, BaseURI can be piped by property name
+All parameters can be piped by property name
 
 .OUTPUTS
-Application details
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Application
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -36,7 +46,8 @@ Application details
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$AppID,
           
@@ -56,7 +67,13 @@ Application details
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
@@ -64,9 +81,9 @@ Application details
     PROCESS{
 
         #URL for Request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Applications/$($AppID | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID | 
         
-            Get-PASEscapedString)"
+            Get-EscapedString)"
     
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
@@ -75,8 +92,19 @@ Application details
 
     END{
     
+        if($result){
+
+            $result.application | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Application -PropertyToAdd @{
+
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+					"PVWAAppName" = $PVWAAppName
+
+            }
+
+        }
         #return result
-        $result.application
         
     }#end
 

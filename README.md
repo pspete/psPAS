@@ -4,20 +4,40 @@
 
 PowerShell module for CyberArk Privileged Account Security Web Services REST API.
 
-Exposes the available methods of the web service for CyberArk PAS v9.9.
+Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
 ----------
-## Getting Started
+## Latest Update
+ - Hardcoded value for PVWA Virtual Directory removed:
+	- You can now specify your own value if the PVWA is published under a Virtual Directory named something other than "PasswordVault".
+ - Use of TLS 1.2 Security Protocol enforced for Web Requests.
+ - [Pipeline Support](#Pipeline_Support), where possible, across all functions:
+	- All output objects now also contain the URL value, Session Token & WebSession information to pass to subsequent functions on the pipeline.
+	- Wherever possible ValueFromPipelinebyPropertyName is set to $true, allowing chained commands like Get-Credential | New-PASSession | Get-PASUser | Set-PASUser 
+ - Secure Strings now required for Initial or Updated password values provided to the following functions:
+	- Add-PASAccount
+	- New-PASUser
+	- Set-PASUser
+	- New-PASSession
+ - [psPAS.Format.ps1xml](psPAS.Format.ps1xml) now included:
+	- Defines views and default properties for psPAS output objects
+	- Use "Select-Object *" to see all properties of output objects if you are not seeing a property you expect.
 
-NOTE: Currently only CyberArk authentication is enabled for the module.
+
+## Getting Started
+LDAP, CyberArk, RADIUS & Shared authentication can be used from CyberArk version 9.7 onwards.
+
+For CyberArk 9.6 and below, only CyberArk authentication is supported.
+
+SAML authentication for the CyberArk REST API is supported from version 9.7, but the psPAS functions to support this are still in development (i.e. not working & not tested). The work in progress functions are included in the module - if you are using SAML authentication, have the insight, and are interested in helping getting this to work, let me know.
 
 ### Prerequisites
 
  - Requires Powershell v3 (minimum)
  - CyberArk PAS REST API/Web Service
- - If using a CyberArk REST API/Web Service lower than v9.9, not all functions will work (some will - version dependant). 
-	 - Check the CyberArk Web Services SDK for your CyberArk version to determine available functions. 
- - A CyberArk user with which to authenticate.
+	 - Your version of CyberArk determines the supported functions.
+	 - Check the [compatibility table](#CyberArk_Version_Compatibility) to determine what you can use. 
+ - A user with which to authenticate, with appropriate Vault/Safe permissions.
 
 ### Install & Use
 
@@ -52,8 +72,9 @@ The New-PASSession output contains:
 	 - Useful if the API sits behind a loadbalancer
  - The specified PVWA URL
 	 - For convenience
+ - The specified connection Number
 
-This output can be piped into all other functions to provide the values for the necessary default parameters.
+This output can be piped into all other functions to provide the values for the parameters required to communicate with the Web Service:
 ```
 $token | Get-PASAccount -Keywords root -Safe UNIX
 
@@ -61,7 +82,54 @@ $token | Add-PASSafe -SafeName psPAS -ManagingCPM PasswordManager -NumberOfVersi
 ```
 A CyberArk authentication token, and the URL of the Web Service, MUST be provided to each function (with the exception of Logon via New-PASSession).
 ```
-Get-PASUser -UserName psPASUser -sessionToken $token.sessionToken -baseURI "http://PVWA"
+Get-PASUser -UserName psPASUser -sessionToken $token.sessionToken -baseURI "https://PVWA"
+```
+### <a id="Pipeline_Support"></a>Working with the Pipeline
+
+The required values from the New-PASSession function are passed along the pipeline as properties of the output of subsequent psPAS functions, allowing you to create chains of commands.
+
+If the output of one function contains the mandatory parameters of another function, which accepts values by property names, you can utilise the pipeline.
+
+Do excercise caution, and test/validate any pipeline operations in a Non-Prod Lab first.
+
+Examples below:
+
+ - Logon, find and update a user, then logoff: 
+```
+Get-Credential | 
+	New-PASSession -BaseURI http://PVWA_URL | Get-PASAccount pete | 
+		Set-PASAccount -Address 10.10.10.10 -Name Pete-psPAS-Test -UserName pspete | 
+			Close-PASSession
+```
+ - Activate a Suspended CyberArk User:
+```
+$cred | New-PASSession -BaseURI https://cyberark | Get-PASUser PebKac | Unblock-PASUser -Suspended $false
+```
+ - Add a User to a group
+ ```
+ $token | Get-PASUser -UserName User | Add-PASGroupMember Group
+ ```
+ - Update Version Retention on all Safes:
+```
+$token | Get-PASSafe | Set-PASSafe -NumberOfVersionsRetention 25
+```
+ - Add an authentication method to an application
+```
+$token | Get-PASApplication -AppID testapp | 
+	Add-PASApplicationAuthenticationMethod -AuthType machineAddress -AuthValue "F.Q.D.N"
+```
+ - Remove an authentication method, which matches a condition, from an application
+```
+$token | Get-PASApplication -AppID testapp | 
+	Get-PASApplicationAuthenticationMethods | 
+		Where-Object{$_.AuthValue -eq "F.Q.D.N"} | 
+			Remove-PASApplicationAuthenticationMethod
+```
+ - Delete all authentication methods of an application (... maybe don't try this one in Production...):
+```
+> $token | Get-PASApplication -AppID testapp | 
+	Get-PASApplicationAuthenticationMethods | 
+		Remove-PASApplicationAuthenticationMethod
 ```
 ## Author
 
@@ -71,6 +139,17 @@ Get-PASUser -UserName psPASUser -sessionToken $token.sessionToken -baseURI "http
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
+## Contributing
+Any and all contributions to this project are appreciated.
+
+The SAML authentication capability needs some attention.
+
+Additional pipeline support and error handling are planned.
+
+There is scope to combine functions with similar abilities.
+
+See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
+
 ## Acknowledgments
 Hat Tips:
 
@@ -79,3 +158,17 @@ Hat Tips:
 **Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg)) for the unofficial API documentation
 
 Chapeau!
+
+## <a id="CyberArk_Version_Compatibility"></a>CyberArk Version Compatibility
+|CyberArk Version|Supported psPAS Module Functions|
+|:---:|:---|
+|9.0|`New-PASSession` (CyberArk Authentication Only)<br/>`Close-PASSession`<br/>`Add-PASAccount`<br/>`Get-PASPolicyACL`<br/>`Add-PASPolicyACL`<br/>`Remove-PASPolicyACL`<br/>`Get-PASAccountACL`<br/>`Add-PASAccountACL`<br/>`Remove-PASAccountACL`<br/><br/>|
+|9.1|All Previous Functions, and:<br/>`Get-PASApplications`<br/>`Get-PASApplication`<br/>`Add-PASApplication`<br/>`Get-PASApplicationAuthenticationMethods`<br/>`Add-PASApplicationAuthenticationMethod`<br/>`Remove-PASApplication`<br/>`Remove-PASApplicationAuthenticationMethod`<br/><br/>|
+|9.2|All Previous Functions, and:<br/>`Add-PASSafe`<br/><br/>|
+|9.3|All Previous Functions, and:<br/>`Get-PASAccount`<br/>`Remove-PASAccount`<br/>`Start-PASCredChange`<br/>`Set-PASSafe`<br/>`Remove-PASSafe`<br/>`Add-PASSafeMember`<br/>`Set-PASSafeMember`<br/>`Remove-PASSafeMember`<br/><br/>|
+|9.4|All Previous Functions<br/><br/>|
+|9.5|All Previous Functions, and:<br/>`Set-PASAccount`<br/><br/>|
+|9.6|All Previous Functions, and:<br/>`Add-PASPublicSSHKey`<br/>`Get-PASPublicSSHKey`<br/>`Remove-PASPublicSSHKey`<br/><br/>|
+|9.7|All Previous Functions, and:<br/>`New-PASSession` (CyberArk, LDAP, RADIUS Authentication)<br/>`New-PASSAMLSession` (*In Development)<br/>`Close-PASSAMLSession` (*In Development)<br/>`New-PASSharedSession`<br/>`Close-PASSharedSession`<br/>`Get-PASServerWebService`<br/>`Get-PASSafeShareLogo`<br/>`Get-PASServer`<br/>`New-PASUser`<br/>`Set-PASUser`<br/>`Remove-PASUser`<br/>`Get-PASLoggedOnUser`<br/>`Get-PASUser`<br/>`Unblock-PASUser`<br/>`Add-PASGroupMember`<br/>`Add-PASPendingAccount`<br/>`Get-PASAccountCredentials`<br/>`Start-PASCredVerify`<br/>`Get-PASAccountActivity`<br/>`Get-PASSafe`<br/>`Get-PASSafeMembers`<br/><br/>|
+|9.8|All Previous Functions, and:<br/>`New-PASOnboardingRule`<br/>`Remove-PASOnboardingRule`<br/>`Get-PASOnboardingRule`<br/><br/>|
+|9.9|All Previous Functions, and:<br/>`New-PASAccountGroup`<br/>`Add-PASAccountGroupMember`<br/><br/>|

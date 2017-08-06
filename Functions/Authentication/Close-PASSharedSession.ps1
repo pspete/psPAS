@@ -1,21 +1,20 @@
-﻿function Get-PASServer{
+﻿function Close-PASSharedSession{
 <#
 .SYNOPSIS
-Returns details of the Web Sevice Server
+Logoff from CyberArk Vault shared user.
 
 .DESCRIPTION
-Returns information on Server.
-Returns the name of the Vault configured in the ServerDisplayName configuration parameter
-Appears to need Vault administrator rights
+Performs Logoff and removes the Vault session.
 
 .PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
+Hashtable containing the session token returned from New-PASSharedSession
 
 .PARAMETER WebSession
 WebRequestSession object returned from New-PASSession
 
 .PARAMETER BaseURI
-PVWA Web Address
+A string containing the base web address to send te request to.
+Pass the portion the PVWA HTTP address. 
 Do not include "/PasswordVault/"
 
 .PARAMETER PVWAAppName
@@ -25,16 +24,17 @@ Defaults to PasswordVault
 .EXAMPLE
 
 .INPUTS
-WebSession & BaseURI can be piped to the function by propertyname
+Valid CyberArk Authentication session token
+WebSession object
+URL string
+can all be piped in by property name
 
 .OUTPUTS
-Webservice Server Details
-ServerName, ExternalVersion, InternalVersion
+None
 
 .NOTES
 
 .LINK
-
 #>
     [CmdletBinding()]  
     param(
@@ -44,9 +44,8 @@ ServerName, ExternalVersion, InternalVersion
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
-        
+
         [parameter(
-            Mandatory=$false,
             ValueFromPipelinebyPropertyName=$true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
@@ -64,17 +63,19 @@ ServerName, ExternalVersion, InternalVersion
 		[string]$PVWAAppName = "PasswordVault"
     )
 
-    BEGIN{}#begin
+    BEGIN{
+
+    }#begin
 
     PROCESS{
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Server"
+        #Construct URL for request
+        $URI = "$baseURI/$PVWAAppName/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logoff"
 
-        #send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+        #Send Logon Request
+        Invoke-PASRestMethod -Uri $URI -Method POST -Header $sessionToken -WebSession $WebSession
 
     }#process
 
-    END{$result}#end
+    END{}#end
 }

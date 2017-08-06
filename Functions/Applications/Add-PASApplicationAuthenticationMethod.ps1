@@ -39,14 +39,22 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
+All parameters can be piped by property name
 
 .OUTPUTS
+None
 
 .NOTES
-TODO: ParameterSets/DynamicParameters 
+Function uses dynamicparameters.
+Dynamic Parameters IsFolder, AllowInternalScripts & Comment do
+not accept input from the pipeline.
 
 .LINK
 
@@ -54,21 +62,24 @@ TODO: ParameterSets/DynamicParameters
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AppID,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("path","hash","osUser","machineAddress","certificateserialnumber")]
         [string]$AuthType,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
-        [ValidateScript({<#[0-9a-fA-F]+CertSerialnumberValidation#>})]
+        #[ValidateScript({<#[0-9a-fA-F]+CertSerialnumberValidation#>})]
         [string]$AuthValue,
           
         [parameter(
@@ -87,7 +98,13 @@ TODO: ParameterSets/DynamicParameters
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     DynamicParam{
@@ -120,7 +137,7 @@ TODO: ParameterSets/DynamicParameters
 
     PROCESS{
 
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Applications/$($AppID | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID | 
         
             Get-EscapedString)/Authentications"
         

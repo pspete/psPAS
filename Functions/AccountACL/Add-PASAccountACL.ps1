@@ -40,13 +40,22 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
 SessionToken, WebSession, BaseURI can be piped by property name
 
 .OUTPUTS
-TODO 
+Outputs Object of Custom Type psPAS.CyberArk.Vault.ACL
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -56,48 +65,58 @@ TODO
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$false
         )]
+        [Alias("PolicyID")]
         [ValidateNotNullOrEmpty()]
         [string]$AccountPolicyId,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$false
         )]
+        [Alias("Address")]
         [ValidateNotNullOrEmpty()]
         [string]$AccountAddress,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AccountUserName,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [ValidateNotNullOrEmpty()]
         [string]$Command,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [boolean]$CommandGroup,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [ValidateSet("Allow","Deny")]
         [string]$PermissionType,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [ValidateNotNullOrEmpty()]
         [string]$Restrictions,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$false
         )]
         [ValidateNotNullOrEmpty()]
         [string]$UserName,
@@ -107,7 +126,7 @@ TODO
             ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
-        [hashtable]$SessionToken,
+        [hashtable]$sessionToken,
 
         [parameter(
             ValueFromPipelinebyPropertyName=$true
@@ -118,7 +137,13 @@ TODO
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
     )
 
@@ -127,7 +152,7 @@ TODO
     PROCESS{
 
         #URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Account/$($AccountAddress | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account/$($AccountAddress | 
         
             Get-EscapedString)|$($AccountUserName | 
             
@@ -147,6 +172,23 @@ TODO
 
     }#process
 
-    END{$result.AddAccountPrivilegedCommandResult}#end
+    END{
+        
+        if($result){
+        
+            $result.AddAccountPrivilegedCommandResult | 
+            
+                Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL -PropertyToAdd @{
+
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+					"PVWAAppName" = $PVWAAppName
+
+            }
+
+        }
+    
+    }#end
 
 }

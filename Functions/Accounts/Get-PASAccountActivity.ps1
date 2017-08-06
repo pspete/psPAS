@@ -19,14 +19,24 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-sessionToken, WebSession, BaseURI can be piped by property name
+All parameters can be piped by property name
+Accepts pipeline input from Get-PASAccount
 
 .OUTPUTS
-AccountID, Account Safe, Safe Folder, Account Name,
-and any other set property of the account are contained in output.
+Outputs Object of Custom Type psPAS.CyberArk.Vault.AccountActivity
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 .LINK
@@ -34,7 +44,8 @@ and any other set property of the account are contained in output.
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$AccountID,
 
@@ -52,7 +63,13 @@ and any other set property of the account are contained in output.
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
     )
 
@@ -61,7 +78,7 @@ and any other set property of the account are contained in output.
     PROCESS{
 
         #Create request URL
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Accounts/$($AccountID | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$($AccountID | 
         
             Get-EscapedString)/Activities"
 
@@ -72,8 +89,21 @@ and any other set property of the account are contained in output.
 
     END{
     
-        #Return Results
-        $result.GetAccountActivitiesResult
+        If($result){
+
+            #Return Results
+            $result.GetAccountActivitiesResult | 
+            
+                Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountActivity -PropertyToAdd @{
+
+                        "sessionToken" = $sessionToken
+                        "WebSession" = $WebSession
+                        "BaseURI" = $BaseURI
+					    "PVWAAppName" = $PVWAAppName
+
+                }
+        
+        }
         
     }#end
 

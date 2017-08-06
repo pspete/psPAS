@@ -20,11 +20,24 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
+All parameters can be piped by property name
+Should accept pipeline objects from other *-PASApplication* functions
 
 .OUTPUTS
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Application
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -34,7 +47,8 @@ Do not include "/PasswordVault/"
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$AppID,
           
@@ -54,14 +68,20 @@ Do not include "/PasswordVault/"
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
 
     PROCESS{
 
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Applications/$($AppID | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID | 
         
             Get-EscapedString)/Authentications"
         
@@ -69,6 +89,21 @@ Do not include "/PasswordVault/"
 
     }#process
 
-    END{$result.authentication}#end
+    END{
+        
+        if($result){
+
+            $result.authentication | Add-ObjectDetail -typename psPAS.CyberArk.Vault.ApplicationAuth -PropertyToAdd @{
+
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+					"PVWAAppName" = $PVWAAppName
+
+            }
+                
+        }
+    
+    }#end
 
 }

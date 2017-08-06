@@ -29,13 +29,24 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession, BaseURI can be piped by property name
+All parameters can be piped by property name
+Should accept pipeline objects from other *-PASApplication* functions
 
 .OUTPUTS
-Application details
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Application
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -45,19 +56,22 @@ Application details
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AppID,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$Location,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$IncludeSublocations,
         
@@ -77,7 +91,13 @@ Application details
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
@@ -88,14 +108,14 @@ Application details
         $boundParameters = $PSBoundParameters | Get-PASParameters
         
         #Create query string
-        $query = ($boundParameters.keys | foreach{
+        $query = ($boundParameters.keys | ForEach-Object{
         
             "$_=$($boundParameters[$_] | Get-EscapedString)"
             
         }) -join '&'
 
         #Create URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Applications?$query"
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications?$query"
 
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
@@ -106,8 +126,19 @@ Application details
 
     END{
     
-        #Return results
-        $result.application
+        if($result){
+
+            #Return results
+            $result.application | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Application -PropertyToAdd @{
+
+                    "sessionToken" = $sessionToken
+                    "WebSession" = $WebSession
+                    "BaseURI" = $BaseURI
+					"PVWAAppName" = $PVWAAppName
+
+            }
+                
+        }
         
     }#end
 

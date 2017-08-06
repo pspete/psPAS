@@ -91,10 +91,14 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-Session Token, WebSession & BaseURI can be piped by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
 None
@@ -107,118 +111,135 @@ None
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$UserName,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$Address,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
-        [ValidateScript({$_ -match "^((19|20)[0-9][0-9]-(0[0-9]|1[0-2])-(0[1-9]|([12][0-9]|3[01]))T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z)$"})]
+        [ValidateScript({($_ -match "^((19|20)[0-9][0-9]-(0[0-9]|1[0-2])-(0[1-9]|([12][0-9]|3[01]))T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z)$")})]
         [string]$AccountDiscoveryDate,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("Windows","Unix")]
         [string]$OSType,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("enabled","disabled")]
         [string]$AccountEnabled,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$AccountOSGroups,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("domain","local")]
         [string]$AccountType,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$DiscoveryPlatformType,
         
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$Domain,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$LastLogonDate,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$LastPasswordSet,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [boolean]$PasswordNeverExpires,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$OSVersion,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$OU,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("Privileged","Non-privileged")]
         [string]$AccountCategory,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$AccountCategoryCriteria,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$UserDisplayName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$AccountDescription,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$AccountExpirationDate,
         
-        [parameter(
-            Mandatory=$false
-        )]
-        
         [string]$UID,
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$GID,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateSet("Workstation","Server")]
         [string]$MachineOSFamily,
@@ -239,7 +260,13 @@ None
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
@@ -247,7 +274,7 @@ None
     PROCESS{
 
         #Create URL for Request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/PendingAccounts"
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/PendingAccounts"
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameters

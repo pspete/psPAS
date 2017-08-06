@@ -20,7 +20,7 @@ The Address of the machine where the account will be used
 The name of the account
 
 .PARAMETER Password
-The password value
+The password value as a secure string
 
 .PARAMETER Username
 Username ont he target machine
@@ -71,10 +71,14 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-Session Token, WebSession & BaseURI can be piped by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
 None
@@ -86,100 +90,119 @@ None
 #>
     [CmdletBinding()]  
     param(
+        [Alias("SafeName")]
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$safe,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$platformID,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$address,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$accountName,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$password,
+        [securestring]$password,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$username,
 
         [parameter(
             Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true,
             ParameterSetName="disableAutoMgmt"
         )]
         [boolean]$disableAutoMgmt,
 
         [parameter(
             Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true,
             ParameterSetName="disableAutoMgmt"
         )]
         [string]$disableAutoMgmtReason,
         
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$groupName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$groupPlatformID,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [int]$Port,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$ExtraPass1Name,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$ExtraPass1Folder,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$ExtraPass1Safe,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$ExtraPass3Name,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$ExtraPass3Folder,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$ExtraPass3Safe,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [hashtable]$DynamicProperties,
           
@@ -199,7 +222,13 @@ None
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{
@@ -223,15 +252,29 @@ None
     PROCESS{
 
         #Create URL for Request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Account"
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account"
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameters
         
+        #deal with newPassword SecureString
+        If($PSBoundParameters.ContainsKey("password")){
+
+            #Create New Credential object
+            $Pwd = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
+                
+                #Assign password and dummy username
+                $safe), $password
+            
+            #Inclued decoded password in request
+            $boundParameters["password"] = $($Pwd.GetNetworkCredential().Password)
+    
+        }
+
         #Process for required formatting
 
         #Get "non-base" parameters
-        $boundParameters.keys | Where{$baseParameters -notcontains $_} | foreach{
+        $boundParameters.keys | Where-Object{$baseParameters -notcontains $_} | ForEach-Object{
             
             #For all "non-base" parameters except "DynamicProperties" 
             if($_ -ne "DynamicProperties"){
@@ -244,7 +287,7 @@ None
             Else{ #for DynamicProperties key=value pairs
                 
                 #Enumerate DynamicProperties object
-                $boundParameters[$_].getenumerator() | foreach{
+                $boundParameters[$_].getenumerator() | ForEach-Object{
                     
                     #add key=value to "properties" hashtable
                     $properties[$_.name]=$_.value
@@ -258,7 +301,7 @@ None
         } 
 
         #Add "non-base" parameter hashtable as value of "properties" on boundparameters object
-        $boundParameters["properties"] = @($properties.getenumerator() | foreach{$_})
+        $boundParameters["properties"] = @($properties.getenumerator() | ForEach-Object{$_})
 
         #Create body of request
         $body = @{

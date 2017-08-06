@@ -4,7 +4,7 @@
     RootModule = 'psPAS.psm1'
 
     # Version number of this module.
-    ModuleVersion = '0.0.02'
+    ModuleVersion = '0.0.03'
 
     # ID used to uniquely identify this module
     GUID = '11c880d2-1430-4bd2-b6e8-f324741b460b'
@@ -49,10 +49,10 @@
     # ScriptsToProcess = @()
 
     # Type files (.ps1xml) to be loaded when importing this module
-    # TypesToProcess = @()
+    #TypesToProcess = @()
 
     # Format files (.ps1xml) to be loaded when importing this module
-    #FormatsToProcess = @('PSPAS.Format.ps1xml')
+    FormatsToProcess = 'psPAS.Format.ps1xml'
 
 
     # Functions to export from this module
@@ -105,8 +105,12 @@
                             'Get-PASOnboardingRule',
                             'Remove-PASOnboardingRule',
                             'Get-PASServer',
-                            'Get-PASSafeShareLogo'
-                            'Get-PASServerWebService'
+                            'Get-PASSafeShareLogo',
+                            'Get-PASServerWebService',
+                            'New-PASSAMLSession',
+                            'ClosePASSAMLSession',
+                            'New-PASSharedSession',
+                            'Close-PASSharedSession'
                           )
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.

@@ -20,13 +20,25 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-Session Token, SafeName, WebSession & BaseURI can be piped by property name
+All parameters can be piped by property name
+Accepts pipeline input from *-PASSafe, or any function which 
+contains SafeName in the output
 
 .OUTPUTS
-TODO
+Outputs Object of Custom Type psPAS.CyberArk.Vault.SafeMember
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 
@@ -57,7 +69,13 @@ TODO
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
@@ -65,7 +83,7 @@ TODO
     PROCESS{
 
         #Create URL for request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Safes/$($SafeName | 
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes/$($SafeName | 
         
             Get-EscapedString)/Members"
         
@@ -77,7 +95,17 @@ TODO
     END{
     
         #output
-        $result.members | Select UserName, Permissions
+        $result.members | Select-Object UserName, Permissions | 
+        
+            Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMember -PropertyToAdd @{
+
+                "SafeName" = $SafeName
+                "sessionToken" = $sessionToken
+                "WebSession" = $WebSession
+                "BaseURI" = $BaseURI
+				"PVWAAppName" = $PVWAAppName
+
+            }
         
     }#end
 

@@ -8,13 +8,14 @@ Updates an existing accounts details.
 All of the account’s property details MUST be passed to the function. 
 Any current properties of the account not sent as part of the request will be removed 
 from the account.
-To change a property value, pass the updated value to the function. 
+To change a property value not exposed via a named parameter, 
+pass the property name and updated value to the function via the Properties parameter. 
 If changing the name or folder of a service account that has multiple dependencies (usages), 
 the connection between it and its dependencies will be automatically maintained.
 If changing the name or folder of an account that is linked to another account (whether logon, 
 reconciliation or verification), the links will be automatically updated.
 
-.PARAMETER AccounID
+.PARAMETER AccountID
 The unique ID of the account to update.
 Retrieved by Get-PASAccount
 
@@ -50,7 +51,11 @@ then specify the group name. The group will then be created automatically.
 GroupPlatformID is required if account is to be moved to a new group.
 
 .PARAMETER Properties
-Hashtable of name=value pairs
+Hashtable of name=value pairs. 
+Specify properties to update.
+
+.PARAMETER InputObject
+Receives object from pipeline.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -62,13 +67,29 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-Session Token, WebSession & BaseURI can be piped by propertyname
+All parameters, except "Properties", can be piped by property name.
+Accepts pipeline object from Get-PASAccount functions.
+When an object is piped into this function, propperites which are 
+set on the account are automatically included in the request.
+If run without pipeline input, all existing properties of the account
+must be specified in the request, otherwise, any property values not
+specified will be removed from the account.
 
 .OUTPUTS
-None
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Account
+SessionToken, WebSession, BaseURI are passed through and 
+contained in output object for inclusion in subsequent 
+pipeline operations.
+
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Dependencies (usages) cannot be updated.
@@ -91,49 +112,66 @@ To move accounts to a different folder, Move accounts/folders permission is requ
         [string]$AccountID,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$Folder,
 
+        [Alias("Name")]
         [parameter(
-            Mandatory=$false
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$AccountName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$DeviceType,
         
+        [Alias("PolicyID")]
         [parameter(
-            Mandatory=$true
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$PlatformID,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$Address,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$UserName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$GroupName,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$GroupPlatformID,
 
         [parameter(
-            Mandatory=$false
+            Mandatory=$false,
+            ValueFromPipelineByPropertyName=$false
         )]
-        [hashtable]$Properties,
+        [hashtable]$Properties = @{},
+        
+        [parameter(
+            Mandatory=$false,
+            ValueFromPipeline=$true
+        )]
+        [Object]$InputObject,
           
         [parameter(
             Mandatory=$true,
@@ -151,29 +189,70 @@ To move accounts to a different folder, Move accounts/folders permission is requ
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
 
     PROCESS{
-        
+
         #Create URL for Request
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Accounts/$AccountID"
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
 
         #Get all parameters that will be sent in the request
-        $boundParameters = $PSBoundParameters | Get-PASParameters
+        $boundParameters = $PSBoundParameters | Get-PASParameters -ParametersToRemove InputObject
 
         if($PSBoundParameters.ContainsKey("Properties")){
         
             #Format "Properties" parameter value.
             #Array of key=value pairs required for JSON convertion
             $boundParameters["Properties"] = @($boundParameters["Properties"].getenumerator() | 
-            
-                foreach{$_})
+
+                ForEach-Object{$_})
         
         }
 
+		#Get all existing properties as defined by input object:
+        #Process Pipeline input object properties 
+        $InputObject | 
+
+            #exclude properties output by get-pasaccount not applicable to set-pasaccount request
+            Select-Object -Property * -ExcludeProperty Name,PolicyID,Safe | 
+
+                #get all remaining noteproperties
+                Get-Member -MemberType "NoteProperty" | 
+                
+                    #For each property
+                    ForEach-Object {
+
+						#Initialise hashtable
+						$ExistingProperty = @{}
+
+						#if property is not bound to function parameter by name, 
+                        if(!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
+							
+							#if not being explicitly updated.
+							$($Properties).ContainsKey($($_.Name))))){
+							
+								Write-Debug "Adding $($_.Name) = $($InputObject.$($_.Name)) as Account Property"
+								[hashtable]$ExistingProperty.Add($($_.Name),$($InputObject.$($_.Name)))
+
+								#Add to Properties node of request data
+								[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object{$_}
+								#any existing properties of an account not sent in a "set" request will be cleared on the account.
+								#This ensures correctly formatted request with all existing account properties included
+								#when function is sent data via the pipeline. 
+
+						}
+
+                    }
+		
         #Create body of request
         $body = @{
 
@@ -187,5 +266,22 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
     }#process
 
-    END{$Result.UpdateAccountResult}#end
+    END{
+        
+        If($Result){
+            
+            $Result.UpdateAccountResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account -PropertyToAdd @{
+
+                        "AccountID" = $AccountID
+                        "sessionToken" = $sessionToken
+                        "WebSession" = $WebSession
+                        "BaseURI" = $BaseURI
+					    "PVWAAppName" = $PVWAAppName
+
+            }
+
+        }
+    
+    }#end
+
 }

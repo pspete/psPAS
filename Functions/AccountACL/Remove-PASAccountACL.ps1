@@ -6,7 +6,7 @@ Deletes privileged commands rule from an account
 .DESCRIPTION
 Deletes privileged commands rule associated with account
 
-.PARAMETER PolicyID
+.PARAMETER AccountPolicyID
 ID of account from which the commands will be deleted
 
 .PARAMETER Id
@@ -25,10 +25,15 @@ WebRequestSession object returned from New-PASSession
 PVWA Web Address
 Do not include "/PasswordVault/"
 
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
+
 .EXAMPLE
 
 .INPUTS
-SessionToken, WebSession, BaseURI can be piped by property name
+All parameters can be piped by property name
+Should accept pipeline objects from Get-PASAccountACL function
 
 .OUTPUTS
 None
@@ -41,31 +46,30 @@ None
     [CmdletBinding()]  
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
-        [ValidateNotNullOrEmpty()]
-        [string]$PolicyID,
-
-        [parameter(
-            Mandatory=$true
-        )]
+        [Alias("PolicyID")]
         [ValidateNotNullOrEmpty()]
         [string]$AccountPolicyId,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AccountAddress,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AccountUserName,
 
         [parameter(
-            Mandatory=$true
+            Mandatory=$true,
+            ValueFromPipelinebyPropertyName=$true
         )]
         [string]$Id,
           
@@ -74,7 +78,7 @@ None
             ValueFromPipelinebyPropertyName=$true
         )]
         [ValidateNotNullOrEmpty()]
-        [hashtable]$SessionToken,
+        [hashtable]$sessionToken,
 
         [parameter(
             ValueFromPipelinebyPropertyName=$true
@@ -85,26 +89,30 @@ None
             Mandatory=$true,
             ValueFromPipelinebyPropertyName=$true
         )]
-        [string]$BaseURI
+        [string]$BaseURI,
+
+		[parameter(
+			Mandatory=$false,
+			ValueFromPipelinebyPropertyName=$true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
     )
 
     BEGIN{}#begin
 
     PROCESS{
 
-        #Request URL
-        $URI = "$baseURI/PasswordVault/WebServices/PIMServices.svc/Policy/$($PolicyID | 
+        #URL for request
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account/$($AccountAddress | 
         
-            Get-EscapedString)/PrivilegedCommands/$($Id | 
+            Get-EscapedString)|$($AccountUserName | 
             
-                Get-EscapedString)"
+                Get-EscapedString)|$($AccountPolicyId | 
+                
+                    Get-EscapedString)/PrivilegedCommands/$Id"
         
         #Request Body
-        $Body = $PSBoundParameters | 
-        
-            Get-PASParameters -ParametersToRemove AccountAddress,AccountUserName,AccountPolicyID | 
-            
-                ConvertTo-Json
+        $Body = @{}
 
                 #Send Request to Web Service
         Invoke-PASRestMethod -Uri $URI -Method DELETE -Body $Body -Headers $sessionToken -WebSession $WebSession
