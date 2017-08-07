@@ -1,11 +1,10 @@
-﻿function New-PASOnboardingRule{
-<#
+﻿function New-PASOnboardingRule {
+    <#
 .SYNOPSIS
 Adds a new onboarding rule to the Vault
 
 .DESCRIPTION
-Adds a new onboarding rule to the Vault., that filters discovered
-local privileged pending accounts.
+Adds a new onboarding rule to the Vault, that filters discovered local privileged pending accounts.
 When a discovered pending account matches a rule, it will be automatically onboarded to the safe that
 is defined in the rule and the password will be reconciled.
 
@@ -18,7 +17,7 @@ The ID of the platform that will be associated to the onboarded account.
 The name of the Safe where the onboarded account will be stored.
 
 .PARAMETER IsAdminUIDFilter
-Whether or not only pending accounts whose UID is set to will be onboarded 
+Whether or not only pending accounts whose UID is set to will be onboarded
 automatically according to this rule.
 
 .PARAMETER MachineTypeFilter
@@ -45,14 +44,17 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | New-PASOnboardingRule -DecisionPlatformId DecisionPlatform -DecisionSafeName DecisionSafe -SystemTypeFilter Windows
+
+Adds Onboarding Rule for Windows Accounts
 
 .INPUTS
 All parameters can be piped by property name
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.OnboardingRule
-SessionToken, WebSession, BaseURI are passed through and 
-contained in output object for inclusion in subsequent 
+SessionToken, WebSession, BaseURI are passed through and
+contained in output object for inclusion in subsequent
 pipeline operations.
 
 Output format is defined via psPAS.Format.ps1xml.
@@ -64,78 +66,78 @@ Not Tested
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateLength(1,99)]
+        [ValidateLength(1, 99)]
         [string]$DecisionPlatformId,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateLength(1,28)]
+        [ValidateLength(1, 28)]
         [string]$DecisionSafeName,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet("Yes","No")]
+        [ValidateSet("Yes", "No")]
         [String]$IsAdminUIDFilter,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet("Workstation","Server")]
+        [ValidateSet("Workstation", "Server")]
         [string]$MachineTypeFilter,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet("Windows","Unix")]
+        [ValidateSet("Windows", "Unix")]
         [string]$SystemTypeFilter,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateLength(0,512)]
+        [ValidateLength(0, 512)]
         [string]$UserNameFilter,
-          
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [string]$BaseURI,
+        [string]$BaseURI<#,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"#>
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Create URL for request
         $URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules"
@@ -148,17 +150,17 @@ Not Tested
 
     }#process
 
-    END{
-        
+    END {
+
         $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
 
-                    "sessionToken" = $sessionToken
-                    "WebSession" = $WebSession
-                    "BaseURI" = $BaseURI
-					"PVWAAppName" = $PVWAAppName
+            "sessionToken" = $sessionToken
+            "WebSession"   = $WebSession
+            "BaseURI"      = $BaseURI
+            #"PVWAAppName"  = $PVWAAppName
 
-            }
-    
+        }
+
     }#end
 
 }

@@ -1,5 +1,5 @@
-﻿function Remove-PASApplication{
-<#
+﻿function Remove-PASApplication {
+    <#
 .SYNOPSIS
 Deletes an application
 
@@ -25,6 +25,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Remove-PASApplication -AppID NewApp
+
+Deletes application "NewApp"
 
 .INPUTS
 All parameters can be piped by property name
@@ -37,54 +40,54 @@ None
 
 .LINK
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AppID,
-          
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Request URL
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID | 
-        
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID |
+
             Get-EscapedString)/"
-        
+
         #Send Request
         Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
     }#process
 
-    END{}#end
+    END {}#end
 
 }

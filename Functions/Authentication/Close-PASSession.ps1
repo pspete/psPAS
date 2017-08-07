@@ -1,5 +1,5 @@
-﻿function Close-PASSession{
-<#
+﻿function Close-PASSession {
+    <#
 .SYNOPSIS
 Logoff from CyberArk Vault.
 
@@ -21,6 +21,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Close-PASSession
+
+Logs off from the session related to the authorisation token.
 
 .INPUTS
 All Parameters accept piped values by propertyname
@@ -32,37 +35,37 @@ None
 
 .LINK
 #>
-    [CmdletBinding()]  
-    param(  
+    [CmdletBinding()]
+    param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
 
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Construct URL for request
         $URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
@@ -72,5 +75,5 @@ None
 
     }#process
 
-    END{}#end
+    END {}#end
 }

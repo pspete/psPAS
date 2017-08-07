@@ -1,5 +1,5 @@
-﻿function Add-PASApplicationAuthenticationMethod{
-<#
+﻿function Add-PASApplicationAuthenticationMethod {
+    <#
 .SYNOPSIS
 Adds an authentication method to an application.
 
@@ -44,6 +44,24 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType machineAddress -AuthValue AppServer1.domain.com
+
+Adds a Machine Address application authentication mechanism to NewApp
+
+.EXAMPLE
+$token | Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType osUser -AuthValue Domain\SomeUser
+
+Adds an osUSer application authentication mechanism to NewApp
+
+.EXAMPLE
+$token | Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType path -AuthValue SomePath
+
+Adds path application authentication mechanism to NewApp
+
+.EXAMPLE
+$token | Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType certificateserialnumber -AuthValue 040000000000FA3DEFE9A9 -Comment "DEV Cert"
+
+Adds certificateserialnumber application authentication mechanism to NewApp
 
 .INPUTS
 All parameters can be piped by property name
@@ -59,90 +77,90 @@ not accept input from the pipeline.
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AppID,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet("path","hash","osUser","machineAddress","certificateserialnumber")]
+        [ValidateSet("path", "hash", "osUser", "machineAddress", "certificateserialnumber")]
         [string]$AuthType,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         #[ValidateScript({<#[0-9a-fA-F]+CertSerialnumberValidation#>})]
         [string]$AuthValue,
-          
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
-    DynamicParam{
+    DynamicParam {
 
         #Create a RuntimeDefinedParameterDictionary
         $Dictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-        
+
         #Add dynamic parameters to $dictionary
-        if($AuthType -eq "path"){
-            
+        if($AuthType -eq "path") {
+
             #parameters only relevent to path authentication
             New-DynamicParam -Name IsFolder -DPDictionary $Dictionary -Type boolean
             New-DynamicParam -Name AllowInternalScripts -DPDictionary $Dictionary -Type boolean
 
         }
 
-        if(($AuthType -eq "hash") -or ($AuthType -eq "certificateserialnumber")){
-            
+        if(($AuthType -eq "hash") -or ($AuthType -eq "certificateserialnumber")) {
+
             #add comment parmater
             New-DynamicParam -Name Comment -DPDictionary $Dictionary
 
         }
-        
+
         #return RuntimeDefinedParameterDictionary
         $Dictionary
 
     }
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID | 
-        
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID |
+
             Get-EscapedString)/Authentications"
-        
+
         $Body = @{
-        
+
             "authentication" = $PSBoundParameters | Get-PASParameters
 
         } | ConvertTo-Json
@@ -151,6 +169,6 @@ not accept input from the pipeline.
 
     }#process
 
-    END{}#end
+    END {}#end
 
 }

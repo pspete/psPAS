@@ -1,7 +1,7 @@
-﻿function Get-PASSafeShareLogo{
-<#
+﻿function Get-PASSafeShareLogo {
+    <#
 .SYNOPSIS
-Returns details of configured SafeShare Logo 
+Returns details of configured SafeShare Logo
 
 .DESCRIPTION
 Gets configuration details of logo displayed in the SafeShare WebGUI
@@ -21,6 +21,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Get-PASSafeShareLogo -ImageType Square
+
+Retrieves Safe Share Logo
 
 .INPUTS
 WebSession & BaseURI can be piped to the function by propertyname
@@ -33,44 +36,44 @@ SafeShare no longer available from CyberArk
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true
+            Mandatory = $true
         )]
-        [ValidateSet("Square","Watermark")]
+        [ValidateSet("Square", "Watermark")]
         [String]$ImageType,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Create URL for request
         $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Logo?type=$ImageType"
-        
+
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
 
     }#process
 
-    END{$result}#end
+    END {$result}#end
 }

@@ -1,5 +1,5 @@
-﻿function Get-PASSafe{
-<#
+﻿function Get-PASSafe {
+    <#
 .SYNOPSIS
 Returns safe details from the vault.
 
@@ -31,14 +31,17 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Get-PASSafe -SafeName SAFE1
+
+Returns details of "Safe1"
 
 .INPUTS
 SafeName, SessionToken, WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe
-SessionToken, WebSession, BaseURI are passed through and 
-contained in output object for inclusion in subsequent 
+SessionToken, WebSession, BaseURI are passed through and
+contained in output object for inclusion in subsequent
 pipeline operations.
 
 Output format is defined via psPAS.Format.ps1xml.
@@ -49,118 +52,118 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-    [CmdletBinding(DefaultParameterSetName="byAll")]  
+    [CmdletBinding(DefaultParameterSetName = "byAll")]
     param(
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true,
-            ParameterSetName="byName"
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "byName"
         )]
         [ValidateNotNullOrEmpty()]
         [string]$SafeName,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$false,
-            ParameterSetName="byQuery"
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $false,
+            ParameterSetName = "byQuery"
         )]
         [string]$query,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$false,
-            ParameterSetName="byAll"
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $false,
+            ParameterSetName = "byAll"
         )]
         [switch]$FindAll,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Create base URL for request
         $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes"
 
         #If SafeName specified
-        If($($PSCmdlet.ParameterSetName) -eq "byName"){
-            
+        If($($PSCmdlet.ParameterSetName) -eq "byName") {
+
             $returnProperty = "GetSafeResult"
 
             #Build URL from base URL
             $URI = "$URI/$($SafeName | Get-EscapedString)"
-        
+
         }
 
         #If search query specified
-        ElseIf($($PSCmdlet.ParameterSetName) -eq "byQuery"){
-            
+        ElseIf($($PSCmdlet.ParameterSetName) -eq "byQuery") {
+
             $returnProperty = "SearchSafesResult"
 
             #Get Parameters to include in request
             $boundParameters = $PSBoundParameters | Get-PASParameters
 
             #Create Query String, escaped for inclusion in request URL
-            $queryString = ($boundParameters.keys | ForEach-Object{
-        
-                "$_=$($boundParameters[$_] | Get-EscapedString)"
-            
-            }) -join '&'
-        
+            $queryString = ($boundParameters.keys | ForEach-Object {
+
+                    "$_=$($boundParameters[$_] | Get-EscapedString)"
+
+                }) -join '&'
+
             #Build URL from base URL
             $URI = "$URI`?$queryString"
-        
+
         }
 
-        ElseIf($($PSCmdlet.ParameterSetName) -eq "byAll"){
-        
+        ElseIf($($PSCmdlet.ParameterSetName) -eq "byAll") {
+
             $returnProperty = "GetSafesResult"
-        
+
         }
-        
+
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
     }#process
 
-    END{
-        
-        If($result){
+    END {
+
+        If($result) {
 
             $result.$returnProperty | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe -PropertyToAdd @{
 
                 "sessionToken" = $sessionToken
-                "WebSession" = $WebSession
-                "BaseURI" = $BaseURI
-				"PVWAAppName" = $PVWAAppName
+                "WebSession"   = $WebSession
+                "BaseURI"      = $BaseURI
+                "PVWAAppName"  = $PVWAAppName
 
             }
 
         }
-    
+
     }#end
 
 }

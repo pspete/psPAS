@@ -1,11 +1,11 @@
-﻿function Remove-PASPublicSSHKey{
-<#
+﻿function Remove-PASPublicSSHKey {
+    <#
 .SYNOPSIS
 Deletes a specific Public SSH Key from a specific vault user.
 
 .DESCRIPTION
 Deletes an authorized public SSH key for a specific user in the
-Vault, preventing them from authenticating to the Vault through PSMP 
+Vault, preventing them from authenticating to the Vault through PSMP
 using a corresponding private SSH key.
 "Reset Users Passwords" Vault permission is required.
 The authenticated user who runs this function must be in the same Vault
@@ -34,6 +34,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Remove-PASPublicSSHKey -UserName Splitter -KeyID 415161FE8F2B408BB76BC244258C3697
+
+Deletes specified ssh key from vault user "Splitter"
 
 .INPUTS
 All parameter values can be passed via the pipeline by property name.
@@ -45,51 +48,51 @@ TODO
 
 .LINK
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateScript({$_ -notmatch ".*(%|\&|\+|\.).*"})]
+        [ValidateScript( {$_ -notmatch ".*(%|\&|\+|\.).*"})]
         [string]$UserName,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$KeyID,
-          
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$SessionToken,
 
-        [parameter(ValueFromPipelinebyPropertyName=$true)]
+        [parameter(ValueFromPipelinebyPropertyName = $true)]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Create URL string for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName | 
-            
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
+
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/$KeyID"
 
         #Send Request to web service
@@ -97,5 +100,5 @@ TODO
 
     }#process
 
-    END{}#end
+    END {}#end
 }
