@@ -1,5 +1,5 @@
-﻿function Add-PASApplication{
-<#
+﻿function Add-PASApplication {
+    <#
 .SYNOPSIS
 Adds a new application to the Vault
 .DESCRIPTION
@@ -10,7 +10,7 @@ Manage Users permission is required.
 The application name.
 Must be fewer than 128 characters.
 Cannot include ampersand ("&") character.
-Can include "@" character, but any searches for applications cannot include 
+Can include "@" character, but any searches for applications cannot include
 this character.
 
 .PARAMETER Description
@@ -64,6 +64,10 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Add-PASApplication -AppID NewApp -Description "A new application" -Location "\" `
+-AccessPermittedFrom 9 -AccessPermittedTo 17 -BusinessOwnerEmail 'appowner@company.com'
+
+Will add a new application called "NewApp", in the root location, accessible from 9am to 5pm
 
 .INPUTS
 All parameters can be piped by property name
@@ -75,127 +79,128 @@ None
 
 .LINK
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
-        [ValidateLength(1,127)]
-        [ValidateScript({$_ -notmatch ".*(\&).*"})]
+        [ValidateLength(1, 127)]
+        [ValidateScript( {$_ -notmatch ".*(\&).*"})]
         [string]$AppID,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateLength(0,29)]
+        [ValidateLength(0, 29)]
         [string]$Description,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$Location,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateRange(0,23)]
+        [ValidateRange(0, 23)]
         [int]$AccessPermittedFrom,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateRange(0,23)]
+        [ValidateRange(0, 23)]
         [int]$AccessPermittedTo,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateScript({if($_ -match '^(0[1-9]|1[0-2])[-](0[1-9]|[12]\d|3[01])[-]\d{4}$'){
-        $true}Else{Throw "$_ must match pattern MM-DD-YYYY"}})]
+        [ValidateScript( {if($_ -match '^(0[1-9]|1[0-2])[-](0[1-9]|[12]\d|3[01])[-]\d{4}$') {
+                    $true
+                } Else {Throw "$_ must match pattern MM-DD-YYYY"}})]
         [string]$ExpirationDate,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [boolean]$Disabled,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateLength(0,29)]
+        [ValidateLength(0, 29)]
         [string]$BusinessOwnerFName,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BusinessOwnerLName,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [int]$BusinessOwnerEmail,
+        [string]$BusinessOwnerEmail,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateLength(0,24)]
+        [ValidateLength(0, 24)]
         [int]$BusinessOwnerPhone,
-          
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
 
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #WebService URL
         $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications"
 
         #Create Request Body
         $body = @{
-                    "application" = $PSBoundParameters | Get-PASParameters
+            "application" = $PSBoundParameters | Get-PASParameters
 
-                } | ConvertTo-Json
-        
+        } | ConvertTo-Json
+
         #Send Request
         Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
     }#process
 
-    END{}#end
+    END {}#end
 }

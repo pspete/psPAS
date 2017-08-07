@@ -1,5 +1,5 @@
-﻿function Add-PASAccount{
-<#
+﻿function Add-PASAccount {
+    <#
 .SYNOPSIS
 Adds a new privileged account to the Vault
 
@@ -76,6 +76,10 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com -Password $secureString -username domainUser
+
+Will add account domain.com\domainuser to the Prod_Access Safe using the WINDOMAIN platform.
+The contents of $secureString will be set as the password value.
 
 .INPUTS
 All parameters can be piped by property name
@@ -88,234 +92,235 @@ None
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [Alias("SafeName")]
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$safe,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$platformID,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$address,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$accountName,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [securestring]$password,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$username,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true,
-            ParameterSetName="disableAutoMgmt"
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "disableAutoMgmt"
         )]
         [boolean]$disableAutoMgmt,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true,
-            ParameterSetName="disableAutoMgmt"
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "disableAutoMgmt"
         )]
         [string]$disableAutoMgmtReason,
-        
+
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$groupName,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$groupPlatformID,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [int]$Port,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$ExtraPass1Name,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$ExtraPass1Folder,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$ExtraPass1Safe,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$ExtraPass3Name,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$ExtraPass3Folder,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$ExtraPass3Safe,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [hashtable]$DynamicProperties,
-          
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
-    BEGIN{
-        
+    BEGIN {
+
         #The Add Account JSON object requires specific formatting.
         #Different parameters are contained within the JSON at different depths.
         #Progromatic processing is required to format the JSON as required.
 
         #baseparameters are contained in JSON object at the same depth
-        $baseParameters = @("Safe","PlatformID","Address","AccountName","Password","Username",
-            "DisableAutoMgmt","DisableAutoMgmtReason","GroupName","GroupPlatformID")
-         
-        #declare empty hashtable to hold "non-base" parameters        
-        $properties=@{}
+        $baseParameters = @("Safe", "PlatformID", "Address", "AccountName", "Password", "Username",
+            "DisableAutoMgmt", "DisableAutoMgmtReason", "GroupName", "GroupPlatformID")
+
+        #declare empty hashtable to hold "non-base" parameters
+        $properties = @{}
 
         #declare empty array to hold keys to remove from bound parameters
         $keysToRemove = @()
 
     }#begin
 
-    PROCESS{
+    PROCESS {
 
         #Create URL for Request
         $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account"
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameters
-        
+
         #deal with newPassword SecureString
-        If($PSBoundParameters.ContainsKey("password")){
+        If($PSBoundParameters.ContainsKey("password")) {
 
             #Create New Credential object
             $Pwd = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
-                
+
                 #Assign password and dummy username
                 $safe), $password
-            
+
             #Inclued decoded password in request
             $boundParameters["password"] = $($Pwd.GetNetworkCredential().Password)
-    
+
         }
 
         #Process for required formatting
 
         #Get "non-base" parameters
-        $boundParameters.keys | Where-Object{$baseParameters -notcontains $_} | ForEach-Object{
-            
-            #For all "non-base" parameters except "DynamicProperties" 
-            if($_ -ne "DynamicProperties"){
-                
+        $boundParameters.keys | Where-Object {$baseParameters -notcontains $_} | ForEach-Object {
+
+            #For all "non-base" parameters except "DynamicProperties"
+            if($_ -ne "DynamicProperties") {
+
                 #Add key/Value to "properties" hashtable
-                $properties[$_]=$boundParameters[$_]
+                $properties[$_] = $boundParameters[$_]
 
             }
 
-            Else{ #for DynamicProperties key=value pairs
-                
+            Else {
+                #for DynamicProperties key=value pairs
+
                 #Enumerate DynamicProperties object
-                $boundParameters[$_].getenumerator() | ForEach-Object{
-                    
+                $boundParameters[$_].getenumerator() | ForEach-Object {
+
                     #add key=value to "properties" hashtable
-                    $properties[$_.name]=$_.value
-                
+                    $properties[$_.name] = $_.value
+
                 }
             }
 
             #add the "non-base" parameter key to array
-            [array]$keysToRemove+=$_
-        
-        } 
+            [array]$keysToRemove += $_
+
+        }
 
         #Add "non-base" parameter hashtable as value of "properties" on boundparameters object
-        $boundParameters["properties"] = @($properties.getenumerator() | ForEach-Object{$_})
+        $boundParameters["properties"] = @($properties.getenumerator() | ForEach-Object {$_})
 
         #Create body of request
         $body = @{
 
-                    #account node does not contain non-base parameters
-                    "account" = $boundParameters | Get-PASParameters -ParametersToRemove $keysToRemove
+            #account node does not contain non-base parameters
+            "account" = $boundParameters | Get-PASParameters -ParametersToRemove $keysToRemove
 
-                    #ensure nodes at all required depths are included in the JSON object
-                } | ConvertTo-Json -Depth 4
-        
+            #ensure nodes at all required depths are included in the JSON object
+        } | ConvertTo-Json -Depth 4
+
         #send request to PAS web service
         Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
     }#process
 
-    END{}#end
+    END {}#end
 }

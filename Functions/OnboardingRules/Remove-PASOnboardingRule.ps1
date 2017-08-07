@@ -1,5 +1,5 @@
-﻿function Remove-PASOnboardingRule{
-<#
+﻿function Remove-PASOnboardingRule {
+    <#
 .SYNOPSIS
 Deletes an automatic onboarding rule
 
@@ -26,6 +26,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Remove-PASOnboardingRule -RuleID 5
+
+Removes specified onboarding rule.
 
 .INPUTS
 All parameters can be piped by property name
@@ -38,52 +41,52 @@ None
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$RuleID,
-        
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [string]$BaseURI,
+        [string]$BaseURI<#,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"#>
     )
-    
-    BEGIN{}#begin
 
-    PROCESS{
-        
+    BEGIN {}#begin
+
+    PROCESS {
+
         #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules/$($RuleID | 
-        
+        $URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules/$($RuleID |
+
             Get-EscapedString)"
-        
+
         #Send request to web service
         Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
     }#process
 
-    END{}#end
+    END {}#end
 }

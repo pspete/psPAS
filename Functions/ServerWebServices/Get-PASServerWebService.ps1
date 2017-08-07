@@ -1,5 +1,5 @@
-﻿function Get-PASServerWebService{
-<#
+﻿function Get-PASServerWebService {
+    <#
 .SYNOPSIS
 Returns details of the Web Service
 
@@ -19,6 +19,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Get-PASServerWebService
+
+Displays CyberArk Web Service Information
 
 .INPUTS
 WebSession & BaseURI can be piped to the function by propertyname
@@ -32,30 +35,30 @@ ServerName, ServerID, ApplicationName & Available Authentication Methods
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Create URL for request
         $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Verify"
@@ -65,14 +68,14 @@ ServerName, ServerID, ApplicationName & Available Authentication Methods
 
     }#process
 
-    END{
-        
-        if($result){
-            
+    END {
+
+        if($result) {
+
             #return results
             $result | Select-Object ServerName, ServerId, ApplicationName , AuthenticationMethods
-    
+
         }
-        
+
     }#end
 }

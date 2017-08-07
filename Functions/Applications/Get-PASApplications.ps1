@@ -1,5 +1,5 @@
-﻿function Get-PASApplications{
-<#
+﻿function Get-PASApplications {
+    <#
 .SYNOPSIS
 Returns list of all applications in Vault
 
@@ -34,6 +34,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Get-PASApplications
+
+Returns information on all defined applications
 
 .INPUTS
 All parameters can be piped by property name
@@ -41,8 +44,8 @@ Should accept pipeline objects from other *-PASApplication* functions
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Application
-SessionToken, WebSession, BaseURI are passed through and 
-contained in output object for inclusion in subsequent 
+SessionToken, WebSession, BaseURI are passed through and
+contained in output object for inclusion in subsequent
 pipeline operations.
 
 Output format is defined via psPAS.Format.ps1xml.
@@ -53,66 +56,66 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AppID,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$Location,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [boolean]$IncludeSublocations,
-        
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Get parameters for request string
         $boundParameters = $PSBoundParameters | Get-PASParameters
-        
+
         #Create query string
-        $query = ($boundParameters.keys | ForEach-Object{
-        
-            "$_=$($boundParameters[$_] | Get-EscapedString)"
-            
-        }) -join '&'
+        $query = ($boundParameters.keys | ForEach-Object {
+
+                "$_=$($boundParameters[$_] | Get-EscapedString)"
+
+            }) -join '&'
 
         #Create URL for request
         $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications?$query"
@@ -120,26 +123,26 @@ To force all output to be shown, pipe to Select-Object *
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-        
+
 
     }#process
 
-    END{
-    
-        if($result){
+    END {
+
+        if($result) {
 
             #Return results
             $result.application | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Application -PropertyToAdd @{
 
-                    "sessionToken" = $sessionToken
-                    "WebSession" = $WebSession
-                    "BaseURI" = $BaseURI
-					"PVWAAppName" = $PVWAAppName
+                "sessionToken" = $sessionToken
+                "WebSession"   = $WebSession
+                "BaseURI"      = $BaseURI
+                "PVWAAppName"  = $PVWAAppName
 
             }
-                
+
         }
-        
+
     }#end
 
 }

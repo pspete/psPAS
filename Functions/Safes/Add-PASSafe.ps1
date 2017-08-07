@@ -1,5 +1,5 @@
-﻿function Add-PASSafe{
-<#
+﻿function Add-PASSafe {
+    <#
 .SYNOPSIS
 Adds a new safe to the Vault
 
@@ -27,7 +27,7 @@ Specify "" to prevent CPM management.
 .PARAMETER NumberOfVersionsRetention
 The number of retained versions of every password that is stored in the Safe.
 Max value = 999
-Specify either this parameter or NumberOfDaysRetention. 
+Specify either this parameter or NumberOfDaysRetention.
 
 .PARAMETER NumberOfDaysRetention
 The number of days for which password versions are saved in the Safe.
@@ -50,14 +50,22 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Add-PASSafe -SafeName Oracle -Description "Oracle Safe" -ManagingCPM PasswordManager -NumberOfVersionsRetention 7
+
+Creates a new safe named Oracle with a 7 version retention.
+
+.EXAMPLE
+$token | Add-PASSafe -SafeName Dev_Team -Description "Dev Safe" -ManagingCPM DEV_CPM -NumberOfDaysRetention 7
+
+Creates a new safe named Dev_Team, assigned to CPM DEV_CPM, with a 7 day retention period.
 
 .INPUTS
 All parameters can be piped by property name
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe
-SessionToken, WebSession, BaseURI are passed through and 
-contained in output object for inclusion in subsequent 
+SessionToken, WebSession, BaseURI are passed through and
+contained in output object for inclusion in subsequent
 pipeline operations.
 
 Output format is defined via psPAS.Format.ps1xml.
@@ -68,108 +76,108 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript({$_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*"})]
-        [ValidateLength(0,28)]
+        [ValidateScript( {$_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*"})]
+        [ValidateLength(0, 28)]
         [string]$SafeName,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateLength(0,100)]
+        [ValidateLength(0, 100)]
         [string]$Description,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [boolean]$OLACEnabled,
 
         [parameter(
-            Mandatory=$false,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$ManagingCPM,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true,
-            ParameterSetName="Versions"
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "Versions"
         )]
-        [ValidateRange(1,999)]
+        [ValidateRange(1, 999)]
         [int]$NumberOfVersionsRetention,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true,
-            ParameterSetName="Days"
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "Days"
         )]
-        [ValidateRange(1,3650)]
+        [ValidateRange(1, 3650)]
         [int]$NumberOfDaysRetention,
-          
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Create URL for request
         $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes"
 
         #create request body
         $body = @{
-                    
-                    #add parameters to safe node
-                    "safe" = $PSBoundParameters | Get-PASParameters
 
-                } | ConvertTo-Json
-        
+            #add parameters to safe node
+            "safe" = $PSBoundParameters | Get-PASParameters
+
+        } | ConvertTo-Json
+
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
     }#process
 
-    END{
-        
+    END {
+
         $result.AddSafeResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe -PropertyToAdd @{
 
             "sessionToken" = $sessionToken
-            "WebSession" = $WebSession
-            "BaseURI" = $BaseURI
-			"PVWAAppName" = $PVWAAppName
+            "WebSession"   = $WebSession
+            "BaseURI"      = $BaseURI
+            "PVWAAppName"  = $PVWAAppName
 
         }
-    
+
     }#end
 
 }

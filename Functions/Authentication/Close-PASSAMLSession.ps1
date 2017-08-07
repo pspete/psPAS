@@ -1,5 +1,5 @@
-﻿function Close-PASSAMLSession{
-<#
+﻿function Close-PASSAMLSession {
+    <#
 .SYNOPSIS
 Logoff from CyberArk Vault SAML Session.
 
@@ -14,7 +14,7 @@ WebRequestSession object returned from New-PASSession
 
 .PARAMETER BaseURI
 A string containing the base web address to send te request to.
-Pass the portion the PVWA HTTP address. 
+Pass the portion the PVWA HTTP address.
 Do not include "/PasswordVault/"
 
 .PARAMETER PVWAAppName
@@ -22,49 +22,52 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Close-PASSAMLSession
+
+Logs off from the SAML session related to the authorisation token
 
 .INPUTS
 
 .OUTPUTS
-  
+
 .NOTES
 Not Tested nor confirmed as working.
 New-PASSAMLSession function needs to be fixed first.
 
 .LINK
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
     )
 
-    BEGIN{
-        
+    BEGIN {
+
     }#begin
 
-    PROCESS{
+    PROCESS {
 
         #Construct URL for request
         $URI = "$baseURI/$PVWAAppName/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
@@ -76,5 +79,5 @@ New-PASSAMLSession function needs to be fixed first.
 
     }#process
 
-    END{}#end
+    END {}#end
 }

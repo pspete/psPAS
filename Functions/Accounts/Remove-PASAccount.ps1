@@ -1,5 +1,5 @@
-﻿function Remove-PASAccount{
-<#
+﻿function Remove-PASAccount {
+    <#
 .SYNOPSIS
 Deletes an account
 
@@ -8,7 +8,7 @@ Deletes a specific account in the Vault.
 The user who runs this web service requires the "Delete Accounts" permission
 
 .PARAMETER AccountID
-The unique ID  of the account to delete. 
+The unique ID  of the account to delete.
 This is retrieved by the Get-PASAccount function.
 
 .PARAMETER sessionToken
@@ -26,6 +26,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Remove-PASAccount -AccountID 19_1
+
+Deletes the account with AccountID of 19_1
 
 .INPUTS
 All parameters can be piped by propertyname
@@ -38,52 +41,52 @@ None
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AccountID,
-          
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
         [parameter(
-            ValueFromPipelinebyPropertyName=$true
+            ValueFromPipelinebyPropertyName = $true
         )]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
 
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
-        
+    PROCESS {
+
         #Create URL for request
         $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
-        
+
         #Send request to webservice
         Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
     }#process
 
-    END{}#end
+    END {}#end
 }

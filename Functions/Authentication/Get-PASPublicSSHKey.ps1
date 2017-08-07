@@ -1,5 +1,5 @@
-﻿function Get-PASPublicSSHKey{
-<#
+﻿function Get-PASPublicSSHKey {
+    <#
 .SYNOPSIS
 Retrieves a user's SSH Keys.
 
@@ -29,6 +29,15 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Get-PASPublicSSHKey -UserName user1
+
+Lists all SSH Keys for vault user - user1:
+
+UserName KeyID                            PublicSSHKey
+-------- -----                            ------------
+user1    415161FE8F2B408BB76BC244258C3697 ACABB3NzaC1kc3MAAACBAJ3hA...............
+user1    B6DCA4D54B2E93380F42DDCDB23EE52A AgreatNzaC1kc3MAAACBAJ3hB...............
+user1    D6374740D11A5F45992D80D80E97387A PHil0soPh3rkc3MAAACBAJ3hC...............
 
 .INPUTS
 All parameters can be piped by property name
@@ -36,8 +45,8 @@ Accepts pipeline objects from *-PASUser functions
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.PASPublicSSHKey
-SessionToken, WebSession, BaseURI are passed through and 
-contained in output object for inclusion in subsequent 
+SessionToken, WebSession, BaseURI are passed through and
+contained in output object for inclusion in subsequent
 pipeline operations.
 
 Output format is defined via psPAS.Format.ps1xml.
@@ -46,46 +55,46 @@ To force all output to be shown, pipe to Select-Object *
 .NOTES
 .LINK
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateScript({$_ -notmatch ".*(%|\&|\+|\.).*"})]
+        [ValidateScript( {$_ -notmatch ".*(%|\&|\+|\.).*"})]
         [string]$UserName,
-          
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$SessionToken,
 
-        [parameter(ValueFromPipelinebyPropertyName=$true)]
+        [parameter(ValueFromPipelinebyPropertyName = $true)]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-        
+
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
 
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName | 
-            
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
+
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys"
 
         #Send request to web service
@@ -93,24 +102,24 @@ To force all output to be shown, pipe to Select-Object *
 
     }#process
 
-    END{
-        
-        if($result){
+    END {
 
-            $result.GetUserAuthorizedKeysResult | 
-            
-                Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
+        if($result) {
 
-                    "UserName" = $UserName
-                    "sessionToken" = $sessionToken
-                    "WebSession" = $WebSession
-                    "BaseURI" = $BaseURI
-					"PVWAAppName" = $PVWAAppName
+            $result.GetUserAuthorizedKeysResult |
 
-                }
+            Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
+
+                "UserName"     = $UserName
+                "sessionToken" = $sessionToken
+                "WebSession"   = $WebSession
+                "BaseURI"      = $BaseURI
+                "PVWAAppName"  = $PVWAAppName
+
+            }
 
         }
-        
+
     }#end
 
 }

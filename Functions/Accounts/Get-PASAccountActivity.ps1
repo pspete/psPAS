@@ -1,5 +1,5 @@
-﻿function Get-PASAccountActivity{
-<#
+﻿function Get-PASAccountActivity {
+    <#
 .SYNOPSIS
 Returns activities for an account.
 
@@ -24,6 +24,18 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Get-PASAccount -Keywords root -Safe UNIXSafe | Get-PASAccountActivity
+
+Will return the account activity for the account output by Get-PASAccount:
+
+Time                Activity                  UserName      AccountName
+----                --------                  --------      -----------
+08/07/2017 13:05:46 Delete Privileged Command Administrator root
+08/07/2017 13:02:54 Delete Privileged Command Administrator root
+07/30/2017 10:49:32 Add Privileged Command    Administrator root
+...
+...
+...
 
 .INPUTS
 All parameters can be piped by property name
@@ -31,8 +43,8 @@ Accepts pipeline input from Get-PASAccount
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.AccountActivity
-SessionToken, WebSession, BaseURI are passed through and 
-contained in output object for inclusion in subsequent 
+SessionToken, WebSession, BaseURI are passed through and
+contained in output object for inclusion in subsequent
 pipeline operations.
 
 Output format is defined via psPAS.Format.ps1xml.
@@ -41,70 +53,70 @@ To force all output to be shown, pipe to Select-Object *
 .NOTES
 .LINK
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$AccountID,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
         [hashtable]$sessionToken,
 
-        [parameter(ValueFromPipelinebyPropertyName=$true)]
+        [parameter(ValueFromPipelinebyPropertyName = $true)]
         [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
         [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$BaseURI,
 
-		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$PVWAAppName = "PasswordVault"
 
     )
 
-    BEGIN{}#begin
+    BEGIN {}#begin
 
-    PROCESS{
+    PROCESS {
 
         #Create request URL
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$($AccountID | 
-        
+        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$($AccountID |
+
             Get-EscapedString)/Activities"
 
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
-        
+
     }#process
 
-    END{
-    
-        If($result){
+    END {
+
+        If($result) {
 
             #Return Results
-            $result.GetAccountActivitiesResult | 
-            
-                Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountActivity -PropertyToAdd @{
+            $result.GetAccountActivitiesResult |
 
-                        "sessionToken" = $sessionToken
-                        "WebSession" = $WebSession
-                        "BaseURI" = $BaseURI
-					    "PVWAAppName" = $PVWAAppName
+            Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountActivity -PropertyToAdd @{
 
-                }
-        
+                "sessionToken" = $sessionToken
+                "WebSession"   = $WebSession
+                "BaseURI"      = $BaseURI
+                "PVWAAppName"  = $PVWAAppName
+
+            }
+
         }
-        
+
     }#end
 
 }
