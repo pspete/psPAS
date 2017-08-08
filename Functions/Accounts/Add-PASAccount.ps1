@@ -106,6 +106,7 @@ None
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [Alias("PolicyID")]
         [string]$platformID,
 
         [parameter(
