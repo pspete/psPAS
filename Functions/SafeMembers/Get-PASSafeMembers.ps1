@@ -1,5 +1,5 @@
 ﻿function Get-PASSafeMembers {
-    <#
+	<#
 .SYNOPSIS
 Lists the members of a Safe
 
@@ -47,69 +47,75 @@ To force all output to be shown, pipe to Select-Object *
 
 .LINK
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$SafeName,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$SafeName,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes/$($SafeName |
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes/$($SafeName |
 
             Get-EscapedString)/Members"
 
-        #Send request to webservice
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		#Send request to webservice
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-    }#process
+	}#process
 
-    END {
+	END {
 
-        #output
-        $result.members | Select-Object UserName, Permissions |
+		#output
+		$result.members | Select-Object UserName, @{Name = "Permissions"; "Expression" = {
 
-        Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMember -PropertyToAdd @{
+				($_.Permissions).psobject.properties |Where-Object {$_.Value -eq $true} |
 
-            "SafeName"     = $SafeName
-            "sessionToken" = $sessionToken
-            "WebSession"   = $WebSession
-            "BaseURI"      = $BaseURI
-            "PVWAAppName"  = $PVWAAppName
+				Select-Object -ExpandProperty Name }
 
-        }
+		} |
 
-    }#end
+		Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMember -PropertyToAdd @{
+
+			"SafeName"     = $SafeName
+			"sessionToken" = $sessionToken
+			"WebSession"   = $WebSession
+			"BaseURI"      = $BaseURI
+			"PVWAAppName"  = $PVWAAppName
+
+		}
+
+	}#end
 
 }

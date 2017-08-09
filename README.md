@@ -43,6 +43,7 @@ SAML authentication for the CyberArk REST API is supported from version 9.7, but
 ### Install & Use
 
 Save the Module to your powershell modules folder of choice.
+
 Find your local PowerShell module paths with the following command:
 ```
 $env:PSModulePath
@@ -91,7 +92,7 @@ The required values from the New-PASSession function are passed along the pipeli
 
 If the output of one function contains the mandatory parameters of another function, which accepts values by property names, you can utilise the pipeline.
 
-Do excercise caution, and test/validate any pipeline operations in a Non-Prod Lab first.
+Do exercise caution, and test/validate any pipeline operations in a Non-Prod Lab first.
 
 Examples below:
 
