@@ -29,7 +29,7 @@ The Vault or Domain, defined in the vault,
 in which to search for the member to add to the safe.
 
 .PARAMETER MembershipExpirationDate
-Defines when the member’s Safe membership expires.
+Defines when the user’s Safe membership expires.
 Specify "" for no expiration date.
 Default to no expiration.
 Must be in format MM/DD/YY
@@ -346,7 +346,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Set base Parameters the exist at the top level of required JSON object
 		$baseParameters = @("MemberName", "SearchIn", "MembershipExpirationDate", "SafeName")
 
-		#Creaate empty hashtbale to hold permission related parameters
+		#Create empty hashtable to hold permission related parameters
 		$permissions = @{}
 
 		#array for parameter names which will do not appear in the top-tier of the JSON object
