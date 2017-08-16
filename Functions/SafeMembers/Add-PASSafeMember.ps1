@@ -239,7 +239,7 @@ To force all output to be shown, pipe to Select-Object *
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$RenameAccounts,
 
