@@ -10,7 +10,7 @@ The account must be stored in the same safe as the account group.
 The following permissions are required on the safe where the account group will be created:
  - Add Accounts
  - Update Account Content
- - Update Accouunt Properties
+ - Update Account Properties
 
 .PARAMETER GroupID
 The unique ID of the account group
@@ -39,8 +39,8 @@ All parameters can be piped by property name
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.AccountGroup
-SessionToken, WebSession, BaseURI are passed through and 
-contained in output object for inclusion in subsequent 
+SessionToken, WebSession, BaseURI are passed through and
+contained in output object for inclusion in subsequent
 pipeline operations.
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
@@ -51,7 +51,7 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-    [CmdletBinding()]  
+    [CmdletBinding()]
     param(
         [parameter(
             Mandatory=$true,
@@ -96,24 +96,24 @@ To force all output to be shown, pipe to Select-Object *
     PROCESS{
 
         #Create URL for Request
-        $URI = "$baseURI/API/AccountGroups/$($GroupID | 
-            
+        $URI = "$baseURI/API/AccountGroups/$($GroupID |
+
             Get-EscapedString)/Members"
 
         #Create body of request
-        $body = $PSBoundParameters | 
-        
-            Get-PASParameters -ParametersToRemove GroupID | 
-        
+        $body = $PSBoundParameters |
+
+            Get-PASParameters -ParametersToRemove GroupID |
+
                 ConvertTo-Json
-        
+
         #send request to PAS web service
         $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
     }#process
 
     END{
-        
+
         if($result){
 
             $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup -PropertyToAdd @{
@@ -126,7 +126,7 @@ To force all output to be shown, pipe to Select-Object *
             }
 
         }
-    
+
     }#end
-    
+
 }

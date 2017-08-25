@@ -14,7 +14,7 @@ A user cannot manage their own public SSH keys.
 
 .PARAMETER UserName
 The username of the Vault user whose public SSH keys will be added
-A username cannot contain te follwing charcters: "%", "&", "+" or ".".
+A username cannot contain te follwing characters: "%", "&", "+" or ".".
 
 .PARAMETER PublicSSHKey
 The content of the public SSH key as it appears in the authorized_keys file.

@@ -375,7 +375,7 @@ To force all output to be shown, pipe to Select-Object *
 
 		}
 
-		#add all required permissions  as value to "Permssions" key
+		#add all required permissions  as value to "Permissions" key
 		$boundParameters["Permissions"] = @($permissions.getenumerator() | ForEach-Object {$_})
 
 		#Create required request object

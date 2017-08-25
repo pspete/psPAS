@@ -4,7 +4,7 @@
 Lists privileged commands rule for an account
 
 .DESCRIPTION
-Gets list of all priviledged commands associated with an account
+Gets list of all privileged commands associated with an account
 
 .PARAMETER AccountPolicyId
 The PolicyID associated with account.

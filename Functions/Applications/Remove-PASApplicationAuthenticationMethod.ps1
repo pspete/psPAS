@@ -8,7 +8,7 @@ Deletes a specific authentication method from a defined application.
 "Manage Users" permission is required.
 
 .PARAMETER AppID
-The ID of the applciation in which the authentication will be deleted.
+The ID of the application in which the authentication will be deleted.
 
 .PARAMETER AuthID
 The unique ID of the specific authentication.
@@ -30,7 +30,7 @@ Defaults to PasswordVault
 .EXAMPLE
 $token | Remove-PASApplicationAuthenticationMethod -AppID NewApp -AuthID 1
 
-Deletes authenitcation method with ID of 1 from "NewApp"
+Deletes authentication method with ID of 1 from "NewApp"
 
 .EXAMPLE
 $token | Get-PASApplicationAuthenticationMethods -AppID NewApp | Remove-PASApplicationAuthenticationMethod

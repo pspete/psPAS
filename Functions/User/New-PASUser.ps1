@@ -184,7 +184,7 @@ To force all output to be shown, pipe to Select-Object *
             #Assign UserName and initialPassword
             $UserName), $InitialPassword
 
-        #Inclued decoded password in request
+        #Include decoded password in request
         $boundParameters["InitialPassword"] = $($InitialPwd.GetNetworkCredential().Password)
 
         #Construct Request Body

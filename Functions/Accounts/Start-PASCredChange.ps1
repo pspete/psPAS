@@ -12,13 +12,13 @@ The unique ID  of the account to delete.
 This is retrieved by the Get-PASAccount function.
 
 .PARAMETER ImmediateChangeByCPM
-Yes/No value, dictating if the accounnt will be scheduled for immediate change.
-Specify Yes to initaiate a password change by CPM
+Yes/No value, dictating if the account will be scheduled for immediate change.
+Specify Yes to initiate a password change by CPM
 
 .PARAMETER ChangeCredsForGroup
 Yes/No value, dictating if all accounts that belong to the same group should
 have their passwords changed.
-This is only relevent for accounts that belong to an account group.
+This is only relevant for accounts that belong to an account group.
 Parameter will be ignored if account does not belong to a group.
 
 .PARAMETER sessionToken
@@ -120,7 +120,7 @@ None
         #Header is normally just session token
         $header = $SessionToken
 
-        #Get parameters to in clude in request body
+        #Get parameters to include in request body
         $boundParameters = $PSBoundParameters |
 
         #ImmediateChangeByCPM must be sent in the request header

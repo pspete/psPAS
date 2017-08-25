@@ -14,7 +14,7 @@ The name of the safe to which the safe member belong
 Vault or Domain User, or Group, safe member to update.
 
 .PARAMETER MembershipExpirationDate
-Defines when the member’s Safe membership expires.
+Defines when the member's Safe membership expires.
 Specify "" for no expiration date.
 Default to no expiration.
 Must be in format MM/DD/YY
@@ -85,7 +85,7 @@ on safe.
 
 .PARAMETER RequestsAuthorizationLevel
 Integer value defining level assigned to RequestsAuthorizationLevel for safe member.
-Valid Values: 0, 1 or 2              1
+Valid Values: 0, 1 or 2
 
 .PARAMETER AccessWithoutConfirmation
 Boolean value defining if AccessWithoutConfirmation permission will be granted to

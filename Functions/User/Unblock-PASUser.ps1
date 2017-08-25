@@ -4,7 +4,7 @@
 Activates a suspended user
 
 .DESCRIPTION
-Activates an exisitng vault user who was suspended due to password
+Activates an existing vault user who was suspended due to password
 failures.
 
 .PARAMETER UserName

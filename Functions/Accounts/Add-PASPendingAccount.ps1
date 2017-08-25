@@ -4,10 +4,9 @@
 Adds discovered account or SSH key as a pending account in the accounts feed.
 
 .DESCRIPTION
-Enables an account or SSH key that is idscovered by an external scanner to be added
+Enables an account or SSH key that is discovered by an external scanner to be added
 as a pending account to the Accounts Feed.
-The faciliates the privileged account workflow, during which users can identify
-privileged accounts and determine which are onboarded to the vault.eters in the required format.
+Users can identify privileged accounts and determine which are on-boarded to the vault.
 
 .PARAMETER UserName
 The name of the account user

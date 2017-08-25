@@ -1,7 +1,7 @@
 ﻿function Get-PASServer {
     <#
 .SYNOPSIS
-Returns details of the Web Sevice Server
+Returns details of the Web Service Server
 
 .DESCRIPTION
 Returns information on Server.

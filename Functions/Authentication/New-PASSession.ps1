@@ -9,7 +9,7 @@ that can be used in subsequent PAS Web Services calls.
 In addition, this method allows you to set a new password.
 Authenticate using CyberArk, LDAP or RADIUS authentication (From CyberArk version 9.7 up).
 For CyberArk version older than 9.7:
-    Only CyberArk Authenitcation method is supported.
+    Only CyberArk Authentication method is supported.
     newPassword Parameter is not supported.
     useRadiusAuthentication Parameter is not supported.
     connectionNumber Parameter is not supported.
@@ -30,7 +30,7 @@ should be sent with different 'connectionNumber'.
 Valid values: 1-100
 
 .PARAMETER SessionVariable
-After succesfull execution of this function, and authentication to the Vault, a WebSession
+After successful execution of this function, and authentication to the Vault, a WebSession
 object, that contains information about the connection and the request, including cookies,
 will be created and passed back in the return object.
 This can be passed to subsequent requests to ensure websessions are persistant when the
@@ -66,7 +66,7 @@ A PSCredential Object can be piped to this function.
 CyberArk Session token; This token identifies the session with the vault, and
 is supplied to every other web service request in the same session.
 A WebSession object; This contains information about the connection and the request,
-including cookies. Can be supplied to other web servcie requests.
+including cookies. Can be supplied to other web service requests.
 baseURI; this is the URL provided as an input to this function, it can be piped to
 other functions from this return object.
 ConnectionNumber; the connectionNumber provided to this function.
@@ -140,7 +140,7 @@ To force all output to be shown, pipe to Select-Object *
 
         #Add user name form credential object
         $boundParameters["username"] = $($Credential.UserName)
-        #Add decoded password value from crednetial object
+        #Add decoded password value from credential object
         $boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
 
         #deal with newPassword SecureString
@@ -152,7 +152,7 @@ To force all output to be shown, pipe to Select-Object *
                 #Assign Credential USerName and newPassword
                 $Credential.UserName), $newPassword
 
-            #Inclued decoded password in request
+            #Include decoded password in request
             $boundParameters["newPassword"] = $($PwdUpdate.GetNetworkCredential().Password)
 
         }
