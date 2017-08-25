@@ -1,11 +1,11 @@
 ﻿function Remove-PASOnboardingRule {
     <#
 .SYNOPSIS
-Deletes an automatic onboarding rule
+Deletes an automatic on-boarding rule
 
 
 .DESCRIPTION
-Deletes an automatic onboarding rulefrom the Vault.
+Deletes an automatic on-boarding rulefrom the Vault.
 Vault Admin membership required.
 
 .PARAMETER RuleID
@@ -28,7 +28,7 @@ Defaults to PasswordVault
 .EXAMPLE
 $token | Remove-PASOnboardingRule -RuleID 5
 
-Removes specified onboarding rule.
+Removes specified on-boarding rule.
 
 .INPUTS
 All parameters can be piped by property name

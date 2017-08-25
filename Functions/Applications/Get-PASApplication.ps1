@@ -4,7 +4,7 @@
 Returns a specific application
 
 .DESCRIPTION
-returns infomration about a specific application.
+returns information about a specific application.
 Audit Users vault permission is required.
 
 .PARAMETER AppID

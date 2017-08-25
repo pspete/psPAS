@@ -4,7 +4,7 @@
 Lists OPM Rules for a policy
 
 .DESCRIPTION
-Gets a list of the priviledged commands (OPM Rules)
+Gets a list of the privileged commands (OPM Rules)
 associated with this policy
 
 .PARAMETER PolicyID
@@ -84,7 +84,7 @@ To force all output to be shown, pipe to Select-Object *
 
     PROCESS {
 
-        #Create URL for reuest
+        #Create URL for request
         $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Policy/$($PolicyID |
 
             Get-EscapedString)/PrivilegedCommands"

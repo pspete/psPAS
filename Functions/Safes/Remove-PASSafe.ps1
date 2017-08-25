@@ -1,11 +1,11 @@
 ﻿function Remove-PASSafe {
     <#
 .SYNOPSIS
-Delets a safe from the Vault
+Deletes a safe from the Vault
 
 
 .DESCRIPTION
-Delets a safe from the Vault.
+Deletes a safe from the Vault.
 The "Manage" Safe vault permission is required.
 
 .PARAMETER SafeName

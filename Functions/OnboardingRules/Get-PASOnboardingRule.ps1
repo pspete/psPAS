@@ -1,10 +1,10 @@
 ﻿function Get-PASOnboardingRule {
-    <#
+	<#
 .SYNOPSIS
 Gets all automatic onboarding rules
 
 .DESCRIPTION
-Returns information on all defined onboarding rules.
+Returns information on all defined on-boarding rules.
 Vault Admin membership required.
 
 .PARAMETER sessionToken
@@ -24,7 +24,7 @@ Defaults to PasswordVault
 .EXAMPLE
 $token | Get-PASOnboardingRule
 
-List infomration on all Onboarding rules
+List information on all On-boarding rules
 
 .INPUTS
 All parameters can be piped by property name
@@ -44,60 +44,60 @@ Not Tested
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI<#,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI<#,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
         [string]$PVWAAppName = "PasswordVault"#>
-    )
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules/"
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules/"
 
-        #send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		#send request to web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-        Write-Debug "Rules Found: $($result.Total)"
+		Write-Debug "Rules Found: $($result.Total)"
 
-    }#process
+	}#process
 
-    END {
+	END {
 
-        $result.AutomaticOnboardingRules |
+		$result.AutomaticOnboardingRules |
 
-        Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
+		Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
 
-            "sessionToken" = $sessionToken
-            "WebSession"   = $WebSession
-            "BaseURI"      = $BaseURI
-            #"PVWAAppName"  = $PVWAAppName
+			"sessionToken" = $sessionToken
+			"WebSession"   = $WebSession
+			"BaseURI"      = $BaseURI
+			#"PVWAAppName"  = $PVWAAppName
 
-        }
+		}
 
-    }#end
+	}#end
 
 }

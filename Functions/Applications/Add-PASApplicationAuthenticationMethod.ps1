@@ -19,15 +19,15 @@ The content of the authentication.
 
 .PARAMETER IsFolder
 Boolean value denoting if path is a folder.
-Only relevent for "Path Authentication".
+Only relevant for "Path Authentication".
 
 .PARAMETER AllowInternalScripts
-Boolean value denoting if internl scripts are allowed.
-Only relevent for "Path Authentication".
+Boolean value denoting if internal scripts are allowed.
+Only relevant for "Path Authentication".
 
 .PARAMETER Comment
 Note Property
-only relevent for hash authentication.
+only relevant for hash authentication.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -133,7 +133,7 @@ not accept input from the pipeline.
         #Add dynamic parameters to $dictionary
         if($AuthType -eq "path") {
 
-            #parameters only relevent to path authentication
+            #parameters only relevant to path authentication
             New-DynamicParam -Name IsFolder -DPDictionary $Dictionary -Type boolean
             New-DynamicParam -Name AllowInternalScripts -DPDictionary $Dictionary -Type boolean
 

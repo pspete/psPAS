@@ -5,7 +5,7 @@ Returns list of all applications in Vault
 
 .DESCRIPTION
 Gets the List of all Application from the Vault.
-Results can be filtered by specifying additioanl parameters
+Results can be filtered by specifying additional parameters
 Audit Users permission is required.
 
 .PARAMETER AppID

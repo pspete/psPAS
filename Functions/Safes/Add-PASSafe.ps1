@@ -18,7 +18,7 @@ Description of the new safe.
 Max 100 characters.
 
 .PARAMETER OLACEnabled
-Boolean value, dictatign whether or not to enable Object Level Access Control on the safe.
+Boolean value, dictating whether or not to enable Object Level Access Control on the safe.
 
 .PARAMETER ManagingCPM
 The Name of the CPM user to manage the safe.

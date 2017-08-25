@@ -13,7 +13,7 @@ All tips appreciated.
 Valid Credential object
 
 .PARAMETER SessionVariable
-After succesfull execution of this function, and authentication to the Vault, a WebSession
+After successful execution of this function, and authentication to the Vault, a WebSession
 object, that contains information about the connection and the request, including cookies,
 will be created and passed back in the return object.
 This can be passed to subsequent requests to ensure websessions are persistant when the
@@ -40,7 +40,7 @@ A PSCredential Object can be piped to this function.
 CyberArk Session token; This token identifies the session with the vault, and
 is supplied to every other web service request in the same session.
 A WebSession object; This contains information about the connection and the request,
-including cookies. Can be supplied to other web servcie requests.
+including cookies. Can be supplied to other web service requests.
 baseURI; this is the URL provided as an input to this function, it can be piped to
 other functions from this return object.
 

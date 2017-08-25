@@ -6,7 +6,7 @@ Returns password for an account.
 .DESCRIPTION
 Returns password for an account identified by its AccountID.
 Will not return SSH Keys.
-Cannot be used if a reson for password access must be specified.
+Cannot be used if a reason for password access must be specified.
 
 .PARAMETER AccountID
 The ID of the account whose password will be retrieved.

@@ -80,13 +80,13 @@ Sets DSN value on matched account dbUser
  $token | Set-PASAccount -AccountID 21_3 -Folder Root -AccountName NewName `
  -DeviceType Database -PlatformID Oracle -Address dbServer.domain.com -UserName dbuser
 
- Will set the AccountName of accont with AccountID of 21_3 to "NewName".
+ Will set the AccountName of account with AccountID of 21_3 to "NewName".
  **Any/All additional properties of the account which are not specified via parameters will be cleared**
 
 .INPUTS
 All parameters, except "Properties", can be piped by property name.
 Accepts pipeline object from Get-PASAccount functions.
-When an object is piped into this function, propperites which are
+When an object is piped into this function, properties which are
 set on the account are automatically included in the request.
 If run without pipeline input, all existing properties of the account
 must be specified in the request, otherwise, any property values not
@@ -228,7 +228,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
         }
 
-        #If InputObejct is psPAS.CyberArk.Vault.Account
+        #If InputObject is psPAS.CyberArk.Vault.Account
         #i.e. receiving pipeline from Get-PASAccount
         If(($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account") {
 

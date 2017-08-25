@@ -22,7 +22,7 @@ Separate keywords with a space.
 
 .PARAMETER Safe
 The name of a Safe to search. The search will be carried out only in the Safes in the Vault
-that the authnticated used is authorized to access.
+that the authenticated used is authorized to access.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession

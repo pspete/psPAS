@@ -19,7 +19,7 @@ The name of the account’s user.
 The Command
 
 .PARAMETER CommandGroup
-Boolean for Command Grop
+Boolean for Command Group
 
 .PARAMETER PermissionType
 Allow or Deny permission
