@@ -10,21 +10,14 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
 ## Latest Update
 
+- Native error messages & CyberArk error codes now included in error output.
 - Added examples to all functions help text.
 - Hardcoded value for PVWA Virtual Directory removed:
   - You can now specify your own value if the PVWA is published under a Virtual Directory named something other than "PasswordVault".
 - Use of TLS 1.2 Security Protocol enforced for Web Requests.
 - [Pipeline Support](#Pipeline_Support), where possible, across all functions:
   - All output objects now also contain the URL value, Session Token & WebSession information to pass to subsequent functions on the pipeline.
-  - Wherever possible ValueFromPipelinebyPropertyName is set to $true, allowing chained commands like Get-Credential | New-PASSession | Get-PASUser | Set-PASUser
-- Secure Strings now required for Initial or Updated password values provided to the following functions:
-  - Add-PASAccount
-  - New-PASUser
-  - Set-PASUser
-  - New-PASSession
-- [psPAS.Format.ps1xml](psPAS.Format.ps1xml) now included:
-  - Defines views and default properties for psPAS output objects
-  - Use "Select-Object *" to see all properties of output objects if you are not seeing a property you expect.
+  - Wherever possible ValueFromPipelinebyPropertyName is set to $true, allowing chained commands like Get-PASUser | Set-PASUser
 
 ## Getting Started
 

@@ -5,10 +5,10 @@ Wrapper for Invoke-WebRequest to call REST method via API
 
 .DESCRIPTION
 Sends requests to web services, and where appropriate returns structured data.
-Acts as wrapper for the Invoke-WebRequest CmdLet so that status codes can be 
+Acts as wrapper for the Invoke-WebRequest CmdLet so that status codes can be
 queried and acted on.
 All requests are sent with ContentType=application/json.
-If the sessionVariable parameter is passed, the fnction will return a WebSession 
+If the sessionVariable parameter is passed, the function will return a WebSession
 object to be used on subsequent calls to the web service.
 
 .PARAMETER Method
@@ -25,8 +25,8 @@ The body of the request to send to the API
 The header of the request to send to the API.
 
 .PARAMETER SessionVariable
-If passed, will be sent to invoke-webrequest which in turn will create a websession 
-variable using the string value as the name. This variable will only exist in the current scope 
+If passed, will be sent to invoke-webrequest which in turn will create a websession
+variable using the string value as the name. This variable will only exist in the current scope
 so will be returned as a WebSession property in the output object.
 Cannot be specified with WebSession
 
@@ -40,7 +40,7 @@ Cannot be specified with SessionVariable
 
 .OUTPUTS
 Return data from the call to the REST API where content is returned
-Will additionaly contain a WebSession property containing a WebRequestSession object if SessionVariable 
+Will additionally contain a WebSession property containing a WebRequestSession object if SessionVariable
 parameter was specified.
 
 .NOTES
@@ -59,19 +59,19 @@ to ensure session persistence.
 
         [Parameter(Mandatory = $true)]
         [String]$URI,
-        
+
         [Parameter(Mandatory = $false)]
         [String]$Body,
-        
+
         [Parameter(Mandatory = $false)]
         [hashtable]$Headers,
-        
+
         [Parameter(
             Mandatory = $false,
             ParameterSetName="SessionVariable"
         )]
         [String]$SessionVariable,
-        
+
         [Parameter(
             Mandatory = $false,
             ParameterSetName="WebSession"
@@ -80,14 +80,14 @@ to ensure session persistence.
     )
 
     Begin{
-        
+
         Write-Debug "Function: $($MyInvocation.InvocationName)"
 
         #Add ContentType for all function calls
         $PSBoundParameters.Add("ContentType",'application/json')
 
         #If Tls12 Security Protocol is available
-        if(([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") -and 
+        if(([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") -and
 
             #And Tls12 is not already in use
             (-not ([System.Net.ServicePointManager]::SecurityProtocol -match "Tls12"))){
@@ -100,7 +100,7 @@ to ensure session persistence.
         Else{
 
             Write-Debug "Security Protocol: $([System.Net.ServicePointManager]::SecurityProtocol)"
-            
+
         }
 
     }
@@ -108,30 +108,34 @@ to ensure session persistence.
     Process{
 
         Write-Debug $PSBoundParameters.GetEnumerator()
-            
-        try{
-            
-            #make web request, splat PSBoundParameters 
-            $webResponse = Invoke-WebRequest @PSBoundParameters
 
-        } 
-        
+        try{
+
+            #make web request, splat PSBoundParameters
+            $webResponse = Invoke-WebRequest @PSBoundParameters -ErrorAction Stop
+
+            $StatusCode = $webResponse.StatusCode
+
+        }
+
         catch {
 
             #Catch any errors, save response
-            $webResponse = $_.Exception.Response
-            write-error $($webResponse.StatusCode.value__)
+            $StatusCode = $($_.Exception.Response).StatusCode.value__
+
+            Write-Debug $_
+
+            $response = $_ | ConvertFrom-Json
 
         }
 
         finally{
-           
-            Write-Debug "Status code: $($webResponse.StatusCode)"
-            
-            if( -not ($webResponse.StatusCode -match "20*")){
-                
+
+            Write-Debug "Status code: $StatusCode"
+
+			if( -not ($StatusCode -match "20*")) {
+
                 #Non 20X Status Codes
-                
                 <#
                 400 - Bad Request
                 401 - Unauthorised
@@ -140,12 +144,15 @@ to ensure session persistence.
                 404 - not found
                 500 - server error
                 #>
+
+                Write-Error -Message "[$StatusCode] $($response.ErrorMessage)" -ErrorId $response.ErrorCode
+
             }
 
             else{
 
                 #status code is of type 20x
-                #If there is a responce from the web request
+                #If there is a response from the web request
                 if($webResponse){
 
                     <#
@@ -157,11 +164,11 @@ to ensure session persistence.
 
                     #If Response has content
                     if($webResponse.content){
-                        
+
                         if(($webResponse.headers)["Content-Type"] -match "application/octet-stream"){
-                            
+
                             [System.Text.Encoding]::Ascii.GetString($($webResponse.content))
-  
+
                         }
 
                         Elseif(($webResponse.headers)["Content-Type"] -match "application/json"){
@@ -173,13 +180,13 @@ to ensure session persistence.
                             If($PSBoundParameters.ContainsKey("SessionVariable")){
 
                                 Write-verbose "SessionVariable Passed; Processing WebSession"
-                            
+
                                 #Add WebSession Object to Return Object
                                 $PASResponse | Add-ObjectDetail -PropertyToAdd @{
-                                
+
                                     #WebSession is stored in sessionVariable variable in current scope
                                     "WebSession" = $(Get-Variable $(Get-Variable sessionVariable).Value).Value
-                            
+
                                 } -Passthru $false
 
                             }
@@ -196,7 +203,7 @@ to ensure session persistence.
             }
 
         }
-    
+
     }
 
 }
