@@ -128,7 +128,7 @@ None
 		[securestring]$password,
 
 		[parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$username,

@@ -17,7 +17,7 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 - Use of TLS 1.2 Security Protocol enforced for Web Requests.
 - [Pipeline Support](#Pipeline_Support), where possible, across all functions:
   - All output objects now also contain the URL value, Session Token & WebSession information to pass to subsequent functions on the pipeline.
-  - Wherever possible ValueFromPipelinebyPropertyName is set to $true, allowing chained commands like Get-PASUser | Set-PASUser
+  - Wherever possible ValueFromPipelinebyPropertyName is set to $true, allowing chained commands like ```Get-PASUser | Set-PASUser```
 
 ## Getting Started
 
