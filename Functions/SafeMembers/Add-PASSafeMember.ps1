@@ -49,6 +49,7 @@ safe member on safe.
 .PARAMETER AddAccounts
 Boolean value defining if permission will be granted to safe member
 on safe.
+Includes UpdateAccountProperties (when adding or removing permission).
 
 .PARAMETER UpdateAccountContent
 Boolean value defining if AddAccounts permission will be granted to safe
