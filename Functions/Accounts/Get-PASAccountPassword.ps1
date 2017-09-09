@@ -26,7 +26,7 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
-$token | Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountCredentials
+$token | Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword
 
 Will return the password value of the account fond by Get-PASAccount:
 
