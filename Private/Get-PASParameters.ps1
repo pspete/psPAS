@@ -1,4 +1,4 @@
-﻿function Get-PASParameters {
+﻿function Get-PASParameter {
 	<#
 .SYNOPSIS
 Removes defined parameter values from a passed $PSBoundParameters object
@@ -28,10 +28,10 @@ For normal operation, there is no need to pass anything for the BaseParameters p
 The default value should be used.
 
 .EXAMPLE
-$PSBoundParameters | Get-PASParameters
+$PSBoundParameters | Get-PASParameter
 
 .EXAMPLE
-Get-PASParameters -Parameters $PSBoundParameters -ParametersToRemove param1,param2
+Get-PASParameter -Parameters $PSBoundParameters -ParametersToRemove param1,param2
 
 .INPUTS
 $PSBoundParameters object
@@ -44,6 +44,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 .LINK
 
 #>
+	[Alias("Get-PASParameters")]
 	[CmdletBinding()]
 	[OutputType('System.Collections.Hashtable')]
 	param(
