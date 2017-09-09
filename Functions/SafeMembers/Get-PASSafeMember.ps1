@@ -1,4 +1,4 @@
-﻿function Get-PASSafeMembers {
+﻿function Get-PASSafeMember {
 	<#
 .SYNOPSIS
 Lists the members of a Safe
@@ -25,7 +25,7 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
-$token | Get-PASSafeMembers -SafeName Target_Safe
+$token | Get-PASSafeMember -SafeName Target_Safe
 
 Lists all members with permissions on Target_Safe
 
@@ -47,6 +47,7 @@ To force all output to be shown, pipe to Select-Object *
 
 .LINK
 #>
+	[Alias("Get-PASSafeMembers")]
 	[CmdletBinding()]
 	param(
 		[parameter(
