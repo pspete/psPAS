@@ -1,5 +1,5 @@
 ﻿function Get-PASParameters {
-    <#
+	<#
 .SYNOPSIS
 Removes defined parameter values from a passed $PSBoundParameters object
 
@@ -7,7 +7,7 @@ Removes defined parameter values from a passed $PSBoundParameters object
 When passed a $PSBoundParameters hashtable, this function removes standard parameters
 (like Verbose/Confirm etc) and returns the passed object with only the non-standard
 parameters left in place.
-This enables the returned object to be used to cretae the required JSON object to pass
+This enables the returned object to be used to create the required JSON object to pass
 to the CyberArk REST API.
 
 .PARAMETER Parameters
@@ -20,8 +20,8 @@ object. Specifying additional parameter names/keys here means that the default v
 to the BaseParameters parameter will remain unchanged.
 
 .PARAMETER BaseParameters
-This is the default list of paramter names/keys which will be removed from the passed object.
-Contains all standard parmaters associated with PowerShell advanced functions, as well as
+This is the default list of parameter names/keys which will be removed from the passed object.
+Contains all standard parameters associated with PowerShell advanced functions, as well as
 additional parameter names related to the CyberArk REST API but which are never included in a
 JSON object sent to the API (URL for instance).
 For normal operation, there is no need to pass anything for the BaseParameters parameter.
@@ -44,61 +44,66 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(Position = 0,
-            Mandatory = $true,
-            ValueFromPipeline = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [Hashtable]$Parameters,
-        [parameter(Mandatory = $false)]
-        [array]$ParametersToRemove = @(),
-        [parameter(Mandatory = $false)]
-        [array]$BaseParameters = @("Debug",
-            "ErrorAction",
-            "ErrorVariable",
-            "OutVariable",
-            "OutBuffer",
-            "PipelineVariable",
-            "Verbose",
-            "WarningAction",
-            "WarningVariable",
-            "WhatIf",
-            "Confirm",
-            "sessionToken",
-            "BaseURI"
-            "AccountID",
-            "SessionVariable",
-            "WebSession",
-            "PVWAAppName")
-    )
+	[CmdletBinding()]
+	[OutputType('System.Collections.Hashtable')]
+	param(
+		[parameter(
+			Position = 0,
+			Mandatory = $true,
+			ValueFromPipeline = $true)]
+		[ValidateNotNullOrEmpty()]
+		[Hashtable]$Parameters,
 
-    BEGIN {
+		[parameter(
+			Mandatory = $false)]
+		[array]$ParametersToRemove = @(),
 
-        Write-Debug "Function: $($MyInvocation.InvocationName)"
+		[parameter(
+			Mandatory = $false)]
+		[array]$BaseParameters = @("Debug",
+			"ErrorAction",
+			"ErrorVariable",
+			"OutVariable",
+			"OutBuffer",
+			"PipelineVariable",
+			"Verbose",
+			"WarningAction",
+			"WarningVariable",
+			"WhatIf",
+			"Confirm",
+			"sessionToken",
+			"BaseURI"
+			"AccountID",
+			"SessionVariable",
+			"WebSession",
+			"PVWAAppName")
+	)
 
-    }#begin
+	BEGIN {
 
-    PROCESS {
+		Write-Debug "Function: $($MyInvocation.InvocationName)"
 
-        #Combine base parameters and any additional parameters to remove
-        ($BaseParameters + $ParametersToRemove) |
+	}#begin
 
-        ForEach-Object {
+	PROCESS {
 
-            Write-Debug "Removing Parameter: $_"
-            #remove specified parameters from passed values
-            $Parameters.Remove($_)
+		#Combine base parameters and any additional parameters to remove
+		($BaseParameters + $ParametersToRemove) |
 
-        }
+		ForEach-Object {
 
-    }#process
+			Write-Debug "Removing Parameter: $_"
+			#remove specified parameters from passed values
+			$Parameters.Remove($_)
 
-    END {
+		}
 
-        #Return Object
-        $Parameters
+	}#process
 
-    }#end
+	END {
+
+		#Return Object
+		$Parameters
+
+	}#end
 }
