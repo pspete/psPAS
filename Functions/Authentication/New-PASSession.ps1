@@ -82,7 +82,7 @@ To force all output to be shown, pipe to Select-Object *
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipeline = $true
 		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,

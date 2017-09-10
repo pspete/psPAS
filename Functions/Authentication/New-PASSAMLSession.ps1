@@ -52,7 +52,7 @@ other functions from this return object.
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipeline = $true
 		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,
