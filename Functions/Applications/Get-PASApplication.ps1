@@ -1,14 +1,30 @@
 ﻿function Get-PASApplication {
-    <#
+	<#
 .SYNOPSIS
-Returns a specific application
+Returns details of applications in the Vault
 
 .DESCRIPTION
-returns information about a specific application.
-Audit Users vault permission is required.
+Returns information on Applications from the Vault.
+Results can be filtered by specifying additional parameters.
+Applications can be found by name, or searched for.
+Audit Users permission is required.
 
 .PARAMETER AppID
-The name of the application
+Application Name
+
+.PARAMETER ExactMatch
+By Default, the function will search the vault.
+All found applications (based on parameters supplied) will be returned.
+When Specifying this parameter, the function will not search;
+data for the supplied AppID will be returned.
+
+.PARAMETER Location
+Location of the application in the Vault hierarchy.
+Default=\
+
+.PARAMETER IncludeSubLocations
+Will search be carried out in sublocations of specified location?
+Boolean
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -25,7 +41,12 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
-$token | Get-PASApplication newapp
+$token | Get-PASApplication
+
+Returns information on all defined applications
+
+.EXAMPLE
+$token | Get-PASApplication NewApp -ExactMatch
 
 Gets details of the application "NewApp":
 
@@ -33,8 +54,20 @@ AppID  Description       Location Disabled
 -----  -----------       -------- --------
 NewApp A new application \        False
 
+.EXAMPLE
+$token | Get-PASApplication NewApp
+
+Gets details of all application matching "NewApp":
+
+AppID   Description       Location Disabled
+-----   -----------       -------- --------
+NewApp  A new application \        False
+NewApp1 A new application \        False
+NewApp7 A new application \        False
+
 .INPUTS
-All parameters can be piped by property name
+All parameters can be piped by property name, except ExactMatch
+Should accept pipeline objects from other *-PASApplication* functions
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Application
@@ -50,69 +83,123 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$AppID,
+	[Alias("Get-PASApplications")]
+	[CmdletBinding(DefaultParameterSetName = 'byQuery')]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byAppID"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$AppID,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = "byAppID"
+		)]
+		[switch]$ExactMatch,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$Location,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
+		)]
+		[boolean]$IncludeSublocations,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-    BEGIN {}#begin
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-    PROCESS {
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        #URL for Request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID |
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-            Get-EscapedString)"
+	BEGIN {}#begin
 
-        #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+	PROCESS {
 
-    }#process
+		#Base URL for Request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications"
 
-    END {
+		#If AppID specified
+		If($($PSCmdlet.ParameterSetName) -eq "byAppID") {
 
-        if($result) {
+			#Build URL from base URL
+			$URI = "$URI/$($AppID | Get-EscapedString)"
 
-            $result.application | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Application -PropertyToAdd @{
+		}
 
-                "sessionToken" = $sessionToken
-                "WebSession"   = $WebSession
-                "BaseURI"      = $BaseURI
-                "PVWAAppName"  = $PVWAAppName
+		#If search query specified
+		ElseIf($($PSCmdlet.ParameterSetName) -eq "byQuery") {
 
-            }
+			#Get Parameters to include in request
+			$boundParameters = $PSBoundParameters | Get-PASParameters
 
-        }
-        #return result
+			#Create query string
+			$query = ($boundParameters.keys | ForEach-Object {
 
-    }#end
+					"$_=$($boundParameters[$_] | Get-EscapedString)"
+
+				}) -join '&'
+
+			#Build URL from base URL
+			$URI = "$URI`?$query"
+
+		}
+
+		#Send request to web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+
+	}#process
+
+	END {
+
+		if($result) {
+
+			#Return results
+			$result.application | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Application -PropertyToAdd @{
+
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
+
+			}
+
+		}
+
+	}#end
 
 }
