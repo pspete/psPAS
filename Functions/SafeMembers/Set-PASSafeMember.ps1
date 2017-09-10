@@ -140,7 +140,7 @@ To force all output to be shown, pipe to Select-Object *
 
 .LINK
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -368,24 +368,28 @@ To force all output to be shown, pipe to Select-Object *
 			#Ensure all levels of object are output
 		} | ConvertTo-Json -Depth 3
 
-		#Send request to webservice
-		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($SafeName, "Update Safe Permissions for '$MemberName'")) {
 
-		#format output
-		$result.member | Select-Object MembershipExpirationDate,
+			#Send request to webservice
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-		@{Name = "Permissions"; "Expression" = {
+			#format output
+			$result.member | Select-Object MembershipExpirationDate,
 
-				$_.Permissions | Where-Object {$_.value} | Select-Object -ExpandProperty key}
+			@{Name = "Permissions"; "Expression" = {
 
-		}  | Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMember -PropertyToAdd @{
+					$_.Permissions | Where-Object {$_.value} | Select-Object -ExpandProperty key}
 
-			"UserName"     = $MemberName
-			"SafeName"     = $SafeName
-			"sessionToken" = $sessionToken
-			"WebSession"   = $WebSession
-			"BaseURI"      = $BaseURI
-			"PVWAAppName"  = $PVWAAppName
+			}  | Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMember -PropertyToAdd @{
+
+				"UserName"     = $MemberName
+				"SafeName"     = $SafeName
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
+
+			}
 
 		}
 

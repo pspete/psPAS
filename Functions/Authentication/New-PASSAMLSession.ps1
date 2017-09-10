@@ -1,5 +1,5 @@
 ﻿function New-PASSAMLSession {
-    <#
+	<#
 .SYNOPSIS
 Authenticates a user to CyberArk Vault..... well it should
 Development is ongoing whilst the correct format of the
@@ -48,80 +48,84 @@ other functions from this return object.
 
 .LINK
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [PSCredential]$Credential,
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[PSCredential]$Credential,
 
-        [parameter(
-            Mandatory = $false
-        )]
-        [string]$SessionVariable = "PASSession",
+		[parameter(
+			Mandatory = $false
+		)]
+		[string]$SessionVariable = "PASSession",
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipeline = $false
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipeline = $false
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {
+	BEGIN {
 
-        #Construct URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
+		#Construct URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
 
-    }#begin
+	}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create base64 encoded token for header
-        $Token = [System.Text.Encoding]::UTF8.GetBytes("$($Credential.UserName):$($Credential.GetNetworkCredential().Password)")
-        $EncodedToken = [System.Convert]::ToBase64String($Token)
+		#Create base64 encoded token for header
+		$Token = [System.Text.Encoding]::UTF8.GetBytes("$($Credential.UserName):$($Credential.GetNetworkCredential().Password)")
+		$EncodedToken = [System.Convert]::ToBase64String($Token)
 
-        #add token to header
-        $Header = @{"Authorization" = "Basic $EncodedToken"}
+		#add token to header
+		$Header = @{"Authorization" = "Basic $EncodedToken"}
 
-        #create empty body
-        $Body = @{} | ConvertTo-Json
+		#create empty body
+		$Body = @{} | ConvertTo-Json
 
-        #Send Logon Request
-        $PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Header $Header -SessionVariable $SessionVariable
+		if($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon Using SAML Authentication")) {
 
-        #Return Object
-        [pscustomobject]@{
+			#Send Logon Request
+			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Header $Header -SessionVariable $SessionVariable
 
-            #Authentication Token
-            "sessionToken" = @{"Authorization" = $PASSession |
+			#Return Object
+			[pscustomobject]@{
 
-                #Required for all subsequent Web Service Calls
-                Select-Object -ExpandProperty CyberArkLogonResult
-            }
+				#Authentication Token
+				"sessionToken" = @{"Authorization" = $PASSession |
 
-            #WebSession Object
-            "WebSession"   = $PASSession |
+					#Required for all subsequent Web Service Calls
+					Select-Object -ExpandProperty CyberArkLogonResult
+				}
 
-            Select-Object -ExpandProperty WebSession
+				#WebSession Object
+				"WebSession"   = $PASSession |
 
-            #The Web Service URL the request was sent to
-            "BaseURI"      = $BaseURI
+				Select-Object -ExpandProperty WebSession
 
-            #The PVWA App Name/Virtual Directory
-            "PVWAAppName"  = $PVWAAppName
+				#The Web Service URL the request was sent to
+				"BaseURI"      = $BaseURI
 
-            #Set default properties to display in output
-        } | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
+				#The PVWA App Name/Virtual Directory
+				"PVWAAppName"  = $PVWAAppName
 
-    }#process
+				#Set default properties to display in output
+			} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
 
-    END {}#end
+		}
+
+	}#process
+
+	END {}#end
 }

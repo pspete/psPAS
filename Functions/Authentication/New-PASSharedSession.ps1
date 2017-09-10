@@ -1,5 +1,5 @@
 ﻿function New-PASSharedSession {
-    <#
+	<#
 .SYNOPSIS
 Authenticates a user to CyberArk Vault.
 
@@ -43,65 +43,69 @@ ConnectionNumber; the connectionNumber provided to this function.
 
 .LINK
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $false
-        )]
-        [string]$SessionVariable = "PASSession",
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $false
+		)]
+		[string]$SessionVariable = "PASSession",
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipeline = $false
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {
+	BEGIN {
 
-        #Construct URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logon"
+		#Construct URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logon"
 
-    }#begin
+	}#begin
 
-    PROCESS {
+	PROCESS {
 
-        $Body = @{} | ConvertTo-Json
+		$Body = @{} | ConvertTo-Json
 
-        #Send Logon Request
-        $PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable
+		if($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon Using Shared Authentication")) {
 
-        #Return Object
-        [pscustomobject]@{
+			#Send Logon Request
+			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable
 
-            #Authentication Token
-            "sessionToken" = @{"Authorization" = $PASSession |
+			#Return Object
+			[pscustomobject]@{
 
-                #Required for all subsequent Web Service Calls
-                Select-Object -ExpandProperty LogonResult
-            }
+				#Authentication Token
+				"sessionToken" = @{"Authorization" = $PASSession |
 
-            #WebSession Object
-            "WebSession"   = $PASSession |
+					#Required for all subsequent Web Service Calls
+					Select-Object -ExpandProperty LogonResult
+				}
 
-            Select-Object -ExpandProperty WebSession
+				#WebSession Object
+				"WebSession"   = $PASSession |
 
-            #The Web Service URL the request was sent to
-            "BaseURI"      = $BaseURI
+				Select-Object -ExpandProperty WebSession
 
-            #PVWA App Name/Virtual Directory
-            "PVWAAppName"  = $PVWAAppName
+				#The Web Service URL the request was sent to
+				"BaseURI"      = $BaseURI
 
-            #Set default properties to display in output
-        } | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
+				#PVWA App Name/Virtual Directory
+				"PVWAAppName"  = $PVWAAppName
 
-    }#process
+				#Set default properties to display in output
+			} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
 
-    END {}#end
+		}
+
+	}#process
+
+	END {}#end
 }

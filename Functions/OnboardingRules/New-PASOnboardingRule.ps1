@@ -1,5 +1,5 @@
 ﻿function New-PASOnboardingRule {
-    <#
+	<#
 .SYNOPSIS
 Adds a new on-boarding rule to the Vault
 
@@ -66,101 +66,103 @@ Not Tested
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateLength(1, 99)]
-        [string]$DecisionPlatformId,
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateLength(1, 99)]
+		[string]$DecisionPlatformId,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateLength(1, 28)]
-        [string]$DecisionSafeName,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateLength(1, 28)]
+		[string]$DecisionSafeName,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateSet("Yes", "No")]
-        [String]$IsAdminUIDFilter,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateSet("Yes", "No")]
+		[String]$IsAdminUIDFilter,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateSet("Workstation", "Server")]
-        [string]$MachineTypeFilter,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateSet("Workstation", "Server")]
+		[string]$MachineTypeFilter,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateSet("Windows", "Unix")]
-        [string]$SystemTypeFilter,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateSet("Windows", "Unix")]
+		[string]$SystemTypeFilter,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateLength(0, 512)]
-        [string]$UserNameFilter,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateLength(0, 512)]
+		[string]$UserNameFilter,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI<#,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI<#,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
         [string]$PVWAAppName = "PasswordVault"#>
-    )
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules"
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules"
 
-        #create request body
-        $body = $PSBoundParameters | Get-PASParameters | ConvertTo-Json
+		#create request body
+		$body = $PSBoundParameters | Get-PASParameters | ConvertTo-Json
 
-        #send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($DecisionSafeName, "Add On-Boarding Rule Using '$DecisionPlatformID'")) {
 
-    }#process
+			#send request to web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-    END {
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
 
-        $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				#"PVWAAppName"  = $PVWAAppName
 
-            "sessionToken" = $sessionToken
-            "WebSession"   = $WebSession
-            "BaseURI"      = $BaseURI
-            #"PVWAAppName"  = $PVWAAppName
+			}
 
-        }
+		}
 
-    }#end
+	}#process
+
+	END {}#end
 
 }

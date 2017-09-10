@@ -1,5 +1,5 @@
 ﻿function Set-PASAccount {
-    <#
+	<#
 .SYNOPSIS
 Updates an existing accounts details.
 
@@ -112,194 +112,196 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$AccountID,
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$AccountID,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$Folder,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$Folder,
 
-        [Alias("Name")]
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$AccountName,
+		[Alias("Name")]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$AccountName,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$DeviceType,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$DeviceType,
 
-        [Alias("PolicyID")]
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PlatformID,
+		[Alias("PolicyID")]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PlatformID,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$Address,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$Address,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$UserName,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$UserName,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$GroupName,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$GroupName,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$GroupPlatformID,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$GroupPlatformID,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelineByPropertyName = $false
-        )]
-        [hashtable]$Properties = @{},
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelineByPropertyName = $false
+		)]
+		[hashtable]$Properties = @{},
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipeline = $true
-        )]
-        [psobject]$InputObject,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $true
+		)]
+		[psobject]$InputObject,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for Request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
+		#Create URL for Request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
 
-        #Get all parameters that will be sent in the request
-        $boundParameters = $PSBoundParameters | Get-PASParameters -ParametersToRemove InputObject
+		#Get all parameters that will be sent in the request
+		$boundParameters = $PSBoundParameters | Get-PASParameters -ParametersToRemove InputObject
 
-        if($PSBoundParameters.ContainsKey("Properties")) {
+		if($PSBoundParameters.ContainsKey("Properties")) {
 
-            #Format "Properties" parameter value.
-            #Array of key=value pairs required for JSON convertion
-            $boundParameters["Properties"] = @($boundParameters["Properties"].getenumerator() |
+			#Format "Properties" parameter value.
+			#Array of key=value pairs required for JSON convertion
+			$boundParameters["Properties"] = @($boundParameters["Properties"].getenumerator() |
 
-                ForEach-Object {$_})
+				ForEach-Object {$_})
 
-        }
+		}
 
-        #If InputObject is psPAS.CyberArk.Vault.Account
-        #i.e. receiving pipeline from Get-PASAccount
-        If(($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account") {
+		#If InputObject is psPAS.CyberArk.Vault.Account
+		#i.e. receiving pipeline from Get-PASAccount
+		If(($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account") {
 
-            Write-Verbose "Processing psPAS.CyberArk.Vault.Account Properties"
+			Write-Verbose "Processing psPAS.CyberArk.Vault.Account Properties"
 
-            #Get all existing properties as defined by input object:
-            #Process Pipeline input object properties
-            $InputObject |
+			#Get all existing properties as defined by input object:
+			#Process Pipeline input object properties
+			$InputObject |
 
-            #exclude properties output by get-pasaccount not applicable to set-pasaccount request
-            Select-Object -Property * -ExcludeProperty Name, PolicyID, Safe |
+			#exclude properties output by get-pasaccount not applicable to set-pasaccount request
+			Select-Object -Property * -ExcludeProperty Name, PolicyID, Safe |
 
-            #get all remaining noteproperties
-            Get-Member -MemberType "NoteProperty" |
+			#get all remaining noteproperties
+			Get-Member -MemberType "NoteProperty" |
 
-            #For each property
-            ForEach-Object {
+			#For each property
+			ForEach-Object {
 
-                #Initialise hashtable
-                $ExistingProperty = @{}
+				#Initialise hashtable
+				$ExistingProperty = @{}
 
-                #if property is not bound to function parameter by name,
-                if(!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
+				#if property is not bound to function parameter by name,
+				if(!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
 
-                            #if not being explicitly updated.
-                            $($Properties).ContainsKey($($_.Name))))) {
+							#if not being explicitly updated.
+							$($Properties).ContainsKey($($_.Name))))) {
 
-                    Write-Debug "Adding $($_.Name) = $($InputObject.$($_.Name)) as Account Property"
-                    [hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
+					Write-Debug "Adding $($_.Name) = $($InputObject.$($_.Name)) as Account Property"
+					[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
 
-                    #Add to Properties node of request data
-                    [array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object {$_}
-                    #any existing properties of an account not sent in a "set" request will be cleared on the account.
-                    #This ensures correctly formatted request with all existing account properties included
-                    #when function is sent data via the pipeline.
+					#Add to Properties node of request data
+					[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object {$_}
+					#any existing properties of an account not sent in a "set" request will be cleared on the account.
+					#This ensures correctly formatted request with all existing account properties included
+					#when function is sent data via the pipeline.
 
-                }
+				}
 
-            }
+			}
 
-        }
+		}
 
-        #Create body of request
-        $body = @{
+		#Create body of request
+		$body = @{
 
-            "Accounts" = $boundParameters
+			"Accounts" = $boundParameters
 
-            #ensure nodes at all required depths are included in the JSON object
-        } | ConvertTo-Json -Depth 3
+			#ensure nodes at all required depths are included in the JSON object
+		} | ConvertTo-Json -Depth 3
 
-        #send request to PAS web service
-        $Result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($AccountID, "Update Account Properties")) {
 
-    }#process
+			#send request to PAS web service
+			$Result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-    END {
+			If($Result) {
 
-        If($Result) {
+				$Result.UpdateAccountResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account -PropertyToAdd @{
 
-            $Result.UpdateAccountResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account -PropertyToAdd @{
+					"AccountID"    = $AccountID
+					"sessionToken" = $sessionToken
+					"WebSession"   = $WebSession
+					"BaseURI"      = $BaseURI
+					"PVWAAppName"  = $PVWAAppName
 
-                "AccountID"    = $AccountID
-                "sessionToken" = $sessionToken
-                "WebSession"   = $WebSession
-                "BaseURI"      = $BaseURI
-                "PVWAAppName"  = $PVWAAppName
+				}
 
-            }
+			}
 
-        }
+		}
 
-    }#end
+	}#process
+
+	END {}#end
 
 }

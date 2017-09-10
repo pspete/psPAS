@@ -1,5 +1,5 @@
-﻿function Get-EscapedString{
-<#
+﻿function Get-EscapedString {
+	<#
 .SYNOPSIS
 Outputs escaped string value.
 
@@ -15,7 +15,7 @@ String to escape
 "Safe Name" | Get-EscapedString
 
 .INPUTS
-String Value 
+String Value
 
 .OUTPUTS
 Escaped String Value
@@ -25,25 +25,26 @@ Escaped String Value
 .LINK
 
 #>
-    [CmdletBinding()]  
-    param(  
-        [parameter(
-            Mandatory=$true,
-            ValueFromPipeline=$true
-        )]
-        [string]$inputString
+	[CmdletBinding()]
+	[OutputType('System.String')]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true
+		)]
+		[string]$inputString
 
-    )
-    
-    Begin{}
+	)
 
-    Process{
-        
-        #Output escaped string
-        [System.Uri]::EscapeDataString($inputString)
+	Begin {}
 
-    }
+	Process {
 
-    End{}
+		#Output escaped string
+		[System.Uri]::EscapeDataString($inputString)
+
+	}
+
+	End {}
 
 }

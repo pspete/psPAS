@@ -1,14 +1,14 @@
-﻿function Get-PASSafeMembers {
+﻿function Get-PASApplicationAuthenticationMethod {
 	<#
 .SYNOPSIS
-Lists the members of a Safe
+Returns information about all of the authentication methods of a specific application.
 
 .DESCRIPTION
-Lists the members of a Safe.
-View Safe Members permission is required.
+Returns information about all of the authentication methods of a specific application.
+The user authenticated to the vault running the command must have the "Audit Users" permission.
 
-.PARAMETER SafeName
-The name of the safe to get the members of
+.PARAMETER AppID
+The name of the application for which information about authentication methods will be returned.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -25,17 +25,16 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
-$token | Get-PASSafeMembers -SafeName Target_Safe
+$token | Get-PASApplicationAuthenticationMethod -AppID NewApp
 
-Lists all members with permissions on Target_Safe
+Gets all authentication methods of application NewApp
 
 .INPUTS
 All parameters can be piped by property name
-Accepts pipeline input from *-PASSafe, or any function which
-contains SafeName in the output
+Should accept pipeline objects from other *-PASApplication* functions
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.SafeMember
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Application
 SessionToken, WebSession, BaseURI are passed through and
 contained in output object for inclusion in subsequent
 pipeline operations.
@@ -46,15 +45,16 @@ To force all output to be shown, pipe to Select-Object *
 .NOTES
 
 .LINK
+
 #>
+	[Alias("Get-PASApplicationAuthenticationMethods")]
 	[CmdletBinding()]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateNotNullOrEmpty()]
-		[string]$SafeName,
+		[string]$AppID,
 
 		[parameter(
 			Mandatory = $true,
@@ -85,34 +85,26 @@ To force all output to be shown, pipe to Select-Object *
 
 	PROCESS {
 
-		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes/$($SafeName |
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID |
 
-            Get-EscapedString)/Members"
+            Get-EscapedString)/Authentications"
 
-		#Send request to webservice
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
 	}#process
 
 	END {
 
-		#output
-		$result.members | Select-Object UserName, @{Name = "Permissions"; "Expression" = {
+		if($result) {
 
-				($_.Permissions).psobject.properties |Where-Object {$_.Value -eq $true} |
+			$result.authentication | Add-ObjectDetail -typename psPAS.CyberArk.Vault.ApplicationAuth -PropertyToAdd @{
 
-				Select-Object -ExpandProperty Name }
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
 
-		} |
-
-		Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMember -PropertyToAdd @{
-
-			"SafeName"     = $SafeName
-			"sessionToken" = $sessionToken
-			"WebSession"   = $WebSession
-			"BaseURI"      = $BaseURI
-			"PVWAAppName"  = $PVWAAppName
+			}
 
 		}
 

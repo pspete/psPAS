@@ -10,14 +10,14 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
 ## Latest Update
 
+- PSScriptAnalyzer recommendations [implemented](https://github.com/pspete/psPAS/issues/30).
+
+- ```Get-PASApplications``` & ```Get-PASApplication``` Functions Merged.
+
+  - Get-PASApplication Function Updated to be able to search for Applications.
+  - Get-PASApplications function removed
+
 - Native error messages & CyberArk error codes now included in error output.
-- Added examples to all functions help text.
-- Hardcoded value for PVWA Virtual Directory removed:
-  - You can now specify your own value if the PVWA is published under a Virtual Directory named something other than "PasswordVault".
-- Use of TLS 1.2 Security Protocol enforced for Web Requests.
-- [Pipeline Support](#Pipeline_Support), where possible, across all functions:
-  - All output objects now also contain the URL value, Session Token & WebSession information to pass to subsequent functions on the pipeline.
-  - Wherever possible ValueFromPipelinebyPropertyName is set to $true, allowing chained commands like ```Get-PASUser | Set-PASUser```
 
 ## Getting Started
 
@@ -160,7 +160,7 @@ Add-PASApplicationAuthenticationMethod -AuthType machineAddress -AuthValue "F.Q.
 ```powershell
 
 $token | Get-PASApplication -AppID testapp |
-Get-PASApplicationAuthenticationMethods |
+Get-PASApplicationAuthenticationMethod |
 Where-Object{$_.AuthValue -eq "F.Q.D.N"} |
 Remove-PASApplicationAuthenticationMethod
 
@@ -171,7 +171,7 @@ Remove-PASApplicationAuthenticationMethod
 ```powershell
 
 $token | Get-PASApplication -AppID testapp |
-Get-PASApplicationAuthenticationMethods |
+Get-PASApplicationAuthenticationMethod |
 Remove-PASApplicationAuthenticationMethod
 
 ```
@@ -207,12 +207,12 @@ Chapeau!
 |CyberArk Version|Supported psPAS Module Functions|
 |:---:|:---|
 |9.0|`New-PASSession` (CyberArk Authentication Only)<br/>`Close-PASSession`<br/>`Add-PASAccount`<br/>`Get-PASPolicyACL`<br/>`Add-PASPolicyACL`<br/>`Remove-PASPolicyACL`<br/>`Get-PASAccountACL`<br/>`Add-PASAccountACL`<br/>`Remove-PASAccountACL`<br/><br/>|
-|9.1|All Previous Functions, and:<br/>`Get-PASApplications`<br/>`Get-PASApplication`<br/>`Add-PASApplication`<br/>`Get-PASApplicationAuthenticationMethods`<br/>`Add-PASApplicationAuthenticationMethod`<br/>`Remove-PASApplication`<br/>`Remove-PASApplicationAuthenticationMethod`<br/><br/>|
+|9.1|All Previous Functions, and:<br/>`Get-PASApplication`<br/>`Add-PASApplication`<br/>`Get-PASApplicationAuthenticationMethod`<br/>`Add-PASApplicationAuthenticationMethod`<br/>`Remove-PASApplication`<br/>`Remove-PASApplicationAuthenticationMethod`<br/><br/>|
 |9.2|All Previous Functions, and:<br/>`Add-PASSafe`<br/><br/>|
 |9.3|All Previous Functions, and:<br/>`Get-PASAccount`<br/>`Remove-PASAccount`<br/>`Start-PASCredChange`<br/>`Set-PASSafe`<br/>`Remove-PASSafe`<br/>`Add-PASSafeMember`<br/>`Set-PASSafeMember`<br/>`Remove-PASSafeMember`<br/><br/>|
 |9.4|All Previous Functions<br/><br/>|
 |9.5|All Previous Functions, and:<br/>`Set-PASAccount`<br/><br/>|
 |9.6|All Previous Functions, and:<br/>`Add-PASPublicSSHKey`<br/>`Get-PASPublicSSHKey`<br/>`Remove-PASPublicSSHKey`<br/><br/>|
-|9.7|All Previous Functions, and:<br/>`New-PASSession` (CyberArk, LDAP, RADIUS Authentication)<br/>`New-PASSAMLSession` (*In Development)<br/>`Close-PASSAMLSession` (*In Development)<br/>`New-PASSharedSession`<br/>`Close-PASSharedSession`<br/>`Get-PASServerWebService`<br/>`Get-PASSafeShareLogo`<br/>`Get-PASServer`<br/>`New-PASUser`<br/>`Set-PASUser`<br/>`Remove-PASUser`<br/>`Get-PASLoggedOnUser`<br/>`Get-PASUser`<br/>`Unblock-PASUser`<br/>`Add-PASGroupMember`<br/>`Add-PASPendingAccount`<br/>`Get-PASAccountCredentials`<br/>`Start-PASCredVerify`<br/>`Get-PASAccountActivity`<br/>`Get-PASSafe`<br/>`Get-PASSafeMembers`<br/><br/>|
+|9.7|All Previous Functions, and:<br/>`New-PASSession` (CyberArk, LDAP, RADIUS Authentication)<br/>`New-PASSAMLSession` (*In Development)<br/>`Close-PASSAMLSession` (*In Development)<br/>`New-PASSharedSession`<br/>`Close-PASSharedSession`<br/>`Get-PASServerWebService`<br/>`Get-PASSafeShareLogo`<br/>`Get-PASServer`<br/>`New-PASUser`<br/>`Set-PASUser`<br/>`Remove-PASUser`<br/>`Get-PASLoggedOnUser`<br/>`Get-PASUser`<br/>`Unblock-PASUser`<br/>`Add-PASGroupMember`<br/>`Add-PASPendingAccount`<br/>`Get-PASAccountPassword`<br/>`Start-PASCredVerify`<br/>`Get-PASAccountActivity`<br/>`Get-PASSafe`<br/>`Get-PASSafeMember`<br/><br/>|
 |9.8|All Previous Functions, and:<br/>`New-PASOnboardingRule`<br/>`Remove-PASOnboardingRule`<br/>`Get-PASOnboardingRule`<br/><br/>|
 |9.9|All Previous Functions, and:<br/>`New-PASAccountGroup`<br/>`Add-PASAccountGroupMember`<br/><br/>|
