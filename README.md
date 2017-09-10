@@ -10,14 +10,14 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
 ## Latest Update
 
+- PSScriptAnalyzer recommendations [implemented](https://github.com/pspete/psPAS/issues/30).
+
+- ```Get-PASApplications``` & ```Get-PASApplication``` Functions Merged.
+
+  - Get-PASApplication Function Updated to be able to search for Applications.
+  - Get-PASApplications function removed
+
 - Native error messages & CyberArk error codes now included in error output.
-- Added examples to all functions help text.
-- Hardcoded value for PVWA Virtual Directory removed:
-  - You can now specify your own value if the PVWA is published under a Virtual Directory named something other than "PasswordVault".
-- Use of TLS 1.2 Security Protocol enforced for Web Requests.
-- [Pipeline Support](#Pipeline_Support), where possible, across all functions:
-  - All output objects now also contain the URL value, Session Token & WebSession information to pass to subsequent functions on the pipeline.
-  - Wherever possible ValueFromPipelinebyPropertyName is set to $true, allowing chained commands like ```Get-PASUser | Set-PASUser```
 
 ## Getting Started
 
@@ -160,7 +160,7 @@ Add-PASApplicationAuthenticationMethod -AuthType machineAddress -AuthValue "F.Q.
 ```powershell
 
 $token | Get-PASApplication -AppID testapp |
-Get-PASApplicationAuthenticationMethods |
+Get-PASApplicationAuthenticationMethod |
 Where-Object{$_.AuthValue -eq "F.Q.D.N"} |
 Remove-PASApplicationAuthenticationMethod
 
@@ -171,7 +171,7 @@ Remove-PASApplicationAuthenticationMethod
 ```powershell
 
 $token | Get-PASApplication -AppID testapp |
-Get-PASApplicationAuthenticationMethods |
+Get-PASApplicationAuthenticationMethod |
 Remove-PASApplicationAuthenticationMethod
 
 ```
