@@ -1,5 +1,5 @@
 ﻿function Start-PASCredChange {
-    <#
+	<#
 .SYNOPSIS
 Initiates an immediate password change by the CPM to a new random password.
 
@@ -56,89 +56,92 @@ None
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$AccountID,
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$AccountID,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [ValidateSet('Yes', 'No')]
-        [string]$ImmediateChangeByCPM,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[ValidateSet('Yes', 'No')]
+		[string]$ImmediateChangeByCPM,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [ValidateSet('Yes', 'No')]
-        [string]$ChangeCredForGroup,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[ValidateSet('Yes', 'No')]
+		[string]$ChangeCredForGroup,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$SessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$SessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {
+	BEGIN {
 
-        #Create empty hashtable to hold objects for header
-        #CredChange header is non-standard
-        $header = @{}
+		#Create empty hashtable to hold objects for header
+		#CredChange header is non-standard
+		$header = @{}
 
-    }#begin
+	}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID/ChangeCredentials"
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID/ChangeCredentials"
 
-        #Header is normally just session token
-        $header = $SessionToken
+		#Header is normally just session token
+		$header = $SessionToken
 
-        #Get parameters to include in request body
-        $boundParameters = $PSBoundParameters |
+		#Get parameters to include in request body
+		$boundParameters = $PSBoundParameters |
 
-        #ImmediateChangeByCPM must be sent in the request header
-        #remove it from the body of the request
-        Get-PASParameters -ParametersToRemove "ImmediateChangeByCPM"
+		#ImmediateChangeByCPM must be sent in the request header
+		#remove it from the body of the request
+		Get-PASParameters -ParametersToRemove "ImmediateChangeByCPM"
 
-        #add ImmediateChangeByCPM to header as key=value pair
-        $header["ImmediateChangeByCPM"] = $ImmediateChangeByCPM
+		#add ImmediateChangeByCPM to header as key=value pair
+		$header["ImmediateChangeByCPM"] = $ImmediateChangeByCPM
 
-        #create request body
-        $body = $boundParameters | ConvertTo-Json
+		#create request body
+		$body = $boundParameters | ConvertTo-Json
 
-        #send request to web service
-        Invoke-PASRestMethod -Uri $URI -Method PUT -body $body -Headers $header -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Change by CPM")) {
 
+			#send request to web service
+			Invoke-PASRestMethod -Uri $URI -Method PUT -body $body -Headers $header -WebSession $WebSession
 
-    }#process
+		}
 
-    END {}#end
+	}#process
+
+	END {}#end
 
 }

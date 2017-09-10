@@ -1,5 +1,5 @@
 ﻿function New-PASSession {
-    <#
+	<#
 .SYNOPSIS
 Authenticates a user to CyberArk Vault.
 
@@ -78,119 +78,123 @@ To force all output to be shown, pipe to Select-Object *
 
 .LINK
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [PSCredential]$Credential,
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[PSCredential]$Credential,
 
-        [Parameter(
-            Mandatory = $false,
-            ValueFromPipeline = $false
-        )]
-        [SecureString]$newPassword,
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[SecureString]$newPassword,
 
-        [Parameter(
-            Mandatory = $false,
-            ValueFromPipeline = $false
-        )]
-        [bool]$useRadiusAuthentication,
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[bool]$useRadiusAuthentication,
 
-        [Parameter(
-            Mandatory = $false,
-            ValueFromPipeline = $false
-        )]
-        [ValidateRange(1, 100)]
-        [string]$connectionNumber,
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[ValidateRange(1, 100)]
+		[string]$connectionNumber,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipeline = $false
-        )]
-        [string]$SessionVariable = "PASSession",
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[string]$SessionVariable = "PASSession",
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipeline = $false
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipeline = $false
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {
+	BEGIN {
 
-        #Construct URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
+		#Construct URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
 
 
-    }#begin
+	}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Get request parameters
-        $boundParameters = $PSBoundParameters | Get-PASParameters -ParametersToRemove Credential
+		#Get request parameters
+		$boundParameters = $PSBoundParameters | Get-PASParameters -ParametersToRemove Credential
 
-        #Add user name form credential object
-        $boundParameters["username"] = $($Credential.UserName)
-        #Add decoded password value from credential object
-        $boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
+		#Add user name form credential object
+		$boundParameters["username"] = $($Credential.UserName)
+		#Add decoded password value from credential object
+		$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
 
-        #deal with newPassword SecureString
-        if($PSBoundParameters.ContainsKey("newPassword")) {
+		#deal with newPassword SecureString
+		if($PSBoundParameters.ContainsKey("newPassword")) {
 
-            #Create New Credential object
-            $PwdUpdate = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
+			#Create New Credential object
+			$PwdUpdate = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
 
-                #Assign Credential USerName and newPassword
-                $Credential.UserName), $newPassword
+				#Assign Credential USerName and newPassword
+				$Credential.UserName), $newPassword
 
-            #Include decoded password in request
-            $boundParameters["newPassword"] = $($PwdUpdate.GetNetworkCredential().Password)
+			#Include decoded password in request
+			$boundParameters["newPassword"] = $($PwdUpdate.GetNetworkCredential().Password)
 
-        }
+		}
 
-        #Construct Request Body
-        $body = $boundParameters | ConvertTo-Json
+		#Construct Request Body
+		$body = $boundParameters | ConvertTo-Json
 
-        #Send Logon Request
-        $PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable
+		if($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon with User '$($boundParameters["username"])'")) {
 
-        #Return Object
-        [pscustomobject]@{
+			#Send Logon Request
+			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable
 
-            #Authentication Token
-            "sessionToken"     = @{"Authorization" = $PASSession |
+			#Return Object
+			[pscustomobject]@{
 
-                #Required for all subsequent Web Service Calls
-                Select-Object -ExpandProperty CyberArkLogonResult
-            }
+				#Authentication Token
+				"sessionToken"     = @{"Authorization" = $PASSession |
 
-            #WebSession Object
-            "WebSession"       = $PASSession |
+					#Required for all subsequent Web Service Calls
+					Select-Object -ExpandProperty CyberArkLogonResult
+				}
 
-            Select-Object -ExpandProperty WebSession
+				#WebSession Object
+				"WebSession"       = $PASSession |
 
-            #The Web Service URL the request was sent to
-            "BaseURI"          = $BaseURI
+				Select-Object -ExpandProperty WebSession
 
-            #PVWA Application Name/Virtual Directory
-            "PVWAAppName"      = $PVWAAppName
+				#The Web Service URL the request was sent to
+				"BaseURI"          = $BaseURI
 
-            #The Connection Number
-            "ConnectionNumber" = $connectionNumber
+				#PVWA Application Name/Virtual Directory
+				"PVWAAppName"      = $PVWAAppName
 
-            #Set default properties to display in output
-        } | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
+				#The Connection Number
+				"ConnectionNumber" = $connectionNumber
 
-    }#process
+				#Set default properties to display in output
+			} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
 
-    END {}#end
+		}
+
+	}#process
+
+	END {}#end
 }

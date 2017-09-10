@@ -1,5 +1,5 @@
 ﻿function Remove-PASSafeMember {
-    <#
+	<#
 .SYNOPSIS
 Removes a member from a safe
 
@@ -44,64 +44,68 @@ None
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$SafeName,
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$SafeName,
 
-        [Alias("UserName")]
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$MemberName,
+		[Alias("UserName")]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$MemberName,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$SessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$SessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes/$($SafeName |
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes/$($SafeName |
 
             Get-EscapedString)/Members/$($MemberName |
 
                 Get-EscapedString)"
 
-        #Send Delete request to web service
-        Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($SafeName, "Remove Safe Member '$MemberName'")) {
 
-    }#process
+			#Send Delete request to web service
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
-    END {}#end
+		}
+
+	}#process
+
+	END {}#end
 
 }

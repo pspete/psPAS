@@ -1,5 +1,5 @@
 ﻿function Remove-PASPublicSSHKey {
-    <#
+	<#
 .SYNOPSIS
 Deletes a specific Public SSH Key from a specific vault user.
 
@@ -48,57 +48,61 @@ TODO
 
 .LINK
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateScript( {$_ -notmatch ".*(%|\&|\+|\.).*"})]
-        [string]$UserName,
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateScript( {$_ -notmatch ".*(%|\&|\+|\.).*"})]
+		[string]$UserName,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$KeyID,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$KeyID,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$SessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$SessionToken,
 
-        [parameter(ValueFromPipelinebyPropertyName = $true)]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(ValueFromPipelinebyPropertyName = $true)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL string for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
+		#Create URL string for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
 
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/$KeyID"
 
-        #Send Request to web service
-        Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $SessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($KeyID, "Delete Public SSH Key")) {
 
-    }#process
+			#Send Request to web service
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $SessionToken -WebSession $WebSession
 
-    END {}#end
+		}
+
+	}#process
+
+	END {}#end
 }

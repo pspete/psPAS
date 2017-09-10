@@ -1,5 +1,5 @@
 ﻿function Remove-PASPolicyACL {
-    <#
+	<#
 .SYNOPSIS
 Delete all privileged commands on policy
 
@@ -42,63 +42,67 @@ None
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$PolicyID,
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$PolicyID,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$Id,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$Id,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
-    )
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create base URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Policy/$($PolicyID |
+		#Create base URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Policy/$($PolicyID |
 
             Get-EscapedString)/PrivilegedCommands/$($Id |
 
                 Get-EscapedString)"
 
-        #send request to web service
-        Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($PolicyID, "Delete Rule $Id")) {
 
-    }#process
+			#send request to web service
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
-    END {}#end
+		}
+
+	}#process
+
+	END {}#end
 
 }

@@ -1,5 +1,5 @@
 ﻿function Remove-PASAccount {
-    <#
+	<#
 .SYNOPSIS
 Deletes an account
 
@@ -41,52 +41,56 @@ None
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$AccountID,
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$AccountID,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
-    )
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
 
-        #Send request to webservice
-        Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($AccountID, "Delete Account")) {
 
-    }#process
+			#Send request to webservice
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
-    END {}#end
+		}
+
+	}#process
+
+	END {}#end
 }

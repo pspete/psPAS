@@ -1,5 +1,5 @@
 ﻿function Set-PASUser {
-    <#
+	<#
 .SYNOPSIS
 Updates a vault user
 
@@ -74,143 +74,144 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$UserName,
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$UserName,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [securestring]$NewPassword,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[securestring]$NewPassword,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [string]$Email,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[string]$Email,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [string]$FirstName,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[string]$FirstName,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [string]$LastName,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[string]$LastName,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [boolean]$ChangePasswordOnTheNextLogon,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[boolean]$ChangePasswordOnTheNextLogon,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [ValidateScript( {
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[ValidateScript( {
 
-                ($_ -match '^(((0[13578]|1[02])[/](0[1-9]|[12][0-9]|3[01])|(0[469]|11)[/](0[1-9]|[12][0-9]|30)|02[/](0[1-9]|1\d|2[0-8]))[/]\d{4}|02[/]29[/](\d{2}(0[48]|[2468][048]|[13579][26])|([02468][048]|[1359][26])00))$')
+				($_ -match '^(((0[13578]|1[02])[/](0[1-9]|[12][0-9]|3[01])|(0[469]|11)[/](0[1-9]|[12][0-9]|30)|02[/](0[1-9]|1\d|2[0-8]))[/]\d{4}|02[/]29[/](\d{2}(0[48]|[2468][048]|[13579][26])|([02468][048]|[1359][26])00))$')
 
-            })]
-        [string]$ExpiryDate,
+			})]
+		[string]$ExpiryDate,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [string]$UserTypeName,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[string]$UserTypeName,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [boolean]$Disabled,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[boolean]$Disabled,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [string]$Location,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[string]$Location,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Get request parameters
-        $boundParameters = $PSBoundParameters | Get-PASParameters -ParametersToRemove UserName
+		#Get request parameters
+		$boundParameters = $PSBoundParameters | Get-PASParameters -ParametersToRemove UserName
 
-        #deal with newPassword SecureString
-        If($PSBoundParameters.ContainsKey("NewPassword")) {
+		#deal with newPassword SecureString
+		If($PSBoundParameters.ContainsKey("NewPassword")) {
 
-            #Create New Credential object
-            $NewPwd = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
+			#Create New Credential object
+			$NewPwd = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
 
-                #Assign UserName and newPassword
-                $UserName), $NewPassword
+				#Assign UserName and newPassword
+				$UserName), $NewPassword
 
-            #Inclued decoded password in request
-            $boundParameters["NewPassword"] = $($NewPwd.GetNetworkCredential().Password)
+			#Include decoded password in request
+			$boundParameters["NewPassword"] = $($NewPwd.GetNetworkCredential().Password)
 
-        }
+		}
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
 
             Get-EscapedString)"
 
-        #create request body
-        $body = $boundParameters | ConvertTo-Json
+		#create request body
+		$body = $boundParameters | ConvertTo-Json
 
-        #send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($UserName, "Update User Properties")) {
+			#send request to web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-    }#process
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User -PropertyToAdd @{
 
-    END {
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
 
-        $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User -PropertyToAdd @{
+			}
 
-            "sessionToken" = $sessionToken
-            "WebSession"   = $WebSession
-            "BaseURI"      = $BaseURI
-            "PVWAAppName"  = $PVWAAppName
+		}
 
-        }
+	}#process
 
-    }#end
+	END {}#end
 
 }
