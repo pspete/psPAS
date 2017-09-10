@@ -1,5 +1,5 @@
 ﻿function Get-PASServerWebService {
-    <#
+	<#
 .SYNOPSIS
 Returns details of the Web Service
 
@@ -35,47 +35,45 @@ ServerName, ServerID, ApplicationName & Available Authentication Methods
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Verify"
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Verify"
 
-        #send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		#send request to web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
 
-    }#process
+		if($result) {
 
-    END {
+			#return results
+			$result | Select-Object ServerName, ServerId, ApplicationName , AuthenticationMethods
 
-        if($result) {
+		}
 
-            #return results
-            $result | Select-Object ServerName, ServerId, ApplicationName , AuthenticationMethods
+	}#process
 
-        }
-
-    }#end
+	END {}#end
 }

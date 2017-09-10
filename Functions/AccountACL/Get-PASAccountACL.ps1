@@ -1,5 +1,5 @@
 ﻿function Get-PASAccountACL {
-    <#
+	<#
 .SYNOPSIS
 Lists privileged commands rule for an account
 
@@ -57,63 +57,63 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Alias("PolicyID")]
-        [string]$AccountPolicyId,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Alias("PolicyID")]
+		[string]$AccountPolicyId,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Alias("Address")]
-        [ValidateNotNullOrEmpty()]
-        [string]$AccountAddress,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Alias("Address")]
+		[ValidateNotNullOrEmpty()]
+		[string]$AccountAddress,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Alias("UserName")]
-        [ValidateNotNullOrEmpty()]
-        [string]$AccountUserName,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Alias("UserName")]
+		[ValidateNotNullOrEmpty()]
+		[string]$AccountUserName,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
-    )
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account/$($AccountAddress |
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account/$($AccountAddress |
 
             Get-EscapedString)|$($AccountUserName |
 
@@ -121,28 +121,26 @@ To force all output to be shown, pipe to Select-Object *
 
                     Get-EscapedString)/PrivilegedCommands"
 
-        #Send request to Web Service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession #DevSkim: ignore DS104456
+		#Send request to Web Service
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession #DevSkim: ignore DS104456
 
-    }#process
+		if($result) {
 
-    END {
+			$result.ListAccountPrivilegedCommandsResult |
 
-        if($result) {
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL -PropertyToAdd @{
 
-            $result.ListAccountPrivilegedCommandsResult |
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
 
-            Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL -PropertyToAdd @{
+			}
 
-                "sessionToken" = $sessionToken
-                "WebSession"   = $WebSession
-                "BaseURI"      = $BaseURI
-                "PVWAAppName"  = $PVWAAppName
+		}
 
-            }
+	}#process
 
-        }
-
-    }#end
+	END {}#end
 
 }

@@ -1,5 +1,5 @@
 ﻿function Add-PASPolicyACL {
-    <#
+	<#
 .SYNOPSIS
 Adds a new privileged command rule
 
@@ -61,112 +61,110 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$Command,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$Command,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [boolean]$CommandGroup,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[boolean]$CommandGroup,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateSet("Allow", "Deny")]
-        [string]$PermissionType,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateSet("Allow", "Deny")]
+		[string]$PermissionType,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$PolicyId,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$PolicyId,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$Restrictions,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$Restrictions,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$UserName,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$UserName,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Policy/$($PolicyID |
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Policy/$($PolicyID |
 
             Get-EscapedString)/PrivilegedCommands"
 
-        #Create request body
-        $body = $PSBoundParameters |
+		#Create request body
+		$body = $PSBoundParameters |
 
-        Get-PASParameters -ParametersToRemove PolicyId |
+		Get-PASParameters -ParametersToRemove PolicyId |
 
-        ConvertTo-Json
+		ConvertTo-Json
 
-        #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+		#Send request to web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-    }#process
+		if($result) {
 
-    END {
+			$result.AddPolicyPrivilegedCommandResult |
 
-        if($result) {
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL -PropertyToAdd @{
 
-            $result.AddPolicyPrivilegedCommandResult |
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
 
-            Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL -PropertyToAdd @{
+			}
 
-                "sessionToken" = $sessionToken
-                "WebSession"   = $WebSession
-                "BaseURI"      = $BaseURI
-                "PVWAAppName"  = $PVWAAppName
+		}
 
-            }
+	}#process
 
-        }
-
-    }#end
+	END {}#end
 
 }

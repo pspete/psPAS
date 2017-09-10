@@ -1,5 +1,5 @@
-﻿function Add-PASAccountGroupMember{
-<#
+﻿function Add-PASAccountGroupMember {
+	<#
 .SYNOPSIS
 Adds an account as a member of an account group.
 
@@ -51,82 +51,80 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$GroupID,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$GroupID,
 
-        [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
-        )]
-        [string]$AccountID,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$AccountID,
 
-        [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName=$true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory=$true,
-            ValueFromPipelinebyPropertyName=$true
-        )]
-        [string]$BaseURI<#,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI<#,
 
 		[parameter(
 			Mandatory=$false,
 			ValueFromPipelinebyPropertyName=$true
 		)]
 		[string]$PVWAAppName = "PasswordVault"#>
-    )
+	)
 
-    BEGIN{}#begin
+	BEGIN {}#begin
 
-    PROCESS{
+	PROCESS {
 
-        #Create URL for Request
-        $URI = "$baseURI/API/AccountGroups/$($GroupID |
+		#Create URL for Request
+		$URI = "$baseURI/API/AccountGroups/$($GroupID |
 
             Get-EscapedString)/Members"
 
-        #Create body of request
-        $body = $PSBoundParameters |
+		#Create body of request
+		$body = $PSBoundParameters |
 
-            Get-PASParameters -ParametersToRemove GroupID |
+		Get-PASParameters -ParametersToRemove GroupID |
 
-                ConvertTo-Json
+		ConvertTo-Json
 
-        #send request to PAS web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		#send request to PAS web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-    }#process
+		if($result) {
 
-    END{
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup -PropertyToAdd @{
 
-        if($result){
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				#"PVWAAppName" = $PVWAAppName
 
-            $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup -PropertyToAdd @{
+			}
 
-                            "sessionToken" = $sessionToken
-                            "WebSession" = $WebSession
-                            "BaseURI" = $BaseURI
-					        #"PVWAAppName" = $PVWAAppName
+		}
 
-            }
+	}#process
 
-        }
-
-    }#end
+	END {}#end
 
 }

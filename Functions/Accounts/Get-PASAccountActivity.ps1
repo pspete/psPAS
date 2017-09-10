@@ -1,5 +1,5 @@
 ﻿function Get-PASAccountActivity {
-    <#
+	<#
 .SYNOPSIS
 Returns activities for an account.
 
@@ -53,70 +53,68 @@ To force all output to be shown, pipe to Select-Object *
 .NOTES
 .LINK
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$AccountID,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$AccountID,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(ValueFromPipelinebyPropertyName = $true)]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(ValueFromPipelinebyPropertyName = $true)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
-    )
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create request URL
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$($AccountID |
+		#Create request URL
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$($AccountID |
 
             Get-EscapedString)/Activities"
 
-        #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		#Send request to web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-    }#process
+		If($result) {
 
-    END {
+			#Return Results
+			$result.GetAccountActivitiesResult |
 
-        If($result) {
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountActivity -PropertyToAdd @{
 
-            #Return Results
-            $result.GetAccountActivitiesResult |
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
 
-            Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountActivity -PropertyToAdd @{
+			}
 
-                "sessionToken" = $sessionToken
-                "WebSession"   = $WebSession
-                "BaseURI"      = $BaseURI
-                "PVWAAppName"  = $PVWAAppName
+		}
 
-            }
+	}#process
 
-        }
-
-    }#end
+	END {}#end
 
 }

@@ -1,5 +1,5 @@
 ﻿function Get-PASAccount {
-    <#
+	<#
 .SYNOPSIS
 Returns information about an account.
 
@@ -90,129 +90,127 @@ To force all output to be shown, pipe to Select-Object *
 .NOTES
 .LINK
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateLength(0, 500)]
-        [string]$Keywords,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateLength(0, 500)]
+		[string]$Keywords,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateLength(0, 28)]
-        [string]$Safe,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateLength(0, 28)]
+		[string]$Safe,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(ValueFromPipelinebyPropertyName = $true)]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(ValueFromPipelinebyPropertyName = $true)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
-    )
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Get Parameters to include in request
-        $boundParameters = $PSBoundParameters | Get-PASParameters
+		#Get Parameters to include in request
+		$boundParameters = $PSBoundParameters | Get-PASParameters
 
-        #Create Query String, escaped for inclusion in request URL
-        $query = ($boundParameters.keys | ForEach-Object {
+		#Create Query String, escaped for inclusion in request URL
+		$query = ($boundParameters.keys | ForEach-Object {
 
-                "$_=$($boundParameters[$_] | Get-EscapedString)"
+				"$_=$($boundParameters[$_] | Get-EscapedString)"
 
-            }) -join '&'
+			}) -join '&'
 
-        #Create request URL
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
+		#Create request URL
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
 
-        #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		#Send request to web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-        #Get count of accounts found
-        $count = $($result.count)
+		#Get count of accounts found
+		$count = $($result.count)
 
-        Write-Verbose "Accounts Found: $count"
+		Write-Verbose "Accounts Found: $count"
 
-        #If accounts found
-        if($count -gt 0) {
+		#If accounts found
+		if($count -gt 0) {
 
-            #If multiple accounts found
-            if($count -gt 1) {
+			#If multiple accounts found
+			if($count -gt 1) {
 
-                #Alert that web service only displays information on first result
-                Write-Warning "$count matching accounts found. Only the first result will be returned"
+				#Alert that web service only displays information on first result
+				Write-Warning "$count matching accounts found. Only the first result will be returned"
 
-            }
+			}
 
-            #Get account details from search result
-            $account = ($result | Select-Object accounts).accounts
+			#Get account details from search result
+			$account = ($result | Select-Object accounts).accounts
 
-            #Get account properties from found account
-            $properties = ($account | Select-Object -ExpandProperty properties)
+			#Get account properties from found account
+			$properties = ($account | Select-Object -ExpandProperty properties)
 
-            #Create output object
-            $return = New-object -TypeName psobject -Property @{
+			#Create output object
+			$return = New-object -TypeName psobject -Property @{
 
-                #Internal Unique ID of Account
-                "AccountID" = $($account | Select-Object -ExpandProperty AccountID)
+				#Internal Unique ID of Account
+				"AccountID" = $($account | Select-Object -ExpandProperty AccountID)
 
-                #Number of accounts found by query
-                #"Count" = $count
+				#Number of accounts found by query
+				#"Count" = $count
 
-            }
+			}
 
-            #For every account property
-            For($int = 0; $int -lt $properties.length; $int++) {
+			#For every account property
+			For($int = 0; $int -lt $properties.length; $int++) {
 
-                $return |
+				$return |
 
-                #Add each property name and value to results
-                Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value} -Passthru $false
+				#Add each property name and value to results
+				Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value} -Passthru $false
 
-            }
+			}
 
-        }
+		}
 
-    }#process
+		if($return) {
 
-    END {
+			#Return Results
+			$return | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account -PropertyToAdd @{
 
-        if($return) {
+				"sessionToken" = $sessionToken
+				"WebSession" = $WebSession
+				"BaseURI" = $BaseURI
+				"PVWAAppName" = $PVWAAppName
 
-            #Return Results
-            $return | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account -PropertyToAdd @{
+			}
 
-                "sessionToken" = $sessionToken
-                "WebSession" = $WebSession
-                "BaseURI" = $BaseURI
-                "PVWAAppName" = $PVWAAppName
+		}
 
-            }
+	}#process
 
-        }
-
-    }#end
+	END {}#end
 
 }

@@ -83,10 +83,6 @@ Not Tested
 
 		Write-Debug "Rules Found: $($result.Total)"
 
-	}#process
-
-	END {
-
 		$result.AutomaticOnboardingRules |
 
 		Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
@@ -98,6 +94,8 @@ Not Tested
 
 		}
 
-	}#end
+	}#process
+
+	END {}#end
 
 }

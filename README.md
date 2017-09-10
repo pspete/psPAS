@@ -14,8 +14,9 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
 - ```Get-PASApplications``` & ```Get-PASApplication``` Functions Merged.
 
-  - Get-PASApplication Function Updated to be able to search for Applications.
-  - Get-PASApplications function removed
+  - ```Get-PASApplication``` Function Updated to be able to search for Applications.
+
+  - ```Get-PASApplications``` function removed
 
 - Native error messages & CyberArk error codes now included in error output.
 
