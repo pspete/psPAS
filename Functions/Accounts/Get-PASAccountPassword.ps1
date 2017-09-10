@@ -97,10 +97,6 @@ To force all output to be shown, pipe to Select-Object *
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-	}#process
-
-	END {
-
 		If($result) {
 
 			[PSCustomObject] @{"Password" = $result} |
@@ -116,6 +112,8 @@ To force all output to be shown, pipe to Select-Object *
 
 		}
 
-	}#end
+	}#process
+
+	END {}#end
 
 }

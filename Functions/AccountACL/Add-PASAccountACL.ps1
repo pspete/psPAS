@@ -1,5 +1,5 @@
 ﻿function Add-PASAccountACL {
-    <#
+	<#
 .SYNOPSIS
 Adds a new privileged command rule to an account.
 
@@ -70,98 +70,98 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Alias("PolicyID")]
-        [Alias("PlatformID")]
-        [ValidateNotNullOrEmpty()]
-        [string]$AccountPolicyId,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Alias("PolicyID")]
+		[Alias("PlatformID")]
+		[ValidateNotNullOrEmpty()]
+		[string]$AccountPolicyId,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Alias("Address")]
-        [ValidateNotNullOrEmpty()]
-        [string]$AccountAddress,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Alias("Address")]
+		[ValidateNotNullOrEmpty()]
+		[string]$AccountAddress,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$AccountUserName,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$AccountUserName,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$Command,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$Command,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [boolean]$CommandGroup,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[boolean]$CommandGroup,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [ValidateSet("Allow", "Deny")]
-        [string]$PermissionType,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[ValidateSet("Allow", "Deny")]
+		[string]$PermissionType,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$Restrictions,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$Restrictions,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $false
-        )]
-        [ValidateNotNullOrEmpty()]
-        [string]$UserName,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$UserName,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
-    )
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account/$($AccountAddress |
+		#URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account/$($AccountAddress |
 
             Get-EscapedString)|$($AccountUserName |
 
@@ -169,35 +169,33 @@ To force all output to be shown, pipe to Select-Object *
 
                     Get-EscapedString)/PrivilegedCommands"
 
-        #Request body
-        $Body = $PSBoundParameters |
+		#Request body
+		$Body = $PSBoundParameters |
 
-        Get-PASParameters -ParametersToRemove AccountAddress, AccountUserName, AccountPolicyID |
+		Get-PASParameters -ParametersToRemove AccountAddress, AccountUserName, AccountPolicyID |
 
-        ConvertTo-Json
+		ConvertTo-Json
 
-        #Send Request
-        $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+		#Send Request
+		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-    }#process
+		if($result) {
 
-    END {
+			$result.AddAccountPrivilegedCommandResult |
 
-        if($result) {
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL -PropertyToAdd @{
 
-            $result.AddAccountPrivilegedCommandResult |
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
 
-            Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL -PropertyToAdd @{
+			}
 
-                "sessionToken" = $sessionToken
-                "WebSession"   = $WebSession
-                "BaseURI"      = $BaseURI
-                "PVWAAppName"  = $PVWAAppName
+		}
 
-            }
+	}#process
 
-        }
-
-    }#end
+	END {}#end
 
 }

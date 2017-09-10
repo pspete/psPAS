@@ -94,10 +94,6 @@ To force all output to be shown, pipe to Select-Object *
 		#Send request to webservice
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-	}#process
-
-	END {
-
 		#output
 		$result.members | Select-Object UserName, @{Name = "Permissions"; "Expression" = {
 
@@ -117,6 +113,8 @@ To force all output to be shown, pipe to Select-Object *
 
 		}
 
-	}#end
+	}#process
+
+	END {}#end
 
 }

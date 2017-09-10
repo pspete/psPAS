@@ -1,5 +1,5 @@
 ﻿function Add-PASPublicSSHKey {
-    <#
+	<#
 .SYNOPSIS
 Adds an authorised public SSH key foraspecific user in the Vault.
 
@@ -60,82 +60,81 @@ To force all output to be shown, pipe to Select-Object *
 
 .LINK
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateScript( {$_ -notmatch ".*(%|\&|\+|\.).*"})]
-        [string]$UserName,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateScript( {$_ -notmatch ".*(%|\&|\+|\.).*"})]
+		[string]$UserName,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateScript( {$_ -notmatch "`n"})]
-        [string]$PublicSSHKey,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateScript( {$_ -notmatch "`n"})]
+		[string]$PublicSSHKey,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$SessionToken,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$SessionToken,
 
-        [parameter(ValueFromPipelinebyPropertyName = $true)]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(ValueFromPipelinebyPropertyName = $true)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL to endpoint for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
+		#Create URL to endpoint for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
 
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys"
 
-        #create request body
-        $Body = @{
+		#create request body
+		$Body = @{
 
-            "PublicSSHKey" = $PublicSSHKey
+			"PublicSSHKey" = $PublicSSHKey
 
-        } | ConvertTo-Json
+		} | ConvertTo-Json
 
-        #send request to webservice
-        $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $SessionToken -WebSession $WebSession
+		#send request to webservice
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $SessionToken -WebSession $WebSession
 
-    }#process
+		if($result) {
 
-    END {
-        if($result) {
+			$result.AddUserAuthorizedKeyResult |
 
-            $result.AddUserAuthorizedKeyResult |
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
 
-            Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
+				"UserName"     = $UserName
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
 
-                "UserName"     = $UserName
-                "sessionToken" = $sessionToken
-                "WebSession"   = $WebSession
-                "BaseURI"      = $BaseURI
-                "PVWAAppName"  = $PVWAAppName
+			}
 
-            }
+		}
 
-        }
+	}#process
 
-    }#end
+	END {}#end
 }

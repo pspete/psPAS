@@ -391,10 +391,6 @@ To force all output to be shown, pipe to Select-Object *
 		#Send request to Web Service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-	}#process
-
-	END {
-
 		#format output
 		$result.member | Select-Object MemberName, MembershipExpirationDate, SearchIn,
 
@@ -412,6 +408,8 @@ To force all output to be shown, pipe to Select-Object *
 
 		}
 
-	}#end
+	}#process
+
+	END {}#end
 
 }

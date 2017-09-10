@@ -1,5 +1,5 @@
 ﻿function Get-PASSafeShareLogo {
-    <#
+	<#
 .SYNOPSIS
 Returns details of configured SafeShare Logo
 
@@ -36,44 +36,46 @@ SafeShare no longer available from CyberArk
 .LINK
 
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true
-        )]
-        [ValidateSet("Square", "Watermark")]
-        [String]$ImageType,
+	[CmdletBinding()]
+	param(
+		[parameter(
+			Mandatory = $true
+		)]
+		[ValidateSet("Square", "Watermark")]
+		[String]$ImageType,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
-    )
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
+	)
 
-    BEGIN {}#begin
+	BEGIN {}#begin
 
-    PROCESS {
+	PROCESS {
 
-        #Create URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Logo?type=$ImageType"
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Logo?type=$ImageType"
 
-        #send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		#send request to web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
 
-    }#process
+		$result
 
-    END {$result}#end
+	}#process
+
+	END {}#end
 }

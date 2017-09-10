@@ -91,10 +91,6 @@ To force all output to be shown, pipe to Select-Object *
 
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-	}#process
-
-	END {
-
 		if($result) {
 
 			$result.authentication | Add-ObjectDetail -typename psPAS.CyberArk.Vault.ApplicationAuth -PropertyToAdd @{
@@ -108,6 +104,8 @@ To force all output to be shown, pipe to Select-Object *
 
 		}
 
-	}#end
+	}#process
+
+	END {}#end
 
 }
