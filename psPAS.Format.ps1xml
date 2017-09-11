@@ -96,11 +96,11 @@
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
-          <TableColumnHeader></TableColumnHeader>
-          <TableColumnHeader></TableColumnHeader>
-          <TableColumnHeader></TableColumnHeader>
-          <TableColumnHeader></TableColumnHeader>
-          <TableColumnHeader></TableColumnHeader>
+          <TableColumnHeader/>
+          <TableColumnHeader/>
+          <TableColumnHeader/>
+          <TableColumnHeader/>
+          <TableColumnHeader/>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -164,9 +164,9 @@
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
-          <TableColumnHeader></TableColumnHeader>
-          <TableColumnHeader></TableColumnHeader>
-          <TableColumnHeader></TableColumnHeader>
+          <TableColumnHeader/>
+          <TableColumnHeader/>
+          <TableColumnHeader/>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -192,10 +192,10 @@
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
-          <TableColumnHeader></TableColumnHeader>
-          <TableColumnHeader></TableColumnHeader>
-          <TableColumnHeader></TableColumnHeader>
-          <TableColumnHeader></TableColumnHeader>
+          <TableColumnHeader/>
+          <TableColumnHeader/>
+          <TableColumnHeader/>
+          <TableColumnHeader/>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -323,7 +323,8 @@
     <View>
       <Name>psPAS.CyberArk.Vault.ACL</Name>
       <ViewSelectedBy>
-        <TypeName>psPAS.CyberArk.Vault.ACL</TypeName>
+        <TypeName>psPAS.CyberArk.Vault.ACL.Policy</TypeName>
+        <TypeName>psPAS.CyberArk.Vault.ACL.Account</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -363,7 +364,8 @@
     <View>
       <Name>psPAS.CyberArk.Vault.ACL</Name>
       <ViewSelectedBy>
-        <TypeName>psPAS.CyberArk.Vault.ACL</TypeName>
+        <TypeName>psPAS.CyberArk.Vault.ACL.Policy</TypeName>
+        <TypeName>psPAS.CyberArk.Vault.ACL.Account</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>

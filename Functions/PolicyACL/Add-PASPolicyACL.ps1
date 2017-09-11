@@ -152,7 +152,7 @@ To force all output to be shown, pipe to Select-Object *
 
 			$result.AddPolicyPrivilegedCommandResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL -PropertyToAdd @{
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Policy -PropertyToAdd @{
 
 				"sessionToken" = $sessionToken
 				"WebSession"   = $WebSession
