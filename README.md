@@ -10,6 +10,10 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
 ## Latest Update
 
+- Custom Methods added (via [psPAS.Types.ps1xml](psPAS.Types.ps1xml))
+
+  - Use `Get-Member` on psPAS output objects to see available ScriptMethods
+
 - PSScriptAnalyzer recommendations [implemented](https://github.com/pspete/psPAS/issues/30).
 
 - ```Get-PASApplications``` & ```Get-PASApplication``` Functions Merged.
@@ -18,15 +22,7 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
 
   - ```Get-PASApplications``` function removed
 
-- Native error messages & CyberArk error codes now included in error output.
-
 ## Getting Started
-
-LDAP, CyberArk, RADIUS & Shared authentication can be used from CyberArk version 9.7 onwards.
-
-For CyberArk 9.6 and below, only CyberArk authentication is supported.
-
-SAML authentication for the CyberArk REST API is supported from version 9.7, but the psPAS functions to support this are still in development (i.e. not working & not tested). The work in progress functions are included in the module - if you are using SAML authentication, have the insight, and are interested in helping getting this to work, let me know.
 
 ### Prerequisites
 
@@ -35,6 +31,10 @@ SAML authentication for the CyberArk REST API is supported from version 9.7, but
   - Your version of CyberArk determines the supported functions.
   - Check the [compatibility table](#CyberArk_Version_Compatibility) to determine what you can use.
 - A user with which to authenticate, with appropriate Vault/Safe permissions.
+  - LDAP, CyberArk, RADIUS & Shared authentication can be used from CyberArk version 9.7 onwards.
+  - For CyberArk 9.6 and below, only CyberArk authentication is supported.
+  - SAML authentication is supported from version 9.7, but the psPAS functions to support this are still in development (i.e. not working & not tested).
+    - The work in progress functions are included in the module - if you are using SAML authentication, have the insight, and are interested in helping getting this to work, let me know.
 
 ### Install & Use
 
@@ -94,7 +94,7 @@ $token | Add-PASSafe -SafeName psPAS -ManagingCPM PasswordManager -NumberOfVersi
 
 ```
 
-A CyberArk authentication token, and the URL of the Web Service, MUST be provided to each function (with the exception of Logon via New-PASSession).
+A CyberArk authentication token, and the URL of the Web Service, MUST be provided to each function (with the exception of Logon via `New-PASSession`).
 
 ```powershell
 
@@ -104,7 +104,7 @@ Get-PASUser -UserName psPASUser -sessionToken $token.sessionToken -baseURI "http
 
 ### <a id="Pipeline_Support"></a>Working with the Pipeline
 
-The required values from the New-PASSession function are passed along the pipeline as properties of the output of subsequent psPAS functions, allowing you to create chains of commands.
+The required values from the `New-PASSession` function are passed along the pipeline as properties of the output of subsequent psPAS functions, allowing you to create chains of commands.
 
 If the output of one function contains the mandatory parameters of another function, which accepts values by property names, you can utilise the pipeline.
 
