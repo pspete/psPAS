@@ -186,6 +186,7 @@
 					$this | Set-PASAccount -AccountID $that.AccountID
 				</Script>
 			</ScriptMethod>
+			<!--
 			<ScriptMethod>
 				<Name>CopyToAccount</Name>
 				<Script>
@@ -194,6 +195,7 @@
 					$this | Set-PASAccount -AccountID $AccountID
 				</Script>
 			</ScriptMethod>
+			-->
 		</Members>
 	</Type>
 	<Type>
