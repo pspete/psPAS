@@ -46,13 +46,13 @@
 
 					if ($force) {
 
-					$this | Remove-PASSafeMember
+					$this | Remove-PASSafeMember -Confirm:$false
 
 					}
 
 					else{
 
-					$this | Remove-PASSafeMember -WhatIf
+					$this | Remove-PASSafeMember -Confirm
 
 					}
 				</Script>
@@ -87,13 +87,13 @@
 
 					if ($force) {
 
-					$this | Remove-PASUser
+					$this | Remove-PASUser -Confirm:$false
 
 					}
 
 					else{
 
-					$this | Remove-PASUser -WhatIf
+					$this | Remove-PASUser -Confirm
 
 					}
 				</Script>
@@ -116,13 +116,13 @@
 
 					if ($force) {
 
-					$this | Remove-PASSafe
+					$this | Remove-PASSafe -Confirm:$false
 
 					}
 
 					else{
 
-					$this | Remove-PASSafe -WhatIf
+					$this | Remove-PASSafe -Confirm
 
 					}
 				</Script>
@@ -163,13 +163,13 @@
 
 					if ($force) {
 
-					$this | Remove-PASAccount
+					$this | Remove-PASAccount -Confirm:$false
 
 					}
 
 					else{
 
-					$this | Remove-PASAccount -WhatIf
+					$this | Remove-PASAccount -Confirm
 
 					}
 				</Script>
@@ -186,16 +186,6 @@
 					$this | Set-PASAccount -AccountID $that.AccountID
 				</Script>
 			</ScriptMethod>
-			<!--
-			<ScriptMethod>
-				<Name>CopyToAccount</Name>
-				<Script>
-					Param([string]$AccountID=$(throw "Target AccountID Must Be Specified."))
-
-					$this | Set-PASAccount -AccountID $AccountID
-				</Script>
-			</ScriptMethod>
-			-->
 		</Members>
 	</Type>
 	<Type>
@@ -208,13 +198,13 @@
 
 					if ($force) {
 
-					$this | Remove-PASPolicyACL
+					$this | Remove-PASPolicyACL -Confirm:$false
 
 					}
 
 					else{
 
-					$this | Remove-PASPolicyACL -WhatIf
+					$this | Remove-PASPolicyACL -Confirm
 
 					}
 				</Script>
@@ -231,13 +221,13 @@
 
 					if ($force) {
 
-					$this | Remove-PASAccountACL
+					$this | Remove-PASAccountACL -Confirm:$false
 
 					}
 
 					else{
 
-					$this | Remove-PASAccountACL -WhatIf
+					$this | Remove-PASAccountACL -Confirm
 
 					}
 				</Script>
