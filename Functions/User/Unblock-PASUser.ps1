@@ -101,7 +101,7 @@ To force all output to be shown, pipe to Select-Object *
 		#request body
 		$body = $PSBoundParameters |
 
-		Get-PASParameters -ParametersToRemove UserName |
+		Get-PASParameter -ParametersToRemove UserName |
 
 		ConvertTo-Json
 

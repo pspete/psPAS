@@ -172,7 +172,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Request body
 		$Body = $PSBoundParameters |
 
-		Get-PASParameters -ParametersToRemove AccountAddress, AccountUserName, AccountPolicyID |
+		Get-PASParameter -ParametersToRemove AccountAddress, AccountUserName, AccountPolicyID |
 
 		ConvertTo-Json
 

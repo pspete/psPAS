@@ -260,7 +260,7 @@ None
 		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account"
 
 		#Get all parameters that will be sent in the request
-		$boundParameters = $PSBoundParameters | Get-PASParameters
+		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#deal with newPassword SecureString
 		If($PSBoundParameters.ContainsKey("password")) {
@@ -313,7 +313,7 @@ None
 		$body = @{
 
 			#account node does not contain non-base parameters
-			"account" = $boundParameters | Get-PASParameters -ParametersToRemove $keysToRemove
+			"account" = $boundParameters | Get-PASParameter -ParametersToRemove $keysToRemove
 
 			#ensure nodes at all required depths are included in the JSON object
 		} | ConvertTo-Json -Depth 4

@@ -124,7 +124,7 @@ To force all output to be shown, pipe to Select-Object *
 			$returnProperty = "SearchSafesResult"
 
 			#Get Parameters to include in request
-			$boundParameters = $PSBoundParameters | Get-PASParameters
+			$boundParameters = $PSBoundParameters | Get-PASParameter
 
 			#Create Query String, escaped for inclusion in request URL
 			$queryString = ($boundParameters.keys | ForEach-Object {

@@ -194,7 +194,7 @@ None
 
 		#Create Request Body
 		$body = @{
-			"application" = $PSBoundParameters | Get-PASParameters
+			"application" = $PSBoundParameters | Get-PASParameter
 
 		} | ConvertTo-Json
 

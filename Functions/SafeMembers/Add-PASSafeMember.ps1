@@ -363,7 +363,7 @@ To force all output to be shown, pipe to Select-Object *
             Get-EscapedString)/Members"
 
 		#Get Parameters for request body
-		$boundParameters = $PSBoundParameters | Get-PASParameters
+		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#For every passed permission ("Non-Base") parameter
 		$boundParameters.keys | Where-Object {$baseParameters -notcontains $_} | ForEach-Object {
@@ -383,7 +383,7 @@ To force all output to be shown, pipe to Select-Object *
 		$body = @{
 			"member" = $boundParameters |
 
-			Get-PASParameters -ParametersToRemove $keysToRemove
+			Get-PASParameter -ParametersToRemove $keysToRemove
 
 			#Ensure all required JSON levels are output
 		} | ConvertTo-Json -Depth 3

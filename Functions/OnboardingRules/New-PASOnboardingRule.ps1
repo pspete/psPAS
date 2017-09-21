@@ -143,7 +143,7 @@ Not Tested
 		$URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules"
 
 		#create request body
-		$body = $PSBoundParameters | Get-PASParameters | ConvertTo-Json
+		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
 		if($PSCmdlet.ShouldProcess($DecisionSafeName, "Add On-Boarding Rule Using '$DecisionPlatformID'")) {
 

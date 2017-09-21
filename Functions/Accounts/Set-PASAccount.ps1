@@ -216,7 +216,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
 
 		#Get all parameters that will be sent in the request
-		$boundParameters = $PSBoundParameters | Get-PASParameters -ParametersToRemove InputObject
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove InputObject
 
 		if($PSBoundParameters.ContainsKey("Properties")) {
 
