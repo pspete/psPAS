@@ -103,7 +103,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Create body of request
 		$body = $PSBoundParameters |
 
-		Get-PASParameters -ParametersToRemove GroupID |
+		Get-PASParameter -ParametersToRemove GroupID |
 
 		ConvertTo-Json
 

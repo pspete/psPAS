@@ -165,7 +165,7 @@ To force all output to be shown, pipe to Select-Object *
 		ElseIf($($PSCmdlet.ParameterSetName) -eq "byQuery") {
 
 			#Get Parameters to include in request
-			$boundParameters = $PSBoundParameters | Get-PASParameters
+			$boundParameters = $PSBoundParameters | Get-PASParameter
 
 			#Create query string
 			$query = ($boundParameters.keys | ForEach-Object {

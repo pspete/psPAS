@@ -280,13 +280,13 @@ None
         $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/PendingAccounts"
 
         #Get all parameters that will be sent in the request
-        $boundParameters = $PSBoundParameters | Get-PASParameters
+        $boundParameters = $PSBoundParameters | Get-PASParameter
 
         #Create body of request
         $body = @{
 
             #pendingaccount node
-            "pendingAccount" = $boundParameters | Get-PASParameters
+            "pendingAccount" = $boundParameters | Get-PASParameter
 
             #JSON object
         } | ConvertTo-Json

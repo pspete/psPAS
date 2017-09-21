@@ -141,7 +141,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Create request body
 		$body = $PSBoundParameters |
 
-		Get-PASParameters -ParametersToRemove PolicyId |
+		Get-PASParameter -ParametersToRemove PolicyId |
 
 		ConvertTo-Json
 

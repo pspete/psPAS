@@ -108,7 +108,7 @@ To force all output to be shown, pipe to Select-Object *
 		$URI = "$baseURI/API/AccountGroups/"
 
 		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameters | ConvertTo-Json
+		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
 		if($PSCmdlet.ShouldProcess($GroupName, "Define New Account Group")) {
 

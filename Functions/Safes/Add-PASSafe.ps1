@@ -158,7 +158,7 @@ To force all output to be shown, pipe to Select-Object *
 		$body = @{
 
 			#add parameters to safe node
-			"safe" = $PSBoundParameters | Get-PASParameters
+			"safe" = $PSBoundParameters | Get-PASParameter
 
 		} | ConvertTo-Json
 

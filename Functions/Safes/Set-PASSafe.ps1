@@ -164,7 +164,7 @@ To force all output to be shown, pipe to Select-Object *
 
 		#Create Request Body
 		$body = @{
-			"safe" = $PSBoundParameters | Get-PASParameters
+			"safe" = $PSBoundParameters | Get-PASParameter
 
 		} | ConvertTo-Json
 

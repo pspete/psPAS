@@ -161,7 +161,7 @@ not accept input from the pipeline.
 
         $Body = @{
 
-            "authentication" = $PSBoundParameters | Get-PASParameters
+            "authentication" = $PSBoundParameters | Get-PASParameter
 
         } | ConvertTo-Json
 

@@ -15,6 +15,7 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
   - Use `Get-Member` on psPAS output objects to see available ScriptMethods
 
 - PSScriptAnalyzer recommendations [implemented](https://github.com/pspete/psPAS/issues/30).
+  - 21-09-17: All references to "`Get-PASParameters`" (Private Function) have been replaced with "`Get-PASParameter`" after [feedback](https://github.com/pspete/psPAS/issues/34) received relating to an introduced functional issue.
 
 - ```Get-PASApplications``` & ```Get-PASApplication``` Functions Merged.
 

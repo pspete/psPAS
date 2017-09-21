@@ -93,7 +93,7 @@ None
 		#create request body
 		$Body = $PSBoundParameters |
 
-		Get-PASParameters -ParametersToRemove GroupName |
+		Get-PASParameter -ParametersToRemove GroupName |
 
 		ConvertTo-Json
 

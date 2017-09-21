@@ -136,7 +136,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameters -ParametersToRemove Credential
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential
 
 		#Add user name form credential object
 		$boundParameters["username"] = $($Credential.UserName)
