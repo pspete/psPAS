@@ -135,28 +135,31 @@ to ensure session persistence.
 
 			if( -not ($StatusCode -match "20*")) {
 
-				#Non 20X Status Codes
-
-				if($StatusCode -match "500") {
-
-					#500 - server error
-					Write-Error -Message "$($response.Exception.Message)" -ErrorId $StatusCode
-
-				}
-
-				Else {
-
-					<#
+				#Non 20X Status Codes & No Status Code
+				<#
                     400 - Bad Request
                     401 - Unauthorised
                     403 - Forbidden
                     409 - already exists (CONFLICT)
-                    404 - not found
-                    #>
+					404 - not found
+					500 - server error
+					503 - service unavailable
+				#>
+
+				Try {
 
 					$response = $response | ConvertFrom-Json
+					$ErrorMessage = "[$StatusCode] $($response.ErrorMessage)"
+					$ErrorID = $response.ErrorCode
 
-					Write-Error -Message "[$StatusCode] $($response.ErrorMessage)" -ErrorId $response.ErrorCode
+				} Catch {
+
+					$ErrorMessage = $response
+					$ErrorID = $StatusCode
+
+				} Finally {
+
+					Write-Error -Message $ErrorMessage -ErrorId $ErrorID
 
 				}
 
