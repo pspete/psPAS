@@ -15,7 +15,7 @@ Can include "@" character, but any searches for applications cannot include
 this character.
 
 .PARAMETER Description
-Description of the application, no longer than 29 characters.
+Description of the application, no longer than 99 characters.
 
 .PARAMETER Location
 The location of the application in the vault hierarchy.
@@ -95,7 +95,7 @@ None
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateLength(0, 29)]
+		[ValidateLength(0, 99)]
 		[string]$Description,
 
 		[parameter(
