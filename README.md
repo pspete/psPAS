@@ -3,7 +3,7 @@
 **Table of Contents**
 
 - [psPAS](#)
-	- [CyberArk PowerShell Module](#)
+	- [CyberArk PowerShell Module](#cyberark-powershell-module)
 	- [Latest Update](#)
 	- [Getting Started](#)
 		- [Prerequisites](#)
