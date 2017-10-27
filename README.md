@@ -13,7 +13,7 @@
 	- [License](#license)
 	- [Contributing](#contributing)
 	- [Acknowledgements](#acknowledgements)
-	- [CyberArk Version Compatibility](#cyberark-version-capability)
+	- [CyberArk Version Compatibility](#cyberark-version-compatibility)
 
 ## **CyberArk PowerShell Module**
 
