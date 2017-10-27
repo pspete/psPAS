@@ -4,16 +4,16 @@
 
 - [psPAS](#)
 	- [CyberArk PowerShell Module](#cyberark-powershell-module)
-	- [Latest Update](#)
-	- [Getting Started](#)
-		- [Prerequisites](#)
-		- [Install & Use](#)
-		- [Working with the Pipeline](#)
-	- [Author](#)
-	- [License](#)
-	- [Contributing](#)
-	- [Acknowledgements](#)
-	- [CyberArk Version Compatibility](#)
+	- [Latest Update](#latest-update)
+	- [Getting Started](#getting-started)
+		- [Prerequisites](#prerequisites)
+		- [Install and Use](#install-and-use)
+		- [Working with the Pipeline](#working-with-the-pipeline)
+	- [Author](#author)
+	- [License](#license)
+	- [Contributing](#contributing)
+	- [Acknowledgements](#acknowledgements)
+	- [CyberArk Version Compatibility](#cyberark-version-capability)
 
 ## **CyberArk PowerShell Module**
 
@@ -52,7 +52,7 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.9.
   - SAML authentication is supported from version 9.7, but the psPAS functions to support this are still in development (i.e. not working & not tested).
     - The work in progress functions are included in the module - if you are using SAML authentication, have the insight, and are interested in helping getting this to work, let me know.
 
-### Install & Use
+### Install and Use
 
 Save the Module to your powershell modules folder of choice.
 
