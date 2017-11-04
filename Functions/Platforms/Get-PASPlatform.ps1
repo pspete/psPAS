@@ -4,7 +4,7 @@ function Get-PASPlatform {
 	Retrieves details of a specified platform from the Vault.
 
 	.DESCRIPTION
-	Long description
+	Retrieves details of a specified platform from the Vault.
 
 	.PARAMETER Name
 	The unique ID/Name of the platform.
@@ -27,7 +27,7 @@ function Get-PASPlatform {
 	$token | Get-PASPlatform -Name "CyberArk"
 
 	.NOTES
-	Minimum CyberArk version 9.9.10
+	Minimum CyberArk version 9.10
 	#>
 
 	[CmdletBinding()]

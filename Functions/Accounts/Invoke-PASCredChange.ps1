@@ -48,7 +48,7 @@ function Invoke-PASCredChange {
 	None
 
 	.NOTES
-	Minimum CyberArk version 9.9.10
+	Minimum CyberArk version 9.10
 
 	#>
 	[CmdletBinding(SupportsShouldProcess)]
