@@ -168,12 +168,8 @@ To force all output to be shown, pipe to Select-Object *
 			#Return Object
 			[pscustomobject]@{
 
-				#Authentication Token
-				"sessionToken"     = @{"Authorization" = $PASSession |
-
-					#Required for all subsequent Web Service Calls
-					Select-Object -ExpandProperty CyberArkLogonResult
-				}
+				#Authentication Token - required for all subsequent Web Service Calls
+				"sessionToken"     = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
 
 				#WebSession Object
 				"WebSession"       = $PASSession |
