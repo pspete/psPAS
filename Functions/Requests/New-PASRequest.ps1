@@ -20,15 +20,17 @@ The name of the Ticketing system specified in the request
 The Ticket ID given by the ticketing system.
 
 .PARAMETER ConnectionComponent
+If the connection is through PSM, the name of the connection component to connect with,
+as defined in the configuration.
 
 .PARAMETER MultipleAccessRequired
 Whether of not the request is for multiple accesses
 
 .PARAMETER FromDate
-If the request is for a timeframe, the time from when the user wants to access the account, in Unix time.
+If the request is for a timeframe, the time from when the user wants to access the account.
 
 .PARAMETER ToDate
-If the request is for a timeframe, the time until the user wants to access the account, in Unix time.
+If the request is for a timeframe, the time until the user wants to access the account.
 
 .PARAMETER AdditionalInfo
 Additional information included in the request
@@ -174,6 +176,22 @@ Minimum CyberArk Version 9.10
 
 		#Create URL for Request
 		$URI = "$baseURI/$PVWAAppName/API/MyRequests"
+
+		#Get all parameters that will be sent in the web request
+		#$boundParameters = $PSBoundParameters | Get-PASParameter
+
+		if($PSBoundParameters.ContainsKey("FromDate")) {
+
+			#convert to unix time
+			$PSBoundParameters["FromDate"] = Get-Date $FromDate -UFormat %s
+
+		}
+
+		if($PSBoundParameters.ContainsKey("ToDate")) {
+
+			#convert to unix time
+			$PSBoundParameters["ToDate"] = Get-Date $ToDate -UFormat %s
+		}
 
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
