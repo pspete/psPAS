@@ -83,11 +83,7 @@ ConnectionNumber; the connectionNumber provided to this function.
 			[pscustomobject]@{
 
 				#Authentication Token
-				"sessionToken" = @{"Authorization" = $PASSession |
-
-					#Required for all subsequent Web Service Calls
-					Select-Object -ExpandProperty LogonResult
-				}
+				"sessionToken" = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
 
 				#WebSession Object
 				"WebSession"   = $PASSession |
