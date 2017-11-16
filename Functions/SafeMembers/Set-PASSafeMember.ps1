@@ -159,7 +159,7 @@ To force all output to be shown, pipe to Select-Object *
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateScript( {if($_ -match '^(0[1-9]|1[0-2])[\/](0[1-9]|[12]\d|3[01])[\/]\d{2}$') {
 					$true
@@ -168,130 +168,130 @@ To force all output to be shown, pipe to Select-Object *
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$UseAccounts,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$RetrieveAccounts,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$ListAccounts,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$AddAccounts,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$UpdateAccountContent,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$UpdateAccountProperties,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "CPM"
 		)]
 		[boolean]$InitiateCPMAccountManagementOperations,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "CPM"
 		)]
 		[boolean]$SpecifyNextAccountContent,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$RenameAccounts,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$DeleteAccounts,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$UnlockAccounts,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$ManageSafe,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$ManageSafeMembers,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$BackupSafe,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$ViewAuditLog,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$ViewSafeMembers,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateRange(0, 2)]
 		[int]$RequestsAuthorizationLevel,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$AccessWithoutConfirmation,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$CreateFolders,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$DeleteFolders,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$MoveAccountsAndFolders,
 
