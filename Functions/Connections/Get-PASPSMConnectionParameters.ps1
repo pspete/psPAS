@@ -1,11 +1,11 @@
-function Get-PASPSMConnect {
+function Get-PASPSMConnectionParameters {
 	<#
 .SYNOPSIS
 Connect through PSM
 
 .DESCRIPTION
 This method allows you to connect with an account through PSM using an RDP file,
-by returning RDP settings that can be used with an RDP client application.
+by returning RDP parameters that can be used with an RDP client application.
 It requires the PVWA and PSM to be configured for transparent connections through PSM with RDP files.
 
 .PARAMETER AccountID
@@ -132,20 +132,16 @@ Minimum CyberArk Version 9.10
 		#Create URL for Request
 		$URI = "$baseURI/$PVWAAppName/API/Accounts/$($AccountID)/PSMConnect"
 
+		#Create body of request
+		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
+
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -Headers $sessionToken -WebSession $WebSession
 
 		If($result) {
 
-			#Return Results
-			$result <#|
-
-			Add-ObjectDetail -PropertyToAdd @{
-
-				"sessionToken" = $sessionToken
-				"WebSession"   = $WebSession
-				"BaseURI"      = $BaseURI
-				"PVWAAppName"  = $PVWAAppName #>
+			#Return PSM RDP Parameters
+			$result
 
 		}
 
