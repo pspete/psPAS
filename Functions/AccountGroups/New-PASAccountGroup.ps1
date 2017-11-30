@@ -49,7 +49,7 @@ Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
 .NOTES
-[Ambiguous documentation] YMMV
+Minimum version 9.9.5
 
 .LINK
 
@@ -91,13 +91,13 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$BaseURI<#,
+		[string]$BaseURI,
 
 		[parameter(
-			Mandatory=$false,
-			ValueFromPipelinebyPropertyName=$true
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"#>
+		[string]$PVWAAppName = "PasswordVault"
 	)
 
 	BEGIN {}#begin
@@ -105,7 +105,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$baseURI/API/AccountGroups/"
+		$URI = "$baseURI/$PVWAAppName/API/AccountGroups/"
 
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
@@ -122,7 +122,7 @@ To force all output to be shown, pipe to Select-Object *
 					"sessionToken" = $sessionToken
 					"WebSession"   = $WebSession
 					"BaseURI"      = $BaseURI
-					#"PVWAAppName" = $PVWAAppName
+					"PVWAAppName"  = $PVWAAppName
 
 				}
 
