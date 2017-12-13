@@ -79,7 +79,7 @@ function Get-PASPlatform {
 			#Return Results
 			$result |
 
-			Add-ObjectDetail -PropertyToAdd @{
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Platform -PropertyToAdd @{
 
 				"sessionToken" = $sessionToken
 				"WebSession"   = $WebSession
