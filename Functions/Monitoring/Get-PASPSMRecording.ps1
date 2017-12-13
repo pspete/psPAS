@@ -196,7 +196,7 @@ Minimum CyberArk Version 9.10
 			#Return Results
 			$result.Recordings |
 
-			Add-ObjectDetail -PropertyToAdd @{
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording -PropertyToAdd @{
 
 				"sessionToken" = $sessionToken
 				"WebSession"   = $WebSession

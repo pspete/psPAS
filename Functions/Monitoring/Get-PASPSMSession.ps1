@@ -196,7 +196,7 @@ Minimum CyberArk Version 9.10
 			#Return Results
 			$result.LiveSessions |
 
-			Add-ObjectDetail -PropertyToAdd @{
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Session -PropertyToAdd @{
 
 				"sessionToken" = $sessionToken
 				"WebSession"   = $WebSession
