@@ -203,7 +203,7 @@ Minimum CyberArk Version 9.10
 
 			if($result) {
 
-				$result | Add-ObjectDetail -PropertyToAdd @{
+				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request -PropertyToAdd @{
 
 					"sessionToken" = $sessionToken
 					"WebSession"   = $WebSession
