@@ -1,4 +1,4 @@
-function Get-PASRequestDetails {
+function Get-PASRequestDetail {
 	<#
 .SYNOPSIS
 Gets requests

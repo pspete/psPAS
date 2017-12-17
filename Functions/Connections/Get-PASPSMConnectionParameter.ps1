@@ -1,4 +1,4 @@
-function Get-PASPSMConnectionParameters {
+function Get-PASPSMConnectionParameter {
 	<#
 .SYNOPSIS
 Connect through PSM

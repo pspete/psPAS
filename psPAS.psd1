@@ -4,7 +4,7 @@
 	RootModule        = 'psPAS.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.8.5'
+	ModuleVersion     = '0.8.6'
 
 	# ID used to uniquely identify this module
 	GUID              = '11c880d2-1430-4bd2-b6e8-f324741b460b'
@@ -127,8 +127,8 @@
 		'Approve-PASRequest',
 		'Deny-PASRequest',
 		'Get-PASRequest',
-		'Get-PASRequestDetails',
-		'Get-PASPSMConnectionParameters',
+		'Get-PASRequestDetail',
+		'Get-PASPSMConnectionParameter',
 		'Get-PASPSMRecording',
 		'Get-PASPSMSession'
 	)

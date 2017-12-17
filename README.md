@@ -35,14 +35,14 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.10.
   - `Remove-PASAccountGroupMember`
   - `New-PASRequest`
   - `Get-PASRequest`
-  - `Get-PASRequestDetails`
+  - `Get-PASRequestDetail`
   - `Remove-PASRequest`
   - `Approve-PASRequest`
   - `Deny-PASRequest`
   - `Get-PASPlatform`
   - `Get-PASPSMRecording`
   - `Get-PASPSMLiveSession`
-  - `Get-PASPSMConnectionParameters`
+  - `Get-PASPSMConnectionParameter`
 
 ## Getting Started
 
@@ -240,4 +240,4 @@ Chapeau!
 |9.8|All Previous Functions, and:<br/>`New-PASOnboardingRule`<br/>`Remove-PASOnboardingRule`<br/>`Get-PASOnboardingRule`<br/><br/>|
 |9.9|All Previous Functions|
 |9.9.5|All Previous Functions, and:<br/>`New-PASAccountGroup`<br/>`Add-PASAccountGroupMember`<br/><br/>|
-|9.10|All Previous Functions, and:<br/>`Invoke-PASCredChange`<br/>`Invoke-PASCredVerify`<br/>`Invoke-PASCredReconcile`<br/>`Unlock-PASAccount`<br/>`Get-PASAccountGroup`<br/>`Get-PASAccountGroupMember`<br/>`Remove-PASAccountGroupMember`<br/>`New-PASRequest`<br/>`Get-PASRequest`<br/>`Get-PASRequestDetails`<br/>`Remove-PASRequest`<br/>`Approve-PASRequest`<br/>`Deny-PASRequest`<br/>`Get-PASPlatform`<br/>`Get-PASRecording`<br/>`Get-PASLiveSession`<br/>`Get-PASPSMConnectionParameters`<br/><br/>|
+|9.10|All Previous Functions, and:<br/>`Invoke-PASCredChange`<br/>`Invoke-PASCredVerify`<br/>`Invoke-PASCredReconcile`<br/>`Unlock-PASAccount`<br/>`Get-PASAccountGroup`<br/>`Get-PASAccountGroupMember`<br/>`Remove-PASAccountGroupMember`<br/>`New-PASRequest`<br/>`Get-PASRequest`<br/>`Get-PASRequestDetail`<br/>`Remove-PASRequest`<br/>`Approve-PASRequest`<br/>`Deny-PASRequest`<br/>`Get-PASPlatform`<br/>`Get-PASRecording`<br/>`Get-PASLiveSession`<br/>`Get-PASPSMConnectionParameter`<br/><br/>|
