@@ -25,7 +25,24 @@ Exposes the available methods of the web service for CyberArk PAS up to v9.10.
 
 ## Latest Update
 
-- Published functions relating to CyberArk 9.10 API.
+- Released functions for the new functionality in the CyberArk 9.10 API:
+  - `Invoke-PASCredChange`
+  - `Invoke-PASCredVerify`
+  - `Invoke-PASCredReconcile`
+  - `Unlock-PASAccount`
+  - `Get-PASAccountGroup`
+  - `Get-PASAccountGroupMember`
+  - `Remove-PASAccountGroupMember`
+  - `New-PASRequest`
+  - `Get-PASRequest`
+  - `Get-PASRequestDetails`
+  - `Remove-PASRequest`
+  - `Approve-PASRequest`
+  - `Deny-PASRequest`
+  - `Get-PASPlatform`
+  - `Get-PASPSMRecording`
+  - `Get-PASPSMLiveSession`
+  - `Get-PASPSMConnectionParameters`
 
 ## Getting Started
 
