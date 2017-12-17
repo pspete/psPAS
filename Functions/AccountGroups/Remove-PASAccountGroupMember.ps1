@@ -49,7 +49,7 @@ Minimum CyberArk version 9.10
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -95,8 +95,12 @@ Minimum CyberArk version 9.10
 		#Create URL for Request
 		$URI = "$baseURI/$PVWAAppName/API/AccountGroups/$GroupID/Members/$AccountID"
 
-		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($AccountID, "Delete Member from Account Group $($GroupID)")) {
+
+			#send request to PAS web service
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
+
+		}
 
 	}#process
 
