@@ -1,42 +1,48 @@
 # psPAS
 
-**Table of Contents**
+## **Table of Contents**
 
-- [psPAS](#)
-	- [CyberArk PowerShell Module](#cyberark-powershell-module)
-	- [Latest Update](#latest-update)
-	- [Getting Started](#getting-started)
-		- [Prerequisites](#prerequisites)
-		- [Install and Use](#install-and-use)
-		- [Working with the Pipeline](#working-with-the-pipeline)
-	- [Author](#author)
-	- [License](#license)
-	- [Contributing](#contributing)
-	- [Acknowledgements](#acknowledgements)
-	- [CyberArk Version Compatibility](#cyberark-version-compatibility)
+- [psPAS](#pspas)
+  - [CyberArk PowerShell Module](#cyberark-powershell-module)
+  - [Latest Update](#latest-update)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Install and Use](#install-and-use)
+    - [Working with the Pipeline](#working-with-the-pipeline)
+  - [Author](#author)
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Acknowledgements](#acknowledgements)
+  - [CyberArk Version Compatibility](#cyberark-version-compatibility)
 
 ## **CyberArk PowerShell Module**
 
 PowerShell module for CyberArk Privileged Account Security Web Services REST API.
 
-Exposes the available methods of the web service for CyberArk PAS up to v9.9.
+Exposes the available methods of the web service for CyberArk PAS up to v9.10.
 
 ----------
 
 ## Latest Update
 
-- Custom Methods added (via [psPAS.Types.ps1xml](psPAS.Types.ps1xml))
-
-  - Use `Get-Member` on psPAS output objects to see available ScriptMethods
-
-- PSScriptAnalyzer recommendations [implemented](https://github.com/pspete/psPAS/issues/30).
-  - 21-09-17: All references to "`Get-PASParameters`" (Private Function) have been replaced with "`Get-PASParameter`" after [feedback](https://github.com/pspete/psPAS/issues/34) received relating to an introduced functional issue.
-
-- ```Get-PASApplications``` & ```Get-PASApplication``` Functions Merged.
-
-  - ```Get-PASApplication``` Function Updated to be able to search for Applications.
-
-  - ```Get-PASApplications``` function removed
+- Released functions for the new functionality in the CyberArk 9.10 API:
+  - `Invoke-PASCredChange`
+  - `Invoke-PASCredVerify`
+  - `Invoke-PASCredReconcile`
+  - `Unlock-PASAccount`
+  - `Get-PASAccountGroup`
+  - `Get-PASAccountGroupMember`
+  - `Remove-PASAccountGroupMember`
+  - `New-PASRequest`
+  - `Get-PASRequest`
+  - `Get-PASRequestDetail`
+  - `Remove-PASRequest`
+  - `Approve-PASRequest`
+  - `Deny-PASRequest`
+  - `Get-PASPlatform`
+  - `Get-PASPSMRecording`
+  - `Get-PASPSMLiveSession`
+  - `Get-PASPSMConnectionParameter`
 
 ## Getting Started
 
@@ -232,4 +238,6 @@ Chapeau!
 |9.6|All Previous Functions, and:<br/>`Add-PASPublicSSHKey`<br/>`Get-PASPublicSSHKey`<br/>`Remove-PASPublicSSHKey`<br/><br/>|
 |9.7|All Previous Functions, and:<br/>`New-PASSession` (CyberArk, LDAP, RADIUS Authentication)<br/>`New-PASSAMLSession` (*In Development)<br/>`Close-PASSAMLSession` (*In Development)<br/>`New-PASSharedSession`<br/>`Close-PASSharedSession`<br/>`Get-PASServerWebService`<br/>`Get-PASSafeShareLogo`<br/>`Get-PASServer`<br/>`New-PASUser`<br/>`Set-PASUser`<br/>`Remove-PASUser`<br/>`Get-PASLoggedOnUser`<br/>`Get-PASUser`<br/>`Unblock-PASUser`<br/>`Add-PASGroupMember`<br/>`Add-PASPendingAccount`<br/>`Get-PASAccountPassword`<br/>`Start-PASCredVerify`<br/>`Get-PASAccountActivity`<br/>`Get-PASSafe`<br/>`Get-PASSafeMember`<br/><br/>|
 |9.8|All Previous Functions, and:<br/>`New-PASOnboardingRule`<br/>`Remove-PASOnboardingRule`<br/>`Get-PASOnboardingRule`<br/><br/>|
-|9.9|All Previous Functions, and:<br/>`New-PASAccountGroup`<br/>`Add-PASAccountGroupMember`<br/><br/>|
+|9.9|All Previous Functions|
+|9.9.5|All Previous Functions, and:<br/>`New-PASAccountGroup`<br/>`Add-PASAccountGroupMember`<br/><br/>|
+|9.10|All Previous Functions, and:<br/>`Invoke-PASCredChange`<br/>`Invoke-PASCredVerify`<br/>`Invoke-PASCredReconcile`<br/>`Unlock-PASAccount`<br/>`Get-PASAccountGroup`<br/>`Get-PASAccountGroupMember`<br/>`Remove-PASAccountGroupMember`<br/>`New-PASRequest`<br/>`Get-PASRequest`<br/>`Get-PASRequestDetail`<br/>`Remove-PASRequest`<br/>`Approve-PASRequest`<br/>`Deny-PASRequest`<br/>`Get-PASPlatform`<br/>`Get-PASRecording`<br/>`Get-PASLiveSession`<br/>`Get-PASPSMConnectionParameter`<br/><br/>|

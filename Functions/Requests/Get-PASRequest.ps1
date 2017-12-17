@@ -1,25 +1,19 @@
-﻿function New-PASAccountGroup {
+function Get-PASRequest {
 	<#
 .SYNOPSIS
-Adds a new account group to the Vault
+Gets requests
 
 .DESCRIPTION
-Defines a new account group in the vault.
-The following permissions are required on the safe where the account group will be created:
- - Add Accounts
- - Update Account Content
- - Update Account Properties
-  -Create Folders
+Gets Requests
 
-.PARAMETER GroupName
-The name of the group to create
+.PARAMETER RequestType
+Specify whether outgoing or incoming requests will be searched for
 
-.PARAMETER GroupPlatform
-The name of the platform for the group.
-The associated platform must be set to "PolicyType=Group"
+.PARAMETER OnlyWaiting
+Only requests waiting for approval will be listed
 
-.PARAMETER Safe
-The Safe where the group will be created
+.PARAMETER Expired
+Expired requests will be included in the list
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -37,38 +31,44 @@ Defaults to PasswordVault
 
 .EXAMPLE
 
+
 .INPUTS
 All parameters can be piped by property name
 
 .OUTPUTS
-None
+SessionToken, WebSession, BaseURI are passed through and
+contained in output object for inclusion in subsequent
+pipeline operations.
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
-Minimum version 9.9.5
+Minimum CyberArk Version 9.10
 
 .LINK
 
 #>
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding()]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$GroupName,
+		[ValidateSet("MyRequests", "IncomingRequests")]
+		[string]$RequestType,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$GroupPlatform,
+		[boolean]$OnlyWaiting,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$Safe,
+		[boolean]$Expired,
 
 		[parameter(
 			Mandatory = $true,
@@ -100,15 +100,24 @@ Minimum version 9.9.5
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/AccountGroups/"
+		$URI = "$baseURI/$PVWAAppName/API/$($RequestType)?onlywaiting=$OnlyWaiting&expired=$Expired"
 
-		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
+		#send request to PAS web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		if($PSCmdlet.ShouldProcess($GroupName, "Define New Account Group")) {
+		If($result) {
 
-			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+			#Return Results
+			$result.$RequestType |
+
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Details -PropertyToAdd @{
+
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
+
+			}
 
 		}
 

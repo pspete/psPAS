@@ -1,22 +1,22 @@
-﻿function Add-PASAccountGroupMember {
+﻿function Remove-PASAccountGroupMember {
 	<#
 .SYNOPSIS
-Adds an account as a member of an account group.
+Deletes a member of an account group.
 
 .DESCRIPTION
-Adds an account as a member of an account group.
-The account can contain either password or SSH key.
-The account must be stored in the same safe as the account group.
-The following permissions are required on the safe where the account group will be created:
+Removes an account member from an account group.
+This account can be either a password account or an SSH Key account.
+The following permissions are required on the safe:
  - Add Accounts
  - Update Account Content
  - Update Account Properties
-
-.PARAMETER GroupID
-The unique ID of the account group
+  -Create Folders
 
 .PARAMETER AccountID
-The ID of the account to add as a member
+The unique ID of the account group.
+
+.PARAMETER GroupID
+The unique ID of the account group.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -33,6 +33,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Remove-PASAccountGroupMember -AccountID 21_7 -GroupID 21_9
+
+Removes member with ID of 21_& from account group with ID of 21_9
 
 .INPUTS
 All parameters can be piped by property name
@@ -41,25 +44,24 @@ All parameters can be piped by property name
 None
 
 .NOTES
-Minimum version 9.9.5
+Minimum CyberArk version 9.10
 
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateNotNullOrEmpty()]
-		[string]$GroupID,
+		[string]$AccountID,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$AccountID,
+		[string]$GroupID,
 
 		[parameter(
 			Mandatory = $true,
@@ -91,17 +93,14 @@ Minimum version 9.9.5
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/AccountGroups/$($GroupID |
+		$URI = "$baseURI/$PVWAAppName/API/AccountGroups/$GroupID/Members/$AccountID"
 
-            Get-EscapedString)/Members"
+		if($PSCmdlet.ShouldProcess($AccountID, "Delete Member from Account Group $($GroupID)")) {
 
-		#Create body of request
-		$body = $PSBoundParameters |
+			#send request to PAS web service
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
-		Get-PASParameter -ParametersToRemove GroupID | ConvertTo-Json
-
-		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		}
 
 	}#process
 

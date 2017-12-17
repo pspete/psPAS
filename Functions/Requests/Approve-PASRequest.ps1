@@ -1,22 +1,16 @@
-﻿function Add-PASAccountGroupMember {
+function Approve-PASRequest {
 	<#
 .SYNOPSIS
-Adds an account as a member of an account group.
+Confirm a single request
 
 .DESCRIPTION
-Adds an account as a member of an account group.
-The account can contain either password or SSH key.
-The account must be stored in the same safe as the account group.
-The following permissions are required on the safe where the account group will be created:
- - Add Accounts
- - Update Account Content
- - Update Account Properties
+Enables a request confirmer to confirm a single request, identified by its requestID.
 
-.PARAMETER GroupID
-The unique ID of the account group
+.PARAMETER RequestId
+The ID of the request to confirm
 
-.PARAMETER AccountID
-The ID of the account to add as a member
+.PARAMETER reason
+The reason why the request is approved
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -33,6 +27,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Approve-PASRequest -RequestID <ID> - Reason "<Reason>"
+
+Confirms request <ID>
 
 .INPUTS
 All parameters can be piped by property name
@@ -41,25 +38,25 @@ All parameters can be piped by property name
 None
 
 .NOTES
-Minimum version 9.9.5
+Minimum CyberArk Version 9.10
 
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$GroupID,
+		[string]$RequestId,
 
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$AccountID,
+		[string]$Reason,
 
 		[parameter(
 			Mandatory = $true,
@@ -91,17 +88,17 @@ Minimum version 9.9.5
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/AccountGroups/$($GroupID |
-
-            Get-EscapedString)/Members"
+		$URI = "$baseURI/$PVWAAppName/API/IncomingRequests/$($RequestID)/Confirm"
 
 		#Create body of request
-		$body = $PSBoundParameters |
+		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
-		Get-PASParameter -ParametersToRemove GroupID | ConvertTo-Json
+		if($PSCmdlet.ShouldProcess($RequestId, "Confirm Request for Account Access")) {
 
-		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+			#send request to PAS web service
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+
+		}
 
 	}#process
 

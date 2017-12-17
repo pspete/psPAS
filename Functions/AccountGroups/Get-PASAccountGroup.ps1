@@ -1,22 +1,18 @@
-﻿function Add-PASAccountGroupMember {
+﻿function Get-PASAccountGroup {
 	<#
 .SYNOPSIS
-Adds an account as a member of an account group.
+Returns all the account groups in a specific Safe.
 
 .DESCRIPTION
-Adds an account as a member of an account group.
-The account can contain either password or SSH key.
-The account must be stored in the same safe as the account group.
+Returns all the account groups in a specific Safe.
 The following permissions are required on the safe where the account group will be created:
  - Add Accounts
  - Update Account Content
  - Update Account Properties
+  -Create Folders
 
-.PARAMETER GroupID
-The unique ID of the account group
-
-.PARAMETER AccountID
-The ID of the account to add as a member
+.PARAMETER Safe
+The Safe where the account groups are.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -33,15 +29,23 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Get-PASAccountGroup -Safe SafeName
+
+List all account groups in SafeName
 
 .INPUTS
 All parameters can be piped by property name
 
 .OUTPUTS
-None
+Outputs Object of Custom Type psPAS.CyberArk.Vault.AccountGroup
+SessionToken, WebSession, BaseURI are passed through and
+contained in output object for inclusion in subsequent
+pipeline operations.
+Output format is defined via psPAS.Format.ps1xml.
+To force all output to be shown, pipe to Select-Object *
 
 .NOTES
-Minimum version 9.9.5
+Minimum CyberArk version 9.10
 
 .LINK
 
@@ -52,14 +56,7 @@ Minimum version 9.9.5
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateNotNullOrEmpty()]
-		[string]$GroupID,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$AccountID,
+		[string]$Safe,
 
 		[parameter(
 			Mandatory = $true,
@@ -91,17 +88,23 @@ Minimum version 9.9.5
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/AccountGroups/$($GroupID |
-
-            Get-EscapedString)/Members"
-
-		#Create body of request
-		$body = $PSBoundParameters |
-
-		Get-PASParameter -ParametersToRemove GroupID | ConvertTo-Json
+		$URI = "$baseURI/$PVWAAppName/API/AccountGroups?Safe=$($Safe | Get-EscapedString)"
 
 		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+
+		if($result) {
+
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup -PropertyToAdd @{
+
+				"sessionToken" = $sessionToken
+				"WebSession"   = $WebSession
+				"BaseURI"      = $BaseURI
+				"PVWAAppName"  = $PVWAAppName
+
+			}
+
+		}
 
 	}#process
 

@@ -1,22 +1,15 @@
-﻿function Add-PASAccountGroupMember {
+﻿function Remove-PASRequest {
 	<#
 .SYNOPSIS
-Adds an account as a member of an account group.
+Deletes a request from the Vault
+
 
 .DESCRIPTION
-Adds an account as a member of an account group.
-The account can contain either password or SSH key.
-The account must be stored in the same safe as the account group.
-The following permissions are required on the safe where the account group will be created:
- - Add Accounts
- - Update Account Content
- - Update Account Properties
+Deletes a request from the Vault.
+The "Manage" Safe vault permission is required.
 
-.PARAMETER GroupID
-The unique ID of the account group
-
-.PARAMETER AccountID
-The ID of the account to add as a member
+.PARAMETER RequestID
+The ID (composed of the Safe Name and internal RequestID.) of the request to delete.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -33,6 +26,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+$token | Remove-PASRequest -RequestID "<ID>"
+
+Deletes Request <ID>
 
 .INPUTS
 All parameters can be piped by property name
@@ -40,26 +36,20 @@ All parameters can be piped by property name
 .OUTPUTS
 None
 
+
 .NOTES
-Minimum version 9.9.5
 
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$GroupID,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$AccountID,
+		[string]$RequestID,
 
 		[parameter(
 			Mandatory = $true,
@@ -90,21 +80,17 @@ Minimum version 9.9.5
 
 	PROCESS {
 
-		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/AccountGroups/$($GroupID |
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/API/MyRequests/$($RequestID)"
 
-            Get-EscapedString)/Members"
+		if($PSCmdlet.ShouldProcess($RequestID, "Delete Request")) {
 
-		#Create body of request
-		$body = $PSBoundParameters |
+			#Send request to web service
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
-		Get-PASParameter -ParametersToRemove GroupID | ConvertTo-Json
-
-		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		}
 
 	}#process
 
 	END {}#end
-
 }
