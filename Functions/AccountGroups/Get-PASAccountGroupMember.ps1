@@ -96,7 +96,7 @@ Minimum CyberArk version 9.10
 
 		if($result) {
 
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup -PropertyToAdd @{
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup.Member -PropertyToAdd @{
 
 				"sessionToken" = $sessionToken
 				"WebSession"   = $WebSession

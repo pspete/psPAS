@@ -38,12 +38,7 @@ Defaults to PasswordVault
 All parameters can be piped by property name
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.AccountGroup
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
+None
 
 .NOTES
 Minimum version 9.9.5
@@ -103,25 +98,10 @@ Minimum version 9.9.5
 		#Create body of request
 		$body = $PSBoundParameters |
 
-		Get-PASParameter -ParametersToRemove GroupID |
-
-		ConvertTo-Json
+		Get-PASParameter -ParametersToRemove GroupID | ConvertTo-Json
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
-
-		if($result) {
-
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup -PropertyToAdd @{
-
-				"sessionToken" = $sessionToken
-				"WebSession"   = $WebSession
-				"BaseURI"      = $BaseURI
-				"PVWAAppName"  = $PVWAAppName
-
-			}
-
-		}
+		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
 	}#process
 

@@ -41,12 +41,7 @@ Removes member with ID of 21_& from account group with ID of 21_9
 All parameters can be piped by property name
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.AccountGroup
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
+None
 
 .NOTES
 Minimum CyberArk version 9.10
@@ -101,20 +96,7 @@ Minimum CyberArk version 9.10
 		$URI = "$baseURI/$PVWAAppName/API/AccountGroups/$GroupID/Members/$AccountID"
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
-
-		if($result) {
-
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup -PropertyToAdd @{
-
-				"sessionToken" = $sessionToken
-				"WebSession"   = $WebSession
-				"BaseURI"      = $BaseURI
-				"PVWAAppName"  = $PVWAAppName
-
-			}
-
-		}
+		Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
 	}#process
 
