@@ -4,7 +4,7 @@
 	RootModule        = 'psPAS.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.8.7'
+	ModuleVersion     = '0.9.0'
 
 	# ID used to uniquely identify this module
 	GUID              = '11c880d2-1430-4bd2-b6e8-f324741b460b'
@@ -16,7 +16,7 @@
 	# CompanyName = ''
 
 	# Copyright statement for this module
-	Copyright         = '(c) 2017 Pete Maan. All rights reserved.'
+	Copyright         = '(c) 2018 Pete Maan. All rights reserved.'
 
 	# Description of the functionality provided by this module
 	Description       = 'Module to expose CyberArk REST API/Web Service functions'
