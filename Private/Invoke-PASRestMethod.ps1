@@ -187,6 +187,13 @@ to ensure session persistence.
 
 						}
 
+						elseif(($webResponse.headers)["Content-Type"] -match "text/html") {
+
+							#Return only the text between opening and closing quotes
+							[regex]::matches($($webResponse.content), '^"(.*)"$').Groups[1].Value
+
+						}
+
 						Elseif(($webResponse.headers)["Content-Type"] -match "application/json") {
 
 							#Create Return Object from Returned JSON
