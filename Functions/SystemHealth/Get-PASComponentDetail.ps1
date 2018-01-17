@@ -1,4 +1,4 @@
-Function Get-PASComponentDetails {
+Function Get-PASComponentDetail {
 	<#
 .SYNOPSIS
 Returns details & health information about CyberArk component instances.
@@ -25,17 +25,17 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
-$token | Get-PASComponentDetails -ComponentID CPM
+$token | Get-PASComponentDetail -ComponentID CPM
 
 Displays CPM Component information
 
 .EXAMPLE
-$token | Get-PASComponentDetails -ComponentID PVWA
+$token | Get-PASComponentDetail -ComponentID PVWA
 
 Displays PVWA Component information
 
 .EXAMPLE
-$token | Get-PASComponentDetails -ComponentID SessionManagement
+$token | Get-PASComponentDetail -ComponentID SessionManagement
 
 Displays PSM Component information
 

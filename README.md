@@ -30,7 +30,7 @@ Exposes the available methods of the web service for CyberArk PAS up to v10.1.
   - `Get-PASAccountPassword` (_Updated_)
   - `Stop-PASPSMSession`
   - `Get-PASComponentSummary`
-  - `Get-PASComponentDetails`
+  - `Get-PASComponentDetail`
 
 For the functions which have been updated, new features present in the REST API specific to version 10.1 have now been included where applicable.
 
@@ -233,4 +233,4 @@ Chapeau!
 |9.9|All Previous Functions|
 |9.9.5|All Previous Functions, and:<br/>`New-PASAccountGroup`<br/>`Add-PASAccountGroupMember`<br/><br/>|
 |9.10|All Previous Functions, and:<br/>`Invoke-PASCredChange` (_Limited Functionality_)<br/>`Invoke-PASCredVerify`<br/>`Invoke-PASCredReconcile`<br/>`Unlock-PASAccount`<br/>`Get-PASAccountGroup`<br/>`Get-PASAccountGroupMember`<br/>`Remove-PASAccountGroupMember`<br/>`New-PASRequest`<br/>`Get-PASRequest`<br/>`Get-PASRequestDetail`<br/>`Remove-PASRequest`<br/>`Approve-PASRequest`<br/>`Deny-PASRequest`<br/>`Get-PASPlatform`<br/>`Get-PASRecording`<br/>`Get-PASLiveSession`<br/>`Get-PASPSMConnectionParameter`<br/><br/>|
-|10.1|All Previous Functions, and:<br/>`Invoke-PASCredChange` (_Updated for 10.1_)<br/>`Get-PASAccountPassword` (_Updated for 10.1_)<br/>`Stop-PASPSMSession`<br/>`Get-PASComponentSummary`<br/>`Get-PASComponentDetails`<br/><br/>|
+|10.1|All Previous Functions, and:<br/>`Invoke-PASCredChange` (_Updated for 10.1_)<br/>`Get-PASAccountPassword` (_Updated for 10.1_)<br/>`Stop-PASPSMSession`<br/>`Get-PASComponentSummary`<br/>`Get-PASComponentDetail`<br/><br/>|
