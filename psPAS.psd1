@@ -4,7 +4,7 @@
 	RootModule        = 'psPAS.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.9.3'
+	ModuleVersion     = '0.9.4'
 
 	# ID used to uniquely identify this module
 	GUID              = '11c880d2-1430-4bd2-b6e8-f324741b460b'
@@ -132,7 +132,8 @@
 		'Get-PASPSMRecording',
 		'Get-PASPSMSession',
 		'Stop-PASPSMSession',
-		'Get-PASComponentSummary'
+		'Get-PASComponentSummary',
+		'Get-PASComponentDetails'
 	)
 
 	# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
