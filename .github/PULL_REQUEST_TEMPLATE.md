@@ -1,9 +1,9 @@
-_A similar PR may already be submitted.
+<!-- _A similar PR may already be submitted.
 Please search existing `Pull Requests` before creating one._
 
 Thanks for submitting a pull request! Please provide enough information so that others can review your pull request:
 
-For more information, see the `CONTRIBUTING` guide.
+For more information, see the `CONTRIBUTING` guide.  -->
 
 ## Summary
 
@@ -26,8 +26,12 @@ _Demonstrate the code is solid. Example: The exact commands you ran and their ou
 <!-- Put `closes #XXXX` in your comment to auto-close the issue that your PR fixes. -->
 Fixes #
 
+Closes #
+
+<!--
 ## Code formatting
 
-<!-- See the `CONTRIBUTING` guide. -->
+ See the `CONTRIBUTING` guide.
 
 _Ensure your code adheres to the project's PowerShell Styleguide_
+-->

@@ -1,11 +1,11 @@
-_Your issue may already be reported. Please search existing `issues` before creating one._
+<!--- _Your issue may already be reported. Please search existing `issues` before creating one._ -->
 
 ## Your Environment
 
 <!--- Include relevant details about your environment -->
 
 * PowerShell Version:
-* psPAS Version:
+* psPAS Branch & Version:
 * CyberArk Version:
 
 ## Expected Behaviour
