@@ -40,7 +40,7 @@ Minimum CyberArk Version 10.1
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -82,8 +82,12 @@ Minimum CyberArk Version 10.1
 		#Create URL for Request
 		$URI = "$baseURI/$PVWAAppName/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Terminate"
 
-		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Headers $sessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($LiveSessionId, "Terminate PSM Session")) {
+
+			#send request to PAS web service
+			Invoke-PASRestMethod -Uri $URI -Method POST -Headers $sessionToken -WebSession $WebSession
+
+		}
 
 	} #process
 
