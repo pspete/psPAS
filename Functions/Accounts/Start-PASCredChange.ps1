@@ -56,6 +56,7 @@ None
 .LINK
 
 #>
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'ChangeCredForGroup', Justification = "Parameter does not hold password")]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
