@@ -52,17 +52,27 @@ The functions can still be used on appropriate earlier CyberArk versions, but no
 
 ### Install and Use
 
-Save the Module to your powershell modules folder of choice.
+This repository contains a folder named ```psPAS```.
 
-Find your local PowerShell module paths with the following command:
+The folder needs to be copied to one of your PowerShell Module Directories
+
+Find your PowerShell Module Paths with the following command:
 
 ```powershell
 
-$env:PSModulePath
+$env:PSModulePath.split(';')
 
 ```
 
-The name of the folder for the module should be "psPAS".
+Copy the ```psPAS``` folder to your "Powershell Modules" directory of choice.
+
+Validate Module Exists:
+
+```powershell
+
+Get-Module -ListAvailable psPAS
+
+```
 
 Import the module:
 
