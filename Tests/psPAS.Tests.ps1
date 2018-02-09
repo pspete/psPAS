@@ -106,11 +106,11 @@ Describe "Module" {
 
 		}
 
-		Context "Exported Function Analysis" {
+		#Get Public Function Names
+		$PublicFunctions = Get-ChildItem "$ModulePath\Functions" -Filter *.ps1 -Recurse |
+			Select-Object -ExpandProperty BaseName
 
-			#Get Public Function Names
-			$PublicFunctions = Get-ChildItem "$ModulePath\Functions" -Filter *.ps1 -Recurse |
-				Select-Object -ExpandProperty BaseName
+		Context "Exported Function Analysis" {
 
 			#Get Exported Function Names
 			$ExportedFunctions = $Module.ExportedFunctions.Values.name
@@ -171,6 +171,28 @@ Describe "Module" {
 				}
 
 			}
+
+		}
+
+		Context "Exported Alias Analysis" {
+
+			$ExportedAliases = $Module.ExportedAliases.Values.name
+
+			$ExportedAliases.foreach{
+
+				Context "$_" {
+
+					It "Resolves to Public Function" {
+
+						$PublicFunctions -contains $((Get-Alias $_).ResolvedCommand) | Should Be $true
+
+					}
+
+
+				}
+
+			}
+
 
 		}
 
