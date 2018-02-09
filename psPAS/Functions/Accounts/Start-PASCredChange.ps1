@@ -56,7 +56,7 @@ None
 .LINK
 
 #>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'ChangeCredForGroup', Justification = "Parameter does not hold password")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'ChangeCredsForGroup', Justification = "Parameter does not hold password")]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -78,7 +78,7 @@ None
 			ValueFromPipelinebyPropertyName = $false
 		)]
 		[ValidateSet('Yes', 'No')]
-		[string]$ChangeCredForGroup,
+		[string]$ChangeCredsForGroup,
 
 		[parameter(
 			Mandatory = $true,

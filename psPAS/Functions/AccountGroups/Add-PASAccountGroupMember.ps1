@@ -33,6 +33,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+Add-PASAccountGroupMember -GroupID $groupID -AccountID $accID -sessionToken $ST -BaseURI $URL
+
+Adds account with ID held in $accID to group with ID held in $groupID
 
 .INPUTS
 All parameters can be piped by property name

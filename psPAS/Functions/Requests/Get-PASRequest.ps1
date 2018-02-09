@@ -30,7 +30,14 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -sessionToken $token -BaseURI $url
 
+Lists waiting incoming requests
+
+.EXAMPLE
+Get-PASRequest -RequestType MyRequests -Expired $false -sessionToken $token.sessiontoken -BaseURI $token.url
+
+Lists your none expired (outgoing) requests.
 
 .INPUTS
 All parameters can be piped by property name

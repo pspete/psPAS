@@ -9,6 +9,9 @@ Gets Requests
 .PARAMETER RequestType
 Specify whether outgoing or incoming requests will be searched for
 
+.PARAMETER RequestID
+The request's uniqueID, composed of the Safe Name and internal RequestID.
+
 .PARAMETER OnlyWaiting
 Only requests waiting for approval will be listed
 
@@ -30,7 +33,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+Get-PASRequestDetail -RequestType IncomingRequests -RequestID $ID -sessionToken $token.sessiontoken -BaseURI $Url
 
+Gets details of request with ID held in $ID
 
 .INPUTS
 All parameters can be piped by property name

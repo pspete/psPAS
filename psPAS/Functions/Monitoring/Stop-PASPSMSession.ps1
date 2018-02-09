@@ -24,7 +24,7 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
-$token | Stop-PASPSMSession -LiveSessionId <Session UUID>
+$token | Stop-PASPSMSession -LiveSessionId $SessionUUID
 
 Terminates Live PSM Session identified by the session UUID.
 
