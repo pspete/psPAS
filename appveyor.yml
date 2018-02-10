@@ -1,3 +1,14 @@
+skip_commits:
+  files:
+    - README.md
+    - LICENSE.md
+    - CONTRIBUTING.md
+    - CODE_OF_CONDUCT.md
+    - ISSUE_TEMPLATE.md
+    - PULL_REQUEST_TEMPLATE.md
+    - appveyor.yml
+  message: /update readme.*|update version.*|update appveyor.*/
+
 os: WMF 5
 
 install:
