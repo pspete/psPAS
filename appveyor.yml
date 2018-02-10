@@ -2,6 +2,7 @@ os: WMF 5
 
 install:
   - cinst pester
+  - ps: Install-PackageProvider -Name NuGet -Force
   - ps: Install-Module PsScriptAnalyzer -Force
 
 build: off
