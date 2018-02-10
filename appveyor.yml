@@ -1,5 +1,8 @@
+os: WMF 5
+
 install:
   - cinst pester
+  - ps: Install-Module PsScriptAnalyzer -Force
 
 build: off
 
