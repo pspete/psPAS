@@ -1,7 +1,7 @@
 install:
   - cinst pester
 
-build: false
+build: off
 
 test_script:
   - ps: $res = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -PassThru
