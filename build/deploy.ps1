@@ -32,6 +32,7 @@ Write-Host "Branch: $ENV:APPVEYOR_REPO_BRANCH"
 #Uncomment the below line, make sure you set the variables in appveyor.yml
 #Publish-Module -Name $env:ModuleName -NuGetApiKey $env:NuGetApiKey
 
+<#
 Write-Host "Update Version on GitHub" -ForegroundColor Yellow
 
 git config --global core.safecrlf false
@@ -53,3 +54,4 @@ git status
 git commit -s -m "Update Version"
 
 git push --porcelain origin issue-44
+#>
