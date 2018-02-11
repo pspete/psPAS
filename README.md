@@ -1,6 +1,6 @@
 # psPAS
 
-[![Build status](https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye?svg=true)](https://ci.appveyor.com/project/pspete/pspas)
+[![Build status](https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true)](https://ci.appveyor.com/project/pspete/pspas/branch/master)
 
 ## **Table of Contents**
 
