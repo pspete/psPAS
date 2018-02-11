@@ -7,7 +7,7 @@ Write-Host "Deploying" -ForegroundColor Yellow
 # Update module manifest          #
 #---------------------------------#
 Write-Host "Update Module Version"
-$ManifestPath = Join-Path "$pwd" "$env:APPVEYOR_PROJECT_NAME" "$env:APPVEYOR_PROJECT_NAME.psd1"
+$ManifestPath = Join-Path "$pwd" $(Join-Path "$env:APPVEYOR_PROJECT_NAME" "$env:APPVEYOR_PROJECT_NAME.psd1")
 $CurrentVersion = (Import-PowerShellDataFile $ManifestPath).ModuleVersion
 Write-Host "`tCurrent Version: `t$CurrentVersion"
 Write-Host "`tBuild Version: `t$env:APPVEYOR_BUILD_VERSION"
