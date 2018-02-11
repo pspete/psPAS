@@ -1,5 +1,7 @@
 # psPAS
 
+[![Build status](https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye?svg=true)](https://ci.appveyor.com/project/pspete/pspas)
+
 ## **Table of Contents**
 
 - [psPAS](#pspas)
@@ -24,6 +26,13 @@ Exposes the available methods of the web service for CyberArk PAS up to v10.1.
 ----------
 
 ## Latest Update
+
+- Updated Repository Structure
+  - All module files now contained under the `psPAS` directory.
+  - Files not needed for module operations remain at the root level.
+  - A directory for Pester tests has been created, and contains initial tests for ensuring module consistency.
+    - Some module files have been updated based on the output of Pester (mainly missing help descriptions for parameters, or functions without examples).
+  - Project now integrated with [Appveyor](https://ci.appveyor.com/project/pspete/pspas).
 
 - Released new or updated functions for the new functionality in the CyberArk 10.1 API:
   - `Invoke-PASCredChange` (_Updated_)
@@ -52,17 +61,27 @@ The functions can still be used on appropriate earlier CyberArk versions, but no
 
 ### Install and Use
 
-Save the Module to your powershell modules folder of choice.
+This repository contains a folder named ```psPAS```.
 
-Find your local PowerShell module paths with the following command:
+The folder needs to be copied to one of your PowerShell Module Directories
+
+Find your PowerShell Module Paths with the following command:
 
 ```powershell
 
-$env:PSModulePath
+$env:PSModulePath.split(';')
 
 ```
 
-The name of the folder for the module should be "psPAS".
+Copy the ```psPAS``` folder to your "Powershell Modules" directory of choice.
+
+Validate Module Exists:
+
+```powershell
+
+Get-Module -ListAvailable psPAS
+
+```
 
 Import the module:
 
@@ -131,7 +150,7 @@ Examples below:
 ```powershell
 
 Get-Credential |
-New-PASSession -BaseURI http://PVWA_URL | Get-PASAccount pete |
+New-PASSession -BaseURI https://PVWA_URL | Get-PASAccount pete |
 Set-PASAccount -Address 10.10.10.10 -Name Pete-psPAS-Test -UserName pspete |
 Close-PASSession
 

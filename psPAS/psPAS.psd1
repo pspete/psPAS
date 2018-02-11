@@ -4,7 +4,7 @@
 	RootModule        = 'psPAS.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.9.8'
+	ModuleVersion     = '0.9.10'
 
 	# ID used to uniquely identify this module
 	GUID              = '11c880d2-1430-4bd2-b6e8-f324741b460b'
@@ -49,11 +49,10 @@
 	# ScriptsToProcess = @()
 
 	# Type files (.ps1xml) to be loaded when importing this module
-	TypesToProcess    = 'psPAS.Types.ps1xml'
+	TypesToProcess    = @('psPAS.Types.ps1xml')
 
 	# Format files (.ps1xml) to be loaded when importing this module
-	FormatsToProcess  = 'psPAS.Format.ps1xml'
-
+	FormatsToProcess  = @('psPAS.Format.ps1xml')
 
 	# Functions to export from this module
 	FunctionsToExport = @(
@@ -79,10 +78,8 @@
 		'Get-PASAccountACL',
 		'Add-PASAccountACL',
 		'Remove-PASAccountACL',
-		'Get-PASApplications',
 		'Get-PASApplication',
 		'Add-PASApplication',
-		'Get-PASApplicationAuthenticationMethods',
 		'Add-PASApplicationAuthenticationMethod',
 		'Remove-PASApplication',
 		'Remove-PASApplicationAuthenticationMethod',
@@ -94,11 +91,9 @@
 		'Get-PASLoggedOnUser',
 		'Add-PASGroupMember',
 		'Get-PASAccountActivity',
-		'Get-PASAccountCredentials',
 		'Add-PASPendingAccount',
 		'Start-PASCredVerify',
 		'Get-PASSafe',
-		'Get-PASSafeMembers',
 		'Add-PASAccountGroupMember',
 		'New-PASAccountGroup',
 		'New-PASOnboardingRule',
@@ -108,7 +103,7 @@
 		'Get-PASSafeShareLogo',
 		'Get-PASServerWebService',
 		'New-PASSAMLSession',
-		'ClosePASSAMLSession',
+		'Close-PASSAMLSession',
 		'New-PASSharedSession',
 		'Close-PASSharedSession',
 		'Get-PASAccountPassword',
@@ -134,6 +129,13 @@
 		'Stop-PASPSMSession',
 		'Get-PASComponentSummary',
 		'Get-PASComponentDetail'
+	)
+
+	AliasesToExport   = @(
+		'Get-PASApplications',
+		'Get-PASApplicationAuthenticationMethods',
+		'Get-PASAccountCredentials',
+		'Get-PASSafeMembers'
 	)
 
 	# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.

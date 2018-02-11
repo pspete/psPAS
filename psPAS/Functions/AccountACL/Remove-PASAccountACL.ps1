@@ -9,6 +9,12 @@ Deletes privileged commands rule associated with account
 .PARAMETER AccountPolicyID
 ID of account from which the commands will be deleted
 
+.PARAMETER AccountAddress
+The address of the account for which the privileged command will be deleted.
+
+.PARAMETER AccountUserName
+The name of the account's user.
+
 .PARAMETER Id
 The ID of the command that will be deleted
 

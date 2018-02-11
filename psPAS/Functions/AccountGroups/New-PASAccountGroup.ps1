@@ -36,6 +36,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+New-PASAccountGroup -GroupName UATGroup -GroupPlatform UnixGroup-NonProd -Safe UAT-Team -sessionToken $token.sessionToken -BaseURI $url
+
+Creates new account group named UATGroup and assigns to platform in the UAT-Team Safe.
 
 .INPUTS
 All parameters can be piped by property name

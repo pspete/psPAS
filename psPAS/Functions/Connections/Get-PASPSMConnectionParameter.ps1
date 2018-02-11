@@ -23,7 +23,7 @@ The TicketId to use with the Ticketing System
 .PARAMETER ConnectionComponent
 The name of the connection component to connect with as defined in the configuration
 
-.PARAMETER Connectionparameter
+.PARAMETER ConnectionParams
 List of params
 
 .PARAMETER sessionToken
@@ -41,7 +41,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+Get-PASPSMConnectionParameter -AccountID $ID -ConnectionComponent PSM-SSH -reason "Fix XYZ" -sessionToken $ST -BaseURI $url
 
+Outputs RDP file contents for Direct Connection via PSM using account with ID in $ID
 
 .INPUTS
 All parameters can be piped by property name
@@ -98,7 +100,7 @@ Minimum CyberArk Version 9.10
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[hashtable]$ConnectionParam,
+		[hashtable]$ConnectionParams,
 
 		[parameter(
 			Mandatory = $true,

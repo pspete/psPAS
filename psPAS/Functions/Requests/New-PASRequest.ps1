@@ -23,8 +23,8 @@ The Ticket ID given by the ticketing system.
 If the connection is through PSM, the name of the connection component to connect with,
 as defined in the configuration.
 
-.PARAMETER MultipleAccessRequired
-Whether of not the request is for multiple accesses
+.PARAMETER MultipleAccess
+Whether the request is for multiple accesses
 
 .PARAMETER FromDate
 If the request is for a timeframe, the time from when the user wants to access the account.
@@ -59,6 +59,9 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+New-PASRequest -AccountId $ID -Reason "Task ABC" -MultipleAccess $true -ConnectionComponent PSM-RDP -sessionToken $ST -BaseURI $url
+
+Creates a new request for access to account with ID in $ID
 
 .INPUTS
 All parameters can be piped by property name
