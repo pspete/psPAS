@@ -32,7 +32,7 @@ Write-Host "Branch: $ENV:APPVEYOR_REPO_BRANCH"
 #Uncomment the below line, make sure you set the variables in appveyor.yml
 #Publish-Module -Name $env:ModuleName -NuGetApiKey $env:NuGetApiKey
 
-Write-Host "Version Update in GitHub" -ForegroundColor Yellow
+Write-Host "Update Version on GitHub" -ForegroundColor Yellow
 
 git config --global core.safecrlf false
 
@@ -44,7 +44,7 @@ git config --global user.email "pete.maan+github@gmail.com"
 
 git config --global user.name "Pete Maan"
 
-git checkout issue-44
+git checkout -q issue-44
 
 git add $(Join-Path "$env:APPVEYOR_PROJECT_NAME" "$env:APPVEYOR_PROJECT_NAME.psd1")
 
@@ -52,4 +52,4 @@ git status
 
 git commit -s -m "Update Version"
 
-git push origin issue-44
+git push --porcelain origin issue-44
