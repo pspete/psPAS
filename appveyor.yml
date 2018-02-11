@@ -12,9 +12,8 @@ skip_commits:
 os: WMF 5
 
 install:
-  - cinst pester
-  - ps: Install-PackageProvider -Name NuGet -Force
-  - ps: Install-Module PsScriptAnalyzer -Force
+  - ps: Install-PackageProvider -Name NuGet -Confirm:$false -Force -ErrorAction Stop | Out-Null
+  - ps: Install-Module -Name Pester, PSScriptAnalyzer -Confirm:$false -Force -ErrorAction SilentlyContinue | Out-Null
 
 build: off
 
