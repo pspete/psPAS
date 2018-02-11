@@ -1,3 +1,7 @@
+environment:
+  access_token:
+    secure: eWAovbJD8C/F5ObWegnOimwNFyeU1vXzW6lwbJzhHpSUgjT+CMexMcPUBMKrm+Wl
+
 skip_commits:
   files:
     - README.md
