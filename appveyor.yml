@@ -19,3 +19,6 @@ build_script:
 
 test_script:
   - ps: . .\build\test.ps1
+
+deploy_script:
+  - ps: . .\build\deploy.ps1
