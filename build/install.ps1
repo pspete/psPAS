@@ -1,7 +1,7 @@
 #---------------------------------#
 # Header                          #
 #---------------------------------#
-Write-Host 'Running Install Script $($MyInvocation.MyCommand.Name):' -ForegroundColor Yellow
+Write-Host 'Running Install Script:' -ForegroundColor Yellow
 
 #---------------------------------#
 # Install NuGet                   #
