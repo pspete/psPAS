@@ -12,8 +12,9 @@ skip_commits:
 os: WMF 5
 
 install:
-  - ps: Install-PackageProvider -Name NuGet -Confirm:$false -Force -ErrorAction Stop | Out-Null
-  - ps: Install-Module -Name Pester, PSScriptAnalyzer -Confirm:$false -Force -ErrorAction SilentlyContinue | Out-Null
+  - ps: . .\build\install.ps1
+#  - ps: Install-PackageProvider -Name NuGet -Confirm:$false -Force -ErrorAction Stop | Out-Null
+#  - ps: Install-Module -Name Pester, PSScriptAnalyzer -Confirm:$false -Force -ErrorAction SilentlyContinue | Out-Null
 
 build: off
 
