@@ -13,10 +13,9 @@ os: WMF 5
 
 install:
   - ps: . .\build\install.ps1
-#  - ps: Install-PackageProvider -Name NuGet -Confirm:$false -Force -ErrorAction Stop | Out-Null
-#  - ps: Install-Module -Name Pester, PSScriptAnalyzer -Confirm:$false -Force -ErrorAction SilentlyContinue | Out-Null
 
-build: off
+build_script:
+  - ps: . .\build\build.ps1
 
 test_script:
   - ps: $res = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -PassThru
