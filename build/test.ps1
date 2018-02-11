@@ -1,16 +1,15 @@
 #---------------------------------#
 # Header                          #
 #---------------------------------#
-Write-Host 'Running Test Script' -ForegroundColor Yellow
+Write-Host "Testing:" -ForegroundColor Yellow
 Write-Host "Current working directory: $pwd"
 
 #---------------------------------#
 # Run Pester Tests                #
 #---------------------------------#
-$testResultsFile = '.\TestsResults.xml'
 $res = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -PassThru
 
-Write-Host 'Uploading results'
+Write-Host 'Uploading Test Results'
 (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestsResults.xml))
 
 #---------------------------------#
