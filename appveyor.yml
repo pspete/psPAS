@@ -1,6 +1,8 @@
 environment:
   access_token:
     secure: eWAovbJD8C/F5ObWegnOimwNFyeU1vXzW6lwbJzhHpSUgjT+CMexMcPUBMKrm+Wl
+  psgallery_key:
+    secure: FuPgJskczZMptxRgdUlBAy7OYmXBQl4zq86kXXSmBt6wKudnM2PK7W6cM7bj0te1
 
 skip_commits:
   files:
