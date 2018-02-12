@@ -17,7 +17,7 @@ if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'm
 
 		Publish-Module -Path $ModulePath -NuGetApiKey $($env:psgallery_key) -Confirm:$false -ErrorAction Stop
 
-		Write-Host "($$env:APPVEYOR_PROJECT_NAME) published." -ForegroundColor Cyan
+		Write-Host "$($env:APPVEYOR_PROJECT_NAME) published." -ForegroundColor Cyan
 
 	} Catch {
 
@@ -54,7 +54,7 @@ if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'm
 
 		git push --porcelain origin master
 
-		Write-Host "($$env:APPVEYOR_PROJECT_NAME) updated version pushed to GitHub." -ForegroundColor Cyan
+		Write-Host "$($env:APPVEYOR_PROJECT_NAME) updated version pushed to GitHub." -ForegroundColor Cyan
 
 	}
 
