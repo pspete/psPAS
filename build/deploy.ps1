@@ -3,26 +3,36 @@
 #---------------------------------#
 Write-Host "Deploy Process:" -ForegroundColor Yellow
 
-$ModulePath = Join-Path $env:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME
-
-Write-Host "Path: $ModulePath"
-
 if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'master')) {
 
 	#---------------------------------#
 	# Publish to PS Gallery           #
 	#---------------------------------#
 
-	Write-Host 'Publishing module to Powershell Gallery'
-	#Publish-Module -Path $ModulePath -NuGetApiKey $env:psgallery_key -WhatIf
+	Try {
+
+		Write-Host 'Publish to Powershell Gallery...'
+
+		$ModulePath = Join-Path $env:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME
+
+		Publish-Module -Path $ModulePath -NuGetApiKey $($env:psgallery_key) -Confirm:$false -ErrorAction Stop
+
+		Write-Host "($$env:APPVEYOR_PROJECT_NAME) published." -ForegroundColor Cyan
+
+	} Catch {
+
+		Write-Warning "Publish Failed."
+		throw $_
+
+	}
 
 	#---------------------------------#
-	# Publish to Master Branch        #
+	# Push to Master Branch        #
 	#---------------------------------#
-	<#
-	Try{
 
-		Write-Host "Update Version on GitHub" -ForegroundColor Yellow
+	Try {
+
+		Write-Host "Push Version update to GitHub..."
 
 		git config --global core.safecrlf false
 
@@ -34,7 +44,7 @@ if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'm
 
 		git config --global user.name "Pete Maan"
 
-		git checkout -q issue-44
+		git checkout -q master
 
 		git add $(Join-Path "$env:APPVEYOR_PROJECT_NAME" "$env:APPVEYOR_PROJECT_NAME.psd1")
 
@@ -42,17 +52,18 @@ if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'm
 
 		git commit -s -m "Update Version"
 
-		git push --porcelain origin issue-44
+		git push --porcelain origin master
+
+		Write-Host "($$env:APPVEYOR_PROJECT_NAME) updated version pushed to GitHub." -ForegroundColor Cyan
 
 	}
 
-	Catch{
+	Catch {
 
-		Write-Warning "Publishing update to GitHub failed."
+		Write-Warning "Push to GitHub failed."
 		throw $_
 
 	}
-	#>
 
 }
 
