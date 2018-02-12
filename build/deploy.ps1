@@ -3,6 +3,9 @@
 #---------------------------------#
 Write-Host "Deploy Process:" -ForegroundColor Yellow
 
+$ModulePath = Join-Path $env:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME
+
+Write-Host "Path: $ModulePath"
 
 if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'master')) {
 
@@ -10,13 +13,8 @@ if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'm
 	# Publish to PS Gallery           #
 	#---------------------------------#
 
-	#$ModulePath = Split-Path $pwd
-	#Write-Host "Adding $ModulePath to 'psmodulepath' PATH variable"
-	#$env:psmodulepath = $env:psmodulepath + ';' + $ModulePath
-
-	#Write-Host 'Publishing module to Powershell Gallery'
-	#Uncomment the below line, make sure you set the variables in appveyor.yml
-	#Publish-Module -Name $env:ModuleName -NuGetApiKey $env:NuGetApiKey
+	Write-Host 'Publishing module to Powershell Gallery'
+	#Publish-Module -Path $ModulePath -NuGetApiKey $env:psgallery_key -WhatIf
 
 	#---------------------------------#
 	# Publish to Master Branch        #
