@@ -1,5 +1,7 @@
 # psPAS
 
+[![Build status](https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true)](https://ci.appveyor.com/project/pspete/pspas/branch/master)
+
 ## **Table of Contents**
 
 - [psPAS](#pspas)
@@ -25,6 +27,7 @@ Exposes the available methods of the web service for CyberArk PAS up to v10.1.
 
 ## Latest Update
 
+- Module now available via the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/).
 - Updated Repository Structure
   - All module files now contained under the `psPAS` directory.
   - Files not needed for module operations remain at the root level.
@@ -61,7 +64,7 @@ The functions can still be used on appropriate earlier CyberArk versions, but no
 
 This repository contains a folder named ```psPAS```.
 
-The folder needs to be copied to one of your PowerShell Module Directories
+The folder needs to be copied to one of your PowerShell Module Directories using one of the methods below.
 
 Find your PowerShell Module Paths with the following command:
 
@@ -71,7 +74,21 @@ $env:PSModulePath.split(';')
 
 ```
 
+#### Option 1: Install from PowerShell Gallery
+
+PowerShell 5.0 or above & Administrator rights are required.
+
+To download the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/), from an elevated PowerShell prompt, run:
+
+````Install-Module -Name psPAS -Scope CurrentUser````
+
+#### Option 2: Manual Install
+
+Download the [```master branch```](https://github.com/pspete/psPAS/tree/master)
+
 Copy the ```psPAS``` folder to your "Powershell Modules" directory of choice.
+
+#### Verification
 
 Validate Module Exists:
 
@@ -89,7 +106,9 @@ Import-Module psPAS
 
 ```
 
-Discover Commands:
+#### Useful Commands
+
+Discover Module Commands:
 
 ```powershell
 
