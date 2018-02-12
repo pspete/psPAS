@@ -1,5 +1,16 @@
+# version format
+version: 1.0.{build}
+
+environment:
+  access_token:
+    secure: eWAovbJD8C/F5ObWegnOimwNFyeU1vXzW6lwbJzhHpSUgjT+CMexMcPUBMKrm+Wl
+  psgallery_key:
+    secure: FuPgJskczZMptxRgdUlBAy7OYmXBQl4zq86kXXSmBt6wKudnM2PK7W6cM7bj0te1
+
 skip_commits:
   files:
+    - .github\*
+    - .vscode\*
     - README.md
     - LICENSE.md
     - CONTRIBUTING.md
@@ -9,16 +20,22 @@ skip_commits:
     - appveyor.yml
   message: /update readme.*|update version.*|update appveyor.*/
 
+only_commits:
+  files:
+    - build\
+    - psPAS\
+    - Tests\
+
 os: WMF 5
 
 install:
-  - cinst pester
-  - ps: Install-PackageProvider -Name NuGet -Force
-  - ps: Install-Module PsScriptAnalyzer -Force
+  - ps: . .\build\install.ps1
 
-build: off
+build_script:
+  - ps: . .\build\build.ps1
 
 test_script:
-  - ps: $res = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -PassThru
-  - ps: (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestsResults.xml))
-  - ps: if ($res.FailedCount -gt 0) { throw "$($res.FailedCount) tests failed."}
+  - ps: . .\build\test.ps1
+
+deploy_script:
+  - ps: . .\build\deploy.ps1

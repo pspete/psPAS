@@ -1,10 +1,10 @@
-﻿@{
+@{
 
 	# Script module or binary module file associated with this manifest.
 	RootModule        = 'psPAS.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '0.9.10'
+	ModuleVersion     = '1.0.10'
 
 	# ID used to uniquely identify this module
 	GUID              = '11c880d2-1430-4bd2-b6e8-f324741b460b'
@@ -144,7 +144,7 @@
 		PSData = @{
 
 			# Tags applied to this module. These help with module discovery in online galleries.
-			Tags       = @('CyberArk', 'REST API', 'REST', 'Web Service')
+			Tags       = @('CyberArk', 'REST', 'API', 'Security')
 
 			# A URL to the license for this module.
 			LicenseUri = 'https://github.com/pspete/psPAS/blob/master/LICENSE.md'
