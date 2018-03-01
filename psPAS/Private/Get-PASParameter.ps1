@@ -78,6 +78,9 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 			"SessionVariable",
 			"WebSession",
 			"PVWAAppName",
+			"InformationAction",
+			"InformationVariable",
+			"UseTransaction",
 			"RequestID",
 			"OnlyWaiting")
 	)
@@ -95,6 +98,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 		ForEach-Object {
 
+			#TODO: add condition to reduce debug output - only report on removed params
 			Write-Debug "Removing Parameter: $_"
 			#remove specified parameters from passed values
 			$Parameters.Remove($_)
