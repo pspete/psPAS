@@ -133,6 +133,10 @@ Describe "Module" {
 
 					}
 
+					It 'has a related pester tests file' {
+						Test-Path (Join-Path $here "$_.Tests.ps1") | Should Be $true
+					}
+
 					Context "Help" {
 
 						$help = Get-Help $_ -Full
