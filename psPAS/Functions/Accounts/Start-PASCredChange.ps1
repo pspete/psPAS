@@ -85,7 +85,7 @@ None
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[hashtable]$SessionToken,
+		[hashtable]$sessionToken,
 
 		[parameter(
 			ValueFromPipelinebyPropertyName = $true
