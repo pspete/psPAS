@@ -165,7 +165,7 @@ Describe $FunctionName {
 			It "returns default property <Property> in response" -TestCases $DefaultProps {
 				param($Property)
 
-				$response.$Property | Should Not Be Null
+				$response.$Property | Should Not BeNullOrEmpty
 
 			}
 
