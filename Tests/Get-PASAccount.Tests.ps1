@@ -127,8 +127,7 @@ Describe $FunctionName {
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 				param($Parameter)
 
-				{((Get-Command $FunctionName).Parameters["$Parameter"].Attributes).Mandatory} |
-					Should Be $true
+				(Get-Command Get-PASAccount).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
 			}
 

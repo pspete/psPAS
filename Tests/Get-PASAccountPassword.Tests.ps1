@@ -58,8 +58,7 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				{((Get-Command $FunctionName).Parameters["$Parameter"].Attributes).Mandatory} |
-					Should Be $true
+				(Get-Command Get-PASAccountPassword).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
 			}
 

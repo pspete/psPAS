@@ -61,8 +61,7 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				{((Get-Command $FunctionName).Parameters["$Parameter"].Attributes).Mandatory} |
-					Should Be $true
+				(Get-Command Invoke-PASCredChange).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
 			}
 
