@@ -126,7 +126,7 @@ None
 
 		#ImmediateChangeByCPM must be sent in the request header
 		#remove it from the body of the request
-		Get-PASParameter -ParametersToRemove "ImmediateChangeByCPM"
+		Get-PASParameter -ParametersToRemove "ImmediateChangeByCPM", AccountID
 
 		#add ImmediateChangeByCPM to header as key=value pair
 		$header["ImmediateChangeByCPM"] = $ImmediateChangeByCPM

@@ -135,7 +135,7 @@ Minimum CyberArk Version 9.10
 		$URI = "$baseURI/$PVWAAppName/API/Accounts/$($AccountID)/PSMConnect"
 
 		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
+		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -Headers $sessionToken -WebSession $WebSession

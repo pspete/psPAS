@@ -196,7 +196,7 @@ function Invoke-PASCredChange {
 		$URI = "$baseURI/$PVWAAppName/API/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
 
 		#Get all parameters that will be sent in the request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove UpdateVaultOnly, SetNextPassword
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove UpdateVaultOnly, SetNextPassword, AccountID
 
 		#deal with NewCredentials SecureString
 		If($PSBoundParameters.ContainsKey("NewCredentials")) {
