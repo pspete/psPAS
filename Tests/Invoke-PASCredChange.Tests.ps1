@@ -54,7 +54,6 @@ Describe $FunctionName {
 			@{Parameter = 'SessionToken'},
 			@{Parameter = 'UpdateVaultOnly'},
 			@{Parameter = 'SetNextPassword'},
-			@{Parameter = 'NewCredentials'},
 			@{Parameter = 'AccountID'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
@@ -62,6 +61,18 @@ Describe $FunctionName {
 				param($Parameter)
 
 				(Get-Command Invoke-PASCredChange).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+
+			}
+
+			It "specifies parameter NewCredentials as mandatory for ParameterSet Password/Update" {
+
+				(Get-Command Invoke-PASCredChange).Parameters["NewCredentials"].ParameterSets["Password/Update"].IsMandatory | Should be $true
+
+			}
+
+			It "specifies parameter NewCredentials as mandatory for ParameterSet SetNextPassword" {
+
+				(Get-Command Invoke-PASCredChange).Parameters["NewCredentials"].ParameterSets["SetNextPassword"].IsMandatory | Should be $true
 
 			}
 
