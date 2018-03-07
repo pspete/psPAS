@@ -7,17 +7,6 @@ Adds a Safe Member to safe
 Adds an existing user as a Safe member.
 "Manage Safe Members" permission is required by the authenticated user account sending request.
 
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
 .PARAMETER SafeName
 The name of the safe to add the member to
 
