@@ -79,9 +79,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 			"PVWAAppName",
 			"InformationAction",
 			"InformationVariable",
-			"UseTransaction",
-			"RequestID",
-			"OnlyWaiting")
+			"UseTransaction")
 	)
 
 	BEGIN {

@@ -91,7 +91,7 @@ Minimum CyberArk Version 9.10
 		$URI = "$baseURI/$PVWAAppName/API/IncomingRequests/$($RequestID)/Reject"
 
 		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove  RequestId | ConvertTo-Json
+		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestId | ConvertTo-Json
 
 		if($PSCmdlet.ShouldProcess($RequestId, "Reject Request for Account Access")) {
 

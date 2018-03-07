@@ -91,7 +91,7 @@ Minimum CyberArk Version 9.10
 		$URI = "$baseURI/$PVWAAppName/API/IncomingRequests/$($RequestID)/Confirm"
 
 		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
+		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestId | ConvertTo-Json
 
 		if($PSCmdlet.ShouldProcess($RequestId, "Confirm Request for Account Access")) {
 
