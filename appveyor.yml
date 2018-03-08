@@ -6,6 +6,8 @@ environment:
     secure: eWAovbJD8C/F5ObWegnOimwNFyeU1vXzW6lwbJzhHpSUgjT+CMexMcPUBMKrm+Wl
   psgallery_key:
     secure: FuPgJskczZMptxRgdUlBAy7OYmXBQl4zq86kXXSmBt6wKudnM2PK7W6cM7bj0te1
+  coveralls_key:
+    secure: cWv4+OPfqRLSt7I4f+p3lEixKoYZzi42IDc7C4Kf+2WZW/dO+H+RBCM7m0Si2uuP
 
 skip_commits:
   files:
