@@ -54,7 +54,7 @@ Describe $FunctionName {
 			$Parameters = @{Parameter = 'BaseURI'},
 			@{Parameter = 'SessionToken'},
 			@{Parameter = 'GroupName'},
-			@{Parameter = 'GroupPlatform'},
+			@{Parameter = 'GroupPlatformID'},
 			@{Parameter = 'Safe'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {

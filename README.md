@@ -30,6 +30,7 @@ Exposes the available methods of the web service for CyberArk PAS up to v10.1.
 - Added initial Pester tests for all functions.
 - Bug Fixes:
   - ```Add-PASAccountGroupMember``` was not sending AccountID with request, now fixed.
+  - ```New-PASAccountGroup``` fixed an incorrect parameter name (_GroupPlatformID_).
   - ```New-PASSAMLSession``` - authentication token was not being sent in request header, now fixed.
   - ```Get-PASOnboardingRule```, ```New-PASOnboardingRule``` & ```Remove-PASOnboardingRule```, parameters updated to allow specification of alternate PVWA application name (in-line with the rest of the module's functions).
 

@@ -14,7 +14,7 @@ The following permissions are required on the safe where the account group will 
 .PARAMETER GroupName
 The name of the group to create
 
-.PARAMETER GroupPlatform
+.PARAMETER GroupPlatformID
 The name of the platform for the group.
 The associated platform must be set to "PolicyType=Group"
 
@@ -65,7 +65,7 @@ Minimum version 9.9.5
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$GroupPlatform,
+		[string]$GroupPlatformID,
 
 		[parameter(
 			Mandatory = $true,
