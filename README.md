@@ -1,6 +1,6 @@
 # psPAS
 
-[![Build status](https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true)](https://ci.appveyor.com/project/pspete/pspas/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true)](https://ci.appveyor.com/project/pspete/pspas/branch/master) [![Coverage Status](https://coveralls.io/repos/github/pspete/psPAS/badge.svg)](https://coveralls.io/github/pspete/psPAS)
 
 ## **Table of Contents**
 
@@ -27,24 +27,12 @@ Exposes the available methods of the web service for CyberArk PAS up to v10.1.
 
 ## Latest Update
 
-- Module now available via the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/).
-- Updated Repository Structure
-  - All module files now contained under the `psPAS` directory.
-  - Files not needed for module operations remain at the root level.
-  - A directory for Pester tests has been created, and contains initial tests for ensuring module consistency.
-    - Some module files have been updated based on the output of Pester (mainly missing help descriptions for parameters, or functions without examples).
-  - Project now integrated with [Appveyor](https://ci.appveyor.com/project/pspete/pspas).
-
-- Released new or updated functions for the new functionality in the CyberArk 10.1 API:
-  - `Invoke-PASCredChange` (_Updated_)
-  - `Get-PASAccountPassword` (_Updated_)
-  - `Stop-PASPSMSession`
-  - `Get-PASComponentSummary`
-  - `Get-PASComponentDetail`
-
-For the functions which have been updated, new features present in the REST API specific to version 10.1 have now been included where applicable.
-
-The functions can still be used on appropriate earlier CyberArk versions, but not all features/parameters of the functions will be available to you. If in doubt, check the comment based help & [compatibility table](#CyberArk_Version_Compatibility).
+- Added initial Pester tests for all functions.
+- Bug Fixes:
+  - ```Add-PASAccountGroupMember``` was not sending AccountID with request, now fixed.
+  - ```New-PASAccountGroup``` fixed an incorrect parameter name (_GroupPlatformID_).
+  - ```New-PASSAMLSession``` - authentication token was not being sent in request header, now fixed.
+  - ```Get-PASOnboardingRule```, ```New-PASOnboardingRule``` & ```Remove-PASOnboardingRule```, parameters updated to allow specification of alternate PVWA application name (in-line with the rest of the module's functions).
 
 ## Getting Started
 
@@ -57,8 +45,8 @@ The functions can still be used on appropriate earlier CyberArk versions, but no
 - A user with which to authenticate, with appropriate Vault/Safe permissions.
   - LDAP, CyberArk, RADIUS & Shared authentication can be used from CyberArk version 9.7 onwards.
   - For CyberArk 9.6 and below, only CyberArk authentication is supported.
-  - SAML authentication is supported from version 9.7, but the psPAS functions to support this are still in development (i.e. not working & not tested).
-    - The work in progress functions are included in the module - if you are using SAML authentication, have the insight, and are interested in helping getting this to work, let me know.
+  - SAML authentication is supported from version 9.7; the psPAS functions to support this are untested.
+    - The functions are included in the module - if you are using SAML authentication, and can feedback whether the functions work it would be appreciated.
 
 ### Install and Use
 
@@ -239,7 +227,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 Any and all contributions to this project are appreciated.
 
-The SAML authentication capability needs some attention.
+The SAML authentication capability needs testing, no federation service is available to me to confirm that the functionality works as required...
 
 See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
 
@@ -264,7 +252,7 @@ Chapeau!
 |9.4|All Previous Functions<br/><br/>|
 |9.5|All Previous Functions, and:<br/>`Set-PASAccount`<br/><br/>|
 |9.6|All Previous Functions, and:<br/>`Add-PASPublicSSHKey`<br/>`Get-PASPublicSSHKey`<br/>`Remove-PASPublicSSHKey`<br/><br/>|
-|9.7|All Previous Functions, and:<br/>`New-PASSession` (CyberArk, LDAP, RADIUS Authentication)<br/>`New-PASSAMLSession` (*In Development)<br/>`Close-PASSAMLSession` (*In Development)<br/>`New-PASSharedSession`<br/>`Close-PASSharedSession`<br/>`Get-PASServerWebService`<br/>`Get-PASSafeShareLogo`<br/>`Get-PASServer`<br/>`New-PASUser`<br/>`Set-PASUser`<br/>`Remove-PASUser`<br/>`Get-PASLoggedOnUser`<br/>`Get-PASUser`<br/>`Unblock-PASUser`<br/>`Add-PASGroupMember`<br/>`Add-PASPendingAccount`<br/>`Get-PASAccountPassword` (_Limited Functionality_)<br/>`Start-PASCredVerify`<br/>`Get-PASAccountActivity`<br/>`Get-PASSafe`<br/>`Get-PASSafeMember`<br/><br/>|
+|9.7|All Previous Functions, and:<br/>`New-PASSession` (CyberArk, LDAP, RADIUS Authentication)<br/>`New-PASSAMLSession`<br/>`Close-PASSAMLSession` <br/>`New-PASSharedSession`<br/>`Close-PASSharedSession`<br/>`Get-PASServerWebService`<br/>`Get-PASSafeShareLogo`<br/>`Get-PASServer`<br/>`New-PASUser`<br/>`Set-PASUser`<br/>`Remove-PASUser`<br/>`Get-PASLoggedOnUser`<br/>`Get-PASUser`<br/>`Unblock-PASUser`<br/>`Add-PASGroupMember`<br/>`Add-PASPendingAccount`<br/>`Get-PASAccountPassword` (_Limited Functionality_)<br/>`Start-PASCredVerify`<br/>`Get-PASAccountActivity`<br/>`Get-PASSafe`<br/>`Get-PASSafeMember`<br/><br/>|
 |9.8|All Previous Functions, and:<br/>`New-PASOnboardingRule`<br/>`Remove-PASOnboardingRule`<br/>`Get-PASOnboardingRule`<br/><br/>|
 |9.9|All Previous Functions|
 |9.9.5|All Previous Functions, and:<br/>`New-PASAccountGroup`<br/>`Add-PASAccountGroupMember`<br/><br/>|

@@ -6,7 +6,7 @@ Outputs escaped string value.
 .DESCRIPTION
 Wrapper for the System.Uri EscapeDataString method.
 When provided with an input string, an escaped string will be output.
-This can be used for forming URLs and query srings where spaces are not allowed.
+This can be used for forming URLs and query strings where spaces are not allowed.
 
 .PARAMETER inputString
 String to escape

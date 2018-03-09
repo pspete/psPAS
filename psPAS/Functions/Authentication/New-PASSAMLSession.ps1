@@ -85,8 +85,7 @@ other functions from this return object.
 	PROCESS {
 
 		#Create base64 encoded token for header
-		$Token = [System.Text.Encoding]::UTF8.GetBytes("$($Credential.UserName):$($Credential.GetNetworkCredential().Password)")
-		$EncodedToken = [System.Convert]::ToBase64String($Token)
+		$EncodedToken = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($Credential.UserName + ':' + $Credential.GetNetworkCredential().Password))
 
 		#add token to header
 		$Header = @{"Authorization" = "Basic $EncodedToken"}
@@ -97,7 +96,7 @@ other functions from this return object.
 		if($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon Using SAML Authentication")) {
 
 			#Send Logon Request
-			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Header $Header -SessionVariable $SessionVariable
+			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $Header -SessionVariable $SessionVariable
 
 			#Return Object
 			[pscustomobject]@{

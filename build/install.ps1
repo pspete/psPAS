@@ -14,4 +14,4 @@ Write-Host "`t`tInstalled NuGet version '$($pkg.version)'"
 # Install Required Modules        #
 #---------------------------------#
 Write-Host "`tRequired Modules..."
-Install-Module -Name Pester, PSScriptAnalyzer -Repository PSGallery -Confirm:$false -Force -ErrorAction SilentlyContinue | Out-Null
+Install-Module -Name Pester, PSScriptAnalyzer, coveralls -Repository PSGallery -Confirm:$false -Force -ErrorAction SilentlyContinue | Out-Null

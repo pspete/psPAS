@@ -65,13 +65,13 @@ None
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$BaseURI<#,
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"#>
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 	)
 
 	BEGIN {}#begin

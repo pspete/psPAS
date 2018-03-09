@@ -126,13 +126,13 @@ Not Tested
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$BaseURI<#,
+		[string]$BaseURI,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"#>
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 	)
 
 	BEGIN {}#begin
@@ -155,7 +155,7 @@ Not Tested
 				"sessionToken" = $sessionToken
 				"WebSession"   = $WebSession
 				"BaseURI"      = $BaseURI
-				#"PVWAAppName"  = $PVWAAppName
+				"PVWAAppName"  = $PVWAAppName
 
 			}
 

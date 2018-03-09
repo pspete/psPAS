@@ -133,6 +133,10 @@ Describe "Module" {
 
 					}
 
+					It 'has a related pester tests file' {
+						Test-Path (Join-Path $here "$_.Tests.ps1") | Should Be $true
+					}
+
 					Context "Help" {
 
 						$help = Get-Help $_ -Full
@@ -198,11 +202,27 @@ Describe "Module" {
 
 	}
 
-	Context 'PSScriptAnalyzer' {
+	Describe 'PSScriptAnalyzer' {
 
-		It "passes Invoke-ScriptAnalyzer" {
+		$Scripts = Get-ChildItem "$ModulePath" -Filter '*.ps1' -Exclude '*.ps1xml' -Recurse
 
-			Invoke-ScriptAnalyzer -Path $ModulePath -Recurse | Should be $null
+		$Rules = Get-ScriptAnalyzerRule
+
+		foreach ($Script in $scripts) {
+
+			Context "Checking: $($script.BaseName)" {
+
+				foreach ($rule in $rules) {
+
+					It "passes rule $rule" {
+
+						(Invoke-ScriptAnalyzer -Path $script.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
+
+					}
+
+				}
+
+			}
 
 		}
 
