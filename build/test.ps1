@@ -15,7 +15,7 @@ Write-Host 'Uploading Test Results'
 (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestsResults.xml))
 
 Write-Host 'Formating Code Coverage'
-$coverage = Format-Coverage -RootFolder ".\psPAS" -PesterResults $res -CoverallsApiToken $($env:coveralls_key) -BranchName $($env:APPVEYOR_REPO_BRANCH)
+$coverage = Format-Coverage -PesterResults $res -CoverallsApiToken $($env:coveralls_key) -BranchName $($env:APPVEYOR_REPO_BRANCH)
 Write-Host 'Publishing Code Coverage'
 Publish-Coverage -Coverage $coverage
 
