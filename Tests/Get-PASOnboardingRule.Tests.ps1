@@ -45,6 +45,7 @@ Describe $FunctionName {
 			"BaseURI"      = "https://P_URI"
 			"PVWAAppName"  = "P_App"
 			"AccountID"    = "99_9"
+			"name"         = "SomeRule,SomeRule2"
 
 		}
 
@@ -77,7 +78,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/AutomaticOnboardingRules/"
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/AutomaticOnboardingRules/?Name=SomeRule,SomeRule2"
 
 				} -Times 1 -Exactly -Scope Describe
 
