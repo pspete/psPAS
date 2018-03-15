@@ -1,4 +1,4 @@
-function Stop-PASPSMSession {
+function Resume-PASPSMSession {
 	<#
 .SYNOPSIS
 Suspends a Live PSM Session.
