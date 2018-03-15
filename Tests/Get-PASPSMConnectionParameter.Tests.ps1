@@ -66,7 +66,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Get-PASPSMConnectionParameter
+		$response = $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
 
 		Context "Input" {
 
@@ -107,6 +107,24 @@ Describe $FunctionName {
 			It "has a request body with expected number of properties" {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 1
+
+			}
+
+			It "has expected Accept key in header" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Headers["Accept"] -eq 'application/json' } -Times 1 -Exactly -Scope Describe
+
+			}
+
+			It "specifies expected Accept key in header for PSMGW requests" {
+
+				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Headers["Accept"] -eq '* / *' } -Times 1 -Exactly -Scope It
 
 			}
 
