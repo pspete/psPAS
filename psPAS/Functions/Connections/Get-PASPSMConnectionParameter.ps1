@@ -1,12 +1,15 @@
 function Get-PASPSMConnectionParameter {
 	<#
 .SYNOPSIS
-Connect through PSM
+Get required parameters to connect through PSM
 
 .DESCRIPTION
-This method allows you to connect with an account through PSM using an RDP file,
-by returning RDP parameters that can be used with an RDP client application.
-It requires the PVWA and PSM to be configured for transparent connections through PSM with RDP files.
+This method enables you to connect to an account through PSM (PSMConnect) using
+a connection method defined in the PVWA.
+The function returns the parameters to be used in an RDP file or with a Remote Desktop Manager, or if
+a PSMGW is configured, the HTML5 connection data and the required PSMGW URL.
+It requires the PVWA and PSM to be configured for either transparent connections through PSM with RDP files
+or the HTML5 Gateway.
 
 .PARAMETER AccountID
 The unique ID of the account to retrieve and use to connect to the target via PSM
@@ -25,6 +28,11 @@ The name of the connection component to connect with as defined in the configura
 
 .PARAMETER ConnectionParams
 List of params
+
+.PARAMETER ConnectionMethod
+The expected parameters to be returned, either RDP or PSMGW.
+
+PSMGW is only available from version 10.2 onwards
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -57,6 +65,7 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum CyberArk Version 9.10
+PSMGW connections require 10.2
 
 .LINK
 
@@ -103,6 +112,13 @@ Minimum CyberArk Version 9.10
 		[hashtable]$ConnectionParams,
 
 		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateSet("RDP", "PSMGW")]
+		[string]$ConnectionMethod,
+
+		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
@@ -134,15 +150,38 @@ Minimum CyberArk Version 9.10
 		#Create URL for Request
 		$URI = "$baseURI/$PVWAAppName/API/Accounts/$($AccountID)/PSMConnect"
 
+		$Header = $sessionToken
+
+		#if a connection method is specified
+		If($PSBoundParameters.ContainsKey("ConnectionMethod")) {
+
+			#The information needs to passed in the header
+			if($PSBoundParameters["ConnectionMethod"] -eq "RDP") {
+
+				#RDP accept "application/json" response
+				$Accept = "application/json"
+
+			} elseif($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
+
+				#PSMGW accept * / * response
+				$Accept = "* / *"
+
+			}
+
+			#add detail to header
+			$Header["Accept"] = $Accept
+
+		}
+
 		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
+		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod | ConvertTo-Json
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -Headers $Header -WebSession $WebSession
 
 		If($result) {
 
-			#Return PSM RDP Parameters
+			#Return PSM Connection Parameters
 			$result
 
 		}

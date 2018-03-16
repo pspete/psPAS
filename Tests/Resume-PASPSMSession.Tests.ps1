@@ -36,35 +36,35 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"AutomaticOnboardingRules" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}}
+
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"AccountID"    = "99_9"
-			"Names"        = "SomeRule,SomeRule2"
+			"sessionToken"  = @{"Authorization" = "P_AuthValue"}
+			"WebSession"    = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			"BaseURI"       = "https://P_URI"
+			"PVWAAppName"   = "P_App"
+			"LiveSessionId" = "SomeSessionID"
 
 		}
 
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'}
+			@{Parameter = 'SessionToken'},
+			@{Parameter = 'LiveSessionId'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Get-PASOnboardingRule).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Resume-PASPSMSession).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Get-PASOnboardingRule
+		$response = $InputObj | Resume-PASPSMSession
 
 		Context "Input" {
 
@@ -78,7 +78,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/AutomaticOnboardingRules?Names=SomeRule,SomeRule2"
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/LiveSessions/SomeSessionID/Resume"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -86,7 +86,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -100,33 +100,9 @@ Describe $FunctionName {
 
 		Context "Output" {
 
-			it "provides output" {
+			it "provides no output" {
 
-				$response | Should not BeNullOrEmpty
-
-			}
-
-			It "has output with expected number of properties" {
-
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 6
-
-			}
-
-			it "outputs object with expected typename" {
-
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.OnboardingRule
-
-			}
-
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'}
-
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Not BeNullOrEmpty
+				$response | Should Be $null
 
 			}
 

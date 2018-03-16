@@ -36,39 +36,52 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
+			[PSCustomObject]@{"PlatformID" = "SomePlatform"}
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken"        = @{"Authorization" = "P_AuthValue"}
-			"WebSession"          = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"             = "https://P_URI"
-			"PVWAAppName"         = "P_App"
-			"AccountID"           = "99_9"
-			"ConnectionComponent" = "SomeConnectionComponent"
-
+			"sessionToken" = @{"Authorization" = "P_AuthValue"}
+			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			"BaseURI"      = "https://P_URI"
+			"PVWAAppName"  = "P_App"
 		}
+
+		#Create a 512b file to test with
+		$file = [System.IO.File]::Create("$env:Temp\testPlatform.zip")
+		$file.SetLength(0.5kb)
+		$file.Close()
 
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
 			@{Parameter = 'SessionToken'},
-			@{Parameter = 'AccountID'},
-			@{Parameter = 'ConnectionComponent'}
+			@{Parameter = 'ImportFile'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Get-PASPSMConnectionParameter).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Import-PASPlatform).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+		$response = $InputObj | Import-PASPlatform -ImportFile $($file.name)
 
 		Context "Input" {
+
+			It "throws if InputFile does not exist" {
+				{$InputObj | Import-PASPlatform -ImportFile SomeFile.txt} | Should throw
+			}
+
+			It "throws if InputFile resolves to a folder" {
+				{$InputObj | Import-PASPlatform -ImportFile $pwd} | Should throw
+			}
+
+			It "throws if InputFile does not have a zip extention" {
+				{$InputObj | Import-PASPlatform -ImportFile README.MD} | Should throw
+			}
 
 			It "sends request" {
 
@@ -80,7 +93,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Accounts/99_9/PSMConnect"
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Platforms/Import"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -98,7 +111,7 @@ Describe $FunctionName {
 
 					$Script:RequestBody = $Body | ConvertFrom-Json
 
-					($Script:RequestBody) -ne $null
+					($Script:RequestBody.ImportFile) -ne $null
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -110,23 +123,12 @@ Describe $FunctionName {
 
 			}
 
-			It "has expected Accept key in header" {
+			It "has body content of expected length" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$Headers["Accept"] -eq 'application/json' } -Times 1 -Exactly -Scope Describe
+				($Script:RequestBody.ImportFile).length | Should Be 512
 
 			}
 
-			It "specifies expected Accept key in header for PSMGW requests" {
-
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$Headers["Accept"] -eq '* / *' } -Times 1 -Exactly -Scope It
-
-			}
 
 		}
 
@@ -140,7 +142,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 3
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 1
 
 			}
 
