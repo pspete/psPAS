@@ -7,7 +7,7 @@ Gets all automatic on-boarding rules
 Returns information on defined on-boarding rules.
 Vault Admin membership required.
 
-.PARAMETER Name
+.PARAMETER Names
 A filter that specifies the rule name.
 Separate a list of rules with commas.
 If not specified, all rules will be returned.
@@ -31,6 +31,11 @@ Defaults to PasswordVault
 $token | Get-PASOnboardingRule
 
 List information on all On-boarding rules
+
+.EXAMPLE
+$token | Get-PASOnboardingRule -Names Rule1,Rule2
+
+List information on On-boarding rules "Rule1" & "Rule2"
 
 .INPUTS
 All parameters can be piped by property name
@@ -57,7 +62,7 @@ Not Tested
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$Name,
+		[string]$Names,
 
 		[parameter(
 			Mandatory = $true,
@@ -89,9 +94,9 @@ Not Tested
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules/"
+		$URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules"
 
-		If($PSBoundParameters.ContainsKey("name")) {
+		If($PSBoundParameters.ContainsKey("Names")) {
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter
