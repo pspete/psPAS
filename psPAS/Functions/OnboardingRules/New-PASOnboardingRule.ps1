@@ -214,7 +214,7 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "post_V10_2"
 		)]
-		[ValidateSet("Any", "Privileged", "Non-Privileged")]
+		[ValidateSet("Any", "Privileged", "NonPrivileged")]
 		[string]$AccountCategoryFilter,
 
 		[parameter(
