@@ -4,7 +4,8 @@ function Resume-PASPSMSession {
 Resumes a Suspended PSM Session.
 
 .DESCRIPTION
-Resumes a Suspended PSM Session identified by the unique ID of the PSM Session.
+Resumes a suspended, active PSM session, identified by the unique ID of the PSM Session,
+allowing a privileged user to continue working.
 
 .PARAMETER LiveSessionId
 The unique ID/SessionGuid of a Suspended PSM Session.

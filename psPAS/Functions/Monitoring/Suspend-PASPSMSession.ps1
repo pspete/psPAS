@@ -4,7 +4,8 @@ function Suspend-PASPSMSession {
 Suspends a Live PSM Session.
 
 .DESCRIPTION
-Suspends a Live PSM Session identified by the unique ID of the PSM Session.
+Suspends a Live PSM session, identified by the unique ID of the PSM Session,
+preventing further  interaction in the session until it is resumed by Resume-PASPSMSession.
 
 .PARAMETER LiveSessionId
 The unique ID/SessionGuid of a Live PSM Session.
