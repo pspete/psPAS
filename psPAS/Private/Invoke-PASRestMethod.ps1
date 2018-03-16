@@ -50,7 +50,7 @@ to ensure session persistence.
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "WebSession")]
 	param
 	(
 		[Parameter(Mandatory = $true)]

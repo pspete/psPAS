@@ -1,11 +1,17 @@
 ﻿function Get-PASOnboardingRule {
 	<#
 .SYNOPSIS
-Gets all automatic onboarding rules
+Gets all automatic on-boarding rules
 
 .DESCRIPTION
-Returns information on all defined on-boarding rules.
+Returns information on defined on-boarding rules.
 Vault Admin membership required.
+
+.PARAMETER Names
+A filter that specifies the rule name.
+Separate a list of rules with commas.
+If not specified, all rules will be returned.
+For version 10.2 onwards (not a supported parameter on earlier versions)
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -25,6 +31,11 @@ Defaults to PasswordVault
 $token | Get-PASOnboardingRule
 
 List information on all On-boarding rules
+
+.EXAMPLE
+$token | Get-PASOnboardingRule -Names Rule1,Rule2
+
+List information on On-boarding rules "Rule1" & "Rule2"
 
 .INPUTS
 All parameters can be piped by property name
@@ -46,6 +57,13 @@ Not Tested
 #>
 	[CmdletBinding()]
 	param(
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$Names,
+
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
@@ -76,7 +94,24 @@ Not Tested
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules/"
+		$URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules"
+
+		If($PSBoundParameters.ContainsKey("Names")) {
+
+			#Get Parameters to include in request
+			$boundParameters = $PSBoundParameters | Get-PASParameter
+
+			#Create Query String, escaped for inclusion in request URL
+			$queryString = ($boundParameters.keys | ForEach-Object {
+
+					"$_=$($boundParameters[$_])"
+
+				})
+
+			#Build URL from base URL
+			$URI = "$URI`?$queryString"
+
+		}
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession

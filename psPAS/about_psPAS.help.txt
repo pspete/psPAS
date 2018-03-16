@@ -79,4 +79,5 @@ KEYWORDS
     CyberArk
 
 SEE ALSO
+    about_psPAS_Versions
     https://github.com/pspete/psPAS

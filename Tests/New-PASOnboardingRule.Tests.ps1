@@ -56,7 +56,9 @@ Describe $FunctionName {
 			@{Parameter = 'SessionToken'},
 			@{Parameter = 'DecisionPlatformId'},
 			@{Parameter = 'DecisionSafeName'},
-			@{Parameter = 'SystemTypeFilter'}
+			@{Parameter = 'SystemTypeFilter'},
+			@{Parameter = 'TargetPlatformId'},
+			@{Parameter = 'TargetSafeName'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -109,6 +111,23 @@ Describe $FunctionName {
 			It "has a request body with expected number of properties" {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 3
+
+			}
+
+			It "accepts alternative parameterset input" {
+
+				$InputObj = [pscustomobject]@{
+					"sessionToken"     = @{"Authorization" = "P_AuthValue"}
+					"WebSession"       = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"          = "https://P_URI"
+					"PVWAAppName"      = "P_App"
+					"TargetPlatformId" = "SomePlatform"
+					"TargetSafeName"   = "SomeSafe"
+					"SystemTypeFilter" = "Windows"
+
+				}
+
+				{$InputObj | New-PASOnboardingRule} | Should Not Throw
 
 			}
 

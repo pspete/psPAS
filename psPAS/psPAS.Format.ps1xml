@@ -500,32 +500,44 @@
       <ViewSelectedBy>
         <TypeName>psPAS.CyberArk.Vault.OnboardingRule</TypeName>
       </ViewSelectedBy>
-      <TableControl>
-        <TableHeaders>
-          <TableColumnHeader />
-          <TableColumnHeader />
-          <TableColumnHeader />
-          <TableColumnHeader />
-        </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
                 <PropertyName>RuleId</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
+              </ListItem>
+              <ListItem>
                 <PropertyName>RuleName</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
+              </ListItem>
+              <ListItem>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$_.DecisionPlatformId</ScriptBlock>
+                </ItemSelectionCondition>
                 <PropertyName>DecisionPlatformId</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
+              </ListItem>
+              <ListItem>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$_.DecisionSafeName</ScriptBlock>
+                </ItemSelectionCondition>
                 <PropertyName>DecisionSafeName</PropertyName>
-              </TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
-      </TableControl>
+              </ListItem>
+              <ListItem>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$_.TargetPlatformId</ScriptBlock>
+                </ItemSelectionCondition>
+                <PropertyName>TargetPlatformId</PropertyName>
+              </ListItem>
+              <ListItem>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$_.TargetSafeName</ScriptBlock>
+                </ItemSelectionCondition>
+                <PropertyName>TargetSafeName</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
     </View>
     <View>
       <Name>psPAS.CyberArk.Vault.Application</Name>

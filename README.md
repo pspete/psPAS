@@ -1,12 +1,16 @@
 # psPAS
 
-[![Build status](https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true)](https://ci.appveyor.com/project/pspete/pspas/branch/master) [![Coverage Status](https://coveralls.io/repos/github/pspete/psPAS/badge.svg)](https://coveralls.io/github/pspete/psPAS)
+[![Build status](https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true)](https://ci.appveyor.com/project/pspete/pspas/branch/master)
+[![AppVeyor tests](https://img.shields.io/appveyor/tests/pspete/pspas.svg)](https://ci.appveyor.com/project/pspete/pspas)
+[![Coverage Status](https://coveralls.io/repos/github/pspete/psPAS/badge.svg)](https://coveralls.io/github/pspete/psPAS)
+[![PowerShell Gallery](https://img.shields.io/powershellgallery/v/psPAS.svg)](https://www.powershellgallery.com/packages/psPAS)
+[![license](https://img.shields.io/github/license/pspete/psPAS.svg)](https://github.com/pspete/psPAS/blob/master/LICENSE.md)
 
 ## **Table of Contents**
 
 - [psPAS](#pspas)
   - [CyberArk PowerShell Module](#cyberark-powershell-module)
-  - [Latest Update](#latest-update)
+  - [Latest Updates](#latest-updates)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Install and Use](#install-and-use)
@@ -21,13 +25,21 @@
 
 PowerShell module for CyberArk Privileged Account Security Web Services REST API.
 
-Exposes the available methods of the web service for CyberArk PAS up to v10.1.
+Exposes the available methods of the web service for CyberArk PAS up to v10.2.
 
 ----------
 
-## Latest Update
+## Latest Updates
 
-- Added initial Pester tests for all functions.
+- Module updated to cover CyberArk 10.2 API features:
+  - `New-PASOnboardingRule` has added parameters available from 10.2 onwards. The 9.8 & 10.2 parameters are configured as separate parametersets.
+  - `Get-PASOnboardingRule` has a new parameter added, allowing search of Onboarding rules by name in version 10.2
+  - `Import-PASPlatform` function added, allowing import of CPM Platforms
+  - `Get-PASPSMConnectionParameters` updated to facilitate return of HTML5 connection data when PSMGW is configured.
+  - `Suspend-PASPSMSession` & `Resume-PASPSMSession` functions added, expanding on the automatic mitigation capability for PSM Sessions.
+
+- Attained 100% Code Coverage in the Tests for the module.
+
 - Bug Fixes:
   - ```Add-PASAccountGroupMember``` was not sending AccountID with request, now fixed.
   - ```New-PASAccountGroup``` fixed an incorrect parameter name (_GroupPlatformID_).
@@ -253,8 +265,9 @@ Chapeau!
 |9.5|All Previous Functions, and:<br/>`Set-PASAccount`<br/><br/>|
 |9.6|All Previous Functions, and:<br/>`Add-PASPublicSSHKey`<br/>`Get-PASPublicSSHKey`<br/>`Remove-PASPublicSSHKey`<br/><br/>|
 |9.7|All Previous Functions, and:<br/>`New-PASSession` (CyberArk, LDAP, RADIUS Authentication)<br/>`New-PASSAMLSession`<br/>`Close-PASSAMLSession` <br/>`New-PASSharedSession`<br/>`Close-PASSharedSession`<br/>`Get-PASServerWebService`<br/>`Get-PASSafeShareLogo`<br/>`Get-PASServer`<br/>`New-PASUser`<br/>`Set-PASUser`<br/>`Remove-PASUser`<br/>`Get-PASLoggedOnUser`<br/>`Get-PASUser`<br/>`Unblock-PASUser`<br/>`Add-PASGroupMember`<br/>`Add-PASPendingAccount`<br/>`Get-PASAccountPassword` (_Limited Functionality_)<br/>`Start-PASCredVerify`<br/>`Get-PASAccountActivity`<br/>`Get-PASSafe`<br/>`Get-PASSafeMember`<br/><br/>|
-|9.8|All Previous Functions, and:<br/>`New-PASOnboardingRule`<br/>`Remove-PASOnboardingRule`<br/>`Get-PASOnboardingRule`<br/><br/>|
+|9.8|All Previous Functions, and:<br/>`New-PASOnboardingRule` (_Limited Functionality_)<br/>`Remove-PASOnboardingRule`<br/>`Get-PASOnboardingRule` (_Limited Functionality_)<br/><br/>|
 |9.9|All Previous Functions|
 |9.9.5|All Previous Functions, and:<br/>`New-PASAccountGroup`<br/>`Add-PASAccountGroupMember`<br/><br/>|
-|9.10|All Previous Functions, and:<br/>`Invoke-PASCredChange` (_Limited Functionality_)<br/>`Invoke-PASCredVerify`<br/>`Invoke-PASCredReconcile`<br/>`Unlock-PASAccount`<br/>`Get-PASAccountGroup`<br/>`Get-PASAccountGroupMember`<br/>`Remove-PASAccountGroupMember`<br/>`New-PASRequest`<br/>`Get-PASRequest`<br/>`Get-PASRequestDetail`<br/>`Remove-PASRequest`<br/>`Approve-PASRequest`<br/>`Deny-PASRequest`<br/>`Get-PASPlatform`<br/>`Get-PASRecording`<br/>`Get-PASLiveSession`<br/>`Get-PASPSMConnectionParameter`<br/><br/>|
+|9.10|All Previous Functions, and:<br/>`Invoke-PASCredChange` (_Limited Functionality_)<br/>`Invoke-PASCredVerify`<br/>`Invoke-PASCredReconcile`<br/>`Unlock-PASAccount`<br/>`Get-PASAccountGroup`<br/>`Get-PASAccountGroupMember`<br/>`Remove-PASAccountGroupMember`<br/>`New-PASRequest`<br/>`Get-PASRequest`<br/>`Get-PASRequestDetail`<br/>`Remove-PASRequest`<br/>`Approve-PASRequest`<br/>`Deny-PASRequest`<br/>`Get-PASPlatform`<br/>`Get-PASRecording`<br/>`Get-PASLiveSession`<br/>`Get-PASPSMConnectionParameter` (_Limited Functionality_)<br/><br/>|
 |10.1|All Previous Functions, and:<br/>`Invoke-PASCredChange` (_Updated for 10.1_)<br/>`Get-PASAccountPassword` (_Updated for 10.1_)<br/>`Stop-PASPSMSession`<br/>`Get-PASComponentSummary`<br/>`Get-PASComponentDetail`<br/><br/>|
+|10.2|All Previous Functions, and:<br/>`Get-PASPSMConnectionParameters` (_Updated for 10.2_)<br/>`New-PASOnboardingRule` (_Updated for 10.2_)<br/>`Get-PASOnboardingRule` (_Updated for 10.2_)<br/>`Suspend-PASPSMSession`<br/>`Resume-PASPSMSession`<br/>`Import-PASPSMPlatform`<br/><br/>|
