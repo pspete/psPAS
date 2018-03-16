@@ -38,7 +38,8 @@ Exposes the available methods of the web service for CyberArk PAS up to v10.2.
   - `Get-PASPSMConnectionParameters` updated to facilitate return of HTML5 connection data when PSMGW is configured.
   - `Suspend-PASPSMSession` & `Resume-PASPSMSession` functions added, expanding on the automatic mitigation capability for PSM Sessions.
 
-- Majority of codebase covered by initial Pester tests (check out that code coverage^). Further development and expansion of the module tests is planned.
+- Attained 100% Code Coverage in the Tests for the module.
+
 - Bug Fixes:
   - ```Add-PASAccountGroupMember``` was not sending AccountID with request, now fixed.
   - ```New-PASAccountGroup``` fixed an incorrect parameter name (_GroupPlatformID_).
