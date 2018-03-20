@@ -285,7 +285,9 @@ $env:PSModulePath.split(';')
 
 ```
 
-Download the [```master branch```](https://github.com/pspete/psPAS/tree/master)
+[Download the ```master branch```](https://github.com/pspete/psPAS/archive/master.zip)
+
+Extract the archive
 
 Copy the ```psPAS``` folder to your "Powershell Modules" directory of choice.
 
