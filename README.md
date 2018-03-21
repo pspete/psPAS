@@ -50,7 +50,7 @@ In the below examples, the `$token` variable contains the values for the</br>
 $token | Get-PASAccount -Keywords "root server.name" -Safe UNIX
 ```
 
-Use of the pipeline to allow multiple successive commands to be executed.
+Use the pipeline to allow multiple successive commands to be executed.
 
 ```powershell
 #Logon, find an account, update some acccount properties, then logoff
