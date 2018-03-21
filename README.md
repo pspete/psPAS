@@ -40,7 +40,7 @@ $token = New-PASSession -Credential $Credentials -BaseURI https://PVWA_URL
 
 The output of `New-PASSession` can be used as input for subsequent commands.
 
-<p><img src="./media/logon.gif" width=80%></p>
+<p><img src="./media/logon.gif" width=90%></p>
 
 In the below examples, the `$token` variable contains the values for the</br>
 `sessionToken` & `baseURI` parameters, which are mandatory for all functions.
@@ -68,7 +68,7 @@ $token = $Credentials | New-PASSession -BaseURI https://cyberark
 $token | Get-PASUser PebKac | Unblock-PASUser -Suspended $false
 ```
 
-<p><img src="./media/pebkac.gif" width=80%></p>
+<p><img src="./media/pebkac.gif" width=90%></p>
 
 ```powershell
 #Add a User to a group
@@ -95,7 +95,7 @@ $token | Add-PASSafe -SafeName NewSafe `
   -ViewAuditLog $false -ViewSafeMembers $false
 ```
 
-<p><img src="./media/safes.gif" width=80%></p>
+<p><img src="./media/safes.gif" width=90%></p>
 
 Achieve consistent safe permissions...
 
@@ -138,7 +138,7 @@ $token | Get-PASSafe -query Safe_Name-Pattern |
 $token | Get-PASSafe | Set-PASSafe -NumberOfVersionsRetention 25
 ```
 
-<p><img src="./media/permissions.gif" width=80%></p>
+<p><img src="./media/permissions.gif" width=90%></p>
 
 Onboard a User Account
 
@@ -170,6 +170,20 @@ Check-In locked accounts
 #Find an account and check it in
 $token | Get-PASAccount -Keywords "YourUser" -Safe YourSafe | Unlock-PASAccount
 ```
+
+Make changes to multiple managed accounts...
+
+```powershell
+#Update platform on a list of accounts
+Import-CSV .\accounts.csv | Foreach-Object{
+
+  $token | Get-PASAccount -Keywords "$_.Address $_.UserName" |
+    Set-PASAccount -PlatformID "P_Win_PSM"
+
+}
+```
+
+<p><img src="./media/accounts.gif" width=90%></p>
 
 ## <a id="CyberArk_Version_Compatibility"></a> Module Functions
 
