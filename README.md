@@ -40,6 +40,8 @@ $token = New-PASSession -Credential $Credentials -BaseURI https://PVWA_URL
 
 The output of `New-PASSession` can be used as input for subsequent commands.
 
+<p><img src="./media/logon.gif" width=80%></p>
+
 In the below examples, the `$token` variable contains the values for the</br>
 `sessionToken` & `baseURI` parameters, which are mandatory for all functions.
 
@@ -66,6 +68,8 @@ $token = $Credentials | New-PASSession -BaseURI https://cyberark
 $token | Get-PASUser PebKac | Unblock-PASUser -Suspended $false
 ```
 
+<p><img src="./media/pebkac.gif" width=80%></p>
+
 ```powershell
 #Add a User to a group
 $token | Get-PASUser -UserName User | Add-PASGroupMember Group
@@ -90,6 +94,8 @@ $token | Add-PASSafe -SafeName NewSafe `
   -UseAccounts $true -RetrieveAccounts $false -ListAccounts $true `
   -ViewAuditLog $false -ViewSafeMembers $false
 ```
+
+<p><img src="./media/safes.gif" width=80%></p>
 
 Achieve consistent safe permissions...
 
@@ -131,6 +137,8 @@ $token | Get-PASSafe -query Safe_Name-Pattern |
 #Update Version Retention on all Safes
 $token | Get-PASSafe | Set-PASSafe -NumberOfVersionsRetention 25
 ```
+
+<p><img src="./media/permissions.gif" width=80%></p>
 
 Onboard a User Account
 
