@@ -156,7 +156,7 @@ Onboard User Accounts, in bulk...
 #Import CSV of Account Details
 Import-CSV .\users.csv | Foreach-Object{
   #Convert Password Value to SecureString
-  $Password = | $_.Password ConvertTo-SecureString -AsPlainText -force
+  $Password = $_.Password | ConvertTo-SecureString -AsPlainText -force
   #Onboard Account
   $token | Add-PASAccount -safe $_.Safe -PlatformID $_.PlatformID -Address $_.Address `
     -Password $password -UserName $_.UserName `
