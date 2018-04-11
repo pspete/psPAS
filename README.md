@@ -40,7 +40,7 @@ $token = New-PASSession -Credential $Credentials -BaseURI https://PVWA_URL
 
 The output of `New-PASSession` can be used as input for subsequent commands.
 
-<p><img src="./media/logon.gif" width=90%></p>
+![Logon](/media/logon.gif)
 
 In the below examples, the `$token` variable contains the values for the</br>
 `sessionToken` & `baseURI` parameters, which are mandatory for all functions.
@@ -68,7 +68,7 @@ $token = $Credentials | New-PASSession -BaseURI https://cyberark
 $token | Get-PASUser PebKac | Unblock-PASUser -Suspended $false
 ```
 
-<p><img src="./media/pebkac.gif" width=90%></p>
+![Problem Exists Between Keyboard and Chair](/media/pebkac.gif)
 
 ```powershell
 #Add a User to a group
@@ -95,7 +95,7 @@ $token | Add-PASSafe -SafeName NewSafe `
   -ViewAuditLog $false -ViewSafeMembers $false
 ```
 
-<p><img src="./media/safes.gif" width=90%></p>
+![Safe Creation](/media/safes.gif)
 
 Achieve consistent safe permissions...
 
@@ -138,7 +138,7 @@ $token | Get-PASSafe -query Safe_Name-Pattern |
 $token | Get-PASSafe | Set-PASSafe -NumberOfVersionsRetention 25
 ```
 
-<p><img src="./media/permissions.gif" width=90%></p>
+![Set Safe Permissions](media/permissions.gif)
 
 Onboard a User Account
 
@@ -183,7 +183,11 @@ Import-CSV .\accounts.csv | Foreach-Object{
 }
 ```
 
-<p><img src="./media/accounts.gif" width=90%></p>
+![Edit Accounts](media/accounts.gif)
+
+See the module in action in the below "CyberArk REST API: From Start-to-Finish" video:
+
+[![YouTube Demo](media/youtube.png)](https://www.youtube.com/watch?v=yZinhjsuV1I)
 
 ## <a id="CyberArk_Version_Compatibility"></a> Module Functions
 
