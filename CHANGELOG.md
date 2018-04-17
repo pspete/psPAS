@@ -1,6 +1,14 @@
 # psPAS Changelog
 
-## 2.1.0 (March 16 2018)
+
+## 1.2.3 (April 17 2018)
+
+- Bug Fixes:
+  - `New-PASSession`, `New-PASSAMLSession` & `New-PASSharedSession`
+  prevented from providing output (except error message) in the
+  event of a failure
+
+## 1.2.0 (March 16 2018)
 
 ### Module updated to cover CyberArk 10.2 API features
 
