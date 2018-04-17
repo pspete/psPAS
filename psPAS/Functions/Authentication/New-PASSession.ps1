@@ -165,28 +165,32 @@ To force all output to be shown, pipe to Select-Object *
 			#Send Logon Request
 			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable
 
-			#Return Object
-			[pscustomobject]@{
+			#If Logon Result
+			If($PASSession) {
 
-				#Authentication Token - required for all subsequent Web Service Calls
-				"sessionToken"     = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
+				#Return Object
+				[pscustomobject]@{
 
-				#WebSession Object
-				"WebSession"       = $PASSession |
+					#Authentication Token - required for all subsequent Web Service Calls
+					"sessionToken"     = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
 
-				Select-Object -ExpandProperty WebSession
+					#WebSession Object
+					"WebSession"       = $PASSession | Select-Object -ExpandProperty WebSession
 
-				#The Web Service URL the request was sent to
-				"BaseURI"          = $BaseURI
+					#The Web Service URL the request was sent to
+					"BaseURI"          = $BaseURI
 
-				#PVWA Application Name/Virtual Directory
-				"PVWAAppName"      = $PVWAAppName
+					#PVWA Application Name/Virtual Directory
+					"PVWAAppName"      = $PVWAAppName
 
-				#The Connection Number
-				"ConnectionNumber" = $connectionNumber
+					#The Connection Number
+					"ConnectionNumber" = $connectionNumber
 
-				#Set default properties to display in output
-			} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
+					#Set default properties to display in output
+				} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
+
+			}
+
 
 		}
 
