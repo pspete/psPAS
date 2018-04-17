@@ -175,6 +175,20 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if authentication request fails" {
+
+				Mock Invoke-PASRestMethod -MockWith {Write-Error -Message "Some Error" -ErrorId 12345}
+				{$Credentials | New-PASSession -BaseURI "https://P_URI" -ErrorAction Stop} | Should throw
+
+			}
+
+			It "returns no output if authentication request fails" {
+
+				Mock Invoke-PASRestMethod -MockWith {Write-Error -Message "Some Error" -ErrorId 12345}
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -ErrorAction SilentlyContinue | Should BeNullOrEmpty
+
+			}
+
 		}
 
 	}
