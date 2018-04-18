@@ -79,25 +79,30 @@ ConnectionNumber; the connectionNumber provided to this function.
 			#Send Logon Request
 			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable
 
-			#Return Object
-			[pscustomobject]@{
+			#If Logon Result
+			If($PASSession) {
 
-				#Authentication Token
-				"sessionToken" = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
+				#Return Object
+				[pscustomobject]@{
 
-				#WebSession Object
-				"WebSession"   = $PASSession |
+					#Authentication Token
+					"sessionToken" = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
 
-				Select-Object -ExpandProperty WebSession
+					#WebSession Object
+					"WebSession"   = $PASSession |
 
-				#The Web Service URL the request was sent to
-				"BaseURI"      = $BaseURI
+					Select-Object -ExpandProperty WebSession
 
-				#PVWA App Name/Virtual Directory
-				"PVWAAppName"  = $PVWAAppName
+					#The Web Service URL the request was sent to
+					"BaseURI"      = $BaseURI
 
-				#Set default properties to display in output
-			} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
+					#PVWA App Name/Virtual Directory
+					"PVWAAppName"  = $PVWAAppName
+
+					#Set default properties to display in output
+				} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
+
+			}
 
 		}
 
