@@ -86,6 +86,13 @@ to ensure session persistence.
 		#Add ContentType for all function calls
 		$PSBoundParameters.Add("ContentType", 'application/json')
 
+		#Bypass strict RFC header parsing in PS Core
+		if ($PSVersionTable.PSEdition -eq "Core") {
+
+			$PSBoundParameters.Add("SkipHeaderValidation", $true)
+
+		}
+
 		#If Tls12 Security Protocol is available
 		if(([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") -and
 
@@ -108,10 +115,6 @@ to ensure session persistence.
 	Process {
 
 		Write-Debug $PSBoundParameters.GetEnumerator()
-
-		if ($PSVersionTable.PSEdition -eq "Core") {
-			$PSBoundParameters.Add("SkipHeaderValidation", $true)
-		}
 
 		try {
 
