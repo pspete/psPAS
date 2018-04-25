@@ -109,6 +109,10 @@ to ensure session persistence.
 
 		Write-Debug $PSBoundParameters.GetEnumerator()
 
+		if ($PSVersionTable.PSEdition -eq "Core") {
+			$PSBoundParameters.Add("SkipHeaderValidation", $true)
+		}
+
 		try {
 
 			#make web request, splat PSBoundParameters
