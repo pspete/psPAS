@@ -1,5 +1,10 @@
 # psPAS Changelog
 
+## 1.2.5 (April 28 2018)
+
+- Bug Fix:
+  - Fix added to specify `-SkipHeaderValidation` on `Invoke-WebRequest` if using PowerShell Core.
+    - Thanks [Serge](https://github.com/SNikalaichyk)!
 
 ## 1.2.3 (April 17 2018)
 
