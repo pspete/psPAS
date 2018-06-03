@@ -17,7 +17,7 @@ Try {
 	Write-Host "`tRequired Module: Pester..."
 	Install-Module -Name Pester -Repository PSGallery -Confirm:$false -Force -ErrorAction Stop | Out-Null
 	Write-Host "`tRequired Module: PSScriptAnalyzer..."
-	Install-Module -Name PSScriptAnalyzer -Repository PSGallery -Confirm:$false -Force -ErrorAction Stop | Out-Null
+	Install-Module -Name PSScriptAnalyzer -Repository PSGallery -Confirm:$false -Force -SkipPublisherCheck -ErrorAction Stop | Out-Null
 	Write-Host "`tRequired Module: coveralls..."
 	Install-Module -Name coveralls -Repository PSGallery -Confirm:$false -Force -ErrorAction Stop | Out-Null
 } Catch {throw "`t`tError Installing Module"}
