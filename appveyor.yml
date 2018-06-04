@@ -33,13 +33,13 @@ image: Visual Studio 2017
 
 install:
 #  - ps: . .\build\install.ps1
-- pwsh.exe -File . .\build\install.ps1
+- pwsh.exe -File .\build\install.ps1
 build_script:
 #  - ps: . .\build\build.ps1
-- pwsh.exe -File . .\build\build.ps1
+- pwsh.exe -File .\build\build.ps1
 test_script:
 #  - ps: . .\build\test.ps1
-- pwsh.exe -File . .\build\test.ps1
+- pwsh.exe -File .\build\test.ps1
 deploy_script:
 #  - ps: . .\build\deploy.ps1
-- pwsh.exe -File . .\build\deploy.ps1
+- pwsh.exe -File .\build\deploy.ps1
