@@ -1,7 +1,7 @@
 function Import-PASConnectionComponent {
 	<#
 	.SYNOPSIS
-	Import a new connection component
+	Import a new connection component.
 
 	.DESCRIPTION
 	Import a new connection component.
