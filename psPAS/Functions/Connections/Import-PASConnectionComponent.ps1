@@ -81,8 +81,10 @@ function Import-PASConnectionComponent {
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/API/ConnectionComponents/Import"
 
+		#Convert File to byte array
 		$FileBytes = [System.IO.File]::ReadAllBytes($ImportFile)
 
+		#Create Request Body
 		$Body = @{"ImportFile" = $FileBytes} | ConvertTo-Json
 
 		if($PSCmdlet.ShouldProcess($ImportFile, "Imports Connection Component")) {
