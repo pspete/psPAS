@@ -146,8 +146,8 @@ Describe $FunctionName {
 			It "sends request to expected endpoint" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts?Keywords=SomeValue&Safe=SomeSafe"
+					(($URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts?Keywords=SomeValue&Safe=SomeSafe") -or
+						($URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts?Safe=SomeSafe&Keywords=SomeValue"))
 
 				} -Times 1 -Exactly -Scope Describe
 
