@@ -302,7 +302,7 @@ None
 			}
 
 			#add the "non-base" parameter key to array
-			$keysToRemove += $_
+			$keysToRemove = $keysToRemove + $_
 
 		}
 
