@@ -246,12 +246,6 @@ None
 		$baseParameters = @("Safe", "PlatformID", "Address", "AccountName", "Password", "Username",
 			"DisableAutoMgmt", "DisableAutoMgmtReason", "GroupName", "GroupPlatformID")
 
-		#declare empty hashtable to hold "non-base" parameters
-		$properties = @{}
-
-		#declare empty array to hold keys to remove from bound parameters
-		$keysToRemove = @()
-
 	}#begin
 
 	PROCESS {
@@ -278,6 +272,12 @@ None
 
 		#Process for required formatting
 
+		#declare empty hashtable to hold "non-base" parameters
+		$properties = @{}
+
+		#declare empty array to hold keys to remove from bound parameters
+		[array]$keysToRemove = @()
+
 		#Get "non-base" parameters
 		$boundParameters.keys | Where-Object {$baseParameters -notcontains $_} | ForEach-Object {
 
@@ -302,7 +302,7 @@ None
 			}
 
 			#add the "non-base" parameter key to array
-			[array]$keysToRemove += $_
+			$keysToRemove = $keysToRemove + $_
 
 		}
 

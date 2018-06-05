@@ -25,8 +25,8 @@ Describe $FunctionName {
 
 		It "throws if DPDictionary is not expected type" {
 			{$Dictionary = New-Object psobject
-				New-DynamicParam -Name AlwaysParam -ValidateSet @( gwmi win32_volume |
-						% {$_.driveletter} | sort ) -DPDictionary $Dictionary} |should throw
+				New-DynamicParam -Name AlwaysParam -ValidateSet @( Get-CimInstance -ClassName cim_storagevolume |
+						% {$_.driveletter} | sort ) -DPDictionary $Dictionary} |should throw "DPDictionary must be a System.Management.Automation."
 		}
 
 		$testParam = New-DynamicParam -Name SomeParam -Type String -Alias SomeAlias -ValidateSet "Some,Set" `

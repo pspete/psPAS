@@ -28,6 +28,6 @@ if (($res.FailedCount -gt 0) -or ($res.PassedCount -eq 0)) {
 
 } else {
 
-	Write-Host 'All tests passed' -ForegroundColor Green
+	Write-Host 'All tests passed.' -ForegroundColor Green
 
 }
