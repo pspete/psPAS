@@ -4,7 +4,8 @@ function Import-PASConnectionComponent {
 	Import a new connection component.
 
 	.DESCRIPTION
-	Import a new connection component.
+	Allows administrators to import a new connection component, such as those available to download from the
+	CyberArk Marketplace.
 
 	.PARAMETER ImportFile
 	The zip file that contains the connection component.
