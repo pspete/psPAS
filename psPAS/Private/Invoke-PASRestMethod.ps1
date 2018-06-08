@@ -81,7 +81,10 @@ to ensure session persistence.
 
 	Begin {
 
+		#Get the name of the function which invoked this one
+		$CallingFunction = (Get-Variable MyInvocation -Scope 1).Value.MyCommand.Name
 		Write-Debug "Function: $($MyInvocation.InvocationName)"
+		Write-Debug "Calling Function: $CallingFunction"
 
 		#Add ContentType for all function calls
 		$PSBoundParameters.Add("ContentType", 'application/json')
@@ -206,6 +209,21 @@ to ensure session persistence.
 							#Create Return Object from Returned JSON
 							$PASResponse = ConvertFrom-Json -InputObject $webResponse.content
 
+							#Handle Version 10 Logon Token Return
+							If(($CallingFunction -eq "New-PASSession") -and ($PASResponse.length -eq 180)) {
+
+								Write-Verbose "Assigning token to CyberArkLogonResult"
+								#If calling function is New-PASSession, and result is a 180 character token
+								#Create a new object and assign the token to the CyberArkLogonResult property.
+								#This ensures an object is returned instead of a string (which would cause issues).
+								$PASResponse = [PSCustomObject]@{
+
+									CyberArkLogonResult = $PASResponse
+
+								}
+
+							}
+
 							#If Session Variable passed as argument
 							If($PSBoundParameters.ContainsKey("SessionVariable")) {
 
@@ -223,6 +241,12 @@ to ensure session persistence.
 
 							#Return Object
 							$PASResponse
+
+						}
+
+						Else {
+
+							throw $([System.Text.Encoding]::ASCII.GetString($($webResponse.content)))
 
 						}
 

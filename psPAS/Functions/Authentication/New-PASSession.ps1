@@ -17,6 +17,9 @@ For CyberArk version older than 9.7:
 .PARAMETER Credential
 A Valid PSCredential object.
 
+.PARAMETER UseV9API
+Specify the UseV9API to send the authentication request via the v9 API endpoint.
+
 .PARAMETER newPassword
 Optional parameter, enables you to change a CyberArk users password.
 Must be supplied as a SecureString (Not Plain Text).
@@ -24,10 +27,24 @@ Must be supplied as a SecureString (Not Plain Text).
 .PARAMETER useRadiusAuthentication
 Whether or not users will be authenticated via a RADIUS server.
 
+.PARAMETER type
+When using the version 10 API endpoint, specify the type of authentication to use.
+Valid values are CyberArk, LDAP or RADIUS
+
+.PARAMETER AdditionalInfo
+The Version 10 API accepts a string value containing Additional Info
+
+.PARAMETER SecureMode
+The Version 10 API accepts a boolean value indicating true or false for SecureMode
+
 .PARAMETER connectionNumber
 In order to allow more than one connection for the same user simultaneously, each request
 should be sent with different 'connectionNumber'.
 Valid values: 1-100
+
+.PARAMETER SkipVersionCheck
+If the SkipVersionCheck switch is specified, Get-PASServer will not be called after
+successfully authenticating. Get-PASServer is not supported before version 9.7.
 
 .PARAMETER SessionVariable
 After successful execution of this function, and authentication to the Vault, a WebSession
@@ -55,9 +72,9 @@ Request would be sent to PVWA URL https://PVWA/PasswordVault/
 .EXAMPLE
 Logon where PVWA Virtual Directory has non-default name:
 
-New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName PasswdVlt
+New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault
 
-Request would be sent to PVWA URL https://PVWA/PasswdVlt/
+Request would be sent to PVWA URL https://PVWA/CustomVault/
 
 .INPUTS
 A PSCredential Object can be piped to this function.
@@ -78,7 +95,7 @@ To force all output to be shown, pipe to Select-Object *
 
 .LINK
 #>
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "v10")]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -86,6 +103,13 @@ To force all output to be shown, pipe to Select-Object *
 		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = "v9"
+		)]
+		[switch]$UseV9API,
 
 		[Parameter(
 			Mandatory = $false,
@@ -95,16 +119,40 @@ To force all output to be shown, pipe to Select-Object *
 
 		[Parameter(
 			Mandatory = $false,
-			ValueFromPipeline = $false
+			ValueFromPipeline = $false,
+			ParameterSetName = "v9"
 		)]
 		[bool]$useRadiusAuthentication,
 
 		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ParameterSetName = "v10"
+		)]
+		[ValidateSet("CyberArk", "LDAP", "RADIUS")]
+		[string]$type,
+
+		[Parameter(
 			Mandatory = $false,
-			ValueFromPipeline = $false
+			ValueFromPipeline = $false,
+			ParameterSetName = "v10"
+		)]
+		[string]$AdditionalInfo,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ParameterSetName = "v10"
+		)]
+		[bool]$SecureMode,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ParameterSetName = "v9"
 		)]
 		[ValidateRange(1, 100)]
-		[string]$connectionNumber,
+		[int]$connectionNumber,
 
 		[parameter(
 			Mandatory = $false,
@@ -128,15 +176,22 @@ To force all output to be shown, pipe to Select-Object *
 	BEGIN {
 
 		#Construct URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
+		if($($PSCmdlet.ParameterSetName) -eq "v10") {
 
+			$URI = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
+
+		} elseif($($PSCmdlet.ParameterSetName) -eq "v9") {
+
+			$URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
+
+		}
 
 	}#begin
 
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API
 
 		#Add user name form credential object
 		$boundParameters["username"] = $($Credential.UserName)
@@ -190,7 +245,6 @@ To force all output to be shown, pipe to Select-Object *
 				} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
 
 			}
-
 
 		}
 

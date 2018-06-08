@@ -83,6 +83,7 @@ Describe $FunctionName {
 			Mock Invoke-WebRequest -MockWith {
 
 				return $MockResult
+
 			}
 
 			It "sends a web request" {
@@ -108,6 +109,44 @@ Describe $FunctionName {
 			It "returns expected number of properties when websession is supplied" {
 				$result = Invoke-PASRestMethod @requestArgs2
 				($result | Get-Member -MemberType NoteProperty).length | Should Be 4
+			}
+
+		}
+
+		Context  "Version 10 Authentication" {
+
+			$RandomString = "ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7"
+
+			$MockResult = [pscustomobject] @{
+
+				"headers"    = @{
+					"Content-Type" = "application/json"
+				};
+				"StatusCode" = 200;
+				"content"    = $RandomString | ConvertTo-Json
+			}
+
+			Mock Get-Variable -MockWith {
+
+				[PSCustomObject]@{
+					Value = [PSCustomObject]@{
+						MyCommand = [PSCustomObject]@{
+							Name = "New-PASSession"
+						}
+					}
+				}
+
+			}
+
+			Mock Invoke-WebRequest -MockWith {
+
+				return $MockResult
+
+			}
+
+			It "handles V10 authentication return value" {
+				$result = Invoke-PASRestMethod @requestArgs2
+				$result.CyberArkLogonResult | Should Be $RandomString
 			}
 
 		}
@@ -158,6 +197,29 @@ Describe $FunctionName {
 
 		}
 
+		Context "Other Response" {
+
+			$MockResult = [pscustomobject] @{
+				"headers"    = @{
+					"Pragma"         = "no-cache";
+					"Content-Length" = 17
+				};
+				"StatusCode" = 200;
+				"content"    = @("65", "99", "99", "101", "115", "115", "32", "105", "115", "32", "100", "101", "110", "105", "101", "100", "46")
+
+			}
+
+			Mock Invoke-WebRequest -MockWith {
+
+				return $MockResult
+			}
+
+			It "throws other response" {
+				{Invoke-PASRestMethod @requestArgs2} | Should throw "Access is denied."
+			}
+
+		}
+
 		Context "Request Fail" {
 
 			$requestArgs = @{
@@ -191,7 +253,9 @@ Describe $FunctionName {
 				}
 
 				it "outputs expected error id" {
+
 					$_.FullyQualifiedErrorId | should match $ErrorCode
+
 				}
 			}
 
