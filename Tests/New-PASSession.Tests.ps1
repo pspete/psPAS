@@ -49,7 +49,8 @@ Describe $FunctionName {
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'Credential'}
+			@{Parameter = 'Credential'},
+			@{Parameter = 'Type'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -61,7 +62,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -newPassword $NewPass
+		$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -newPassword $NewPass -UseV9API
 
 		Context "Input" {
 
@@ -123,6 +124,39 @@ Describe $FunctionName {
 
 			}
 
+			It "sends request to expected v10 URL for CyberArk Authentication" {
+
+				$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -type CyberArk
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/api/AUTH/CyberArk/Logon"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected v10 URL for LDAP Authentication" {
+
+				$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -type LDAP
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/api/AUTH/LDAP/Logon"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected v10 URL for RADIUS Authentication" {
+
+				$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/api/AUTH/RADIUS/Logon"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 		}
 
 		Context "Output" {
@@ -178,14 +212,14 @@ Describe $FunctionName {
 			It "throws error if authentication request fails" {
 
 				Mock Invoke-PASRestMethod -MockWith {Write-Error -Message "Some Error" -ErrorId 12345}
-				{$Credentials | New-PASSession -BaseURI "https://P_URI" -ErrorAction Stop} | Should throw
+				{$Credentials | New-PASSession -BaseURI "https://P_URI"  -UseV9API -ErrorAction Stop} | Should throw
 
 			}
 
 			It "returns no output if authentication request fails" {
 
 				Mock Invoke-PASRestMethod -MockWith {Write-Error -Message "Some Error" -ErrorId 12345}
-				$Credentials | New-PASSession -BaseURI "https://P_URI" -ErrorAction SilentlyContinue | Should BeNullOrEmpty
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -UseV9API -ErrorAction SilentlyContinue | Should BeNullOrEmpty
 
 			}
 
