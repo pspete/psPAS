@@ -12,7 +12,8 @@ For CyberArk version older than 9.7:
     Only CyberArk Authentication method is supported.
     newPassword Parameter is not supported.
     useRadiusAuthentication Parameter is not supported.
-    connectionNumber Parameter is not supported.
+	connectionNumber Parameter is not supported.
+Additionally, if using CyberArk 9.7+, this function will return version information from PVWA
 
 .PARAMETER Credential
 A Valid PSCredential object.
@@ -63,16 +64,26 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
-Logon with credential and save auth token:
+Logon to Version 10 with LDAP credential and save auth token:
 
-$token = New-PASSession -Credential $cred -BaseURI https://PVWA
+$token = New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
+
+.EXAMPLE
+Logon to Version 10 with CyberArk credential:
+
+New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
+
+.EXAMPLE
+Logon to Version 9 with credential and save auth token:
+
+$token = New-PASSession -Credential $cred -BaseURI https://PVWA -UseV9API
 
 Request would be sent to PVWA URL https://PVWA/PasswordVault/
 
 .EXAMPLE
-Logon where PVWA Virtual Directory has non-default name:
+Logon to Version 9 where PVWA Virtual Directory has non-default name:
 
-New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault
+New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseV9API
 
 Request would be sent to PVWA URL https://PVWA/CustomVault/
 
@@ -87,6 +98,7 @@ including cookies. Can be supplied to other web service requests.
 baseURI; this is the URL provided as an input to this function, it can be piped to
 other functions from this return object.
 ConnectionNumber; the connectionNumber provided to this function.
+Version; The External Version number retrieved from CyberArk.
 
 Output uses defined default properties.
 To force all output to be shown, pipe to Select-Object *
