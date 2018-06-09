@@ -154,6 +154,12 @@ To force all output to be shown, pipe to Select-Object *
 		[ValidateRange(1, 100)]
 		[int]$connectionNumber,
 
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[switch]$SkipVersionCheck,
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false
@@ -191,7 +197,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck
 
 		#Add user name form credential object
 		$boundParameters["username"] = $($Credential.UserName)
@@ -223,14 +229,36 @@ To force all output to be shown, pipe to Select-Object *
 			#If Logon Result
 			If($PASSession) {
 
+				#Format Authentication token
+				$SessionToken = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
+
+				#WebSession Object
+				$WebSession = $PASSession | Select-Object -ExpandProperty WebSession
+
+				#Initial Value for Version variable
+				$Version = "Skipped"
+
+				if( -not ($SkipVersionCheck)) {
+
+					Try {
+
+						#Get CyberArk ExternalVersion number, asign to Version variable.
+						[System.Version]$Version = Get-PASServer -sessionToken $SessionToken -WebSession $WebSession `
+							-BaseURI $BaseURI -PVWAAppName $PVWAAppName -ErrorAction Stop |
+							Select-Object -ExpandProperty ExternalVersion
+
+					} Catch {Write-Warning "Could Not Determine CyberArk Version"}
+
+				}
+
 				#Return Object
 				[pscustomobject]@{
 
 					#Authentication Token - required for all subsequent Web Service Calls
-					"sessionToken"     = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
+					"sessionToken"     = $SessionToken
 
-					#WebSession Object
-					"WebSession"       = $PASSession | Select-Object -ExpandProperty WebSession
+					#WebSession
+					"WebSession"       = $WebSession
 
 					#The Web Service URL the request was sent to
 					"BaseURI"          = $BaseURI
@@ -240,6 +268,9 @@ To force all output to be shown, pipe to Select-Object *
 
 					#The Connection Number
 					"ConnectionNumber" = $connectionNumber
+
+					#ExternalVersion
+					"Version"          = $Version
 
 					#Set default properties to display in output
 				} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
@@ -251,4 +282,5 @@ To force all output to be shown, pipe to Select-Object *
 	}#process
 
 	END {}#end
+
 }
