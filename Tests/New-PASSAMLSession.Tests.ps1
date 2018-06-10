@@ -42,6 +42,12 @@ Describe $FunctionName {
 			}
 		}
 
+		Mock Get-PASServer -MockWith {
+			[PSCustomObject]@{
+				ExternalVersion = "6.6.6"
+			}
+		}
+
 		$Credentials = New-Object System.Management.Automation.PSCredential ("SomeUser", $(ConvertTo-SecureString "SomePassword" -AsPlainText -Force))
 
 		Context "Mandatory Parameters" {
@@ -134,6 +140,19 @@ Describe $FunctionName {
 
 			}
 
+			It "calls Get-PASServer" {
+
+				$response = $Credentials | New-PASSAMLSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp"
+				Assert-MockCalled Get-PASServer -Times 1 -Exactly -Scope It
+
+			}
+
+			It "skips version check" {
+
+				$response = $Credentials | New-PASSAMLSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -SkipVersionCheck
+				Assert-MockCalled Get-PASServer -Times 0 -Exactly -Scope It
+
+			}
 
 		}
 
@@ -147,7 +166,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 4
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 5
 
 			}
 
@@ -184,6 +203,34 @@ Describe $FunctionName {
 			It "outputs sessionToken with expected value" {
 
 				$response.sessiontoken["Authorization"] | Should be "AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN"
+
+			}
+
+			It "outputs Version with expected value" {
+
+				$response.Version | Should be "6.6.6"
+
+			}
+
+			It "outputs Version in expected format" {
+
+				$response.Version.gettype() | Should be Version
+
+			}
+
+			It "outputs Version with expected value on SkipVersionCheck" {
+
+				$response = $Credentials | New-PASSAMLSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -SkipVersionCheck
+				$response.Version | Should be "Skipped"
+
+			}
+
+			It "outputs Version with expected value on Get-PASServer error" {
+				Mock Get-PASServer -MockWith {
+					throw "Some Error"
+				}
+				$response = $Credentials | New-PASSAMLSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -WarningAction SilentlyContinue
+				$response.Version | Should be "Skipped"
 
 			}
 

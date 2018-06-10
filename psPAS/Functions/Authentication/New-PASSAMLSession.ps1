@@ -1,16 +1,18 @@
 ﻿function New-PASSAMLSession {
 	<#
 .SYNOPSIS
-Authenticates a user to CyberArk Vault..... well it should
-Development is ongoing whilst the correct format of the
-token to include in the header is determined.
-All tips appreciated.
+Authenticates a user to CyberArk Vault.
 
 .DESCRIPTION
-[Currently fails to] Authenticate a user to a CyberArk Vault using SAML
+Authenticate a user to a CyberArk Vault using SAML.
+
 
 .Parameter Credential
 Valid Credential object
+
+.PARAMETER SkipVersionCheck
+If the SkipVersionCheck switch is specified, Get-PASServer will not be called after
+successfully authenticating.
 
 .PARAMETER SessionVariable
 After successful execution of this function, and authentication to the Vault, a WebSession
@@ -43,6 +45,7 @@ A WebSession object; This contains information about the connection and the requ
 including cookies. Can be supplied to other web service requests.
 baseURI; this is the URL provided as an input to this function, it can be piped to
 other functions from this return object.
+Version; The External Version number retrieved from CyberArk.
 
 .NOTES
 
@@ -56,6 +59,12 @@ other functions from this return object.
 		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[switch]$SkipVersionCheck,
 
 		[parameter(
 			Mandatory = $false
@@ -101,22 +110,45 @@ other functions from this return object.
 			#If Logon Result
 			If($PASSession) {
 
+				#Format Authentication token
+				$SessionToken = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
+
+				#WebSession Object
+				$WebSession = $PASSession | Select-Object -ExpandProperty WebSession
+
+				#Initial Value for Version variable
+				$Version = "Skipped"
+
+				if( -not ($SkipVersionCheck)) {
+
+					Try {
+
+						#Get CyberArk ExternalVersion number, assign to Version variable.
+						[System.Version]$Version = Get-PASServer -sessionToken $SessionToken -WebSession $WebSession `
+							-BaseURI $BaseURI -PVWAAppName $PVWAAppName -ErrorAction Stop |
+							Select-Object -ExpandProperty ExternalVersion
+
+					} Catch {Write-Warning "Could Not Determine CyberArk Version"}
+
+				}
+
 				#Return Object
 				[pscustomobject]@{
 
-					#Authentication Token
-					"sessionToken" = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
+					#Authentication Token - required for all subsequent Web Service Calls
+					"sessionToken" = $SessionToken
 
-					#WebSession Object
-					"WebSession"   = $PASSession |
-
-					Select-Object -ExpandProperty WebSession
+					#WebSession
+					"WebSession"   = $WebSession
 
 					#The Web Service URL the request was sent to
 					"BaseURI"      = $BaseURI
 
-					#The PVWA App Name/Virtual Directory
+					#PVWA Application Name/Virtual Directory
 					"PVWAAppName"  = $PVWAAppName
+
+					#ExternalVersion
+					"Version"      = $Version
 
 					#Set default properties to display in output
 				} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
