@@ -82,7 +82,7 @@ to ensure session persistence.
 	Begin {
 
 		#Get the name of the function which invoked this one
-		$CallingFunction = (Get-Variable MyInvocation -Scope 1).Value.MyCommand.Name
+		$CallingFunction = Get-ParentFunction
 		Write-Debug "Function: $($MyInvocation.InvocationName)"
 		Write-Debug "Calling Function: $CallingFunction"
 

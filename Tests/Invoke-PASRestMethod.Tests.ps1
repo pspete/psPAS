@@ -126,15 +126,9 @@ Describe $FunctionName {
 				"content"    = $RandomString | ConvertTo-Json
 			}
 
-			Mock Get-Variable -MockWith {
+			Mock Get-ParentFunction -MockWith {
 
-				[PSCustomObject]@{
-					Value = [PSCustomObject]@{
-						MyCommand = [PSCustomObject]@{
-							Name = "New-PASSession"
-						}
-					}
-				}
+				"New-PASSession"
 
 			}
 
