@@ -31,9 +31,9 @@ Describe $FunctionName {
 			Compare-MinimumVersion -Version "9.8.0" -MinimumVersion "9.9.0" | Should Be $false
 		}
 
-		It 'returns nothing if version is 0.0' {
+		It 'returns TRUE if version is 0.0' {
 
-			Compare-MinimumVersion -Version "0.0" -MinimumVersion "1.1.0" | Should BeNullOrEmpty
+			Compare-MinimumVersion -Version "0.0" -MinimumVersion "1.1.0" | Should Be $true
 
 		}
 

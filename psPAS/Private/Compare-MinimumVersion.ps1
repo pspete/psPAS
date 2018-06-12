@@ -57,11 +57,13 @@ Function Compare-MinimumVersion {
 			#Determine if Version is greater than or equal to MinimumVersion
 			If($Version -ge $MinimumVersion) {
 
+				Write-Verbose "Version Requirement Met"
 				#Version is greater than or equal to MinimumVersion
 				$True
 
 			} Else {
 
+				Write-Verbose "Version Requirement Not Met"
 				#Version is less than  MinimumVersion
 				$False
 
@@ -72,8 +74,9 @@ Function Compare-MinimumVersion {
 		#Version is 0.0
 		Else {
 
-			#Skip
-			Write-Verbose "Version Check Skipped"
+			#Skip - Return True
+			Write-Verbose "Version Requirement Not Checked"
+			$True
 
 		}
 
