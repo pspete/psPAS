@@ -27,6 +27,7 @@ Function Compare-MinimumVersion {
 
 	#>
 	[CmdletBinding()]
+	[OutputType('System.Boolean')]
 	Param(
 		# A Version to compare against a Minimum Version
 		[Parameter(
