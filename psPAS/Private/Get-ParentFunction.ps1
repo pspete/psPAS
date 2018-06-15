@@ -1,28 +1,33 @@
 Function Get-ParentFunction {
 	<#
 	.SYNOPSIS
-	Returns the name of the calling function from a variable scope
+	Returns details of the calling function from a variable scope
 
 	.DESCRIPTION
-	Long description
+	Returns the FunctionName and the ParameterSetName which was used to invoke another function
 
 	.PARAMETER Scope
-	The Scope number from which to return the calling functions name.
+	The Scope number from which to return the calling functions details.
 
 	.EXAMPLE
 	Function Test-Parent {Test-Child}
 	Function Test-Child {Get-ParentFunction}
-	Test-Parent
+	$example = Test-Parent
 
-	Returns Test-Parent
+	$example.FunctionName #Returns Test-Parent
 
 	.EXAMPLE
-	Function Test-Example {Test-Parent}
+	Function Test-Example {
+		[CmdletBinding()]
+		param([parameter(ParameterSetName = "ExampleParamSet")][string]$Name)
+			Test-Parent
+	}
 	Function Test-Parent {Test-Child}
 	Function Test-Child {Get-ParentFunction -Scope 3}
-	Test-Example
+	$example = Test-Example -Name "test"
 
-	Returns Test-Example
+	$example.Function #Returns "Test-Example"
+	$example.ParameterSetName #Returns "ExampleParamSet"
 
 	.NOTES
 
@@ -38,6 +43,9 @@ Function Get-ParentFunction {
 		$Scope = 2
 	)
 
-	(Get-Variable MyInvocation -Scope $Scope).Value.MyCommand.Name
+	[PSCustomObject]@{
+		FunctionName     = (Get-Variable MyInvocation -Scope $Scope).Value.MyCommand.Name
+		ParameterSetName = (Get-Variable PSCmdlet -Scope $Scope -ErrorAction SilentlyContinue).Value.ParameterSetName
+	}
 
 }

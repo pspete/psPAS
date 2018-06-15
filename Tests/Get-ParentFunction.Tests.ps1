@@ -26,16 +26,36 @@ Describe $FunctionName {
 		It 'returns parent function name' {
 			Function Test-Parent {Test-Child}
 			Function Test-Child {Get-ParentFunction}
+			$ThisTest = Test-Parent
 
-			Test-Parent | Should Be Test-Parent
+			$ThisTest.FunctionName | Should Be Test-Parent
 		}
 
 		It 'returns expected parent function name from expected scope' {
-			Function Test-Example {Test-Parent}
+			Function Test-Example {
+				[CmdletBinding()]
+				param([parameter(ParameterSetName = "ExampleParamSet")][string]$Name)
+				Test-Parent
+			}
 			Function Test-Parent {Test-Child}
 			Function Test-Child {Get-ParentFunction -Scope 3}
+			$ThisTest = Test-Example -Name "test"
 
-			Test-Example | Should Be Test-Example
+			$ThisTest.FunctionName | Should Be "Test-Example"
+
+		}
+
+		It 'returns expected ParameterSetName from expected scope' {
+			Function Test-Example {
+				[CmdletBinding()]
+				param([parameter(ParameterSetName = "ExampleParamSet")][string]$Name)
+				Test-Parent
+			}
+			Function Test-Parent {Test-Child}
+			Function Test-Child {Get-ParentFunction -Scope 3}
+			$ThisTest = Test-Example -Name "test"
+
+			$ThisTest.ParameterSetName | Should Be "ExampleParamSet"
 		}
 
 
