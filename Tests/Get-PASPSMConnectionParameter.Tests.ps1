@@ -128,6 +128,14 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if version requirement not met for RDP connection method" {
+				{$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP -ExternalVersion "9.8"} | Should Throw
+			}
+
+			It "throws error if version requirement not met for PSMGW connection method" {
+				{$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW -ExternalVersion "9.10"} | Should Throw
+			}
+
 		}
 
 		Context "Output" {
