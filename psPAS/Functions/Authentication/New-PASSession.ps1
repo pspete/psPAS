@@ -12,7 +12,8 @@ For CyberArk version older than 9.7:
     Only CyberArk Authentication method is supported.
     newPassword Parameter is not supported.
     useRadiusAuthentication Parameter is not supported.
-    connectionNumber Parameter is not supported.
+	connectionNumber Parameter is not supported.
+Additionally, if using CyberArk 9.7+, this function will return version information from PVWA
 
 .PARAMETER Credential
 A Valid PSCredential object.
@@ -63,16 +64,26 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
-Logon with credential and save auth token:
+Logon to Version 10 with LDAP credential and save auth token:
 
-$token = New-PASSession -Credential $cred -BaseURI https://PVWA
+$token = New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
+
+.EXAMPLE
+Logon to Version 10 with CyberArk credential:
+
+New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
+
+.EXAMPLE
+Logon to Version 9 with credential and save auth token:
+
+$token = New-PASSession -Credential $cred -BaseURI https://PVWA -UseV9API
 
 Request would be sent to PVWA URL https://PVWA/PasswordVault/
 
 .EXAMPLE
-Logon where PVWA Virtual Directory has non-default name:
+Logon to Version 9 where PVWA Virtual Directory has non-default name:
 
-New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault
+New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseV9API
 
 Request would be sent to PVWA URL https://PVWA/CustomVault/
 
@@ -87,6 +98,7 @@ including cookies. Can be supplied to other web service requests.
 baseURI; this is the URL provided as an input to this function, it can be piped to
 other functions from this return object.
 ConnectionNumber; the connectionNumber provided to this function.
+ExternalVersion; The External Version number retrieved from CyberArk.
 
 Output uses defined default properties.
 To force all output to be shown, pipe to Select-Object *
@@ -154,6 +166,12 @@ To force all output to be shown, pipe to Select-Object *
 		[ValidateRange(1, 100)]
 		[int]$connectionNumber,
 
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[switch]$SkipVersionCheck,
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false
@@ -191,7 +209,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck
 
 		#Add user name form credential object
 		$boundParameters["username"] = $($Credential.UserName)
@@ -223,14 +241,36 @@ To force all output to be shown, pipe to Select-Object *
 			#If Logon Result
 			If($PASSession) {
 
+				#Format Authentication token
+				$SessionToken = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
+
+				#WebSession Object
+				$WebSession = $PASSession | Select-Object -ExpandProperty WebSession
+
+				#Initial Value for Version variable
+				[System.Version]$Version = "0.0"
+
+				if( -not ($SkipVersionCheck)) {
+
+					Try {
+
+						#Get CyberArk ExternalVersion number, asign to Version variable.
+						[System.Version]$Version = Get-PASServer -sessionToken $SessionToken -WebSession $WebSession `
+							-BaseURI $BaseURI -PVWAAppName $PVWAAppName -ErrorAction Stop |
+							Select-Object -ExpandProperty ExternalVersion
+
+					} Catch {Write-Warning "Could Not Determine CyberArk Version"}
+
+				}
+
 				#Return Object
 				[pscustomobject]@{
 
 					#Authentication Token - required for all subsequent Web Service Calls
-					"sessionToken"     = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
+					"sessionToken"     = $SessionToken
 
-					#WebSession Object
-					"WebSession"       = $PASSession | Select-Object -ExpandProperty WebSession
+					#WebSession
+					"WebSession"       = $WebSession
 
 					#The Web Service URL the request was sent to
 					"BaseURI"          = $BaseURI
@@ -240,6 +280,9 @@ To force all output to be shown, pipe to Select-Object *
 
 					#The Connection Number
 					"ConnectionNumber" = $connectionNumber
+
+					#ExternalVersion
+					"ExternalVersion"  = $Version
 
 					#Set default properties to display in output
 				} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
@@ -251,4 +294,5 @@ To force all output to be shown, pipe to Select-Object *
 	}#process
 
 	END {}#end
+
 }

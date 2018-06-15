@@ -25,6 +25,11 @@ function Invoke-PASCredReconcile {
 	The name of the CyberArk PVWA Virtual Directory.
 	Defaults to PasswordVault
 
+	.PARAMETER ExternalVersion
+	The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+	If the minimum version requirement of this function is not satisfied, execution will be halted.
+	Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
+
 	.EXAMPLE
 	$token | Invoke-PASCredReconcile -AccountID 21_3
 
@@ -76,12 +81,23 @@ function Invoke-PASCredReconcile {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"9.10"
+	}#begin
 
 	PROCESS {
+
+		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/API/Accounts/$AccountID/Reconcile"

@@ -82,7 +82,7 @@ to ensure session persistence.
 	Begin {
 
 		#Get the name of the function which invoked this one
-		$CallingFunction = (Get-Variable MyInvocation -Scope 1).Value.MyCommand.Name
+		$CallingFunction = Get-ParentFunction | Select-Object -ExpandProperty FunctionName
 		Write-Debug "Function: $($MyInvocation.InvocationName)"
 		Write-Debug "Calling Function: $CallingFunction"
 
@@ -164,7 +164,7 @@ to ensure session persistence.
 
 				} Catch {
 
-					$ErrorMessage = $response
+					$ErrorMessage = $response -replace "`n", " "
 					$ErrorID = $StatusCode
 
 				} Finally {
@@ -199,8 +199,14 @@ to ensure session persistence.
 
 						elseif(($webResponse.headers)["Content-Type"] -match "text/html") {
 
-							#Return only the text between opening and closing quotes
-							[regex]::matches($($webResponse.content), '^"(.*)"$').Groups[1].Value
+							Write-Debug "$($webResponse.content)"
+
+							If($webResponse.content -match '^"(.*)"$') {
+								#Return only the text between opening and closing quotes
+								$matches[1]
+							} ElseIf($webResponse.content -match '<HTML>') {
+								Write-Error -Message "Guru Meditation" -ErrorId 400
+							}
 
 						}
 

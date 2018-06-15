@@ -129,6 +129,10 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if version requirement not met" {
+				{$InputObj | Import-PASPlatform -ImportFile $($file.name) -ExternalVersion "1.0"} | Should Throw
+			}
+
 
 		}
 

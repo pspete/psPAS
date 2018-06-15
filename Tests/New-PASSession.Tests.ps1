@@ -42,6 +42,12 @@ Describe $FunctionName {
 			}
 		}
 
+		Mock Get-PASServer -MockWith {
+			[PSCustomObject]@{
+				ExternalVersion = "6.6.6"
+			}
+		}
+
 		$Credentials = New-Object System.Management.Automation.PSCredential ("SomeUser", $(ConvertTo-SecureString "SomePassword" -AsPlainText -Force))
 
 		$NewPass = $secpasswd = ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force
@@ -50,7 +56,7 @@ Describe $FunctionName {
 
 			$Parameters = @{Parameter = 'BaseURI'},
 			@{Parameter = 'Credential'},
-			@{Parameter = 'Type'}
+			@{Parameter = 'type'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -157,6 +163,20 @@ Describe $FunctionName {
 
 			}
 
+			It "calls Get-PASServer" {
+
+				$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -type LDAP
+				Assert-MockCalled Get-PASServer -Times 1 -Exactly -Scope It
+
+			}
+
+			It "skips version check" {
+
+				$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -type LDAP -SkipVersionCheck
+				Assert-MockCalled Get-PASServer -Times 0 -Exactly -Scope It
+
+			}
+
 		}
 
 		Context "Output" {
@@ -169,7 +189,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 5
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 6
 
 			}
 
@@ -181,6 +201,7 @@ Describe $FunctionName {
 
 			$DefaultProps = @{Property = 'sessionToken'},
 			@{Property = 'WebSession'},
+			@{Property = 'ExternalVersion'},
 			@{Property = 'BaseURI'},
 			@{Property = 'PVWAAppName'}
 
@@ -206,6 +227,34 @@ Describe $FunctionName {
 			It "outputs sessionToken with expected value" {
 
 				$response.sessiontoken["Authorization"] | Should be "AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN"
+
+			}
+
+			It "outputs Version with expected value" {
+
+				$response.ExternalVersion | Should be "6.6.6"
+
+			}
+
+			It "outputs Version in expected format" {
+
+				$response.ExternalVersion.gettype() | Should be Version
+
+			}
+
+			It "outputs Version with expected value on SkipVersionCheck" {
+
+				$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -type LDAP -SkipVersionCheck
+				$response.ExternalVersion | Should be "0.0"
+
+			}
+
+			It "outputs Version with expected value on Get-PASServer error" {
+				Mock Get-PASServer -MockWith {
+					throw "Some Error"
+				}
+				$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -type LDAP -WarningAction SilentlyContinue
+				$response.ExternalVersion | Should be "0.0"
 
 			}
 

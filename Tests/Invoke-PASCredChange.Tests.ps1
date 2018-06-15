@@ -122,6 +122,10 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if version requirement not met" {
+				{$InputObj | Invoke-PASCredChange -ChangeCredsForGroup $true -ExternalVersion "1.0"} | Should Throw
+			}
+
 		}
 
 		Context "Input - Password/Update ParameterSet" {
@@ -169,6 +173,10 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if version requirement not met" {
+				{$InputObj | Invoke-PASCredChange -ChangeCredsForGroup $true -UpdateVaultOnly -NewCredentials $newcreds -ExternalVersion "9.11"} | Should Throw
+			}
+
 		}
 
 		Context "Input - SetNextPassword ParameterSet" {
@@ -214,6 +222,10 @@ Describe $FunctionName {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 1
 
+			}
+
+			It "throws error if version requirement not met" {
+				{$InputObj | Invoke-PASCredChange -SetNextPassword -NewCredentials $newcreds -ExternalVersion "9.11"} | Should Throw
 			}
 
 		}
