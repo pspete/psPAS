@@ -114,6 +114,10 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if minimum version requirement not met" {
+				{$InputObj | New-PASOnboardingRule -ExternalVersion "1.0"} | Should Throw
+			}
+
 			It "accepts alternative parameterset input" {
 
 				$InputObj = [pscustomobject]@{
@@ -130,6 +134,24 @@ Describe $FunctionName {
 				{$InputObj | New-PASOnboardingRule} | Should Not Throw
 
 			}
+
+			It "throws error if parameterset version requirement not met" {
+
+				$InputObj = [pscustomobject]@{
+					"sessionToken"     = @{"Authorization" = "P_AuthValue"}
+					"WebSession"       = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"          = "https://P_URI"
+					"PVWAAppName"      = "P_App"
+					"TargetPlatformId" = "SomePlatform"
+					"TargetSafeName"   = "SomeSafe"
+					"SystemTypeFilter" = "Windows"
+
+				}
+
+				{$InputObj | New-PASOnboardingRule -ExternalVersion "10.1.0"} | Should Throw
+			}
+
+
 
 		}
 

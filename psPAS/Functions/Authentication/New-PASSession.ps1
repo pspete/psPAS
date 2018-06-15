@@ -98,7 +98,7 @@ including cookies. Can be supplied to other web service requests.
 baseURI; this is the URL provided as an input to this function, it can be piped to
 other functions from this return object.
 ConnectionNumber; the connectionNumber provided to this function.
-Version; The External Version number retrieved from CyberArk.
+ExternalVersion; The External Version number retrieved from CyberArk.
 
 Output uses defined default properties.
 To force all output to be shown, pipe to Select-Object *
@@ -248,7 +248,7 @@ To force all output to be shown, pipe to Select-Object *
 				$WebSession = $PASSession | Select-Object -ExpandProperty WebSession
 
 				#Initial Value for Version variable
-				$Version = "Skipped"
+				[System.Version]$Version = "0.0"
 
 				if( -not ($SkipVersionCheck)) {
 
@@ -282,7 +282,7 @@ To force all output to be shown, pipe to Select-Object *
 					"ConnectionNumber" = $connectionNumber
 
 					#ExternalVersion
-					"Version"          = $Version
+					"ExternalVersion"  = $Version
 
 					#Set default properties to display in output
 				} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI

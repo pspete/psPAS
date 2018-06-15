@@ -179,7 +179,8 @@ Describe $FunctionName {
 			$DefaultProps = @{Property = 'sessionToken'},
 			@{Property = 'WebSession'},
 			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'}
+			@{Property = 'PVWAAppName'},
+			@{Property = 'ExternalVersion'}
 
 			It "returns default property <Property> in response" -TestCases $DefaultProps {
 				param($Property)
@@ -208,20 +209,20 @@ Describe $FunctionName {
 
 			It "outputs Version with expected value" {
 
-				$response.Version | Should be "6.6.6"
+				$response.ExternalVersion | Should be "6.6.6"
 
 			}
 
 			It "outputs Version in expected format" {
 
-				$response.Version.gettype() | Should be Version
+				$response.ExternalVersion.gettype() | Should be Version
 
 			}
 
 			It "outputs Version with expected value on SkipVersionCheck" {
 
 				$response = $Credentials | New-PASSAMLSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -SkipVersionCheck
-				$response.Version | Should be "Skipped"
+				$response.ExternalVersion | Should be "0.0"
 
 			}
 
@@ -230,7 +231,7 @@ Describe $FunctionName {
 					throw "Some Error"
 				}
 				$response = $Credentials | New-PASSAMLSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -WarningAction SilentlyContinue
-				$response.Version | Should be "Skipped"
+				$response.ExternalVersion | Should be "0.0"
 
 			}
 

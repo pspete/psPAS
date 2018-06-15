@@ -98,6 +98,10 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if version requirement not met" {
+				{$InputObj | Remove-PASAccountGroupMember -ExternalVersion "1.0"} | Should Throw
+			}
+
 		}
 
 		Context "Output" {

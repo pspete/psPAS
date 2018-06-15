@@ -41,7 +41,7 @@ A WebSession object; This contains information about the connection and the requ
 including cookies. Can be supplied to other web service requests.
 baseURI; this is the URL provided as an input to this function, it can be piped to
 other functions from this return object.
-Version; The External Version number retrieved from CyberArk.
+ExternalVersion; The External Version number retrieved from CyberArk.
 
 .NOTES
 
@@ -100,7 +100,7 @@ Version; The External Version number retrieved from CyberArk.
 				$WebSession = $PASSession | Select-Object -ExpandProperty WebSession
 
 				#Initial Value for Version variable
-				$Version = "Skipped"
+				[System.Version]$Version = "0.0"
 
 				if( -not ($SkipVersionCheck)) {
 
@@ -119,19 +119,19 @@ Version; The External Version number retrieved from CyberArk.
 				[pscustomobject]@{
 
 					#Authentication Token - required for all subsequent Web Service Calls
-					"sessionToken" = $SessionToken
+					"sessionToken"    = $SessionToken
 
 					#WebSession
-					"WebSession"   = $WebSession
+					"WebSession"      = $WebSession
 
 					#The Web Service URL the request was sent to
-					"BaseURI"      = $BaseURI
+					"BaseURI"         = $BaseURI
 
 					#PVWA Application Name/Virtual Directory
-					"PVWAAppName"  = $PVWAAppName
+					"PVWAAppName"     = $PVWAAppName
 
 					#ExternalVersion
-					"Version"      = $Version
+					"ExternalVersion" = $Version
 
 					#Set default properties to display in output
 				} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI

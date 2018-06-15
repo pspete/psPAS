@@ -126,14 +126,10 @@ Describe $FunctionName {
 				"content"    = $RandomString | ConvertTo-Json
 			}
 
-			Mock Get-Variable -MockWith {
+			Mock Get-ParentFunction -MockWith {
 
 				[PSCustomObject]@{
-					Value = [PSCustomObject]@{
-						MyCommand = [PSCustomObject]@{
-							Name = "New-PASSession"
-						}
-					}
+					FunctionName = "New-PASSession"
 				}
 
 			}
@@ -162,6 +158,15 @@ Describe $FunctionName {
 				"content"    = '"Value"'
 			}
 
+			$MockHTML = [pscustomobject] @{
+
+				"headers"    = @{
+					"Content-Type" = "text/html"
+				};
+				"StatusCode" = 200;
+				"content"    = '<HTML><HEAD><BODY><P>Test</P></BODY></HEAD></HTML>'
+			}
+
 			Mock Invoke-WebRequest -MockWith {
 
 				return $MockResult
@@ -170,6 +175,19 @@ Describe $FunctionName {
 			It "returns expected (unquoted) string for text/html responses" {
 				$result = Invoke-PASRestMethod @requestArgs2
 				$result | Should Be 'Value'
+			}
+
+			It 'throws an error if response contains actual HTML' {
+				Mock Invoke-WebRequest -MockWith {
+
+					return $MockHTML
+				}
+
+				{
+					$ErrorActionPreference = "Stop"
+					$request = Invoke-PASRestMethod @requestArgs2
+				} | Should throw "Guru Meditation"
+
 			}
 
 		}

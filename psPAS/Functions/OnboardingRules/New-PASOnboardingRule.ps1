@@ -89,6 +89,11 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+If the minimum version requirement of this function is not satisfied, execution will be halted.
+Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
+
 .EXAMPLE
 $token | New-PASOnboardingRule -DecisionPlatformId DecisionPlatform -DecisionSafeName DecisionSafe -SystemTypeFilter Windows
 
@@ -116,7 +121,7 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 .LINK
 
 #>
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "pre_V10_2")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "post_V10_2")]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -253,10 +258,20 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"9.8"
+		$RequiredVersion = [System.Version]"10.2"
+	}#begin
 
 	PROCESS {
 
@@ -269,11 +284,15 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 		#Get Values for ShouldProcess Message
 		If($PSCmdlet.ParameterSetName -eq "post_V10_2") {
 
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
+
 			#version 10.2 parameters
 			$SafeName = $TargetSafeName
 			$PlatformID = $TargetPlatformId
 
 		} ElseIf($PSCmdlet.ParameterSetName -eq "pre_V10_2") {
+
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
 			#pre 10.2 parameters
 			$SafeName = $DecisionSafeName

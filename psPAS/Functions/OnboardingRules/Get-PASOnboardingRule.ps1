@@ -27,6 +27,11 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+If the minimum version requirement of this function is not satisfied, execution will be halted.
+Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
+
 .EXAMPLE
 $token | Get-PASOnboardingRule
 
@@ -59,7 +64,8 @@ Not Tested
 	param(
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10_2"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$Names,
@@ -86,10 +92,19 @@ Not Tested
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"10.2"
+	}#begin
 
 	PROCESS {
 
@@ -97,6 +112,8 @@ Not Tested
 		$URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules"
 
 		If($PSBoundParameters.ContainsKey("Names")) {
+
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter
