@@ -352,7 +352,7 @@ To force all output to be shown, pipe to Select-Object *
 		If($PSBoundParameters.ContainsKey("MembershipExpirationDate")) {
 
 			#Convert MembershipExpirationDate to string in Required format
-			$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yy).ToString()
+			$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yyyy).ToString()
 
 			#Include date string in request
 			$boundParameters["MembershipExpirationDate"] = $Date
