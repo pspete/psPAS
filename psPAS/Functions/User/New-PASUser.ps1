@@ -28,7 +28,6 @@ Whether or not user will be forced to change password on first logon
 .PARAMETER ExpiryDate
 Expiry Date to set on account.
 Default is Never
-Format: MM/dd/yyyy
 
 .PARAMETER UserTypeName
 The Type of User to create.
@@ -120,12 +119,7 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( {
-
-				($_ -match '^(((0[13578]|1[02])[/](0[1-9]|[12][0-9]|3[01])|(0[469]|11)[/](0[1-9]|[12][0-9]|30)|02[/](0[1-9]|1\d|2[0-8]))[/]\d{4}|02[/]29[/](\d{2}(0[48]|[2468][048]|[13579][26])|([02468][048]|[1359][26])00))$')
-
-			})]
-		[String]$ExpiryDate,
+		[datetime]$ExpiryDate,
 
 		[parameter(
 			Mandatory = $false,
@@ -186,6 +180,16 @@ To force all output to be shown, pipe to Select-Object *
 
 		#Include decoded password in request
 		$boundParameters["InitialPassword"] = $($InitialPwd.GetNetworkCredential().Password)
+
+		If($PSBoundParameters.ContainsKey("ExpiryDate")) {
+
+			#Convert ExpiryDate to string in Required format
+			$Date = (Get-Date $ExpiryDate -Format MM/dd/yyyy).ToString()
+
+			#Include date string in request
+			$boundParameters["ExpiryDate"] = $Date
+
+		}
 
 		#Construct Request Body
 		$body = $boundParameters | ConvertTo-Json

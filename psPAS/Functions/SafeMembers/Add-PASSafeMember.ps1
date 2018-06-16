@@ -18,10 +18,7 @@ The Vault or Domain, defined in the vault,
 in which to search for the member to add to the safe.
 
 .PARAMETER MembershipExpirationDate
-Defines when the user’s Safe membership expires.
-Specify "" for no expiration date.
-Default to no expiration.
-Must be in format MM/DD/YY
+Defines when the user's Safe membership expires.
 
 .PARAMETER UseAccounts
 Boolean value defining if UseAccounts permission will be granted to
@@ -173,10 +170,7 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( {if($_ -match '^(0[1-9]|1[0-2])[\/](0[1-9]|[12]\d|3[01])[\/]\d{2}$') {
-					$true
-				} Else {Throw "$_ must match pattern MM/DD/YY"}})]
-		[string]$MembershipExpirationDate,
+		[datetime]$MembershipExpirationDate,
 
 		[parameter(
 			Mandatory = $false,
@@ -354,6 +348,16 @@ To force all output to be shown, pipe to Select-Object *
 
 		#Get Parameters for request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter
+
+		If($PSBoundParameters.ContainsKey("MembershipExpirationDate")) {
+
+			#Convert MembershipExpirationDate to string in Required format
+			$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yy).ToString()
+
+			#Include date string in request
+			$boundParameters["MembershipExpirationDate"] = $Date
+
+		}
 
 		#For every passed permission ("Non-Base") parameter
 		$boundParameters.keys | Where-Object {$baseParameters -notcontains $_} | ForEach-Object {
