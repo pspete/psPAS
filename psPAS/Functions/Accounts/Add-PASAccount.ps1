@@ -259,14 +259,8 @@ None
 		#deal with newPassword SecureString
 		If($PSBoundParameters.ContainsKey("password")) {
 
-			#Create New Credential object
-			$Pwd = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
-
-				#Assign password and dummy username
-				$safe), $password
-
 			#Include decoded password in request
-			$boundParameters["password"] = $($Pwd.GetNetworkCredential().Password)
+			$boundParameters["password"] = $(ConvertTo-InsecureString -SecureString $password)
 
 		}
 

@@ -171,15 +171,8 @@ To force all output to be shown, pipe to Select-Object *
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		#deal with newPassword SecureString
-		#Create New Credential object
-		$InitialPwd = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
-
-			#Assign UserName and initialPassword
-			$UserName), $InitialPassword
-
 		#Include decoded password in request
-		$boundParameters["InitialPassword"] = $($InitialPwd.GetNetworkCredential().Password)
+		$boundParameters["InitialPassword"] = $(ConvertTo-InsecureString -SecureString $InitialPassword)
 
 		If($PSBoundParameters.ContainsKey("ExpiryDate")) {
 

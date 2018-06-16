@@ -220,14 +220,8 @@ function Invoke-PASCredChange {
 
 			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
 
-			#Create New Credential object
-			$Pwd = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
-
-				#Assign password and dummy username
-				$AccountID), $NewCredentials
-
 			#Include decoded password in request
-			$boundParameters["NewCredentials"] = $($Pwd.GetNetworkCredential().Password)
+			$boundParameters["NewCredentials"] = $(ConvertTo-InsecureString -SecureString $NewCredentials)
 
 		}
 

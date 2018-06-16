@@ -170,14 +170,8 @@ To force all output to be shown, pipe to Select-Object *
 		#deal with newPassword SecureString
 		If($PSBoundParameters.ContainsKey("NewPassword")) {
 
-			#Create New Credential object
-			$NewPwd = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
-
-				#Assign UserName and newPassword
-				$UserName), $NewPassword
-
 			#Include decoded password in request
-			$boundParameters["NewPassword"] = $($NewPwd.GetNetworkCredential().Password)
+			$boundParameters["NewPassword"] = $(ConvertTo-InsecureString -SecureString $NewPassword)
 
 		}
 
