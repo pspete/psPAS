@@ -137,12 +137,12 @@ To force all output to be shown, pipe to Select-Object *
 		[bool]$useRadiusAuthentication,
 
 		[Parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ParameterSetName = "v10"
 		)]
 		[ValidateSet("CyberArk", "LDAP", "RADIUS")]
-		[string]$type,
+		[string]$type = "CyberArk",
 
 		[Parameter(
 			Mandatory = $false,
@@ -254,7 +254,7 @@ To force all output to be shown, pipe to Select-Object *
 
 					Try {
 
-						#Get CyberArk ExternalVersion number, asign to Version variable.
+						#Get CyberArk ExternalVersion number, assign to Version variable.
 						[System.Version]$Version = Get-PASServer -sessionToken $SessionToken -WebSession $WebSession `
 							-BaseURI $BaseURI -PVWAAppName $PVWAAppName -ErrorAction Stop |
 							Select-Object -ExpandProperty ExternalVersion
