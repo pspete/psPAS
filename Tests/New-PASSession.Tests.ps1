@@ -55,8 +55,7 @@ Describe $FunctionName {
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'Credential'},
-			@{Parameter = 'type'}
+			@{Parameter = 'Credential'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -133,6 +132,17 @@ Describe $FunctionName {
 			It "sends request to expected v10 URL for CyberArk Authentication" {
 
 				$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -type CyberArk
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/api/AUTH/CyberArk/Logon"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to v10 URL for CyberArk Authentication by default" {
+
+				$response = $Credentials | New-PASSession -BaseURI "https://P_URI"
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "https://P_URI/PasswordVault/api/AUTH/CyberArk/Logon"
