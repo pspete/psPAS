@@ -205,7 +205,7 @@ to ensure session persistence.
 								#Return only the text between opening and closing quotes
 								$matches[1]
 							} ElseIf($webResponse.content -match '<HTML>') {
-								Write-Error -Message "Guru Meditation" -ErrorId 400
+								throw "Guru Meditation - HTML Response Received"
 							}
 
 						}
