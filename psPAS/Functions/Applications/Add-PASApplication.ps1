@@ -31,7 +31,6 @@ Valid values are 0-23.
 
 .PARAMETER ExpirationDate
 The date when the application expires.
-Must be in format mm-dd-yyyy
 
 .PARAMETER Disabled
 Boolean value, denoting if the application is disabled or not.
@@ -122,10 +121,7 @@ None
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( {if($_ -match '^(0[1-9]|1[0-2])[-](0[1-9]|[12]\d|3[01])[-]\d{4}$') {
-					$true
-				} Else {Throw "$_ must match pattern MM-DD-YYYY"}})]
-		[string]$ExpirationDate,
+		[datetime]$ExpirationDate,
 
 		[parameter(
 			Mandatory = $false,
@@ -192,9 +188,23 @@ None
 		#WebService URL
 		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications"
 
+		#Get request parameters
+		$boundParameters = $PSBoundParameters | Get-PASParameter
+
+		If($PSBoundParameters.ContainsKey("ExpirationDate")) {
+
+			#Convert ExpiryDate to string in Required format
+			$Date = (Get-Date $ExpirationDate -Format MM-dd-yyyy).ToString()
+
+			#Include date string in request
+			$boundParameters["ExpirationDate"] = $Date
+
+		}
+
 		#Create Request Body
 		$body = @{
-			"application" = $PSBoundParameters | Get-PASParameter
+
+			"application" = $boundParameters
 
 		} | ConvertTo-Json
 
