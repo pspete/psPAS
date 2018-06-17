@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+	<Type>
+		<Name>psPAS.CyberArk.Vault.Safe</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>SafeMembers</Name>
+				<Script>
+					$this | Get-PASSafeMember
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>Remove</Name>
+				<Script>
+					Param([bool]$force)
+
+					if ($force) {
+
+					$this | Remove-PASSafe -Confirm:$false
+
+					}
+
+					else{
+
+					$this | Remove-PASSafe -Confirm
+
+					}
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+</Types>

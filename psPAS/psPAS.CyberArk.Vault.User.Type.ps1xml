@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+	<Type>
+		<Name>psPAS.CyberArk.Vault.User</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>Activate</Name>
+				<Script>
+					$this | Unblock-PASUser -Suspended $false
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>Disable</Name>
+				<Script>
+					$this | Set-PASUser -Disabled $true
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>Enable</Name>
+				<Script>
+					$this | Set-PASUser -Disabled $false
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>Remove</Name>
+				<Script>
+					Param([bool]$force)
+
+					if ($force) {
+
+					$this | Remove-PASUser -Confirm:$false
+
+					}
+
+					else{
+
+					$this | Remove-PASUser -Confirm
+
+					}
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+</Types>
