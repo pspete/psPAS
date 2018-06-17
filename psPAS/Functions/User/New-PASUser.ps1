@@ -55,6 +55,9 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+
 .EXAMPLE
 $token | New-PASUser -UserName NewUser -InitialPassword $securePWD
 
@@ -161,7 +164,14 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
 	BEGIN {}#begin
@@ -195,14 +205,13 @@ To force all output to be shown, pipe to Select-Object *
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-
-
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User -PropertyToAdd @{
 
-				"sessionToken" = $sessionToken
-				"WebSession"   = $WebSession
-				"BaseURI"      = $BaseURI
-				"PVWAAppName"  = $PVWAAppName
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
 
 			}
 

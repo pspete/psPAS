@@ -49,6 +49,9 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+
 .EXAMPLE
 $token | Add-PASSafe -SafeName Oracle -Description "Oracle Safe" -ManagingCPM PasswordManager -NumberOfVersionsRetention 7
 
@@ -144,7 +147,14 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
 	BEGIN {}#begin
@@ -167,10 +177,11 @@ To force all output to be shown, pipe to Select-Object *
 
 		$result.AddSafeResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe -PropertyToAdd @{
 
-			"sessionToken" = $sessionToken
-			"WebSession"   = $WebSession
-			"BaseURI"      = $BaseURI
-			"PVWAAppName"  = $PVWAAppName
+			"sessionToken"    = $sessionToken
+			"WebSession"      = $WebSession
+			"BaseURI"         = $BaseURI
+			"PVWAAppName"     = $PVWAAppName
+			"ExternalVersion" = $ExternalVersion
 
 		}
 

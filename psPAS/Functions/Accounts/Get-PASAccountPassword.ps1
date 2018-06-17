@@ -267,10 +267,11 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 
 			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential -PropertyToAdd @{
 
-				"sessionToken" = $sessionToken
-				"WebSession"   = $WebSession
-				"BaseURI"      = $BaseURI
-				"PVWAAppName"  = $PVWAAppName
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
 
 			}
 

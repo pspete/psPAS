@@ -307,10 +307,11 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
 
-				"sessionToken" = $sessionToken
-				"WebSession"   = $WebSession
-				"BaseURI"      = $BaseURI
-				"PVWAAppName"  = $PVWAAppName
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
 
 			}
 

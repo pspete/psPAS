@@ -214,10 +214,11 @@ Minimum CyberArk Version 9.10
 
 			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording -PropertyToAdd @{
 
-				"sessionToken" = $sessionToken
-				"WebSession"   = $WebSession
-				"BaseURI"      = $BaseURI
-				"PVWAAppName"  = $PVWAAppName
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
 
 			}
 
