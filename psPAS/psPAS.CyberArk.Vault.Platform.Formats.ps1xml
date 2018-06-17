@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+	<ViewDefinitions>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Platform</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Platform</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>PlatformID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Active</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Details</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Platform</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Platform</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>PlatformID</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Active</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Details</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+	</ViewDefinitions>
+</Configuration>

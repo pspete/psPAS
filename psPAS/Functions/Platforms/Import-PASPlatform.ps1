@@ -97,14 +97,15 @@ function Import-PASPlatform {
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/API/Platforms/Import"
 
-		$FileBytes = [System.IO.File]::ReadAllBytes($ImportFile)
+		#Convert File to byte array
+		$FileBytes = $ImportFile | Get-ByteArray
 
 		$Body = @{"ImportFile" = $FileBytes} | ConvertTo-Json
 
 		if($PSCmdlet.ShouldProcess($ImportFile, "Imports Platform Package")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $SessionToken -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $SessionToken -WebSession $WebSession -Debug:$false
 
 		}
 

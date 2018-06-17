@@ -211,22 +211,16 @@ To force all output to be shown, pipe to Select-Object *
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck
 
-		#Add user name form credential object
+		#Add user name from credential object
 		$boundParameters["username"] = $($Credential.UserName)
 		#Add decoded password value from credential object
 		$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
 
 		#deal with newPassword SecureString
-		if($PSBoundParameters.ContainsKey("newPassword")) {
-
-			#Create New Credential object
-			$PwdUpdate = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $(
-
-				#Assign Credential USerName and newPassword
-				$Credential.UserName), $newPassword
+		If($PSBoundParameters.ContainsKey("newPassword")) {
 
 			#Include decoded password in request
-			$boundParameters["newPassword"] = $($PwdUpdate.GetNetworkCredential().Password)
+			$boundParameters["newPassword"] = $(ConvertTo-InsecureString -SecureString $newPassword)
 
 		}
 

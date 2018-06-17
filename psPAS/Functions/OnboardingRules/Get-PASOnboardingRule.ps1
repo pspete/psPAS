@@ -139,10 +139,11 @@ Not Tested
 
 		Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
 
-			"sessionToken" = $sessionToken
-			"WebSession"   = $WebSession
-			"BaseURI"      = $BaseURI
-			"PVWAAppName"  = $PVWAAppName
+			"sessionToken"    = $sessionToken
+			"WebSession"      = $WebSession
+			"BaseURI"         = $BaseURI
+			"PVWAAppName"     = $PVWAAppName
+			"ExternalVersion" = $ExternalVersion
 
 		}
 

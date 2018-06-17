@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+	<ViewDefinitions>
+		<View>
+			<Name>psPAS.CyberArk.Vault.AccountGroup</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.AccountGroup</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>GroupID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>GroupName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>GroupPlatformID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Safe</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.AccountGroup</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.AccountGroup</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>GroupID</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>GroupName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>GroupPlatformID</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Safe</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.AccountGroup.Member</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.AccountGroup.Member</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>AccountID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>SafeName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>PlatformID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Address</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>UserName</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.AccountGroup.Member</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.AccountGroup.Member</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>AccountID</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>SafeName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>PlatformID</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Address</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserName</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+	</ViewDefinitions>
+</Configuration>
