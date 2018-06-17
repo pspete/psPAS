@@ -1,37 +1,39 @@
 ﻿<#
 .SYNOPSIS
-Reads all required module files
 
 .DESCRIPTION
-Dot Sources each ps1 file under a module directory
 
 .EXAMPLE
-Import-Module ModuleFile.psm1
+
+.INPUTS
+
+.OUTPUTS
+
+.NOTES
+
+.LINK
 
 #>
-[CmdletBinding()]
+[CmdletBinding()]  
 param()
 
 #Get function files
-Get-ChildItem $PSScriptRoot\ -Recurse -Include "*.ps1" -Exclude "*.ps1xml" |
+Get-ChildItem $PSScriptRoot\ -Recurse -Filter "*.ps1" -Exclude "*.ps1xml" | 
 
-ForEach-Object {
+    ForEach-Object {
 
-	Try {
+        Try{
+            
+            #Dot Source each file
+            . $_.fullname
 
-		$ErrorActionPreference = "Stop"
-		$FunctionFile = $_.fullname
-		# Dot Source each file
-		. (
-			[scriptblock]::Create(
-				[io.file]::ReadAllText($FunctionFile, [Text.Encoding]::UTF8)
-			)
-		)
+        }
 
-	} Catch {
+        Catch{
 
-		throw "Failed to import function $FunctionFile"
+            Write-Error "Failed to import function $($_.fullname)"
 
-	}
-
-}
+        }
+        
+    
+    }
