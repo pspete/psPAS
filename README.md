@@ -22,7 +22,7 @@ License | [![license](https://img.shields.io/github/license/pspete/psPAS.svg)](h
 
 - [psPAS](#pspas)
   - [Introduction](#powershell-module-for-cyberark-privileged-account-security)
-    - [Status](#status-information)
+    - [Status](#module-status)
   - [Usage](#usage)
   - [Module Functions](#module-functions)
   - [Installation](#installation)
