@@ -27,7 +27,7 @@ Contains all published methods of the API up to CyberArk v10.3.
 [ps-site]:https://www.powershellgallery.com/packages/psPAS
 [license]:https://img.shields.io/github/license/pspete/psPAS.svg
 [license-link]:https://github.com/pspete/psPAS/blob/master/LICENSE.md
-[tests]:https://img.shields.io/github/license/pspete/psPAS.svg
+[tests]:https://img.shields.io/appveyor/tests/pspete/pspas.svg
 [tests-site]:https://ci.appveyor.com/project/pspete/pspas
 
 ----------
