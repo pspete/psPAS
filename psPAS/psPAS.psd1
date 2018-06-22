@@ -150,7 +150,8 @@
 		'Suspend-PASPSMSession',
 		'Resume-PASPSMSession',
 		'Import-PASPlatform',
-		'Import-PASConnectionComponent'
+		'Import-PASConnectionComponent',
+		'Export-PASPlatform'
 	)
 
 	AliasesToExport   = @(

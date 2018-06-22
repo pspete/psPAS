@@ -193,7 +193,11 @@ to ensure session persistence.
 
 						if(($webResponse.headers)["Content-Type"] -match "application/octet-stream") {
 
-							[System.Text.Encoding]::Ascii.GetString($($webResponse.content))
+							if($($webResponse.content | get-member | select-object -expandproperty typename) -eq "System.Byte" ) {
+
+								$webResponse.content
+
+							}
 
 						}
 
