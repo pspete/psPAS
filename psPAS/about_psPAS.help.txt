@@ -2,7 +2,7 @@ TOPIC
     about_psPAS
 
 SHORT DESCRIPTION
-    psPAS is a PowerShell interface for CyberArk REST Web Services.
+    psPAS is a PowerShell interface for the CyberArk REST Web Services.
 
 LONG DESCRIPTION
     psPAS sends requests to , and receives data from, a CyberArk Privileged Account Security Web Service.
@@ -79,5 +79,4 @@ KEYWORDS
     CyberArk
 
 SEE ALSO
-    about_psPAS_Versions
     https://github.com/pspete/psPAS

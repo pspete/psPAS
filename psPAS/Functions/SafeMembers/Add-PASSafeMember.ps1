@@ -132,7 +132,7 @@ Adds winUser to Windows_Safe with Use, Retrieve & List permissions
 All parameters can be piped by property name
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.SafeMemberExtended
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member.Extended
 SessionToken, WebSession, BaseURI are passed through and
 contained in output object for inclusion in subsequent
 pipeline operations.
@@ -402,7 +402,7 @@ To force all output to be shown, pipe to Select-Object *
 
 				$_.Permissions | Where-Object {$_.value} | Select-Object -ExpandProperty key}
 
-		} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMemberExtended -PropertyToAdd @{
+		} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Extended -PropertyToAdd @{
 
 			"SafeName"        = $SafeName
 			"sessionToken"    = $sessionToken

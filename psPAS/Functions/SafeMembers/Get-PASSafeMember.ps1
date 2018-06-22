@@ -39,7 +39,7 @@ Accepts pipeline input from *-PASSafe, or any function which
 contains SafeName in the output
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.SafeMember
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member
 SessionToken, WebSession, BaseURI are passed through and
 contained in output object for inclusion in subsequent
 pipeline operations.
@@ -114,7 +114,7 @@ To force all output to be shown, pipe to Select-Object *
 
 		} |
 
-		Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMember -PropertyToAdd @{
+		Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
 
 			"SafeName"        = $SafeName
 			"sessionToken"    = $sessionToken

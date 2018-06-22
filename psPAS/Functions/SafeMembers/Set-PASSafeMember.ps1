@@ -128,7 +128,7 @@ MemberName, Session Token, SafeName, WebSession & BaseURI can be
 piped by property name
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.SafeMember
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member
 SessionToken, WebSession, BaseURI are passed through and
 contained in output object for inclusion in subsequent
 pipeline operations.
@@ -396,7 +396,7 @@ To force all output to be shown, pipe to Select-Object *
 
 					$_.Permissions | Where-Object {$_.value} | Select-Object -ExpandProperty key}
 
-			}  | Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMember -PropertyToAdd @{
+			}  | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
 
 				"UserName"        = $MemberName
 				"SafeName"        = $SafeName
