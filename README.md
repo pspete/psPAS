@@ -8,15 +8,27 @@ Contains all published methods of the API up to CyberArk v10.3.
 
 ----------
 
-### Module Status
+## Module Status
 
-&nbsp;|&nbsp;
------|-----
-PowerShell Gallery | [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/psPAS.svg)](https://www.powershellgallery.com/packages/psPAS)
-Master Branch Build | [![Build status](https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true)](https://ci.appveyor.com/project/pspete/pspas/branch/master)
-Latest Build (all branches) | [![AppVeyor tests](https://img.shields.io/appveyor/tests/pspete/pspas.svg)](https://ci.appveyor.com/project/pspete/pspas)
-Code Coverage | [![Coverage Status](https://coveralls.io/repos/github/pspete/psPAS/badge.svg)](https://coveralls.io/github/pspete/psPAS)
-License | [![license](https://img.shields.io/github/license/pspete/psPAS.svg)](https://github.com/pspete/psPAS/blob/master/LICENSE.md)
+| Master Branch            | Code Coverage            | PowerShell Gallery       | License                   |
+|--------------------------|--------------------------|--------------------------|---------------------------|
+|[![appveyor][]][av-site]  | [![coveralls][]][cv-site]|[![psgallery][]][ps-site]|[![license][]][license-link]|
+
+
+| Latest Build (All Branches) |
+|-----------------------------|
+|[![tests][]][tests-site]     |
+
+[appveyor]:https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true
+[av-site]:https://ci.appveyor.com/project/pspete/pspas/branch/master
+[coveralls]:https://coveralls.io/repos/github/pspete/psPAS/badge.svg
+[cv-site]:https://coveralls.io/github/pspete/psPAS
+[psgallery]:https://img.shields.io/powershellgallery/v/psPAS.svg
+[ps-site]:https://www.powershellgallery.com/packages/psPAS
+[license]:https://img.shields.io/github/license/pspete/psPAS.svg
+[license-link]:https://github.com/pspete/psPAS/blob/master/LICENSE.md
+[tests]:https://img.shields.io/github/license/pspete/psPAS.svg
+[tests-site]:https://ci.appveyor.com/project/pspete/pspas
 
 ----------
 
