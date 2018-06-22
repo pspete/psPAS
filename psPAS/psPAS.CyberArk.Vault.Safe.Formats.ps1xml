@@ -69,5 +69,65 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Safe.Member</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Safe.Member</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>UserName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>SafeName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Permissions</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Safe.Member.Extended</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Safe.Member.Extended</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>MemberName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>SearchIn</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>SafeName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Permissions</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

@@ -43,7 +43,7 @@ List all members of account group with ID of 21_9
 All parameters can be piped by property name
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.AccountGroup
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Account.Group
 SessionToken, WebSession, BaseURI are passed through and
 contained in output object for inclusion in subsequent
 pipeline operations.
@@ -112,7 +112,7 @@ Minimum CyberArk version 9.10
 
 		if($result) {
 
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup.Member -PropertyToAdd @{
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Group.Member -PropertyToAdd @{
 
 				"sessionToken"    = $sessionToken
 				"WebSession"      = $WebSession
