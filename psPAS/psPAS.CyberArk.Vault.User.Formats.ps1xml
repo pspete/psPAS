@@ -89,5 +89,76 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.User.Login</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.User.Login</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Label>LastSuccessLoginTime</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>LastFailLoginTime</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.LastSuccessLoginTime)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>LastSuccessLoginIP</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>FailedLogins</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.LastFailLoginTime)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>LastFailLoginIP</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.User.Login</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.User.Login</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<Label>LastSuccessLoginTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.LastSuccessLoginTime)</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LastSuccessLoginIP</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>FailedLogins</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>LastFailLoginTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.LastFailLoginTime)</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LastFailLoginIP</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

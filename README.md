@@ -182,6 +182,7 @@ requires version 9.8+).
 [`Remove-PASOnboardingRule`](/psPAS/Functions/OnboardingRules/Remove-PASOnboardingRule.ps1)|Deletes an automatic </br>on-boarding rule|**9.7**
 [`Get-PASPlatform`](/psPAS/Functions/Platforms/Get-PASPlatform.ps1)|Retrieves details of a </br>specified platform from </br>the Vault.|**9.10**
 [`Import-PASPlatform`](/psPAS/Functions/Platforms/Import-PASPlatform.ps1)|Import a new platform|**10.2**
+[`Export-PASPlatform`](/psPAS/Functions/Platforms/Export-PASPlatform.ps1)|Export a  platform|**10.4**
 [`Add-PASPolicyACL`](/psPAS/Functions/PolicyACL/Add-PASPolicyACL.ps1)|Adds a new privileged </br>command rule|**9.0**
 [`Get-PASPolicyACL`](/psPAS/Functions/PolicyACL/Get-PASPolicyACL.ps1)|Lists OPM Rules for </br>a policy|**9.0**
 [`Remove-PASPolicyACL`](/psPAS/Functions/PolicyACL/Remove-PASPolicyACL.ps1)|Delete all privileged </br>commands on policy|**9.0**
@@ -206,6 +207,7 @@ requires version 9.8+).
 [`Get-PASComponentSummary`](/psPAS/Functions/SystemHealth/Get-PASComponentSummary.ps1)|Returns consolidated </br>information about </br>CyberArk Components.|**10.1**
 [`Add-PASGroupMember`](/psPAS/Functions/User/Add-PASGroupMember.ps1)|Adds a vault user as </br>a group member|**9.7**
 [`Get-PASLoggedOnUser`](/psPAS/Functions/User/Get-PASLoggedOnUser.ps1)|Returns details of </br>the logged on user|**9.7**
+[`Get-PASLoginInfo`](/psPAS/Functions/User/Get-PASLoginInfo.ps1)|Returns login details of </br>the current user|**10.4**
 [`Get-PASUser`](/psPAS/Functions/User/New-PASSession.ps1)|Returns details of a user|**9.7**
 [`New-PASUser`](/psPAS/Functions/User/New-PASUser.ps1)|Creates a new vault user|**9.7**
 [`Remove-PASUser`](/psPAS/Functions/User/Remove-PASUser`.ps1)|Deletes a vault user|**9.7**
