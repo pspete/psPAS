@@ -112,8 +112,12 @@ Requires minimum version of CyberArk 10.1.
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		#output returned data
-		$result | Select-Object -ExpandProperty ComponentsDetails
+		if($result) {
+
+			#output returned data
+			$result | Select-Object -ExpandProperty ComponentsDetails
+
+		}
 
 	}#process
 

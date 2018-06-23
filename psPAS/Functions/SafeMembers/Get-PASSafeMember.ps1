@@ -105,23 +105,27 @@ To force all output to be shown, pipe to Select-Object *
 		#Send request to webservice
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		#output
-		$result.members | Select-Object UserName, @{Name = "Permissions"; "Expression" = {
+		if($result) {
 
-				($_.Permissions).psobject.properties |Where-Object {$_.Value -eq $true} |
+			#output
+			$result.members | Select-Object UserName, @{Name = "Permissions"; "Expression" = {
 
-				Select-Object -ExpandProperty Name }
+					($_.Permissions).psobject.properties |Where-Object {$_.Value -eq $true} |
 
-		} |
+					Select-Object -ExpandProperty Name }
 
-		Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
+			} |
 
-			"SafeName"        = $SafeName
-			"sessionToken"    = $sessionToken
-			"WebSession"      = $WebSession
-			"BaseURI"         = $BaseURI
-			"PVWAAppName"     = $PVWAAppName
-			"ExternalVersion" = $ExternalVersion
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
+
+				"SafeName"        = $SafeName
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
+
+			}
 
 		}
 

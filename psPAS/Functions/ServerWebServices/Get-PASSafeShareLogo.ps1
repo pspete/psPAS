@@ -73,7 +73,12 @@ SafeShare no longer available from CyberArk
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
 
-		$result
+
+		if($result) {
+
+			$result
+
+		}
 
 	}#process
 

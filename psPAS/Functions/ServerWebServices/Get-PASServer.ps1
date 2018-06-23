@@ -77,7 +77,11 @@ ServerName, ExternalVersion, InternalVersion
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		$result
+		if($result) {
+
+			$result
+
+		}
 
 	}#process
 
