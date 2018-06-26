@@ -210,9 +210,12 @@ requires version 9.8+).
 [`Get-PASLoginInfo`](/psPAS/Functions/User/Get-PASLoginInfo.ps1)|Returns login details of </br>the current user|**10.4**
 [`Get-PASUser`](/psPAS/Functions/User/New-PASSession.ps1)|Returns details of a user|**9.7**
 [`New-PASUser`](/psPAS/Functions/User/New-PASUser.ps1)|Creates a new vault user|**9.7**
-[`Remove-PASUser`](/psPAS/Functions/User/Remove-PASUser`.ps1)|Deletes a vault user|**9.7**
-[`Set-PASUser`](/psPAS/Functions/User/Set-PASUser`.ps1)|Updates a vault user|**9.7**
-[`Unblock-PASUser`](/psPAS/Functions/User/Unblock-PASUser`.ps1)|Activates a suspended user|**9.7**
+[`Remove-PASUser`](/psPAS/Functions/User/Remove-PASUser.ps1)|Deletes a vault user|**9.7**
+[`Set-PASUser`](/psPAS/Functions/User/Set-PASUser.ps1)|Updates a vault user|**9.7**
+[`Unblock-PASUser`](/psPAS/Functions/User/Unblock-PASUser.ps1)|Activates a suspended user|**9.7**
+[`Get-PASDirectory`](/psPAS/Functions/LDAPDirectories\Get-PASDirectory.ps1)|Get configured LDAP </br>directories|**10.4**
+[`Add-PASDirectory`](/psPAS/Functions/LDAPDirectories\Add-PASDirectory.ps1)|Add a new LDAP </br>directory|**10.4**
+[`Add-PASDirectoryMapping`](/psPAS/Functions/LDAPDirectories\Add-PASDirectoryMapping.ps1)|Add a new LDAP </br>directory mapping|**10.4**
 
 ## Installation
 

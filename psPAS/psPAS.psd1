@@ -69,7 +69,8 @@
 		'psPAS.CyberArk.Vault.PublicSSHKey.Formats.ps1xml',
 		'psPAS.CyberArk.Vault.Request.Formats.ps1xml',
 		'psPAS.CyberArk.Vault.Safe.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.User.Formats.ps1xml'
+		'psPAS.CyberArk.Vault.User.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.LDAP.Formats.ps1xml'
 	)
 
 	# Functions to export from this module
@@ -152,7 +153,10 @@
 		'Import-PASPlatform',
 		'Import-PASConnectionComponent',
 		'Export-PASPlatform',
-		'Get-PASLoginInfo'
+		'Get-PASLoginInfo',
+		'Get-PASDirectory',
+		'Add-PASDirectory',
+		'New-PASDirectoryMapping'
 	)
 
 	AliasesToExport   = @(
