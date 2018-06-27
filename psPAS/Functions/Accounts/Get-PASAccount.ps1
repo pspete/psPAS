@@ -1,9 +1,15 @@
 ﻿function Get-PASAccount {
 	<#
 .SYNOPSIS
-Returns information about an account.
+Returns details of matching accounts. (Version 10.4 onwards)
+Returns information about a single account. (Version 9.3 - 10.3)
 
 .DESCRIPTION
+Version 10.4 onwards:
+This method returns a list of either a specific, or all the accounts in the Vault.
+Requires the following permission in the Safe: List accounts.
+
+Version 9.3 - 10.3:
 Returns information about an account. If more than one account meets the search criteria,
 only the first account will be returned (the Count output parameter will display the number
 of accounts that were found).
@@ -14,6 +20,24 @@ Only the following users can access this account:
     - Retrieve account
 This method does not display the actual password.
 If ten or more accounts are found, the Count Output parameter will show 10.
+
+.PARAMETER id
+A specific account ID to return details for.
+
+.PARAMETER search
+The search term or keywords.
+
+.PARAMETER sort
+An account property to sort the results by.
+
+.PARAMETER offset
+An offset for the search results (to discard the first x results for instance).
+
+.PARAMETER limit
+A limit for the number of results to return.
+
+.PARAMETER filter
+A filter for the search.
 
 .PARAMETER Keywords
 Keyword to search for.
@@ -40,6 +64,17 @@ Defaults to PasswordVault
 
 .PARAMETER ExternalVersion
 The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+
+.EXAMPLE
+$token | Get-PASAccount
+
+Returns  all accounts on safes where your user has "List accounts" rights.
+This will only work from version 10.4 onwards.
+
+.EXAMPLE
+$token | Get-PASAccount -search root -sort name -offset 100 -limit 5
+
+Returns all accounts matching "root", sorted by AccountName, Search results offset by 100 and limited to 5.
 
 .EXAMPLE
 $token | Get-PASAccount -Keywords root -Safe UNIX
@@ -91,20 +126,67 @@ Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
 .NOTES
+New functionality added in version 10.4, limited functionality before this version.
+
 .LINK
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "v10ByQuery")]
 	param(
 		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByID"
+		)]
+		[Alias("AccountID")]
+		[string]$id,
+
+		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByQuery"
+		)]
+		[string]$search,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByQuery"
+		)]
+		[string[]]$sort,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByQuery"
+		)]
+		[int]$offset,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByQuery"
+		)]
+		[int]$limit,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByQuery"
+		)]
+		[string]$filter,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9"
 		)]
 		[ValidateLength(0, 500)]
 		[string]$Keywords,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9"
 		)]
 		[ValidateLength(0, 28)]
 		[string]$Safe,
@@ -139,7 +221,9 @@ To force all output to be shown, pipe to Select-Object *
 
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"10.4"
+	}#begin
 
 	PROCESS {
 
@@ -153,52 +237,107 @@ To force all output to be shown, pipe to Select-Object *
 
 			}) -join '&'
 
-		#Create request URL
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
+		#Version 10.4 process
+		If($PSCmdlet.ParameterSetName -match "v10") {
+
+			#check minimum version
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+
+			#assign new type name
+			$typeName = "psPAS.CyberArk.Vault.Account.V10"
+
+			#define base URL
+			$URI = "$baseURI/$PVWAAppName/api/Accounts"
+
+			If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
+				#define query URL
+				$URI = "$URI`?$query"
+			}
+
+			If($PSCmdlet.ParameterSetName -eq "v10ByID") {
+
+				#define "by ID" URL
+				$URI = "$URI/$id"
+
+			}
+
+		}
+
+		#legacy process
+		If($PSCmdlet.ParameterSetName -eq "v9") {
+
+			#assign type name
+			$typeName = "psPAS.CyberArk.Vault.Account"
+
+			#Create request URL
+			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
+
+		}
 
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		#Get count of accounts found
-		$count = $($result.count)
+		if($result) {
 
-		Write-Verbose "Accounts Found: $count"
+			#Get count of accounts found
+			$count = $($result.count)
 
-		#If accounts found
-		if($count -gt 0) {
+			#Version 10.4 individual account process
+			If($PSCmdlet.ParameterSetName -eq "v10ByID") {
 
-			#If multiple accounts found
-			if($count -gt 1) {
-
-				#Alert that web service only displays information on first result
-				Write-Warning "$count matching accounts found. Only the first result will be returned"
+				$return = $result
 
 			}
 
-			#Get account details from search result
-			$account = ($result | Select-Object accounts).accounts
+			#If accounts found
+			if($count -gt 0) {
 
-			#Get account properties from found account
-			$properties = ($account | Select-Object -ExpandProperty properties)
+				Write-Verbose "Accounts Found: $count"
 
-			#Create output object
-			$return = New-object -TypeName psobject -Property @{
+				#Version 10.4 query process
+				If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 
-				#Internal Unique ID of Account
-				"AccountID" = $($account | Select-Object -ExpandProperty AccountID)
+					#get results
+					$return = ($result | Select-Object value).value
 
-				#Number of accounts found by query
-				#"Count" = $count
+				}
 
-			}
+				#legacy process
+				If($PSCmdlet.ParameterSetName -eq "v9") {
 
-			#For every account property
-			For($int = 0; $int -lt $properties.length; $int++) {
+					#If multiple accounts found
+					if($count -gt 1) {
 
-				$return |
+						#Alert that web service only displays information on first result
+						Write-Warning "$count matching accounts found. Only the first result will be returned"
 
-				#Add each property name and value to results
-				Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value} -Passthru $false
+					}
+
+					#Get account details from search result
+					$account = ($result | Select-Object accounts).accounts
+
+					#Get account properties from found account
+					$properties = ($account | Select-Object -ExpandProperty properties)
+
+					#Create output object
+					$return = New-object -TypeName psobject -Property @{
+
+						#Internal Unique ID of Account
+						"AccountID" = $($account | Select-Object -ExpandProperty AccountID)
+
+					}
+
+					#For every account property
+					For($int = 0; $int -lt $properties.length; $int++) {
+
+						$return |
+
+						#Add each property name and value to results
+						Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value} -Passthru $false
+
+					}
+
+				}
 
 			}
 
@@ -207,7 +346,7 @@ To force all output to be shown, pipe to Select-Object *
 		if($return) {
 
 			#Return Results
-			$return | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account -PropertyToAdd @{
+			$return | Add-ObjectDetail -typename $typeName -PropertyToAdd @{
 
 				"sessionToken"    = $sessionToken
 				"WebSession"      = $WebSession
