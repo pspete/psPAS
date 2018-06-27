@@ -12,6 +12,9 @@ If running against a CyberArk version earlier than 10.4, you must specify the Us
 The unique ID  of the account to delete.
 This is retrieved by the Get-PASAccount function.
 
+.PARAMETER UseV9API
+Specify this switch to force usage of the legacy API endpoint.
+
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
 
