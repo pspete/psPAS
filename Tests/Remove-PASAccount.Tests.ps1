@@ -64,9 +64,9 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Remove-PASAccount
+		$response = $InputObj | Remove-PASAccount -useV9API
 
-		Context "Input" {
+		Context "Input V9 API" {
 
 			It "sends request" {
 
@@ -94,6 +94,44 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
 
+			}
+
+		}
+
+		Context "Input V10 API" {
+
+			$response = $InputObj | Remove-PASAccount -ExternalVersion "10.4"
+
+			It "sends request" {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Context
+
+			}
+
+			It "sends request to expected endpoint" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts/11_1"
+
+				} -Times 1 -Exactly -Scope Context
+
+			}
+
+			It "uses expected method" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'DELETE' } -Times 1 -Exactly -Scope Context
+
+			}
+
+			It "sends request with no body" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Context
+
+			}
+
+			It "throws error if version requirement not met" {
+				{$InputObj | Remove-PASAccount -ExternalVersion "1.0"} | Should Throw
 			}
 
 		}
