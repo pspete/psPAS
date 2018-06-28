@@ -109,7 +109,13 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+
 .EXAMPLE
+$token | Add-PASAccount -address ThisServer -userName ThisUser -platformID UNIXSSH -SafeName UNIXSafe -automaticManagementEnabled $false
+
+Using the version 10 API, adds an account which is disbaled for automatic password management
 
 .EXAMPLE
 $token | Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com -Password $secureString -username domainUser
@@ -121,7 +127,8 @@ The contents of $secureString will be set as the password value.
 All parameters can be piped by property name
 
 .OUTPUTS
-None
+None for v9
+v10.4 outputs th details of the created account.
 
 .NOTES
 
