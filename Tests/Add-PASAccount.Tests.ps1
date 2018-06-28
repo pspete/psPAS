@@ -35,43 +35,11 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			Write-Output @{}
-		}
-
-		$InputObj = [pscustomobject]@{
-			"Safe"                  = "P_Safe"
-			"platformID"            = "P_Platform"
-			"password"              = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
-			"username"              = "P_UserName"
-			"sessionToken"          = @{"Authorization" = "P_AuthValue"}
-			"WebSession"            = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"               = "https://P_URI"
-			"PVWAAppName"           = "P_App"
-			"Port"                  = 1234
-			"ExtraPass1Name"        = "P_ExtP1"
-			"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal"}
-			"address"               = "10.10.10.10"
-			"accountName"           = "SomeName"
-			"disableAutoMgmt"       = $true
-			"disableAutoMgmtReason" = "SomeReason"
-			"groupName"             = "SomeGroup"
-			"groupPlatformID"       = "GPlatform"
-			"ExtraPass1Folder"      = "Root"
-			"ExtraPass1Safe"        = "Safe1"
-			"ExtraPass3Name"        = "SomeName"
-			"ExtraPass3Folder"      = "Root"
-			"ExtraPass3Safe"        = "SomeSafe"
-		}
-
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
 			@{Parameter = 'SessionToken'},
-			@{Parameter = 'safe'},
-			@{Parameter = 'platformID'},
-			@{Parameter = 'password'},
-			@{Parameter = 'username'}
+			@{Parameter = 'password'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -81,35 +49,124 @@ Describe $FunctionName {
 
 			}
 
-		}
+			It "specifies parameter userName as mandatory for ParameterSet V9" {
 
-		$response = $InputObj | Add-PASAccount -verbose
+				(Get-Command Add-PASAccount).Parameters["UserName"].ParameterSets["V9"].IsMandatory | Should be $true
 
-		Context "Input" {
+			}
+			It "specifies parameter SafeName as mandatory for ParameterSet V9" {
 
-			It "sends request" {
+				(Get-Command Add-PASAccount).Parameters["SafeName"].ParameterSets["V9"].IsMandatory | Should be $true
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+			}
+			It "specifies parameter SafeName as mandatory for ParameterSet V10" {
+
+				(Get-Command Add-PASAccount).Parameters["SafeName"].ParameterSets["V10"].IsMandatory | Should be $true
+
+			}
+			It "specifies parameter platformID as mandatory for ParameterSet V9" {
+
+				(Get-Command Add-PASAccount).Parameters["platformID"].ParameterSets["V9"].IsMandatory | Should be $true
+
+			}
+			It "specifies parameter platformID as mandatory for ParameterSet V10" {
+
+				(Get-Command Add-PASAccount).Parameters["platformID"].ParameterSets["V10"].IsMandatory | Should be $true
 
 			}
 
-			It "sends request to expected endpoint" {
+		}
+
+		Context "Input" {
+
+			BeforeEach {
+
+				$secureString = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+				Mock Invoke-PASRestMethod -MockWith {
+					Write-Output @{}
+				}
+
+				$InputObj = [pscustomobject]@{
+					"safeName"              = "P_Safe"
+					"platformID"            = "P_Platform"
+					"password"              = $secureString
+					"userName"              = "P_UserName"
+					"sessionToken"          = @{"Authorization" = "P_AuthValue"}
+					"WebSession"            = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"               = "https://P_URI"
+					"PVWAAppName"           = "P_App"
+					"Port"                  = 1234
+					"ExtraPass1Name"        = "P_ExtP1"
+					"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal"}
+					"address"               = "10.10.10.10"
+					"accountName"           = "SomeName"
+					"disableAutoMgmt"       = $true
+					"disableAutoMgmtReason" = "SomeReason"
+					"groupName"             = "SomeGroup"
+					"groupPlatformID"       = "GPlatform"
+					"ExtraPass1Folder"      = "Root"
+					"ExtraPass1Safe"        = "Safe1"
+					"ExtraPass3Name"        = "SomeName"
+					"ExtraPass3Folder"      = "Root"
+					"ExtraPass3Safe"        = "SomeSafe"
+				}
+
+			}
+
+			It "sends request" {
+
+				$InputObj | Add-PASAccount
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - V9 ParameterSet" {
+
+				$InputObj | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Account"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - V10 ParameterSet" {
+				$InputObj = [pscustomobject]@{
+					"address"      = "someaddress"
+					"SafeName"     = "SomeSafe"
+					"PlatformID"   = "SomePlatform"
+					"userName"     = "SomeUser"
+					"secret"       = $secureString
+					"sessionToken" = @{"Authorization" = "P_AuthValue"}
+					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"      = "https://P_URI"
+					"PVWAAppName"  = "P_App"
+				}
+
+				$InputObj | Add-PASAccount
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts"
+
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				$InputObj | Add-PASAccount
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It "sends request with expected body - V9 ParameterSet" {
+
+				$InputObj | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -117,29 +174,179 @@ Describe $FunctionName {
 
 					($Script:RequestBody.Account) -ne $null
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It "has a request body with expected number of properties - V9 ParameterSet" {
 
 				($Script:RequestBody.Account | Get-Member -MemberType NoteProperty).length | Should Be 11
 
 			}
 
-			It "has expected number of nested properties" {
+			It "has expected number of nested properties - V9 ParameterSet" {
 
 				($Script:RequestBody.Account.Properties).count | Should Be 10
 
+			}
+
+			It "sends request with expected body - V10 ParameterSet" {
+
+				$InputObj = [pscustomobject]@{
+					"address"                    = "someaddress"
+					"SafeName"                   = "SomeSafe"
+					"PlatformID"                 = "SomePlatform"
+					"userName"                   = "SomeUser"
+					"secret"                     = $secureString
+					"sessionToken"               = @{"Authorization" = "P_AuthValue"}
+					"WebSession"                 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"                    = "https://P_URI"
+					"PVWAAppName"                = "P_App"
+					"automaticManagementEnabled" = $true
+					"remoteMachines"             = "someMachine"
+				}
+
+				$InputObj | Add-PASAccount
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody) -ne $null
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "has a request body with expected number of properties - V10 ParameterSet" {
+
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 7
+
+			}
+
+			It "has expected number of remoteMachinesAccess properties - V10 ParameterSet" {
+
+				($Script:RequestBody.remoteMachinesAccess).count | Should Be 1
+
+			}
+
+			It "has expected number of secretManagement properties - V10 ParameterSet" {
+
+				($Script:RequestBody.secretManagement).count | Should Be 1
+
+			}
+
+			It "throws error if version requirement not met" {
+
+				$InputObj = [pscustomobject]@{
+					"address"                    = "someaddress"
+					"SafeName"                   = "SomeSafe"
+					"PlatformID"                 = "SomePlatform"
+					"userName"                   = "SomeUser"
+					"secret"                     = $secureString
+					"sessionToken"               = @{"Authorization" = "P_AuthValue"}
+					"WebSession"                 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"                    = "https://P_URI"
+					"PVWAAppName"                = "P_App"
+					"automaticManagementEnabled" = $true
+					"remoteMachines"             = "someMachine"
+				}
+
+				{$InputObj | Add-PASAccount -ExternalVersion "1.0"} | Should Throw
 			}
 
 		}
 
 		Context "Output" {
 
-			it "provides no output" {
+			BeforeEach {
 
+				$secureString = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+				Mock Invoke-PASRestMethod -MockWith {
+					$result = [pscustomobject]@{
+						"Prop1" = "Val1"
+						"Prop2" = "Val2"
+						"Prop3" = "Val3"
+					}
+
+					$result
+				}
+
+				$InputObj = [pscustomobject]@{
+					"address"                    = "someaddress"
+					"SafeName"                   = "SomeSafe"
+					"PlatformID"                 = "SomePlatform"
+					"userName"                   = "SomeUser"
+					"secret"                     = $secureString
+					"sessionToken"               = @{"Authorization" = "P_AuthValue"}
+					"WebSession"                 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"                    = "https://P_URI"
+					"PVWAAppName"                = "P_App"
+					"automaticManagementEnabled" = $true
+					"remoteMachines"             = "someMachine"
+				}
+
+			}
+
+			it "provides no output - V9 ParameterSet" {
+
+				$InputObj = [pscustomobject]@{
+					"safeName"              = "P_Safe"
+					"platformID"            = "P_Platform"
+					"password"              = $secureString
+					"userName"              = "P_UserName"
+					"sessionToken"          = @{"Authorization" = "P_AuthValue"}
+					"WebSession"            = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"               = "https://P_URI"
+					"PVWAAppName"           = "P_App"
+					"Port"                  = 1234
+					"ExtraPass1Name"        = "P_ExtP1"
+					"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal"}
+					"address"               = "10.10.10.10"
+					"accountName"           = "SomeName"
+					"disableAutoMgmt"       = $true
+					"disableAutoMgmtReason" = "SomeReason"
+					"groupName"             = "SomeGroup"
+					"groupPlatformID"       = "GPlatform"
+					"ExtraPass1Folder"      = "Root"
+					"ExtraPass1Safe"        = "Safe1"
+					"ExtraPass3Name"        = "SomeName"
+					"ExtraPass3Folder"      = "Root"
+					"ExtraPass3Safe"        = "SomeSafe"
+				}
+				$response = $InputObj | Add-PASAccount
 				$response | Should BeNullOrEmpty
+
+			}
+
+			it "provides output - V10 ParameterSet" {
+				$response = $InputObj | Add-PASAccount
+				$response | Should Not BeNullOrEmpty
+
+			}
+
+			it "outputs object with expected typename - v10 parameterset" {
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						"Count" = 30
+						"Value" = [pscustomobject]@{"Prop1" = "Val1"}
+					}
+				}
+				$response = $InputObj | Add-PASAccount
+				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.V10
+
+			}
+
+			$DefaultProps = @{Property = 'sessionToken'},
+			@{Property = 'WebSession'},
+			@{Property = 'BaseURI'},
+			@{Property = 'PVWAAppName'},
+			@{Property = 'ExternalVersion'}
+
+			It "returns default property <Property> in V10 response" -TestCases $DefaultProps {
+				param($Property)
+
+				$($InputObj | Add-PASAccount).$Property | Should Not BeNullOrEmpty
 
 			}
 

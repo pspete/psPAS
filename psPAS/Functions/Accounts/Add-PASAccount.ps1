@@ -2,12 +2,46 @@
 	<#
 .SYNOPSIS
 Adds a new privileged account to the Vault
+Uses either the API present from 10.4 onwards, or the version 9 API endpoint.
 
 .DESCRIPTION
 Adds a new privileged account to the Vault.
 Parameters are processed to create request object from passed parameters in the required format.
 
-.PARAMETER Safe
+.PARAMETER name
+The name of the account.
+A version 10.4 onward specific parameter
+
+.PARAMETER secretType
+The type of password.
+A version 10.4 onward specific parameter
+
+.PARAMETER secret
+The password value
+A version 10.4 onward specific parameter
+
+.PARAMETER platformAccountProperties
+key-value pairs to associate with the account, as defined by the account platform.
+These properties are validated against the mandatory and optional properties of the specified platform's definition.
+A version 10.4 onward specific parameter
+
+.PARAMETER automaticManagementEnabled
+Whether CPM Password Management should be enabled
+A version 10.4 onward specific parameter
+
+.PARAMETER manualManagementReason
+A reason for disabling CPM Password Management
+A version 10.4 onward specific parameter
+
+.PARAMETER remoteMachines
+For supported platforms, a list of remote machines the account can connect to.
+A version 10.4 onward specific parameter
+
+.PARAMETER accessRestrictedToRemoteMachines
+Whether access is restricted to the defined remote machines.
+A version 10.4 onward specific parameter
+
+.PARAMETER SafeName
 The safe where the account will be created
 
 .PARAMETER PlatformID
@@ -76,9 +110,11 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
+
+.EXAMPLE
 $token | Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com -Password $secureString -username domainUser
 
-Will add account domain.com\domainuser to the Prod_Access Safe using the WINDOMAIN platform.
+Using the "version 9" API, adds account domain.com\domainuser to the Prod_Access Safe using the WINDOMAIN platform.
 The contents of $secureString will be set as the password value.
 
 .INPUTS
@@ -94,120 +130,218 @@ None
 #>
 	[CmdletBinding()]
 	param(
-		[Alias("SafeName")]
+
 		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
 		)]
-		[ValidateNotNullOrEmpty()]
-		[string]$safe,
+		[string]$name,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[string]$address,
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[string]$userName,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
+		)]
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
 		)]
 		[Alias("PolicyID")]
 		[string]$platformID,
 
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
-		[string]$address,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[ValidateNotNullOrEmpty()]
+		[Alias("safe")]
+		[string]$SafeName,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[ValidateSet("Password", "Key")]
+		[string]$secretType,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[securestring]$secret,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[hashtable]$platformAccountProperties,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[boolean]$automaticManagementEnabled,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[string]$manualManagementReason,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[string]$remoteMachines,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[boolean]$accessRestrictedToRemoteMachines,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$accountName,
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[securestring]$password,
 
 		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$username,
-
-		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "disableAutoMgmt"
+			ParameterSetName = "V9"
 		)]
 		[boolean]$disableAutoMgmt,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "disableAutoMgmt"
+			ParameterSetName = "V9"
 		)]
 		[string]$disableAutoMgmtReason,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$groupName,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$groupPlatformID,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[int]$Port,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass1Name,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$ExtraPass1Folder,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass1Safe,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass3Name,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$ExtraPass3Folder,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass3Safe,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[hashtable]$DynamicProperties,
 
@@ -233,87 +367,167 @@ None
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
 	)
 
 	BEGIN {
 
-		#The Add Account JSON object requires specific formatting.
+		$MinimumVersion = [System.Version]"10.4"
+
+		#The (version 9 API) Add Account JSON object requires specific formatting.
 		#Different parameters are contained within the JSON at different depths.
 		#Programmatic processing is required to format the JSON as required.
 
-		#baseparameters are contained in JSON object at the same depth
+		#V9 baseparameters are contained in JSON object at the same depth
 		$baseParameters = @("Safe", "PlatformID", "Address", "AccountName", "Password", "Username",
 			"DisableAutoMgmt", "DisableAutoMgmtReason", "GroupName", "GroupPlatformID")
+
+		#V10 parameters are nested under JSON object properties
+		$remoteMachine = @("remoteMachines", "accessRestrictedToRemoteMachines")
+		$SecretMgmt = @("automaticManagementEnabled", "manualManagementReason")
 
 	}#begin
 
 	PROCESS {
 
-		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account"
-
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
-
-		#deal with newPassword SecureString
-		If($PSBoundParameters.ContainsKey("password")) {
-
-			#Include decoded password in request
-			$boundParameters["password"] = $(ConvertTo-InsecureString -SecureString $password)
-
-		}
-
-		#Process for required formatting
-
-		#declare empty hashtable to hold "non-base" parameters
-		$properties = @{}
 
 		#declare empty array to hold keys to remove from bound parameters
 		[array]$keysToRemove = @()
 
-		#Get "non-base" parameters
-		$boundParameters.keys | Where-Object {$baseParameters -notcontains $_} | ForEach-Object {
+		if($PSCmdlet.ParameterSetName -eq "V10") {
 
-			#For all "non-base" parameters except "DynamicProperties"
-			if($_ -ne "DynamicProperties") {
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
-				#Add key/Value to "properties" hashtable
-				$properties[$_] = $boundParameters[$_]
+			#Create URL for Request
+			$URI = "$baseURI/$PVWAAppName/api/Accounts"
+
+			#deal with "secret" SecureString
+			If($PSBoundParameters.ContainsKey("secret")) {
+
+				#Include decoded password in request
+				$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
 
 			}
 
-			Else {
-				#for DynamicProperties key=value pairs
+			$remoteMachinesAccess = @{}
+			$boundParameters.keys | Where-Object {$remoteMachine -contains $_} | ForEach-Object {
 
-				#Enumerate DynamicProperties object
-				$boundParameters[$_].getenumerator() | ForEach-Object {
+				#add key=value to hashtable
+				$remoteMachinesAccess[$_] = $boundParameters[$_]
 
-					#add key=value to "properties" hashtable
-					$properties[$_.name] = $_.value
 
-				}
 			}
 
-			#add the "non-base" parameter key to array
-			$keysToRemove = $keysToRemove + $_
+			$secretManagement = @{}
+			$boundParameters.keys | Where-Object {$SecretMgmt -contains $_} | ForEach-Object {
+
+				#add key=value to hashtable
+				$secretManagement[$_] = $boundParameters[$_]
+
+			}
+
+			$boundParameters["remoteMachinesAccess"] = $remoteMachinesAccess
+			$boundParameters["secretManagement"] = $secretManagement
+
+			$body = $boundParameters |
+				Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt)  |
+				ConvertTo-Json -depth 4
 
 		}
 
-		#Add "non-base" parameter hashtable as value of "properties" on boundparameters object
-		$boundParameters["properties"] = @($properties.getenumerator() | ForEach-Object {$_})
+		if($PSCmdlet.ParameterSetName -eq "V9") {
 
-		#Create body of request
-		$body = @{
+			#Create URL for Request
+			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account"
 
-			#account node does not contain non-base parameters
-			"account" = $boundParameters | Get-PASParameter -ParametersToRemove $keysToRemove
+			#deal with Password SecureString
+			If($PSBoundParameters.ContainsKey("password")) {
 
-			#ensure nodes at all required depths are included in the JSON object
-		} | ConvertTo-Json -Depth 4
+				#Include decoded password in request
+				$boundParameters["password"] = $(ConvertTo-InsecureString -SecureString $password)
+
+			}
+
+			#Process for required formatting - fix V10 specific parameter names
+			$boundParameters["safe"] = $SafeName
+			$boundParameters["username"] = $userName
+
+			$boundParameters.remove("SafeName")
+			$boundParameters.remove("userName")
+			#declare empty hashtable to hold "non-base" parameters
+			$properties = @{}
+
+			#Get "non-base" parameters
+			$boundParameters.keys | Where-Object {$baseParameters -notcontains $_} | ForEach-Object {
+
+				#For all "non-base" parameters except "DynamicProperties"
+				if($_ -ne "DynamicProperties") {
+
+					#Add key/Value to "properties" hashtable
+					$properties[$_] = $boundParameters[$_]
+
+				}
+
+				Else {
+					#for DynamicProperties key=value pairs
+
+					#Enumerate DynamicProperties object
+					$boundParameters[$_].getenumerator() | ForEach-Object {
+
+						#add key=value to "properties" hashtable
+						$properties[$_.name] = $_.value
+
+					}
+				}
+
+				#add the "non-base" parameter key to array
+				$keysToRemove = $keysToRemove + $_
+
+			}
+
+			#Add "non-base" parameter hashtable as value of "properties" on boundparameters object
+			$boundParameters["properties"] = @($properties.getenumerator() | ForEach-Object {$_})
+
+			#Create body of request
+			$body = @{
+
+				#account node does not contain non-base parameters
+				"account" = $boundParameters | Get-PASParameter -ParametersToRemove $keysToRemove
+
+				#ensure nodes at all required depths are included in the JSON object
+			} | ConvertTo-Json -Depth 4
+
+		}
 
 		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+
+		if($PSCmdlet.ParameterSetName -eq "V10") {
+
+			if($result) {
+
+				#Return Results
+				$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Account.V10" -PropertyToAdd @{
+
+					"sessionToken"    = $sessionToken
+					"WebSession"      = $WebSession
+					"BaseURI"         = $BaseURI
+					"PVWAAppName"     = $PVWAAppName
+					"ExternalVersion" = $ExternalVersion
+
+				}
+
+			}
+
+		}
 
 	}#process
 
