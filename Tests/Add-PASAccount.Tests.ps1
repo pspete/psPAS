@@ -193,17 +193,18 @@ Describe $FunctionName {
 			It "sends request with expected body - V10 ParameterSet" {
 
 				$InputObj = [pscustomobject]@{
-					"address"                    = "someaddress"
-					"SafeName"                   = "SomeSafe"
-					"PlatformID"                 = "SomePlatform"
-					"userName"                   = "SomeUser"
-					"secret"                     = $secureString
-					"sessionToken"               = @{"Authorization" = "P_AuthValue"}
-					"WebSession"                 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"                    = "https://P_URI"
-					"PVWAAppName"                = "P_App"
-					"automaticManagementEnabled" = $true
-					"remoteMachines"             = "someMachine"
+					"address"                          = "someaddress"
+					"SafeName"                         = "SomeSafe"
+					"PlatformID"                       = "SomePlatform"
+					"userName"                         = "SomeUser"
+					"secret"                           = $secureString
+					"sessionToken"                     = @{"Authorization" = "P_AuthValue"}
+					"WebSession"                       = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"                          = "https://P_URI"
+					"PVWAAppName"                      = "P_App"
+					"automaticManagementEnabled"       = $true
+					"remoteMachines"                   = "someMachine"
+					"accessRestrictedToRemoteMachines" = $false
 				}
 
 				$InputObj | Add-PASAccount
@@ -215,24 +216,6 @@ Describe $FunctionName {
 					($Script:RequestBody) -ne $null
 
 				} -Times 1 -Exactly -Scope It
-
-			}
-
-			It "has a request body with expected number of properties - V10 ParameterSet" {
-
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 7
-
-			}
-
-			It "has expected number of remoteMachinesAccess properties - V10 ParameterSet" {
-
-				($Script:RequestBody.remoteMachinesAccess).count | Should Be 1
-
-			}
-
-			It "has expected number of secretManagement properties - V10 ParameterSet" {
-
-				($Script:RequestBody.secretManagement).count | Should Be 1
 
 			}
 
