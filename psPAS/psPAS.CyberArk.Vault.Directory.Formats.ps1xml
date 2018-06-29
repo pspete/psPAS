@@ -2,10 +2,10 @@
 <Configuration>
 	<ViewDefinitions>
 		<View>
-			<Name>psPAS.CyberArk.Vault.LDAP.Directory</Name>
+			<Name>psPAS.CyberArk.Vault.Directory</Name>
 			<ViewSelectedBy>
-				<TypeName>psPAS.CyberArk.Vault.LDAP.Directory</TypeName>
-				<TypeName>psPAS.CyberArk.Vault.LDAP.Directory.Extended</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Directory</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Directory.Extended</TypeName>
 			</ViewSelectedBy>
 			<TableControl>
 				<TableHeaders>
@@ -27,9 +27,9 @@
 			</TableControl>
 		</View>
 		<View>
-			<Name>psPAS.CyberArk.Vault.LDAP.Directory</Name>
+			<Name>psPAS.CyberArk.Vault.Directory</Name>
 			<ViewSelectedBy>
-				<TypeName>psPAS.CyberArk.Vault.LDAP.Directory</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Directory</TypeName>
 			</ViewSelectedBy>
 			<ListControl>
 				<ListEntries>
@@ -47,9 +47,9 @@
 			</ListControl>
 		</View>
 		<View>
-			<Name>psPAS.CyberArk.Vault.LDAP.Directory.Extended</Name>
+			<Name>psPAS.CyberArk.Vault.Directory.Extended</Name>
 			<ViewSelectedBy>
-				<TypeName>psPAS.CyberArk.Vault.LDAP.Directory.Extended</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Directory.Extended</TypeName>
 			</ViewSelectedBy>
 			<ListControl>
 				<ListEntries>
@@ -82,9 +82,9 @@
 			</ListControl>
 		</View>
 		<View>
-			<Name>psPAS.CyberArk.Vault.LDAP.Directory.Mapping</Name>
+			<Name>psPAS.CyberArk.Vault.Directory.Mapping</Name>
 			<ViewSelectedBy>
-				<TypeName>psPAS.CyberArk.Vault.LDAP.Directory.Mapping</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Directory.Mapping</TypeName>
 			</ViewSelectedBy>
 			<TableControl>
 				<TableHeaders>
@@ -118,9 +118,9 @@
 			</TableControl>
 		</View>
 		<View>
-			<Name>psPAS.CyberArk.Vault.LDAP.Directory.Mapping</Name>
+			<Name>psPAS.CyberArk.Vault.Directory.Mapping</Name>
 			<ViewSelectedBy>
-				<TypeName>psPAS.CyberArk.Vault.LDAP.Directory.Mapping</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Directory.Mapping</TypeName>
 			</ViewSelectedBy>
 			<ListControl>
 				<ListEntries>

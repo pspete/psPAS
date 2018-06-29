@@ -96,7 +96,7 @@ LDAP Directory Details
 			#Return Results
 			$result |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.LDAP.Directory -PropertyToAdd @{
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory -PropertyToAdd @{
 
 				"sessionToken"    = $sessionToken
 				"WebSession"      = $WebSession

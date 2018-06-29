@@ -303,7 +303,7 @@ All parameters can be piped to the function by propertyname
 			#Return Results
 			$result |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.LDAP.Directory.Mapping -PropertyToAdd @{
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping -PropertyToAdd @{
 
 				"sessionToken"    = $sessionToken
 				"WebSession"      = $WebSession
