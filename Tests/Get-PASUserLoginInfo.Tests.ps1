@@ -56,13 +56,13 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command Get-PASLoginInfo).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Get-PASUserLoginInfo).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Get-PASLoginInfo
+		$response = $InputObj | Get-PASUserLoginInfo
 
 		Context "Input" {
 
@@ -95,7 +95,7 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASLoginInfo -ExternalVersion "1.0"} | Should Throw
+				{$InputObj | Get-PASUserLoginInfo -ExternalVersion "1.0"} | Should Throw
 			}
 
 		}

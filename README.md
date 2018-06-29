@@ -207,7 +207,7 @@ requires version 9.8+).
 [`Get-PASComponentSummary`](/psPAS/Functions/SystemHealth/Get-PASComponentSummary.ps1)|Returns consolidated </br>information about </br>CyberArk Components.|**10.1**
 [`Add-PASGroupMember`](/psPAS/Functions/User/Add-PASGroupMember.ps1)|Adds a vault user as </br>a group member|**9.7**
 [`Get-PASLoggedOnUser`](/psPAS/Functions/User/Get-PASLoggedOnUser.ps1)|Returns details of </br>the logged on user|**9.7**
-[`Get-PASLoginInfo`](/psPAS/Functions/User/Get-PASLoginInfo.ps1)|Returns login details of </br>the current user|**10.4**
+[`Get-PASUserLoginInfo`](/psPAS/Functions/User/Get-PASUserLoginInfo.ps1)|Returns login details of </br>the current user|**10.4**
 [`Get-PASUser`](/psPAS/Functions/User/New-PASSession.ps1)|Returns details of a user|**9.7**
 [`New-PASUser`](/psPAS/Functions/User/New-PASUser.ps1)|Creates a new vault user|**9.7**
 [`Remove-PASUser`](/psPAS/Functions/User/Remove-PASUser.ps1)|Deletes a vault user|**9.7**

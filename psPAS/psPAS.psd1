@@ -153,7 +153,7 @@
 		'Import-PASPlatform',
 		'Import-PASConnectionComponent',
 		'Export-PASPlatform',
-		'Get-PASLoginInfo',
+		'Get-PASUserLoginInfo',
 		'Get-PASDirectory',
 		'Add-PASDirectory',
 		'New-PASDirectoryMapping'

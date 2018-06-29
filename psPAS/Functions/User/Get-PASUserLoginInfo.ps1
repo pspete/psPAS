@@ -1,4 +1,4 @@
-﻿function Get-PASLoginInfo {
+﻿function Get-PASUserLoginInfo {
 	<#
 .SYNOPSIS
 Get Login information for the current user
@@ -26,7 +26,7 @@ If the minimum version requirement of this function is not satisfied, execution 
 Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 .EXAMPLE
-$token | Get-PASLoginInfo
+$token | Get-PASUserLoginInfo
 
 Returns Login Info for the current user
 
