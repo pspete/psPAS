@@ -13,7 +13,7 @@ object to be used on subsequent calls to the web service.
 
 .PARAMETER Method
 The method for the REST Method.
-Only accepts GET, POST, PUT or DELETE
+Only accepts GET, POST, PUT, PATCH or DELETE
 
 .PARAMETER URI
 The address of the API or service to send the request to.
@@ -54,7 +54,7 @@ to ensure session persistence.
 	param
 	(
 		[Parameter(Mandatory = $true)]
-		[ValidateSet('GET', 'POST', 'PUT', 'DELETE')]
+		[ValidateSet('GET', 'POST', 'PUT', 'DELETE', 'PATCH')]
 		[String]$Method,
 
 		[Parameter(Mandatory = $true)]

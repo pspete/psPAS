@@ -5,6 +5,8 @@ Updates an existing accounts details.
 
 .DESCRIPTION
 Updates an existing accounts details.
+
+For CyberArk version prior to 10.4:
 All of the account’s property details MUST be passed to the function.
 Any current properties of the account not sent as part of the request will be removed
 from the account.
@@ -18,6 +20,15 @@ reconciliation or verification), the links will be automatically updated.
 .PARAMETER AccountID
 The unique ID of the account to update.
 Retrieved by Get-PASAccount
+
+.PARAMETER op
+The folder where the account is stored.
+
+.PARAMETER path
+The folder where the account is stored.
+
+.PARAMETER value
+The folder where the account is stored.
 
 .PARAMETER Folder
 The folder where the account is stored.
@@ -115,74 +126,109 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 .LINK
 
 #>
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "V10")]
 	param(
+
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
+		[Alias("id")]
 		[string]$AccountID,
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[ValidateSet("add", "replace", "remove")]
+		[Alias("Operation")]
+		[string]$op,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[string]$path,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10"
+		)]
+		[string]$value,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$Folder,
 
-		[Alias("Name")]
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
+		[Alias("Name")]
 		[string]$AccountName,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$DeviceType,
 
 		[Alias("PolicyID")]
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$PlatformID,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$Address,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$UserName,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$GroupName,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V9"
 		)]
 		[string]$GroupPlatformID,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelineByPropertyName = $false
+			ValueFromPipelineByPropertyName = $false,
+			ParameterSetName = "V9"
 		)]
 		[hashtable]$Properties = @{},
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipeline = $true
+			ValueFromPipeline = $true,
+			ParameterSetName = "V9"
 		)]
 		[psobject]$InputObject,
 
@@ -218,85 +264,115 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"10.4"
+	}#begin
 
 	PROCESS {
-
-		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove InputObject, AccountID
 
-		if($PSBoundParameters.ContainsKey("Properties")) {
+		if($PSCmdlet.ParameterSetName -eq "V10") {
 
-			#Format "Properties" parameter value.
-			#Array of key=value pairs required for JSON convertion
-			$boundParameters["Properties"] = @($boundParameters["Properties"].getenumerator() |
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
-				ForEach-Object {$_})
+			#Create URL for Request
+			$URI = "$baseURI/$PVWAAppName/api/Accounts/$AccountID"
+
+			#Define method for request
+			$Method = "PATCH"
+
+			#Define type of output object
+			$Type = "psPAS.CyberArk.Vault.Account.V10"
+
+			#$body = @{"Operations" = @($boundParameters)} | ConvertTo-JSON
+			$body = @{"Operations" = [array]$boundParameters} | ConvertTo-JSON -Depth 3
 
 		}
 
-		#If InputObject is psPAS.CyberArk.Vault.Account
-		#i.e. receiving pipeline from Get-PASAccount
-		If(($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account") {
+		if($PSCmdlet.ParameterSetName -eq "V9") {
 
-			Write-Verbose "Processing psPAS.CyberArk.Vault.Account Properties"
+			#Create URL for Request
+			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
 
-			#Get all existing properties as defined by input object:
-			#Process Pipeline input object properties
-			$InputObject |
+			#Define method for request
+			$Method = "PUT"
 
-			#exclude properties output by get-pasaccount not applicable to set-pasaccount request
-			Select-Object -Property * -ExcludeProperty Name, PolicyID, Safe |
+			#Define type of output object
+			$Type = "psPAS.CyberArk.Vault.Account"
 
-			#get all remaining noteproperties
-			Get-Member -MemberType "NoteProperty" |
+			if($PSBoundParameters.ContainsKey("Properties")) {
 
-			#For each property
-			ForEach-Object {
+				#Format "Properties" parameter value.
+				#Array of key=value pairs required for JSON convertion
+				$boundParameters["Properties"] = @($boundParameters["Properties"].getenumerator() |
 
-				#Initialise hashtable
-				$ExistingProperty = @{}
+					ForEach-Object {$_})
 
-				#if property is not bound to function parameter by name,
-				if(!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
+			}
 
-							#if not being explicitly updated.
-							$($Properties).ContainsKey($($_.Name))))) {
+			#If InputObject is psPAS.CyberArk.Vault.Account
+			#i.e. receiving pipeline from Get-PASAccount
+			If(($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account") {
 
-					Write-Debug "Adding $($_.Name) = $($InputObject.$($_.Name)) as Account Property"
-					[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
+				Write-Verbose "Processing psPAS.CyberArk.Vault.Account Properties"
 
-					#Add to Properties node of request data
-					[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object {$_}
-					#any existing properties of an account not sent in a "set" request will be cleared on the account.
-					#This ensures correctly formatted request with all existing account properties included
-					#when function is sent data via the pipeline.
+				#Get all existing properties as defined by input object:
+				#Process Pipeline input object properties
+				$InputObject |
+
+				#exclude properties output by get-pasaccount not applicable to set-pasaccount request
+				Select-Object -Property * -ExcludeProperty Name, PolicyID, Safe |
+
+				#get all remaining noteproperties
+				Get-Member -MemberType "NoteProperty" |
+
+				#For each property
+				ForEach-Object {
+
+					#Initialise hashtable
+					$ExistingProperty = @{}
+
+					#if property is not bound to function parameter by name,
+					if(!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
+
+								#if not being explicitly updated.
+								$($Properties).ContainsKey($($_.Name))))) {
+
+						Write-Debug "Adding $($_.Name) = $($InputObject.$($_.Name)) as Account Property"
+						[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
+
+						#Add to Properties node of request data
+						[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object {$_}
+						#any existing properties of an account not sent in a "set" request will be cleared on the account.
+						#This ensures correctly formatted request with all existing account properties included
+						#when function is sent data via the pipeline.
+
+					}
 
 				}
 
 			}
 
+			#Create body of request
+			$body = @{
+
+				"Accounts" = $boundParameters
+
+				#ensure nodes at all required depths are included in the JSON object
+			} | ConvertTo-Json -Depth 3
+
 		}
-
-		#Create body of request
-		$body = @{
-
-			"Accounts" = $boundParameters
-
-			#ensure nodes at all required depths are included in the JSON object
-		} | ConvertTo-Json -Depth 3
 
 		if($PSCmdlet.ShouldProcess($AccountID, "Update Account Properties")) {
 
 			#send request to PAS web service
-			$Result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body -Headers $sessionToken -WebSession $WebSession
 
 			If($Result) {
 
-				$Result.UpdateAccountResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account -PropertyToAdd @{
+				$Result.UpdateAccountResult | Add-ObjectDetail -typename $Type -PropertyToAdd @{
 
 					"AccountID"       = $AccountID
 					"sessionToken"    = $sessionToken
