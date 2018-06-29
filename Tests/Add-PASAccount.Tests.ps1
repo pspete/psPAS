@@ -111,6 +111,21 @@ Describe $FunctionName {
 					"ExtraPass3Safe"        = "SomeSafe"
 				}
 
+				$InputObjV10 = [pscustomobject]@{
+					"address"                          = "someaddress"
+					"SafeName"                         = "SomeSafe"
+					"PlatformID"                       = "SomePlatform"
+					"userName"                         = "SomeUser"
+					"secret"                           = $secureString
+					"sessionToken"                     = @{"Authorization" = "P_AuthValue"}
+					"WebSession"                       = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"                          = "https://P_URI"
+					"PVWAAppName"                      = "P_App"
+					"automaticManagementEnabled"       = $true
+					"remoteMachines"                   = "someMachine"
+					"accessRestrictedToRemoteMachines" = $false
+				}
+
 			}
 
 			It "sends request" {
@@ -134,19 +149,8 @@ Describe $FunctionName {
 			}
 
 			It "sends request to expected endpoint - V10 ParameterSet" {
-				$InputObj = [pscustomobject]@{
-					"address"      = "someaddress"
-					"SafeName"     = "SomeSafe"
-					"PlatformID"   = "SomePlatform"
-					"userName"     = "SomeUser"
-					"secret"       = $secureString
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
-				}
 
-				$InputObj | Add-PASAccount
+				$InputObjV10 | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -170,9 +174,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
-
-					($Script:RequestBody.Account) -ne $null
+					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account) -ne $null
 
 				} -Times 1 -Exactly -Scope It
 
@@ -180,40 +182,63 @@ Describe $FunctionName {
 
 			It "has a request body with expected number of properties - V9 ParameterSet" {
 
-				($Script:RequestBody.Account | Get-Member -MemberType NoteProperty).length | Should Be 11
+				$InputObj | Add-PASAccount
 
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account | Get-Member -MemberType NoteProperty).length -eq 11
+				} -Times 1 -Exactly -Scope It
 			}
 
 			It "has expected number of nested properties - V9 ParameterSet" {
-
-				($Script:RequestBody.Account.Properties).count | Should Be 10
-
-			}
-
-			It "sends request with expected body - V10 ParameterSet" {
-
-				$InputObj = [pscustomobject]@{
-					"address"                          = "someaddress"
-					"SafeName"                         = "SomeSafe"
-					"PlatformID"                       = "SomePlatform"
-					"userName"                         = "SomeUser"
-					"secret"                           = $secureString
-					"sessionToken"                     = @{"Authorization" = "P_AuthValue"}
-					"WebSession"                       = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"                          = "https://P_URI"
-					"PVWAAppName"                      = "P_App"
-					"automaticManagementEnabled"       = $true
-					"remoteMachines"                   = "someMachine"
-					"accessRestrictedToRemoteMachines" = $false
-				}
-
 				$InputObj | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account | Select-Object -ExpandProperty Properties).count -eq 10
 
-					($Script:RequestBody) -ne $null
+				} -Times 1 -Exactly -Scope It
+			}
+
+			It "sends request with expected body - V10 ParameterSet" {
+
+				$InputObjV10 | Add-PASAccount
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($Body | ConvertFrom-Json) -ne $null
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "has a request body with expected number of properties - V10 ParameterSet" {
+
+				$InputObjV10 | Add-PASAccount
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+					($Body | ConvertFrom-Json | Get-Member -MemberType NoteProperty).length -eq 7
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "has expected number of RemoteMachine nested properties - V10 ParameterSet" {
+				$InputObjV10 | Add-PASAccount
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($Body | ConvertFrom-Json | Select-Object -ExpandProperty remoteMachinesAccess | Get-Member -MemberType NoteProperty).length -eq 2
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "has expected number of secretManagement nested properties - V10 ParameterSet" {
+
+				$InputObjV10 | Add-PASAccount
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($Body | ConvertFrom-Json | Select-Object -ExpandProperty secretManagement | Get-Member -MemberType NoteProperty).length -eq 1
 
 				} -Times 1 -Exactly -Scope It
 
@@ -221,21 +246,8 @@ Describe $FunctionName {
 
 			It "throws error if version requirement not met" {
 
-				$InputObj = [pscustomobject]@{
-					"address"                    = "someaddress"
-					"SafeName"                   = "SomeSafe"
-					"PlatformID"                 = "SomePlatform"
-					"userName"                   = "SomeUser"
-					"secret"                     = $secureString
-					"sessionToken"               = @{"Authorization" = "P_AuthValue"}
-					"WebSession"                 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"                    = "https://P_URI"
-					"PVWAAppName"                = "P_App"
-					"automaticManagementEnabled" = $true
-					"remoteMachines"             = "someMachine"
-				}
+				{$InputObjV10 | Add-PASAccount -ExternalVersion "1.0"} | Should Throw
 
-				{$InputObj | Add-PASAccount -ExternalVersion "1.0"} | Should Throw
 			}
 
 		}
