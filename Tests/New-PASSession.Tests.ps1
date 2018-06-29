@@ -50,7 +50,7 @@ Describe $FunctionName {
 
 		$Credentials = New-Object System.Management.Automation.PSCredential ("SomeUser", $(ConvertTo-SecureString "SomePassword" -AsPlainText -Force))
 
-		$NewPass = $secpasswd = ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force
+		$NewPass = ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force
 
 		Context "Mandatory Parameters" {
 

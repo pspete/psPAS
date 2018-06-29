@@ -133,17 +133,21 @@ Not Tested
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		Write-Debug "Rules Found: $($result.Total)"
+		if($result) {
 
-		$result.AutomaticOnboardingRules |
+			Write-Debug "Rules Found: $($result.Total)"
 
-		Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
+			$result.AutomaticOnboardingRules |
 
-			"sessionToken"    = $sessionToken
-			"WebSession"      = $WebSession
-			"BaseURI"         = $BaseURI
-			"PVWAAppName"     = $PVWAAppName
-			"ExternalVersion" = $ExternalVersion
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
+
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
+
+			}
 
 		}
 

@@ -210,7 +210,7 @@ Describe $FunctionName {
 
 			It "returns expected output for application/octet-stream responses" {
 				$result = Invoke-PASRestMethod @requestArgs2
-				$result | Should Be "Expected"
+				$([System.Text.Encoding]::ASCII.GetString($result)) | Should Be "Expected"
 			}
 
 		}

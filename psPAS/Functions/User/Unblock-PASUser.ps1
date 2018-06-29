@@ -118,13 +118,17 @@ To force all output to be shown, pipe to Select-Object *
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -Headers $sessionToken -WebSession $WebSession
 
-		$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User -PropertyToAdd @{
+		if($result) {
 
-			"sessionToken"    = $sessionToken
-			"WebSession"      = $WebSession
-			"BaseURI"         = $BaseURI
-			"PVWAAppName"     = $PVWAAppName
-			"ExternalVersion" = $ExternalVersion
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User -PropertyToAdd @{
+
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
+
+			}
 
 		}
 

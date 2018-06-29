@@ -2,6 +2,71 @@
 <Configuration>
 	<ViewDefinitions>
 		<View>
+			<Name>psPAS.CyberArk.Vault.Account.V10</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Account.V10</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<Label>AccountID</Label>
+								<ScriptBlock>$_.id</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>Safe</Label>
+								<ScriptBlock>$_.safeName</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>address</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Name</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>PlatformID</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>secretType</PropertyName>
+							</ListItem>
+							<ListItem>
+								<ItemSelectionCondition>
+									<ScriptBlock>$_.secret</ScriptBlock>
+								</ItemSelectionCondition>
+								<PropertyName>secret</PropertyName>
+							</ListItem>
+							<ListItem>
+								<ItemSelectionCondition>
+									<ScriptBlock>$_.platformAccountProperties</ScriptBlock>
+								</ItemSelectionCondition>
+								<PropertyName>platformAccountProperties</PropertyName>
+							</ListItem>
+							<ListItem>
+								<ItemSelectionCondition>
+									<ScriptBlock>$_.secretManagement</ScriptBlock>
+								</ItemSelectionCondition>
+								<PropertyName>secretManagement</PropertyName>
+							</ListItem>
+							<ListItem>
+								<ItemSelectionCondition>
+									<ScriptBlock>$_.remoteMachinesAccess</ScriptBlock>
+								</ItemSelectionCondition>
+								<PropertyName>remoteMachinesAccess</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>createdTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.createdTime)</ScriptBlock>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
 			<Name>psPAS.CyberArk.Vault.Account</Name>
 			<ViewSelectedBy>
 				<TypeName>psPAS.CyberArk.Vault.Account</TypeName>

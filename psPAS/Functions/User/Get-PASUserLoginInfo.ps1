@@ -1,14 +1,10 @@
-Function Get-PASComponentDetail {
+﻿function Get-PASUserLoginInfo {
 	<#
 .SYNOPSIS
-Returns details & health information about CyberArk component instances.
+Get Login information for the current user
 
 .DESCRIPTION
-Returns details about specific components and all their installed instances,
-as well as system health information for each one.
-
-.PARAMETER ComponentID
-Specify component type to return information on (PVWA, SessionManagement, CPM or AIM)
+Returns data about the User that is currently logged into the system
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -30,41 +26,23 @@ If the minimum version requirement of this function is not satisfied, execution 
 Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 .EXAMPLE
-$token | Get-PASComponentDetail -ComponentID CPM
+$token | Get-PASUserLoginInfo
 
-Displays CPM Component information
-
-.EXAMPLE
-$token | Get-PASComponentDetail -ComponentID PVWA
-
-Displays PVWA Component information
-
-.EXAMPLE
-$token | Get-PASComponentDetail -ComponentID SessionManagement
-
-Displays PSM Component information
+Returns Login Info for the current user
 
 .INPUTS
-All parameters can be piped to the function by propertyname
+WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
+Last successful & failed logon times for the current user
 
 .NOTES
-Requires minimum version of CyberArk 10.1.
 
 .LINK
 
 #>
 	[CmdletBinding()]
 	param(
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[ValidateSet("PVWA", "SessionManagement", "CPM", "AIM")]
-		[string]$ComponentID,
-
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
@@ -95,11 +73,10 @@ Requires minimum version of CyberArk 10.1.
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[System.Version]$ExternalVersion = "0.0"
-
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.1"
+		$MinimumVersion = [System.Version]"10.4"
 	}#begin
 
 	PROCESS {
@@ -107,19 +84,30 @@ Requires minimum version of CyberArk 10.1.
 		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/api/ComponentsMonitoringDetails/$ComponentID"
+		$URI = "$baseURI/$PVWAAppName/api/LoginsInfo"
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		if($result) {
+		If($result) {
 
-			#output returned data
-			$result | Select-Object -ExpandProperty ComponentsDetails
+			#Return Results
+			$result |
+
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Login -PropertyToAdd @{
+
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
+
+			}
 
 		}
 
 	}#process
 
 	END {}#end
+
 }

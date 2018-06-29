@@ -30,7 +30,8 @@ Whether or not users will be authenticated via a RADIUS server.
 
 .PARAMETER type
 When using the version 10 API endpoint, specify the type of authentication to use.
-Valid values are CyberArk, LDAP or RADIUS
+Valid values are CyberArk, LDAP, Windows or RADIUS
+Windows is only a valid option for version 10.4 onward.
 
 .PARAMETER AdditionalInfo
 The Version 10 API accepts a string value containing Additional Info
@@ -141,7 +142,7 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipeline = $false,
 			ParameterSetName = "v10"
 		)]
-		[ValidateSet("CyberArk", "LDAP", "RADIUS")]
+		[ValidateSet("CyberArk", "LDAP", "Windows", "RADIUS")]
 		[string]$type = "CyberArk",
 
 		[Parameter(

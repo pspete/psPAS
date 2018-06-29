@@ -1,14 +1,12 @@
-Function Get-PASComponentDetail {
+﻿function Get-PASDirectory {
 	<#
 .SYNOPSIS
-Returns details & health information about CyberArk component instances.
+Get LDAP directories configured in the Vault
 
 .DESCRIPTION
-Returns details about specific components and all their installed instances,
-as well as system health information for each one.
-
-.PARAMETER ComponentID
-Specify component type to return information on (PVWA, SessionManagement, CPM or AIM)
+Returns a list of existing directories in the Vault.
+Each directory will be returned with its own data.
+Membership of the Vault Admins group required.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -30,41 +28,23 @@ If the minimum version requirement of this function is not satisfied, execution 
 Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 .EXAMPLE
-$token | Get-PASComponentDetail -ComponentID CPM
+$token | Get-PASDirectory
 
-Displays CPM Component information
-
-.EXAMPLE
-$token | Get-PASComponentDetail -ComponentID PVWA
-
-Displays PVWA Component information
-
-.EXAMPLE
-$token | Get-PASComponentDetail -ComponentID SessionManagement
-
-Displays PSM Component information
+Returns LDAP directories configured in the Vault
 
 .INPUTS
-All parameters can be piped to the function by propertyname
+WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
+LDAP Directory Details
 
 .NOTES
-Requires minimum version of CyberArk 10.1.
 
 .LINK
 
 #>
 	[CmdletBinding()]
 	param(
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[ValidateSet("PVWA", "SessionManagement", "CPM", "AIM")]
-		[string]$ComponentID,
-
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
@@ -95,11 +75,10 @@ Requires minimum version of CyberArk 10.1.
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[System.Version]$ExternalVersion = "0.0"
-
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.1"
+		$MinimumVersion = [System.Version]"10.4"
 	}#begin
 
 	PROCESS {
@@ -107,15 +86,25 @@ Requires minimum version of CyberArk 10.1.
 		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/api/ComponentsMonitoringDetails/$ComponentID"
+		$URI = "$baseURI/$PVWAAppName/api/Configuration/LDAP/Directories"
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		if($result) {
+		If($result) {
 
-			#output returned data
-			$result | Select-Object -ExpandProperty ComponentsDetails
+			#Return Results
+			$result |
+
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory -PropertyToAdd @{
+
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
+
+			}
 
 		}
 

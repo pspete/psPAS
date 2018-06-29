@@ -35,91 +35,6 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-
-			$result = [pscustomobject]@{
-				"Count"    = 30
-				"Accounts" = [pscustomobject]@{
-					"AccountID"          = "66_6"
-					"Properties"         = @(
-						[pscustomobject]@{
-							"Key"   = "Safe"
-							"Value" = "zzTestSafe1"
-						},
-						[pscustomobject]@{
-							"Key"   = "Folder"
-							"Value" = "Root"
-						},
-						[pscustomobject]@{
-							"Key"   = "Name"
-							"Value" = "Operating System-_Test_WinDomain-VIRTUALREAL.IT-user01"
-						},
-						[pscustomobject]@{
-							"Key"   = "UserName"
-							"Value" = "user01"
-						},
-						[pscustomobject]@{
-							"Key"   = "PolicyID"
-							"Value" = "_Test_WinDomain"
-						},
-						[pscustomobject]@{
-							"Key"   = "LogonDomain"
-							"Value" = "VIRTUALREAL"
-						},
-						[pscustomobject]@{
-							"Key"   = "LastSuccessVerification"
-							"Value" = "1511973510"
-						},
-						[pscustomobject]@{
-							"Key"   = "Address"
-							"Value" = "VIRTUALREAL.IT"
-						},
-						[pscustomobject]@{
-							"Key"   = "DeviceType"
-							"Value" = "Operating System"
-						}
-					)
-					"InternalProperties" = @(
-						[pscustomobject]@{
-							"Key"   = "CPMStatus"
-							"Value" = "success"
-						},
-						[pscustomobject]@{
-							"Key"   = "SequenceID"
-							"Value" = "1"
-						},
-						[pscustomobject]@{
-							"Key"   = "CreationMethod"
-							"Value" = "PVWA"
-						},
-						[pscustomobject]@{
-							"Key"   = "RetriesCount"
-							"Value" = "-1"
-						},
-						[pscustomobject]@{
-							"Key"   = "LastSuccessChange"
-							"Value" = "1516127648"
-						},
-						[pscustomobject]@{
-							"Key"   = "LastTask"
-							"Value" = "ChangeTask"
-						}
-					)
-				}
-			}
-			return $result
-
-		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"Keywords"     = "SomeValue"
-			"Safe"         = "SomeSafe"
-		}
-
 		Context "Mandatory Parameters" {
 			$Parameters = @{Parameter = 'BaseURI'},
 			@{Parameter = 'SessionToken'}
@@ -133,62 +48,249 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Get-PASAccount -WarningVariable warning -WarningAction SilentlyContinue
-
 		Context "Request Input" {
 
-			It "sends request" {
+			BeforeEach {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				Mock Invoke-PASRestMethod -MockWith {
+					Write-Output @{}
+				}
+
+				$InputObj = [pscustomobject]@{
+					"sessionToken" = @{"Authorization" = "P_AuthValue"}
+					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"      = "https://P_URI"
+					"PVWAAppName"  = "P_App"
+				}
 
 			}
 
-			It "sends request to expected endpoint" {
+			It "sends request - v10ByID parameterset" {
+
+				$InputObj | Get-PASAccount -ID "SomeID"
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request - v10ByQuery parameterset" {
+
+				$InputObj | Get-PASAccount -search SearchTerm
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request - legacy parameterset" {
+
+				$InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - v10ByQuery parameterset" {
+
+				$InputObj | Get-PASAccount -search SearchTerm
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts?search=SearchTerm"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - v10ByID parameterset" {
+
+				$InputObj | Get-PASAccount -ID "SomeID"
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts/SomeID"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - legacy parameterset" {
+
+				$InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 					(($URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts?Keywords=SomeValue&Safe=SomeSafe") -or
 						($URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts?Safe=SomeSafe&Keywords=SomeValue"))
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request using expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Describe
+				$InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
+				$InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe
 
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "throws error if version requirement not met" {
+				{$InputObj | Get-PASAccount -ID "SomeID" -ExternalVersion "1.0"} | Should Throw
 			}
 
 		}
 
 		Context "Response Output" {
 
-			it "provides output" {
+			BeforeEach {
 
+				Mock Invoke-PASRestMethod -MockWith {
+
+					$result = [pscustomobject]@{
+						"Count"    = 30
+						"Accounts" = [pscustomobject]@{
+							"AccountID"          = "66_6"
+							"Properties"         = @(
+								[pscustomobject]@{
+									"Key"   = "Safe"
+									"Value" = "zzTestSafe1"
+								},
+								[pscustomobject]@{
+									"Key"   = "Folder"
+									"Value" = "Root"
+								},
+								[pscustomobject]@{
+									"Key"   = "Name"
+									"Value" = "Operating System-_Test_WinDomain-VIRTUALREAL.IT-user01"
+								},
+								[pscustomobject]@{
+									"Key"   = "UserName"
+									"Value" = "user01"
+								},
+								[pscustomobject]@{
+									"Key"   = "PolicyID"
+									"Value" = "_Test_WinDomain"
+								},
+								[pscustomobject]@{
+									"Key"   = "LogonDomain"
+									"Value" = "VIRTUALREAL"
+								},
+								[pscustomobject]@{
+									"Key"   = "LastSuccessVerification"
+									"Value" = "1511973510"
+								},
+								[pscustomobject]@{
+									"Key"   = "Address"
+									"Value" = "VIRTUALREAL.IT"
+								},
+								[pscustomobject]@{
+									"Key"   = "DeviceType"
+									"Value" = "Operating System"
+								}
+							)
+							"InternalProperties" = @(
+								[pscustomobject]@{
+									"Key"   = "CPMStatus"
+									"Value" = "success"
+								},
+								[pscustomobject]@{
+									"Key"   = "SequenceID"
+									"Value" = "1"
+								},
+								[pscustomobject]@{
+									"Key"   = "CreationMethod"
+									"Value" = "PVWA"
+								},
+								[pscustomobject]@{
+									"Key"   = "RetriesCount"
+									"Value" = "-1"
+								},
+								[pscustomobject]@{
+									"Key"   = "LastSuccessChange"
+									"Value" = "1516127648"
+								},
+								[pscustomobject]@{
+									"Key"   = "LastTask"
+									"Value" = "ChangeTask"
+								}
+							)
+						}
+					}
+					return $result
+
+				}
+
+				$InputObj = [pscustomobject]@{
+					"sessionToken" = @{"Authorization" = "P_AuthValue"}
+					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"      = "https://P_URI"
+					"PVWAAppName"  = "P_App"
+				}
+
+			}
+
+			it "provides output - legacy parameterset" {
+				$response = $InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
 				$response | Should not be null
 
 			}
 
-			It "has output with expected number of properties" {
+			it "provides output - V10ByID parameterset" {
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						"Count" = 30
+						"Value" = [pscustomobject]@{"Prop1" = "Val1"}
+					}
+				}
+				$response = $InputObj | Get-PASAccount -id "SomeID"
+				$response | Should not be null
 
+			}
+
+			it "provides output - V10ByQuery parameterset" {
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						"Count" = 30
+						"Value" = [pscustomobject]@{"Prop1" = "Val1"}
+					}
+				}
+				$response = $InputObj | Get-PASAccount -search SomeSearchTerm
+				$response | Should not be null
+
+			}
+
+			It "has output with expected number of properties - legacy parameterset" {
+				$response = $InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
 				($response | Get-Member -MemberType NoteProperty).length | Should Be 15
 
 			}
 
-			it "outputs object with expected typename" {
-
+			it "outputs object with expected typename - legacy parameterset" {
+				$response = $InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
 				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account
 
 			}
 
-			it "writes warning that more than 1 account returned from the search" {
+			it "outputs object with expected typename - v10 parameterset" {
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						"Count" = 30
+						"Value" = [pscustomobject]@{"Prop1" = "Val1"}
+					}
+				}
+				$response = $InputObj | Get-PASAccount -search SomeSearch
+				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.V10
 
+			}
+
+			it "writes warning that more than 1 account returned from the search - legacy parameterset" {
+				$response = $InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningVariable warning -WarningAction SilentlyContinue
 				$warning | Should be "30 matching accounts found. Only the first result will be returned"
 
 			}
@@ -202,7 +304,7 @@ Describe $FunctionName {
 			It "returns default property <Property> in response" -TestCases $DefaultProps {
 				param($Property)
 
-				$response.$Property | Should Not BeNullOrEmpty
+				$($InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue).$Property | Should Not BeNullOrEmpty
 
 			}
 

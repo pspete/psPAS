@@ -36,7 +36,7 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			Write-Output @{}
+			[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}
 		}
 
 		$InputObj = [pscustomobject]@{
@@ -44,29 +44,27 @@ Describe $FunctionName {
 			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 			"BaseURI"      = "https://P_URI"
 			"PVWAAppName"  = "P_App"
-			"AccountID"    = "11_1"
 
 		}
 
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'AccountID'}
+			@{Parameter = 'SessionToken'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Remove-PASAccount).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Get-PASDirectory).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Remove-PASAccount -useV9API
+		$response = $InputObj | Get-PASDirectory
 
-		Context "Input V9 API" {
+		Context "Input" {
 
 			It "sends request" {
 
@@ -78,7 +76,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts/11_1"
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -86,7 +84,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'DELETE' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -96,51 +94,42 @@ Describe $FunctionName {
 
 			}
 
-		}
-
-		Context "Input V10 API" {
-
-			$response = $InputObj | Remove-PASAccount -ExternalVersion "10.4"
-
-			It "sends request" {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "sends request to expected endpoint" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts/11_1"
-
-				} -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'DELETE' } -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "sends request with no body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Context
-
-			}
-
 			It "throws error if version requirement not met" {
-				{$InputObj | Remove-PASAccount -ExternalVersion "1.0"} | Should Throw
+				{$InputObj | Get-PASDirectory -ExternalVersion "1.0"} | Should Throw
 			}
 
 		}
 
 		Context "Output" {
 
-			it "provides no output" {
+			it "provides output" {
 
-				$response | Should BeNullOrEmpty
+				$response | Should not BeNullOrEmpty
+
+			}
+
+			It "has output with expected number of properties" {
+
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+
+			}
+
+			it "outputs object with expected typename" {
+
+				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory
+
+			}
+
+			$DefaultProps = @{Property = 'sessionToken'},
+			@{Property = 'WebSession'},
+			@{Property = 'BaseURI'},
+			@{Property = 'PVWAAppName'},
+			@{Property = 'ExternalVersion'}
+
+			It "returns default property <Property> in response" -TestCases $DefaultProps {
+				param($Property)
+
+				$response.$Property | Should Not BeNullOrEmpty
 
 			}
 

@@ -4,6 +4,8 @@
 
 _The 1 year since first commit aniversary edition_
 
+### Module update to cover CyberArk 10.4 API features
+
 - Breaking Changes
   - `New-PASSession`
     - Function now defaults to the v10 API Endpoints
@@ -23,12 +25,21 @@ _The 1 year since first commit aniversary edition_
   - `Set-PASUser`
     - Parameter `ExpiryDate` changed to type `[datetime]`
 
+- New Functions
+  - `Export-PASPlatform` function added, allows export of platform to a zip file.
+  - `Get-PASUserLoginInfo` function added, retrieves logon information for the authenticated user.
+  - `Add-PASDirectory` function added, adds a new LDAP directory for authentication.
+  - `Get-PASDirectory` function added, lists LDAP directories.
+  - `New-PASDirectoryMapping` function added, creates new LDAP Directory mappings.
+
 - Bug Fixes
   - `New-PASSession`
     - Fixed issue where module was not returning authentication token when using LDAP credentials in version 10.3.
       - To use LDAP authentication the `-type LDAP` must be specified as a parameter.
 
 - Other Updates
+  - `Remove-PASAccount`, updated to support new 10.4 API features.
+  - `Get-PASAccount`, updated to support new 10.4 API features.
   - Version Check:
     - All logon functions now attempt to query the version of CyberArk in use, and return the External Version number as an additional output property.
       - The version check after logon can be skipped by specifying the `-SkipVersionCheck` parameter.
@@ -43,7 +54,7 @@ _The 1 year since first commit aniversary edition_
 
 ## 1.3.0 (June 5 2018)
 
-### Module update to cover CyberArk 10.3 API features (part 1)
+### Module update to cover CyberArk 10.3 API features ~~(part 1)~~
 
 - New Function
   - `Import-PASConnectionComponent` function added, allows import of connection component from zip file.

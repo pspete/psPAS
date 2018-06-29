@@ -389,22 +389,26 @@ To force all output to be shown, pipe to Select-Object *
 			#Send request to webservice
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-			#format output
-			$result.member | Select-Object MembershipExpirationDate,
+			if($result) {
 
-			@{Name = "Permissions"; "Expression" = {
+				#format output
+				$result.member | Select-Object MembershipExpirationDate,
 
-					$_.Permissions | Where-Object {$_.value} | Select-Object -ExpandProperty key}
+				@{Name = "Permissions"; "Expression" = {
 
-			}  | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
+						$_.Permissions | Where-Object {$_.value} | Select-Object -ExpandProperty key}
 
-				"UserName"        = $MemberName
-				"SafeName"        = $SafeName
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
+				}  | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
+
+					"UserName"        = $MemberName
+					"SafeName"        = $SafeName
+					"sessionToken"    = $sessionToken
+					"WebSession"      = $WebSession
+					"BaseURI"         = $BaseURI
+					"PVWAAppName"     = $PVWAAppName
+					"ExternalVersion" = $ExternalVersion
+
+				}
 
 			}
 

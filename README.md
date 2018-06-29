@@ -4,7 +4,7 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v10.3.
+Contains all published methods of the API up to CyberArk v10.4.
 
 ----------
 
@@ -153,7 +153,7 @@ requires version 9.8+).
 [`Remove-PASAccountGroupMember`](/psPAS/Functions/AccountGroups/Remove-PASAccountGroupMember.ps1)|Deletes a member </br>of an account group|**9.10**
 [`Add-PASAccount`](/psPAS/Functions/Accounts/Add-PASAccount.ps1)|Adds a new privileged </br>account to the Vault|**9.0**
 [`Add-PASPendingAccount`](/psPAS/Functions/Accounts/Add-PASPendingAccount.ps1)|Adds discovered </br>account or SSH key as </br>a pending account in </br>the accounts feed.|**9.7**
-[`Get-PASAccount`](/psPAS/Functions/Accounts/Get-PASAccount.ps1)|Returns information </br>about an account.|**9.3**
+[`Get-PASAccount`](/psPAS/Functions/Accounts/Get-PASAccount.ps1)|Returns information </br>about accounts.|**9.3**
 [`Get-PASAccountActivity`](/psPAS/Functions/Accounts/Get-PASAccountActivity.ps1)|Returns activities </br>for an account.|**9.7**
 [`Get-PASAccountPassword`](/psPAS/Functions/Accounts/Get-PASAccountPassword.ps1)|Returns password </br>for an account.|**9.7**
 [`Invoke-PASCredChange`](/psPAS/Functions/Accounts/Invoke-PASCredChange.ps1)|Initiate CPM password </br>change to new random </br>or specified value.|**9.10**
@@ -182,6 +182,7 @@ requires version 9.8+).
 [`Remove-PASOnboardingRule`](/psPAS/Functions/OnboardingRules/Remove-PASOnboardingRule.ps1)|Deletes an automatic </br>on-boarding rule|**9.7**
 [`Get-PASPlatform`](/psPAS/Functions/Platforms/Get-PASPlatform.ps1)|Retrieves details of a </br>specified platform from </br>the Vault.|**9.10**
 [`Import-PASPlatform`](/psPAS/Functions/Platforms/Import-PASPlatform.ps1)|Import a new platform|**10.2**
+[`Export-PASPlatform`](/psPAS/Functions/Platforms/Export-PASPlatform.ps1)|Export a  platform|**10.4**
 [`Add-PASPolicyACL`](/psPAS/Functions/PolicyACL/Add-PASPolicyACL.ps1)|Adds a new privileged </br>command rule|**9.0**
 [`Get-PASPolicyACL`](/psPAS/Functions/PolicyACL/Get-PASPolicyACL.ps1)|Lists OPM Rules for </br>a policy|**9.0**
 [`Remove-PASPolicyACL`](/psPAS/Functions/PolicyACL/Remove-PASPolicyACL.ps1)|Delete all privileged </br>commands on policy|**9.0**
@@ -206,11 +207,15 @@ requires version 9.8+).
 [`Get-PASComponentSummary`](/psPAS/Functions/SystemHealth/Get-PASComponentSummary.ps1)|Returns consolidated </br>information about </br>CyberArk Components.|**10.1**
 [`Add-PASGroupMember`](/psPAS/Functions/User/Add-PASGroupMember.ps1)|Adds a vault user as </br>a group member|**9.7**
 [`Get-PASLoggedOnUser`](/psPAS/Functions/User/Get-PASLoggedOnUser.ps1)|Returns details of </br>the logged on user|**9.7**
+[`Get-PASUserLoginInfo`](/psPAS/Functions/User/Get-PASUserLoginInfo.ps1)|Returns login details of </br>the current user|**10.4**
 [`Get-PASUser`](/psPAS/Functions/User/New-PASSession.ps1)|Returns details of a user|**9.7**
 [`New-PASUser`](/psPAS/Functions/User/New-PASUser.ps1)|Creates a new vault user|**9.7**
-[`Remove-PASUser`](/psPAS/Functions/User/Remove-PASUser`.ps1)|Deletes a vault user|**9.7**
-[`Set-PASUser`](/psPAS/Functions/User/Set-PASUser`.ps1)|Updates a vault user|**9.7**
-[`Unblock-PASUser`](/psPAS/Functions/User/Unblock-PASUser`.ps1)|Activates a suspended user|**9.7**
+[`Remove-PASUser`](/psPAS/Functions/User/Remove-PASUser.ps1)|Deletes a vault user|**9.7**
+[`Set-PASUser`](/psPAS/Functions/User/Set-PASUser.ps1)|Updates a vault user|**9.7**
+[`Unblock-PASUser`](/psPAS/Functions/User/Unblock-PASUser.ps1)|Activates a suspended user|**9.7**
+[`Get-PASDirectory`](/psPAS/Functions/LDAPDirectories\Get-PASDirectory.ps1)|Get configured LDAP </br>directories|**10.4**
+[`Add-PASDirectory`](/psPAS/Functions/LDAPDirectories\Add-PASDirectory.ps1)|Add a new LDAP </br>directory|**10.4**
+[`Add-PASDirectoryMapping`](/psPAS/Functions/LDAPDirectories\Add-PASDirectoryMapping.ps1)|Add a new LDAP </br>directory mapping|**10.4**
 
 ## Installation
 

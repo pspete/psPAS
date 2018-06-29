@@ -91,12 +91,16 @@ Requires minimum version of CyberArk 10.1.
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		$result | Select-Object -ExpandProperty Components
+		if($result) {
 
-		$result | Select-Object -ExpandProperty Vaults | Add-ObjectDetail -PropertyToAdd @{
-			"ComponentID"   = "EPV"
-			"ComponentName" = "EPV"
-		} | Select-Object ComponentID, ComponentName, Role, IP, IsLoggedOn
+			$result | Select-Object -ExpandProperty Components
+
+			$result | Select-Object -ExpandProperty Vaults | Add-ObjectDetail -PropertyToAdd @{
+				"ComponentID"   = "EPV"
+				"ComponentName" = "EPV"
+			} | Select-Object ComponentID, ComponentName, Role, IP, IsLoggedOn
+
+		}
 
 	}#process
 
