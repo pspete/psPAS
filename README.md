@@ -153,7 +153,7 @@ requires version 9.8+).
 [`Remove-PASAccountGroupMember`](/psPAS/Functions/AccountGroups/Remove-PASAccountGroupMember.ps1)|Deletes a member </br>of an account group|**9.10**
 [`Add-PASAccount`](/psPAS/Functions/Accounts/Add-PASAccount.ps1)|Adds a new privileged </br>account to the Vault|**9.0**
 [`Add-PASPendingAccount`](/psPAS/Functions/Accounts/Add-PASPendingAccount.ps1)|Adds discovered </br>account or SSH key as </br>a pending account in </br>the accounts feed.|**9.7**
-[`Get-PASAccount`](/psPAS/Functions/Accounts/Get-PASAccount.ps1)|Returns information </br>about an account.|**9.3**
+[`Get-PASAccount`](/psPAS/Functions/Accounts/Get-PASAccount.ps1)|Returns information </br>about accounts.|**9.3**
 [`Get-PASAccountActivity`](/psPAS/Functions/Accounts/Get-PASAccountActivity.ps1)|Returns activities </br>for an account.|**9.7**
 [`Get-PASAccountPassword`](/psPAS/Functions/Accounts/Get-PASAccountPassword.ps1)|Returns password </br>for an account.|**9.7**
 [`Invoke-PASCredChange`](/psPAS/Functions/Accounts/Invoke-PASCredChange.ps1)|Initiate CPM password </br>change to new random </br>or specified value.|**9.10**
