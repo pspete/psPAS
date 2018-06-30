@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+	<Type>
+		<Name>psPAS.CyberArk.Vault.ACL.Policy</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>Remove</Name>
+				<Script>
+					Param([bool]$force)
+
+					if ($force) {
+
+					$this | Remove-PASPolicyACL -Confirm:$false
+
+					}
+
+					else{
+
+					$this | Remove-PASPolicyACL -Confirm
+
+					}
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+	<Type>
+		<Name>psPAS.CyberArk.Vault.ACL.Account</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>Remove</Name>
+				<Script>
+					Param([bool]$force)
+
+					if ($force) {
+
+					$this | Remove-PASAccountACL -Confirm:$false
+
+					}
+
+					else{
+
+					$this | Remove-PASAccountACL -Confirm
+
+					}
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+</Types>

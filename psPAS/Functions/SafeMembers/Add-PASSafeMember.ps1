@@ -18,10 +18,7 @@ The Vault or Domain, defined in the vault,
 in which to search for the member to add to the safe.
 
 .PARAMETER MembershipExpirationDate
-Defines when the user’s Safe membership expires.
-Specify "" for no expiration date.
-Default to no expiration.
-Must be in format MM/DD/YY
+Defines when the user's Safe membership expires.
 
 .PARAMETER UseAccounts
 Boolean value defining if UseAccounts permission will be granted to
@@ -122,6 +119,9 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+
 .EXAMPLE
 $token | Add-PASSafeMember -SafeName Windows_Safe -MemberName winUser -SearchIn Vault -UseAccounts $true `
 -RetrieveAccounts $true -ListAccounts $true
@@ -132,7 +132,7 @@ Adds winUser to Windows_Safe with Use, Retrieve & List permissions
 All parameters can be piped by property name
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.SafeMemberExtended
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member.Extended
 SessionToken, WebSession, BaseURI are passed through and
 contained in output object for inclusion in subsequent
 pipeline operations.
@@ -173,10 +173,7 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( {if($_ -match '^(0[1-9]|1[0-2])[\/](0[1-9]|[12]\d|3[01])[\/]\d{2}$') {
-					$true
-				} Else {Throw "$_ must match pattern MM/DD/YY"}})]
-		[string]$MembershipExpirationDate,
+		[datetime]$MembershipExpirationDate,
 
 		[parameter(
 			Mandatory = $false,
@@ -329,7 +326,14 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
 	BEGIN {
@@ -354,6 +358,16 @@ To force all output to be shown, pipe to Select-Object *
 
 		#Get Parameters for request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter
+
+		If($PSBoundParameters.ContainsKey("MembershipExpirationDate")) {
+
+			#Convert MembershipExpirationDate to string in Required format
+			$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yyyy).ToString()
+
+			#Include date string in request
+			$boundParameters["MembershipExpirationDate"] = $Date
+
+		}
 
 		#For every passed permission ("Non-Base") parameter
 		$boundParameters.keys | Where-Object {$baseParameters -notcontains $_} | ForEach-Object {
@@ -381,20 +395,26 @@ To force all output to be shown, pipe to Select-Object *
 		#Send request to Web Service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-		#format output
-		$result.member | Select-Object MemberName, MembershipExpirationDate, SearchIn,
 
-		@{Name = "Permissions"; "Expression" = {
+		if($result) {
 
-				$_.Permissions | Where-Object {$_.value} | Select-Object -ExpandProperty key}
+			#format output
+			$result.member | Select-Object MemberName, MembershipExpirationDate, SearchIn,
 
-		} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMemberExtended -PropertyToAdd @{
+			@{Name = "Permissions"; "Expression" = {
 
-			"SafeName"     = $SafeName
-			"sessionToken" = $sessionToken
-			"WebSession"   = $WebSession
-			"BaseURI"      = $BaseURI
-			"PVWAAppName"  = $PVWAAppName
+					$_.Permissions | Where-Object {$_.value} | Select-Object -ExpandProperty key}
+
+			} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Extended -PropertyToAdd @{
+
+				"SafeName"        = $SafeName
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
+
+			}
 
 		}
 

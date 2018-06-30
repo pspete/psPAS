@@ -114,6 +114,10 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if minimum version requirement not met" {
+				{$InputObj | New-PASOnboardingRule -ExternalVersion "1.0"} | Should Throw
+			}
+
 			It "accepts alternative parameterset input" {
 
 				$InputObj = [pscustomobject]@{
@@ -131,6 +135,24 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if parameterset version requirement not met" {
+
+				$InputObj = [pscustomobject]@{
+					"sessionToken"     = @{"Authorization" = "P_AuthValue"}
+					"WebSession"       = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"          = "https://P_URI"
+					"PVWAAppName"      = "P_App"
+					"TargetPlatformId" = "SomePlatform"
+					"TargetSafeName"   = "SomeSafe"
+					"SystemTypeFilter" = "Windows"
+
+				}
+
+				{$InputObj | New-PASOnboardingRule -ExternalVersion "10.1.0"} | Should Throw
+			}
+
+
+
 		}
 
 		Context "Output" {
@@ -143,7 +165,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 6
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
 
 			}
 
@@ -156,7 +178,8 @@ Describe $FunctionName {
 			$DefaultProps = @{Property = 'sessionToken'},
 			@{Property = 'WebSession'},
 			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'}
+			@{Property = 'PVWAAppName'},
+			@{Property = 'ExternalVersion'}
 
 			It "returns default property <Property> in response" -TestCases $DefaultProps {
 				param($Property)

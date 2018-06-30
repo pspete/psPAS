@@ -113,20 +113,21 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 8
 
 			}
 
 			it "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.AccountActivity
+				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.Activity
 
 			}
 
 			$DefaultProps = @{Property = 'sessionToken'},
 			@{Property = 'WebSession'},
 			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'}
+			@{Property = 'PVWAAppName'},
+			@{Property = 'ExternalVersion'}
 
 			It "returns default property <Property> in response" -TestCases $DefaultProps {
 				param($Property)

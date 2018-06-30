@@ -49,10 +49,29 @@
 	# ScriptsToProcess = @()
 
 	# Type files (.ps1xml) to be loaded when importing this module
-	TypesToProcess    = @('psPAS.Types.ps1xml')
+	TypesToProcess    = @(
+		'psPAS.CyberArk.Vault.Account.Type.ps1xml',
+		'psPAS.CyberArk.Vault.ACL.Type.ps1xml',
+		'psPAS.CyberArk.Vault.Credential.Type.ps1xml'
+		'psPAS.CyberArk.Vault.Safe.Type.ps1xml',
+		'psPAS.CyberArk.Vault.User.Type.ps1xml'
+	)
 
 	# Format files (.ps1xml) to be loaded when importing this module
-	FormatsToProcess  = @('psPAS.Format.ps1xml')
+	FormatsToProcess  = @(
+		'psPAS.CyberArk.Vault.Account.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.ACL.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.Application.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.Credential.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.OnboardingRule.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.Platform.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.PSM.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.PublicSSHKey.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.Request.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.Safe.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.User.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.Directory.Formats.ps1xml'
+	)
 
 	# Functions to export from this module
 	FunctionsToExport = @(
@@ -132,7 +151,12 @@
 		'Suspend-PASPSMSession',
 		'Resume-PASPSMSession',
 		'Import-PASPlatform',
-		'Import-PASConnectionComponent'
+		'Import-PASConnectionComponent',
+		'Export-PASPlatform',
+		'Get-PASUserLoginInfo',
+		'Get-PASDirectory',
+		'Add-PASDirectory',
+		'New-PASDirectoryMapping'
 	)
 
 	AliasesToExport   = @(

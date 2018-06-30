@@ -96,6 +96,10 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if version requirement not met" {
+				{$InputObj | Get-PASAccountGroup -ExternalVersion "1.0"} | Should Throw
+			}
+
 		}
 
 		Context "Output" {
@@ -108,20 +112,21 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 5
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 6
 
 			}
 
 			it "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.AccountGroup
+				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.Group
 
 			}
 
 			$DefaultProps = @{Property = 'sessionToken'},
 			@{Property = 'WebSession'},
 			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'}
+			@{Property = 'PVWAAppName'},
+			@{Property = 'ExternalVersion'}
 
 			It "returns default property <Property> in response" -TestCases $DefaultProps {
 				param($Property)

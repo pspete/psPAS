@@ -95,6 +95,10 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if version requirement not met" {
+				{$InputObj | Get-PASComponentDetail -ComponentID PVWA -ExternalVersion "1.0"} | Should Throw
+			}
+
 		}
 
 		Context "Output" {

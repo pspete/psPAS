@@ -21,6 +21,11 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+If the minimum version requirement of this function is not satisfied, execution will be halted.
+Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
+
 .EXAMPLE
 $token | Get-PASComponentSummary
 
@@ -62,12 +67,23 @@ Requires minimum version of CyberArk 10.1.
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"10.1"
+	}#begin
 
 	PROCESS {
+
+		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/api/ComponentsMonitoringSummary"
@@ -75,12 +91,16 @@ Requires minimum version of CyberArk 10.1.
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		$result | Select-Object -ExpandProperty Components
+		if($result) {
 
-		$result | Select-Object -ExpandProperty Vaults | Add-ObjectDetail -PropertyToAdd @{
-			"ComponentID"   = "EPV"
-			"ComponentName" = "EPV"
-		} | Select-Object ComponentID, ComponentName, Role, IP, IsLoggedOn
+			$result | Select-Object -ExpandProperty Components
+
+			$result | Select-Object -ExpandProperty Vaults | Add-ObjectDetail -PropertyToAdd @{
+				"ComponentID"   = "EPV"
+				"ComponentName" = "EPV"
+			} | Select-Object ComponentID, ComponentName, Role, IP, IsLoggedOn
+
+		}
 
 	}#process
 

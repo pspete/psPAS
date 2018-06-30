@@ -24,6 +24,10 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+
+
 .EXAMPLE
 $token | Get-PASSafeMember -SafeName Target_Safe
 
@@ -35,7 +39,7 @@ Accepts pipeline input from *-PASSafe, or any function which
 contains SafeName in the output
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.SafeMember
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member
 SessionToken, WebSession, BaseURI are passed through and
 contained in output object for inclusion in subsequent
 pipeline operations.
@@ -79,7 +83,14 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
 	BEGIN {}#begin
@@ -94,22 +105,27 @@ To force all output to be shown, pipe to Select-Object *
 		#Send request to webservice
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		#output
-		$result.members | Select-Object UserName, @{Name = "Permissions"; "Expression" = {
+		if($result) {
 
-				($_.Permissions).psobject.properties |Where-Object {$_.Value -eq $true} |
+			#output
+			$result.members | Select-Object UserName, @{Name = "Permissions"; "Expression" = {
 
-				Select-Object -ExpandProperty Name }
+					($_.Permissions).psobject.properties |Where-Object {$_.Value -eq $true} |
 
-		} |
+					Select-Object -ExpandProperty Name }
 
-		Add-ObjectDetail -typename psPAS.CyberArk.Vault.SafeMember -PropertyToAdd @{
+			} |
 
-			"SafeName"     = $SafeName
-			"sessionToken" = $sessionToken
-			"WebSession"   = $WebSession
-			"BaseURI"      = $BaseURI
-			"PVWAAppName"  = $PVWAAppName
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
+
+				"SafeName"        = $SafeName
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
+
+			}
 
 		}
 

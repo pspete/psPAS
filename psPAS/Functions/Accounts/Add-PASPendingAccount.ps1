@@ -16,8 +16,6 @@ The name or address of the machine where the account is used.
 
 .PARAMETER AccountDiscoveryDate
 The date when the account was discovered.
-This parameter uses the following standard:
-    YYYY-MM-DDThh:mm:ssZ
 
 .PARAMETER OSType
 The OS where the password was discovered.
@@ -132,8 +130,7 @@ None
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( {($_ -match "^((19|20)[0-9][0-9]-(0[0-9]|1[0-2])-(0[1-9]|([12][0-9]|3[01]))T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z)$")})]
-		[string]$AccountDiscoveryDate,
+		[datetime]$AccountDiscoveryDate,
 
 		[parameter(
 			Mandatory = $false,
@@ -283,6 +280,16 @@ None
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
+
+		If($PSBoundParameters.ContainsKey("AccountDiscoveryDate")) {
+
+			#Convert ExpiryDate to string in Required format
+			$Date = (Get-Date $AccountDiscoveryDate.ToUniversalTime() -Format "yyyy-MM-ddTHH:mm:ssZ").ToString()
+
+			#Include date string in request
+			$boundParameters["AccountDiscoveryDate"] = $Date
+
+		}
 
 		#Create body of request
 		$body = @{

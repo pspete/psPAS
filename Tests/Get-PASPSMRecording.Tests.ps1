@@ -95,6 +95,10 @@ Describe $FunctionName {
 
 			}
 
+			It "throws error if version requirement not met" {
+				{$InputObj | Get-PASPSMRecording -ExternalVersion "1.0"} | Should Throw
+			}
+
 		}
 
 		Context "Output" {
@@ -107,7 +111,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 8
 
 			}
 
@@ -120,7 +124,8 @@ Describe $FunctionName {
 			$DefaultProps = @{Property = 'sessionToken'},
 			@{Property = 'WebSession'},
 			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'}
+			@{Property = 'PVWAAppName'},
+			@{Property = 'ExternalVersion'}
 
 			It "returns default property <Property> in response" -TestCases $DefaultProps {
 				param($Property)

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+	<Type>
+		<Name>psPAS.CyberArk.Vault.Safe</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>SafeMembers</Name>
+				<Script>
+					$this | Get-PASSafeMember
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>Remove</Name>
+				<Script>
+					Param([bool]$force)
+
+					if ($force) {
+
+					$this | Remove-PASSafe -Confirm:$false
+
+					}
+
+					else{
+
+					$this | Remove-PASSafe -Confirm
+
+					}
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+	<Type>
+		<Name>psPAS.CyberArk.Vault.Safe.Member</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>UserSource</Name>
+				<Script>
+					$this | Get-PASUser | Select-Object -ExpandProperty Source
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>UserType</Name>
+				<Script>
+					$this | Get-PASUser | Select-Object -ExpandProperty UserTypeName
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>IsAgentUser</Name>
+				<Script>
+					$this | Get-PASUser | Select-Object -ExpandProperty AgentUser
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>IsExpired</Name>
+				<Script>
+					$this | Get-PASUser | Select-Object -ExpandProperty Expired
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>IsDisabled</Name>
+				<Script>
+					$this | Get-PASUser | Select-Object -ExpandProperty Disabled
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>IsSuspended</Name>
+				<Script>
+					$this | Get-PASUser | Select-Object -ExpandProperty Suspended
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>Remove</Name>
+				<Script>
+					Param([bool]$force)
+
+					if ($force) {
+
+					$this | Remove-PASSafeMember -Confirm:$false
+
+					}
+
+					else{
+
+					$this | Remove-PASSafeMember -Confirm
+
+					}
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+</Types>

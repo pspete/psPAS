@@ -71,6 +71,9 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+
 .EXAMPLE
 $token | Get-PASAccount dbuser | Set-PASAccount -Properties @{"DSN"="myDSN"}
 
@@ -205,7 +208,14 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
 	BEGIN {}#begin
@@ -288,11 +298,12 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 				$Result.UpdateAccountResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account -PropertyToAdd @{
 
-					"AccountID"    = $AccountID
-					"sessionToken" = $sessionToken
-					"WebSession"   = $WebSession
-					"BaseURI"      = $BaseURI
-					"PVWAAppName"  = $PVWAAppName
+					"AccountID"       = $AccountID
+					"sessionToken"    = $sessionToken
+					"WebSession"      = $WebSession
+					"BaseURI"         = $BaseURI
+					"PVWAAppName"     = $PVWAAppName
+					"ExternalVersion" = $ExternalVersion
 
 				}
 

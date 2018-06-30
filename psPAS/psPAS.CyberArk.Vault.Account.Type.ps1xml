@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+	<Type>
+		<Name>psPAS.CyberArk.Vault.Account</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>GetActivity</Name>
+				<Script>
+					$this | Get-PASAccountActivity
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>GetPassword</Name>
+				<Script>
+					$this | Get-PASAccountPassword
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>VerifyPassword</Name>
+				<Script>
+					$this | Start-PASCredVerify
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>ChangePassword</Name>
+				<Script>
+					$this | Start-PASCredChange -ImmediateChangeByCPM Yes
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>Remove</Name>
+				<Script>
+					Param([bool]$force)
+
+					if ($force) {
+
+					$this | Remove-PASAccount -Confirm:$false
+
+					}
+
+					else{
+
+					$this | Remove-PASAccount -Confirm
+
+					}
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>CopyToSafe</Name>
+				<Script> Param([string]$safe=$(throw "Destination Safe Must Be Specified."))
+
+					$this | Add-PASAccount -Safe $safe -password $($this.GetPassword()).ToSecureString()
+
+					$that = $this | Get-PASAccount -Keywords $this.UserName -Safe $safe
+
+					$this | Set-PASAccount -AccountID $that.AccountID
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+</Types>

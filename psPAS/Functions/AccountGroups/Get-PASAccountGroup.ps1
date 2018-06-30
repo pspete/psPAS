@@ -28,6 +28,11 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+If the minimum version requirement of this function is not satisfied, execution will be halted.
+Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
+
 .EXAMPLE
 $token | Get-PASAccountGroup -Safe SafeName
 
@@ -37,7 +42,7 @@ List all account groups in SafeName
 All parameters can be piped by property name
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.AccountGroup
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Account.Group
 SessionToken, WebSession, BaseURI are passed through and
 contained in output object for inclusion in subsequent
 pipeline operations.
@@ -80,12 +85,23 @@ Minimum CyberArk version 9.10
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"9.10"
+	}#begin
 
 	PROCESS {
+
+		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
 		$URI = "$baseURI/$PVWAAppName/API/AccountGroups?Safe=$($Safe | Get-EscapedString)"
@@ -95,12 +111,13 @@ Minimum CyberArk version 9.10
 
 		if($result) {
 
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountGroup -PropertyToAdd @{
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Group -PropertyToAdd @{
 
-				"sessionToken" = $sessionToken
-				"WebSession"   = $WebSession
-				"BaseURI"      = $BaseURI
-				"PVWAAppName"  = $PVWAAppName
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
 
 			}
 

@@ -143,6 +143,11 @@ Describe $FunctionName {
 			}
 
 
+			It "throws error if version requirement not met" {
+				{$InputObj | Get-PASAccountPassword -UseV10API -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345 -ExternalVersion "1.0"} | Should Throw
+			}
+
+
 		}
 
 		Context "Output" {
@@ -155,7 +160,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 5
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 6
 
 			}
 
@@ -168,7 +173,8 @@ Describe $FunctionName {
 			$DefaultProps = @{Property = 'sessionToken'},
 			@{Property = 'WebSession'},
 			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'}
+			@{Property = 'PVWAAppName'},
+			@{Property = 'ExternalVersion'}
 
 			It "returns default property <Property> in response" -TestCases $DefaultProps {
 				param($Property)

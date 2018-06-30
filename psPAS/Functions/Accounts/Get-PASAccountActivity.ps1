@@ -23,6 +23,9 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+
 .EXAMPLE
 $token | Get-PASAccount -Keywords root -Safe UNIXSafe | Get-PASAccountActivity
 
@@ -42,7 +45,7 @@ All parameters can be piped by property name
 Accepts pipeline input from Get-PASAccount
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.AccountActivity
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Account.Activity
 SessionToken, WebSession, BaseURI are passed through and
 contained in output object for inclusion in subsequent
 pipeline operations.
@@ -81,7 +84,14 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 
 	)
 
@@ -102,12 +112,13 @@ To force all output to be shown, pipe to Select-Object *
 			#Return Results
 			$result.GetAccountActivitiesResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.AccountActivity -PropertyToAdd @{
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Activity -PropertyToAdd @{
 
-				"sessionToken" = $sessionToken
-				"WebSession"   = $WebSession
-				"BaseURI"      = $BaseURI
-				"PVWAAppName"  = $PVWAAppName
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
 
 			}
 

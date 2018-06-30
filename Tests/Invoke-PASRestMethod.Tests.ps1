@@ -83,6 +83,7 @@ Describe $FunctionName {
 			Mock Invoke-WebRequest -MockWith {
 
 				return $MockResult
+
 			}
 
 			It "sends a web request" {
@@ -112,6 +113,40 @@ Describe $FunctionName {
 
 		}
 
+		Context  "Version 10 Authentication" {
+
+			$RandomString = "ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7"
+
+			$MockResult = [pscustomobject] @{
+
+				"headers"    = @{
+					"Content-Type" = "application/json"
+				};
+				"StatusCode" = 200;
+				"content"    = $RandomString | ConvertTo-Json
+			}
+
+			Mock Get-ParentFunction -MockWith {
+
+				[PSCustomObject]@{
+					FunctionName = "New-PASSession"
+				}
+
+			}
+
+			Mock Invoke-WebRequest -MockWith {
+
+				return $MockResult
+
+			}
+
+			It "handles V10 authentication return value" {
+				$result = Invoke-PASRestMethod @requestArgs2
+				$result.CyberArkLogonResult | Should Be $RandomString
+			}
+
+		}
+
 		Context "text/html responses" {
 
 			$MockResult = [pscustomobject] @{
@@ -123,6 +158,15 @@ Describe $FunctionName {
 				"content"    = '"Value"'
 			}
 
+			$MockHTML = [pscustomobject] @{
+
+				"headers"    = @{
+					"Content-Type" = "text/html"
+				};
+				"StatusCode" = 200;
+				"content"    = '<HTML><HEAD><BODY><P>Test</P></BODY></HEAD></HTML>'
+			}
+
 			Mock Invoke-WebRequest -MockWith {
 
 				return $MockResult
@@ -131,6 +175,19 @@ Describe $FunctionName {
 			It "returns expected (unquoted) string for text/html responses" {
 				$result = Invoke-PASRestMethod @requestArgs2
 				$result | Should Be 'Value'
+			}
+
+			It 'throws an error if response contains actual HTML' {
+				Mock Invoke-WebRequest -MockWith {
+
+					return $MockHTML
+				}
+
+				{
+					$ErrorActionPreference = "Stop"
+					$request = Invoke-PASRestMethod @requestArgs2
+				} | Should throw "Guru Meditation"
+
 			}
 
 		}
@@ -153,7 +210,30 @@ Describe $FunctionName {
 
 			It "returns expected output for application/octet-stream responses" {
 				$result = Invoke-PASRestMethod @requestArgs2
-				$result | Should Be "Expected"
+				$([System.Text.Encoding]::ASCII.GetString($result)) | Should Be "Expected"
+			}
+
+		}
+
+		Context "Other Response" {
+
+			$MockResult = [pscustomobject] @{
+				"headers"    = @{
+					"Pragma"         = "no-cache";
+					"Content-Length" = 17
+				};
+				"StatusCode" = 200;
+				"content"    = @("65", "99", "99", "101", "115", "115", "32", "105", "115", "32", "100", "101", "110", "105", "101", "100", "46")
+
+			}
+
+			Mock Invoke-WebRequest -MockWith {
+
+				return $MockResult
+			}
+
+			It "throws other response" {
+				{Invoke-PASRestMethod @requestArgs2} | Should throw "Access is denied."
 			}
 
 		}
@@ -191,7 +271,9 @@ Describe $FunctionName {
 				}
 
 				it "outputs expected error id" {
+
 					$_.FullyQualifiedErrorId | should match $ErrorCode
+
 				}
 			}
 
