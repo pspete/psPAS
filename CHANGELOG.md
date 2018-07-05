@@ -1,6 +1,6 @@
 # psPAS Changelog
 
-## 2.0.0 (June ## 2018)
+## 2.0.0 (July 1st 2018)
 
 _The 1 year since first commit aniversary edition_
 
