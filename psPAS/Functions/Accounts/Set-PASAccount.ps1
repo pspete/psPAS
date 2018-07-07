@@ -7,7 +7,7 @@ Updates an existing accounts details.
 Updates an existing accounts details.
 
 For CyberArk version prior to 10.4:
-All of the account’s property details MUST be passed to the function.
+All of the account's property details MUST be passed to the function.
 Any current properties of the account not sent as part of the request will be removed
 from the account.
 To change a property value not exposed via a named parameter,
@@ -86,6 +86,11 @@ Defaults to PasswordVault
 The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
 
 .EXAMPLE
+$token | Set-PASAccount -AccountID 27_4 -op replace -path "/address" -value "NewAddress"
+
+Replaces the current address value with NewAddress
+
+.EXAMPLE
 $token | Get-PASAccount dbuser | Set-PASAccount -Properties @{"DSN"="myDSN"}
 
 Sets DSN value on matched account dbUser
@@ -107,7 +112,7 @@ must be specified in the request, otherwise, any property values not
 specified will be removed from the account.
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.Account
+Outputs Object of Custom Type psPAS.CyberArk.Vault.Account or psPAS.CyberArk.Vault.Account.V10
 SessionToken, WebSession, BaseURI are passed through and
 contained in output object for inclusion in subsequent
 pipeline operations.
@@ -227,8 +232,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipeline = $true,
-			ParameterSetName = "V9"
+			ValueFromPipeline = $true
 		)]
 		[psobject]$InputObject,
 
@@ -286,8 +290,9 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 			#Define type of output object
 			$Type = "psPAS.CyberArk.Vault.Account.V10"
 
-			#$body = @{"Operations" = @($boundParameters)} | ConvertTo-JSON
-			$body = @{"Operations" = [array]$boundParameters} | ConvertTo-JSON -Depth 3
+			#Do Not Pipe into ConvertTo-JSON.
+			#Correct JSON Format is only achieved when the array is not sent along the pipe
+			$body = ConvertTo-JSON @($boundParameters)
 
 		}
 
@@ -372,7 +377,19 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 			If($Result) {
 
-				$Result.UpdateAccountResult | Add-ObjectDetail -typename $Type -PropertyToAdd @{
+				if($PSCmdlet.ParameterSetName -eq "V9") {
+
+					$Return = $Result.UpdateAccountResult
+
+				}
+
+				Else {
+
+					$Return = $Result
+
+				}
+
+				$Return | Add-ObjectDetail -typename $Type -PropertyToAdd @{
 
 					"AccountID"       = $AccountID
 					"sessionToken"    = $sessionToken

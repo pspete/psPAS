@@ -148,7 +148,7 @@ Describe $FunctionName {
 				$InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json | select-Object -ExpandProperty Operations) -ne $null
+					($Body | ConvertFrom-Json) -ne $null
 
 				} -Times 1 -Exactly -Scope It
 
@@ -167,7 +167,7 @@ Describe $FunctionName {
 				$InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json | select-Object -ExpandProperty Operations | Get-Member -MemberType NoteProperty).length -eq 3
+					(($Body | ConvertFrom-Json)[0] | Get-Member -MemberType NoteProperty).length -eq 3
 
 				} -Times 1 -Exactly -Scope It
 			}
@@ -255,7 +255,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties - V10 ParameterSet" {
 				$response = $InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 10
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
 
 			}
 
