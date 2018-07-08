@@ -1,11 +1,10 @@
 # psPAS Changelog
 
-## 2.0.x (July X 2018)
+## 2.0.4 (July 8th 2018)
 
 - Updated Function
   - `Set-PASAccount`, updated to support new 10.4 API features.
     - Thanks [Assaf](https://github.com/AssafMiron)!
-
 
 ## 2.0.0 (July 1st 2018)
 
