@@ -22,13 +22,16 @@ The unique ID of the account to update.
 Retrieved by Get-PASAccount
 
 .PARAMETER op
-The folder where the account is stored.
+The operation to perform (add, remove, replace).
 
 .PARAMETER path
-The folder where the account is stored.
+The path of the property to update, for instance /address or /name.
 
 .PARAMETER value
-The folder where the account is stored.
+The new property value for add or replace operations.
+
+.PARAMETER operations
+A collection of update actions to perform, must include op, path & value (except where action is remove).
 
 .PARAMETER Folder
 The folder where the account is stored.
@@ -91,6 +94,19 @@ $token | Set-PASAccount -AccountID 27_4 -op replace -path "/address" -value "New
 Replaces the current address value with NewAddress
 
 .EXAMPLE
+$token | Set-PASAccount -AccountID 27_4 -op remove -path "/platformAccountProperties/UserDN"
+
+Removes UserDN property set on account
+
+.EXAMPLE
+$actions += @{"op"="Add";"path"="/platformAccountProperties/UserDN";"value"="SomeDN"}
+$actions += @{"op"="Replace";"path"="/Name";"value"="SomeName"}
+
+$token | Set-PASAccount -AccountID 27_4 -operations $actions
+
+Performs the update operations contained in the $actions array against the account
+
+.EXAMPLE
 $token | Get-PASAccount dbuser | Set-PASAccount -Properties @{"DSN"="myDSN"}
 
 Sets DSN value on matched account dbUser
@@ -131,7 +147,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 .LINK
 
 #>
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "V10")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "V10SingleOp")]
 	param(
 
 		[parameter(
@@ -145,7 +161,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "V10SingleOp"
 		)]
 		[ValidateSet("add", "replace", "remove")]
 		[Alias("Operation")]
@@ -154,16 +170,23 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "V10SingleOp"
 		)]
 		[string]$path,
 
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "V10SingleOp"
 		)]
 		[string]$value,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "V10MultiOp"
+		)]
+		[hashtable[]]$operations,
 
 		[parameter(
 			Mandatory = $true,
@@ -277,7 +300,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove InputObject, AccountID
 
-		if($PSCmdlet.ParameterSetName -eq "V10") {
+		if($PSCmdlet.ParameterSetName -match "V10") {
 
 			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -289,6 +312,12 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 			#Define type of output object
 			$Type = "psPAS.CyberArk.Vault.Account.V10"
+
+			if($PSCmdlet.ParameterSetName -match "V10MultiOp") {
+
+				$boundParameters = $boundParameters["operations"]
+
+			}
 
 			#Do Not Pipe into ConvertTo-JSON.
 			#Correct JSON Format is only achieved when the array is not sent along the pipe

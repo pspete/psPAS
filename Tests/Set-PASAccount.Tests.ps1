@@ -44,7 +44,7 @@ Describe $FunctionName {
 			@{Parameter = 'AccountName'},
 			@{Parameter = 'op'},
 			@{Parameter = 'path'},
-			@{Parameter = 'value'}
+			@{Parameter = 'operations'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -87,6 +87,12 @@ Describe $FunctionName {
 					"AccountID"    = "12_3"
 				}
 
+				[array]$MultiOps = (
+					@{"op" = "add"; "path" = "/addthis"; "value" = "AddValue"},
+					@{"op" = "replace"; "path" = "/replace/this/path"; "value" = "ReplaceValue"},
+					@{"op" = "remove"; "path" = "/removethispath"}
+				)
+
 			}
 
 			It "sends request - V9 ParameterSet" {
@@ -95,9 +101,16 @@ Describe $FunctionName {
 
 			}
 
-			It "sends request - V10 ParameterSet" {
+			It "sends request - V10SingleOp ParameterSet" {
 
-				$InputObj | Set-PASAccount -op Add -path "/somepath" -value SomeValue
+				$InputObjV10 | Set-PASAccount -op Add -path "/somepath" -value SomeValue
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request - V10MultiOp ParameterSet" {
+
+				$InputObjV10 | Set-PASAccount -operations $MultiOps
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
@@ -112,8 +125,18 @@ Describe $FunctionName {
 
 			}
 
-			It "sends request to expected endpoint - V10 ParameterSet" {
+			It "sends request to expected endpoint - V10SingleOp ParameterSet" {
 				$InputObjV10 | Set-PASAccount -op Remove -path "/somepath" -value SomeValue
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts/12_3"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - V10MultiOp ParameterSet" {
+				$InputObjV10 | Set-PASAccount -operations $MultiOps
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts/12_3"
@@ -128,8 +151,14 @@ Describe $FunctionName {
 
 			}
 
-			It "uses expected method - V10 ParameterSet" {
+			It "uses expected method - V10SingleOp ParameterSet" {
 				$InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'PATCH' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It "uses expected method - V10MultiOp ParameterSet" {
+				$InputObjV10 | Set-PASAccount -operations $MultiOps
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'PATCH' } -Times 1 -Exactly -Scope It
 
 			}
@@ -144,8 +173,18 @@ Describe $FunctionName {
 
 			}
 
-			It "sends request with expected body - V10 ParameterSet" {
+			It "sends request with expected body - V10SingleOp ParameterSet" {
 				$InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($Body | ConvertFrom-Json) -ne $null
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request with expected body - V10MultiOp ParameterSet" {
+				$InputObjV10 | Set-PASAccount -operations $MultiOps
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					($Body | ConvertFrom-Json) -ne $null
@@ -163,11 +202,22 @@ Describe $FunctionName {
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "has a request body with expected number of properties - V10 ParameterSet" {
+			It "has a request body with expected number of properties - V10SingleOp ParameterSet" {
 				$InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					(($Body | ConvertFrom-Json)[0] | Get-Member -MemberType NoteProperty).length -eq 3
+
+				} -Times 1 -Exactly -Scope It
+			}
+
+			It "has a request body with expected number of properties - V10MultiOp ParameterSet" {
+				$InputObjV10 | Set-PASAccount -operations $MultiOps
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					(($Body | ConvertFrom-Json)[0] | Get-Member -MemberType NoteProperty).length -eq 3
+					(($Body | ConvertFrom-Json)[1] | Get-Member -MemberType NoteProperty).length -eq 3
+					(($Body | ConvertFrom-Json)[2] | Get-Member -MemberType NoteProperty).length -eq 3
 
 				} -Times 1 -Exactly -Scope It
 			}
