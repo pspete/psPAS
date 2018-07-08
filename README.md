@@ -317,12 +317,16 @@ See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
 
 Hat Tips:
 
+**Assaf Miron**
+([AssafMiron](https://github.com/AssafMiron))
+For the JSON formatting assistance.
+
 **Warren Frame**
 ([RamblingCookieMonster](https://github.com/RamblingCookieMonster)) for the borrowed [Add-ObjectDetail.ps1](https://github.com/RamblingCookieMonster/PowerShell/blob/master/Add-ObjectDetail.ps1)
 & </br>[New-DynamicParam.ps1](https://github.com/RamblingCookieMonster/PowerShell/blob/master/New-DynamicParam.ps1)
 helper functions.
 
 **Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg))
-for the unofficial API documentation
+for the unofficial API documentation.
 
 Chapeau!

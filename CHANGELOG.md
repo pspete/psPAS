@@ -1,8 +1,14 @@
 # psPAS Changelog
 
+## 2.0.4 (July 8th 2018)
+
+- Updated Function
+  - `Set-PASAccount`, updated to support new 10.4 API features.
+    - Thanks [Assaf](https://github.com/AssafMiron)!
+
 ## 2.0.0 (July 1st 2018)
 
-_The 1 year since first commit aniversary edition_
+_The 1 year since first commit anniversary edition_
 
 ### Module update to cover CyberArk 10.4 API features
 
