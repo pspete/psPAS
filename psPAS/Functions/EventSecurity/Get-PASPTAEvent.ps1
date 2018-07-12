@@ -89,7 +89,7 @@ Function Get-PASPTAEvent {
 		if($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
 
 			#add Unix Time Stamp of lastUpdatedEventDate to header as key=value pair
-			$header["lastUpdatedEventDate"] = ($(Get-Date $((Get-Date $lastUpdatedEventDate).ToUniversalTime()) -UFormat %s))
+			$header["lastUpdatedEventDate"] = ($(Get-Date $(Get-Date $lastUpdatedEventDate) -UFormat %s))
 
 		}
 
