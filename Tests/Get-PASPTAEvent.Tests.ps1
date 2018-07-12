@@ -91,7 +91,7 @@ Describe $FunctionName {
 			It "sends request with expected header" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
+					Write-Verbose $($headers["lastUpdatedEventDate"]) -Verbose
 					$($headers["lastUpdatedEventDate"]) -eq "283996800"
 
 				} -Times 1 -Exactly -Scope Describe
