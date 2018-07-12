@@ -99,7 +99,7 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASPTAEvent -ExternalVersion "1.0"} | Should Throw
+				{$InputObj | Get-PASPTARemediation -ExternalVersion "1.0"} | Should Throw
 			}
 
 		}

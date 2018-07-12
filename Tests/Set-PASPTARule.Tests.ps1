@@ -121,7 +121,7 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Add-PASPTARule -ExternalVersion "1.0"} | Should Throw
+				{$InputObj | Set-PASPTARule -ExternalVersion "1.0"} | Should Throw
 			}
 
 		}
