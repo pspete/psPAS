@@ -43,92 +43,27 @@ Function Set-PASPTARemediation {
 	#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SuspectedCredentialsTheft"
-		)]
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "OverPassTheHash"
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SuspectedPasswordChange"
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnmanagedPrivilegedAccount"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$changePassword_SuspectedCredentialsTheft,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SuspectedCredentialsTheft"
-		)]
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "OverPassTheHash"
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SuspectedPasswordChange"
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnmanagedPrivilegedAccount"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$changePassword_OverPassTheHash,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SuspectedCredentialsTheft"
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "OverPassTheHash"
-		)]
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SuspectedPasswordChange"
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnmanagedPrivilegedAccount"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$reconcilePassword_SuspectedPasswordChange,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SuspectedCredentialsTheft"
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "OverPassTheHash"
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SuspectedPasswordChange"
-		)]
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnmanagedPrivilegedAccount"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$pendAccount_UnmanagedPrivilegedAccount,
 
