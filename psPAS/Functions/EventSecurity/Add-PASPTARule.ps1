@@ -52,7 +52,7 @@ Function Add-PASPTARule {
 	Adds a new rule to PTA
 
 	.NOTES
-	General notes
+	Minimum Version CyberArk 10.4
 	#>
 	[CmdletBinding()]
 	param(

@@ -36,10 +36,16 @@ Function Set-PASPTARemediation {
 	The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
 
 	.EXAMPLE
-	An example
+	$token | Set-PASPTARemediation -changePassword_SuspectedCredentialsTheft $true
+
+	Enables the "Change password on Suspected Credentials Theft" rule.
+	.EXAMPLE
+	$token | Set-PASPTARemediation -reconcilePassword_SuspectedPasswordChange $false
+
+	Disables the "reconcile on suspected password change" rule.
 
 	.NOTES
-	General notes
+	Minimum Version CyberArk 10.4
 	#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

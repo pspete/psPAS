@@ -29,7 +29,7 @@ Function Get-PASPTARule {
 	Returns all risky activities rules from PTA
 
 	.NOTES
-	General notes
+	Minimum Version CyberArk 10.4
 	#>
 	[CmdletBinding()]
 	param(

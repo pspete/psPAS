@@ -29,7 +29,7 @@ Function Get-PASPTARemediation {
 	Returns all automatic remediation settings from PTA
 
 	.NOTES
-	General notes
+	Minimum Version CyberArk 10.4
 	#>
 	[CmdletBinding()]
 	param(

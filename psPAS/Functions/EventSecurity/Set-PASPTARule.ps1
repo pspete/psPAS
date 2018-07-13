@@ -55,7 +55,7 @@ Function Set-PASPTARule {
 	Updates rule 66 in PTA
 
 	.NOTES
-	General notes
+	Minimum Version CyberArk 10.4
 	#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
