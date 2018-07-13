@@ -32,7 +32,7 @@ Function Get-PASPTAEvent {
 	Returns all PTA security events
 
 	.NOTES
-	General notes
+	Minimum Version CyberArk 10.3
 	#>
 	[CmdletBinding()]
 	param(
@@ -73,7 +73,7 @@ Function Get-PASPTAEvent {
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.4"
+		$MinimumVersion = [System.Version]"10.3"
 	}#begin
 
 	PROCESS {
