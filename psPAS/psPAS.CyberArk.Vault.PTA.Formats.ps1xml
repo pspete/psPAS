@@ -20,10 +20,12 @@
 								<PropertyName>score</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>createTime</PropertyName>
+								<Label>createTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.createTime/1000)</ScriptBlock>
 							</ListItem>
 							<ListItem>
-								<PropertyName>lastUpdateTime</PropertyName>
+								<Label>lastUpdateTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.lastUpdateTime/1000)</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>audits</PropertyName>
