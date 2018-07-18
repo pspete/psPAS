@@ -70,7 +70,8 @@
 		'psPAS.CyberArk.Vault.Request.Formats.ps1xml',
 		'psPAS.CyberArk.Vault.Safe.Formats.ps1xml',
 		'psPAS.CyberArk.Vault.User.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.Directory.Formats.ps1xml'
+		'psPAS.CyberArk.Vault.Directory.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.PTA.Formats.ps1xml'
 	)
 
 	# Functions to export from this module
@@ -156,7 +157,13 @@
 		'Get-PASUserLoginInfo',
 		'Get-PASDirectory',
 		'Add-PASDirectory',
-		'New-PASDirectoryMapping'
+		'New-PASDirectoryMapping',
+		'Get-PASPTAEvent',
+		'Get-PASPTARemediation',
+		'Set-PASPTARemediation',
+		'Get-PASPTARule',
+		'Set-PASPTARule',
+		'Add-PASPTARule'
 	)
 
 	AliasesToExport   = @(

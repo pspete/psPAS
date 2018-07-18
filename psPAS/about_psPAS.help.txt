@@ -17,7 +17,7 @@ EXAMPLES
     which parameters or parametersets of specific functions can be used. The following table lists module compatibility
     against CyberArk version:
 
-    https://github.com/pspete/psPAS#CyberArk_Version_Compatibility
+    https://github.com/pspete/psPAS#module-functions
 
     Authentication to the Web Service must take place before any other commands can be issued, this is because every
     subsequent call to the web service requires the session token returned from the logon operation to be provided.
