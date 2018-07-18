@@ -20,7 +20,7 @@
 								<PropertyName>score</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>creteTime</PropertyName>
+								<PropertyName>createTime</PropertyName>
 							</ListItem>
 							<ListItem>
 								<PropertyName>lastUpdateTime</PropertyName>
