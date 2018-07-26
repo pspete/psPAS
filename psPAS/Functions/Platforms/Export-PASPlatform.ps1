@@ -117,7 +117,7 @@ function Export-PASPlatform {
 
 				try {
 
-					$output = [PSCustomObject]@{
+					$output = @{
 						Path     = $path
 						Value    = $result
 						Encoding = "Byte"
@@ -125,13 +125,14 @@ function Export-PASPlatform {
 
 					If($IsCoreCLR) {
 
-						#amend object properties if we are in Core
-						$output = $output | Add-Member "AsByteStream" $true -PassThru | Select-Object -Property * -ExcludeProperty Encoding
+						#amend parameters for splatting if we are in Core
+						$output.Add("AsByteStream", $true)
+						$output.Remove("Encoding")
 
 					}
 
 					#write it to a file
-					$output | Set-Content -ErrorAction Stop
+					Set-Content @output -ErrorAction Stop
 
 				} catch {throw "Error Saving $path"}
 
