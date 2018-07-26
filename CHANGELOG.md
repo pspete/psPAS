@@ -1,5 +1,12 @@
 # psPAS Changelog
 
+## 2.2.0 (July 27th 2018)
+
+- Bug Fix
+  - `Export-PASPlatform`
+    - Exported files were invalid, now fixed.
+    - Thanks [jmk-foofus](https://github.com/jmk-foofus)!
+
 ## 2.1.0 (July 18th 2018)
 
 - New Functions
