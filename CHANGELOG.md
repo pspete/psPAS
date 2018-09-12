@@ -1,4 +1,10 @@
-# psPAS Changelog
+# psPAS
+
+## 2.2.2 (September 12th 2018)
+
+- Bug Fix
+  - `Get-PASAccountPassword`
+    - Backward compatibility for retrieving password values from  CyberArk version 9 restored.
 
 ## 2.2.0 (July 27th 2018)
 

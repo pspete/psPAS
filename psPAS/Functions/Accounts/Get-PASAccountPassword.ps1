@@ -263,6 +263,12 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 
 		If($result) {
 
+			If($result.GetType().Name -eq "Object[]") {
+
+				$result = [System.Text.Encoding]::ASCII.GetString($result)
+
+			}
+
 			[PSCustomObject] @{"Password" = $result} |
 
 			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential -PropertyToAdd @{

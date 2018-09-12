@@ -158,6 +158,26 @@ Describe $FunctionName {
 
 			}
 
+			it "outputs string value for CyberArk version 9 byte array result" {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[system.Text.Encoding]::UTF8.GetBytes("psPAS")
+				}
+				$response = $InputObj | Get-PASAccountPassword -verbose
+				$response.Password | Should be "psPAS"
+
+			}
+
+			it "outputs string value for CyberArk version 10 string result" {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					Write-Output "psPAS"
+				}
+				$response = $InputObj | Get-PASAccountPassword -verbose
+				$response.Password | Should be "psPAS"
+
+			}
+
 			It "has output with expected number of properties" {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should Be 6
