@@ -208,7 +208,7 @@ requires version 9.8+).
 [`Add-PASGroupMember`][Add-PASGroupMember]                                               |**9.7**             |Adds a vault user as </br>a group member
 [`Get-PASLoggedOnUser`][Get-PASLoggedOnUser]                                             |**9.7**             |Returns details of </br>the logged on user
 [`Get-PASUserLoginInfo`][Get-PASUserLoginInfo]                                           |**10.4**            |Returns login details of </br>the current user
-[`Get-PASUser`][New-PASSession]                                                          |**9.7**             |Returns details of a user
+[`Get-PASUser`][Get-PASUser]                                                             |**9.7**             |Returns details of a user
 [`New-PASUser`][New-PASUser]                                                             |**9.7**             |Creates a new vault user
 [`Remove-PASUser`][Remove-PASUser]                                                       |**9.7**             |Deletes a vault user
 [`Set-PASUser`][Set-PASUser]                                                             |**9.7**             |Updates a vault user
@@ -297,7 +297,7 @@ requires version 9.8+).
 [Add-PASGroupMember]:/psPAS/Functions/User/Add-PASGroupMember.ps1
 [Get-PASLoggedOnUser]:/psPAS/Functions/User/Get-PASLoggedOnUser.ps1
 [Get-PASUserLoginInfo]:/psPAS/Functions/User/Get-PASUserLoginInfo.ps1
-[Get-PASUser]:/psPAS/Functions/User/New-PASSession.ps1
+[Get-PASUser]:/psPAS/Functions/User/Get-PASUser.ps1
 [New-PASUser]:/psPAS/Functions/User/New-PASUser.ps1
 [Remove-PASUser]:/psPAS/Functions/User/Remove-PASUser.ps1
 [Set-PASUser]:/psPAS/Functions/User/Set-PASUser.ps1
