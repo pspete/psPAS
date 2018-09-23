@@ -166,6 +166,7 @@ New functionality added in version 10.4, limited functionality before this versi
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v10ByQuery"
 		)]
+		[ValidateRange(1, 1000)]
 		[int]$limit,
 
 		[parameter(
