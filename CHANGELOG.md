@@ -1,5 +1,13 @@
 # psPAS
 
+## 2.2.10 (September 23rd 2018)
+
+- Bug Fix
+  - `Get-PASAccountPassword`
+    - Fix applied to allow accountID from version 10 to be accepted from pipeline object.
+  - `Get-PASAccount`
+    - Validation added to `limit` parameter.
+
 ## 2.2.2 (September 12th 2018)
 
 - Bug Fix
