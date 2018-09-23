@@ -121,6 +121,7 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[Alias("id")]
 		[string]$AccountID,
 
 		[parameter(
