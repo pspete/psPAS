@@ -38,6 +38,7 @@ A limit for the number of results to return.
 
 .PARAMETER filter
 A filter for the search.
+Requires format: "SafeName eq YourSafe"
 
 .PARAMETER Keywords
 Keyword to search for.
@@ -75,6 +76,11 @@ This will only work from version 10.4 onwards.
 $token | Get-PASAccount -search root -sort name -offset 100 -limit 5
 
 Returns all accounts matching "root", sorted by AccountName, Search results offset by 100 and limited to 5.
+
+.EXAMPLE
+$token | Get-PASAccount -filter "SafeName eq TargetSafe"
+
+Returns all accounts found in TargetSafe
 
 .EXAMPLE
 $token | Get-PASAccount -Keywords root -Safe UNIX
