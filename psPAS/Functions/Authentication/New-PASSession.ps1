@@ -111,7 +111,7 @@ To force all output to be shown, pipe to Select-Object *
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "v10")]
 	param(
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipeline = $true
 		)]
 		[ValidateNotNullOrEmpty()]
@@ -211,11 +211,15 @@ To force all output to be shown, pipe to Select-Object *
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck
+		
+		If($PSBoundParameters.ContainsKey("Credential")) {
 
-		#Add user name from credential object
-		$boundParameters["username"] = $($Credential.UserName)
-		#Add decoded password value from credential object
-		$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
+			#Add user name from credential object
+			$boundParameters["username"] = $($Credential.UserName)
+			#Add decoded password value from credential object
+			$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
+		
+		}
 
 		#deal with newPassword SecureString
 		If($PSBoundParameters.ContainsKey("newPassword")) {
@@ -231,7 +235,7 @@ To force all output to be shown, pipe to Select-Object *
 		if($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon with User '$($boundParameters["username"])'")) {
 
 			#Send Logon Request
-			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable
+			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable -UseDefaultCredentials:($type -eq 'Windows')
 
 			#If Logon Result
 			If($PASSession) {
