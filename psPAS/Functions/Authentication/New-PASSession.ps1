@@ -79,6 +79,11 @@ Logon to Version 10 with CyberArk credential:
 New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
 
 .EXAMPLE
+Logon to Version 10 with Windows Integrated Authentication
+
+New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
+
+.EXAMPLE
 Logon to Version 9 with credential and save auth token:
 
 $token = New-PASSession -Credential $cred -BaseURI https://PVWA -UseV9API
@@ -124,11 +129,6 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipeline = $true,
 			ParameterSetName = "v9"
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
-			ParameterSetName = "integrated"
-		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,
 
@@ -141,7 +141,13 @@ To force all output to be shown, pipe to Select-Object *
 
 		[Parameter(
 			Mandatory = $false,
-			ValueFromPipeline = $false
+			ValueFromPipeline = $false,
+			ParameterSetName = "v10"
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ParameterSetName = "v9"
 		)]
 		[SecureString]$newPassword,
 
@@ -247,9 +253,7 @@ To force all output to be shown, pipe to Select-Object *
 			
 			$userDisplay = $boundParameters["username"]
 		
-		}
-		
-		ElseIf($PSBoundParameters.ContainsKey("UseDefaultCredentials")) {
+		} ElseIf($PSBoundParameters.ContainsKey("UseDefaultCredentials")) {
 			
 			$userDisplay = "$env:USERDOMAIN\$env:USERNAME"
 		
