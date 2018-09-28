@@ -54,15 +54,16 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'Credential'}
+			It "specifies parameter 'BaseURI' as mandatory" {
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+				(Get-Command New-PASSession).Parameters["BaseURI"].Attributes.Mandatory | Should Be $true
 
-				param($Parameter)
-
-				(Get-Command New-PASSession).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
-
+			}
+			
+			It "specifies parameter 'Credential' as mandatory {
+			
+				(Get-Command New-PASSession).Parameters["Credentials"].Attributes.Mandatory | Should Be @($true, $true)  #v10 and v9 ParameterSets
+				
 			}
 
 		}
