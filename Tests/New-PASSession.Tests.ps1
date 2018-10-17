@@ -61,7 +61,7 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command New-PASSession).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should Be $true
+				(Get-Command New-PASSession).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
 			}
 
