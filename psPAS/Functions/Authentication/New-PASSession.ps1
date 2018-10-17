@@ -211,7 +211,7 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipeline = $false
 		)]
 		[string]$PVWAAppName = "PasswordVault",
-		
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
@@ -226,9 +226,9 @@ To force all output to be shown, pipe to Select-Object *
 		if($($PSCmdlet.ParameterSetName) -eq "v10") {
 
 			$URI = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
-			
+
 		} elseif($($PSCmdlet.ParameterSetName) -eq "integrated") {
-		
+
 			$URI = "$baseURI/$PVWAAppName/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
 
 		} elseif($($PSCmdlet.ParameterSetName) -eq "v9") {
@@ -243,20 +243,20 @@ To force all output to be shown, pipe to Select-Object *
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck
-		
+
 		If($PSBoundParameters.ContainsKey("Credential")) {
 
 			#Add user name from credential object
 			$boundParameters["username"] = $($Credential.UserName)
 			#Add decoded password value from credential object
 			$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
-			
+
 			$userDisplay = $boundParameters["username"]
-		
+
 		} ElseIf($PSBoundParameters.ContainsKey("UseDefaultCredentials")) {
-			
+
 			$userDisplay = "$env:USERDOMAIN\$env:USERNAME"
-		
+
 		}
 
 		#deal with newPassword SecureString
