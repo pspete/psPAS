@@ -81,7 +81,7 @@ to ensure session persistence.
 			ParameterSetName = "WebSession"
 		)]
 		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-		
+
 		[Parameter(Mandatory = $false)]
 		[switch]$UseDefaultCredentials
 	)
