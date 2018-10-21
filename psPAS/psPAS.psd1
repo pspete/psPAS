@@ -163,7 +163,8 @@
 		'Set-PASPTARemediation',
 		'Get-PASPTARule',
 		'Set-PASPTARule',
-		'Add-PASPTARule'
+		'Add-PASPTARule',
+		'Get-PASGroup'
 	)
 
 	AliasesToExport   = @(
