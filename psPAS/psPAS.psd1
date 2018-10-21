@@ -164,7 +164,8 @@
 		'Get-PASPTARule',
 		'Set-PASPTARule',
 		'Add-PASPTARule',
-		'Get-PASGroup'
+		'Get-PASGroup',
+		'Remove-PASGroupMember'
 	)
 
 	AliasesToExport   = @(
