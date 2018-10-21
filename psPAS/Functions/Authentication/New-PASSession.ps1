@@ -64,6 +64,10 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER UseDefaultCredentials
+See Invoke-WebRequest
+Uses the credentials of the current user to send the web request
+
 .EXAMPLE
 Logon to Version 10 with LDAP credential and save auth token:
 
@@ -73,6 +77,11 @@ $token = New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 Logon to Version 10 with CyberArk credential:
 
 New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
+
+.EXAMPLE
+Logon to Version 10 with Windows Integrated Authentication
+
+New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
 
 .EXAMPLE
 Logon to Version 9 with credential and save auth token:
@@ -112,7 +121,13 @@ To force all output to be shown, pipe to Select-Object *
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $true
+			ValueFromPipeline = $true,
+			ParameterSetName = "v10"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ParameterSetName = "v9"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,
@@ -126,7 +141,13 @@ To force all output to be shown, pipe to Select-Object *
 
 		[Parameter(
 			Mandatory = $false,
-			ValueFromPipeline = $false
+			ValueFromPipeline = $false,
+			ParameterSetName = "v10"
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ParameterSetName = "v9"
 		)]
 		[SecureString]$newPassword,
 
@@ -189,7 +210,14 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipeline = $false
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ParameterSetName = "integrated"
+		)]
+		[switch]$UseDefaultCredentials
 	)
 
 	BEGIN {
@@ -198,6 +226,10 @@ To force all output to be shown, pipe to Select-Object *
 		if($($PSCmdlet.ParameterSetName) -eq "v10") {
 
 			$URI = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
+
+		} elseif($($PSCmdlet.ParameterSetName) -eq "integrated") {
+
+			$URI = "$baseURI/$PVWAAppName/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
 
 		} elseif($($PSCmdlet.ParameterSetName) -eq "v9") {
 
@@ -212,10 +244,20 @@ To force all output to be shown, pipe to Select-Object *
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck
 
-		#Add user name from credential object
-		$boundParameters["username"] = $($Credential.UserName)
-		#Add decoded password value from credential object
-		$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
+		If($PSBoundParameters.ContainsKey("Credential")) {
+
+			#Add user name from credential object
+			$boundParameters["username"] = $($Credential.UserName)
+			#Add decoded password value from credential object
+			$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
+
+			$userDisplay = $boundParameters["username"]
+
+		} ElseIf($PSBoundParameters.ContainsKey("UseDefaultCredentials")) {
+
+			$userDisplay = "$env:USERDOMAIN\$env:USERNAME"
+
+		}
 
 		#deal with newPassword SecureString
 		If($PSBoundParameters.ContainsKey("newPassword")) {
@@ -228,10 +270,10 @@ To force all output to be shown, pipe to Select-Object *
 		#Construct Request Body
 		$body = $boundParameters | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon with User '$($boundParameters["username"])'")) {
+		if($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon with User '$userDisplay'")) {
 
 			#Send Logon Request
-			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable
+			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable -UseDefaultCredentials:($UseDefaultCredentials.IsPresent)
 
 			#If Logon Result
 			If($PASSession) {

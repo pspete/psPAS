@@ -34,6 +34,10 @@ Cannot be specified with WebSession
 Accepts a WebRequestSession object containing session details
 Cannot be specified with SessionVariable
 
+.PARAMETER UseDefaultCredentials
+See Invoke-WebRequest
+Used for Integrated Auth
+
 .EXAMPLE
 
 .INPUTS
@@ -76,7 +80,10 @@ to ensure session persistence.
 			Mandatory = $false,
 			ParameterSetName = "WebSession"
 		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+
+		[Parameter(Mandatory = $false)]
+		[switch]$UseDefaultCredentials
 	)
 
 	Begin {
