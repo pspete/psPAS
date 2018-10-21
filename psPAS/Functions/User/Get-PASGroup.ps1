@@ -7,7 +7,7 @@ List groups from the vault
 Returns a list of all existing user groups.
 
 The user performing this task:
-- Must have Audit users permissions in the Safe.
+- Must have Audit users permissions in the Vault.
 - Can see groups either only on the same level, or lower in the Vault hierarchy.
 
 .PARAMETER filter
@@ -55,13 +55,19 @@ $token | Get-PASGroup -search "Vault Admins"
 
 Returns all groups matching all search terms
 
+.EXAMPLE
+$token | Get-PASGroup -search "Vault Admins" -filter 'groupType eq Directory'
+
+Returns all existing Directory groups matching all search terms
+
 .INPUTS
 All parameters can be piped by property name
 
 .OUTPUTS
-None
+psPAS.CyberArk.Vault.Group Object
 
 .NOTES
+Minimum Version 10.5
 
 .LINK
 
