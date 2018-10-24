@@ -14,6 +14,9 @@ The following permissions are required on the safe where the account group will 
 .PARAMETER Safe
 The Safe where the account groups are.
 
+.PARAMETER UseV9API
+Specify this switch to force usage of the legacy API endpoint.
+
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
 
@@ -64,6 +67,13 @@ Minimum CyberArk version 9.10
 		[string]$Safe,
 
 		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = "v9"
+		)]
+		[switch]$UseV9API,
+
+		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
@@ -101,10 +111,25 @@ Minimum CyberArk version 9.10
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		If($PSCmdlet.ParameterSetName -eq "v9") {
 
-		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/AccountGroups?Safe=$($Safe | Get-EscapedString)"
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+
+			#Create URL for Request
+			$URI = "$baseURI/$PVWAAppName/API/AccountGroups?Safe=$($Safe | Get-EscapedString)"
+
+		}
+
+		Else {
+
+			[System.Version]$RequiredVersion = "10.5"
+
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
+
+			#Create URL for Request
+			$URI = "$baseURI/$PVWAAppName/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
+
+		}
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
