@@ -167,7 +167,8 @@
 		'Get-PASGroup',
 		'Remove-PASGroupMember',
 		'Set-PASOnboardingRule',
-		'Add-PASDiscoveredAccount'
+		'Add-PASDiscoveredAccount',
+		'Connect-PASPSMSession'
 	)
 
 	AliasesToExport   = @(
