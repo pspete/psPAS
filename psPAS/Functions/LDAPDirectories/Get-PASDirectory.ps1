@@ -8,6 +8,9 @@ Returns a list of existing directories in the Vault.
 Each directory will be returned with its own data.
 Membership of the Vault Admins group required.
 
+.PARAMETER id
+The ID or Name of the directory to return information on.
+
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
 
@@ -45,6 +48,14 @@ LDAP Directory Details
 #>
 	[CmdletBinding()]
 	param(
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10_5"
+		)]
+		[Alias("DomainName")]
+		[string]$id,
+
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
@@ -87,6 +98,16 @@ LDAP Directory Details
 
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/api/Configuration/LDAP/Directories"
+
+		if($PSCmdlet.ParameterSetName -eq "v10_5") {
+
+			[System.Version]$RequiredVersion = "10.5"
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
+
+			#Update URL for request
+			$URI = "$URI/$id/"
+
+		}
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
