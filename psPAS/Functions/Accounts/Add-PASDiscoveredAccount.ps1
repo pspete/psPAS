@@ -8,65 +8,96 @@ Enables an account or SSH key that is discovered by an external scanner to be ad
 as a pending account to the Accounts Feed.
 Users can identify privileged accounts and determine which are on-boarded to the vault.
 
-.PARAMETER UserName
-The name of the account user
+.PARAMETER userName
+The name of the account user.
 
-.PARAMETER Address
-The name or address of the machine where the account is used.
+.PARAMETER address
+The name or address of the machine where the account is located.
 
 .PARAMETER discoveryDate
-The date when the account was discovered.
+The date the account was discovered.
 
 .PARAMETER accountEnabled
-The account status in the discovery source.
+The state of the account, defined in the discovery source.
 
-.PARAMETER OSGroups
-The name of the group that the account belongs to
+.PARAMETER osGroups
+The name of the group the account belongs to, such as Administrators or Operators.
 
 .PARAMETER platformType
-Platform where discovered account is used
+The platform where the discovered account is located.
 
-.PARAMETER Domain
+.PARAMETER domain
 The domain of the account.
 
-.PARAMETER LastLogonDate
-Date, according to discovery source, when the account was last used to logon.
+.PARAMETER lastLogonDateTime
+The date this account was last logged into, defined in the discovery source.
 
-.PARAMETER LastPasswordSetDateTime
-Date, according to discovery source, when the password for the account was last set
+.PARAMETER lastPasswordSetDateTime
+The date this password was last set, defined in the discovery source.
 
-.PARAMETER PasswordNeverExpires
-If the password will ever expire in the discovery source
+.PARAMETER passwordNeverExpires
+Whether or not this password expires, defined in the discovery source.
 
-.PARAMETER OSVersion
-OS Version where the account was discovered
+.PARAMETER osVersion
+The version of the OS where the account was discovered.
 
 .PARAMETER privileged
 Whether the discovered account is privileged or non-privileged.
 
 .PARAMETER privilegedCriteria
-Criteria that determines whether or not the discovered account is privileged.
-For example, the user or groupname, etc.
-Separate multiple strings with ";".
+The criteria that determines whether or not the discovered account is privileged. For example, the user or group name.
 
-.PARAMETER UserDisplayName
-User's display name
+.PARAMETER userDisplayName
+The user's display name.
 
-.PARAMETER Description
-A description of the user, as defined in the discovery source.
-This will be saved as an account after it is added to the pending accounts.
+.PARAMETER description
+A description of the account, defined in the discovery source.
 
 .PARAMETER passwordExpirationDateTime
-The account expiration date defined in the discovery source.
+The expiration date of the account, defined in the discovery source.
 
-.PARAMETER OSFamily
+.PARAMETER osFamily
 The type of machine where the account was discovered.
 
 .PARAMETER additionalProperties
+List of name=value pairs for additional properties added to the account.
 
 .PARAMETER organizationalUnit
-.PARAMETER platformTypeAccountProperties
-.PARAMETER
+The organizational unit where the account is defined.
+
+.PARAMETER SID
+Security ID. This parameter is relevant only for Windows accounts.
+
+.PARAMETER uid
+The unique user ID. This parameter is relevant only for Unix accounts.
+
+.PARAMETER gid
+The unique group ID. This parameter is relevant only for Unix accounts.
+
+.PARAMETER uid
+The unique user ID. This parameter is relevant only for Unix SSH Key.
+
+.PARAMETER gid
+The unique group ID. This parameter is relevant only for Unix SSH Key.
+
+.PARAMETER fingerprint
+The fingerprint of the discovered SSH key. The public and private keys of the same trust have the same fingerprint. This is relevant for SSH keys only.
+
+.PARAMETER size
+The size in bits of the generated key.
+
+.PARAMETER path
+The path of the public key on the target machine.
+
+.PARAMETER format
+The format of the private SSH key.
+
+.PARAMETER comment
+Any text added when the key was created.
+
+.PARAMETER encryption
+The type of encryption used to generate the SSH key.
+
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
 
@@ -81,9 +112,11 @@ Do not include "/PasswordVault/"
 The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
+.PARAMETER ExternalVersion
+The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+
 .EXAMPLE
-$token | Add-PASPendingAccount -UserName Administrator -Address ServerA.domain.com -AccountDiscoveryDate 2017-01-01T00:00:00Z `
--AccountEnabled enabled
+$token | Add-PASDiscoveredAccount -UserName Discovered23 -Address domain.com -discoveryDate $(Get-Date "29/10/2018") -AccountEnabled $true -platformType "Windows Domain" -SID 12355
 
 Adds matching discovered account as pending account.
 
@@ -91,16 +124,15 @@ Adds matching discovered account as pending account.
 All parameters can be piped by property name
 
 .OUTPUTS
-None
 
 .NOTES
 
 .LINK
 
 #>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'LastPasswordSet', Justification = "Parameter does not hold password")]
-	[CmdletBinding()]
+	#[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
+	#[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'lastPasswordSetDateTime', Justification = "Parameter does not hold password")]
+	[CmdletBinding(DefaultParameterSetName = "Windows")]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -119,40 +151,26 @@ None
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[datetime]$AccountDiscoveryDate,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateSet("Windows", "Unix")]
-		[string]$OSType,
+		[datetime]$discoveryDate,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("enabled", "disabled")]
-		[string]$AccountEnabled,
+		[boolean]$AccountEnabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$AccountOSGroups,
+		[string]$osGroups,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("domain", "local")]
-		[string]$AccountType,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$DiscoveryPlatformType,
+		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key")]
+		[string]$platformType,
 
 		[parameter(
 			Mandatory = $false,
@@ -164,19 +182,19 @@ None
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$LastLogonDate,
+		[datetime]$lastLogonDateTime,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$LastPasswordSet,
+		[datetime]$lastPasswordSetDateTime,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[boolean]$PasswordNeverExpires,
+		[boolean]$passwordNeverExpires,
 
 		[parameter(
 			Mandatory = $false,
@@ -188,20 +206,14 @@ None
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$OU,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
 		[ValidateSet("Privileged", "Non-privileged")]
-		[string]$AccountCategory,
+		[string]$privileged,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$AccountCategoryCriteria,
+		[string]$privilegedCriteria,
 
 		[parameter(
 			Mandatory = $false,
@@ -213,27 +225,116 @@ None
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$AccountDescription,
+		[string]$description,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$AccountExpirationDate,
-
-		[string]$UID,
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$GID,
+		[datetime]$passwordExpirationDateTime,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateSet("Workstation", "Server")]
-		[string]$MachineOSFamily,
+		[string]$osFamily,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateSet("Windows", "Unix")]
+		[string]$OSType,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[hashtable]$additionalProperties,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$organizationalUnit,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "Windows"
+		)]
+		[string]$SID,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "Unix"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "UnixSSHKey"
+		)]
+		[string]$uid,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "Unix"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "UnixSSHKey"
+		)]
+		[string]$gid,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "UnixSSHKey"
+		)]
+		[string]$fingerprint,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "UnixSSHKey"
+		)]
+		[ValidateSet(1024, 2048, 4096, 8192)]
+		[int]$size,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "UnixSSHKey"
+		)]
+		[string]$path,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "UnixSSHKey"
+		)]
+		[string]$format,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "UnixSSHKey"
+		)]
+		[string]$comment,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "UnixSSHKey"
+		)]
+		[ValidateSet("RSA", "DSA")]
+		[string]$encryption,
 
 		[parameter(
 			Mandatory = $true,
@@ -257,37 +358,66 @@ None
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = "PasswordVault",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"10.5"
+
+		$AccountProperties = @("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption")
+
+		$DateTimes = @("discoveryDate", "lastLogonDateTime", "lastPasswordSetDateTime", "passwordExpirationDateTime")
+
+	}#begin
 
 	PROCESS {
 
+		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/PendingAccounts"
+		$URI = "$baseURI/$PVWAAppName/api/DiscoveredAccounts"
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		If($PSBoundParameters.ContainsKey("AccountDiscoveryDate")) {
+		Foreach($DateTime in $DateTimes) {
 
-			#Convert ExpiryDate to string in Required format
-			$Date = (Get-Date $AccountDiscoveryDate.ToUniversalTime() -Format "yyyy-MM-ddTHH:mm:ssZ").ToString()
+			if($PSBoundParameters.ContainsKey($DateTime)) {
 
-			#Include date string in request
-			$boundParameters["AccountDiscoveryDate"] = $Date
+				Write-Debug "Converting $DateTime to UnixTime"
+
+				#convert to unix time
+				$boundParameters["$DateTime"] = Get-Date $PSBoundParameters["$DateTime"] -UFormat %s
+
+			}
 
 		}
 
-		#Create body of request
-		$body = @{
+		$platformTypeAccountProperties = @{}
+		$boundParameters.keys | Where-Object {$AccountProperties -contains $_} | ForEach-Object {
 
-			#pendingaccount node
-			"pendingAccount" = $boundParameters | Get-PASParameter
+			#add key=value to hashtable
+			$platformTypeAccountProperties[$_] = $boundParameters[$_]
 
-			#JSON object
-		} | ConvertTo-Json
+
+		}
+
+		If($platformTypeAccountProperties.Count -gt 0) {
+
+			$boundParameters["platformTypeAccountProperties"] = $platformTypeAccountProperties
+
+		}
+
+		$body = $boundParameters |
+			Get-PASParameter -ParametersToRemove $AccountProperties  |
+			ConvertTo-Json
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
