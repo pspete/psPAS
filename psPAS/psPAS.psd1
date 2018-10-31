@@ -71,7 +71,8 @@
 		'psPAS.CyberArk.Vault.Safe.Formats.ps1xml',
 		'psPAS.CyberArk.Vault.User.Formats.ps1xml',
 		'psPAS.CyberArk.Vault.Directory.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.PTA.Formats.ps1xml'
+		'psPAS.CyberArk.Vault.PTA.Formats.ps1xml',
+		'psPAS.CyberArk.Vault.Group.Formats'
 	)
 
 	# Functions to export from this module
