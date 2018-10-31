@@ -62,7 +62,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Get-PASDirectory
+		$response = $InputObj | Get-PASDirectory -id SomeDir
 
 		Context "Input" {
 
@@ -76,7 +76,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories"
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories/SomeDir/"
 
 				} -Times 1 -Exactly -Scope Describe
 

@@ -173,6 +173,17 @@ Describe $FunctionName {
 
 			}
 
+			It "sends request to expected v10 URL for WINDOWS Authentication" {
+
+				$response = New-PASSession -BaseURI "https://P_URI" -UseDefaultCredentials
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It "calls Get-PASServer" {
 
 				$response = $Credentials | New-PASSession -BaseURI "https://P_URI" -type LDAP
@@ -186,6 +197,8 @@ Describe $FunctionName {
 				Assert-MockCalled Get-PASServer -Times 0 -Exactly -Scope It
 
 			}
+
+
 
 		}
 

@@ -64,7 +64,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Get-PASAccountGroup -verbose
+		$response = $InputObj | Get-PASAccountGroup -UseV9API -verbose
 
 		Context "Input" {
 
@@ -98,6 +98,22 @@ Describe $FunctionName {
 
 			It "throws error if version requirement not met" {
 				{$InputObj | Get-PASAccountGroup -ExternalVersion "1.0"} | Should Throw
+			}
+
+			It "sends request to expected endpoint - V10 ParameterSet" {
+
+				$InputObj | Get-PASAccountGroup -safe "SomeSafe" -verbose
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Safes/SomeSafe/AccountGroups"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "throws error if version requirement not met" {
+				{$InputObj | Get-PASAccountGroup -safe "SomeSafe" -ExternalVersion 1.1} | Should Throw
 			}
 
 		}

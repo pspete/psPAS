@@ -49,6 +49,19 @@ Describe $FunctionName {
 
 		}
 
+		$AdHocObj = [pscustomobject]@{
+			"sessionToken"        = @{"Authorization" = "P_AuthValue"}
+			"WebSession"          = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			"BaseURI"             = "https://P_URI"
+			"PVWAAppName"         = "P_App"
+			"ConnectionComponent" = "SomeConnectionComponent"
+			"UserName"            = "SomeUser"
+			"secret"              = "SomeSecret" | ConvertTo-SecureString -AsPlainText -Force
+			"address"             = "Some.Address"
+			"platformID"          = "SomePlatform"
+
+		}
+
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
@@ -60,7 +73,7 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command Get-PASPSMConnectionParameter).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Get-PASPSMConnectionParameter).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should Be $true
 
 			}
 
@@ -76,7 +89,7 @@ Describe $FunctionName {
 
 			}
 
-			It "sends request to expected endpoint" {
+			It "sends request to expected endpoint for PSMConnect" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -134,6 +147,21 @@ Describe $FunctionName {
 
 			It "throws error if version requirement not met for PSMGW connection method" {
 				{$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW -ExternalVersion "9.10"} | Should Throw
+			}
+
+			It "sends request to expected endpoint for AdHocConnect" {
+
+				$AdHocObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Accounts/AdHocConnect"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "throws error if version requirement not met for AdHocConnect" {
+				{$AdHocObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW -ExternalVersion "10.4"} | Should Throw
 			}
 
 		}
