@@ -109,13 +109,7 @@ None
 		if($PSCmdlet.ShouldProcess($GroupID, "Remove Group Member $Member")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
-
-			if($result) {
-
-				$result
-
-			}
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
 		}
 
