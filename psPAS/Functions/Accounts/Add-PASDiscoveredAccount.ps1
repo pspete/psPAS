@@ -243,13 +243,6 @@ All parameters can be piped by property name
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Windows", "Unix")]
-		[string]$OSType,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
 		[hashtable]$additionalProperties,
 
 		[parameter(
