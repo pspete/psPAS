@@ -130,8 +130,7 @@ All parameters can be piped by property name
 .LINK
 
 #>
-	#[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
-	#[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'lastPasswordSetDateTime', Justification = "Parameter does not hold password")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
 	[CmdletBinding(DefaultParameterSetName = "Windows")]
 	param(
 		[parameter(
@@ -425,7 +424,7 @@ All parameters can be piped by property name
 		if($result) {
 
 			#Return Results
-			$result | Add-ObjectDetail -PropertyToAdd @{
+			$result | Add-ObjectDetail -DefaultProperties id, status -PropertyToAdd @{
 
 				"sessionToken"    = $sessionToken
 				"WebSession"      = $WebSession
