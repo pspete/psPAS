@@ -178,7 +178,7 @@ Ad-Hoc connections require 10.5
 			ParameterSetName = "PSMConnect"
 		)]
 		[parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AdHocConnect"
 		)]
