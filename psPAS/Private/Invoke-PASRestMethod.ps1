@@ -100,6 +100,7 @@ to ensure session persistence.
 		if ($PSVersionTable.PSEdition -eq "Core") {
 
 			$PSBoundParameters.Add("SkipHeaderValidation", $true)
+			$PSBoundParameters.Add("SslProtocol", "TLS12")
 
 		}
 
