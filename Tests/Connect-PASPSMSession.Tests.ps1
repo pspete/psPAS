@@ -36,15 +36,16 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[pscustomobject]@{"Prop1" = "Val1"}
+			[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"Safe"         = "SomeSafe"
+			"sessionToken"     = @{"Authorization" = "P_AuthValue"}
+			"WebSession"       = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			"BaseURI"          = "https://P_URI"
+			"PVWAAppName"      = "P_App"
+			"SessionId"        = "SomeSession"
+			"ConnectionMethod" = "RDP"
 
 		}
 
@@ -52,19 +53,20 @@ Describe $FunctionName {
 
 			$Parameters = @{Parameter = 'BaseURI'},
 			@{Parameter = 'SessionToken'},
-			@{Parameter = 'Safe'}
+			@{Parameter = 'SessionId'},
+			@{Parameter = 'ConnectionMethod'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Get-PASAccountGroup).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Connect-PASPSMSession).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should Be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Get-PASAccountGroup -UseV9API -verbose
+		$response = $InputObj | Connect-PASPSMSession -ConnectionMethod RDP
 
 		Context "Input" {
 
@@ -74,11 +76,11 @@ Describe $FunctionName {
 
 			}
 
-			It "sends request to expected endpoint" {
+			It "sends request to expected endpoint for PSMConnect" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/AccountGroups?Safe=SomeSafe"
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/LiveSessions/SomeSession/monitor"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -92,28 +94,34 @@ Describe $FunctionName {
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Body -eq $null
+
+				} -Times 1 -Exactly -Scope Describe
 
 			}
 
-			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASAccountGroup -ExternalVersion "1.0"} | Should Throw
-			}
-
-			It "sends request to expected endpoint - V10 ParameterSet" {
-
-				$InputObj | Get-PASAccountGroup -safe "SomeSafe" -verbose
+			It "has expected Accept key in header" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Safes/SomeSafe/AccountGroups"
+					$Headers["Accept"] -eq 'application/json' } -Times 1 -Exactly -Scope Describe
 
-				} -Times 1 -Exactly -Scope It
+			}
+
+			It "specifies expected Accept key in header for PSMGW requests" {
+
+				$InputObj | Connect-PASPSMSession -ConnectionMethod PSMGW
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Headers["Accept"] -eq '* / *' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASAccountGroup -safe "SomeSafe" -ExternalVersion 1.1} | Should Throw
+				{$InputObj | Connect-PASPSMSession -ConnectionMethod RDP -ExternalVersion "9.8"} | Should Throw
 			}
 
 		}
@@ -128,26 +136,25 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 6
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 3
 
 			}
 
 			it "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.Group
+				$response | get-member | select-object -expandproperty typename -Unique | Should Be System.Management.Automation.PSCustomObject
 
 			}
 
 			$DefaultProps = @{Property = 'sessionToken'},
 			@{Property = 'WebSession'},
 			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
+			@{Property = 'PVWAAppName'}
 
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
+			It "does not return default property <Property> in response" -TestCases $DefaultProps {
 				param($Property)
 
-				$response.$Property | Should Not BeNullOrEmpty
+				$response.$Property | Should Be $null
 
 			}
 

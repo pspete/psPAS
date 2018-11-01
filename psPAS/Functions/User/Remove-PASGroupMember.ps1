@@ -1,15 +1,16 @@
-﻿function Get-PASDirectory {
+﻿function Remove-PASGroupMember {
 	<#
 .SYNOPSIS
-Get LDAP directories configured in the Vault
+Removes a vault user from a group
 
 .DESCRIPTION
-Returns a list of existing directories in the Vault.
-Each directory will be returned with its own data.
-Membership of the Vault Admins group required.
+Removes an existing member from an existing group in the vault
 
-.PARAMETER id
-The ID or Name of the directory to return information on.
+.PARAMETER GroupID
+The ID of the group
+
+.PARAMETER Member
+The name of the group member
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -31,30 +32,36 @@ If the minimum version requirement of this function is not satisfied, execution 
 Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 .EXAMPLE
-$token | Get-PASDirectory
+$token | Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
 
-Returns LDAP directories configured in the Vault
+Removes TargetUser from group
 
 .INPUTS
-WebSession & BaseURI can be piped to the function by propertyname
+All parameters can be piped by property name
 
 .OUTPUTS
-LDAP Directory Details
+None
 
 .NOTES
 
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10_5"
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("DomainName")]
-		[string]$id,
+		[Alias("ID")]
+		[string]$GroupID,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Alias("UserName")]
+		[string]$Member,
 
 		[parameter(
 			Mandatory = $true,
@@ -64,7 +71,6 @@ LDAP Directory Details
 		[hashtable]$sessionToken,
 
 		[parameter(
-			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
@@ -86,10 +92,11 @@ LDAP Directory Details
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[System.Version]$ExternalVersion = "0.0"
+
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.4"
+		$MinimumVersion = [System.Version]"10.5"
 	}#begin
 
 	PROCESS {
@@ -97,39 +104,17 @@ LDAP Directory Details
 		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/api/Configuration/LDAP/Directories"
+		$URI = "$baseURI/$PVWAAppName/API/UserGroups/$GroupID/members/$Member"
 
-		if($PSCmdlet.ParameterSetName -eq "v10_5") {
+		if($PSCmdlet.ShouldProcess($GroupID, "Remove Group Member $Member")) {
 
-			[System.Version]$RequiredVersion = "10.5"
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
-
-			#Update URL for request
-			$URI = "$URI/$id/"
-
-		}
-
-		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
-
-		If($result) {
-
-			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			#send request to web service
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
 		}
 
 	}#process
 
 	END {}#end
+
 }

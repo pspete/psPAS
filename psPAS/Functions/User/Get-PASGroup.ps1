@@ -1,21 +1,20 @@
-﻿function Get-PASAccountGroup {
+﻿function Get-PASGroup {
 	<#
 .SYNOPSIS
-Returns all the account groups in a specific Safe.
+List groups from the vault
 
 .DESCRIPTION
-Returns all the account groups in a specific Safe.
-The following permissions are required on the safe where the account group will be created:
- - Add Accounts
- - Update Account Content
- - Update Account Properties
-  -Create Folders
+Returns a list of all existing user groups.
 
-.PARAMETER Safe
-The Safe where the account groups are.
+The user performing this task:
+- Must have Audit users permissions in the Vault.
+- Can see groups either only on the same level, or lower in the Vault hierarchy.
 
-.PARAMETER UseV9API
-Specify this switch to force usage of the legacy API endpoint.
+.PARAMETER filter
+Filter according to REST standard.
+
+.PARAMETER search
+Search will match when ALL search terms appear in the group name.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -37,23 +36,38 @@ If the minimum version requirement of this function is not satisfied, execution 
 Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 .EXAMPLE
-$token | Get-PASAccountGroup -Safe SafeName
+$token | Get-PASGroup
 
-List all account groups in SafeName
+Returns all existing groups
+
+.EXAMPLE
+$token | Get-PASGroup -filter 'groupType eq Directory'
+
+Returns all existing Directory groups
+
+.EXAMPLE
+$token | Get-PASGroup -filter 'groupType eq Vault'
+
+Returns all existing Vault groups
+
+.EXAMPLE
+$token | Get-PASGroup -search "Vault Admins"
+
+Returns all groups matching all search terms
+
+.EXAMPLE
+$token | Get-PASGroup -search "Vault Admins" -filter 'groupType eq Directory'
+
+Returns all existing Directory groups matching all search terms
 
 .INPUTS
 All parameters can be piped by property name
 
 .OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.Account.Group
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
+psPAS.CyberArk.Vault.Group Object
 
 .NOTES
-Minimum CyberArk version 9.10
+Minimum Version 10.5
 
 .LINK
 
@@ -61,17 +75,17 @@ Minimum CyberArk version 9.10
 	[CmdletBinding()]
 	param(
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$Safe,
+		[ValidateSet("groupType eq Directory", "groupType eq Vault")]
+		[string]$filter,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v9"
+			ValueFromPipelinebyPropertyName = $true
 		)]
-		[switch]$UseV9API,
+		[string]$search,
 
 		[parameter(
 			Mandatory = $true,
@@ -106,37 +120,35 @@ Minimum CyberArk version 9.10
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
+		$MinimumVersion = [System.Version]"10.5"
 	}#begin
 
 	PROCESS {
 
-		If($PSCmdlet.ParameterSetName -eq "v9") {
+		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/API/UserGroups"
 
-			#Create URL for Request
-			$URI = "$baseURI/$PVWAAppName/API/AccountGroups?Safe=$($Safe | Get-EscapedString)"
+		#Get Parameters to include in request
+		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		}
+		#Create Query String, escaped for inclusion in request URL
+		$queryString = ($boundParameters.keys | ForEach-Object {
 
-		Else {
+				"$_=$($boundParameters[$_] | Get-EscapedString)"
 
-			[System.Version]$RequiredVersion = "10.5"
+			}) -join '&'
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
+		#Build URL from base URL
+		$URI = "$URI`?$queryString"
 
-			#Create URL for Request
-			$URI = "$baseURI/$PVWAAppName/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
-
-		}
-
-		#send request to PAS web service
+		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
 		if($result) {
 
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Group -PropertyToAdd @{
+			$result.value | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Group -PropertyToAdd @{
 
 				"sessionToken"    = $sessionToken
 				"WebSession"      = $WebSession

@@ -14,6 +14,21 @@ or the HTML5 Gateway.
 .PARAMETER AccountID
 The unique ID of the account to retrieve and use to connect to the target via PSM
 
+.PARAMETER userName
+For Ad-Hoc connections: the username of the account to connect with.
+
+.PARAMETER secret
+For Ad-Hoc connections: The target account password.
+
+.PARAMETER address
+For Ad-Hoc connections: The target account address.
+
+.PARAMETER platformID
+For Ad-Hoc connections: A configured secure connect platform.
+
+.PARAMETER extraFields
+For Ad-Hoc connections: Additional needed parameters for the various connection components.
+
 .PARAMETER reason
 The reason that is required to request access to this account.
 
@@ -71,6 +86,7 @@ To force all output to be shown, pipe to Select-Object *
 .NOTES
 Minimum CyberArk Version 9.10
 PSMGW connections require 10.2
+Ad-Hoc connections require 10.5
 
 .LINK
 
@@ -79,46 +95,116 @@ PSMGW connections require 10.2
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "PSMConnect"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$AccountID,
 
 		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
+		)]
+		[string]$userName,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
+		)]
+		[securestring]$secret,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
+		)]
+		[string]$address,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
+		)]
+		[string]$platformID,
+
+		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
+		)]
+		[string]$extraFields,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
 		)]
 		[string]$reason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Ticketing"
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
 		)]
 		[string]$TicketingSystemName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Ticketing"
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
 		)]
 		[string]$TicketId,
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
 		)]
 		[string]$ConnectionComponent,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
 		)]
 		[hashtable]$ConnectionParams,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
 		)]
 		[ValidateSet("RDP", "PSMGW")]
 		[string]$ConnectionMethod,
@@ -158,14 +244,52 @@ PSMGW connections require 10.2
 	BEGIN {
 		$MinimumVersion = [System.Version]"9.10"
 		$RequiredVersion = [System.Version]"10.2"
+		$AdHocVersion = [System.Version]"10.5"
+
+		$AdHocParameters = @("ConnectionComponent", "reason", "ticketingSystemName", "ticketId")
+
+
 	}#begin
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		if($PSCmdlet.ParameterSetName -eq "PSMConnect") {
 
-		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/Accounts/$($AccountID)/PSMConnect"
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+
+			#Create URL for Request
+			$URI = "$baseURI/$PVWAAppName/API/Accounts/$($AccountID)/PSMConnect"
+
+			#Create body of request
+			$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod | ConvertTo-Json
+
+		} elseif($PSCmdlet.ParameterSetName -eq "AdHocConnect") {
+
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $AdHocVersion
+
+			#Create URL for Request
+			$URI = "$baseURI/$PVWAAppName/API/Accounts/AdHocConnect"
+
+			#Get all parameters that will be sent in the request
+			$boundParameters = $PSBoundParameters | Get-PASParameter
+
+			#Include decoded password in request
+			$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
+
+			$PSMConnectPrerequisites = @{}
+
+			$boundParameters.keys | Where-Object {$AdHocParameters -contains $_} | ForEach-Object {
+
+				#add key=value to hashtable
+				$PSMConnectPrerequisites[$_] = $boundParameters[$_]
+
+			}
+
+			$boundParameters["PSMConnectPrerequisites"] = $PSMConnectPrerequisites
+
+			$body = $boundParameters | Get-PASParameter -ParametersToRemove $AdHocParameters | ConvertTo-Json -Depth 4
+
+		}
 
 		$Header = $sessionToken
 
@@ -191,9 +315,6 @@ PSMGW connections require 10.2
 			$Header["Accept"] = $Accept
 
 		}
-
-		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod | ConvertTo-Json
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -Headers $Header -WebSession $WebSession

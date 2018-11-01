@@ -4,7 +4,7 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v10.4.
+Contains all published methods of the API up to CyberArk v10.5.
 
 ----------
 
@@ -222,6 +222,11 @@ requires version 9.8+).
 [`Get-PASPTARule`][Get-PASPTARule]                                                       |**10.4**            |List all new Risky </br>Command rules from PTA
 [`Set-PASPTARemediation`][Set-PASPTARemediation]                                         |**10.4**            |Update automatic</br>response config in PTA
 [`Set-PASPTARule`][Set-PASPTARule]                                                       |**10.4**            |Update a Risky Command</br>rule in PTA
+[`Get-PASGroup`][Get-PASGroup]                                                           |**10.5**            |Return vault group information
+[`Remove-PASGroupMember`][Remove-PASGroupMember]                                         |**10.5**            |Remove vault group members
+[`Set-PASOnboardingRule`][Set-PASOnboardingRule]                                         |**10.5**            |Update Onboarding Rules
+[`Add-PASDiscoveredAccount`][Add-PASDiscoveredAccount]                                   |**10.5**            |Add of discovered accounts</br>to the accounts feed
+[`Connect-PASPSMSession`][Connect-PASPSMSession]                                         |**10.5**            |Get required parameters to </br>connect to live PSM Sessions
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
@@ -311,6 +316,11 @@ requires version 9.8+).
 [Get-PASPTARule]:/psPAS/Functions/EventSecurity/Get-PASPTARule.ps1
 [Set-PASPTARemediation]:/psPAS/Functions/EventSecurity/Set-PASPTARemediation.ps1
 [Set-PASPTARule]:/psPAS/Functions/EventSecurity/Set-PASPTARule.ps1
+[Get-PASGroup]:/psPAS/Functions/User/Get-PASGroup.ps1
+[Remove-PASGroupMember]:/psPAS/Functions/User/Remove-PASGroupMember.ps1
+[Set-PASOnboardingRule]:/psPAS/Functions/OnboardingRules/Set-PASOnboardingRule.ps1
+[Add-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Add-PASDiscoveredAccount.ps1
+[Connect-PASPSMSession]:/psPAS/Functions/Monitoring/Connect-PASPSMSession.ps1
 
 ## Installation
 

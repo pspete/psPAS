@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+	<ViewDefinitions>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Group</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Group</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>id</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>groupName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>groupType</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>location</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Group</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Group</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>id</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>groupName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>groupType</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>description</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>location</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>directory</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>dn</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+	</ViewDefinitions>
+</Configuration>
