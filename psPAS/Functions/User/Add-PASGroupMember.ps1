@@ -7,6 +7,7 @@ Adds a vault user as a group member
 Adds an existing user to an existing group in the vault
 
 .PARAMETER groupId
+The unique ID of the group to add the member to.
 
 .PARAMETER memberId
 The name of the user or group to add as a member.
