@@ -91,10 +91,11 @@ to ensure session persistence.
 		#Get the name of the function which invoked this one
 		$CallingFunction = Get-ParentFunction | Select-Object -ExpandProperty FunctionName
 		Write-Debug "Function: $($MyInvocation.InvocationName)"
-		Write-Debug "Calling Function: $CallingFunction"
+		Write-Debug "Invocation Origin: $CallingFunction"
 
 		#Add ContentType for all function calls
 		$PSBoundParameters.Add("ContentType", 'application/json')
+		$PSBoundParameters.Add("UseBasicParsing", $true)
 
 		#Bypass strict RFC header parsing in PS Core
 		if ($PSVersionTable.PSEdition -eq "Core") {

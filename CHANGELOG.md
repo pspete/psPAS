@@ -1,5 +1,11 @@
 # psPAS
 
+## 2.3.6 (December 2nd 2018)
+
+- Fixed
+  - `Invoke-PASRestMethod`
+    - Specify "UseBasicParsing" on each request to prevent issues when run on machines which do not have IE available and initialized.
+
 ## 2.3.0 (November 1st 2018)
 
 ### Module update to cover CyberArk 10.5 API features
