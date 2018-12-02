@@ -48,6 +48,15 @@ Describe $FunctionName {
 
 		}
 
+		$InputObjV10 = [pscustomobject]@{
+			"sessionToken"  = @{"Authorization" = "P_AuthValue"}
+			"WebSession"    = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			"BaseURI"       = "https://P_URI"
+			"PVWAAppName"   = "P_App"
+			"liveSessionId" = "SomeID"
+
+		}
+
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
@@ -95,8 +104,24 @@ Describe $FunctionName {
 
 			}
 
+			It "sends request to expected endpoint when querying by ID" {
+
+				$InputObjV10 | Get-PASPSMSession
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/LiveSessions/SomeID"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It "throws error if version requirement not met" {
 				{$InputObj | Get-PASPSMSession -ExternalVersion "1.0"} | Should Throw
+			}
+
+			It "throws error if version requirement not met when querying by ID" {
+				{$InputObjV10 | Get-PASPSMSession -ExternalVersion "10.5"} | Should Throw
 			}
 
 		}

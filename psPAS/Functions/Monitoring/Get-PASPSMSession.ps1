@@ -4,10 +4,13 @@ function Get-PASPSMSession {
 Get details of Live PSM Sessions
 
 .DESCRIPTION
-Returns the details of recordings of PSM, PSMP or OPM sessions.
+Returns the details of active PSM sessions.
+
+.PARAMETER liveSessionId
+The ID of an active session to get details of.
 
 .PARAMETER Limit
-The number of recordings that are returned in the list.
+The number of sessions that are returned in the list.
 
 .PARAMETER Sort
 The sort can be done by each property on the recording file:
@@ -71,6 +74,11 @@ $token | Get-PASPSMSession
 
 Lists all Live PSM Sessions.
 
+.EXAMPLE
+$token | Get-PASPSMSession -liveSessionId 123_45
+
+Returns details of active PSM Session with Id 123_45
+
 .INPUTS
 All parameters can be piped by property name
 
@@ -83,22 +91,32 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum CyberArk Version 9.10
+For querying sessions by ID, Required CyberArk Version is 10.6
 
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "byQuery")]
 	param(
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "bySessionID"
+		)]
+		[string]$liveSessionId,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[int]$Limit,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[ValidateSet("RiskScore", "FileName", "SafeName", "FolderName", "PSMVaultUserName", "FromIP", "RemoteMachine",
 			"Client", "Protocol", "AccountUserName", "AccountAddress", "AccountPlatformID", "PSMStartTime", "TicketID",
@@ -110,37 +128,43 @@ Minimum CyberArk Version 9.10
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[int]$Offset,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[string]$Search,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[string]$Safe,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[int]$FromTime,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[int]$ToTime,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[string]$Activities,
 
@@ -178,29 +202,42 @@ Minimum CyberArk Version 9.10
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"9.10"
+		$RequiredVersion = [System.Version]"10.6"
 	}#begin
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
-
 		#Create URL for Request
 		$URI = "$baseURI/$PVWAAppName/API/LiveSessions"
 
-		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter
+		If($PSCmdlet.ParameterSetName -eq "bySessionID") {
 
-		#Create Query String, escaped for inclusion in request URL
-		$queryString = ($boundParameters.keys | ForEach-Object {
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
 
-				"$_=$($boundParameters[$_] | Get-EscapedString)"
+			$URI = "$URI/$liveSessionId"
 
-			}) -join '&'
+		}
 
-		if($queryString) {
+		ElseIf($PSCmdlet.ParameterSetName -eq "byQuery") {
 
-			#Build URL from base URL
-			$URI = "$URI`?$queryString"
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+
+			#Get Parameters to include in request
+			$boundParameters = $PSBoundParameters | Get-PASParameter
+
+			#Create Query String, escaped for inclusion in request URL
+			$queryString = ($boundParameters.keys | ForEach-Object {
+
+					"$_=$($boundParameters[$_] | Get-EscapedString)"
+
+				}) -join '&'
+
+			if($queryString) {
+
+				#Build URL from base URL
+				$URI = "$URI`?$queryString"
+
+			}
 
 		}
 
