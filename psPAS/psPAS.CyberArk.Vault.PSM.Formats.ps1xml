@@ -43,6 +43,43 @@
 			</TableControl>
 		</View>
 		<View>
+			<Name>psPAS.CyberArk.Vault.PSM.Activity</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PSM.Recording.Activity</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.PSM.Session.Activity</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>ActivityText</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>ActivityType</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>ActivityId</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Formats</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Offsets</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
 			<Name>psPAS.CyberArk.Vault.PSM</Name>
 			<ViewSelectedBy>
 				<TypeName>psPAS.CyberArk.Vault.PSM.Recording</TypeName>
@@ -141,6 +178,36 @@
 							</ListItem>
 							<ListItem>
 								<PropertyName>TextSize</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.PSM.Activity</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PSM.Recording.Activity</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.PSM.Session.Activity</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>ActivityText</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ActivityType</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ActivityId</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Formats</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Offsets</PropertyName>
 							</ListItem>
 						</ListItems>
 					</ListEntry>
