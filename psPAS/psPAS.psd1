@@ -170,7 +170,8 @@
 		'Set-PASOnboardingRule',
 		'Add-PASDiscoveredAccount',
 		'Connect-PASPSMSession',
-		'Get-PASPSMSessionActivity'
+		'Get-PASPSMSessionActivity',
+		'Get-PASPSMRecordingActivity'
 	)
 
 	AliasesToExport   = @(
