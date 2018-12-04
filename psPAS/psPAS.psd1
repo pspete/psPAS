@@ -173,7 +173,8 @@
 		'Get-PASPSMSessionActivity',
 		'Get-PASPSMRecordingActivity',
 		'Get-PASPSMRecordingProperty',
-		'Get-PASPSMSessionProperty'
+		'Get-PASPSMSessionProperty',
+		'Export-PASPSMRecording'
 	)
 
 	AliasesToExport   = @(
