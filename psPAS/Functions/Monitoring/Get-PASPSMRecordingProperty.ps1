@@ -106,7 +106,7 @@ Minimum CyberArk Version 10.6
 		If($result) {
 
 			#Return Results
-			$result.Activities |
+			$result |
 
 			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Property -PropertyToAdd @{
 
