@@ -110,12 +110,12 @@ Describe $FunctionName {
 
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
-						"Activities" = [pscustomobject]@{
-							"Prop1" = "Value1"
-							"Prop2" = "Value2"
-							"Prop3" = "Value3"
-							"Prop4" = "Value4"
-						}
+
+						"Prop1" = "Value1"
+						"Prop2" = "Value2"
+						"Prop3" = "Value3"
+						"Prop4" = "Value4"
+
 					}
 				}
 
