@@ -104,6 +104,9 @@
 							<ListItem>
 								<PropertyName>Address</PropertyName>
 							</ListItem>
+							<ListItem>
+								<PropertyName>InternalProperties</PropertyName>
+							</ListItem>
 						</ListItems>
 					</ListEntry>
 				</ListEntries>
