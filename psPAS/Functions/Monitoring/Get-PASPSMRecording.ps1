@@ -90,7 +90,7 @@ Minimum CyberArk Version 9.10
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "byQuery")]
 	param(
 		[parameter(
 			Mandatory = $false,
