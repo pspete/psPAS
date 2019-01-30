@@ -55,6 +55,7 @@ Minimum CyberArk Version 10.6
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[Alias("SessionID")]
 		[string]$liveSessionId,
 
 		[parameter(
