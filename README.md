@@ -4,7 +4,7 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v10.5.
+Contains all published methods of the API up to CyberArk v10.6.
 
 ----------
 
@@ -227,6 +227,12 @@ requires version 9.8+).
 [`Set-PASOnboardingRule`][Set-PASOnboardingRule]                                         |**10.5**            |Update Onboarding Rules
 [`Add-PASDiscoveredAccount`][Add-PASDiscoveredAccount]                                   |**10.5**            |Add of discovered accounts</br>to the accounts feed
 [`Connect-PASPSMSession`][Connect-PASPSMSession]                                         |**10.5**            |Get required parameters to </br>connect to live PSM Sessions
+[`Get-PASPSMSessionActivity`][Get-PASPSMSessionActivity]                                 |**10.6**            |Get activity details from</br>an active PSM Session.
+[`Get-PASPSMSessionProperty`][Get-PASPSMSessionProperty]                                 |**10.6**            |Get property details from</br>an active PSM Session.
+[`Get-PASPSMRecordingActivity`][Get-PASPSMRecordingActivity]                             |**10.6**            |Get activity details from</br>a PSM Recording.
+[`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                             |**10.6**            |Get property details from</br>a PSM Recording.
+[`Export-PASPSMRecording`][Export-PASPSMRecording]                                       |**10.6**            |Save PSM Session Recording</br>to a file.
+[`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       |**10.6**            |Enable request of temporary</br>administrative access to a</br>server.
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
@@ -321,6 +327,12 @@ requires version 9.8+).
 [Set-PASOnboardingRule]:/psPAS/Functions/OnboardingRules/Set-PASOnboardingRule.ps1
 [Add-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Add-PASDiscoveredAccount.ps1
 [Connect-PASPSMSession]:/psPAS/Functions/Monitoring/Connect-PASPSMSession.ps1
+[Get-PASPSMSessionActivity]:/psPAS/Functions/Monitoring/Get-PASPSMSessionActivity.ps1
+[Get-PASPSMSessionProperty]:/psPAS/Functions/Monitoring/Get-PASPSMSessionProperty.ps1
+[Get-PASPSMRecordingActivity]:/psPAS/Functions/Monitoring/Get-PASPSMRecordingActivity.ps1
+[Get-PASPSMRecordingProperty]:/psPAS/Functions/Monitoring/Get-PASPSMRecordingProperty.ps1
+[Export-PASPSMRecording]:/psPAS/Functions/Monitoring/Export-PASPSMRecording.ps1
+[Request-PASAdHocAccess]:/psPAS/Functions/Accounts/Request-PASAdHocAccess.ps1
 
 ## Installation
 
