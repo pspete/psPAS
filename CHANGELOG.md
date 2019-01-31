@@ -1,5 +1,35 @@
 # psPAS
 
+## Planned Updates
+
+- Update for new PTA API methods.
+- Support for CyberArk 10.7.
+
+## 2.4.0 (February 1st 2019)
+
+### Module update to cover CyberArk 10.6 API features
+
+- New Functions
+  - `Get-PASPSMSessionActivity`
+    - Returns activity details from an active PSM Session.
+  - `Get-PASPSMSessionProperty`
+    - Returns property details from an active PSM Session.
+  - `Get-PASPSMRecordingActivity`
+    - Returns activity details from a PSM Recording.
+  - `Get-PASPSMRecordingProperty`
+    - Returns property details from a PSM Recording.
+  - `Export-PASPSMRecording`
+    - Allows saving of PSM Session Recording to a file.
+  - `Request-PASAdHocAccess`
+    - Enablex request of temporary administrative access to a server.
+- Updated Functions
+  - `Get-PASPSMRecording`
+    - Now able to query PSM recordings by ID.
+  - `Get-PASAccount`
+    - Updated to include return of `InternalProperties` property when using the V9 API.
+  - `Get-PASPSMConnectionParameter`
+    - Added support for RDP File output
+
 ## 2.3.6 (December 2nd 2018)
 
 - Fixed
