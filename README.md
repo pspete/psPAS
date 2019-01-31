@@ -1,6 +1,6 @@
 # psPAS
 
-## **PowerShell Module for CyberArk Privileged Account Security**
+## **PowerShell Module for CyberArk Privileged Access Security**
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 

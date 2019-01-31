@@ -5,12 +5,12 @@ SHORT DESCRIPTION
     psPAS is a PowerShell interface for the CyberArk REST Web Services.
 
 LONG DESCRIPTION
-    psPAS sends requests to , and receives data from, a CyberArk Privileged Account Security Web Service.
+    psPAS sends requests to , and receives data from, a CyberArk Privileged Access Security Web Service.
     It issues commands to the Web Service allowing a user to issue create, list, modify and delete operations to be
-    performed against entities in Privileged Account Security solution from either a PowerShell console or script.
+    performed against entities in a Privileged Access Security solution from either a PowerShell console or script.
 
 EXAMPLES
-    To use psPAS, access to a CyberArk Privileged Account Security Web Service, as well as a user accout with which to
+    To use psPAS, access to a CyberArk Privileged Access Security Web Service, as well as a user account with which to
     authenticate to the Web Service is required.
 
     The version of the CyberArk Web Service will determine which of the modules functions, or in certain use cases,
