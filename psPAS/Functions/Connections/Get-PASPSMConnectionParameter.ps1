@@ -322,7 +322,7 @@ Ad-Hoc connections require 10.5
 		If($result) {
 
 			#Return PSM Connection Parameters
-			$result
+			$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.PSM.Connection.RDP"
 
 		}
 
