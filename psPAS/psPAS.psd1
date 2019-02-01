@@ -54,7 +54,8 @@
 		'psPAS.CyberArk.Vault.ACL.Type.ps1xml',
 		'psPAS.CyberArk.Vault.Credential.Type.ps1xml'
 		'psPAS.CyberArk.Vault.Safe.Type.ps1xml',
-		'psPAS.CyberArk.Vault.User.Type.ps1xml'
+		'psPAS.CyberArk.Vault.User.Type.ps1xml',
+		'psPAS.CyberArk.Vault.PSM.Type.ps1xml'
 	)
 
 	# Format files (.ps1xml) to be loaded when importing this module
@@ -169,7 +170,13 @@
 		'Remove-PASGroupMember',
 		'Set-PASOnboardingRule',
 		'Add-PASDiscoveredAccount',
-		'Connect-PASPSMSession'
+		'Connect-PASPSMSession',
+		'Get-PASPSMSessionActivity',
+		'Get-PASPSMRecordingActivity',
+		'Get-PASPSMRecordingProperty',
+		'Get-PASPSMSessionProperty',
+		'Export-PASPSMRecording',
+		'Request-PASAdHocAccess'
 	)
 
 	AliasesToExport   = @(

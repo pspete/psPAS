@@ -6,6 +6,9 @@ Get details of PSM Recording
 .DESCRIPTION
 Returns the details of recordings of PSM, PSMP or OPM sessions.
 
+.PARAMETER RecordingID
+Unique ID of the recorded PSM session
+
 .PARAMETER Limit
 The number of recordings that are returned in the list.
 
@@ -87,18 +90,27 @@ Minimum CyberArk Version 9.10
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "byQuery")]
 	param(
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byRecordingID"
+		)]
+		[string]$RecordingID,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[int]$Limit,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[ValidateSet("RiskScore", "FileName", "SafeName", "FolderName", "PSMVaultUserName", "FromIP", "RemoteMachine",
 			"Client", "Protocol", "AccountUserName", "AccountAddress", "AccountPlatformID", "PSMStartTime", "TicketID",
@@ -110,37 +122,43 @@ Minimum CyberArk Version 9.10
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[int]$Offset,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[string]$Search,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[string]$Safe,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[int]$FromTime,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[int]$ToTime,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "byQuery"
 		)]
 		[string]$Activities,
 
@@ -178,29 +196,42 @@ Minimum CyberArk Version 9.10
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"9.10"
+		$RequiredVersion = [System.Version]"10.6"
 	}#begin
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
-
 		#Create URL for Request
 		$URI = "$baseURI/$PVWAAppName/API/Recordings"
 
-		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter
+		If($PSCmdlet.ParameterSetName -eq "byRecordingID") {
 
-		#Create Query String, escaped for inclusion in request URL
-		$queryString = ($boundParameters.keys | ForEach-Object {
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
 
-				"$_=$($boundParameters[$_] | Get-EscapedString)"
+			$URI = "$URI/$RecordingID"
 
-			}) -join '&'
+		}
 
-		if($queryString) {
+		ElseIf($PSCmdlet.ParameterSetName -eq "byQuery") {
 
-			#Build URL from base URL
-			$URI = "$URI`?$queryString"
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+
+			#Get Parameters to include in request
+			$boundParameters = $PSBoundParameters | Get-PASParameter
+
+			#Create Query String, escaped for inclusion in request URL
+			$queryString = ($boundParameters.keys | ForEach-Object {
+
+					"$_=$($boundParameters[$_] | Get-EscapedString)"
+
+				}) -join '&'
+
+			if($queryString) {
+
+				#Build URL from base URL
+				$URI = "$URI`?$queryString"
+
+			}
 
 		}
 

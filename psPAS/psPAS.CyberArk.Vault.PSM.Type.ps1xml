@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+	<Type>
+		<Name>psPAS.CyberArk.Vault.PSM.Connection.RDP</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>ToRDPFile</Name>
+				<Script>
+					Param([string]$OutputFile)
+$FullAddress = $this| Select-Object -ExpandProperty 'full address'
+$ServerPort = $this| Select-Object -ExpandProperty 'server port'
+$Username = $this| Select-Object -ExpandProperty username
+$AlternateShell = $this| Select-Object -ExpandProperty 'alternate shell'
+$DesktopWidth = $this| Select-Object -ExpandProperty desktopwidth
+$DesktopHeight = $this| Select-Object -ExpandProperty desktopheight
+$ScreenModeId = $this| Select-Object -ExpandProperty 'screen mode id'
+$RedirectDrives = $this| Select-Object -ExpandProperty redirectdrives
+$DrivesToRedirect = $this| Select-Object -ExpandProperty drivestoredirect
+$RedirectSmartCards = $this| Select-Object -ExpandProperty redirectsmartcards
+$EnableCredSspSupport = $this| Select-Object -ExpandProperty EnableCredSspSupport
+$RedirectComPorts = $this| Select-Object -ExpandProperty redirectcomports
+$RemoteApplicationMode = $this| Select-Object -ExpandProperty remoteapplicationmode
+$UseMultimon = $this| Select-Object -ExpandProperty 'use multimon'
+$SpanMonitors = $this| Select-Object -ExpandProperty 'span monitors'
+
+#create output strings
+$RDPFile = @"
+full address:s:$FullAddress
+server port:i:$ServerPort
+username:s:$Username
+alternate shell:s:$AlternateShell
+desktopwidth:i:$DesktopWidth
+desktopheight:i:$DesktopHeight
+screen mode id:i:$ScreenModeId
+redirectdrives:i:$RedirectDrives
+drivestoredirect:s:$DrivesToRedirect
+redirectsmartcards:i:$RedirectSmartCards
+EnableCredSspSupport:i:$EnableCredSspSupport
+redirectcomports:i:$RedirectComPorts
+remoteapplicationmode:i:$RemoteApplicationMode
+use multimon:i:$UseMultimon
+span monitors:i:$SpanMonitors
+"@
+
+					if (Test-path -Path $OutputFile -PathType Leaf -IsValid) {
+
+						#output file
+						$RDPFile | Out-File -FilePath $OutputFile -Encoding ASCII -Force
+
+					}
+
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+</Types>

@@ -267,7 +267,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties - legacy parameterset" {
 				$response = $InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 15
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 16
 
 			}
 

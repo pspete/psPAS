@@ -326,11 +326,29 @@ New functionality added in version 10.4, limited functionality before this versi
 					#Get account properties from found account
 					$properties = ($account | Select-Object -ExpandProperty properties)
 
+					#Get internal properties from found account
+					$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
+
+					$InternalProps = New-object -TypeName psobject
+
+					#For every account property
+					For($int = 0; $int -lt $InternalProperties.length; $int++) {
+
+						$InternalProps |
+
+						#Add each property name and value as object property of $InternalProps
+						Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value} -Passthru $false
+
+					}
+
 					#Create output object
 					$return = New-object -TypeName psobject -Property @{
 
 						#Internal Unique ID of Account
-						"AccountID" = $($account | Select-Object -ExpandProperty AccountID)
+						"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)
+
+						#InternalProperties object
+						"InternalProperties" = $InternalProps
 
 					}
 

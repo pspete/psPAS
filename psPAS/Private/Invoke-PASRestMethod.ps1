@@ -210,6 +210,17 @@ to ensure session persistence.
 
 						}
 
+						elseif(($webResponse.headers)["Content-Type"] -match "application/save") {
+
+							#'application/save' is the Content-Type returned when saving a PSM recording
+							if($($webResponse.content | get-member | select-object -expandproperty typename) -eq "System.Byte" ) {
+
+								$webResponse.content
+
+							}
+
+						}
+
 						elseif(($webResponse.headers)["Content-Type"] -match "text/html") {
 
 							Write-Debug "$($webResponse.content)"

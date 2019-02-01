@@ -192,6 +192,30 @@ Describe $FunctionName {
 
 		}
 
+		Context "application/octet-save responses" {
+
+			$MockResult = [pscustomobject] @{
+
+				"headers"    = @{
+					"Content-Type" = "application/save"
+				};
+				"StatusCode" = 200;
+				"content"    = [System.Text.Encoding]::Ascii.GetBytes("Expected")
+			}
+
+			Mock Invoke-WebRequest -MockWith {
+
+				return $MockResult
+			}
+
+			It "returns expected output for application/save responses" {
+				$result = Invoke-PASRestMethod @requestArgs2
+
+				$([System.Text.Encoding]::ASCII.GetString($result)) | Should Be "Expected"
+			}
+
+		}
+
 		Context "application/octet-stream responses" {
 
 			$MockResult = [pscustomobject] @{
@@ -210,6 +234,7 @@ Describe $FunctionName {
 
 			It "returns expected output for application/octet-stream responses" {
 				$result = Invoke-PASRestMethod @requestArgs2
+
 				$([System.Text.Encoding]::ASCII.GetString($result)) | Should Be "Expected"
 			}
 
