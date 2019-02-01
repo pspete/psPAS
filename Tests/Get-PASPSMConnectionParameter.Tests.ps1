@@ -182,7 +182,7 @@ Describe $FunctionName {
 
 			it "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be System.Management.Automation.PSCustomObject
+				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.PSM.Connection.RDP
 
 			}
 
