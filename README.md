@@ -4,7 +4,7 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v10.6.
+Contains all published methods of the API up to CyberArk v10.7.
 
 ----------
 
@@ -33,7 +33,7 @@ Contains all published methods of the API up to CyberArk v10.6.
 ----------
 
 - [psPAS](#pspas)
-  - [Introduction](#powershell-module-for-cyberark-privileged-account-security)
+  - [Introduction](#powershell-module-for-cyberark-privileged-access-security)
     - [Status](#module-status)
   - [Usage](#usage)
   - [Module Functions](#module-functions)
