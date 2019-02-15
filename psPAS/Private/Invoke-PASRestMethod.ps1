@@ -126,8 +126,6 @@ to ensure session persistence.
 
 	Process {
 
-		Write-Debug $PSBoundParameters.GetEnumerator()
-
 		try {
 
 			#make web request, splat PSBoundParameters
