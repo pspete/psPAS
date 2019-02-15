@@ -62,7 +62,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Close-PASSession -verbose
+		$response = $InputObj | Close-PASSession -UseV9API -verbose
 
 		Context "Input" {
 
@@ -91,6 +91,17 @@ Describe $FunctionName {
 			It "sends request with no body" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
+
+			}
+
+			It "sends request to expected v10 URL" {
+
+				$response = $InputObj | Close-PASSession
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Auth/Logoff"
+
+				} -Times 1 -Exactly -Scope It
 
 			}
 
