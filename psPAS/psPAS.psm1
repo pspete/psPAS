@@ -14,26 +14,37 @@
 .LINK
 
 #>
-[CmdletBinding()]  
-param()
+[CmdletBinding()]
+param(
+
+	[bool]$DotSourceModule = $false
+
+)
 
 #Get function files
-Get-ChildItem $PSScriptRoot\ -Recurse -Filter "*.ps1" -Exclude "*.ps1xml" | 
+Write-Verbose $PSScriptRoot
 
-    ForEach-Object {
+Get-ChildItem $PSScriptRoot\ -Recurse -Filter "*.ps1" -Exclude "*.ps1xml" |
 
-        Try{
-            
-            #Dot Source each file
-            . $_.fullname
+ForEach-Object {
 
-        }
+	if ($DotSourceModule) {
+		. $_.FullName
+	} else {
+		$ExecutionContext.InvokeCommand.InvokeScript(
+			$false,
+			(
+				[scriptblock]::Create(
+					[io.file]::ReadAllText(
+						$_.FullName,
+						[Text.Encoding]::UTF8
+					)
+				)
+			),
+			$null,
+			$null
+		)
 
-        Catch{
+	}
 
-            Write-Error "Failed to import function $($_.fullname)"
-
-        }
-        
-    
-    }
+}
