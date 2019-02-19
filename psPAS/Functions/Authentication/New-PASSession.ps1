@@ -242,7 +242,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck, UseDefaultCredentials
 
 		If($PSBoundParameters.ContainsKey("Credential")) {
 

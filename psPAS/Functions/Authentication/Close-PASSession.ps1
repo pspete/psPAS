@@ -1,10 +1,13 @@
 ﻿function Close-PASSession {
-    <#
+	<#
 .SYNOPSIS
 Logoff from CyberArk Vault.
 
 .DESCRIPTION
 Performs Logoff and removes the Vault session.
+
+.PARAMETER UseV9API
+Specify the UseV9API switch to send the authentication request via the v9 API endpoint.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -25,6 +28,11 @@ $token | Close-PASSession
 
 Logs off from the session related to the authorisation token.
 
+.EXAMPLE
+$token | Close-PASSession -UseV9API
+
+Logs off from the session related to the authorisation token using the v9 API endpoint.
+
 .INPUTS
 All Parameters accept piped values by propertyname
 
@@ -35,45 +43,63 @@ None
 
 .LINK
 #>
-    [CmdletBinding()]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
+	[CmdletBinding()]
+	param(
 
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[switch]$UseV9API,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[hashtable]$sessionToken,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
+		[parameter(
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
-    )
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$BaseURI,
 
-    BEGIN {}#begin
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$PVWAAppName = "PasswordVault"
 
-    PROCESS {
+	)
 
-        #Construct URL for request
-        $URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
+	BEGIN {}#begin
 
-        #Send Logoff Request
-        Invoke-PASRestMethod -Uri $URI -Method POST -Headers $sessionToken -WebSession $WebSession
+	PROCESS {
 
-    }#process
+		If($UseV9API) {
 
-    END {}#end
+			#Construct URL for request
+			$URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
+
+		}
+
+		Else {
+
+			#Construct URL for request
+			$URI = "$baseURI/$PVWAAppName/API/Auth/Logoff"
+
+		}
+
+		#Send Logoff Request
+		Invoke-PASRestMethod -Uri $URI -Method POST -Headers $sessionToken -WebSession $WebSession | Out-Null
+
+	}#process
+
+	END {}#end
 }

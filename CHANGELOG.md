@@ -5,6 +5,26 @@
 - Update for new PTA API methods.
 - Support for CyberArk 10.7.
 
+## 2.4.8 (February 16th 2019)
+
+- Updated Functions / Bug Fix / Breaking Change
+  - `Close-PASSession`
+    - Now sends request to V10 URL by default.
+    - New parameter added to send request to V9 API if required.
+  - `psPAS.psm1`
+    - Updated to improve module load time.
+    - Original import method can be forced by specifying `Import-Module -Name psPAS -ArgumentList $true`
+
+- Fixed
+  - `New-PASSession`
+    - Fixed unexpected element in request body when specifying UseDefaultCredentials with Windows Authentication.
+
+## 2.4.3 (February 15th 2019)
+
+- Bug Fix
+  - Remove debug output which could contain plaintex passwords.
+    - Thanks [karrth](https://github.com/karrth)!
+
 ## 2.4.0 (February 1st 2019)
 
 ### Module update to cover CyberArk 10.6 API features

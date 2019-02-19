@@ -21,7 +21,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
 Get-Module -Name $ModuleName -All | Remove-Module -Force -ErrorAction Ignore
-$Module = Import-Module -Name "$ManifestPath" -Force -ErrorAction Stop -PassThru
+$Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru
 
 Describe "Module" {
 
