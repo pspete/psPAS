@@ -35,32 +35,14 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}
-		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken"      = @{"Authorization" = "P_AuthValue"}
-			"WebSession"        = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"           = "https://P_URI"
-			"PVWAAppName"       = "P_App"
-			"DirectoryType"     = "SomeType.ini"
-			"HostAddresses"     = "1.1.1.1", "2.2.2.2", "3.3.3.3"
-			"DomainName"        = "SomeDomain"
-			"DomainBaseContext" = "DC=Some,DC=Domain"
-			"BindPassword"      = $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
-			"BindUsername"      = "SomeUser"
-
-		}
-
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'DirectoryType'},
-			@{Parameter = 'HostAddresses'},
-			@{Parameter = 'DomainName'},
-			@{Parameter = 'DomainBaseContext'}
+			$Parameters = @{Parameter = 'BaseURI' },
+			@{Parameter = 'SessionToken' },
+			@{Parameter = 'DirectoryType' },
+			@{Parameter = 'HostAddresses' },
+			@{Parameter = 'DomainName' },
+			@{Parameter = 'DomainBaseContext' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -68,95 +50,139 @@ Describe $FunctionName {
 
 				(Get-Command Add-PASDirectory).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
+		}
+
+	}
+
+	Context "Input" {
+
+		BeforeEach {
+			Mock Invoke-PASRestMethod -MockWith {
+				[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
 			}
+
+			$InputObj = [pscustomobject]@{
+				"sessionToken"      = @{"Authorization" = "P_AuthValue" }
+				"WebSession"        = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				"BaseURI"           = "https://P_URI"
+				"PVWAAppName"       = "P_App"
+				"DirectoryType"     = "SomeType.ini"
+				"HostAddresses"     = "1.1.1.1", "2.2.2.2", "3.3.3.3"
+				"DomainName"        = "SomeDomain"
+				"DomainBaseContext" = "DC=Some,DC=Domain"
+				"BindPassword"      = $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
+				"BindUsername"      = "SomeUser"
+
+			}
+
+			$response = $InputObj | Add-PASDirectory -BindPassword $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
+
+	}
+
+	It "sends request" {
+
+		Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+	}
+
+	It "sends request to expected endpoint" {
+
+		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+			$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories"
+
+		} -Times 1 -Exactly -Scope It
+
+	}
+
+	It "uses expected method" {
+
+		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+	}
+
+	It "sends request with expected body" {
+
+		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+			$Script:RequestBody = $Body | ConvertFrom-Json
+
+		($Script:RequestBody) -ne $null
+
+	} -Times 1 -Exactly -Scope It
+
+}
+
+It "has a request body with expected number of properties" {
+
+	($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 6
+
+}
+
+It "throws error if version requirement not met" {
+ { $InputObj | Add-PASDirectory -ExternalVersion "1.0" } | Should Throw
+}
+
+}
+
+Context "Output" {
+
+	BeforeEach {
+		Mock Invoke-PASRestMethod -MockWith {
+			[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+		}
+
+		$InputObj = [pscustomobject]@{
+			"sessionToken"      = @{"Authorization" = "P_AuthValue" }
+			"WebSession"        = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			"BaseURI"           = "https://P_URI"
+			"PVWAAppName"       = "P_App"
+			"DirectoryType"     = "SomeType.ini"
+			"DCList"            = @{"Name" = "SomeName"; }
+			"DomainName"        = "SomeDomain"
+			"DomainBaseContext" = "DC=Some,DC=Domain"
+			"BindPassword"      = $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
+			"BindUsername"      = "SomeUser"
 
 		}
 
 		$response = $InputObj | Add-PASDirectory -BindPassword $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
 
-		Context "Input" {
+}
 
-			It "sends request" {
+it "provides output" {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+	$response | Should not BeNullOrEmpty
 
-			}
+}
 
-			It "sends request to expected endpoint" {
+It "has output with expected number of properties" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+	($response | Get-Member -MemberType NoteProperty).length | Should Be 7
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories"
+}
 
-				} -Times 1 -Exactly -Scope Describe
+it "outputs object with expected typename" {
 
-			}
+	$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory.Extended
 
-			It "uses expected method" {
+}
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+$DefaultProps = @{Property = 'sessionToken' },
+@{Property = 'WebSession' },
+@{Property = 'BaseURI' },
+@{Property = 'PVWAAppName' },
+@{Property = 'ExternalVersion' }
 
-			}
+It "returns default property <Property> in response" -TestCases $DefaultProps {
+	param($Property)
 
-			It "sends request with expected body" {
+	$response.$Property | Should Not BeNullOrEmpty
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+}
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+}
 
-					($Script:RequestBody) -ne $null
-
-				} -Times 1 -Exactly -Scope Describe
-
-			}
-
-			It "has a request body with expected number of properties" {
-
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 6
-
-			}
-
-			It "throws error if version requirement not met" {
-				{$InputObj | Add-PASDirectory -ExternalVersion "1.0"} | Should Throw
-			}
-
-		}
-
-		Context "Output" {
-
-			it "provides output" {
-
-				$response | Should not BeNullOrEmpty
-
-			}
-
-			It "has output with expected number of properties" {
-
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
-
-			}
-
-			it "outputs object with expected typename" {
-
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory.Extended
-
-			}
-
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
-
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Not BeNullOrEmpty
-
-			}
-
-		}
-
-	}
+}
 
 }

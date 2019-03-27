@@ -19,16 +19,22 @@ The LDAP branch that will be used for external directory queries
 .PARAMETER DomainGroups
 Users who belong to these LDAP groups will be automatically assigned to the relevant roles in the PAS system.
 
+.PARAMETER VaultGroups
+A list of Vault groups that a mapped user will be added to.
+
+.PARAMETER Location
+The path of the Vault location that mapped users are added under.
+This value cannot be updated.
+
+.PARAMETER LDAPQuery
+Match LDAP query results to mapping
+
 .PARAMETER MappingAuthorizations
 The integer flag representation of the security attributes and authorizations that will be applied when an
 LDAP User Account is created in the Vault.
 To apply specific authorizations to a mapping, the user must have the same authorizations.
 Possible authorizations: AddSafes, AuditUsers, AddUpdateUsers, ResetUsersPasswords, ActivateUsers, AddNetworkAreas,
 ManageServerFileCategories, BackupAllSafes, RestoreAllSafes.
-
-.PARAMETER DirectoryMappingOrder
-The order of the Maps in the Directory Mapping window is the order in which the Maps are matched with users and groups
-from the External Directory to determine if they can be created in the Vault
 
 .PARAMETER AddUpdateUsers
 Specify switch to add the AddUpdateUsers authorization to the directory mapping
@@ -77,19 +83,19 @@ If the minimum version requirement of this function is not satisfied, execution 
 Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 .EXAMPLE
-$token | New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -DirectoryMappingOrder 0 -MappingName Map3 -RestoreAllSafes -BackupAllSafes
+$token | New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map3 -RestoreAllSafes -BackupAllSafes
 
 Creates a new  LDAP directory mapping in the Vault with the following authorizations:
 BackupAllSafes, RestoreAllSafes
 
 .EXAMPLE
-$token | New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -DirectoryMappingOrder 0 -MappingName Map2 -MappingAuthorizations 1536
+$token | New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map2 -MappingAuthorizations 1536
 
 Creates a new  LDAP directory mapping in the Vault with the following authorizations:
 BackupAllSafes, RestoreAllSafes
 
 .EXAMPLE
-$token | New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -DirectoryMappingOrder 0 -MappingName Map1 -MappingAuthorizations 1,3,512
+$token | New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map1 -MappingAuthorizations 1,3,512
 
 Creates a new  LDAP directory mapping in the Vault with the following authorizations:
 AddUpdateUsers, AddSafes, BackupAllSafes
@@ -104,7 +110,7 @@ All parameters can be piped to the function by propertyname
 .LINK
 
 #>
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "AuthFlags")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "AuthNames")]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -134,16 +140,79 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthFlags-10_7"
+		)]
+		[string[]]$VaultGroups,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthFlags-10_7"
+		)]
+		[string]$Location,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthFlags-10_7"
+		)]
+		[string]$LDAPQuery,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthFlags-10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthFlags"
 		)]
 		[int[]]$MappingAuthorizations,
 
+
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
 		)]
-		[ValidateRange(0, 2147483647)]
-		[int]$DirectoryMappingOrder,
 
 		[parameter(
 			Mandatory = $false,
@@ -155,9 +224,21 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$AddSafes,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -169,9 +250,21 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$ManageServerFileCategories,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -183,9 +276,21 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$BackupAllSafes,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -198,9 +303,21 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$ResetUsersPasswords,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AuthNames-10_7"
+		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -243,6 +360,7 @@ All parameters can be piped to the function by propertyname
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"10.4"
+		$RequiredVersion = [System.Version]"10.7"
 
 		#Enum Flag values for Mapping Authorizations
 		[Flags()]enum Authorizations{
@@ -261,7 +379,15 @@ All parameters can be piped to the function by propertyname
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		if($PSCmdlet.ParameterSetName -match "10_7$") {
+
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
+
+		} Else {
+
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+
+		}
 
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
@@ -272,7 +398,7 @@ All parameters can be piped to the function by propertyname
 		ResetUsersPasswords, ActivateUsers
 
 		#If individual authorisations have been specified
-		if($PSCmdlet.ParameterSetName -eq "AuthNames") {
+		if($PSCmdlet.ParameterSetName -match "^AuthNames") {
 
 			[array]$Authorizations = @()
 

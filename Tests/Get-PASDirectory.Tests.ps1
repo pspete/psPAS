@@ -35,18 +35,6 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}
-		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-
-		}
-
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
@@ -62,13 +50,29 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Get-PASDirectory -id SomeDir
-
 		Context "Input" {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}
+				}
+
+				$InputObj = [pscustomobject]@{
+					"sessionToken" = @{"Authorization" = "P_AuthValue"}
+					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"      = "https://P_URI"
+					"PVWAAppName"  = "P_App"
+
+				}
+
+				$response = $InputObj | Get-PASDirectory -id SomeDir
+
+			}
 
 			It "sends request" {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
@@ -78,19 +82,19 @@ Describe $FunctionName {
 
 					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories/SomeDir/"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope It
 
 			}
 
@@ -101,6 +105,24 @@ Describe $FunctionName {
 		}
 
 		Context "Output" {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}
+				}
+
+				$InputObj = [pscustomobject]@{
+					"sessionToken" = @{"Authorization" = "P_AuthValue"}
+					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"      = "https://P_URI"
+					"PVWAAppName"  = "P_App"
+
+				}
+
+				$response = $InputObj | Get-PASDirectory -id SomeDir
+
+			}
 
 			it "provides output" {
 
@@ -115,6 +137,14 @@ Describe $FunctionName {
 			}
 
 			it "outputs object with expected typename" {
+
+				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory.Extended
+
+			}
+
+			it "outputs object with expected typename" {
+
+				$response = $InputObj | Get-PASDirectory
 
 				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory
 

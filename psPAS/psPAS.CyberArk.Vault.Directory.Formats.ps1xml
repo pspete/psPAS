@@ -62,6 +62,9 @@
 								<PropertyName>HostAddresses</PropertyName>
 							</ListItem>
 							<ListItem>
+								<PropertyName>DCList</PropertyName>
+							</ListItem>
+							<ListItem>
 								<PropertyName>BindUsername</PropertyName>
 							</ListItem>
 							<ListItem>
@@ -75,6 +78,66 @@
 							</ListItem>
 							<ListItem>
 								<PropertyName>DomainBaseContext</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>SSLConnect</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LDAPDirectoryName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LDAPDirectoryQueryOrder</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LDAPDirectoryDescription</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>VaultObjectNamesPrefix</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>PasswordObjectPath</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LDAPDirectoryGroupBaseContext</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ReferralsChasingHopLimit</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AppendFriendlyDomainNameToGroup</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>RequireReferredDirectoryDefinition</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ReferralsDNSLookup</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>DisableUserEnumeration</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AdditionalQueryFilterOptimize</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ClientBrowsing</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ExternalObjectCreation</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Authentication</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UseLDAPCertificatesOnly</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>DisablePaging</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ProvisionDisabledUsers</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LDAPDirectoryUsage</PropertyName>
 							</ListItem>
 						</ListItems>
 					</ListEntry>
@@ -127,6 +190,9 @@
 					<ListEntry>
 						<ListItems>
 							<ListItem>
+								<PropertyName>MappingID</PropertyName>
+							</ListItem>
+							<ListItem>
 								<PropertyName>MappingName</PropertyName>
 							</ListItem>
 							<ListItem>
@@ -136,10 +202,37 @@
 								<PropertyName>DomainGroups</PropertyName>
 							</ListItem>
 							<ListItem>
+								<PropertyName>LDAPQuery</PropertyName>
+							</ListItem>
+							<ListItem>
 								<PropertyName>MappingAuthorizations</PropertyName>
 							</ListItem>
 							<ListItem>
 								<PropertyName>DirectoryMappingOrder</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Location</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AuthenticationMethod</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserType</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>DisableUser</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserActivityLogPeriod</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserExpiration</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LogonFromHour</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LogonToHour</PropertyName>
 							</ListItem>
 						</ListItems>
 					</ListEntry>
