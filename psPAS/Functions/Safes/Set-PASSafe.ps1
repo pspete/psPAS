@@ -13,6 +13,12 @@ Max Length 28 characters.
 Cannot start with a space.
 Cannot contain: '\','/',':','*','<','>','"','.' or '|'
 
+.PARAMETER  NewSafeName
+A name to rename the safe to
+Max Length 28 characters.
+Cannot start with a space.
+Cannot contain: '\','/',':','*','<','>','"','.' or '|'
+
 .PARAMETER Description
 Updated Description for safe.
 Max 100 characters.
@@ -96,6 +102,15 @@ To force all output to be shown, pipe to Select-Object *
 		[ValidateLength(0, 28)]
 		[string]$SafeName,
 
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[ValidateScript( {$_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*"})]
+		[ValidateLength(0, 28)]
+		[string]$NewSafeName,
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false
@@ -172,9 +187,15 @@ To force all output to be shown, pipe to Select-Object *
 
             Get-EscapedString)"
 
+		$BoundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName, NewSafeName
+
+		if($PSBoundParameters.ContainsKey("NewSafeName")) {
+			$BoundParameters["SafeName"] = $PSBoundParameters["NewSafeName"]
+		}
+
 		#Create Request Body
 		$body = @{
-			"safe" = $PSBoundParameters | Get-PASParameter
+			"safe" = $BoundParameters
 
 		} | ConvertTo-Json
 
