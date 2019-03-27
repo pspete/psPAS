@@ -5,6 +5,7 @@ Gets requests
 
 .DESCRIPTION
 Gets Requests
+Officially supported from version 9.10. Reports received that function works in 9.9 also.
 
 .PARAMETER RequestType
 Specify whether outgoing or incoming requests will be searched for
@@ -125,20 +126,20 @@ Minimum CyberArk Version 9.10
 			#Return Results
 			$result |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Extended -PropertyToAdd @{
+				Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Extended -PropertyToAdd @{
 
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
+					"sessionToken"    = $sessionToken
+					"WebSession"      = $WebSession
+					"BaseURI"         = $BaseURI
+					"PVWAAppName"     = $PVWAAppName
+					"ExternalVersion" = $ExternalVersion
 
-			}
+				}
 
 		}
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

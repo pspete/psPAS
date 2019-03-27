@@ -3,10 +3,10 @@
 .SYNOPSIS
 Deletes a request from the Vault
 
-
 .DESCRIPTION
 Deletes a request from the Vault.
 The "Manage" Safe vault permission is required.
+Officially supported from version 9.10. Reports received that function works in 9.9 also.
 
 .PARAMETER RequestID
 The ID (composed of the Safe Name and internal RequestID.) of the request to delete.
@@ -40,7 +40,6 @@ All parameters can be piped by property name
 
 .OUTPUTS
 None
-
 
 .NOTES
 
@@ -108,5 +107,5 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 }
