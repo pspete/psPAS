@@ -38,13 +38,15 @@ Describe $FunctionName {
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'}
+			@{Parameter = 'SessionToken'},
+			@{Parameter = 'DirectoryName'},
+			@{Parameter = 'MappingID'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Get-PASDirectory).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Get-PASDirectoryMapping).Parameters["$Parameter"].Attributes.Mandatory | Select-object -Unique | Should Be $true
 
 			}
 
@@ -59,14 +61,15 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
+					"sessionToken"  = @{"Authorization" = "P_AuthValue"}
+					"WebSession"    = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"       = "https://P_URI"
+					"PVWAAppName"   = "P_App"
+					"DirectoryName" = "SomeDirectory"
 
 				}
 
-				$response = $InputObj | Get-PASDirectory -id SomeDir
+				$response = $InputObj | Get-PASDirectoryMapping -MappingID SomeMapping
 
 			}
 
@@ -80,7 +83,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories/SomeDir/"
+					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories/SomeDirectory/Mappings/SomeMapping"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -99,7 +102,7 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASDirectory -ExternalVersion "1.0"} | Should Throw
+				{$InputObj | Get-PASDirectoryMapping -ExternalVersion "1.0"} | Should Throw
 			}
 
 		}
@@ -113,14 +116,16 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
+					"sessionToken"  = @{"Authorization" = "P_AuthValue"}
+					"WebSession"    = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"       = "https://P_URI"
+					"PVWAAppName"   = "P_App"
+					"DirectoryName" = "SomeDirectory"
+					"MappingID"     = "SomeMapping"
 
 				}
 
-				$response = $InputObj | Get-PASDirectory -id SomeDir
+				$response = $InputObj | Get-PASDirectoryMapping
 
 			}
 
@@ -138,15 +143,7 @@ Describe $FunctionName {
 
 			it "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory.Extended
-
-			}
-
-			it "outputs object with expected typename" {
-
-				$response = $InputObj | Get-PASDirectory
-
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory
+				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory.Mapping
 
 			}
 

@@ -6,6 +6,7 @@ Creates an access request for a specific account
 .DESCRIPTION
 Creates an access request for a specific account.
 This account may be either a password account or an SSH Key account.
+Officially supported from version 9.10. Reports received that function works in 9.9 also.
 
 .PARAMETER accountId
 The ID of the account to access
@@ -215,29 +216,29 @@ Minimum CyberArk Version 9.10
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess($AccountId, "Create Request for Account Access")) {
+	if($PSCmdlet.ShouldProcess($AccountId, "Create Request for Account Access")) {
 
-			#send request to PAS web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		#send request to PAS web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-			if($result) {
+		if($result) {
 
-				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request -PropertyToAdd @{
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request -PropertyToAdd @{
 
-					"sessionToken"    = $sessionToken
-					"WebSession"      = $WebSession
-					"BaseURI"         = $BaseURI
-					"PVWAAppName"     = $PVWAAppName
-					"ExternalVersion" = $ExternalVersion
-
-				}
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
 
 			}
 
-		}
+	}
 
-	}#process
+}
 
-	END {}#end
+}#process
+
+END { }#end
 
 }

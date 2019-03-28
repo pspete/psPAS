@@ -1,4 +1,4 @@
-﻿function New-PASDirectoryMapping {
+﻿function Set-PASDirectoryMapping {
 	<#
 .SYNOPSIS
 Adds a new Directory Mapping for an existing directory
@@ -9,6 +9,9 @@ Membership of the Vault Admins group required.
 
 .PARAMETER DirectoryName
 The name of the directory the mapping is for.
+
+.PARAMETER MappingID
+The ID of the Directory Mapping to Update
 
 .PARAMETER MappingName
 The name of the PAS role that will be created.
@@ -110,7 +113,7 @@ All parameters can be piped to the function by propertyname
 .LINK
 
 #>
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "AuthNames")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "AuthFlags")]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -123,6 +126,12 @@ All parameters can be piped to the function by propertyname
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateLength(1, 28)]
+		[string]$MappingID,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
 		[string]$MappingName,
 
 		[parameter(
@@ -132,73 +141,28 @@ All parameters can be piped to the function by propertyname
 		[string]$LDAPBranch,
 
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string[]]$DomainGroups,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthFlags-10_7"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string[]]$VaultGroups,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthFlags-10_7"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$Location,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthFlags-10_7"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$LDAPQuery,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthFlags-10_7"
-		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -206,13 +170,6 @@ All parameters can be piped to the function by propertyname
 			ParameterSetName = "AuthFlags"
 		)]
 		[int[]]$MappingAuthorizations,
-
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -224,21 +181,9 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$AddSafes,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -250,21 +195,9 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$ManageServerFileCategories,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -276,21 +209,9 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$BackupAllSafes,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -303,21 +224,9 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$ResetUsersPasswords,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -359,8 +268,7 @@ All parameters can be piped to the function by propertyname
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.4"
-		$RequiredVersion = [System.Version]"10.7"
+		$MinimumVersion = [System.Version]"10.7"
 
 		#Enum Flag values for Mapping Authorizations
 		[Flags()]enum Authorizations{
@@ -379,26 +287,18 @@ All parameters can be piped to the function by propertyname
 
 	PROCESS {
 
-		if($PSCmdlet.ParameterSetName -match "10_7$") {
-
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
-
-		} Else {
-
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
-
-		}
+		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
+		$URI = "$baseURI/$PVWAAppName/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID"
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove DirectoryName, AddUpdateUsers,
-		AddSafes, AddNetworkAreas, ManageServerFileCategories, AuditUsers, BackupAllSafes, RestoreAllSafes,
-		ResetUsersPasswords, ActivateUsers
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove DirectoryName, MappingID,
+		AddUpdateUsers, AddSafes, AddNetworkAreas, ManageServerFileCategories, AuditUsers, BackupAllSafes,
+		RestoreAllSafes, ResetUsersPasswords, ActivateUsers
 
 		#If individual authorisations have been specified
-		if($PSCmdlet.ParameterSetName -match "^AuthNames") {
+		if($PSCmdlet.ParameterSetName -eq "AuthNames") {
 
 			[array]$Authorizations = @()
 
@@ -421,21 +321,25 @@ All parameters can be piped to the function by propertyname
 
 		$body = $boundParameters | ConvertTo-Json
 
-		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		if($PSCmdlet.ShouldProcess($MappingID, "Update Directory Mapping")) {
 
-		If($result) {
+			#send request to web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-			#Return Results
-			$result |
+			If($result) {
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping -PropertyToAdd @{
+				#Return Results
+				$result |
 
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
+				Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping -PropertyToAdd @{
+
+					"sessionToken"    = $sessionToken
+					"WebSession"      = $WebSession
+					"BaseURI"         = $BaseURI
+					"PVWAAppName"     = $PVWAAppName
+					"ExternalVersion" = $ExternalVersion
+
+				}
 
 			}
 

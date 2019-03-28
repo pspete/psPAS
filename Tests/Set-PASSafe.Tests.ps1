@@ -64,7 +64,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Set-PASSafe -NumberOfDaysRetention 1 -ManagingCPM SomeCPM
+		$response = $InputObj | Set-PASSafe -NumberOfDaysRetention 1 -ManagingCPM SomeCPM -NewSafeName SomeNewName
 
 		Context "Input" {
 

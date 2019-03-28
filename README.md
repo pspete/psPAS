@@ -4,7 +4,7 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v10.6.
+Contains all published methods of the API up to CyberArk v10.7.
 
 ----------
 
@@ -33,7 +33,7 @@ Contains all published methods of the API up to CyberArk v10.6.
 ----------
 
 - [psPAS](#pspas)
-  - [Introduction](#powershell-module-for-cyberark-privileged-account-security)
+  - [Introduction](#powershell-module-for-cyberark-privileged-access-security)
     - [Status](#module-status)
   - [Usage](#usage)
   - [Module Functions](#module-functions)
@@ -233,6 +233,9 @@ requires version 9.8+).
 [`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                             |**10.6**            |Get property details from</br>a PSM Recording.
 [`Export-PASPSMRecording`][Export-PASPSMRecording]                                       |**10.6**            |Save PSM Session Recording</br>to a file.
 [`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       |**10.6**            |Enable request of temporary</br>administrative access to a</br>server.
+[`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                       |**10.7**            |Get details of configured</br>directory mappings.
+[`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                       |**10.7**            |Update a configured</br>directory mapping.
+[`Remove-PASDirectory`][Remove-PASDirectory]                                       |**10.7**            |Delete a directory configuration.
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
@@ -333,6 +336,9 @@ requires version 9.8+).
 [Get-PASPSMRecordingProperty]:/psPAS/Functions/Monitoring/Get-PASPSMRecordingProperty.ps1
 [Export-PASPSMRecording]:/psPAS/Functions/Monitoring/Export-PASPSMRecording.ps1
 [Request-PASAdHocAccess]:/psPAS/Functions/Accounts/Request-PASAdHocAccess.ps1
+[Get-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Get-PASDirectoryMapping.ps1
+[Set-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Set-PASDirectoryMapping.ps1
+[Remove-PASDirectory]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectory.ps1
 
 ## Installation
 

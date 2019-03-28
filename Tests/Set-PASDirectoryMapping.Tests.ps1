@@ -39,16 +39,14 @@ Describe $FunctionName {
 
 			$Parameters = @{Parameter = 'BaseURI' },
 			@{Parameter = 'SessionToken' },
-			@{Parameter = 'DirectoryType' },
-			@{Parameter = 'HostAddresses' },
-			@{Parameter = 'DomainName' },
-			@{Parameter = 'DomainBaseContext' }
+			@{Parameter = 'DirectoryName' },
+			@{Parameter = 'MappingID' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Add-PASDirectory).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Set-PASDirectoryMapping).Parameters["$Parameter"].Attributes.Mandatory | Select-object -Unique | Should Be $true
 
 		}
 
@@ -57,25 +55,24 @@ Describe $FunctionName {
 	Context "Input" {
 
 		BeforeEach {
+
 			Mock Invoke-PASRestMethod -MockWith {
 				[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
 			}
 
 			$InputObj = [pscustomobject]@{
-				"sessionToken"      = @{"Authorization" = "P_AuthValue" }
-				"WebSession"        = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-				"BaseURI"           = "https://P_URI"
-				"PVWAAppName"       = "P_App"
-				"DirectoryType"     = "SomeType.ini"
-				"HostAddresses"     = "1.1.1.1", "2.2.2.2", "3.3.3.3"
-				"DomainName"        = "SomeDomain"
-				"DomainBaseContext" = "DC=Some,DC=Domain"
-				"BindPassword"      = $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
-				"BindUsername"      = "SomeUser"
+				"sessionToken"  = @{"Authorization" = "P_AuthValue" }
+				"WebSession"    = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				"BaseURI"       = "https://P_URI"
+				"PVWAAppName"   = "P_App"
+				"DirectoryName" = "SomeDirectory"
+				"MappingID"     = "SomeMappingID"
+				"MappingName"   = "SomeName"
+				"LDAPBranch"    = "SomeBranch"
 
 			}
 
-			$response = $InputObj | Add-PASDirectory -BindPassword $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
+			$response = $InputObj | Set-PASDirectoryMapping -AddUpdateUsers -ActivateUsers
 
 	}
 
@@ -89,7 +86,7 @@ Describe $FunctionName {
 
 		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-			$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories"
+			$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories/SomeDirectory/Mappings/SomeMappingID"
 
 		} -Times 1 -Exactly -Scope It
 
@@ -97,7 +94,7 @@ Describe $FunctionName {
 
 	It "uses expected method" {
 
-		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
 	}
 
@@ -115,12 +112,12 @@ Describe $FunctionName {
 
 It "has a request body with expected number of properties" {
 
-	($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 6
+	($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 3
 
 }
 
 It "throws error if version requirement not met" {
- { $InputObj | Add-PASDirectory -ExternalVersion "1.0" } | Should Throw
+ { $InputObj | Get-PASDirectoryMapping -ExternalVersion "1.0" } | Should Throw
 }
 
 }
@@ -128,25 +125,24 @@ It "throws error if version requirement not met" {
 Context "Output" {
 
 	BeforeEach {
+
 		Mock Invoke-PASRestMethod -MockWith {
 			[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken"      = @{"Authorization" = "P_AuthValue" }
-			"WebSession"        = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"           = "https://P_URI"
-			"PVWAAppName"       = "P_App"
-			"DirectoryType"     = "SomeType.ini"
-			"DCList"            = @{"Name" = "SomeName"; }
-			"DomainName"        = "SomeDomain"
-			"DomainBaseContext" = "DC=Some,DC=Domain"
-			"BindPassword"      = $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
-			"BindUsername"      = "SomeUser"
+			"sessionToken"  = @{"Authorization" = "P_AuthValue" }
+			"WebSession"    = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			"BaseURI"       = "https://P_URI"
+			"PVWAAppName"   = "P_App"
+			"DirectoryName" = "SomeDirectory"
+			"MappingID"     = "SomeMappingID"
+			"MappingName"   = "SomeName"
+			"LDAPBranch"    = "SomeBranch"
 
 		}
 
-		$response = $InputObj | Add-PASDirectory -BindPassword $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
+		$response = $InputObj | Set-PASDirectoryMapping
 
 }
 
@@ -164,7 +160,7 @@ It "has output with expected number of properties" {
 
 it "outputs object with expected typename" {
 
-	$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory.Extended
+	$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory.Mapping
 
 }
 

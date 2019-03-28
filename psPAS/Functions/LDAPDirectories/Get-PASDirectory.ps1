@@ -107,7 +107,9 @@ LDAP Directory Details
 			#Update URL for request
 			$URI = "$URI/$id/"
 
-		}
+			$type = "psPAS.CyberArk.Vault.Directory.Extended"
+
+		} Else {$type = "psPAS.CyberArk.Vault.Directory"}
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
@@ -117,7 +119,7 @@ LDAP Directory Details
 			#Return Results
 			$result |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory -PropertyToAdd @{
+			Add-ObjectDetail -typename $type -PropertyToAdd @{
 
 				"sessionToken"    = $sessionToken
 				"WebSession"      = $WebSession

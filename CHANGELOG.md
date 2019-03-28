@@ -3,7 +3,30 @@
 ## Planned Updates
 
 - Update for new PTA API methods.
-- Support for CyberArk 10.7.
+- Support for CyberArk 10.8.
+
+## 2.5.0 (March 28th 2019)
+
+### Module update to cover CyberArk 10.7 API features
+
+- New Functions
+  - `Get-PASDirectoryMapping`
+    - Get directory mappings configured for a directory
+  - `Get-PASDirectoryMapping`
+    - Adds a new Directory Mapping for an existing directory
+  - `Remove-PASDirectory`
+    - Removes a directory configured in the Vault
+- Updated Functions
+  - `Add-PASDirectory`
+    - Added parameter `DCList`
+  - `Get-PASDirectory`
+    - Function output updated to contain more properties
+  - `New-PASDirectoryMapping`
+    - Added parameters `VaultGroups`, `Location`, `LDAPQuery`
+  - `Set-PASSafe`
+    - Now supports renaming a safe via `NewSafeName` parameter
+- Other Updates
+  - Updated comment based help content based on user feedback.
 
 ## 2.4.8 (February 16th 2019)
 

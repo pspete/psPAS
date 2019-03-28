@@ -35,23 +35,6 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}
-		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken"          = @{"Authorization" = "P_AuthValue"}
-			"WebSession"            = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"               = "https://P_URI"
-			"PVWAAppName"           = "P_App"
-			"DirectoryName"         = "SomeDirectory"
-			"MappingName"           = "SomeMapping"
-			"LDAPBranch"            = "SomeBranch"
-			"DomainGroups"          = "SomeGroup"
-			"DirectoryMappingOrder" = 0
-
-		}
-
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'BaseURI'},
@@ -71,13 +54,33 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes
-
 		Context "Input" {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}
+				}
+
+				$InputObj = [pscustomobject]@{
+					"sessionToken"  = @{"Authorization" = "P_AuthValue"}
+					"WebSession"    = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"       = "https://P_URI"
+					"PVWAAppName"   = "P_App"
+					"DirectoryName" = "SomeDirectory"
+					"MappingName"   = "SomeMapping"
+					"LDAPBranch"    = "SomeBranch"
+					"DomainGroups"  = "SomeGroup"
+
+				}
+
+				$response = $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes
+
+			}
 
 			It "sends request" {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
@@ -87,13 +90,13 @@ Describe $FunctionName {
 
 					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories/SomeDirectory/Mappings"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -105,13 +108,13 @@ Describe $FunctionName {
 
 					($Script:RequestBody) -ne $null
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "has a request body with expected number of properties" {
 
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 5
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 4
 
 			}
 
@@ -122,12 +125,39 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | New-PASDirectoryMapping -ExternalVersion "1.0"} | Should Throw
+				{$InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -ExternalVersion "1.0"} | Should Throw
+			}
+
+			It "throws error if version requirement not met" {
+				{$InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -VaultGroups "Group1", "Group2" -ExternalVersion "10.6"} | Should Throw
 			}
 
 		}
 
 		Context "Output" {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}
+				}
+
+				$InputObj = [pscustomobject]@{
+					"sessionToken"          = @{"Authorization" = "P_AuthValue"}
+					"WebSession"            = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					"BaseURI"               = "https://P_URI"
+					"PVWAAppName"           = "P_App"
+					"DirectoryName"         = "SomeDirectory"
+					"MappingName"           = "SomeMapping"
+					"LDAPBranch"            = "SomeBranch"
+					"DomainGroups"          = "SomeGroup"
+					"DirectoryMappingOrder" = 0
+
+				}
+
+				$response = $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes
+
+			}
 
 			it "provides output" {
 

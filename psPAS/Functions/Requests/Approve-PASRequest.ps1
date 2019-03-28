@@ -5,6 +5,7 @@ Confirm a single request
 
 .DESCRIPTION
 Enables a request confirmer to confirm a single request, identified by its requestID.
+Officially supported from version 9.10. Reports received that function works in 9.9 also.
 
 .PARAMETER RequestId
 The ID of the request to confirm
@@ -109,15 +110,15 @@ Minimum CyberArk Version 9.10
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestId | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess($RequestId, "Confirm Request for Account Access")) {
+	if($PSCmdlet.ShouldProcess($RequestId, "Confirm Request for Account Access")) {
 
-			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		#send request to PAS web service
+		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-		}
+	}
 
-	}#process
+}#process
 
-	END {}#end
+END { }#end
 
 }

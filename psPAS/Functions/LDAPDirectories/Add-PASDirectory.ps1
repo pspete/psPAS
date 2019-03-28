@@ -21,6 +21,10 @@ The username of the account used to bind to the directory
 .PARAMETER BindPassword
 A SecureString containing the password for the Bind User
 
+.PARAMETER DCList
+Applies to 10.7+; an array of hashtables containing
+LDAPDomainController information.
+
 .PARAMETER Port
 The port that will be used to access the specified server.
 The standard port for SSL LDAP connections is 636, and for non-SSL LDAP connections is 389
@@ -55,6 +59,12 @@ $token | Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -HostAddresses
 
 Adds the Domain.Com directory to the vault
 
+.EXAMPLE
+$token | Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "bind@domain.com" -BindPassword $pw -DomainName DOMAIN `
+-DomainBaseContext "DC=DOMAIN,DC=COM" -HostAddresses "192.168.99.1","192.168.99.2" -DCList @(@{"Name"="192.168.99.1";"Port"=389;"SSLConnect"=$false},@{"Name"="192.168.99.1";"Port"=389;"SSLConnect"=$false}) -Port 389
+
+(For 10.7+) - Adds the Domain.Com directory to the vault
+
 .INPUTS
 All parameters can be piped to the function by propertyname
 
@@ -66,6 +76,7 @@ LDAP Directory Details
 .LINK
 
 #>
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlaintextForPassword', '', Justification = "It's a path to password object")]
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -76,7 +87,8 @@ LDAP Directory Details
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10_4"
 		)]
 		[string[]]$HostAddresses,
 
@@ -98,6 +110,13 @@ LDAP Directory Details
 		)]
 		[ValidateRange(1, 65535)]
 		[int]$Port,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10_7"
+		)]
+		[hashtable[]]$DCList,
 
 		[parameter(
 			Mandatory = $true,
@@ -145,11 +164,20 @@ LDAP Directory Details
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"10.4"
+		$RequiredVersion = [System.Version]"10.7"
 	}#begin
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		if($PSCmdlet.ParameterSetName -eq "v10_7") {
+
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
+
+		} Elseif($PSCmdlet.ParameterSetName -eq "v10_4") {
+
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+
+		}
 
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/api/Configuration/LDAP/Directories"
@@ -157,37 +185,37 @@ LDAP Directory Details
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		#deal with BindPassword SecureString
-		If($PSBoundParameters.ContainsKey("BindPassword")) {
+	#deal with BindPassword SecureString
+	If($PSBoundParameters.ContainsKey("BindPassword")) {
 
-			#Include decoded bind password in request
-			$boundParameters["BindPassword"] = $(ConvertTo-InsecureString -SecureString $BindPassword)
+		#Include decoded bind password in request
+		$boundParameters["BindPassword"] = $(ConvertTo-InsecureString -SecureString $BindPassword)
 
-		}
+	}
 
-		$body = $boundParameters | ConvertTo-Json
+	$body = $boundParameters | ConvertTo-Json
+write-debug $body
+#send request to web service
+$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+If($result) {
 
-		If($result) {
+	#Return Results
+	$result |
 
-			#Return Results
-			$result |
+		Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Extended -PropertyToAdd @{
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Extended -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			"sessionToken"    = $sessionToken
+			"WebSession"      = $WebSession
+			"BaseURI"         = $BaseURI
+			"PVWAAppName"     = $PVWAAppName
+			"ExternalVersion" = $ExternalVersion
 
 		}
 
-	}#process
+}
 
-	END {}#end
+}#process
+
+END { }#end
 }

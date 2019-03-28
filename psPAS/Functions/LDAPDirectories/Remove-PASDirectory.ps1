@@ -1,15 +1,14 @@
-﻿function Remove-PASRequest {
+﻿function Remove-PASDirectory {
 	<#
 .SYNOPSIS
-Deletes a request from the Vault
+Removes an LDAP directory configured in the Vault
 
 .DESCRIPTION
-Deletes a request from the Vault.
-The "Manage" Safe vault permission is required.
-Officially supported from version 9.10. Reports received that function works in 9.9 also.
+Removes an LDAP directory configuration from the vault.
+Membership of the Vault Admins group required.
 
-.PARAMETER RequestID
-The ID (composed of the Safe Name and internal RequestID.) of the request to delete.
+.PARAMETER id
+The ID or Name of the directory to return information on.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -31,29 +30,29 @@ If the minimum version requirement of this function is not satisfied, execution 
 Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 .EXAMPLE
-$token | Remove-PASRequest -RequestID "<ID>"
+$token | Remove-PASDirectory -id LDAPDirectory
 
-Deletes Request <ID>
+Removes LDAP directory configured in the Vault
 
 .INPUTS
-All parameters can be piped by property name
+WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
-None
+LDAP Directory Details
 
 .NOTES
 
 .LINK
 
 #>
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding(SupportsShouldProcess = $true)]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateNotNullOrEmpty()]
-		[string]$RequestID,
+		[Alias("DomainName")]
+		[string]$id,
 
 		[parameter(
 			Mandatory = $true,
@@ -63,6 +62,7 @@ None
 		[hashtable]$sessionToken,
 
 		[parameter(
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
@@ -84,11 +84,10 @@ None
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[System.Version]$ExternalVersion = "0.0"
-
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
+		$MinimumVersion = [System.Version]"10.7"
 	}#begin
 
 	PROCESS {
@@ -96,11 +95,11 @@ None
 		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/API/MyRequests/$($RequestID)"
+		$URI = "$baseURI/$PVWAAppName/api/Configuration/LDAP/Directories/$id"
 
-		if($PSCmdlet.ShouldProcess($RequestID, "Delete Request")) {
+		if($PSCmdlet.ShouldProcess($id, "Delete Directory")) {
 
-			#Send request to web service
+			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
 
 		}

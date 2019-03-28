@@ -1,23 +1,17 @@
-function Get-PASRequestDetail {
+﻿function Get-PASDirectoryMapping {
 	<#
 .SYNOPSIS
-Gets requests
+Get directory mappings configured for a directory
 
 .DESCRIPTION
-Gets Requests
-Officially supported from version 9.10. Reports received that function works in 9.9 also.
+Returns a list of existing directory mappings in the Vault.
+Membership of the Vault Admins group required.
 
-.PARAMETER RequestType
-Specify whether outgoing or incoming requests will be searched for
+.PARAMETER DirectoryName
+The ID or Name of the directory to return data on.
 
-.PARAMETER RequestID
-The request's uniqueID, composed of the Safe Name and internal RequestID.
-
-.PARAMETER OnlyWaiting
-Only requests waiting for approval will be listed
-
-.PARAMETER Expired
-Expired requests will be included in the list
+.PARAMETER MappingID
+The ID or Name of the directory mapping to return information on.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -39,41 +33,47 @@ If the minimum version requirement of this function is not satisfied, execution 
 Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 .EXAMPLE
-Get-PASRequestDetail -RequestType IncomingRequests -RequestID $ID -sessionToken $token.sessiontoken -BaseURI $Url
+$token | Get-PASDirectory |  Get-PASDirectoryMapping
 
-Gets details of request with ID held in $ID
+Returns LDAP directory mappings configured for each directory.
+
+.EXAMPLE
+$token | Get-PASDirectoryMapping -DirectoryName SomeDir -MappingID "User_Mapping"
+
+Returns information on the User_Mapping for SomeDir
 
 .INPUTS
-All parameters can be piped by property name
+WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
+LDAP Directory Mapping Details
 
 .NOTES
-Minimum CyberArk Version 9.10
 
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "All")]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "All"
 		)]
-		[ValidateNotNullOrEmpty()]
-		[ValidateSet("MyRequests", "IncomingRequests")]
-		[string]$RequestType,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "Mapping"
+		)]
+		[Alias("DomainName")]
+		[string]$DirectoryName,
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "Mapping"
 		)]
-		[string]$RequestID,
+		[string]$MappingID,
 
 		[parameter(
 			Mandatory = $true,
@@ -83,6 +83,7 @@ Minimum CyberArk Version 9.10
 		[hashtable]$sessionToken,
 
 		[parameter(
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
@@ -104,21 +105,27 @@ Minimum CyberArk Version 9.10
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[System.Version]$ExternalVersion = "0.0"
-
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
+		$MinimumVersion = [System.Version]"10.7"
 	}#begin
 
 	PROCESS {
 
 		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
-		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/$($RequestType)/$($RequestID)"
+		#Create URL for request
+		$URI = "$baseURI/$PVWAAppName/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
 
-		#send request to PAS web service
+		if($PSCmdlet.ParameterSetName -eq "Mapping") {
+
+			#Update URL for request
+			$URI = "$URI/$MappingID"
+
+		}
+
+		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
 		If($result) {
@@ -126,20 +133,19 @@ Minimum CyberArk Version 9.10
 			#Return Results
 			$result |
 
-				Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Extended -PropertyToAdd @{
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping -PropertyToAdd @{
 
-					"sessionToken"    = $sessionToken
-					"WebSession"      = $WebSession
-					"BaseURI"         = $BaseURI
-					"PVWAAppName"     = $PVWAAppName
-					"ExternalVersion" = $ExternalVersion
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
 
-				}
+			}
 
 		}
 
 	}#process
 
-	END { }#end
-
+	END {}#end
 }
