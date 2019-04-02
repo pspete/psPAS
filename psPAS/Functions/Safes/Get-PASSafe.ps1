@@ -88,7 +88,7 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false
 		)]
-		[int32]$TimeoutSec,
+		[int]$TimeoutSec,
 
 		[parameter(
 			Mandatory = $true,
