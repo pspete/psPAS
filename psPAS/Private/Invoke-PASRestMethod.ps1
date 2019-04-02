@@ -90,7 +90,7 @@ to ensure session persistence.
 		[switch]$UseDefaultCredentials,
 
 		[Parameter(Mandatory = $false)]
-		[int32]$TimeoutSec
+		[int]$TimeoutSec
 	)
 
 	Begin {
