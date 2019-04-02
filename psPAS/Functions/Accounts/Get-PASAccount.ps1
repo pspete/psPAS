@@ -204,7 +204,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 		)]
 		[ValidateLength(0, 28)]
 		[string]$Safe,
-		
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false
@@ -259,68 +259,68 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 
 		#Version 10.4 process
 		If($PSCmdlet.ParameterSetName -match "v10") {
-		
+
 			#check minimum version
 			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
-		
+
 			#assign new type name
 			$typeName = "psPAS.CyberArk.Vault.Account.V10"
-		
+
 			#define base URL
 			$URI = "$baseURI/$PVWAAppName/api/Accounts"
-		
+
 			If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 				#define query URL
 				$URI = "$URI`?$query"
 			}
-		
+
 			If($PSCmdlet.ParameterSetName -eq "v10ByID") {
-		
+
 				#define "by ID" URL
 				$URI = "$URI/$id"
-		
+
 			}
-		
+
 		}
-		
+
 		#legacy process
 		If($PSCmdlet.ParameterSetName -eq "v9") {
-		
+
 			#assign type name
 			$typeName = "psPAS.CyberArk.Vault.Account"
-		
+
 			#Create request URL
 			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
-		
+
 		}
-		
+
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec
-		
+
 		if($result) {
-		
+
 			#Get count of accounts found
 			$count = $($result.count)
-		
+
 			#Version 10.4 individual account process
 			If($PSCmdlet.ParameterSetName -eq "v10ByID") {
-		
+
 				$return = $result
-		
+
 			}
-		
+
 			#If accounts found
 			if($count -gt 0) {
-		
+
 				Write-Verbose "Accounts Found: $count"
-		
+
 				#Version 10.4 query process
 				If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
-		
+
 					#get results
 					$AccountArray = @()
 					$AccountArray += ($result | Select-Object value).value
-		
+
 					#iterate any nextLinks
 					$NextLink = $result.nextLink
 					While ( $null -ne $NextLink ) {
@@ -330,83 +330,83 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 						$NextLink = $result.nextLink
 						$AccountArray += ($result | Select-Object value).value
 					}
-		
+
 					$return = $AccountArray
-		
+
 				}
-		
+
 				#legacy process
 				If($PSCmdlet.ParameterSetName -eq "v9") {
-			
+
 					#If multiple accounts found
 					if($count -gt 1) {
-			
+
 						#Alert that web service only displays information on first result
 						Write-Warning "$count matching accounts found. Only the first result will be returned"
-			
+
 					}
-			
+
 					#Get account details from search result
 					$account = ($result | Select-Object accounts).accounts
-					
+
 					#Get account properties from found account
 					$properties = ($account | Select-Object -ExpandProperty properties)
-					
+
 					#Get internal properties from found account
 					$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
-					
+
 					$InternalProps = New-object -TypeName psobject
-					
+
 					#For every account property
 					For($int = 0; $int -lt $InternalProperties.length; $int++) {
-					
+
 						$InternalProps |
-					
+
 							#Add each property name and value as object property of $InternalProps
 							Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
-					
+
 					}
-					
+
 					#Create output object
 					$return = New-object -TypeName psobject -Property @{
-					
+
 						#Internal Unique ID of Account
 						"AccountID"         = $($account | Select-Object -ExpandProperty AccountID)
-					
+
 						#InternalProperties object
 						"InternalProperties" = $InternalProps
-					
+
 					}
-					
+
 					#For every account property
 					For($int = 0; $int -lt $properties.length; $int++) {
-					
+
 						$return |
-					
+
 							#Add each property name and value to results
 							Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
-					
+
 					}
-					
+
 				}
-				
+
 			}
-				
+
 		}
-		
+
 		if($return) {
-		
+
 			#Return Results
 			$return | Add-ObjectDetail -typename $typeName -PropertyToAdd @{
-		
+
 				"sessionToken"    = $sessionToken
 				"WebSession"      = $WebSession
 				"BaseURI"         = $BaseURI
 				"PVWAAppName"     = $PVWAAppName
 				"ExternalVersion" = $ExternalVersion
-		
+
 			}
-		
+
 		}
 
 	}#process
