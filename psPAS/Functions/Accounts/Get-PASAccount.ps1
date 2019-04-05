@@ -51,6 +51,10 @@ Separate keywords with a space.
 The name of a Safe to search. The search will be carried out only in the Safes in the Vault
 that the authenticated used is authorized to access.
 
+.PARAMETER TimeoutSec
+See Invoke-WebRequest
+Specify a timeout value in seconds
+
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
 
@@ -135,6 +139,7 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 New functionality added in version 10.4, limited functionality before this version.
+As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged - nextLink functionality was added
 
 .LINK
 #>
@@ -201,6 +206,12 @@ New functionality added in version 10.4, limited functionality before this versi
 		[string]$Safe,
 
 		[parameter(
+			Mandatory = $false,
+			ValueFromPipelineByPropertyName = $false
+		)]
+		[int]$TimeoutSec,
+
+		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
@@ -239,154 +250,167 @@ New functionality added in version 10.4, limited functionality before this versi
 		#Get Parameters to include in request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-	#Create Query String, escaped for inclusion in request URL
-	$query = ($boundParameters.keys | ForEach-Object {
+		#Create Query String, escaped for inclusion in request URL
+		$query = ($boundParameters.keys | ForEach-Object {
 
 			"$_=$($boundParameters[$_] | Get-EscapedString)"
 
 		}) -join '&'
 
-#Version 10.4 process
-If($PSCmdlet.ParameterSetName -match "v10") {
+		#Version 10.4 process
+		If($PSCmdlet.ParameterSetName -match "v10") {
 
-	#check minimum version
-	Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			#check minimum version
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
-	#assign new type name
-	$typeName = "psPAS.CyberArk.Vault.Account.V10"
+			#assign new type name
+			$typeName = "psPAS.CyberArk.Vault.Account.V10"
 
-	#define base URL
-	$URI = "$baseURI/$PVWAAppName/api/Accounts"
+			#define base URL
+			$URI = "$baseURI/$PVWAAppName/api/Accounts"
 
-	If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
-		#define query URL
-		$URI = "$URI`?$query"
-	}
+			If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
+				#define query URL
+				$URI = "$URI`?$query"
+			}
 
-	If($PSCmdlet.ParameterSetName -eq "v10ByID") {
+			If($PSCmdlet.ParameterSetName -eq "v10ByID") {
 
-		#define "by ID" URL
-		$URI = "$URI/$id"
+				#define "by ID" URL
+				$URI = "$URI/$id"
 
-	}
-
-}
-
-#legacy process
-If($PSCmdlet.ParameterSetName -eq "v9") {
-
-	#assign type name
-	$typeName = "psPAS.CyberArk.Vault.Account"
-
-	#Create request URL
-	$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
-
-}
-
-#Send request to web service
-$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
-
-if($result) {
-
-	#Get count of accounts found
-	$count = $($result.count)
-
-	#Version 10.4 individual account process
-	If($PSCmdlet.ParameterSetName -eq "v10ByID") {
-
-		$return = $result
-
-	}
-
-	#If accounts found
-	if($count -gt 0) {
-
-		Write-Verbose "Accounts Found: $count"
-
-		#Version 10.4 query process
-		If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
-
-			#get results
-			$return = ($result | Select-Object value).value
-
-	}
-
-	#legacy process
-	If($PSCmdlet.ParameterSetName -eq "v9") {
-
-		#If multiple accounts found
-		if($count -gt 1) {
-
-			#Alert that web service only displays information on first result
-			Write-Warning "$count matching accounts found. Only the first result will be returned"
+			}
 
 		}
 
-		#Get account details from search result
-		$account = ($result | Select-Object accounts).accounts
+		#legacy process
+		If($PSCmdlet.ParameterSetName -eq "v9") {
 
-	#Get account properties from found account
-	$properties = ($account | Select-Object -ExpandProperty properties)
+			#assign type name
+			$typeName = "psPAS.CyberArk.Vault.Account"
 
-#Get internal properties from found account
-$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
+			#Create request URL
+			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
 
-$InternalProps = New-object -TypeName psobject
+		}
 
-#For every account property
-For($int = 0; $int -lt $InternalProperties.length; $int++) {
+		#Send request to web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec
 
-	$InternalProps |
+		if($result) {
 
-		#Add each property name and value as object property of $InternalProps
-		Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+			#Get count of accounts found
+			$count = $($result.count)
 
-}
+			#Version 10.4 individual account process
+			If($PSCmdlet.ParameterSetName -eq "v10ByID") {
 
-#Create output object
-$return = New-object -TypeName psobject -Property @{
+				$return = $result
 
-	#Internal Unique ID of Account
-	"AccountID"         = $($account | Select-Object -ExpandProperty AccountID)
+			}
 
-#InternalProperties object
-"InternalProperties" = $InternalProps
+			#If accounts found
+			if($count -gt 0) {
 
-}
+				Write-Verbose "Accounts Found: $count"
 
-#For every account property
-For($int = 0; $int -lt $properties.length; $int++) {
+				#Version 10.4 query process
+				If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 
-	$return |
+					#get results
+					$AccountArray = @()
+					$AccountArray += ($result | Select-Object value).value
 
-		#Add each property name and value to results
-		Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
+					#iterate any nextLinks
+					$NextLink = $result.nextLink
+					While ( $null -ne $NextLink ) {
+						Write-Verbose "Processing nextLink: $NextLink"
+						$URI = "$baseURI/$PVWAAppName/$NextLink"
+						$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec
+						$NextLink = $result.nextLink
+						$AccountArray += ($result | Select-Object value).value
+					}
 
-}
+					$return = $AccountArray
 
-}
+				}
 
-}
+				#legacy process
+				If($PSCmdlet.ParameterSetName -eq "v9") {
 
-}
+					#If multiple accounts found
+					if($count -gt 1) {
 
-if($return) {
+						#Alert that web service only displays information on first result
+						Write-Warning "$count matching accounts found. Only the first result will be returned"
 
-	#Return Results
-	$return | Add-ObjectDetail -typename $typeName -PropertyToAdd @{
+					}
 
-		"sessionToken"    = $sessionToken
-		"WebSession"      = $WebSession
-		"BaseURI"         = $BaseURI
-		"PVWAAppName"     = $PVWAAppName
-		"ExternalVersion" = $ExternalVersion
+					#Get account details from search result
+					$account = ($result | Select-Object accounts).accounts
 
-	}
+					#Get account properties from found account
+					$properties = ($account | Select-Object -ExpandProperty properties)
 
-}
+					#Get internal properties from found account
+					$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
 
-}#process
+					$InternalProps = New-object -TypeName psobject
 
-END { }#end
+					#For every account property
+					For($int = 0; $int -lt $InternalProperties.length; $int++) {
+
+						$InternalProps |
+
+							#Add each property name and value as object property of $InternalProps
+							Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+
+					}
+
+					#Create output object
+					$return = New-object -TypeName psobject -Property @{
+
+						#Internal Unique ID of Account
+						"AccountID"         = $($account | Select-Object -ExpandProperty AccountID)
+
+						#InternalProperties object
+						"InternalProperties" = $InternalProps
+
+					}
+
+					#For every account property
+					For($int = 0; $int -lt $properties.length; $int++) {
+
+						$return |
+
+							#Add each property name and value to results
+							Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
+
+					}
+
+				}
+
+			}
+
+		}
+
+		if($return) {
+
+			#Return Results
+			$return | Add-ObjectDetail -typename $typeName -PropertyToAdd @{
+
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
+
+			}
+
+		}
+
+	}#process
+
+	END { }#end
 
 }

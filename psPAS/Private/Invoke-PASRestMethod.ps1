@@ -38,6 +38,10 @@ Cannot be specified with SessionVariable
 See Invoke-WebRequest
 Used for Integrated Auth
 
+.PARAMETER TimeoutSec
+See Invoke-WebRequest
+Specify a timeout value in seconds
+
 .EXAMPLE
 
 .INPUTS
@@ -83,7 +87,10 @@ to ensure session persistence.
 		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
 		[Parameter(Mandatory = $false)]
-		[switch]$UseDefaultCredentials
+		[switch]$UseDefaultCredentials,
+
+		[Parameter(Mandatory = $false)]
+		[int]$TimeoutSec
 	)
 
 	Begin {

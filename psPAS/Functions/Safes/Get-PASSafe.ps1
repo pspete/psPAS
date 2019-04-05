@@ -16,6 +16,10 @@ Query String for safe search in the vault
 Specify to find all safes.
 If SafeName or query are not specified, FindAll is the default behaviour.
 
+.PARAMETER TimeoutSec
+See Invoke-WebRequest
+Specify a timeout value in seconds
+
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
 
@@ -79,6 +83,12 @@ To force all output to be shown, pipe to Select-Object *
 			ParameterSetName = "byAll"
 		)]
 		[switch]$FindAll,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelineByPropertyName = $false
+		)]
+		[int]$TimeoutSec,
 
 		[parameter(
 			Mandatory = $true,
@@ -156,7 +166,7 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec
 
 		If($result) {
 
