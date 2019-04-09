@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -36,8 +36,8 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Context "Mandatory Parameters" {
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'}
+			$Parameters = @{Parameter = 'BaseURI' },
+			@{Parameter = 'SessionToken' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 				param($Parameter)
@@ -53,11 +53,11 @@ Describe $FunctionName {
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					Write-Output @{}
+					Write-Output @{ }
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
+					"sessionToken" = @{"Authorization" = "P_AuthValue" }
 					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 					"BaseURI"      = "https://P_URI"
 					"PVWAAppName"  = "P_App"
@@ -128,7 +128,7 @@ Describe $FunctionName {
 
 				$InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -136,12 +136,12 @@ Describe $FunctionName {
 
 				$InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASAccount -ID "SomeID" -ExternalVersion "1.0"} | Should Throw
+				{ $InputObj | Get-PASAccount -ID "SomeID" -ExternalVersion "1.0" } | Should Throw
 			}
 
 		}
@@ -227,7 +227,7 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
+					"sessionToken" = @{"Authorization" = "P_AuthValue" }
 					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 					"BaseURI"      = "https://P_URI"
 					"PVWAAppName"  = "P_App"
@@ -235,17 +235,17 @@ Describe $FunctionName {
 
 			}
 
-			it "provides output - legacy parameterset" {
+			It "provides output - legacy parameterset" {
 				$response = $InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
 				$response | Should not be null
 
 			}
 
-			it "provides output - V10ByID parameterset" {
+			It "provides output - V10ByID parameterset" {
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
 						"Count" = 30
-						"Value" = [pscustomobject]@{"Prop1" = "Val1"}
+						"Value" = [pscustomobject]@{"Prop1" = "Val1" }
 					}
 				}
 				$response = $InputObj | Get-PASAccount -id "SomeID"
@@ -253,15 +253,37 @@ Describe $FunctionName {
 
 			}
 
-			it "provides output - V10ByQuery parameterset" {
+			It "provides output - V10ByQuery parameterset" {
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
 						"Count" = 30
-						"Value" = [pscustomobject]@{"Prop1" = "Val1"}
+						"Value" = [pscustomobject]@{"Prop1" = "Val1" }
 					}
 				}
 				$response = $InputObj | Get-PASAccount -search SomeSearchTerm
 				$response | Should not be null
+
+			}
+
+			It "processes NextLink" {
+				Mock Invoke-PASRestMethod -MockWith {
+					if ($script:iteration -lt 10) {
+						[pscustomobject]@{
+							"Count"    = 30
+							"nextLink" = "SomeLink"
+							"Value"    = [pscustomobject]@{"Prop1" = "Val1" }
+						}
+						$script:iteration++
+					} else {
+						[pscustomobject]@{
+							"Count" = 30
+							"Value" = [pscustomobject]@{"Prop1" = "Val1" }
+						}
+					}
+				}
+				$script:iteration = 1
+				$InputObj | Get-PASAccount
+				Assert-MockCalled Invoke-PASRestMethod -Times 10 -Exactly -Scope It
 
 			}
 
@@ -271,35 +293,35 @@ Describe $FunctionName {
 
 			}
 
-			it "outputs object with expected typename - legacy parameterset" {
+			It "outputs object with expected typename - legacy parameterset" {
 				$response = $InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account
+				$response | Get-Member | Select-Object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account
 
 			}
 
-			it "outputs object with expected typename - v10 parameterset" {
+			It "outputs object with expected typename - v10 parameterset" {
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
 						"Count" = 30
-						"Value" = [pscustomobject]@{"Prop1" = "Val1"}
+						"Value" = [pscustomobject]@{"Prop1" = "Val1" }
 					}
 				}
 				$response = $InputObj | Get-PASAccount -search SomeSearch
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.V10
+				$response | Get-Member | Select-Object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.V10
 
 			}
 
-			it "writes warning that more than 1 account returned from the search - legacy parameterset" {
+			It "writes warning that more than 1 account returned from the search - legacy parameterset" {
 				$response = $InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningVariable warning -WarningAction SilentlyContinue
 				$warning | Should be "30 matching accounts found. Only the first result will be returned"
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
+			$DefaultProps = @{Property = 'sessionToken' },
+			@{Property = 'WebSession' },
+			@{Property = 'BaseURI' },
+			@{Property = 'PVWAAppName' },
+			@{Property = 'ExternalVersion' }
 
 			It "returns default property <Property> in response" -TestCases $DefaultProps {
 				param($Property)
