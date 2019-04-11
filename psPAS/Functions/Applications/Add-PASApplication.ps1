@@ -87,7 +87,7 @@ None
 		)]
 		[ValidateNotNullOrEmpty()]
 		[ValidateLength(1, 127)]
-		[ValidateScript( {$_ -notmatch ".*(\&).*"})]
+		[ValidateScript( { $_ -notmatch ".*(\&).*" })]
 		[string]$AppID,
 
 		[parameter(
@@ -153,7 +153,7 @@ None
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateLength(0, 24)]
-		[int]$BusinessOwnerPhone,
+		[string]$BusinessOwnerPhone,
 
 		[parameter(
 			Mandatory = $true,
@@ -181,7 +181,7 @@ None
 
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -191,7 +191,7 @@ None
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		If($PSBoundParameters.ContainsKey("ExpirationDate")) {
+		If ($PSBoundParameters.ContainsKey("ExpirationDate")) {
 
 			#Convert ExpiryDate to string in Required format
 			$Date = (Get-Date $ExpirationDate -Format MM-dd-yyyy).ToString()
@@ -213,5 +213,5 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 }
