@@ -5,6 +5,21 @@
 - Update for new PTA API methods.
 - Support for CyberArk 10.8.
 
+## 2.5.6 (April 6th 2019)
+
+- Fix
+  - `Add-PASApplication`
+    - Parameter `BusinessOwnerPhone` changed to `[string]` type
+
+## 2.5.2 (April 6th 2019)
+
+- Updated Functions
+  - `Get-PASAccount`
+    - Support for nextLink implemented to return maximum number of query results.
+    - TimeoutSec parameter added
+  - `Get-PASSafe`
+    - TimeoutSec parameter added
+
 ## 2.5.0 (March 28th 2019)
 
 ### Module update to cover CyberArk 10.7 API features
