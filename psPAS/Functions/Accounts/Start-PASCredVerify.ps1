@@ -48,6 +48,7 @@ None
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
+		[Alias("id")]
 		[string]$AccountID,
 
 		[parameter(
@@ -75,16 +76,16 @@ None
 		[string]$PVWAAppName = "PasswordVault"
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID/VerifyCredentials"
 
-		$body = @{} | ConvertTo-Json
+		$body = @{ } | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Verification")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Verification")) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -Headers $SessionToken -WebSession $WebSession
@@ -93,6 +94,6 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

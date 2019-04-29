@@ -55,6 +55,7 @@ function Unlock-PASAccount {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
+		[Alias("id")]
 		[string]$AccountID,
 
 		[parameter(
@@ -82,14 +83,14 @@ function Unlock-PASAccount {
 		[string]$PVWAAppName = "PasswordVault"
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/API/Accounts/$AccountID/CheckIn"
 
-		if($PSCmdlet.ShouldProcess($AccountID, "Check-In Exclusive Access Account")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, "Check-In Exclusive Access Account")) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -Headers $SessionToken -WebSession $WebSession
@@ -98,6 +99,6 @@ function Unlock-PASAccount {
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

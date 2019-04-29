@@ -57,6 +57,7 @@ function Invoke-PASCredReconcile {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
+		[Alias("id")]
 		[string]$AccountID,
 
 		[parameter(
@@ -102,7 +103,7 @@ function Invoke-PASCredReconcile {
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/API/Accounts/$AccountID/Reconcile"
 
-		if($PSCmdlet.ShouldProcess($AccountID, "Mark for password reconcile by CPM")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for password reconcile by CPM")) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -Headers $SessionToken -WebSession $WebSession
@@ -111,6 +112,6 @@ function Invoke-PASCredReconcile {
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

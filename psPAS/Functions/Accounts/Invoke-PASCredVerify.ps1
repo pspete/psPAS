@@ -52,6 +52,7 @@ Can be used in versions from v9.10.
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
+		[Alias("id")]
 		[string]$AccountID,
 
 		[parameter(
@@ -97,7 +98,7 @@ Can be used in versions from v9.10.
 		#Create URL for request
 		$URI = "$baseURI/$PVWAAppName/API/Accounts/$AccountID/Verify"
 
-		if($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Verification")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Verification")) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -Headers $SessionToken -WebSession $WebSession
@@ -106,6 +107,6 @@ Can be used in versions from v9.10.
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

@@ -64,6 +64,7 @@ None
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
+		[Alias("id")]
 		[string]$AccountID,
 
 		[parameter(
@@ -109,7 +110,7 @@ None
 
 		#Create empty hashtable to hold objects for header
 		#CredChange header is non-standard
-		$header = @{}
+		$header = @{ }
 
 	}#begin
 
@@ -134,7 +135,7 @@ None
 		#create request body
 		$body = $boundParameters | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Change by CPM")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Change by CPM")) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method PUT -body $body -Headers $header -WebSession $WebSession
@@ -143,6 +144,6 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
