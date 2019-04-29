@@ -62,6 +62,7 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[Alias("id")]
 		[string]$AccountID,
 
 		[parameter(
@@ -95,7 +96,7 @@ To force all output to be shown, pipe to Select-Object *
 
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -107,7 +108,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result.GetAccountActivitiesResult |
@@ -126,6 +127,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

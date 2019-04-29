@@ -7,8 +7,16 @@ Lists the members of a Safe
 Lists the members of a Safe.
 View Safe Members permission is required.
 
+If a Safe Member Name is provided, the full permissions of the member on the Safe will be returned.
+Includes AccessWithoutConfirmation, InitiateCPMAccountManagementOperations, RequestsAuthorizationLevel &
+SpecifyNextAccountContent which are not included when querying by safe only.
+
 .PARAMETER SafeName
 The name of the safe to get the members of
+
+.PARAMETER MemberName
+Specify the name of a safe member to return their safe permissions in full.
+You cannot report on the permissions of the user authenticated to the API.
 
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
@@ -27,11 +35,15 @@ Defaults to PasswordVault
 .PARAMETER ExternalVersion
 The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
 
-
 .EXAMPLE
 $token | Get-PASSafeMember -SafeName Target_Safe
 
 Lists all members with permissions on Target_Safe
+
+.EXAMPLE
+$token | Get-PASSafeMember -SafeName Target_Safe -MemberName SomeUser
+
+Lists all permissions for member SomeUser on Target_Safe
 
 .INPUTS
 All parameters can be piped by property name
@@ -60,6 +72,15 @@ To force all output to be shown, pipe to Select-Object *
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$SafeName,
+
+		[Alias("UserName")]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "MemberPermissions"
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$MemberName,
 
 		[parameter(
 			Mandatory = $true,
@@ -93,7 +114,12 @@ To force all output to be shown, pipe to Select-Object *
 
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+
+		$Method = "GET"
+		$Request = @{ }
+
+	}#begin
 
 	PROCESS {
 
@@ -102,21 +128,63 @@ To force all output to be shown, pipe to Select-Object *
 
             Get-EscapedString)/Members"
 
+		#Get full permissions for specific user on safe
+		if ($PSCmdlet.ParameterSetName -eq "MemberPermissions") {
+
+			#Create URL for member specific request
+			$URI = "$URI/$($MemberName | Get-EscapedString)"
+			#Send a PUT Request instead of GET
+			$Method = "PUT"
+			#Send an empty body
+			#Add to Request parameters for PUT Request
+			$Request["Body"] = @{"member" = @{ } } | ConvertTo-Json
+
+		}
+
+		#Build Request Parameters
+		$Request["URI"] = $URI
+		$Request["Method"] = $Method
+		$Request["Headers"] = $sessionToken
+		$Request["WebSession"] = $WebSession
+
 		#Send request to webservice
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod @Request
 
-		if($result) {
+		if ($result) {
 
-			#output
-			$result.members | Select-Object UserName, @{Name = "Permissions"; "Expression" = {
+			if ($PSCmdlet.ParameterSetName -eq "MemberPermissions") {
 
-					($_.Permissions).psobject.properties |Where-Object {$_.Value -eq $true} |
+				#format output
+				$Output = $result.member | Select-Object MembershipExpirationDate,
 
-					Select-Object -ExpandProperty Name }
+				@{Name = "UserName"; "Expression" = {
 
-			} |
+						$MemberName }
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
+				},
+
+				@{Name = "Permissions"; "Expression" = {
+
+						$_.Permissions | Where-Object { $_.value } | Select-Object -ExpandProperty key }
+
+				}
+
+			}
+
+			Else {
+
+				#output
+				$Output = $result.members | Select-Object UserName, @{Name = "Permissions"; "Expression" = {
+
+						($_.Permissions).psobject.properties | Where-Object { $_.Value -eq $true } |
+
+						Select-Object -ExpandProperty Name }
+
+				}
+
+			}
+
+			$Output | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
 
 				"SafeName"        = $SafeName
 				"sessionToken"    = $sessionToken
@@ -131,6 +199,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

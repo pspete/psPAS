@@ -61,7 +61,7 @@ Adds the Domain.Com directory to the vault
 
 .EXAMPLE
 $token | Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "bind@domain.com" -BindPassword $pw -DomainName DOMAIN `
--DomainBaseContext "DC=DOMAIN,DC=COM" -HostAddresses "192.168.99.1","192.168.99.2" -DCList @(@{"Name"="192.168.99.1";"Port"=389;"SSLConnect"=$false},@{"Name"="192.168.99.1";"Port"=389;"SSLConnect"=$false}) -Port 389
+-DomainBaseContext "DC=DOMAIN,DC=COM" -DCList @(@{"Name"="192.168.99.1";"Port"=389;"SSLConnect"=$false},@{"Name"="192.168.99.1";"Port"=389;"SSLConnect"=$false}) -Port 389
 
 (For 10.7+) - Adds the Domain.Com directory to the vault
 
@@ -169,11 +169,11 @@ LDAP Directory Details
 
 	PROCESS {
 
-		if($PSCmdlet.ParameterSetName -eq "v10_7") {
+		if ($PSCmdlet.ParameterSetName -eq "v10_7") {
 
 			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
 
-		} Elseif($PSCmdlet.ParameterSetName -eq "v10_4") {
+		} Elseif ($PSCmdlet.ParameterSetName -eq "v10_4") {
 
 			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -185,37 +185,37 @@ LDAP Directory Details
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-	#deal with BindPassword SecureString
-	If($PSBoundParameters.ContainsKey("BindPassword")) {
+		#deal with BindPassword SecureString
+		If ($PSBoundParameters.ContainsKey("BindPassword")) {
 
-		#Include decoded bind password in request
-		$boundParameters["BindPassword"] = $(ConvertTo-InsecureString -SecureString $BindPassword)
-
-	}
-
-	$body = $boundParameters | ConvertTo-Json
-write-debug $body
-#send request to web service
-$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
-
-If($result) {
-
-	#Return Results
-	$result |
-
-		Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Extended -PropertyToAdd @{
-
-			"sessionToken"    = $sessionToken
-			"WebSession"      = $WebSession
-			"BaseURI"         = $BaseURI
-			"PVWAAppName"     = $PVWAAppName
-			"ExternalVersion" = $ExternalVersion
+			#Include decoded bind password in request
+			$boundParameters["BindPassword"] = $(ConvertTo-InsecureString -SecureString $BindPassword)
 
 		}
 
-}
+		$body = $boundParameters | ConvertTo-Json
+		write-debug $body
+		#send request to web service
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-}#process
+		If ($result) {
 
-END { }#end
+			#Return Results
+			$result |
+
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Extended -PropertyToAdd @{
+
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
+
+			}
+
+		}
+
+	}#process
+
+	END { }#end
 }

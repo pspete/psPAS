@@ -110,6 +110,7 @@ function Invoke-PASCredChange {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
+		[Alias("id")]
 		[string]$AccountID,
 
 		[parameter(
@@ -216,7 +217,7 @@ function Invoke-PASCredChange {
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove UpdateVaultOnly, SetNextPassword, AccountID
 
 		#deal with NewCredentials SecureString
-		If($PSBoundParameters.ContainsKey("NewCredentials")) {
+		If ($PSBoundParameters.ContainsKey("NewCredentials")) {
 
 			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
 
@@ -228,7 +229,7 @@ function Invoke-PASCredChange {
 		#create request body
 		$body = $boundParameters | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess($AccountID, "Password: $($PSCmdlet.ParameterSetName) Value")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, "Password: $($PSCmdlet.ParameterSetName) Value")) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -body $body -Headers $SessionToken -WebSession $WebSession
@@ -237,6 +238,6 @@ function Invoke-PASCredChange {
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
