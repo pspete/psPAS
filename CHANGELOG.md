@@ -5,7 +5,7 @@
 - Update for new PTA API methods.
 - Support for CyberArk 10.8.
 
-## 2.5.10 (April 29th 2019)
+## 2.5.11 (April 30th 2019)
 
 - Updates
   - `Get-PASSafeMember`
