@@ -5,7 +5,28 @@
 - Update for new PTA API methods.
 - Support for CyberArk 10.8.
 
-## 2.5.6 (April 6th 2019)
+## 2.5.10 (April 29th 2019)
+
+- Updates
+  - `Get-PASSafeMember`
+    - Added `MemberName` parameter
+      - Returns all safe permissions of a specific user.
+  - `Get-PASAccountActivity`
+    - Added Alias `id` to `AccountID` parameter
+  - `Invoke-PASCredChange`
+    - Added Alias `id` to `AccountID` parameter
+  - `Invoke-PASCredReconcile`
+    - Added Alias `id` to `AccountID` parameter
+  - `Invoke-PASCredVerify`
+    - Added Alias `id` to `AccountID` parameter
+  - `Start-PASCredChange`
+    - Added Alias `id` to `AccountID` parameter
+  - `Start-PASCredVerify`
+    - Added Alias `id` to `AccountID` parameter
+  - `Unlock-PASAccount`
+    - Added Alias `id` to `AccountID` parameter
+
+## 2.5.6 (April 11th 2019)
 
 - Fix
   - `Add-PASApplication`
@@ -13,7 +34,7 @@
 
 ## 2.5.2 (April 6th 2019)
 
-- Updated Functions
+- Updated Functions (Thanks [steveredden](https://github.com/steveredden)!)
   - `Get-PASAccount`
     - Support for nextLink implemented to return maximum number of query results.
     - TimeoutSec parameter added

@@ -19,7 +19,7 @@
 	Copyright         = '(c) 2018 Pete Maan. All rights reserved.'
 
 	# Description of the functionality provided by this module
-	Description       = 'Module to expose CyberArk REST API/Web Service functions'
+	Description       = 'Module for CyberArk Privileged Access Security Web Service REST API'
 
 	# Minimum version of the Windows PowerShell engine required by this module
 	PowerShellVersion = '3.0'
