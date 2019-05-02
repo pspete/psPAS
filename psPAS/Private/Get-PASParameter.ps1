@@ -80,7 +80,8 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 			"InformationAction",
 			"InformationVariable",
 			"UseTransaction",
-			"ExternalVersion")
+			"ExternalVersion",
+			"UseV9API")
 	)
 
 	BEGIN {
@@ -96,7 +97,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 		ForEach-Object {
 
-			If($Parameters.Contains($_)) {
+			If ($Parameters.Contains($_)) {
 
 				Write-Debug "Removing Parameter: $_"
 				#remove specified parameters from passed values

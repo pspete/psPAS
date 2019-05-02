@@ -2,6 +2,93 @@
 <Configuration>
 	<ViewDefinitions>
 		<View>
+			<Name>psPAS.CyberArk.Vault.User.Extended</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.User.Extended</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>ID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>UserName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Source</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>UserType</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>ComponentUser</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Location</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.User.Extended</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.User.Extended</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>ID</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Source</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserType</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ComponentUser</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>VaultAuthorization</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Location</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>FirstName</Label>
+								<ScriptBlock>$_.personalDetails.firstName</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>Middlename</Label>
+								<ScriptBlock>$_.personalDetails.middlename</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>LastName</Label>
+								<ScriptBlock>$_.personalDetails.lastname</ScriptBlock>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
 			<Name>psPAS.CyberArk.Vault.User</Name>
 			<ViewSelectedBy>
 				<TypeName>psPAS.CyberArk.Vault.User</TypeName>
