@@ -6,6 +6,15 @@ Returns details of a user
 .DESCRIPTION
 Returns information on specific vault user.
 
+.PARAMETER Search
+Search string.
+
+.PARAMETER UserType
+The type of the user.
+
+.PARAMETER ComponentUser
+Whether the user is a known component or not.
+
 .PARAMETER UserName
 The user's name
 
@@ -27,7 +36,17 @@ Defaults to PasswordVault
 The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
 
 .EXAMPLE
-$token | Get-PASUser Target_User
+$token | Get-PASUser
+
+Returns information for all found Users
+
+.EXAMPLE
+$token | Get-PASUser -search SearchTerm -ComponentUser $False
+
+Returns information for all matching Users
+
+.EXAMPLE
+$token | Get-PASUser -UserName Target_User
 
 Displays information on Target_User
 
@@ -48,11 +67,36 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "10_9")]
 	param(
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10_9"
+		)]
+		[string]$Search,
+
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10_9"
+		)]
+		[string]$UserType,
+
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10_9"
+		)]
+		[boolean]$ComponentUser,
+
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "legacy"
 		)]
 		[string]$UserName,
 
@@ -88,19 +132,63 @@ To force all output to be shown, pipe to Select-Object *
 
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"10.9"
+	}#begin
 
 	PROCESS {
 
-		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
+		If ($PSCmdlet.ParameterSetName -eq "10_9") {
+
+			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+
+			#Create URL for request
+			$URI = "$baseURI/$PVWAAppName/api/Users"
+
+			#Get Parameters to include in request
+			$boundParameters = $PSBoundParameters | Get-PASParameter
+
+			#Create Query String, escaped for inclusion in request URL
+			$queryString = ($boundParameters.keys | ForEach-Object {
+
+					"$_=$($boundParameters[$_] | Get-EscapedString)"
+
+				}) -join '&'
+
+			#Build URL from base URL
+			$URI = "$URI`?$queryString"
+
+		}
+
+		ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
+
+			#Create URL for request
+			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
 
             Get-EscapedString)"
+
+		}
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
 
-		if($result) {
+		#Handle V10 return
+		if ($result.Users) {
+
+			$result.Users | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Extended -PropertyToAdd @{
+
+				"sessionToken"    = $sessionToken
+				"WebSession"      = $WebSession
+				"BaseURI"         = $BaseURI
+				"PVWAAppName"     = $PVWAAppName
+				"ExternalVersion" = $ExternalVersion
+
+			}
+
+		}
+
+		#Handle legacy return
+		ElseIf ($result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User -PropertyToAdd @{
 
@@ -114,8 +202,10 @@ To force all output to be shown, pipe to Select-Object *
 
 		}
 
+
+
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
