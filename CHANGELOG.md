@@ -1,6 +1,6 @@
 # psPAS
 
-## 2.6.0 (May 2nd 2019)
+## 2.6.15 (May 2nd 2019)
 
 ### Module update to cover CyberArk 10.9 API features
 
