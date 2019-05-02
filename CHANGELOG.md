@@ -1,9 +1,14 @@
 # psPAS
 
-## Planned Updates
+## 2.6.0 (May 2nd 2019)
 
-- Update for new PTA API methods.
-- Support for CyberArk 10.8.
+### Module update to cover CyberArk 10.9 API features
+
+- Updated Functions
+  - `New-PASUser`
+    - Added support for the updated Add User API method for v10.9
+  - `Get-PASUser`
+    - Added support for the updated Get Users API method for v10.9
 
 ## 2.5.11 (April 30th 2019)
 
