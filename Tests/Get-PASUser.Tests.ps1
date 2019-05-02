@@ -104,7 +104,8 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Users?Search=SomeUser&ComponentUser=True"
+					(($URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Users?Search=SomeUser&ComponentUser=True") -or
+						($URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Users?ComponentUser=True&Search=SomeUser"))
 
 				} -Times 1 -Exactly -Scope It
 
