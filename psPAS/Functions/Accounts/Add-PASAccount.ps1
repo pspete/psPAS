@@ -60,10 +60,10 @@ The password value as a secure string
 Username on the target machine
 
 .PARAMETER DisableAutoMgmt
-Whether or not automatic management wll be disbaled for the account
+Whether or not automatic management wll be disabled for the account
 
 .PARAMETER DisableAutoMgmtReason
-The reason why automatic management wll be disbaled for the account
+The reason why automatic management wll be disabled for the account
 
 .PARAMETER GroupName
 A groupname with which the account will be associated
@@ -409,7 +409,7 @@ v10.4 outputs th details of the created account.
 		#declare empty array to hold keys to remove from bound parameters
 		[array]$keysToRemove = @()
 
-		if($PSCmdlet.ParameterSetName -eq "V10") {
+		if ($PSCmdlet.ParameterSetName -eq "V10") {
 
 			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -417,15 +417,15 @@ v10.4 outputs th details of the created account.
 			$URI = "$baseURI/$PVWAAppName/api/Accounts"
 
 			#deal with "secret" SecureString
-			If($PSBoundParameters.ContainsKey("secret")) {
+			If ($PSBoundParameters.ContainsKey("secret")) {
 
 				#Include decoded password in request
 				$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
 
 			}
 
-			$remoteMachinesAccess = @{}
-			$boundParameters.keys | Where-Object {$remoteMachine -contains $_} | ForEach-Object {
+			$remoteMachinesAccess = @{ }
+			$boundParameters.keys | Where-Object { $remoteMachine -contains $_ } | ForEach-Object {
 
 				#add key=value to hashtable
 				$remoteMachinesAccess[$_] = $boundParameters[$_]
@@ -433,8 +433,8 @@ v10.4 outputs th details of the created account.
 
 			}
 
-			$secretManagement = @{}
-			$boundParameters.keys | Where-Object {$SecretMgmt -contains $_} | ForEach-Object {
+			$secretManagement = @{ }
+			$boundParameters.keys | Where-Object { $SecretMgmt -contains $_ } | ForEach-Object {
 
 				#add key=value to hashtable
 				$secretManagement[$_] = $boundParameters[$_]
@@ -445,18 +445,18 @@ v10.4 outputs th details of the created account.
 			$boundParameters["secretManagement"] = $secretManagement
 
 			$body = $boundParameters |
-				Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt)  |
-				ConvertTo-Json -depth 4
+			Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt) |
+			ConvertTo-Json -depth 4
 
 		}
 
-		if($PSCmdlet.ParameterSetName -eq "V9") {
+		if ($PSCmdlet.ParameterSetName -eq "V9") {
 
 			#Create URL for Request
 			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account"
 
 			#deal with Password SecureString
-			If($PSBoundParameters.ContainsKey("password")) {
+			If ($PSBoundParameters.ContainsKey("password")) {
 
 				#Include decoded password in request
 				$boundParameters["password"] = $(ConvertTo-InsecureString -SecureString $password)
@@ -470,13 +470,13 @@ v10.4 outputs th details of the created account.
 			$boundParameters.remove("SafeName")
 			$boundParameters.remove("userName")
 			#declare empty hashtable to hold "non-base" parameters
-			$properties = @{}
+			$properties = @{ }
 
 			#Get "non-base" parameters
-			$boundParameters.keys | Where-Object {$baseParameters -notcontains $_} | ForEach-Object {
+			$boundParameters.keys | Where-Object { $baseParameters -notcontains $_ } | ForEach-Object {
 
 				#For all "non-base" parameters except "DynamicProperties"
-				if($_ -ne "DynamicProperties") {
+				if ($_ -ne "DynamicProperties") {
 
 					#Add key/Value to "properties" hashtable
 					$properties[$_] = $boundParameters[$_]
@@ -501,7 +501,7 @@ v10.4 outputs th details of the created account.
 			}
 
 			#Add "non-base" parameter hashtable as value of "properties" on boundparameters object
-			$boundParameters["properties"] = @($properties.getenumerator() | ForEach-Object {$_})
+			$boundParameters["properties"] = @($properties.getenumerator() | ForEach-Object { $_ })
 
 			#Create body of request
 			$body = @{
@@ -517,9 +517,9 @@ v10.4 outputs th details of the created account.
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
 
-		if($PSCmdlet.ParameterSetName -eq "V10") {
+		if ($PSCmdlet.ParameterSetName -eq "V10") {
 
-			if($result) {
+			if ($result) {
 
 				#Return Results
 				$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Account.V10" -PropertyToAdd @{
@@ -538,5 +538,5 @@ v10.4 outputs th details of the created account.
 
 	}#process
 
-	END {}#end
+	END { }#end
 }
