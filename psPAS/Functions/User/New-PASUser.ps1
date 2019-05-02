@@ -175,9 +175,19 @@ Defaults to PasswordVault
 The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
 
 .EXAMPLE
+$token | New-PASUser -UserName NewUser -InitialPassword $securePWD -UseV9API
+
+Creates a Vault user named NewUser, with password set to securestring value from $securePWD, using the v9 (classic) API
+
+.EXAMPLE
 $token | New-PASUser -UserName NewUser -InitialPassword $securePWD
 
 Creates a Vault user named NewUser, with password set to securestring value from $securePWD
+
+.EXAMPLE
+$token | New-PASUser -UserName NewUser -InitialPassword $securePWD -unAuthorizedInterfaces "PACLI" -vaultAuthorization ManageDirectoryMapping
+
+Creates a Vault user as per the provided parameter values
 
 .INPUTS
 All parameters can be piped by property name
