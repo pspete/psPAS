@@ -35,6 +35,9 @@ The address of the domain
 .PARAMETER DomainBaseContext
 The base context of the External Directory.
 
+.PARAMETER SSLConnect
+Boolean value defining whether or not to connect to the external directory with SSL.
+
 .PARAMETER sessionToken
 Hashtable containing the session token returned from New-PASSession
 
@@ -129,6 +132,12 @@ LDAP Directory Details
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$DomainBaseContext,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[boolean]$SSLConnect,
 
 		[parameter(
 			Mandatory = $true,
