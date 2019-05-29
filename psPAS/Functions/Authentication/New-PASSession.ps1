@@ -185,6 +185,11 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipeline = $false,
 			ParameterSetName = "v9"
 		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ParameterSetName = "v10"
+		)]
 		[ValidateRange(1, 100)]
 		[int]$connectionNumber,
 
