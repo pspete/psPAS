@@ -113,7 +113,7 @@ to ensure session persistence.
 		}
 
 		#If Tls12 Security Protocol is available
-		if(([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") -and
+		if (([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") -and
 
 			#And Tls12 is not already in use
 			(-not ([System.Net.ServicePointManager]::SecurityProtocol -match "Tls12"))) {
@@ -157,7 +157,7 @@ to ensure session persistence.
 
 			Write-Debug "Status code: $StatusCode"
 
-			if( -not ($StatusCode -match "20*")) {
+			if ( -not ($StatusCode -match "20*")) {
 
 				#Non 20X Status Codes & No Status Code
 				<#
@@ -193,7 +193,7 @@ to ensure session persistence.
 
 				#status code is of type 20x
 				#If there is a response from the web request
-				if($webResponse) {
+				if ($webResponse) {
 
 					<#
                     200 - OK
@@ -203,11 +203,11 @@ to ensure session persistence.
                     #>
 
 					#If Response has content
-					if($webResponse.content) {
+					if ($webResponse.content) {
 
-						if(($webResponse.headers)["Content-Type"] -match "application/octet-stream") {
+						if (($webResponse.headers)["Content-Type"] -match "application/octet-stream") {
 
-							if($($webResponse.content | get-member | select-object -expandproperty typename) -eq "System.Byte" ) {
+							if ($($webResponse.content | get-member | select-object -expandproperty typename) -eq "System.Byte" ) {
 
 								$webResponse.content
 
@@ -215,10 +215,10 @@ to ensure session persistence.
 
 						}
 
-						elseif(($webResponse.headers)["Content-Type"] -match "application/save") {
+						elseif (($webResponse.headers)["Content-Type"] -match "application/save") {
 
 							#'application/save' is the Content-Type returned when saving a PSM recording
-							if($($webResponse.content | get-member | select-object -expandproperty typename) -eq "System.Byte" ) {
+							if ($($webResponse.content | get-member | select-object -expandproperty typename) -eq "System.Byte" ) {
 
 								$webResponse.content
 
@@ -226,26 +226,26 @@ to ensure session persistence.
 
 						}
 
-						elseif(($webResponse.headers)["Content-Type"] -match "text/html") {
+						elseif (($webResponse.headers)["Content-Type"] -match "text/html") {
 
 							Write-Debug "$($webResponse.content)"
 
-							If($webResponse.content -match '^"(.*)"$') {
+							If ($webResponse.content -match '^"(.*)"$') {
 								#Return only the text between opening and closing quotes
 								$matches[1]
-							} ElseIf($webResponse.content -match '<HTML>') {
+							} ElseIf ($webResponse.content -match '<HTML>') {
 								throw "Guru Meditation - HTML Response Received"
 							}
 
 						}
 
-						Elseif(($webResponse.headers)["Content-Type"] -match "application/json") {
+						Elseif (($webResponse.headers)["Content-Type"] -match "application/json") {
 
 							#Create Return Object from Returned JSON
 							$PASResponse = ConvertFrom-Json -InputObject $webResponse.content
 
 							#Handle Version 10 Logon Token Return
-							If(($CallingFunction -eq "New-PASSession") -and ($PASResponse.length -eq 180)) {
+							If (($CallingFunction -eq "New-PASSession") -and ($PASResponse.length -eq 180)) {
 
 								Write-Verbose "Assigning token to CyberArkLogonResult"
 								#If calling function is New-PASSession, and result is a 180 character token
@@ -260,17 +260,10 @@ to ensure session persistence.
 							}
 
 							#If Session Variable passed as argument
-							If($PSBoundParameters.ContainsKey("SessionVariable")) {
+							If ($PSCmdlet.ParameterSetName -eq "SessionVariable") {
 
-								Write-verbose "SessionVariable Passed; Processing WebSession"
-
-								#Add WebSession Object to Return Object
-								$PASResponse | Add-ObjectDetail -PropertyToAdd @{
-
-									#WebSession is stored in sessionVariable variable in current scope
-									"WebSession" = $(Get-Variable $(Get-Variable sessionVariable).Value).Value
-
-								} -Passthru $false
+								#Make WebSession available in module scope
+								Set-Variable -Name WebSession -Value $(Get-Variable $(Get-Variable sessionVariable).Value).Value -Scope Script
 
 							}
 
