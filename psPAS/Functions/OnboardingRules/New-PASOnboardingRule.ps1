@@ -253,7 +253,7 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 		if($PSCmdlet.ShouldProcess($SafeName, "Add On-Boarding Rule Using '$PlatformID'")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 			if($result) {
 

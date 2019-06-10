@@ -127,7 +127,7 @@ not accept input from the pipeline.
 
         } | ConvertTo-Json
 
-        Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+        Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
     }#process
 

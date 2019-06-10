@@ -47,7 +47,7 @@ user1    D6374740D11A5F45992D80D80E97387A PHil0soPh3rkc3MAAACBAJ3hC.............
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys"
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		if($result) {
 

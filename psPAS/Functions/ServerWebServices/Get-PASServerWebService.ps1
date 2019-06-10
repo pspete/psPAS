@@ -64,7 +64,7 @@ ServerName, ServerID, ApplicationName & Available Authentication Methods
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Verify"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		if($result) {
 

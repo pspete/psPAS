@@ -108,7 +108,7 @@ To force all output to be shown, pipe to Select-Object *
 		ConvertTo-Json
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 		if($result) {
 

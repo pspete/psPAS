@@ -77,7 +77,7 @@ Minimum CyberArk Version 9.10
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/$($RequestType)?onlywaiting=$OnlyWaiting&expired=$Expired"
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If($result) {
 

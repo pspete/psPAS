@@ -46,7 +46,7 @@ None
 		if($PSCmdlet.ShouldProcess($UserName, "Delete User")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
 		}
 

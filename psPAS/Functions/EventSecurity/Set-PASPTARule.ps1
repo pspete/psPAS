@@ -112,7 +112,7 @@ Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 
 		if($PSCmdlet.ShouldProcess($id, "Update Risky Activity Rule")) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 		}
 

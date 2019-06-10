@@ -60,7 +60,7 @@ Requires minimum version of CyberArk 10.1.
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/ComponentsMonitoringDetails/$ComponentID"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		if($result) {
 

@@ -75,7 +75,7 @@ function Invoke-PASCredReconcile {
 		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for password reconcile by CPM")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
 		}
 

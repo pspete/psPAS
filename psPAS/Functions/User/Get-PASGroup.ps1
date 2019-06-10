@@ -94,7 +94,7 @@ Minimum Version 10.5
 		$URI = "$URI`?$queryString"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		if($result) {
 

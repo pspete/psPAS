@@ -51,7 +51,7 @@ Minimum CyberArk Version 10.1
 		if($PSCmdlet.ShouldProcess($LiveSessionId, "Terminate PSM Session")) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
 		}
 

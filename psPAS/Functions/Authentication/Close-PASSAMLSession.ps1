@@ -27,7 +27,7 @@ Logs off from the SAML session related to the authorisation token
         $Body = @{} | ConvertTo-Json
 
         #Send Logon Request
-        Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+        Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
     }#process
 

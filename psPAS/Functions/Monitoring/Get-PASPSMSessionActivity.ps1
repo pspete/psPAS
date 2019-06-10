@@ -52,7 +52,7 @@ Minimum CyberArk Version 10.6
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/LiveSessions/$($LiveSessionId | Get-EscapedString)/activities"
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If($result) {
 

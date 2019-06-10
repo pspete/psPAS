@@ -50,7 +50,7 @@ None
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Accounts/$AccountID/grantAdministrativeAccess"
 
 		#Send request to webservice
-		Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $WebSession
+		Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
 	}#process
 

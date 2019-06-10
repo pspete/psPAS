@@ -61,7 +61,7 @@ To force all output to be shown, pipe to Select-Object *
             Get-EscapedString)/Activities"
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If ($result) {
 

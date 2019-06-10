@@ -183,7 +183,7 @@ Minimum Version: 10.5
 		if($PSCmdlet.ShouldProcess($TargetPlatformId, "Update On-Boarding Rule $ID")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 			if($result) {
 

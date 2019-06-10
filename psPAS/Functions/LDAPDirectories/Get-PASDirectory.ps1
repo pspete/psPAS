@@ -63,7 +63,7 @@ LDAP Directory Details
 		} Else {$type = "psPAS.CyberArk.Vault.Directory"}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If($result) {
 

@@ -468,7 +468,7 @@ v10.4 outputs th details of the created account.
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 		if ($PSCmdlet.ParameterSetName -eq "V10") {
 

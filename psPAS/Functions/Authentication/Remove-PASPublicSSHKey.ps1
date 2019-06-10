@@ -54,7 +54,7 @@ Deletes specified ssh key from vault user "Splitter"
 		if($PSCmdlet.ShouldProcess($KeyID, "Delete Public SSH Key")) {
 
 			#Send Request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
 		}
 

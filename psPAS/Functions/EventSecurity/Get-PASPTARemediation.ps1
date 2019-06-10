@@ -29,7 +29,7 @@ Get-PASPTARemediation
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/pta/API/Settings"
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If($result) {
 

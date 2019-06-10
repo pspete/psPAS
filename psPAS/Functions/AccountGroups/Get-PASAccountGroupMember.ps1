@@ -58,7 +58,7 @@ Minimum CyberArk version 9.10
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/AccountGroups/$GroupID/Members"
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		if($result) {
 

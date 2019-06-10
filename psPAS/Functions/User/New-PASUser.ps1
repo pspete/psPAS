@@ -677,7 +677,7 @@ To force all output to be shown, pipe to Select-Object *
 		if ($PSCmdlet.ShouldProcess($UserName, "Create User")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 			if ($result) {
 

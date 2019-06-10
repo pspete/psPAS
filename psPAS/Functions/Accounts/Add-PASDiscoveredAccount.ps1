@@ -364,7 +364,7 @@ All parameters can be piped by property name
 			ConvertTo-Json
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 		if($result) {
 

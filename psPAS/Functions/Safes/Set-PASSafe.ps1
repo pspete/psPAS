@@ -154,7 +154,7 @@ To force all output to be shown, pipe to Select-Object *
 		if($PSCmdlet.ShouldProcess($SafeName, "Update Safe Properties")) {
 
 			#Send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 			if($result) {
 

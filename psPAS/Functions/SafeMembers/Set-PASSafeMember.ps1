@@ -339,7 +339,7 @@ To force all output to be shown, pipe to Select-Object *
 		if($PSCmdlet.ShouldProcess($SafeName, "Update Safe Permissions for '$MemberName'")) {
 
 			#Send request to webservice
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 			if($result) {
 

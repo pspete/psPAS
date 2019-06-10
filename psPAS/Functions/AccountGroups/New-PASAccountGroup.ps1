@@ -77,7 +77,7 @@ Minimum version 9.9.5
 		if($PSCmdlet.ShouldProcess($GroupName, "Define New Account Group")) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 		}
 

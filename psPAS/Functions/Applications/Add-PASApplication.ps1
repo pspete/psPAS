@@ -171,7 +171,7 @@ None
 		} | ConvertTo-Json
 
 		#Send Request
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 	}#process
 

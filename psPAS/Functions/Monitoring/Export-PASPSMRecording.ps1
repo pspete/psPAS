@@ -57,7 +57,7 @@ Minimum CyberArk Version 10.6
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Recordings/$($RecordingID | Get-EscapedString)/Play"
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
 		#if we get a platform byte array
 		if($result) {

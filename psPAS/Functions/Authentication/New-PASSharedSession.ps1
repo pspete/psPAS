@@ -107,7 +107,7 @@ ExternalVersion; The External Version number retrieved from CyberArk.
 					Try {
 
 						#Get CyberArk ExternalVersion number, assign to Version variable.
-						[System.Version]$Version = Get-PASServer -sessionToken $SessionToken -WebSession $WebSession `
+						[System.Version]$Version = Get-PASServer -sessionToken $SessionToken -WebSession $Script:WebSession `
 							-BaseURI $BaseURI -PVWAAppName $PVWAAppName -ErrorAction Stop |
 							Select-Object -ExpandProperty ExternalVersion
 

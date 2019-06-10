@@ -275,7 +275,7 @@ All parameters can be piped to the function by propertyname
 		if($PSCmdlet.ShouldProcess($MappingID, "Update Directory Mapping")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 			If($result) {
 

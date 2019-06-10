@@ -169,7 +169,7 @@ Minimum CyberArk Version 9.10
 	if($PSCmdlet.ShouldProcess($AccountId, "Create Request for Account Access")) {
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 		if($result) {
 

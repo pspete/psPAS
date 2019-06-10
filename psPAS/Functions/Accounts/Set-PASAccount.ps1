@@ -354,7 +354,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 		if($PSCmdlet.ShouldProcess($AccountID, "Update Account Properties")) {
 
 			#send request to PAS web service
-			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body -WebSession $WebSession
+			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body -WebSession $Script:WebSession
 
 			If($Result) {
 

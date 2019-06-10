@@ -42,7 +42,7 @@ SafeShare no longer available from CyberArk
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Logo?type=$ImageType"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 
 		if($result) {

@@ -84,7 +84,7 @@ Minimum CyberArk Version 10.5
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $Header -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $Header -WebSession $Script:WebSession
 
 		If($result) {
 

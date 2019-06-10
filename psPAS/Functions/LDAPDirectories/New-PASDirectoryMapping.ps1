@@ -373,7 +373,7 @@ All parameters can be piped to the function by propertyname
 		$body = $boundParameters | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 		If($result) {
 

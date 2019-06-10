@@ -55,7 +55,7 @@ Get-PASAccount xAccount | Unlock-PASAccount
 		if ($PSCmdlet.ShouldProcess($AccountID, "Check-In Exclusive Access Account")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
 		}
 

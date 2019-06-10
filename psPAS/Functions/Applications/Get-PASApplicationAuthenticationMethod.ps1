@@ -51,7 +51,7 @@ To force all output to be shown, pipe to Select-Object *
 
             Get-EscapedString)/Authentications"
 
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		if($result) {
 

@@ -79,7 +79,7 @@ Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 		if($PSCmdlet.ShouldProcess($PlatformID, "Exports Platform Package")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $WebSession -Debug:$false
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession -Debug:$false
 
 			#if we get a platform byte array
 			if($result) {

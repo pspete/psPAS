@@ -76,7 +76,7 @@ Import-PASConnectionComponent -ImportFile ConnectionComponent.zip
 		if($PSCmdlet.ShouldProcess($ImportFile, "Imports Connection Component")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession -Debug:$false
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession -Debug:$false
 
 		}
 

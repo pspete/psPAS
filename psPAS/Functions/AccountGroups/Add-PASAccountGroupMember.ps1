@@ -70,7 +70,7 @@ Minimum version 9.9.5
 		Get-PASParameter -ParametersToRemove GroupID | ConvertTo-Json
 
 		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 	}#process
 

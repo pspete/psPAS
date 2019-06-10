@@ -250,7 +250,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 		}
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession -TimeoutSec $TimeoutSec
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 
 		if($result) {
 
@@ -281,7 +281,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					While ( $null -ne $NextLink ) {
 						Write-Verbose "Processing nextLink: $NextLink"
 						$URI = "$Script:BaseURI/$Script:PVWAAppName/$NextLink"
-						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession -TimeoutSec $TimeoutSec
+						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 						$NextLink = $result.nextLink
 						$AccountArray += ($result | Select-Object value).value
 					}

@@ -91,7 +91,7 @@ None
 				"Delete Privileged Command '$Id'")) {
 
 			#Send Request to Web Service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -Body $Body -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Body $Body -WebSession $Script:WebSession
 
 		}
 

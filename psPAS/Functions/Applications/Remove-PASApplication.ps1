@@ -48,7 +48,7 @@ None
 		if($PSCmdlet.ShouldProcess($AppID, "Delete Application")) {
 
 			#Send Request
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
 		}
 

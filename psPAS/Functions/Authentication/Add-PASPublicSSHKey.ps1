@@ -64,7 +64,7 @@ Adds SSH Key to vault user keyUser
 		} | ConvertTo-Json
 
 		#send request to webservice
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 		if($result) {
 

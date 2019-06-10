@@ -51,7 +51,7 @@ None
 		if($PSCmdlet.ShouldProcess($SafeName, "Delete Safe")) {
 
 			#Send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
 		}
 

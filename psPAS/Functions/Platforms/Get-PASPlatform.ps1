@@ -56,7 +56,7 @@ Get-PASPlatform -Name "CyberArk"
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Platforms/$($Name | Get-EscapedString)"
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If($result) {
 

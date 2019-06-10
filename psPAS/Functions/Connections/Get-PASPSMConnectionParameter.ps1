@@ -267,7 +267,7 @@ Ad-Hoc connections require 10.5
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -Headers $Header -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -Headers $Header -WebSession $Script:WebSession
 
 		If($result) {
 

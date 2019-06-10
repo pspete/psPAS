@@ -118,7 +118,7 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession -TimeoutSec $TimeoutSec
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 
 		If($result) {
 

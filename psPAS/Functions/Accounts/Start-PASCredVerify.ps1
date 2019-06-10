@@ -50,7 +50,7 @@ None
 		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Verification")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -WebSession $Script:WebSession
 
 		}
 

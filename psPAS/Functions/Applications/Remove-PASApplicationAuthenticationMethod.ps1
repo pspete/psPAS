@@ -65,7 +65,7 @@ None
 		if($PSCmdlet.ShouldProcess($AppID, "Delete Authentication Method '$AuthID'")) {
 
 			#Send Request
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
 		}
 

@@ -81,7 +81,7 @@ Set-PASPTARemediation -reconcilePassword_SuspectedPasswordChange $false
 		if($PSCmdlet.ShouldProcess("PTA", "Update Automatic Remediation Config")) {
 
 			#send request to PAS web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $Script:WebSession
 
 			if($result) {
 

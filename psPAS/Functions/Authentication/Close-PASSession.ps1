@@ -59,7 +59,7 @@ None
 		}
 
 		#Send Logoff Request
-		Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $WebSession | Out-Null
+		Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession | Out-Null
 
 	}#process
 

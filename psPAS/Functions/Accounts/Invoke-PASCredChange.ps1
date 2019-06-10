@@ -201,7 +201,7 @@ Invoke-PASCredChange -AccountID 24_3 -SetNextPassword -NewCredentials $PassWD
 		if ($PSCmdlet.ShouldProcess($AccountID, "Password: $($PSCmdlet.ParameterSetName) Value")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -body $body -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -body $body -WebSession $Script:WebSession
 
 		}
 

@@ -100,7 +100,7 @@ None
 		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Change by CPM")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method PUT -body $body -Headers $header -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method PUT -body $body -Headers $header -WebSession $Script:WebSession
 
 		}
 

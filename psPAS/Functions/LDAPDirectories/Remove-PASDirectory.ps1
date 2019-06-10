@@ -51,7 +51,7 @@ LDAP Directory Details
 		if($PSCmdlet.ShouldProcess($id, "Delete Directory")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
 		}
 

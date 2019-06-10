@@ -37,7 +37,7 @@ Last successful & failed logon times for the current user
 		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/LoginsInfo"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If($result) {
 

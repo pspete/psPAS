@@ -52,7 +52,7 @@ Minimum CyberArk Version 10.2
 		if($PSCmdlet.ShouldProcess($LiveSessionId, "Resume PSM Session")) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
 		}
 

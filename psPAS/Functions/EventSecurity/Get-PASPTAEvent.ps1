@@ -49,7 +49,7 @@ Get-PASPTAEvent
 		}
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $header -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $header -WebSession $Script:WebSession
 
 		If($result) {
 

@@ -83,7 +83,7 @@ To force all output to be shown, pipe to Select-Object *
                     Get-EscapedString)/PrivilegedCommands"
 
 		#Send request to Web Service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession #DevSkim: ignore DS104456
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession #DevSkim: ignore DS104456
 
 		if($result) {
 

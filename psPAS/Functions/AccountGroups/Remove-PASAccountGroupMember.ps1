@@ -64,7 +64,7 @@ Minimum CyberArk version 9.10
 		if($PSCmdlet.ShouldProcess($AccountID, "Delete Member from Account Group $($GroupID)")) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
 		}
 

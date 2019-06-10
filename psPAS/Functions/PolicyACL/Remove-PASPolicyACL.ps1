@@ -59,7 +59,7 @@ None
 		if($PSCmdlet.ShouldProcess($PolicyID, "Delete Rule $Id")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
 		}
 
