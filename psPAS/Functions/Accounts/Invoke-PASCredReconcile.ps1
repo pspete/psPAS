@@ -31,12 +31,12 @@ function Invoke-PASCredReconcile {
 	Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 	.EXAMPLE
-	$token | Invoke-PASCredReconcile -AccountID 21_3
+	Invoke-PASCredReconcile -AccountID 21_3
 
 	Will mark account with ID of "21_3" for password reconcile by CPM
 
 	.EXAMPLE
-	$token | Get-PASAccount xAccount | Invoke-PASCredReconcile
+	Get-PASAccount xAccount | Invoke-PASCredReconcile
 
 	Will mark xAccount for password reconciliation by CPM
 
@@ -58,38 +58,7 @@ function Invoke-PASCredReconcile {
 		)]
 		[ValidateNotNullOrEmpty()]
 		[Alias("id")]
-		[string]$AccountID,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$SessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$AccountID
 	)
 
 	BEGIN {
@@ -98,15 +67,15 @@ function Invoke-PASCredReconcile {
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/API/Accounts/$AccountID/Reconcile"
+		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Accounts/$AccountID/Reconcile"
 
 		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for password reconcile by CPM")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Headers $SessionToken -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $WebSession
 
 		}
 

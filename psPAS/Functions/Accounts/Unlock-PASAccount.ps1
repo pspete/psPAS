@@ -14,27 +14,13 @@ function Unlock-PASAccount {
 	The unique ID  of the account.
 	This is retrieved by the Get-PASAccount function.
 
-	.PARAMETER sessionToken
-	Hashtable containing the session token returned from New-PASSession
-
-	.PARAMETER WebSession
-	WebRequestSession object returned from New-PASSession
-
-	.PARAMETER BaseURI
-	PVWA Web Address
-	Do not include "/PasswordVault/"
-
-	.PARAMETER PVWAAppName
-	The name of the CyberArk PVWA Virtual Directory.
-	Defaults to PasswordVault
-
 	.EXAMPLE
-	$token | Unlock-PASAccount -AccountID 21_3
+Unlock-PASAccount -AccountID 21_3
 
 	Will check-in exclusive access account with ID of "21_3"
 
 	.EXAMPLE
-	$token | Get-PASAccount xAccount | Unlock-PASAccount
+Get-PASAccount xAccount | Unlock-PASAccount
 
 	Will check-in exclusive access account xAccount
 
@@ -56,31 +42,7 @@ function Unlock-PASAccount {
 		)]
 		[ValidateNotNullOrEmpty()]
 		[Alias("id")]
-		[string]$AccountID,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$SessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$AccountID
 	)
 
 	BEGIN { }#begin
@@ -88,12 +50,12 @@ function Unlock-PASAccount {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/API/Accounts/$AccountID/CheckIn"
+		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Accounts/$AccountID/CheckIn"
 
 		if ($PSCmdlet.ShouldProcess($AccountID, "Check-In Exclusive Access Account")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Headers $SessionToken -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $WebSession
 
 		}
 

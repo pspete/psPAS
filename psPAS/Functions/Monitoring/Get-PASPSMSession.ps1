@@ -50,32 +50,13 @@ Returns recordings from a specific date
 .PARAMETER Activities
 Returns recordings with specific activities.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-If the minimum version requirement of this function is not satisfied, execution will be halted.
-Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
-
 .EXAMPLE
-$token | Get-PASPSMSession
+Get-PASPSMSession
 
 Lists all Live PSM Sessions.
 
 .EXAMPLE
-$token | Get-PASPSMSession -liveSessionId 123_45
+Get-PASPSMSession -liveSessionId 123_45
 
 Returns details of active PSM Session with Id 123_45
 
@@ -166,38 +147,7 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "byQuery"
 		)]
-		[string]$Activities,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$Activities
 	)
 
 	BEGIN {
@@ -208,11 +158,11 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/LiveSessions"
+		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/LiveSessions"
 
 		If($PSCmdlet.ParameterSetName -eq "bySessionID") {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
 			$URI = "$URI/$liveSessionId"
 
@@ -220,7 +170,7 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 
 		ElseIf($PSCmdlet.ParameterSetName -eq "byQuery") {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -242,22 +192,14 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
 
 		If($result) {
 
 			#Return Results
 			$result.LiveSessions |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Session -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Session
 
 		} #process
 

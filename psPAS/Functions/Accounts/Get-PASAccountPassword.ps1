@@ -49,27 +49,8 @@ Use of parameter requires version 10.1 at a minimum.
 The address of the remote machine to connect to.
 Use of parameter requires version 10.1 at a minimum.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-If the minimum version requirement of this function is not satisfied, execution will be halted.
-Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
-
 .EXAMPLE
-$token | Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword
+Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword
 
 Will return the password value of the account found by Get-PASAccount:
 
@@ -78,7 +59,7 @@ Password
 Ra^D0MwM666*&U
 
 .EXAMPLE
-$token | Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -UseV10API
+Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -UseV10API
 
 Will retrieve the password value of the account found by Get-PASAccount using the v10 API:
 
@@ -87,7 +68,7 @@ Password
 Ra^D0MwM666*&U
 
 .EXAMPLE
-$token | Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -Reason "Incident Investigation"
+Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -Reason "Incident Investigation"
 
 Will retrieve the password value of the account found by Get-PASAccount using the v10 API, and specify a reason for access.
 
@@ -179,38 +160,7 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "v10"
 		)]
-		[switch]$Machine,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[switch]$Machine
 	)
 
 	BEGIN {
@@ -222,7 +172,7 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 		#Build Request
 		if($($PSCmdlet.ParameterSetName) -eq "v10") {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#For Version 10.1+
 			$Request = @{
@@ -272,15 +222,7 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 
 			[PSCustomObject] @{"Password" = $result} |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
 
 		}
 

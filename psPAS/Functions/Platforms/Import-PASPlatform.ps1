@@ -29,7 +29,7 @@ function Import-PASPlatform {
 	Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 	.EXAMPLE
-	$token | Import-PASPlatform -ImportFile CustomApp.zip
+Import-PASPlatform -ImportFile CustomApp.zip
 
 	Imports CustomApp.zip Platform package
 
@@ -52,38 +52,7 @@ function Import-PASPlatform {
 		[ValidateNotNullOrEmpty()]
 		[ValidateScript( { Test-Path -Path $_ -PathType Leaf})]
 		[ValidatePattern( '\.zip$' )]
-		[string]$ImportFile,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$SessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$ImportFile
 	)
 
 	BEGIN {
@@ -92,10 +61,10 @@ function Import-PASPlatform {
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/API/Platforms/Import"
+		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Platforms/Import"
 
 		#Convert File to byte array
 		$FileBytes = $ImportFile | Get-ByteArray
@@ -105,7 +74,7 @@ function Import-PASPlatform {
 		if($PSCmdlet.ShouldProcess($ImportFile, "Imports Platform Package")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $SessionToken -WebSession $WebSession -Debug:$false
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession -Debug:$false
 
 		}
 

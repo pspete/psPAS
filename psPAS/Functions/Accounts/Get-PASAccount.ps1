@@ -55,41 +55,24 @@ that the authenticated used is authorized to access.
 See Invoke-WebRequest
 Specify a timeout value in seconds
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Get-PASAccount
+Get-PASAccount
 
 Returns  all accounts on safes where your user has "List accounts" rights.
 This will only work from version 10.4 onwards.
 
 .EXAMPLE
-$token | Get-PASAccount -search root -sort name -offset 100 -limit 5
+Get-PASAccount -search root -sort name -offset 100 -limit 5
 
 Returns all accounts matching "root", sorted by AccountName, Search results offset by 100 and limited to 5.
 
 .EXAMPLE
-$token | Get-PASAccount -filter "SafeName eq TargetSafe"
+Get-PASAccount -filter "SafeName eq TargetSafe"
 
 Returns all accounts found in TargetSafe
 
 .EXAMPLE
-$token | Get-PASAccount -Keywords root -Safe UNIX
+Get-PASAccount -Keywords root -Safe UNIX
 
 Finds account(s) matching keywords in UNIX safe:
 
@@ -103,7 +86,7 @@ DeviceType : Operating System
 Address    : machine
 
 .EXAMPLE
-$token | Get-PASAccount -Keywords xtest
+Get-PASAccount -Keywords xtest
 
 Finds accounts matching the specified keyword.
 Only the first matching account will be returned.
@@ -209,35 +192,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false
 		)]
-		[int]$TimeoutSec,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(ValueFromPipelinebyPropertyName = $true)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
+		[int]$TimeoutSec
 
 	)
 
@@ -261,13 +216,13 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 		If($PSCmdlet.ParameterSetName -match "v10") {
 
 			#check minimum version
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#assign new type name
 			$typeName = "psPAS.CyberArk.Vault.Account.V10"
 
 			#define base URL
-			$URI = "$baseURI/$PVWAAppName/api/Accounts"
+			$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Accounts"
 
 			If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 				#define query URL
@@ -290,12 +245,12 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 			$typeName = "psPAS.CyberArk.Vault.Account"
 
 			#Create request URL
-			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
+			$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
 
 		}
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession -TimeoutSec $TimeoutSec
 
 		if($result) {
 
@@ -325,8 +280,8 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					$NextLink = $result.nextLink
 					While ( $null -ne $NextLink ) {
 						Write-Verbose "Processing nextLink: $NextLink"
-						$URI = "$baseURI/$PVWAAppName/$NextLink"
-						$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec
+						$URI = "$Script:BaseURI/$Script:PVWAAppName/$NextLink"
+						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession -TimeoutSec $TimeoutSec
 						$NextLink = $result.nextLink
 						$AccountArray += ($result | Select-Object value).value
 					}
@@ -397,15 +352,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 		if($return) {
 
 			#Return Results
-			$return | Add-ObjectDetail -typename $typeName -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			$return | Add-ObjectDetail -typename $typeName
 
 		}
 

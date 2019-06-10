@@ -21,27 +21,13 @@ have their passwords changed.
 This is only relevant for accounts that belong to an account group.
 Parameter will be ignored if account does not belong to a group.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
 .EXAMPLE
-$token | Start-PASCredChange -AccountID 21_3 -ImmediateChangeByCPM Yes
+Start-PASCredChange -AccountID 21_3 -ImmediateChangeByCPM Yes
 
 Will mark account with ID of "21_3" for immediate password change by CPM
 
 .EXAMPLE
-$token | Get-PASAccount xAccount | Start-PASCredChange -ImmediateChangeByCPM Yes
+Get-PASAccount xAccount | Start-PASCredChange -ImmediateChangeByCPM Yes
 
 Will mark xAccount for immediate password change by CPM
 
@@ -79,31 +65,7 @@ None
 			ValueFromPipelinebyPropertyName = $false
 		)]
 		[ValidateSet('Yes', 'No')]
-		[string]$ChangeCredsForGroup,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$ChangeCredsForGroup
 	)
 
 	BEGIN {
@@ -117,7 +79,7 @@ None
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID/ChangeCredentials"
+		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID/ChangeCredentials"
 
 		#Header is normally just session token
 		$header = $SessionToken

@@ -78,22 +78,8 @@ The Unique Group ID
 .PARAMETER MachineOSFamily
 The type of machine where the account was discovered.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
 .EXAMPLE
-$token | Add-PASPendingAccount -UserName Administrator -Address ServerA.domain.com -AccountDiscoveryDate 2017-01-01T00:00:00Z `
+Add-PASPendingAccount -UserName Administrator -Address ServerA.domain.com -AccountDiscoveryDate 2017-01-01T00:00:00Z `
 -AccountEnabled enabled
 
 Adds matching discovered account as pending account.
@@ -244,31 +230,7 @@ None
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateSet("Workstation", "Server")]
-		[string]$MachineOSFamily,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$MachineOSFamily
 	)
 
 	BEGIN {}#begin
@@ -276,7 +238,7 @@ None
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/PendingAccounts"
+		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/PendingAccounts"
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -301,7 +263,7 @@ None
 		} | ConvertTo-Json
 
 		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $WebSession
 
 	}#process
 

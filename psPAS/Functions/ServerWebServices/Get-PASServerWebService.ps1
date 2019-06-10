@@ -19,7 +19,7 @@ The name of the CyberArk PVWA Virtual Directory.
 Defaults to PasswordVault
 
 .EXAMPLE
-$token | Get-PASServerWebService
+Get-PASServerWebService
 
 Displays CyberArk Web Service Information
 
@@ -61,7 +61,7 @@ ServerName, ServerID, ApplicationName & Available Authentication Methods
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Verify"
+		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Verify"
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
