@@ -103,7 +103,7 @@ Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/pta/API/Settings/RiskyActivity/"
+		$URI = "$Script:BaseURI/API/pta/API/Settings/RiskyActivity/"
 
 
 		#Create body of request

@@ -23,7 +23,7 @@
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Server"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Server"
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession

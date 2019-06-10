@@ -46,7 +46,7 @@ Can be used in versions from v9.10.
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Accounts/$AccountID/Verify"
+		$URI = "$Script:BaseURI/API/Accounts/$AccountID/Verify"
 
 		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Verification")) {
 

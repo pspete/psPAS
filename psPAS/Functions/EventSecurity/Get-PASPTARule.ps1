@@ -26,7 +26,7 @@ Get-PASPTARule
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/pta/API/Settings"
+		$URI = "$Script:BaseURI/API/pta/API/Settings"
 
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession

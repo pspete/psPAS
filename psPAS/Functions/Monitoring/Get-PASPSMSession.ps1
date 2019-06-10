@@ -158,7 +158,7 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/LiveSessions"
+		$URI = "$Script:BaseURI/API/LiveSessions"
 
 		If($PSCmdlet.ParameterSetName -eq "bySessionID") {
 

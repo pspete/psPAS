@@ -79,7 +79,7 @@ None
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID/ChangeCredentials"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID/ChangeCredentials"
 
 		#Header is normally just session token
 		$header = $SessionToken

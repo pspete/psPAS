@@ -591,7 +591,7 @@ To force all output to be shown, pipe to Select-Object *
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Users"
+			$URI = "$Script:BaseURI/api/Users"
 
 			If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
 
@@ -655,7 +655,7 @@ To force all output to be shown, pipe to Select-Object *
 		ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
 
 			#Create URL for request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Users"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users"
 
 			If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
 

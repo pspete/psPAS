@@ -37,7 +37,7 @@ Requires minimum version of CyberArk 10.1.
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/ComponentsMonitoringSummary"
+		$URI = "$Script:BaseURI/api/ComponentsMonitoringSummary"
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession

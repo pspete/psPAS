@@ -36,7 +36,7 @@ Get-PASPTAEvent
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/pta/API/Events/"
+		$URI = "$Script:BaseURI/API/pta/API/Events/"
 
 		#Header is normally just session token
 		$header = $SessionToken

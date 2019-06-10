@@ -47,7 +47,7 @@ Minimum CyberArk Version 10.2
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Suspend"
+		$URI = "$Script:BaseURI/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Suspend"
 
 		if($PSCmdlet.ShouldProcess($LiveSessionId, "Suspend PSM Session")) {
 

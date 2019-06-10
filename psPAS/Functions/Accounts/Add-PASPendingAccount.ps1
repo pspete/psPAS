@@ -238,7 +238,7 @@ None
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/PendingAccounts"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/PendingAccounts"
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter

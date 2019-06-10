@@ -49,7 +49,7 @@ Minimum CyberArk Version 10.6
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/LiveSessions/$($liveSessionId | Get-EscapedString)/properties"
+		$URI = "$Script:BaseURI/API/LiveSessions/$($liveSessionId | Get-EscapedString)/properties"
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession

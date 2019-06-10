@@ -22,7 +22,7 @@ Logs off from the SAML session related to the authorisation token
     PROCESS {
 
         #Construct URL for request
-        $URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
+        $URI = "$Script:BaseURI/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
 
         $Body = @{} | ConvertTo-Json
 

@@ -140,7 +140,7 @@ LDAP Directory Details
 		}
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Configuration/LDAP/Directories"
+		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories"
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter

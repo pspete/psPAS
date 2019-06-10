@@ -259,9 +259,7 @@
 			#If Logon Result
 			If ($PASSession) {
 
-				Set-Variable -Name BaseURI -Value $BaseURI -Scope Script
-				Set-Variable -Name PVWAAppName -Value $PVWAAppName -Scope Script
-				Set-Variable -Name ExternalVersion -Value $BaseURI -Scope Script
+				Set-Variable -Name BaseURI -Value "$BaseURI/$PVWAAppName" -Scope Script
 				$Script:WebSession.Headers["Authorization"] = [string]$($PASSession.CyberArkLogonResult)
 
 				#Initial Value for Version variable

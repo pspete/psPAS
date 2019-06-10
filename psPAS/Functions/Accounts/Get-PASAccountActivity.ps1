@@ -56,7 +56,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Create request URL
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Accounts/$($AccountID |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$($AccountID |
 
             Get-EscapedString)/Activities"
 

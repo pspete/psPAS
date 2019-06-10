@@ -66,7 +66,7 @@ Minimum CyberArk version 9.10
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for Request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/API/AccountGroups?Safe=$($Safe | Get-EscapedString)"
+			$URI = "$Script:BaseURI/API/AccountGroups?Safe=$($Safe | Get-EscapedString)"
 
 		}
 
@@ -77,7 +77,7 @@ Minimum CyberArk version 9.10
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
 			#Create URL for Request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
+			$URI = "$Script:BaseURI/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
 
 		}
 

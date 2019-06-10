@@ -47,14 +47,14 @@ None
 		If($UseV9API) {
 
 			#Construct URL for request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
+			$URI = "$Script:BaseURI/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
 
 		}
 
 		Else {
 
 			#Construct URL for request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Auth/Logoff"
+			$URI = "$Script:BaseURI/API/Auth/Logoff"
 
 		}
 

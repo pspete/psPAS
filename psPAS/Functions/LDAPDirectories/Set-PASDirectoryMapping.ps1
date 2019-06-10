@@ -241,7 +241,7 @@ All parameters can be piped to the function by propertyname
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID"
+		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID"
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove DirectoryName, MappingID,

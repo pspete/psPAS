@@ -34,7 +34,7 @@ Last successful & failed logon times for the current user
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/LoginsInfo"
+		$URI = "$Script:BaseURI/api/LoginsInfo"
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession

@@ -74,7 +74,7 @@ Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
+		$URI = "$Script:BaseURI/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
 
 		if($PSCmdlet.ShouldProcess($PlatformID, "Exports Platform Package")) {
 

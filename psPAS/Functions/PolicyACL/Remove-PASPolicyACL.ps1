@@ -50,7 +50,7 @@ None
 	PROCESS {
 
 		#Create base URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Policy/$($PolicyID |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Policy/$($PolicyID |
 
             Get-EscapedString)/PrivilegedCommands/$($Id |
 

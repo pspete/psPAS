@@ -59,7 +59,7 @@ Not Tested
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/AutomaticOnboardingRules"
+		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules"
 
 		If($PSBoundParameters.ContainsKey("Names")) {
 

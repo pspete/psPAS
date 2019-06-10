@@ -43,7 +43,7 @@ None
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID/VerifyCredentials"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID/VerifyCredentials"
 
 		$body = @{ } | ConvertTo-Json
 

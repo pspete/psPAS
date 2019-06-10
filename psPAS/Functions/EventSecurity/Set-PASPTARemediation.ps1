@@ -72,7 +72,7 @@ Set-PASPTARemediation -reconcilePassword_SuspectedPasswordChange $false
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/pta/API/Settings/AutomaticRemediations/"
+		$URI = "$Script:BaseURI/API/pta/API/Settings/AutomaticRemediations/"
 
 
 		#Create body of request

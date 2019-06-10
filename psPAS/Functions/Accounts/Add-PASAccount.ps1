@@ -367,7 +367,7 @@ v10.4 outputs th details of the created account.
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for Request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Accounts"
+			$URI = "$Script:BaseURI/api/Accounts"
 
 			#deal with "secret" SecureString
 			If ($PSBoundParameters.ContainsKey("secret")) {
@@ -406,7 +406,7 @@ v10.4 outputs th details of the created account.
 		if ($PSCmdlet.ParameterSetName -eq "V9") {
 
 			#Create URL for Request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Account"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account"
 
 			#deal with Password SecureString
 			If ($PSBoundParameters.ContainsKey("password")) {

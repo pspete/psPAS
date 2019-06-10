@@ -113,7 +113,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Base URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Applications"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications"
 
 		#If AppID specified
 		If($($PSCmdlet.ParameterSetName) -eq "byAppID") {

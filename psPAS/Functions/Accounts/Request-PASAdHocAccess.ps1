@@ -47,7 +47,7 @@ None
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request (Version 10.4 onwards)
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Accounts/$AccountID/grantAdministrativeAccess"
+		$URI = "$Script:BaseURI/api/Accounts/$AccountID/grantAdministrativeAccess"
 
 		#Send request to webservice
 		Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession

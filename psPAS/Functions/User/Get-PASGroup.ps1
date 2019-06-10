@@ -78,7 +78,7 @@ Minimum Version 10.5
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/UserGroups"
+		$URI = "$Script:BaseURI/API/UserGroups"
 
 		#Get Parameters to include in request
 		$boundParameters = $PSBoundParameters | Get-PASParameter

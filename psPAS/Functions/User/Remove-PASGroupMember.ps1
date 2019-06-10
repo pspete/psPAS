@@ -54,7 +54,7 @@ None
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/UserGroups/$GroupID/members/$Member"
+		$URI = "$Script:BaseURI/API/UserGroups/$GroupID/members/$Member"
 
 		if($PSCmdlet.ShouldProcess($GroupID, "Remove Group Member $Member")) {
 

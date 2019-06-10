@@ -64,7 +64,7 @@ Import-PASPlatform -ImportFile CustomApp.zip
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Platforms/Import"
+		$URI = "$Script:BaseURI/API/Platforms/Import"
 
 		#Convert File to byte array
 		$FileBytes = $ImportFile | Get-ByteArray

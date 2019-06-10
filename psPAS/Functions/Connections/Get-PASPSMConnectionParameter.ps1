@@ -208,7 +208,7 @@ Ad-Hoc connections require 10.5
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for Request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Accounts/$($AccountID)/PSMConnect"
+			$URI = "$Script:BaseURI/API/Accounts/$($AccountID)/PSMConnect"
 
 			#Create body of request
 			$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod | ConvertTo-Json
@@ -218,7 +218,7 @@ Ad-Hoc connections require 10.5
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $AdHocVersion
 
 			#Create URL for Request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Accounts/AdHocConnect"
+			$URI = "$Script:BaseURI/API/Accounts/AdHocConnect"
 
 			#Get all parameters that will be sent in the request
 			$boundParameters = $PSBoundParameters | Get-PASParameter

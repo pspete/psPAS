@@ -46,7 +46,7 @@ None
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/MyRequests/$($RequestID)"
+		$URI = "$Script:BaseURI/API/MyRequests/$($RequestID)"
 
 		if($PSCmdlet.ShouldProcess($RequestID, "Delete Request")) {
 

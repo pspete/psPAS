@@ -152,7 +152,7 @@ Minimum CyberArk Version 9.10
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Recordings"
+		$URI = "$Script:BaseURI/API/Recordings"
 
 		If($PSCmdlet.ParameterSetName -eq "byRecordingID") {
 

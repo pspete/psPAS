@@ -66,7 +66,7 @@ Minimum CyberArk Version 9.10
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/$($RequestType)/$($RequestID)"
+		$URI = "$Script:BaseURI/API/$($RequestType)/$($RequestID)"
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession

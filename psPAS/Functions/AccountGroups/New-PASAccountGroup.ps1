@@ -69,7 +69,7 @@ Minimum version 9.9.5
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/AccountGroups/"
+		$URI = "$Script:BaseURI/API/AccountGroups/"
 
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json

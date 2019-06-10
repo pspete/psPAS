@@ -59,7 +59,7 @@ Minimum CyberArk version 9.10
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/AccountGroups/$GroupID/Members/$AccountID"
+		$URI = "$Script:BaseURI/API/AccountGroups/$GroupID/Members/$AccountID"
 
 		if($PSCmdlet.ShouldProcess($AccountID, "Delete Member from Account Group $($GroupID)")) {
 

@@ -70,7 +70,7 @@ function Invoke-PASCredReconcile {
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Accounts/$AccountID/Reconcile"
+		$URI = "$Script:BaseURI/API/Accounts/$AccountID/Reconcile"
 
 		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for password reconcile by CPM")) {
 

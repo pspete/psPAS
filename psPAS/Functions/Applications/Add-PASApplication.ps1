@@ -148,7 +148,7 @@ None
 	PROCESS {
 
 		#WebService URL
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Applications"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications"
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter

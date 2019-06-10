@@ -222,7 +222,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 			$typeName = "psPAS.CyberArk.Vault.Account.V10"
 
 			#define base URL
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Accounts"
+			$URI = "$Script:BaseURI/api/Accounts"
 
 			If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 				#define query URL
@@ -245,7 +245,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 			$typeName = "psPAS.CyberArk.Vault.Account"
 
 			#Create request URL
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts?$query"
 
 		}
 
@@ -280,7 +280,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					$NextLink = $result.nextLink
 					While ( $null -ne $NextLink ) {
 						Write-Verbose "Processing nextLink: $NextLink"
-						$URI = "$Script:BaseURI/$Script:PVWAAppName/$NextLink"
+						$URI = "$Script:BaseURI/$NextLink"
 						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 						$NextLink = $result.nextLink
 						$AccountArray += ($result | Select-Object value).value

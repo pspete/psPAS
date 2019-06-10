@@ -48,7 +48,7 @@ LDAP Directory Details
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Configuration/LDAP/Directories"
+		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories"
 
 		if($PSCmdlet.ParameterSetName -eq "v10_5") {
 

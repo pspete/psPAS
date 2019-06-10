@@ -117,7 +117,7 @@ not accept input from the pipeline.
 
     PROCESS {
 
-        $URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID |
+        $URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID |
 
             Get-EscapedString)/Authentications"
 

@@ -53,7 +53,7 @@ Get-PASPlatform -Name "CyberArk"
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Platforms/$($Name | Get-EscapedString)"
+		$URI = "$Script:BaseURI/API/Platforms/$($Name | Get-EscapedString)"
 
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession

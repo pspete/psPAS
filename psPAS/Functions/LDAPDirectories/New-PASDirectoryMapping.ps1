@@ -341,7 +341,7 @@ All parameters can be piped to the function by propertyname
 		}
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
+		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove DirectoryName, AddUpdateUsers,

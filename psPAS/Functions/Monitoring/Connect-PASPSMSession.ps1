@@ -58,7 +58,7 @@ Minimum CyberArk Version 10.5
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/LiveSessions/$($SessionId | Get-EscapedString)/monitor"
+		$URI = "$Script:BaseURI/API/LiveSessions/$($SessionId | Get-EscapedString)/monitor"
 
 		$Header = $sessionToken
 

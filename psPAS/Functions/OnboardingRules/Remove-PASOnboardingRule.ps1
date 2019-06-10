@@ -41,7 +41,7 @@ None
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/AutomaticOnboardingRules/$($RuleID |
+		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules/$($RuleID |
 
             Get-EscapedString)"
 

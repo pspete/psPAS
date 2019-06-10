@@ -226,7 +226,7 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/AutomaticOnboardingRules"
+		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules"
 
 		#create request body
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json

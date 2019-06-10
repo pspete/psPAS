@@ -175,7 +175,7 @@ Minimum Version: 10.5
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/AutomaticOnboardingRules/$Id"
+		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules/$Id"
 
 		#create request body
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove Id | ConvertTo-Json

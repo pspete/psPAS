@@ -39,7 +39,7 @@ None
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
 
             Get-EscapedString)"
 

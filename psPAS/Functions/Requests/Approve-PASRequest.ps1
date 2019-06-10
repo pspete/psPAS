@@ -55,7 +55,7 @@ Minimum CyberArk Version 9.10
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/IncomingRequests/$($RequestID)/Confirm"
+		$URI = "$Script:BaseURI/API/IncomingRequests/$($RequestID)/Confirm"
 
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestId | ConvertTo-Json

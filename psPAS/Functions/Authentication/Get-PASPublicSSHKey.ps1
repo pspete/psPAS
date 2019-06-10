@@ -42,7 +42,7 @@ user1    D6374740D11A5F45992D80D80E97387A PHil0soPh3rkc3MAAACBAJ3hC.............
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
 
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys"
 

@@ -56,7 +56,7 @@ None
 	PROCESS {
 
 		#request URL
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID |
 
             Get-EscapedString)/Authentications/$($AuthID |
 

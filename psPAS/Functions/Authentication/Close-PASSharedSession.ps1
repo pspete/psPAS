@@ -22,7 +22,7 @@ Logs off from the session related to the authorisation token.
     PROCESS {
 
         #Construct URL for request
-        $URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logoff"
+        $URI = "$Script:BaseURI/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logoff"
 
         #Send Logon Request
         Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession

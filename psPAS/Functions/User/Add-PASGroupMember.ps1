@@ -100,7 +100,7 @@ None
 
 		If ($PSCmdlet.ParameterSetName -eq "pre_10_6") {
 			#Create URL for request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Groups/$($GroupName |
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Groups/$($GroupName |
 
             Get-EscapedString)/Users"
 
@@ -111,7 +111,7 @@ None
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/API/UserGroups/$groupId/Members"
+			$URI = "$Script:BaseURI/API/UserGroups/$groupId/Members"
 
 		}
 

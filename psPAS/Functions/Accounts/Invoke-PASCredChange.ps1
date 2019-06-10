@@ -180,7 +180,7 @@ Invoke-PASCredChange -AccountID 24_3 -SetNextPassword -NewCredentials $PassWD
 		Write-Debug "ParameterSet $($PSCmdlet.ParameterSetName)"
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
+		$URI = "$Script:BaseURI/API/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove UpdateVaultOnly, SetNextPassword, AccountID

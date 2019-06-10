@@ -50,7 +50,7 @@ Get-PASAccount xAccount | Unlock-PASAccount
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/Accounts/$AccountID/CheckIn"
+		$URI = "$Script:BaseURI/API/Accounts/$AccountID/CheckIn"
 
 		if ($PSCmdlet.ShouldProcess($AccountID, "Check-In Exclusive Access Account")) {
 

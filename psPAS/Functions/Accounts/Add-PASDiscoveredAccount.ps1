@@ -326,7 +326,7 @@ All parameters can be piped by property name
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/api/DiscoveredAccounts"
+		$URI = "$Script:BaseURI/api/DiscoveredAccounts"
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter

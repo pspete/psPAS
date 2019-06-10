@@ -58,7 +58,7 @@ None
 		If($PSCmdlet.ParameterSetName -eq "V9") {
 
 			#Create URL for request (earlier than 10.4)
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
 
 		}
 
@@ -68,7 +68,7 @@ None
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for request (Version 10.4 onwards)
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Accounts/$AccountID"
+			$URI = "$Script:BaseURI/api/Accounts/$AccountID"
 
 		}
 

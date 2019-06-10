@@ -65,7 +65,7 @@ Import-PASConnectionComponent -ImportFile ConnectionComponent.zip
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/API/ConnectionComponents/Import"
+		$URI = "$Script:BaseURI/API/ConnectionComponents/Import"
 
 		#Convert File to byte array
 		$FileBytes = $ImportFile | Get-ByteArray

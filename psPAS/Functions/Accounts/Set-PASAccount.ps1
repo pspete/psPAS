@@ -257,7 +257,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for Request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/api/Accounts/$AccountID"
+			$URI = "$Script:BaseURI/api/Accounts/$AccountID"
 
 			#Define method for request
 			$Method = "PATCH"
@@ -280,7 +280,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 		if($PSCmdlet.ParameterSetName -eq "V9") {
 
 			#Create URL for Request
-			$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
 
 			#Define method for request
 			$Method = "PUT"

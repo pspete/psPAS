@@ -79,7 +79,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Create base URL for request
-		$URI = "$Script:BaseURI/$Script:PVWAAppName/WebServices/PIMServices.svc/Safes"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes"
 
 		#If SafeName specified
 		If($($PSCmdlet.ParameterSetName) -eq "byName") {
