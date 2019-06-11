@@ -56,9 +56,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'id'},
+			$Parameters = @{Parameter = 'id'},
 			@{Parameter = 'category'},
 			@{Parameter = 'regex'},
 			@{Parameter = 'score'},

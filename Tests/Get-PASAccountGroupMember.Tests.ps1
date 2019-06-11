@@ -50,9 +50,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'GroupID'}
+			$Parameters = @{Parameter = 'GroupID'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 

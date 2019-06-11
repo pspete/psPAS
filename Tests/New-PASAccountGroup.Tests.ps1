@@ -51,9 +51,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'GroupName'},
+			$Parameters = @{Parameter = 'GroupName'},
 			@{Parameter = 'GroupPlatformID'},
 			@{Parameter = 'Safe'}
 

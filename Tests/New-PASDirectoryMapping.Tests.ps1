@@ -37,9 +37,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'DirectoryName'},
+			$Parameters = @{Parameter = 'DirectoryName'},
 			@{Parameter = 'MappingName'},
 			@{Parameter = 'LDAPBranch'},
 			@{Parameter = 'DomainGroups'}

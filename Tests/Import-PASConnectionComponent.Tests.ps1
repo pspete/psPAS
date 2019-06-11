@@ -53,9 +53,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'ImportFile'}
+			$Parameters = @{Parameter = 'ImportFile'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 

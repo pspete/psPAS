@@ -52,9 +52,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'DecisionPlatformId'},
+			$Parameters = @{Parameter = 'DecisionPlatformId'},
 			@{Parameter = 'DecisionSafeName'},
 			@{Parameter = 'SystemTypeFilter'},
 			@{Parameter = 'TargetPlatformId'},

@@ -50,9 +50,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'Command'},
+			$Parameters = @{Parameter = 'Command'},
 			@{Parameter = 'CommandGroup'},
 			@{Parameter = 'PermissionType'},
 			@{Parameter = 'PolicyID'},
