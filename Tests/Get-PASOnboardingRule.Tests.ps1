@@ -39,12 +39,7 @@ Describe $FunctionName {
 			[PSCustomObject]@{"AutomaticOnboardingRules" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}}
 		}
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"AccountID"    = "99_9"
+		$InputObj = [pscustomobject]@{"AccountID"    = "99_9"
 			"Names"        = "SomeRule,SomeRule2"
 
 		}

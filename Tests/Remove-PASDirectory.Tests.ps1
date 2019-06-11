@@ -37,9 +37,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' },
-			@{Parameter = 'id' }
+			$Parameters = @{Parameter = 'id' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -57,15 +55,7 @@ Describe $FunctionName {
 
 			Mock Invoke-PASRestMethod -MockWith { }
 
-			$InputObj = [pscustomobject]@{
-				"sessionToken" = @{"Authorization" = "P_AuthValue" }
-				"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-				"BaseURI"      = "https://P_URI"
-				"PVWAAppName"  = "P_App"
-
-			}
-
-			$response = $InputObj | Remove-PASDirectory -id SomeDir
+			$response = Remove-PASDirectory -id SomeDir
 
 	}
 
@@ -98,7 +88,7 @@ Describe $FunctionName {
 	}
 
 	It "throws error if version requirement not met" {
-		{ $InputObj | Get-PASDirectory -ExternalVersion "1.0" } | Should Throw
+		{ Get-PASDirectory -ExternalVersion "1.0" } | Should Throw
 }
 
 }
@@ -109,15 +99,7 @@ Context "Output" {
 
 		Mock Invoke-PASRestMethod -MockWith { }
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue" }
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-
-		}
-
-		$response = $InputObj | Remove-PASDirectory -id SomeDir
+		$response = Remove-PASDirectory -id SomeDir
 
 }
 

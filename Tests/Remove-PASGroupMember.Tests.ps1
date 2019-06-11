@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -37,8 +37,8 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'GroupID'},
-			@{Parameter = 'Member'}
+			$Parameters = @{Parameter = 'GroupID' },
+			@{Parameter = 'Member' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -54,26 +54,18 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith {}
-
-				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
-
-				}
+				Mock Invoke-PASRestMethod -MockWith { }
 
 			}
 
 			It "sends request" {
-				$InputObj | Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
+				Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-				$InputObj | Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
+				Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/UserGroups/X1_Y2/members/TargetUser"
@@ -83,20 +75,20 @@ Describe $FunctionName {
 			}
 
 			It "uses expected method" {
-				$InputObj | Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'DELETE' } -Times 1 -Exactly -Scope It
+				Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
-				$InputObj | Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope It
+				Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "throws error if version requirement not met" {
 
-				{$InputObj | Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser -ExternalVersion 1.2} | Should throw
+				{ Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser -ExternalVersion 1.2 } | Should throw
 
 			}
 
@@ -106,18 +98,11 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith {}
-			}
-
-			$InputObj = [pscustomobject]@{
-				"sessionToken" = @{"Authorization" = "P_AuthValue"}
-				"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-				"BaseURI"      = "https://P_URI"
-				"PVWAAppName"  = "P_App"
+				Mock Invoke-PASRestMethod -MockWith { }
 			}
 
 			it "provides no output" {
-				$response = $InputObj | Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
+				$response = Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
 				$response | Should BeNullOrEmpty
 
 			}

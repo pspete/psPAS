@@ -37,9 +37,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' },
-			@{Parameter = 'password' }
+			$Parameters = @{Parameter = 'password' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -91,10 +89,6 @@ Describe $FunctionName {
 					"platformID"            = "P_Platform"
 					"password"              = $secureString
 					"userName"              = "P_UserName"
-					"sessionToken"          = @{"Authorization" = "P_AuthValue" }
-					"WebSession"            = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"               = "https://P_URI"
-					"PVWAAppName"           = "P_App"
 					"Port"                  = 1234
 					"ExtraPass1Name"        = "P_ExtP1"
 					"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal" }
@@ -117,10 +111,6 @@ Describe $FunctionName {
 					"PlatformID"                       = "SomePlatform"
 					"userName"                         = "SomeUser"
 					"secret"                           = $secureString
-					"sessionToken"                     = @{"Authorization" = "P_AuthValue" }
-					"WebSession"                       = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"                          = "https://P_URI"
-					"PVWAAppName"                      = "P_App"
 					"automaticManagementEnabled"       = $true
 					"remoteMachines"                   = "someMachine"
 					"accessRestrictedToRemoteMachines" = $false
@@ -273,10 +263,6 @@ Describe $FunctionName {
 					"PlatformID"                 = "SomePlatform"
 					"userName"                   = "SomeUser"
 					"secret"                     = $secureString
-					"sessionToken"               = @{"Authorization" = "P_AuthValue" }
-					"WebSession"                 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"                    = "https://P_URI"
-					"PVWAAppName"                = "P_App"
 					"automaticManagementEnabled" = $true
 					"remoteMachines"             = "someMachine"
 				}
@@ -290,10 +276,6 @@ Describe $FunctionName {
 					"platformID"            = "P_Platform"
 					"password"              = $secureString
 					"userName"              = "P_UserName"
-					"sessionToken"          = @{"Authorization" = "P_AuthValue" }
-					"WebSession"            = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"               = "https://P_URI"
-					"PVWAAppName"           = "P_App"
 					"Port"                  = 1234
 					"ExtraPass1Name"        = "P_ExtP1"
 					"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal" }

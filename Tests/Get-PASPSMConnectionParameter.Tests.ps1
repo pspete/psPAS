@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -36,24 +36,16 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
+			[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken"        = @{"Authorization" = "P_AuthValue"}
-			"WebSession"          = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"             = "https://P_URI"
-			"PVWAAppName"         = "P_App"
 			"AccountID"           = "99_9"
 			"ConnectionComponent" = "SomeConnectionComponent"
 
 		}
 
 		$AdHocObj = [pscustomobject]@{
-			"sessionToken"        = @{"Authorization" = "P_AuthValue"}
-			"WebSession"          = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"             = "https://P_URI"
-			"PVWAAppName"         = "P_App"
 			"ConnectionComponent" = "SomeConnectionComponent"
 			"UserName"            = "SomeUser"
 			"secret"              = "SomeSecret" | ConvertTo-SecureString -AsPlainText -Force
@@ -64,8 +56,8 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'AccountID'},
-			@{Parameter = 'ConnectionComponent'}
+			$Parameters = @{Parameter = 'AccountID' },
+			@{Parameter = 'ConnectionComponent' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -99,7 +91,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -140,11 +132,11 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met for RDP connection method" {
-				{$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP -ExternalVersion "9.8"} | Should Throw
+				{ $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP -ExternalVersion "9.8" } | Should Throw
 			}
 
 			It "throws error if version requirement not met for PSMGW connection method" {
-				{$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW -ExternalVersion "9.10"} | Should Throw
+				{ $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW -ExternalVersion "9.10" } | Should Throw
 			}
 
 			It "sends request to expected endpoint for AdHocConnect" {
@@ -159,7 +151,7 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met for AdHocConnect" {
-				{$AdHocObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW -ExternalVersion "10.4"} | Should Throw
+				{ $AdHocObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW -ExternalVersion "10.4" } | Should Throw
 			}
 
 		}

@@ -37,17 +37,6 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' }
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command New-PASUser).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
-
-			}
-
 			It "specifies parameter UserName as mandatory for ParameterSet legacy" {
 
 				(Get-Command New-PASUser).Parameters["UserName"].ParameterSets["legacy"].IsMandatory | Should be $true
@@ -77,10 +66,6 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"    = @{"Authorization" = "P_AuthValue" }
-					"WebSession"      = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"         = "https://P_URI"
-					"PVWAAppName"     = "P_App"
 					"UserName"        = "SomeUser"
 					"InitialPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
 					"FirstName"       = "Some"
@@ -144,10 +129,6 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"    = @{"Authorization" = "P_AuthValue" }
-					"WebSession"      = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"         = "https://P_URI"
-					"PVWAAppName"     = "P_App"
 					"UserName"        = "SomeUser"
 					"InitialPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
 					"FirstName"       = "Some"
@@ -221,10 +202,6 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"    = @{"Authorization" = "P_AuthValue" }
-					"WebSession"      = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"         = "https://P_URI"
-					"PVWAAppName"     = "P_App"
 					"UserName"        = "SomeUser"
 					"InitialPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
 					"FirstName"       = "Some"

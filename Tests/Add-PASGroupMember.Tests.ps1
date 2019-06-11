@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -39,31 +39,23 @@ Describe $FunctionName {
 			Write-Output "Added"
 		}
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"GroupName"    = "SomeGroup"
-			"UserName"     = "SomeUser"
+		$InputObj = [pscustomobject]@{"GroupName" = "SomeGroup"
+			"UserName"                               = "SomeUser"
 
 		}
 
 		$InputObjV10 = [pscustomobject]@{
-			"memberId"     = "someName"
-			"memberType"   = "domain"
-			"domainName"   = "SomeDomain"
-			"groupId"      = "1234"
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
+			"memberId"   = "someName"
+			"memberType" = "domain"
+			"domainName" = "SomeDomain"
+			"groupId"    = "1234"
+
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'GroupName'},
-			@{Parameter = 'UserName'}
+			$Parameters = @{Parameter = 'GroupName' },
+			@{Parameter = 'UserName' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -115,7 +107,7 @@ Describe $FunctionName {
 
 				$InputObj | Add-PASGroupMember
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -123,7 +115,7 @@ Describe $FunctionName {
 
 				$InputObjV10 | Add-PASGroupMember
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -169,7 +161,7 @@ Describe $FunctionName {
 
 			It "throws error if version requirement not met" {
 
-				{$InputObjV10 | Add-PASGroupMember -ExternalVersion "1.0"} | Should Throw
+				{ $InputObjV10 | Add-PASGroupMember -ExternalVersion "1.0" } | Should Throw
 
 			}
 

@@ -40,19 +40,13 @@ Describe $FunctionName {
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue" }
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"UserName"     = "SomeUser"
+			"UserName" = "SomeUser"
 
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' },
-			@{Parameter = 'UserName' },
+			$Parameters = @{Parameter = 'UserName' },
 			@{Parameter = 'PublicSSHKey' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {

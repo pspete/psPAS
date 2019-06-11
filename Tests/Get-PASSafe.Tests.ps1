@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -37,40 +37,15 @@ Describe $FunctionName {
 
 		Mock Invoke-PASRestMethod -MockWith {
 			[PSCustomObject]@{
-				"SearchSafesResult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}
-				"GetSafesResult"    = [PSCustomObject]@{"PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC"}
-				"GetSafeResult"     = [PSCustomObject]@{"Prop5" = "Val5"; "Prop6" = "Val6"; "Prop7" = "Val7"; "Prop8" = "Val8"}
+				"SearchSafesResult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+				"GetSafesResult"    = [PSCustomObject]@{"PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC" }
+				"GetSafeResult"     = [PSCustomObject]@{"Prop5" = "Val5"; "Prop6" = "Val6"; "Prop7" = "Val7"; "Prop8" = "Val8" }
 			}
 		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-
-		}
-
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'}
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Get-PASSafe).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
-
-			}
-
-		}
-
-
 
 		Context "Input - byAll ParameterSet" {
 
-			$InputObj | Get-PASSafe -FindAll
+			Get-PASSafe -FindAll
 
 			It "sends request" {
 
@@ -90,13 +65,13 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Context
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Context
 
 			}
 
@@ -104,7 +79,7 @@ Describe $FunctionName {
 
 		Context "Input - byName ParameterSet" {
 
-			$InputObj | Get-PASSafe -SafeName SomeSafe
+			Get-PASSafe -SafeName SomeSafe
 
 			It "sends request" {
 
@@ -124,13 +99,13 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Context
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Context
 
 			}
 
@@ -138,7 +113,7 @@ Describe $FunctionName {
 
 		Context "Input - byQuery ParameterSet" {
 
-			$InputObj | Get-PASSafe -query "SomeSafe"
+			Get-PASSafe -query "SomeSafe"
 
 			It "sends request" {
 
@@ -158,13 +133,13 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Context
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Context
 
 			}
 
@@ -172,7 +147,7 @@ Describe $FunctionName {
 
 		Context "Output - byAll ParameterSet" {
 
-			$response = $InputObj | Get-PASSafe -FindAll
+			$response = Get-PASSafe -FindAll
 
 			it "provides output" {
 
@@ -198,7 +173,7 @@ Describe $FunctionName {
 
 		Context "Output - byName ParameterSet" {
 
-			$response = $InputObj | Get-PASSafe -SafeName SomeSafe
+			$response = Get-PASSafe -SafeName SomeSafe
 
 			it "provides output" {
 
@@ -224,7 +199,7 @@ Describe $FunctionName {
 
 		Context "Output - byQuery ParameterSet" {
 
-			$response = $InputObj | Get-PASSafe -query "SomeSafe"
+			$response = Get-PASSafe -query "SomeSafe"
 
 			it "provides output" {
 

@@ -39,12 +39,7 @@ Describe $FunctionName {
 			[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail"}
 		}
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"UserName"     = "SomeUser"
+		$InputObj = [pscustomobject]@{"UserName"     = "SomeUser"
 			"NewPassword"  = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
 			"FirstName"    = "Some"
 			"LastName"     = "User"

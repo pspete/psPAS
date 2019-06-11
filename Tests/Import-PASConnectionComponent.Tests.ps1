@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -36,14 +36,7 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"ConnectionComponentID" = "SomeConnectionComponent"}
-		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
+			[PSCustomObject]@{"ConnectionComponentID" = "SomeConnectionComponent" }
 		}
 
 		#Create a 512b file to test with
@@ -53,7 +46,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'ImportFile'}
+			$Parameters = @{Parameter = 'ImportFile' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -65,20 +58,20 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Import-PASConnectionComponent -ImportFile $($file.name)
+		$response = Import-PASConnectionComponent -ImportFile $($file.name)
 
 		Context "Input" {
 
 			It "throws if InputFile does not exist" {
-				{$InputObj | Import-PASConnectionComponent -ImportFile SomeFile.txt} | Should throw
+				{ Import-PASConnectionComponent -ImportFile SomeFile.txt } | Should throw
 			}
 
 			It "throws if InputFile resolves to a folder" {
-				{$InputObj | Import-PASConnectionComponent -ImportFile $pwd} | Should throw
+				{ Import-PASConnectionComponent -ImportFile $pwd } | Should throw
 			}
 
 			It "throws if InputFile does not have a zip extention" {
-				{$InputObj | Import-PASConnectionComponent -ImportFile README.MD} | Should throw
+				{ Import-PASConnectionComponent -ImportFile README.MD } | Should throw
 			}
 
 			It "sends request" {
@@ -99,7 +92,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -128,7 +121,7 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Import-PASConnectionComponent -ImportFile $($file.name) -ExternalVersion "1.0"} | Should Throw
+				{ Import-PASConnectionComponent -ImportFile $($file.name) -ExternalVersion "1.0" } | Should Throw
 			}
 
 		}

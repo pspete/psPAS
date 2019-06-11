@@ -37,9 +37,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' },
-			@{Parameter = 'DirectoryType' },
+			$Parameters = @{Parameter = 'DirectoryType' },
 			@{Parameter = 'HostAddresses' },
 			@{Parameter = 'DomainName' },
 			@{Parameter = 'DomainBaseContext' }
@@ -62,10 +60,6 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"      = @{"Authorization" = "P_AuthValue" }
-					"WebSession"        = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"           = "https://P_URI"
-					"PVWAAppName"       = "P_App"
 					"DirectoryType"     = "SomeType.ini"
 					"HostAddresses"     = "1.1.1.1", "2.2.2.2", "3.3.3.3"
 					"DomainName"        = "SomeDomain"
@@ -133,10 +127,6 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"      = @{"Authorization" = "P_AuthValue" }
-					"WebSession"        = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"           = "https://P_URI"
-					"PVWAAppName"       = "P_App"
 					"DirectoryType"     = "SomeType.ini"
 					"DCList"            = @{"Name" = "SomeName"; }
 					"DomainName"        = "SomeDomain"

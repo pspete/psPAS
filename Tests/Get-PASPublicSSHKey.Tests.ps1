@@ -39,12 +39,7 @@ Describe $FunctionName {
 			[PSCustomObject]@{"GetUserAuthorizedKeysResult" = [PSCustomObject]@{"KeyID" = "SomeID"; "PublicSSHKey" = "SomeKey"}}
 		}
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"UserName"     = "SomeUser"
+		$InputObj = [pscustomobject]@{"UserName"     = "SomeUser"
 
 		}
 

@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -75,10 +75,6 @@ Describe $FunctionName {
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken"                           = @{"Authorization" = "P_AuthValue"}
-			"WebSession"                             = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"                                = "https://P_URI"
-			"PVWAAppName"                            = "P_App"
 			"SafeName"                               = "SomeSafe"
 			"MemberName"                             = "SomeUser"
 			"SearchIn"                               = "SomePlace"
@@ -109,8 +105,8 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'SafeName'},
-			@{Parameter = 'MemberName'}
+			$Parameters = @{Parameter = 'SafeName' },
+			@{Parameter = 'MemberName' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -144,7 +140,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -174,7 +170,7 @@ Describe $FunctionName {
 
 			It "throws if invalid date pattern specified" {
 
-				{$InputObj | Add-PASSafeMember -MembershipExpirationDate "31/12/18"} | Should throw
+				{ $InputObj | Add-PASSafeMember -MembershipExpirationDate "31/12/18" } | Should throw
 
 			}
 

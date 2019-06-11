@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -36,20 +36,13 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail"}
-		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
+			[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'UserName'},
-			@{Parameter = 'Suspended'}
+			$Parameters = @{Parameter = 'UserName' },
+			@{Parameter = 'Suspended' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -61,7 +54,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Unblock-PASUser -UserName MrFatFingers -Suspended $false
+		$response = Unblock-PASUser -UserName MrFatFingers -Suspended $false
 
 		Context "Input" {
 
@@ -83,7 +76,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'PUT' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope Describe
 
 			}
 

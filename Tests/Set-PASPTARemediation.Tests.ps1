@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -45,17 +45,10 @@ Describe $FunctionName {
 			}
 		}
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-		}
-
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'}
+			$Parameters = @{Parameter = 'BaseURI' },
+			@{Parameter = 'SessionToken' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -67,7 +60,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Set-PASPTARemediation -changePassword_OverPassTheHash $true -reconcilePassword_SuspectedPasswordChange $true
+		$response = Set-PASPTARemediation -changePassword_OverPassTheHash $true -reconcilePassword_SuspectedPasswordChange $true
 
 		Context "Input" {
 
@@ -89,7 +82,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'PATCH' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PATCH' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -112,7 +105,7 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Set-PASPTARemediation -ExternalVersion "1.0"} | Should Throw
+				{ Set-PASPTARemediation -ExternalVersion "1.0" } | Should Throw
 			}
 
 		}

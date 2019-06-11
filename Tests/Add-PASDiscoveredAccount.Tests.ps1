@@ -37,9 +37,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' },
-			@{Parameter = 'UserName' },
+			$Parameters = @{Parameter = 'UserName' },
 			@{Parameter = 'Address' },
 			@{Parameter = 'discoveryDate' },
 			@{Parameter = 'AccountEnabled' },
@@ -62,10 +60,6 @@ Describe $FunctionName {
 				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"   = @{"Authorization" = "P_AuthValue" }
-					"WebSession"     = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"        = "https://P_URI"
-					"PVWAAppName"    = "P_App"
 					"UserName"       = "SomeUser"
 					"Address"        = "SomeDomain"
 					"discoveryDate"  = "$(Get-Date 1/1/1971)"
@@ -180,10 +174,6 @@ Describe $FunctionName {
 
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"   = @{"Authorization" = "P_AuthValue" }
-					"WebSession"     = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"        = "https://P_URI"
-					"PVWAAppName"    = "P_App"
 					"UserName"       = "SomeUser"
 					"Address"        = "SomeDomain"
 					"discoveryDate"  = "$(Get-Date 1/1/1971)"

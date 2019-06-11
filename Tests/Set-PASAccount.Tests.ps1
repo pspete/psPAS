@@ -37,9 +37,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' },
-			@{Parameter = 'AccountID' },
+			$Parameters = @{Parameter = 'AccountID' },
 			@{Parameter = 'Folder' },
 			@{Parameter = 'AccountName' },
 			@{Parameter = 'op' },
@@ -63,10 +61,6 @@ Describe $FunctionName {
 				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue" }
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
 					"AccountID"    = "12_3"
 					"Folder"       = "Root"
 					"AccountName"  = "Name"
@@ -80,9 +74,6 @@ Describe $FunctionName {
 				[void]$InputObj.PSObject.TypeNames.Insert(0, "psPAS.CyberArk.Vault.Account")
 
 				$InputObjV10 = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue" }
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
 					"PVWAAppName"  = "P_App"
 					"AccountID"    = "12_3"
 				}
@@ -259,10 +250,6 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue" }
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
 					"AccountID"    = "12_3"
 					"Folder"       = "Root"
 					"AccountName"  = "Name"
@@ -276,10 +263,6 @@ Describe $FunctionName {
 				[void]$InputObj.PSObject.TypeNames.Insert(0, "psPAS.CyberArk.Vault.Account")
 
 				$InputObjV10 = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue" }
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
 					"AccountID"    = "12_3"
 				}
 

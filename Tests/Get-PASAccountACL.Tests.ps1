@@ -41,10 +41,6 @@ Describe $FunctionName {
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken"    = @{"Authorization" = "P_AuthValue"}
-			"WebSession"      = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"         = "https://P_URI"
-			"PVWAAppName"     = "P_App"
 			"AccountPolicyID" = "UNIXSSH"
 			"AccountAddress"  = "ServerA.domain.com"
 			"AccountUserName" = "root"

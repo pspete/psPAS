@@ -37,9 +37,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' },
-			@{Parameter = 'liveSessionId' }
+			$Parameters = @{Parameter = 'liveSessionId' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -58,10 +56,6 @@ Describe $FunctionName {
 				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"  = @{"Authorization" = "P_AuthValue" }
-					"WebSession"    = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"       = "https://P_URI"
-					"PVWAAppName"   = "P_App"
 					"liveSessionId" = "SomeID"
 
 				}
@@ -120,10 +114,6 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"  = @{"Authorization" = "P_AuthValue" }
-					"WebSession"    = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"       = "https://P_URI"
-					"PVWAAppName"   = "P_App"
 					"liveSessionId" = "SomeID"
 				}
 

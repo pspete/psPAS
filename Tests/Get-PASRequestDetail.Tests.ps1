@@ -39,12 +39,7 @@ Describe $FunctionName {
 			[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2"; "PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC"}
 		}
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"RequestID"    = "SomeID"
+		$InputObj = [pscustomobject]@{"RequestID"    = "SomeID"
 		}
 
 		Context "Mandatory Parameters" {

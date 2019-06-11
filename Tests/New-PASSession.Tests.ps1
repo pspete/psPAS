@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -54,8 +54,8 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'Credential'}
+			$Parameters = @{Parameter = 'BaseURI' },
+			@{Parameter = 'Credential' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -89,7 +89,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -222,19 +222,6 @@ Describe $FunctionName {
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'ExternalVersion'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'}
-
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Not BeNullOrEmpty
-
-			}
-
 			It "outputs sessionToken in expected format" {
 
 				$response.sessiontoken.gettype() | Should be Hashtable
@@ -283,14 +270,14 @@ Describe $FunctionName {
 
 			It "throws error if authentication request fails" {
 
-				Mock Invoke-PASRestMethod -MockWith {Write-Error -Message "Some Error" -ErrorId 12345}
-				{$Credentials | New-PASSession -BaseURI "https://P_URI"  -UseV9API -ErrorAction Stop} | Should throw
+				Mock Invoke-PASRestMethod -MockWith { Write-Error -Message "Some Error" -ErrorId 12345 }
+				{ $Credentials | New-PASSession -BaseURI "https://P_URI"  -UseV9API -ErrorAction Stop } | Should throw
 
 			}
 
 			It "returns no output if authentication request fails" {
 
-				Mock Invoke-PASRestMethod -MockWith {Write-Error -Message "Some Error" -ErrorId 12345}
+				Mock Invoke-PASRestMethod -MockWith { Write-Error -Message "Some Error" -ErrorId 12345 }
 				$Credentials | New-PASSession -BaseURI "https://P_URI" -UseV9API -ErrorAction SilentlyContinue | Should BeNullOrEmpty
 
 			}

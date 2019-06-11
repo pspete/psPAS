@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -37,23 +37,16 @@ Describe $FunctionName {
 
 		Mock Invoke-PASRestMethod -MockWith {
 			[PSCustomObject]@{
-				"MyRequests"       = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2"}
-				"IncomingRequests" = [PSCustomObject]@{"PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC"}
+				"MyRequests"       = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2" }
+				"IncomingRequests" = [PSCustomObject]@{"PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC" }
 			}
-		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'RequestType'},
-			@{Parameter = 'OnlyWaiting'},
-			@{Parameter = 'Expired'}
+			$Parameters = @{Parameter = 'RequestType' },
+			@{Parameter = 'OnlyWaiting' },
+			@{Parameter = 'Expired' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -67,7 +60,7 @@ Describe $FunctionName {
 
 		Context "Input - MyRequests" {
 
-			$InputObj | Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true
+			Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true
 
 			It "sends request" {
 
@@ -87,18 +80,18 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Context
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Context
 
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true -ExternalVersion "1.0"} | Should Throw
+				{ $InputObj | Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true -ExternalVersion "1.0" } | Should Throw
 			}
 
 		}
@@ -125,13 +118,13 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Context
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Context
 
 			}
 

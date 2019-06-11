@@ -39,12 +39,7 @@ Describe $FunctionName {
 
 		}
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"RequestID"    = "24_68"
+		$InputObj = [pscustomobject]@{"RequestID"    = "24_68"
 			"Reason"       = "Some Reason"
 
 		}

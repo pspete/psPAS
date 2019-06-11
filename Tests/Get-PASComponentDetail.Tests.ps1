@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -36,20 +36,12 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"ComponentsDetails" = [PSCustomObject]@{"SomeProp" = "SomValue"; "OtherProp" = "OtherValue"}}
-		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-
+			[PSCustomObject]@{"ComponentsDetails" = [PSCustomObject]@{"SomeProp" = "SomValue"; "OtherProp" = "OtherValue" } }
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'ComponentID'}
+			$Parameters = @{Parameter = 'ComponentID' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -61,7 +53,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Get-PASComponentDetail -ComponentID PVWA
+		$response = Get-PASComponentDetail -ComponentID PVWA
 
 		Context "Input" {
 
@@ -83,18 +75,18 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Describe
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Describe
 
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASComponentDetail -ComponentID PVWA -ExternalVersion "1.0"} | Should Throw
+				{ Get-PASComponentDetail -ComponentID PVWA -ExternalVersion "1.0" } | Should Throw
 			}
 
 		}

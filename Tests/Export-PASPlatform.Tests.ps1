@@ -41,20 +41,9 @@ Describe $FunctionName {
 
 		}
 
-
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue" }
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-		}
-
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' },
-			@{Parameter = 'PlatformID' },
+			$Parameters = @{Parameter = 'PlatformID' },
 			@{Parameter = 'path' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
@@ -67,20 +56,20 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"
+		$response = Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"
 
 		Context "Input" {
 
 			It "throws if path is invalid" {
-				{ $InputObj | Export-PASPlatform -PlatformID SomePlatform -path A:\test.txt } | Should throw
+				{ Export-PASPlatform -PlatformID SomePlatform -path A:\test.txt } | Should throw
 			}
 
 			It "throws if InputFile resolves to a folder" {
-				{ $InputObj | Export-PASPlatform -PlatformID SomePlatform -path $pwd } | Should throw
+				{ Export-PASPlatform -PlatformID SomePlatform -path $pwd } | Should throw
 			}
 
 			It "throws if InputFile does not have a zip extention" {
-				{ $InputObj | Export-PASPlatform -PlatformID SomePlatform -path README.MD } | Should throw
+				{ Export-PASPlatform -PlatformID SomePlatform -path README.MD } | Should throw
 			}
 
 			It "sends request" {
@@ -106,7 +95,7 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ $InputObj | Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" -ExternalVersion "1.0" } | Should Throw
+				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" -ExternalVersion "1.0" } | Should Throw
 			}
 
 
@@ -122,7 +111,7 @@ Describe $FunctionName {
 
 			it "reports error saving outputfile" {
 				Mock Set-Content -MockWith { throw something }
-				{ $InputObj | Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" } | should throw "Error Saving $env:Temp\testExport.zip"
+				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" } | should throw "Error Saving $env:Temp\testExport.zip"
 			}
 
 
