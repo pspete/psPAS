@@ -317,18 +317,7 @@ Describe $FunctionName {
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken' },
-			@{Property = 'WebSession' },
-			@{Property = 'BaseURI' },
-			@{Property = 'PVWAAppName' },
-			@{Property = 'ExternalVersion' }
 
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$($InputObj | Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue).$Property | Should Not BeNullOrEmpty
-
-			}
 
 		}
 

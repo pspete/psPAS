@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -37,8 +37,8 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'}
+			$Parameters = @{Parameter = 'BaseURI' },
+			@{Parameter = 'SessionToken' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -54,10 +54,10 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith {}
+				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
+					"sessionToken" = @{"Authorization" = "P_AuthValue" }
 					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 					"BaseURI"      = "https://P_URI"
 					"PVWAAppName"  = "P_App"
@@ -94,19 +94,19 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 				$InputObj | Get-PASGroup
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
 				$InputObj | Get-PASGroup
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "throws error if version requirement not met" {
 
-				{$InputObj | Get-PASGroup -ExternalVersion 1.2} | Should throw
+				{ $InputObj | Get-PASGroup -ExternalVersion 1.2 } | Should throw
 
 			}
 
@@ -128,7 +128,7 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
+					"sessionToken" = @{"Authorization" = "P_AuthValue" }
 					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 					"BaseURI"      = "https://P_URI"
 					"PVWAAppName"  = "P_App"
@@ -148,18 +148,7 @@ Describe $FunctionName {
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
 
-
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-				($InputObj | Get-PASGroup).$Property | Should Not BeNullOrEmpty
-
-			}
 
 		}
 
