@@ -136,8 +136,6 @@ requires version 9.8+).
 -----------------------------------------------------------------------------------------|--------------------|:----------------
 [`New-PASSession`][New-PASSession]                                                       |**9.0**             |Authenticates a user to </br>CyberArk Vault
 [`Close-PASSession`][Close-PASSession]                                                   |**9.0**             |Logoff from CyberArk Vault.
-[`Close-PASSAMLSession`][Close-PASSAMLSession]                                           |**9.7**             |Logoff from CyberArk </br>Vault SAML Session.
-[`Close-PASSharedSession`][Close-PASSharedSession]                                       |**9.7**             |Logoff from CyberArk </br>Vault shared user.
 [`Add-PASPublicSSHKey`][Add-PASPublicSSHKey]                                             |**9.6**             |Adds an authorised </br>public SSH key for a </br>specific user in the </br>Vault.
 [`Get-PASPublicSSHKey`][Get-PASPublicSSHKey]                                             |**9.6**             |Retrieves a user's </br>SSH Keys.
 [`Remove-PASPublicSSHKey`][Remove-PASPublicSSHKey]                                       |**9.6**             |Deletes a specific </br>Public SSH Key from </br>a specific vault user
@@ -237,8 +235,6 @@ requires version 9.8+).
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
-[Close-PASSAMLSession]:/psPAS/Functions/Authentication/Close-PASSAMLSession.ps1
-[Close-PASSharedSession]:/psPAS/Functions/Authentication/Close-PASSharedSession.ps1
 [Add-PASPublicSSHKey]:/psPAS/Functions/Authentication/Add-PASPublicSSHKey.ps1
 [Get-PASPublicSSHKey]:/psPAS/Functions/Authentication/Get-PASPublicSSHKey.ps1
 [Remove-PASPublicSSHKey]:/psPAS/Functions/Authentication/Remove-PASPublicSSHKey.ps1

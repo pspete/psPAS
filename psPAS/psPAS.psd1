@@ -124,8 +124,6 @@
 		'Get-PASServer',
 		'Get-PASSafeShareLogo',
 		'Get-PASServerWebService',
-		'Close-PASSAMLSession',
-		'Close-PASSharedSession',
 		'Get-PASAccountPassword',
 		'Get-PASSafeMember',
 		'Get-PASApplicationAuthenticationMethod',

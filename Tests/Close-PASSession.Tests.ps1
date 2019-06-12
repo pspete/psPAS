@@ -85,6 +85,28 @@ Describe $FunctionName {
 
 			}
 
+			It "sends request to expected SAML Auth URL" {
+
+				$response = Close-PASSession -SAMLAuthentication
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected Shared Auth URL" {
+
+				$response = Close-PASSession -SharedAuthentication
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logoff"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 		}
 
 		Context "Output" {
