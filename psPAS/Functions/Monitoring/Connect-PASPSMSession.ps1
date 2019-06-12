@@ -58,20 +58,20 @@ Minimum CyberArk Version 10.5
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/LiveSessions/$($SessionId | Get-EscapedString)/monitor"
+		$URI = "$($Script:BaseURI)/API/LiveSessions/$($SessionId | Get-EscapedString)/monitor"
 
-		$Header = $sessionToken
+		$ThisSession = $Script:WebSession
 
 		#if a connection method is specified
-		If($PSBoundParameters.ContainsKey("ConnectionMethod")) {
+		If ($PSBoundParameters.ContainsKey("ConnectionMethod")) {
 
 			#The information needs to passed in the header
-			if($PSBoundParameters["ConnectionMethod"] -eq "RDP") {
+			if ($PSBoundParameters["ConnectionMethod"] -eq "RDP") {
 
 				#RDP accept "application/json" response
 				$Accept = "application/json"
 
-			} elseif($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
+			} elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
 
 				#PSMGW accept * / * response
 				$Accept = "* / *"
@@ -79,14 +79,14 @@ Minimum CyberArk Version 10.5
 			}
 
 			#add detail to header
-			$Header["Accept"] = $Accept
+			$ThisSession.Headers["Accept"] = $Accept
 
 		}
-
+		Write-verbose ($ThisSession.Headers).GetEnumerator()
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $Header -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $ThisSession
 
-		If($result) {
+		If ($result) {
 
 			$result
 
@@ -94,6 +94,6 @@ Minimum CyberArk Version 10.5
 
 	}
 
-	END {}#end
+	END { }#end
 
 }

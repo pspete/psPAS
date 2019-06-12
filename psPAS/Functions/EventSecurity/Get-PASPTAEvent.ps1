@@ -38,20 +38,19 @@ Get-PASPTAEvent
 		#Create request URL
 		$URI = "$Script:BaseURI/API/pta/API/Events/"
 
-		#Header is normally just session token
-		$header = $SessionToken
+		$ThisSession = $Script:WebSession
 
-		if($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
+		if ($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
 
 			#add Unix Time Stamp of lastUpdatedEventDate to header as key=value pair
-			$header["lastUpdatedEventDate"] = ($(Get-Date $(Get-Date $lastUpdatedEventDate) -UFormat %s))
+			$ThisSession.Headers["lastUpdatedEventDate"] = ($(Get-Date $(Get-Date $lastUpdatedEventDate) -UFormat %s))
 
 		}
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $header -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $ThisSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result |
@@ -62,6 +61,6 @@ Get-PASPTAEvent
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

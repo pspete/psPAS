@@ -203,7 +203,7 @@ Ad-Hoc connections require 10.5
 
 	PROCESS {
 
-		if($PSCmdlet.ParameterSetName -eq "PSMConnect") {
+		if ($PSCmdlet.ParameterSetName -eq "PSMConnect") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -213,7 +213,7 @@ Ad-Hoc connections require 10.5
 			#Create body of request
 			$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod | ConvertTo-Json
 
-		} elseif($PSCmdlet.ParameterSetName -eq "AdHocConnect") {
+		} elseif ($PSCmdlet.ParameterSetName -eq "AdHocConnect") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $AdHocVersion
 
@@ -226,9 +226,9 @@ Ad-Hoc connections require 10.5
 			#Include decoded password in request
 			$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
 
-			$PSMConnectPrerequisites = @{}
+			$PSMConnectPrerequisites = @{ }
 
-			$boundParameters.keys | Where-Object {$AdHocParameters -contains $_} | ForEach-Object {
+			$boundParameters.keys | Where-Object { $AdHocParameters -contains $_ } | ForEach-Object {
 
 				#add key=value to hashtable
 				$PSMConnectPrerequisites[$_] = $boundParameters[$_]
@@ -241,18 +241,18 @@ Ad-Hoc connections require 10.5
 
 		}
 
-		$Header = $sessionToken
+		$ThisSession = $Script:WebSession
 
 		#if a connection method is specified
-		If($PSBoundParameters.ContainsKey("ConnectionMethod")) {
+		If ($PSBoundParameters.ContainsKey("ConnectionMethod")) {
 
 			#The information needs to passed in the header
-			if($PSBoundParameters["ConnectionMethod"] -eq "RDP") {
+			if ($PSBoundParameters["ConnectionMethod"] -eq "RDP") {
 
 				#RDP accept "application/json" response
 				$Accept = "application/json"
 
-			} elseif($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
+			} elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
 
 				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
@@ -262,14 +262,14 @@ Ad-Hoc connections require 10.5
 			}
 
 			#add detail to header
-			$Header["Accept"] = $Accept
+			$ThisSession.Headers["Accept"] = $Accept
 
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -Headers $Header -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $ThisSession
 
-		If($result) {
+		If ($result) {
 
 			#Return PSM Connection Parameters
 			$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.PSM.Connection.RDP"
@@ -278,6 +278,6 @@ Ad-Hoc connections require 10.5
 
 	} #process
 
-	END {}#end
+	END { }#end
 
 }
