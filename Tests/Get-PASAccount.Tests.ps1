@@ -22,6 +22,9 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -75,7 +78,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts?search=SearchTerm"
+					$URI -eq "$($Script:BaseURI)/api/Accounts?search=SearchTerm"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -86,7 +89,7 @@ Describe $FunctionName {
 				Get-PASAccount -ID "SomeID"
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts/SomeID"
+					$URI -eq "$($Script:BaseURI)/api/Accounts/SomeID"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -97,8 +100,8 @@ Describe $FunctionName {
 				Get-PASAccount -Keywords SomeValue -Safe SomeSafe
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					(($URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts?Keywords=SomeValue&Safe=SomeSafe") -or
-						($URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts?Safe=SomeSafe&Keywords=SomeValue"))
+					(($URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Accounts?Keywords=SomeValue&Safe=SomeSafe") -or
+						($URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Accounts?Safe=SomeSafe&Keywords=SomeValue"))
 
 				} -Times 1 -Exactly -Scope It
 
@@ -263,7 +266,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties - legacy parameterset" {
 				$response = Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 16
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 11
 
 			}
 

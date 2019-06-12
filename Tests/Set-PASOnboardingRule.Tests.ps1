@@ -22,6 +22,9 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -78,7 +81,7 @@ Describe $FunctionName {
 				$InputObj | Set-PASOnboardingRule
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/AutomaticOnboardingRules/123"
+					$URI -eq "$($Script:BaseURI)/api/AutomaticOnboardingRules/123"
 
 				} -Times 1 -Exactly -Scope It
 

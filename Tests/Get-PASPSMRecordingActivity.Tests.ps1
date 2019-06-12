@@ -22,6 +22,9 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -72,7 +75,7 @@ Describe $FunctionName {
 				$InputObj | Get-PASPSMRecordingActivity
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Recordings/SomeID/activities"
+					$URI -eq "$($Script:BaseURI)/API/Recordings/SomeID/activities"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -133,7 +136,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 				$response = $InputObj | Get-PASPSMRecordingActivity
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 9
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 4
 
 			}
 

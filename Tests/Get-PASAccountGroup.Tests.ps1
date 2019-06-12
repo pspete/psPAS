@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -36,16 +39,16 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[pscustomobject]@{"Prop1" = "Val1"}
+			[pscustomobject]@{"Prop1" = "Val1" }
 		}
 
-		$InputObj = [pscustomobject]@{"Safe"         = "SomeSafe"
-
+		$InputObj = [pscustomobject]@{
+			"Safe" = "SomeSafe"
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'Safe'}
+			$Parameters = @{Parameter = 'Safe' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -71,7 +74,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/AccountGroups?Safe=SomeSafe"
+					$URI -eq "$($Script:BaseURI)/API/AccountGroups?Safe=SomeSafe"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -79,34 +82,34 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Describe
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Describe
 
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASAccountGroup -ExternalVersion "1.0"} | Should Throw
+				{ $InputObj | Get-PASAccountGroup -ExternalVersion "1.0" } | Should Throw
 			}
 
 			It "sends request to expected endpoint - V10 ParameterSet" {
 
-				$InputObj | Get-PASAccountGroup -safe "SomeSafe" -verbose
+				Get-PASAccountGroup -safe "SomeSafe" -verbose
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Safes/SomeSafe/AccountGroups"
+					$URI -eq "$($Script:BaseURI)/API/Safes/SomeSafe/AccountGroups"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASAccountGroup -safe "SomeSafe" -ExternalVersion 1.1} | Should Throw
+				{ Get-PASAccountGroup -safe "SomeSafe" -ExternalVersion 1.1 } | Should Throw
 			}
 
 		}
@@ -121,7 +124,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 6
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 1
 
 			}
 

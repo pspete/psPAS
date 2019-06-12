@@ -22,6 +22,9 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -72,7 +75,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/MyRequests?onlywaiting=true&expired=true"
+					$URI -eq "$($Script:BaseURI)/API/MyRequests?onlywaiting=true&expired=true"
 
 				} -Times 1 -Exactly -Scope Context
 
@@ -91,14 +94,14 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ $InputObj | Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true -ExternalVersion "1.0" } | Should Throw
+				{ Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true -ExternalVersion "1.0" } | Should Throw
 			}
 
 		}
 
 		Context "Input - IncomingRequests" {
 
-			$InputObj | Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $true
+			Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $true
 
 			It "sends request" {
 
@@ -110,7 +113,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/IncomingRequests?onlywaiting=true&expired=true"
+					$URI -eq "$($Script:BaseURI)/API/IncomingRequests?onlywaiting=true&expired=true"
 
 				} -Times 1 -Exactly -Scope Context
 
@@ -132,7 +135,7 @@ Describe $FunctionName {
 
 		Context "Output - MyRequests" {
 
-			$response = $InputObj | Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $false
+			$response = Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $false
 
 			it "provides output" {
 
@@ -142,7 +145,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
 
 			}
 
@@ -158,7 +161,7 @@ Describe $FunctionName {
 
 		Context "Output - IncomingRequests" {
 
-			$response = $InputObj | Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $false
+			$response = Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $false
 
 			it "provides output" {
 
@@ -168,7 +171,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 8
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 3
 
 			}
 

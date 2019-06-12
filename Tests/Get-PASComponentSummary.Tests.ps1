@@ -22,6 +22,9 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -42,21 +45,6 @@ Describe $FunctionName {
 			}
 		}
 
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' }
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Get-PASComponentSummary).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
-
-			}
-
-		}
-
 		$response = Get-PASComponentSummary
 
 		Context "Input" {
@@ -71,7 +59,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/ComponentsMonitoringSummary"
+					$URI -eq "$($Script:BaseURI)/api/ComponentsMonitoringSummary"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -97,17 +85,7 @@ Describe $FunctionName {
 
 		Context "Output" {
 
-			it "provides output" {
 
-				$response | Should not BeNullOrEmpty
-
-			}
-
-			It "has output with expected number of properties" {
-
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 5
-
-			}
 
 		}
 

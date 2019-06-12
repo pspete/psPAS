@@ -22,6 +22,9 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -39,21 +42,6 @@ Describe $FunctionName {
 
 		}
 
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' }
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Close-PASSession).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
-
-			}
-
-		}
-
 		$response = Close-PASSession -UseV9API -verbose
 
 		Context "Input" {
@@ -68,7 +56,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
+					$URI -eq "$($Script:BaseURI)/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -91,7 +79,7 @@ Describe $FunctionName {
 				$response = Close-PASSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Auth/Logoff"
+					$URI -eq "$($Script:BaseURI)/API/Auth/Logoff"
 
 				} -Times 1 -Exactly -Scope It
 

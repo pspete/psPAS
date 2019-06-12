@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -40,7 +43,8 @@ Describe $FunctionName {
 
 		}
 
-		$InputObj = [pscustomobject]@{"PolicyID"     = "UNIXSSH"
+		$InputObj = [pscustomobject]@{
+"PolicyID"     = "UNIXSSH"
 			"Id"           = 22
 		}
 
@@ -73,7 +77,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Policy/UNIXSSH/PrivilegedCommands/22"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Policy/UNIXSSH/PrivilegedCommands/22"
 				} -Times 1 -Exactly -Scope Describe
 
 			}

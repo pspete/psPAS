@@ -35,15 +35,7 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
-		}
 
-		$InputObj = [pscustomobject]@{
-			"SessionId"        = "SomeSession"
-			"ConnectionMethod" = "RDP"
-
-		}
 
 		Context "Mandatory Parameters" {
 
@@ -60,47 +52,67 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Connect-PASPSMSession -ConnectionMethod RDP
-
 		Context "Input" {
 
-			It "sends request" {
+			BeforeEach {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				$Script:BaseURI = "https://SomeURL/SomeApp"
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+					[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
+				}
+
+				$InputObj = [pscustomobject]@{
+
+					"SessionId"        = "SomeSession"
+					"ConnectionMethod" = "RDP"
+
+				}
+
+			}
+
+			It "sends request" {
+				$InputObj | Connect-PASPSMSession
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint for PSMConnect" {
-
+				$InputObj | Connect-PASPSMSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/LiveSessions/SomeSession/monitor"
+					$URI -eq "$($Script:BaseURI)/API/LiveSessions/SomeSession/monitor"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Describe
+				$InputObj | Connect-PASPSMSession
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
-
+				$InputObj | Connect-PASPSMSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Body -eq $null
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "has expected Accept key in header" {
-
+				$InputObj | Connect-PASPSMSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Headers["Accept"] -eq 'application/json' } -Times 1 -Exactly -Scope Describe
+					$WebSession.Headers["Accept"] -eq 'application/json'
+
+				} -Times 1 -Exactly -Scope It
 
 			}
 
@@ -110,7 +122,9 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Headers["Accept"] -eq '* / *' } -Times 1 -Exactly -Scope It
+					$WebSession.Headers["Accept"] -eq '* / *'
+
+				} -Times 1 -Exactly -Scope It
 
 			}
 
@@ -122,21 +136,41 @@ Describe $FunctionName {
 
 		Context "Output" {
 
+			BeforeEach {
+
+				$Script:BaseURI = "https://SomeURL/SomeApp"
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+					[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
+				}
+
+				$InputObj = [pscustomobject]@{
+
+					"SessionId"        = "SomeSession"
+					"ConnectionMethod" = "RDP"
+
+				}
+
+			}
+
 			it "provides output" {
 
-				$response | Should not BeNullOrEmpty
+				$InputObj | Connect-PASPSMSession | Should not BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 3
+				($InputObj | Connect-PASPSMSession | Get-Member -MemberType NoteProperty).length | Should Be 3
 
 			}
 
 			it "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be System.Management.Automation.PSCustomObject
+				$InputObj | Connect-PASPSMSession | get-member | select-object -expandproperty typename -Unique | Should Be System.Management.Automation.PSCustomObject
 
 			}
 

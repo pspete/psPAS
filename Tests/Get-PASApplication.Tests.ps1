@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -36,31 +39,11 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"application" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}}
+			[PSCustomObject]@{"application" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
 		}
 
-		$InputObj = [pscustomobject]@{"AppID"        = "SomeApplication"
-
-		}
-
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'}
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Get-PASApplication).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
-
-			}
-
-			It "specifies parameter AppID as mandatory for ParameterSet byAppID" {
-
-				(Get-Command Get-PASApplication).Parameters["AppID"].ParameterSets["byAppID"].IsMandatory | Should be $true
-
-			}
+		$InputObj = [pscustomobject]@{
+			"AppID" = "SomeApplication"
 
 		}
 
@@ -78,7 +61,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Applications/SomeApplication"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Applications/SomeApplication"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -86,13 +69,13 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Describe
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -100,7 +83,7 @@ Describe $FunctionName {
 				$InputObj | Get-PASApplication
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Applications?AppID=SomeApplication"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Applications?AppID=SomeApplication"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -118,7 +101,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
 
 			}
 

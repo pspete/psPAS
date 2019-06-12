@@ -22,6 +22,9 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -35,53 +38,59 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"addsaferesult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
-		}
-
-		$response = Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
-
 		Context "Input" {
 
-			It "sends request" {
+			BeforeEach {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"addsaferesult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
+				}
+
+				$Script:BaseURI = "https://SomeURL/SomeApp"
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It "sends request" {
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/pta/API/Events/"
+					$URI -eq "$($Script:BaseURI)/API/pta/API/Events/"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Describe
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with expected header" {
-
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$($headers["lastUpdatedEventDate"]) -eq "283996800"
+					$($Websession.headers["lastUpdatedEventDate"]) -eq "283996800"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
-
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Body -eq $null
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
@@ -92,22 +101,32 @@ Describe $FunctionName {
 		}
 
 		Context "Output" {
+			BeforeEach {
 
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"addsaferesult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
+				}
+
+				$Script:BaseURI = "https://SomeURL/SomeApp"
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
 			it "provides output" {
 
-				$response | Should not BeNullOrEmpty
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | Should not BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 6
+				(Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | Get-Member -MemberType NoteProperty).length | Should Be 1
 
 			}
 
 			it "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.PTA.Event
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.PTA.Event
 
 			}
 

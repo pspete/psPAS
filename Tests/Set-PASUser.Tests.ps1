@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -36,20 +39,21 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail"}
+			[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
 		}
 
-		$InputObj = [pscustomobject]@{"UserName"     = "SomeUser"
-			"NewPassword"  = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
-			"FirstName"    = "Some"
-			"LastName"     = "User"
-			"ExpiryDate"   = "10/31/2018"
+		$InputObj = [pscustomobject]@{
+"UserName" = "SomeUser"
+			"NewPassword"                           = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+			"FirstName"                             = "Some"
+			"LastName"                              = "User"
+			"ExpiryDate"                            = "10/31/2018"
 
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'UserName'}
+			$Parameters = @{Parameter = 'UserName' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -75,7 +79,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Users/SomeUser"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/SomeUser"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -83,7 +87,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'PUT' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -117,7 +121,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
 
 			}
 

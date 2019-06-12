@@ -35,25 +35,6 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
-		}
-
-		$InputObj = [pscustomobject]@{
-			"AccountID"           = "99_9"
-			"ConnectionComponent" = "SomeConnectionComponent"
-
-		}
-
-		$AdHocObj = [pscustomobject]@{
-			"ConnectionComponent" = "SomeConnectionComponent"
-			"UserName"            = "SomeUser"
-			"secret"              = "SomeSecret" | ConvertTo-SecureString -AsPlainText -Force
-			"address"             = "Some.Address"
-			"platformID"          = "SomePlatform"
-
-		}
-
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'AccountID' },
@@ -69,33 +50,65 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
-
 		Context "Input" {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
+				}
+
+				$InputObj = [pscustomobject]@{
+
+					"AccountID"           = "99_9"
+					"ConnectionComponent" = "SomeConnectionComponent"
+
+				}
+
+				$AdHocObj = [pscustomobject]@{
+					"ConnectionComponent" = "SomeConnectionComponent"
+					"UserName"            = "SomeUser"
+					"secret"              = "SomeSecret" | ConvertTo-SecureString -AsPlainText -Force
+					"address"             = "Some.Address"
+					"platformID"          = "SomePlatform"
+
+				}
+
+				$Script:BaseURI = "https://SomeURL/SomeApp"
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			}
 
 			It "sends request" {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint for PSMConnect" {
 
+				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Accounts/99_9/PSMConnect"
+					$URI -eq "$($Script:BaseURI)/API/Accounts/99_9/PSMConnect"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with expected body" {
+
+				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -103,11 +116,13 @@ Describe $FunctionName {
 
 					($Script:RequestBody) -ne $null
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "has a request body with expected number of properties" {
+
+				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 1
 
@@ -115,9 +130,11 @@ Describe $FunctionName {
 
 			It "has expected Accept key in header" {
 
+				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Headers["Accept"] -eq 'application/json' } -Times 1 -Exactly -Scope Describe
+					$WebSession.Headers["Accept"] -eq 'application/json' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -127,7 +144,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Headers["Accept"] -eq '* / *' } -Times 1 -Exactly -Scope It
+					$WebSession.Headers["Accept"] -eq '* / *' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -144,7 +161,7 @@ Describe $FunctionName {
 				$AdHocObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Accounts/AdHocConnect"
+					$URI -eq "$($Script:BaseURI)/API/Accounts/AdHocConnect"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -158,21 +175,47 @@ Describe $FunctionName {
 
 		Context "Output" {
 
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
+				}
+
+				$InputObj = [pscustomobject]@{
+
+					"AccountID"           = "99_9"
+					"ConnectionComponent" = "SomeConnectionComponent"
+
+				}
+
+				$AdHocObj = [pscustomobject]@{
+					"ConnectionComponent" = "SomeConnectionComponent"
+					"UserName"            = "SomeUser"
+					"secret"              = "SomeSecret" | ConvertTo-SecureString -AsPlainText -Force
+					"address"             = "Some.Address"
+					"platformID"          = "SomePlatform"
+
+				}
+
+				$Script:BaseURI = "https://SomeURL/SomeApp"
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			}
+
 			it "provides output" {
 
-				$response | Should not BeNullOrEmpty
+				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP | Should not BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 3
+				($InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP | Get-Member -MemberType NoteProperty).length | Should Be 3
 
 			}
 
 			it "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.PSM.Connection.RDP
+				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.PSM.Connection.RDP
 
 			}
 

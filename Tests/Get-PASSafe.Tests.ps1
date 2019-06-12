@@ -22,6 +22,9 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -57,7 +60,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Safes"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Safes"
 
 				} -Times 1 -Exactly -Scope Context
 
@@ -91,7 +94,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Safes/SomeSafe"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Safes/SomeSafe"
 
 				} -Times 1 -Exactly -Scope Context
 
@@ -125,7 +128,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Safes?query=SomeSafe"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Safes?query=SomeSafe"
 
 				} -Times 1 -Exactly -Scope Context
 
@@ -157,7 +160,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 8
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 3
 
 			}
 
@@ -183,7 +186,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 9
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 4
 
 			}
 
@@ -209,7 +212,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
 
 			}
 

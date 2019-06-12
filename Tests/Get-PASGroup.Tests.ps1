@@ -22,6 +22,9 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -53,7 +56,7 @@ Describe $FunctionName {
 				Get-PASGroup
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/UserGroups?"
+					$URI -eq "$($Script:BaseURI)/API/UserGroups?"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -63,7 +66,7 @@ Describe $FunctionName {
 				Get-PASGroup -filter "groupType eq Directory" -search "Search Term"
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/UserGroups?search=Search%20Term&filter=groupType%20eq%20Directory") -or ($URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/UserGroups?filter=groupType%20eq%20Directory&search=Search%20Term")
+					($URI -eq "$($Script:BaseURI)/API/UserGroups?search=Search%20Term&filter=groupType%20eq%20Directory") -or ($URI -eq "$($Script:BaseURI)/API/UserGroups?filter=groupType%20eq%20Directory&search=Search%20Term")
 
 				} -Times 1 -Exactly -Scope It
 
@@ -114,7 +117,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 				$response = Get-PASGroup
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 9
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 4
 
 			}
 

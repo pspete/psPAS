@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -39,7 +42,8 @@ Describe $FunctionName {
 
 		}
 
-		$InputObj = [pscustomobject]@{"AccountID"    = "99_9"
+		$InputObj = [pscustomobject]@{
+"AccountID"    = "99_9"
 
 		}
 
@@ -85,7 +89,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Accounts/99_9/Change"
+					$URI -eq "$($Script:BaseURI)/API/Accounts/99_9/Change"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -136,7 +140,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Accounts/99_9/Password/Update"
+					$URI -eq "$($Script:BaseURI)/API/Accounts/99_9/Password/Update"
 
 				} -Times 1 -Exactly -Scope Context
 
@@ -187,7 +191,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Accounts/99_9/SetNextPassword"
+					$URI -eq "$($Script:BaseURI)/API/Accounts/99_9/SetNextPassword"
 
 				} -Times 1 -Exactly -Scope Context
 
