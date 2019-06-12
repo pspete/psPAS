@@ -170,14 +170,14 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 	PROCESS {
 
 		#Build Request
-		if($($PSCmdlet.ParameterSetName) -eq "v10") {
+		if ($($PSCmdlet.ParameterSetName) -eq "v10") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#For Version 10.1+
 			$Request = @{
 
-				"URI"    = "$baseURI/$PVWAAppName/api/Accounts/$($AccountID |
+				"URI"    = "$Script:BaseURI/api/Accounts/$($AccountID |
 
             	Get-EscapedString)/Password/Retrieve"
 
@@ -195,7 +195,7 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 			#For Version 9.7+
 			$Request = @{
 
-				"URI"    = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$($AccountID |
+				"URI"    = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$($AccountID |
 
 				Get-EscapedString)/Credentials"
 
@@ -206,21 +206,20 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 		}
 
 		#Add default Request parameters
-		$Request.Add("Headers", $sessionToken)
-		$Request.Add("WebSession", $WebSession)
+		$Request.Add("WebSession", $Script:WebSession)
 
 		#splat request to web service
 		$result = Invoke-PASRestMethod @Request
 
-		If($result) {
+		If ($result) {
 
-			If($result.GetType().Name -eq "Object[]") {
+			If ($result.GetType().Name -eq "Object[]") {
 
 				$result = [System.Text.Encoding]::ASCII.GetString($result)
 
 			}
 
-			[PSCustomObject] @{"Password" = $result} |
+			[PSCustomObject] @{"Password" = $result } |
 
 			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
 
@@ -228,6 +227,6 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
