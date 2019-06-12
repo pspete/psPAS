@@ -85,8 +85,11 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.2"
 
-				{ Get-PASGroup -ExternalVersion 1.2 } | Should throw
+				{ Get-PASGroup } | Should throw
+
+				$Script:ExternalVersion = "0.0"
 
 			}
 

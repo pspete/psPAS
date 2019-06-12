@@ -111,9 +111,11 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.2"
 
-				{ $InputObj | Set-PASOnboardingRule -ExternalVersion 1.2 } | Should throw
+				{ $InputObj | Set-PASOnboardingRule } | Should throw
 
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

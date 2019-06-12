@@ -89,7 +89,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ Get-PASComponentDetail -ComponentID PVWA -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ Get-PASComponentDetail -ComponentID PVWA  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}

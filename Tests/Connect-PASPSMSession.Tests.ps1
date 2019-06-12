@@ -129,7 +129,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ $InputObj | Connect-PASPSMSession -ConnectionMethod RDP -ExternalVersion "9.8" } | Should Throw
+				$Script:ExternalVersion = "9.8"
+				{ $InputObj | Connect-PASPSMSession -ConnectionMethod RDP } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

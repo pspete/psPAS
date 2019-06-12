@@ -79,7 +79,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ Get-PASPTARule -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ Get-PASPTARule  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}

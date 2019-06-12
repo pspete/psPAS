@@ -142,7 +142,9 @@ Describe $FunctionName {
 
 
 			It "throws error if version requirement not met" {
-				{ $InputObj | Get-PASAccountPassword -UseV10API -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345 -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ $InputObj | Get-PASAccountPassword -UseV10API -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 

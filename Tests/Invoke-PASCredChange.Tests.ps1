@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -43,15 +43,15 @@ Describe $FunctionName {
 		}
 
 		$InputObj = [pscustomobject]@{
-"AccountID"    = "99_9"
+			"AccountID" = "99_9"
 
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'UpdateVaultOnly'},
-			@{Parameter = 'SetNextPassword'},
-			@{Parameter = 'AccountID'}
+			$Parameters = @{Parameter = 'UpdateVaultOnly' },
+			@{Parameter = 'SetNextPassword' },
+			@{Parameter = 'AccountID' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -97,7 +97,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -120,7 +120,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Invoke-PASCredChange -ChangeCredsForGroup $true -ExternalVersion "1.0"} | Should Throw
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | Invoke-PASCredChange -ChangeCredsForGroup $true } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}
@@ -148,7 +150,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Context
 
 			}
 
@@ -171,7 +173,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Invoke-PASCredChange -ChangeCredsForGroup $true -UpdateVaultOnly -NewCredentials $newcreds -ExternalVersion "9.11"} | Should Throw
+				$Script:ExternalVersion = "9.11"
+				{ $InputObj | Invoke-PASCredChange -ChangeCredsForGroup $true -UpdateVaultOnly -NewCredentials $newcreds } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}
@@ -199,7 +203,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Context
 
 			}
 
@@ -222,7 +226,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Invoke-PASCredChange -SetNextPassword -NewCredentials $newcreds -ExternalVersion "9.11"} | Should Throw
+				$Script:ExternalVersion = "9.11"
+				{ $InputObj | Invoke-PASCredChange -SetNextPassword -NewCredentials $newcreds } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

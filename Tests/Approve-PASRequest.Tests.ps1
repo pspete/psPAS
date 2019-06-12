@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -43,14 +43,14 @@ Describe $FunctionName {
 		}
 
 		$InputObj = [pscustomobject]@{
-"RequestID"    = "24_68"
-			"Reason"       = "Some Reason"
+			"RequestID" = "24_68"
+			"Reason"    = "Some Reason"
 
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'RequestID'}
+			$Parameters = @{Parameter = 'RequestID' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -84,7 +84,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -107,7 +107,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Approve-PASRequest -ExternalVersion "1.0"} | Should Throw
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | Approve-PASRequest  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}

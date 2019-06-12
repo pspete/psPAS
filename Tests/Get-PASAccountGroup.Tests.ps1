@@ -93,7 +93,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ $InputObj | Get-PASAccountGroup -ExternalVersion "1.0" } | Should Throw
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | Get-PASAccountGroup } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 			It "sends request to expected endpoint - V10 ParameterSet" {
@@ -109,7 +111,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ Get-PASAccountGroup -safe "SomeSafe" -ExternalVersion 1.1 } | Should Throw
+				$Script:ExternalVersion = "1.1"
+				{ Get-PASAccountGroup -safe "SomeSafe" } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

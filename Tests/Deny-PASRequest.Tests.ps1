@@ -108,7 +108,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ $InputObj | Deny-PASRequest -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ $InputObj | Deny-PASRequest  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}

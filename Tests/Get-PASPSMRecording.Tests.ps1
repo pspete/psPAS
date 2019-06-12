@@ -95,11 +95,15 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ $InputObj | Get-PASPSMRecording -ExternalVersion "1.0" } | Should Throw
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | Get-PASPSMRecording } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 			It "throws error if version requirement not met when querying by ID" {
-				{ Get-PASPSMRecording -RecordingId SomeID -ExternalVersion "10.5" } | Should Throw
+				$Script:ExternalVersion = "10.5"
+				{ Get-PASPSMRecording -RecordingId SomeID } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

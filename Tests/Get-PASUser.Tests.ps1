@@ -117,8 +117,10 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
+$Script:ExternalVersion = "1.0"
 
-				{ $InputObjV10 | Get-PASUser -ExternalVersion "1.0" } | Should Throw
+				{ $InputObjV10 | Get-PASUser  } | Should Throw
+$Script:ExternalVersion = "0.0"
 
 			}
 

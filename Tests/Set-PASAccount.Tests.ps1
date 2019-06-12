@@ -230,9 +230,10 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.2"
 
-				{ $InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue -ExternalVersion 1.2 } | Should throw
-
+				{ $InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue } | Should throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

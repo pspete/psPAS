@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -39,27 +39,27 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"addsaferesult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}}
+			[PSCustomObject]@{"addsaferesult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
 		}
 
 		$InputObj = [pscustomobject]@{
-"category"     = "KEYSTROKES"
-			"regex"        = "(.*)Some Pattern(.*)"
-			"score"        = 80
-			"description"  = "Some String"
-			"response"     = "NONE"
-			"active"       = $true
+			"category"    = "KEYSTROKES"
+			"regex"       = "(.*)Some Pattern(.*)"
+			"score"       = 80
+			"description" = "Some String"
+			"response"    = "NONE"
+			"active"      = $true
 
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'category'},
-			@{Parameter = 'regex'},
-			@{Parameter = 'score'},
-			@{Parameter = 'description'},
-			@{Parameter = 'response'},
-			@{Parameter = 'active'}
+			$Parameters = @{Parameter = 'category' },
+			@{Parameter = 'regex' },
+			@{Parameter = 'score' },
+			@{Parameter = 'description' },
+			@{Parameter = 'response' },
+			@{Parameter = 'active' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -93,7 +93,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -116,7 +116,13 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Add-PASPTARule -ExternalVersion "1.0"} | Should Throw
+$Script:ExternalVersion = "1.0"
+
+				$Script:ExternalVersion = "1.0"
+
+				{ $InputObj | Add-PASPTARule } | Should Throw
+
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

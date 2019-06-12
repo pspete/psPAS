@@ -112,7 +112,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if minimum version requirement not met" {
-				{ $InputObj | New-PASOnboardingRule -ExternalVersion "1.0" } | Should Throw
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | New-PASOnboardingRule } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 			It "accepts alternative parameterset input" {
@@ -136,8 +138,9 @@ Describe $FunctionName {
 					"SystemTypeFilter" = "Windows"
 
 				}
-
-				{ $InputObj | New-PASOnboardingRule -ExternalVersion "10.1.0" } | Should Throw
+				$Script:ExternalVersion = "10.1.0"
+				{ $InputObj | New-PASOnboardingRule } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 

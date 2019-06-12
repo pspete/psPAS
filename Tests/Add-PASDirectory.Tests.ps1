@@ -117,7 +117,10 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ $InputObj | Add-PASDirectory -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | Add-PASDirectory } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

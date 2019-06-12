@@ -98,7 +98,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 

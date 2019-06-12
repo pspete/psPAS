@@ -94,7 +94,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}

@@ -75,7 +75,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ Get-PASUserLoginInfo -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ Get-PASUserLoginInfo  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}

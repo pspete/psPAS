@@ -94,7 +94,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASAccountGroupMember -ExternalVersion "1.0"} | Should Throw
+$Script:ExternalVersion = "1.0"
+				{$InputObj | Get-PASAccountGroupMember } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}

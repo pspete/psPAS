@@ -90,9 +90,10 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.2"
 
-				{ Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser -ExternalVersion 1.2 } | Should throw
-
+				{ Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser } | Should throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

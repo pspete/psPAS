@@ -96,11 +96,16 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ $InputObj | Get-PASPSMSession -ExternalVersion "1.0" } | Should Throw
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | Get-PASPSMSession } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 			It "throws error if version requirement not met when querying by ID" {
-				{ Get-PASPSMSession -liveSessionId SomeID -ExternalVersion "10.5" } | Should Throw
+				$Script:ExternalVersion = "10.5"
+				{ Get-PASPSMSession -liveSessionId SomeID } | Should Throw
+
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

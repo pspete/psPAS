@@ -124,7 +124,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ Import-PASPlatform -ImportFile $($file.name) -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ Import-PASPlatform -ImportFile $($file.name)  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 

@@ -149,11 +149,16 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met for RDP connection method" {
-				{ $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP -ExternalVersion "9.8" } | Should Throw
+				$Script:ExternalVersion = "9.8"
+				{ $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 			It "throws error if version requirement not met for PSMGW connection method" {
-				{ $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW -ExternalVersion "9.10" } | Should Throw
+
+				$Script:ExternalVersion = "9.10"
+				{ $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 			It "sends request to expected endpoint for AdHocConnect" {
@@ -168,7 +173,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met for AdHocConnect" {
-				{ $AdHocObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW -ExternalVersion "10.4" } | Should Throw
+				$Script:ExternalVersion = "10.4"
+				{ $AdHocObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

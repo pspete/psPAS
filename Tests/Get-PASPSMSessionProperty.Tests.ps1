@@ -94,8 +94,10 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "10.5"
 
-				{ $InputObj | Get-PASPSMSessionProperty -ExternalVersion 10.5 } | Should throw
+				{ $InputObj | Get-PASPSMSessionProperty } | Should throw
+				$Script:ExternalVersion = "0.0"
 
 			}
 

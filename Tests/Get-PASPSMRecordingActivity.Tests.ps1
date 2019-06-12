@@ -94,8 +94,11 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "10.5"
 
-				{ $InputObj | Get-PASPSMRecordingActivity -ExternalVersion 10.5 } | Should throw
+				{ $InputObj | Get-PASPSMRecordingActivity } | Should throw
+
+				$Script:ExternalVersion = "0.0"
 
 			}
 

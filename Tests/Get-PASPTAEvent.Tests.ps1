@@ -95,7 +95,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ Get-PASPTAEvent -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ Get-PASPTAEvent  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}

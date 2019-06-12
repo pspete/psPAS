@@ -122,10 +122,13 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 			It "throws error if version requirement not met" {
+$Script:ExternalVersion = "1.0"
 				$Script:ExternalVersion = "10.6"
 				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -VaultGroups "Group1", "Group2" } | Should Throw
 			}
