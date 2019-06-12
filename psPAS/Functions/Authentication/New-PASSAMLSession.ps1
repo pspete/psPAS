@@ -97,61 +97,35 @@ ExternalVersion; The External Version number retrieved from CyberArk.
 		$EncodedToken = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($Credential.UserName + ':' + $Credential.GetNetworkCredential().Password))
 
 		#add token to header
-		$Header = @{"Authorization" = "Basic $EncodedToken"}
+		$Header = @{"Authorization" = "Basic $EncodedToken" }
 
 		#create empty body
-		$Body = @{} | ConvertTo-Json
+		$Body = @{ } | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon Using SAML Authentication")) {
+		if ($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon Using SAML Authentication")) {
 
 			#Send Logon Request
 			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $Header -SessionVariable $SessionVariable
 
 			#If Logon Result
-			If($PASSession) {
+			If ($PASSession) {
 
-				#Format Authentication token
-				$SessionToken = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
+				Set-Variable -Name BaseURI -Value "$BaseURI/$PVWAAppName" -Scope Script
+				$Script:WebSession.Headers["Authorization"] = [string]$($PASSession.CyberArkLogonResult)
 
-				#WebSession Object
-				$WebSession = $PASSession | Select-Object -ExpandProperty WebSession
-
-				#Initial Value for Version variable
-				[System.Version]$Version = "0.0"
-
-				if( -not ($SkipVersionCheck)) {
+				if ( -not ($SkipVersionCheck)) {
 
 					Try {
 
-						#Get CyberArk ExternalVersion number, assign to Version variable.
-						[System.Version]$Version = Get-PASServer -sessionToken $SessionToken -WebSession $Script:WebSession `
-							-BaseURI $BaseURI -PVWAAppName $PVWAAppName -ErrorAction Stop |
-							Select-Object -ExpandProperty ExternalVersion
+						#Get CyberArk ExternalVersion number.
+						[System.Version]$Version = Get-PASServer -ErrorAction Stop |
+						Select-Object -ExpandProperty ExternalVersion
 
-					} Catch {Write-Warning "Could Not Determine CyberArk Version"}
+						Set-Variable -Name ExternalVersion -Value $Version -Scope Script
+
+					} Catch { Write-Warning "Could Not Determine CyberArk Version" }
 
 				}
-
-				#Return Object
-				[pscustomobject]@{
-
-					#Authentication Token - required for all subsequent Web Service Calls
-					"sessionToken"    = $SessionToken
-
-					#WebSession
-					"WebSession"      = $WebSession
-
-					#The Web Service URL the request was sent to
-					"BaseURI"         = $BaseURI
-
-					#PVWA Application Name/Virtual Directory
-					"PVWAAppName"     = $PVWAAppName
-
-					#ExternalVersion
-					"ExternalVersion" = $Version
-
-					#Set default properties to display in output
-				} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
 
 			}
 
@@ -159,5 +133,5 @@ ExternalVersion; The External Version number retrieved from CyberArk.
 
 	}#process
 
-	END {}#end
+	END { }#end
 }
