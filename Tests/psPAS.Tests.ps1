@@ -23,7 +23,7 @@ $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 Get-Module -Name $ModuleName -All | Remove-Module -Force -ErrorAction Ignore
 $Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru
 
-Describe "Module" {
+Describe "Module" -Tag "Consistency" {
 
 
 	Context "Module Consistency Tests" {
@@ -204,7 +204,7 @@ Describe "Module" {
 
 	}
 
-	Describe 'PSScriptAnalyzer' -Tag PSScriptAnalyzer {
+	Describe 'PSScriptAnalyzer' {
 
 		$Scripts = Get-ChildItem "$ModulePath" -Filter '*.ps1' -Exclude '*.ps1xml' -Recurse
 
