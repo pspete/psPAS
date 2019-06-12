@@ -80,13 +80,13 @@ Describe $FunctionName {
 			}
 
 			It "sends request" {
-				$Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -newPassword $NewPass -UseV9API
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -newPassword $NewPass -UseClassicAPI
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-				$Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -newPassword $NewPass -UseV9API
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -newPassword $NewPass -UseClassicAPI
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "https://P_URI/SomeApp/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
@@ -96,13 +96,13 @@ Describe $FunctionName {
 			}
 
 			It "uses expected method" {
-				$Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -newPassword $NewPass -UseV9API
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -newPassword $NewPass -UseClassicAPI
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with expected body" {
-				$Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -newPassword $NewPass -UseV9API
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -newPassword $NewPass -UseClassicAPI
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Script:RequestBody = $Body | ConvertFrom-Json
@@ -192,10 +192,47 @@ Describe $FunctionName {
 
 			}
 
+			It "sends request to expected URL for SAML Authentication" {
+
+				New-PASSession -BaseURI "https://P_URI" -SAMLToken "SomeSAMLToken"
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends expected header for SAML Authentication" {
+
+				New-PASSession -BaseURI "https://P_URI" -SAMLToken "SomeSAMLToken"
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Headers["Authorization"] -eq "SomeSAMLToken"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected URL for Shared Authentication" {
+
+				New-PASSession -BaseURI "https://P_URI" -UseSharedAuthentication
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logon"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It "`$Script:ExternalVersion has expected value on Get-PASServer error" {
 				Mock Get-PASServer -MockWith {
 					throw "Some Error"
 				}
+
 				$Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -WarningAction SilentlyContinue
 				$Script:ExternalVersion | Should be "0.0"
 
@@ -214,8 +251,6 @@ Describe $FunctionName {
 				Assert-MockCalled Get-PASServer -Times 0 -Exactly -Scope It
 
 			}
-
-
 
 		}
 
