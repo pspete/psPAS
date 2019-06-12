@@ -249,7 +249,7 @@
 		}
 
 		#Construct Request Body
-		$body = $boundParameters | ConvertTo-Json
+		$body = $boundParameters | Get-PASParameter -ParametersToRemove BaseURI, PVWAAppName | ConvertTo-Json
 
 		if ($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon with User '$userDisplay'")) {
 
