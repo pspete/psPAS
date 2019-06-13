@@ -20,7 +20,7 @@ Only requests waiting for approval will be listed
 Expired requests will be included in the list
 
 .EXAMPLE
-Get-PASRequestDetail -RequestType IncomingRequests -RequestID $ID -sessionToken $token.sessiontoken -BaseURI $Url
+Get-PASRequestDetail -RequestType IncomingRequests -RequestID $ID
 
 Gets details of request with ID held in $ID
 
@@ -71,12 +71,12 @@ Minimum CyberArk Version 9.10
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result |
 
-				Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Extended
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Extended
 
 		}
 

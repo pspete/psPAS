@@ -73,9 +73,9 @@
 	Uses the credentials of the current user to send the web request
 
 	.EXAMPLE
-	Logon to Version 10 with LDAP credential and save auth token:
+	Logon to Version 10 with LDAP credential:
 
-	$token = New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 
 	.EXAMPLE
 	Logon to Version 10 with CyberArk credential:
@@ -88,9 +88,9 @@
 	New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
 
 	.EXAMPLE
-	Logon to Version 9 with credential and save auth token:
+	Logon to Version 9 with credential:
 
-	$token = New-PASSession -Credential $cred -BaseURI https://PVWA -UseV9API
+	New-PASSession -Credential $cred -BaseURI https://PVWA -UseV9API
 
 	Request would be sent to PVWA URL https://PVWA/PasswordVault/
 

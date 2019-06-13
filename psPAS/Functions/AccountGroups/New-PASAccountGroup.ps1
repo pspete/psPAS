@@ -22,7 +22,7 @@ The associated platform must be set to "PolicyType=Group"
 The Safe where the group will be created
 
 .EXAMPLE
-New-PASAccountGroup -GroupName UATGroup -GroupPlatform UnixGroup-NonProd -Safe UAT-Team -sessionToken $token.sessionToken -BaseURI $url
+New-PASAccountGroup -GroupName UATGroup -GroupPlatform UnixGroup-NonProd -Safe UAT-Team
 
 Creates new account group named UATGroup and assigns to platform in the UAT-Team Safe.
 
@@ -74,7 +74,7 @@ Minimum version 9.9.5
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess($GroupName, "Define New Account Group")) {
+		if ($PSCmdlet.ShouldProcess($GroupName, "Define New Account Group")) {
 
 			#send request to PAS web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
@@ -83,6 +83,6 @@ Minimum version 9.9.5
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
