@@ -4,16 +4,16 @@
 	Authenticates a user to CyberArk Vault.
 
 	.DESCRIPTION
-	Authenticates a user to a CyberArk Vault and returns a token and a webrequest session object
-	that can be used in subsequent PAS Web Services calls.
+	Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object
+	which are used in subsequent calls to the API.
 	In addition, this method allows you to set a new password.
-	Authenticate using CyberArk, LDAP or RADIUS authentication (From CyberArk version 9.7 up).
+	Authenticate using CyberArk, LDAP, RADIUS, SAML or Shared authentication (From CyberArk version 9.7 up),
+	Windows authentication is supported (from CyberArk 10.4 up).
 	For CyberArk version older than 9.7:
 		Only CyberArk Authentication method is supported.
 		newPassword Parameter is not supported.
 		useRadiusAuthentication Parameter is not supported.
 		connectionNumber Parameter is not supported.
-	Additionally, if using CyberArk 9.7+, this function will return version information from PVWA
 
 	.PARAMETER Credential
 	A Valid PSCredential object.
@@ -38,12 +38,6 @@
 	When using the version 10 API endpoint, specify the type of authentication to use.
 	Valid values are CyberArk, LDAP, Windows or RADIUS
 	Windows is only a valid option for version 10.4 onward.
-
-	.PARAMETER AdditionalInfo
-	The Version 10 API accepts a string value containing Additional Info
-
-	.PARAMETER SecureMode
-	The Version 10 API accepts a boolean value indicating true or false for SecureMode
 
 	.PARAMETER connectionNumber
 	In order to allow more than one connection for the same user simultaneously, each request
@@ -185,21 +179,13 @@
 		[ValidateSet("CyberArk", "LDAP", "Windows", "RADIUS")]
 		[string]$type = "CyberArk",
 
-		[Parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10"
+			ParameterSetName = "integrated"
 		)]
-		[string]$AdditionalInfo,
-
-		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10"
-		)]
-		[bool]$SecureMode,
+		[switch]$UseDefaultCredentials,
 
 		[Parameter(
 			Mandatory = $false,
@@ -209,20 +195,6 @@
 		)]
 		[ValidateRange(1, 100)]
 		[int]$connectionNumber,
-
-		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
-			ValueFromPipelinebyPropertyName = $false
-		)]
-		[switch]$SkipVersionCheck,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
-			ValueFromPipelinebyPropertyName = $false
-		)]
-		[string]$SessionVariable = "PASSession",
 
 		[parameter(
 			Mandatory = $true,
@@ -238,13 +210,20 @@
 		)]
 		[string]$PVWAAppName = "PasswordVault",
 
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[switch]$SkipVersionCheck,
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "integrated"
+			ValueFromPipelinebyPropertyName = $false
 		)]
-		[switch]$UseDefaultCredentials
+		[string]$SessionVariable = "PASSession"
+
 	)
 
 	BEGIN {
