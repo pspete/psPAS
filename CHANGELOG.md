@@ -1,5 +1,52 @@
 # psPAS
 
+## **3.0.0** (June XXxx 2019)
+
+_2 years since first commit Anniversary Edition_
+
+### Breaking Changes
+
+**Existing scripts will need to be updated to work with the new module workflow.**
+
+- `$token` Variable requirement removed.
+  - Default values now available to all module functions via variables in the MOdule scope.
+    - `BaseURI` - no longer needs to be passed to each function
+      - All functions except `New-PASSession` can not accept `BaseURI`.
+    - `WebSession` - no longer needs to be passed to each function
+      - Functions can now not accept `WebSession`.
+    - `PVWAAppName` - can no longer to be passed to each function
+      - All functions except `New-PASSession` can not accept `PVWAAppName`.
+    - `SessionToken` - no longer needs to be passed to each function
+      - No function can accept `SessionToken`.
+    - `ExternalVersion` - no longer needs to be passed to each function
+  - Default values no longer returned on pipeline
+    - values for `BaseURI`, `WebSession`, `PVWAAppName`, `SessionToken` & `ExternalVersion` are
+    not returned from module functions in output.
+- Functions Removed
+  - `New-PASSAMLSession` Removed
+    - Functionality moved into `New-PASSession`.
+  - `New-PASSharedSession` Removed
+    - Functionality moved into `New-PASSession`.
+  - `Close-PASSAMLSession` Removed
+    - Functionality moved into `Close-PASSession`.
+  - `Close-PASSharedSession` Removed
+    - Functionality moved into `Close-PASSession`.
+
+### Other Updates
+
+- `New-PASSession`
+  - Added `OTP` Parameter
+    - Allows One Time Passcode to be provided, which is then sent with the password value.
+      - Tested with Duo RADIUS.
+  - Removed `$SecureMode` & `$AdditionalInfo` parameters.
+
+## 2.6.17 (May 16th 2019)
+
+- Fix
+  - `Add-PASDirectory`
+    - Parameter `SSLConnect` added (required if adding LDAPS hosts)
+    - Thanks (again) [jmk-foofus](https://github.com/jmk-foofus)!
+
 ## 2.6.15 (May 2nd 2019)
 
 ### Module update to cover CyberArk 10.9 API features
