@@ -39,6 +39,10 @@
 	Valid values are CyberArk, LDAP, Windows or RADIUS
 	Windows is only a valid option for version 10.4 onward.
 
+	.PARAMETER OTP
+	If a One Time Passcode is provided against this parameter, New-PASSession will append it to the
+	password value sent with the logon request, separated by a comma. (password_value,otp_value).
+
 	.PARAMETER connectionNumber
 	In order to allow more than one connection for the same user simultaneously, each request
 	should be sent with different 'connectionNumber'.
@@ -107,6 +111,30 @@
 
 	Authenticates to a CyberArk Vault using SAML authentication.
 
+	.EXAMPLE
+	Logon to Version 10 using RADIUS:
+
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
+
+	.EXAMPLE
+	Logon using RADIUS via the Classic API:
+
+	New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True
+
+	.EXAMPLE
+	Logon to Version 10 using RADIUS & OTP:
+
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456
+
+	.EXAMPLE
+	Logon using RADIUS & OTP via the Classic API:
+
+	New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True -OTP 123456
+
+	.EXAMPLE
+	Logon to Version 10 using RADIUS & Push Authentication (works with DUO 2FA):
+
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push
 	#>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "v10")]
 	param(
@@ -178,6 +206,20 @@
 		)]
 		[ValidateSet("CyberArk", "LDAP", "Windows", "RADIUS")]
 		[string]$type = "CyberArk",
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10"
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9"
+		)]
+		[string]$OTP,
 
 		[parameter(
 			Mandatory = $false,
@@ -291,6 +333,16 @@
 				#Add decoded password value from credential object
 				$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
 
+				If (($PSBoundParameters.ContainsKey("useRadiusAuthentication")) -or ($type -eq "RADIUS")) {
+
+					If ($PSBoundParameters.ContainsKey("OTP")) {
+
+						$boundParameters["password"] = "$($boundParameters["password"]),$OTP"
+
+					}
+
+				}
+
 			}
 
 			#deal with newPassword SecureString
@@ -302,7 +354,7 @@
 			}
 
 			#Construct Request Body
-			$LogonRequest["Body"] = $boundParameters | Get-PASParameter -ParametersToRemove BaseURI, PVWAAppName | ConvertTo-Json
+			$LogonRequest["Body"] = $boundParameters | Get-PASParameter -ParametersToRemove BaseURI, PVWAAppName, OTP, type | ConvertTo-Json
 
 		} Elseif ($PSCmdlet.ParameterSetName -eq "saml") {
 

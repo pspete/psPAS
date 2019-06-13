@@ -137,6 +137,30 @@ Describe $FunctionName {
 
 			}
 
+			It "sends request with password value when OTP is used via classic API" {
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -useRadiusAuthentication $true -OTP 987654
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					$Script:RequestBody.password -eq "SomePassword,987654"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request with password value when OTP is used via V10 API" {
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP 987654
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					$Script:RequestBody.password -eq "SomePassword,987654"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It "sends request to expected v10 URL for CyberArk Authentication" {
 
 				$Credentials | New-PASSession -BaseURI "https://P_URI" -type CyberArk
