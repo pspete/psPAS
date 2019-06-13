@@ -18,29 +18,12 @@ Function Set-PASPTARemediation {
 	.PARAMETER pendAccount_UnmanagedPrivilegedAccount
 	Indicate if the Add Unmanaged Accounts to Pending Accounts command is active
 
-	.PARAMETER sessionToken
-	Hashtable containing the session token returned from New-PASSession
-
-	.PARAMETER WebSession
-	WebRequestSession object returned from New-PASSession
-
-	.PARAMETER BaseURI
-	PVWA Web Address
-	Do not include "/PasswordVault/"
-
-	.PARAMETER PVWAAppName
-	The name of the CyberArk PVWA Virtual Directory.
-	Defaults to PasswordVault
-
-	.PARAMETER ExternalVersion
-	The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 	.EXAMPLE
-	$token | Set-PASPTARemediation -changePassword_SuspectedCredentialsTheft $true
+Set-PASPTARemediation -changePassword_SuspectedCredentialsTheft $true
 
 	Enables the "Change password on Suspected Credentials Theft" rule.
 	.EXAMPLE
-	$token | Set-PASPTARemediation -reconcilePassword_SuspectedPasswordChange $false
+Set-PASPTARemediation -reconcilePassword_SuspectedPasswordChange $false
 
 	Disables the "reconcile on suspected password change" rule.
 
@@ -71,37 +54,8 @@ Function Set-PASPTARemediation {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[boolean]$pendAccount_UnmanagedPrivilegedAccount,
+		[boolean]$pendAccount_UnmanagedPrivilegedAccount
 
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
 	)
 
 	BEGIN {
@@ -112,13 +66,13 @@ Function Set-PASPTARemediation {
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/pta/API/Settings/AutomaticRemediations/"
+		$URI = "$Script:BaseURI/API/pta/API/Settings/AutomaticRemediations/"
 
 
 		#Create body of request
@@ -127,20 +81,12 @@ Function Set-PASPTARemediation {
 		if($PSCmdlet.ShouldProcess("PTA", "Update Automatic Remediation Config")) {
 
 			#send request to PAS web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -Headers $sessionToken -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $Script:WebSession
 
 			if($result) {
 
 				#Return Results
-				$result.automaticRemediation | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.PTA.Remediation" -PropertyToAdd @{
-
-					"sessionToken"    = $sessionToken
-					"WebSession"      = $WebSession
-					"BaseURI"         = $BaseURI
-					"PVWAAppName"     = $PVWAAppName
-					"ExternalVersion" = $ExternalVersion
-
-				}
+				$result.automaticRemediation | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.PTA.Remediation"
 
 			}
 

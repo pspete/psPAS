@@ -51,27 +51,8 @@ If left blank, a name will be generated automatically.
 .PARAMETER RuleDescription
 A description of the rule.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-If the minimum version requirement of this function is not satisfied, execution will be halted.
-Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
-
 .EXAMPLE
-$token | Set-PASOnboardingRule -Id 1 -TargetPlatformId WINDOMAIN -TargetSafeName SafeName -SystemTypeFilter Windows
+Set-PASOnboardingRule -Id 1 -TargetPlatformId WINDOMAIN -TargetSafeName SafeName -SystemTypeFilter Windows
 
 Updates Onboarding Rule with ID 1
 
@@ -182,38 +163,7 @@ Minimum Version: 10.5
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateLength(0, 255)]
-		[string]$RuleDescription,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$RuleDescription
 	)
 
 	BEGIN {
@@ -222,10 +172,10 @@ Minimum Version: 10.5
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/api/AutomaticOnboardingRules/$Id"
+		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules/$Id"
 
 		#create request body
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove Id | ConvertTo-Json
@@ -233,19 +183,11 @@ Minimum Version: 10.5
 		if($PSCmdlet.ShouldProcess($TargetPlatformId, "Update On-Boarding Rule $ID")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 			if($result) {
 
-				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule -PropertyToAdd @{
-
-					"sessionToken"    = $sessionToken
-					"WebSession"      = $WebSession
-					"BaseURI"         = $BaseURI
-					"PVWAAppName"     = $PVWAAppName
-					"ExternalVersion" = $ExternalVersion
-
-				}
+				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
 
 			}
 

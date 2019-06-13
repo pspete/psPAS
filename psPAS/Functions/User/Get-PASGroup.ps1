@@ -16,47 +16,28 @@ Filter according to REST standard.
 .PARAMETER search
 Search will match when ALL search terms appear in the group name.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-If the minimum version requirement of this function is not satisfied, execution will be halted.
-Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
-
 .EXAMPLE
-$token | Get-PASGroup
+Get-PASGroup
 
 Returns all existing groups
 
 .EXAMPLE
-$token | Get-PASGroup -filter 'groupType eq Directory'
+Get-PASGroup -filter 'groupType eq Directory'
 
 Returns all existing Directory groups
 
 .EXAMPLE
-$token | Get-PASGroup -filter 'groupType eq Vault'
+Get-PASGroup -filter 'groupType eq Vault'
 
 Returns all existing Vault groups
 
 .EXAMPLE
-$token | Get-PASGroup -search "Vault Admins"
+Get-PASGroup -search "Vault Admins"
 
 Returns all groups matching all search terms
 
 .EXAMPLE
-$token | Get-PASGroup -search "Vault Admins" -filter 'groupType eq Directory'
+Get-PASGroup -search "Vault Admins" -filter 'groupType eq Directory'
 
 Returns all existing Directory groups matching all search terms
 
@@ -85,38 +66,7 @@ Minimum Version 10.5
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$search,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$search
 	)
 
 	BEGIN {
@@ -125,10 +75,10 @@ Minimum Version 10.5
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/API/UserGroups"
+		$URI = "$Script:BaseURI/API/UserGroups"
 
 		#Get Parameters to include in request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -144,19 +94,11 @@ Minimum Version 10.5
 		$URI = "$URI`?$queryString"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		if($result) {
 
-			$result.value | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Group -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			$result.value | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Group
 
 		}
 

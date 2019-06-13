@@ -10,27 +10,8 @@ allowing a privileged user to continue working.
 .PARAMETER LiveSessionId
 The unique ID/SessionGuid of a Suspended PSM Session.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-If the minimum version requirement of this function is not satisfied, execution will be halted.
-Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
-
 .EXAMPLE
-$token | Resume-PASPSMSession -LiveSessionId $SessionUUID
+Resume-PASPSMSession -LiveSessionId $SessionUUID
 
 Terminates Live PSM Session identified by the session UUID.
 
@@ -54,38 +35,7 @@ Minimum CyberArk Version 10.2
 		)]
 		[ValidateNotNullOrEmpty()]
 		[Alias("SessionGuid")]
-		[string]$LiveSessionId,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$LiveSessionId
 	)
 
 	BEGIN {
@@ -94,15 +44,15 @@ Minimum CyberArk Version 10.2
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Resume"
+		$URI = "$Script:BaseURI/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Resume"
 
 		if($PSCmdlet.ShouldProcess($LiveSessionId, "Resume PSM Session")) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Headers $sessionToken -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
 		}
 

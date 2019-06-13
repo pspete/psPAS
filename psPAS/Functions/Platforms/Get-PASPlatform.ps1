@@ -29,7 +29,7 @@ function Get-PASPlatform {
 	Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 	.EXAMPLE
-	$token | Get-PASPlatform -Name "CyberArk"
+Get-PASPlatform -Name "CyberArk"
 
 	.NOTES
 	Minimum CyberArk version 9.10
@@ -41,38 +41,7 @@ function Get-PASPlatform {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$Name,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$Name
 	)
 
 	BEGIN {
@@ -81,28 +50,20 @@ function Get-PASPlatform {
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
-		$URI = "$baseURI/$PVWAAppName/API/Platforms/$($Name | Get-EscapedString)"
+		$URI = "$Script:BaseURI/API/Platforms/$($Name | Get-EscapedString)"
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If($result) {
 
 			#Return Results
 			$result |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Platform -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Platform
 
 		}
 

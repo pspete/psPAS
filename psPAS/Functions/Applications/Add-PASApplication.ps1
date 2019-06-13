@@ -49,22 +49,8 @@ The email address of the business owner
 The phone number of the business owner.
 Specify up to 24 characters.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
 .EXAMPLE
-$token | Add-PASApplication -AppID NewApp -Description "A new application" -Location "\" `
+Add-PASApplication -AppID NewApp -Description "A new application" -Location "\" `
 -AccessPermittedFrom 9 -AccessPermittedTo 17 -BusinessOwnerEmail 'appowner@company.com'
 
 Will add a new application called "NewApp", in the root location, accessible from 9am to 5pm
@@ -153,31 +139,7 @@ None
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateLength(0, 24)]
-		[string]$BusinessOwnerPhone,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$BusinessOwnerPhone
 
 	)
 
@@ -186,7 +148,7 @@ None
 	PROCESS {
 
 		#WebService URL
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications"
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -209,7 +171,7 @@ None
 		} | ConvertTo-Json
 
 		#Send Request
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 	}#process
 

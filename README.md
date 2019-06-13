@@ -49,71 +49,6 @@ Contains all published methods of the API up to CyberArk v10.9.
 
 ## Usage
 
-It all starts with a **Logon**
-
-![New-PASSession](/media/New-PASSession.png)
-
-The output of _`New-PASSession`_ can be used as input for subsequent commands.
-
-![Logon](/media/logon.gif)
-
-In the below examples, the **`$token`** variable contains the values for the</br>
-_`sessionToken`_ & _`baseURI`_ parameters, which are mandatory for all functions.
-
-![Get-PASAccount](/media/Get-PASAccount.png)
-
-Use the pipeline to allow multiple successive commands to be executed.
-
-![Example Pipeline](/media/ExamplePipeline.png)
-
-**Save time on repetitive support tasks...**
-
-Unlock Users:
-
-![Unblock-PASUser](/media/PebKac.png)
-
-![Problem Exists Between Keyboard and Chair](/media/pebkac.gif)
-
-Add Users as Group Members:
-
-![Add-PASGroupMember](/media/Add-PASGroupMember.png)
-
-Streamline your safe creation process...
-
-![Add-PASSafe](/media/Add-PASSafe.png)
-
-![Safe Creation](/media/safes.gif)
-
-Achieve consistent safe permissions...
-
-![Add-PASSafeMember](/media/Add-PASSafeMember.png)
-
-Enact changes across multiple safes, with speed...
-
-![Set-PASSafeMember](/media/Set-PASSafeMember.png)
-
-![Set-PASSafe](/media/Set-PASSafe.png)
-
-![Set Safe Permissions](media/permissions.gif)
-
-Onboard a User Account...
-
-![Add-PASAccount](/media/Add-PASAccount.png)
-
-Onboard User Accounts, in bulk...
-
-![Bulk Add Accounts](/media/BulkAddAccount.png)
-
-Check-In locked accounts...
-
-![Unlock-PASAccount](/media/Unlock-PASAccount.png)
-
-Make changes to multiple managed accounts...
-
-![Set-PASAccount](/media/Set-PASAccount.png)
-
-![Edit Accounts](media/accounts.gif)
-
 See the module in action in the below "_CyberArk REST API: From Start-to-Finish_" video:
 
 [![YouTube Demo](media/youtube.png)](https://www.youtube.com/watch?v=yZinhjsuV1I)
@@ -136,10 +71,6 @@ requires version 9.8+).
 -----------------------------------------------------------------------------------------|--------------------|:----------------
 [`New-PASSession`][New-PASSession]                                                       |**9.0**             |Authenticates a user to </br>CyberArk Vault
 [`Close-PASSession`][Close-PASSession]                                                   |**9.0**             |Logoff from CyberArk Vault.
-[`New-PASSAMLSession`][New-PASSAMLSession]                                               |**9.7**             |Authenticates a user to </br>CyberArk Vault using SAML
-[`Close-PASSAMLSession`][Close-PASSAMLSession]                                           |**9.7**             |Logoff from CyberArk </br>Vault SAML Session.
-[`New-PASSharedSession`][New-PASSharedSession]                                           |**9.7**             |Authenticates a user to </br>CyberArk Vault.
-[`Close-PASSharedSession`][Close-PASSharedSession]                                       |**9.7**             |Logoff from CyberArk </br>Vault shared user.
 [`Add-PASPublicSSHKey`][Add-PASPublicSSHKey]                                             |**9.6**             |Adds an authorised </br>public SSH key for a </br>specific user in the </br>Vault.
 [`Get-PASPublicSSHKey`][Get-PASPublicSSHKey]                                             |**9.6**             |Retrieves a user's </br>SSH Keys.
 [`Remove-PASPublicSSHKey`][Remove-PASPublicSSHKey]                                       |**9.6**             |Deletes a specific </br>Public SSH Key from </br>a specific vault user
@@ -239,10 +170,6 @@ requires version 9.8+).
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
-[New-PASSAMLSession]:/psPAS/Functions/Authentication/New-PASSAMLSession.ps1
-[Close-PASSAMLSession]:/psPAS/Functions/Authentication/Close-PASSAMLSession.ps1
-[New-PASSharedSession]:/psPAS/Functions/Authentication/New-PASSharedSession.ps1
-[Close-PASSharedSession]:/psPAS/Functions/Authentication/Close-PASSharedSession.ps1
 [Add-PASPublicSSHKey]:/psPAS/Functions/Authentication/Add-PASPublicSSHKey.ps1
 [Get-PASPublicSSHKey]:/psPAS/Functions/Authentication/Get-PASPublicSSHKey.ps1
 [Remove-PASPublicSSHKey]:/psPAS/Functions/Authentication/Remove-PASPublicSSHKey.ps1

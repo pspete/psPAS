@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -39,20 +42,14 @@ Describe $FunctionName {
 
 		}
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken"  = @{"Authorization" = "P_AuthValue"}
-			"WebSession"    = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"       = "https://P_URI"
-			"PVWAAppName"   = "P_App"
+				$InputObj = [pscustomobject]@{
 			"LiveSessionId" = "SomeSessionID"
 
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'LiveSessionId'}
+			$Parameters = @{Parameter = 'LiveSessionId'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -78,7 +75,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/LiveSessions/SomeSessionID/Resume"
+					$URI -eq "$($Script:BaseURI)/api/LiveSessions/SomeSessionID/Resume"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -97,7 +94,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Resume-PASPSMSession -ExternalVersion "1.0"} | Should Throw
+$Script:ExternalVersion = "1.0"
+				{$InputObj | Resume-PASPSMSession } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}

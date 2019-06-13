@@ -44,7 +44,6 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 .LINK
 
 #>
-	[Alias("Get-PASParameters")]
 	[CmdletBinding()]
 	[OutputType('System.Collections.Hashtable')]
 	param(
@@ -52,7 +51,6 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 			Position = 0,
 			Mandatory = $true,
 			ValueFromPipeline = $true)]
-		[ValidateNotNullOrEmpty()]
 		[Hashtable]$Parameters,
 
 		[parameter(
@@ -72,16 +70,12 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 			"WarningVariable",
 			"WhatIf",
 			"Confirm",
-			"sessionToken",
-			"BaseURI"
 			"SessionVariable",
-			"WebSession",
-			"PVWAAppName",
 			"InformationAction",
 			"InformationVariable",
 			"UseTransaction",
-			"ExternalVersion",
-			"UseV9API")
+			"UseV9API",
+			"UseClassicAPI")
 	)
 
 	BEGIN {

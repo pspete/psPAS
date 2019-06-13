@@ -1,127 +1,147 @@
 ﻿function New-PASSession {
 	<#
-.SYNOPSIS
-Authenticates a user to CyberArk Vault.
+	.SYNOPSIS
+	Authenticates a user to CyberArk Vault.
 
-.DESCRIPTION
-Authenticates a user to a CyberArk Vault and returns a token and a webrequest session object
-that can be used in subsequent PAS Web Services calls.
-In addition, this method allows you to set a new password.
-Authenticate using CyberArk, LDAP or RADIUS authentication (From CyberArk version 9.7 up).
-For CyberArk version older than 9.7:
-    Only CyberArk Authentication method is supported.
-    newPassword Parameter is not supported.
-    useRadiusAuthentication Parameter is not supported.
-	connectionNumber Parameter is not supported.
-Additionally, if using CyberArk 9.7+, this function will return version information from PVWA
+	.DESCRIPTION
+	Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object
+	which are used in subsequent calls to the API.
+	In addition, this method allows you to set a new password.
+	Authenticate using CyberArk, LDAP, RADIUS, SAML or Shared authentication (From CyberArk version 9.7 up),
+	Windows authentication is supported (from CyberArk 10.4 up).
+	For CyberArk version older than 9.7:
+		Only CyberArk Authentication method is supported.
+		newPassword Parameter is not supported.
+		useRadiusAuthentication Parameter is not supported.
+		connectionNumber Parameter is not supported.
 
-.PARAMETER Credential
-A Valid PSCredential object.
+	.PARAMETER Credential
+	A Valid PSCredential object.
 
-.PARAMETER UseV9API
-Specify the UseV9API to send the authentication request via the v9 API endpoint.
+	.PARAMETER UseClassicAPI
+	Specify the UseClassicAPI to send the authentication request via the Classic (v9) API endpoint.
 
-.PARAMETER newPassword
-Optional parameter, enables you to change a CyberArk users password.
-Must be supplied as a SecureString (Not Plain Text).
+	.PARAMETER newPassword
+	Optional parameter, enables you to change a CyberArk users password.
+	Must be supplied as a SecureString (Not Plain Text).
 
-.PARAMETER useRadiusAuthentication
-Whether or not users will be authenticated via a RADIUS server.
+	.PARAMETER SAMLToken
+	SAML token that identifies the session, encoded in BASE 64.
 
-.PARAMETER type
-When using the version 10 API endpoint, specify the type of authentication to use.
-Valid values are CyberArk, LDAP, Windows or RADIUS
-Windows is only a valid option for version 10.4 onward.
+	.PARAMETER UseSharedAuthentication
+	Specify the UseSharedAuthentication switch to use the Shared Authentication API endpoint to logon
 
-.PARAMETER AdditionalInfo
-The Version 10 API accepts a string value containing Additional Info
+	.PARAMETER useRadiusAuthentication
+	Whether or not users will be authenticated via a RADIUS server.
 
-.PARAMETER SecureMode
-The Version 10 API accepts a boolean value indicating true or false for SecureMode
+	.PARAMETER type
+	When using the version 10 API endpoint, specify the type of authentication to use.
+	Valid values are CyberArk, LDAP, Windows or RADIUS
+	Windows is only a valid option for version 10.4 onward.
 
-.PARAMETER connectionNumber
-In order to allow more than one connection for the same user simultaneously, each request
-should be sent with different 'connectionNumber'.
-Valid values: 1-100
+	.PARAMETER OTP
+	If a One Time Passcode is provided against this parameter, New-PASSession will append it to the
+	password value sent with the logon request, separated by a comma. (password_value,otp_value).
 
-.PARAMETER SkipVersionCheck
-If the SkipVersionCheck switch is specified, Get-PASServer will not be called after
-successfully authenticating. Get-PASServer is not supported before version 9.7.
+	.PARAMETER connectionNumber
+	In order to allow more than one connection for the same user simultaneously, each request
+	should be sent with different 'connectionNumber'.
+	Valid values: 1-100
 
-.PARAMETER SessionVariable
-After successful execution of this function, and authentication to the Vault, a WebSession
-object, that contains information about the connection and the request, including cookies,
-will be created and passed back in the return object.
-This can be passed to subsequent requests to ensure websessions are persistant when the
-PAS Web Service exists accross PVWA servers behind a load balancer.
+	.PARAMETER SkipVersionCheck
+	If the SkipVersionCheck switch is specified, Get-PASServer will not be called after
+	successfully authenticating. Get-PASServer is not supported before version 9.7.
 
-.PARAMETER BaseURI
-A string containing the base web address to send te request to.
-Pass the portion the PVWA HTTP address.
-Do not include "/PasswordVault/"
+	.PARAMETER SessionVariable
+	After successful execution of this function, and authentication to the Vault, a WebSession
+	object, that contains information about the connection and the request, including cookies,
+	will be created and passed back in the return object.
+	This can be passed to subsequent requests to ensure websessions are persistant when the
+	PAS Web Service exists accross PVWA servers behind a load balancer.
 
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
+	.PARAMETER BaseURI
+	A string containing the base web address to send te request to.
+	Pass the portion the PVWA HTTP address.
+	Do not include "/PasswordVault/"
 
-.PARAMETER UseDefaultCredentials
-See Invoke-WebRequest
-Uses the credentials of the current user to send the web request
+	.PARAMETER PVWAAppName
+	The name of the CyberArk PVWA Virtual Directory.
+	Defaults to PasswordVault
 
-.EXAMPLE
-Logon to Version 10 with LDAP credential and save auth token:
+	.PARAMETER UseDefaultCredentials
+	See Invoke-WebRequest
+	Uses the credentials of the current user to send the web request
 
-$token = New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
+	.EXAMPLE
+	Logon to Version 10 with LDAP credential:
 
-.EXAMPLE
-Logon to Version 10 with CyberArk credential:
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 
-New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
+	.EXAMPLE
+	Logon to Version 10 with CyberArk credential:
 
-.EXAMPLE
-Logon to Version 10 with Windows Integrated Authentication
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
 
-New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
+	.EXAMPLE
+	Logon to Version 10 with Windows Integrated Authentication
 
-.EXAMPLE
-Logon to Version 9 with credential and save auth token:
+	New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
 
-$token = New-PASSession -Credential $cred -BaseURI https://PVWA -UseV9API
+	.EXAMPLE
+	Logon to Version 9 with credential:
 
-Request would be sent to PVWA URL https://PVWA/PasswordVault/
+	New-PASSession -Credential $cred -BaseURI https://PVWA -UseV9API
 
-.EXAMPLE
-Logon to Version 9 where PVWA Virtual Directory has non-default name:
+	Request would be sent to PVWA URL https://PVWA/PasswordVault/
 
-New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseV9API
+	.EXAMPLE
+	Logon to Version 9 where PVWA Virtual Directory has non-default name:
 
-Request would be sent to PVWA URL https://PVWA/CustomVault/
+	New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseV9API
 
-.INPUTS
-A PSCredential Object can be piped to this function.
+	Request would be sent to PVWA URL https://PVWA/CustomVault/
 
-.OUTPUTS
-CyberArk Session token; This token identifies the session with the vault, and
-is supplied to every other web service request in the same session.
-A WebSession object; This contains information about the connection and the request,
-including cookies. Can be supplied to other web service requests.
-baseURI; this is the URL provided as an input to this function, it can be piped to
-other functions from this return object.
-ConnectionNumber; the connectionNumber provided to this function.
-ExternalVersion; The External Version number retrieved from CyberArk.
+	.EXAMPLE
+	New-PASSession -UseSharedAuthentication -BaseURI https://PVWA.domain.com
 
-Output uses defined default properties.
-To force all output to be shown, pipe to Select-Object *
+	Gets authorisation token by authenticating to a CyberArk Vault using shared authentication.
 
-.NOTES
+	.EXAMPLE
+	New-PASSession -SAMLToken $SAMLToken -BaseURI https://PVWA.domain.com
 
-.LINK
-#>
+	Authenticates to a CyberArk Vault using SAML authentication.
+
+	.EXAMPLE
+	Logon to Version 10 using RADIUS:
+
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
+
+	.EXAMPLE
+	Logon using RADIUS via the Classic API:
+
+	New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True
+
+	.EXAMPLE
+	Logon to Version 10 using RADIUS & OTP:
+
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456
+
+	.EXAMPLE
+	Logon using RADIUS & OTP via the Classic API:
+
+	New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True -OTP 123456
+
+	.EXAMPLE
+	Logon to Version 10 using RADIUS & Push Authentication (works with DUO 2FA):
+
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push
+	#>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "v10")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $true,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v10"
 		)]
 		[parameter(
@@ -134,26 +154,46 @@ To force all output to be shown, pipe to Select-Object *
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v9"
 		)]
-		[switch]$UseV9API,
+		[Alias("UseV9API")]
+		[switch]$UseClassicAPI,
 
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v10"
 		)]
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v9"
 		)]
 		[SecureString]$newPassword,
 
 		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "saml"
+		)]
+		[String]$SAMLToken,
+
+		[Parameter(
+			Mandatory = $True,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "shared"
+		)]
+		[switch]$UseSharedAuthentication,
+
+		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v9"
 		)]
 		[bool]$useRadiusAuthentication,
@@ -161,6 +201,7 @@ To force all output to be shown, pipe to Select-Object *
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v10"
 		)]
 		[ValidateSet("CyberArk", "LDAP", "Windows", "RADIUS")]
@@ -169,71 +210,110 @@ To force all output to be shown, pipe to Select-Object *
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v10"
 		)]
-		[string]$AdditionalInfo,
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9"
+		)]
+		[string]$OTP,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "integrated"
+		)]
+		[switch]$UseDefaultCredentials,
 
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
-			ParameterSetName = "v10"
-		)]
-		[bool]$SecureMode,
-
-		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v9"
 		)]
 		[ValidateRange(1, 100)]
 		[int]$connectionNumber,
 
-		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false
-		)]
-		[switch]$SkipVersionCheck,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false
-		)]
-		[string]$SessionVariable = "PASSession",
-
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$BaseURI,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipeline = $false
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$PVWAAppName = "PasswordVault",
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[switch]$SkipVersionCheck,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
-			ParameterSetName = "integrated"
+			ValueFromPipelinebyPropertyName = $false
 		)]
-		[switch]$UseDefaultCredentials
+		[string]$SessionVariable = "PASSession"
+
 	)
 
 	BEGIN {
 
-		#Construct URL for request
-		if($($PSCmdlet.ParameterSetName) -eq "v10") {
+		#Hashtable to hold Logon Request
+		$LogonRequest = @{ }
 
-			$URI = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
+		#Define Logon Request Parameters
+		$LogonRequest["Method"] = "POST"
+		$LogonRequest["SessionVariable"] = $SessionVariable
+		$LogonRequest["UseDefaultCredentials"] = $UseDefaultCredentials.IsPresent
 
-		} elseif($($PSCmdlet.ParameterSetName) -eq "integrated") {
+		Switch ($PSCmdlet.ParameterSetName) {
 
-			$URI = "$baseURI/$PVWAAppName/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
+			"v10" {
 
-		} elseif($($PSCmdlet.ParameterSetName) -eq "v9") {
+				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
+				break
 
-			$URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
+			}
+
+			"integrated" {
+
+				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
+				break
+
+			}
+
+			"v9" {
+
+				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
+				break
+
+			}
+
+			"saml" {
+
+				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
+				break
+
+			}
+
+			"shared" {
+
+				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logon"
+				break
+
+			}
 
 		}
 
@@ -244,85 +324,70 @@ To force all output to be shown, pipe to Select-Object *
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck, UseDefaultCredentials
 
-		If($PSBoundParameters.ContainsKey("Credential")) {
+		If (($PSCmdlet.ParameterSetName -eq "v9") -or ($PSCmdlet.ParameterSetName -eq "v10") ) {
 
-			#Add user name from credential object
-			$boundParameters["username"] = $($Credential.UserName)
-			#Add decoded password value from credential object
-			$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
+			If ($PSBoundParameters.ContainsKey("Credential")) {
 
-			$userDisplay = $boundParameters["username"]
+				#Add user name from credential object
+				$boundParameters["username"] = $($Credential.UserName)
+				#Add decoded password value from credential object
+				$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
 
-		} ElseIf($PSBoundParameters.ContainsKey("UseDefaultCredentials")) {
+				If (($PSBoundParameters.ContainsKey("useRadiusAuthentication")) -or ($type -eq "RADIUS")) {
 
-			$userDisplay = "$env:USERDOMAIN\$env:USERNAME"
+					If ($PSBoundParameters.ContainsKey("OTP")) {
 
-		}
+						$boundParameters["password"] = "$($boundParameters["password"]),$OTP"
 
-		#deal with newPassword SecureString
-		If($PSBoundParameters.ContainsKey("newPassword")) {
-
-			#Include decoded password in request
-			$boundParameters["newPassword"] = $(ConvertTo-InsecureString -SecureString $newPassword)
-
-		}
-
-		#Construct Request Body
-		$body = $boundParameters | ConvertTo-Json
-
-		if($PSCmdlet.ShouldProcess("$baseURI/$PVWAAppName", "Logon with User '$userDisplay'")) {
-
-			#Send Logon Request
-			$PASSession = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -SessionVariable $SessionVariable -UseDefaultCredentials:($UseDefaultCredentials.IsPresent)
-
-			#If Logon Result
-			If($PASSession) {
-
-				#Format Authentication token
-				$SessionToken = @{"Authorization" = [string]$($PASSession.CyberArkLogonResult)}
-
-				#WebSession Object
-				$WebSession = $PASSession | Select-Object -ExpandProperty WebSession
-
-				#Initial Value for Version variable
-				[System.Version]$Version = "0.0"
-
-				if( -not ($SkipVersionCheck)) {
-
-					Try {
-
-						#Get CyberArk ExternalVersion number, assign to Version variable.
-						[System.Version]$Version = Get-PASServer -sessionToken $SessionToken -WebSession $WebSession `
-							-BaseURI $BaseURI -PVWAAppName $PVWAAppName -ErrorAction Stop |
-							Select-Object -ExpandProperty ExternalVersion
-
-					} Catch {Write-Warning "Could Not Determine CyberArk Version"}
+					}
 
 				}
 
-				#Return Object
-				[pscustomobject]@{
+			}
 
-					#Authentication Token - required for all subsequent Web Service Calls
-					"sessionToken"     = $SessionToken
+			#deal with newPassword SecureString
+			If ($PSBoundParameters.ContainsKey("newPassword")) {
 
-					#WebSession
-					"WebSession"       = $WebSession
+				#Include decoded password in request
+				$boundParameters["newPassword"] = $(ConvertTo-InsecureString -SecureString $newPassword)
 
-					#The Web Service URL the request was sent to
-					"BaseURI"          = $BaseURI
+			}
 
-					#PVWA Application Name/Virtual Directory
-					"PVWAAppName"      = $PVWAAppName
+			#Construct Request Body
+			$LogonRequest["Body"] = $boundParameters | Get-PASParameter -ParametersToRemove BaseURI, PVWAAppName, OTP, type | ConvertTo-Json
 
-					#The Connection Number
-					"ConnectionNumber" = $connectionNumber
+		} Elseif ($PSCmdlet.ParameterSetName -eq "saml") {
 
-					#ExternalVersion
-					"ExternalVersion"  = $Version
+			#add token to header
+			$LogonRequest["Headers"] = @{"Authorization" = $SAMLToken }
 
-					#Set default properties to display in output
-				} | Add-ObjectDetail -DefaultProperties sessionToken, BaseURI
+		}
+
+		if ($PSCmdlet.ShouldProcess("$BaseURI/$PVWAAppName", "Logon")) {
+
+			#Send Logon Request
+			$PASSession = Invoke-PASRestMethod @LogonRequest
+
+			#If Logon Result
+			If ($PASSession) {
+
+				Set-Variable -Name BaseURI -Value "$BaseURI/$PVWAAppName" -Scope Script
+
+				$Script:WebSession.Headers["Authorization"] = [string]$($PASSession.CyberArkLogonResult)
+
+				if ( -not ($SkipVersionCheck)) {
+
+					Try {
+
+						#Get CyberArk ExternalVersion number.
+						[System.Version]$Version = Get-PASServer -ErrorAction Stop |
+						Select-Object -ExpandProperty ExternalVersion
+
+						Set-Variable -Name ExternalVersion -Value $Version -Scope Script
+
+					} Catch { Write-Warning "Could Not Determine CyberArk Version" }
+
+				}
 
 			}
 
@@ -330,6 +395,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

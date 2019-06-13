@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -37,25 +40,16 @@ Describe $FunctionName {
 
 		Mock Invoke-PASRestMethod -MockWith {
 			[PSCustomObject]@{
-				"MyRequests"       = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2"}
-				"IncomingRequests" = [PSCustomObject]@{"PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC"}
+				"MyRequests"       = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2" }
+				"IncomingRequests" = [PSCustomObject]@{"PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC" }
 			}
-		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'RequestType'},
-			@{Parameter = 'OnlyWaiting'},
-			@{Parameter = 'Expired'}
+			$Parameters = @{Parameter = 'RequestType' },
+			@{Parameter = 'OnlyWaiting' },
+			@{Parameter = 'Expired' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -69,7 +63,7 @@ Describe $FunctionName {
 
 		Context "Input - MyRequests" {
 
-			$InputObj | Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true
+			Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true
 
 			It "sends request" {
 
@@ -81,7 +75,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/MyRequests?onlywaiting=true&expired=true"
+					$URI -eq "$($Script:BaseURI)/API/MyRequests?onlywaiting=true&expired=true"
 
 				} -Times 1 -Exactly -Scope Context
 
@@ -89,25 +83,27 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Context
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Context
 
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true -ExternalVersion "1.0"} | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}
 
 		Context "Input - IncomingRequests" {
 
-			$InputObj | Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $true
+			Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $true
 
 			It "sends request" {
 
@@ -119,7 +115,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/IncomingRequests?onlywaiting=true&expired=true"
+					$URI -eq "$($Script:BaseURI)/API/IncomingRequests?onlywaiting=true&expired=true"
 
 				} -Times 1 -Exactly -Scope Context
 
@@ -127,13 +123,13 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Context
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Context
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Context
 
 			}
 
@@ -141,7 +137,7 @@ Describe $FunctionName {
 
 		Context "Output - MyRequests" {
 
-			$response = $InputObj | Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $false
+			$response = Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $false
 
 			it "provides output" {
 
@@ -151,7 +147,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
 
 			}
 
@@ -161,24 +157,13 @@ Describe $FunctionName {
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
 
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Not BeNullOrEmpty
-
-			}
 
 		}
 
 		Context "Output - IncomingRequests" {
 
-			$response = $InputObj | Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $false
+			$response = Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $false
 
 			it "provides output" {
 
@@ -188,7 +173,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 8
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 3
 
 			}
 
@@ -198,18 +183,7 @@ Describe $FunctionName {
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
 
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Not BeNullOrEmpty
-
-			}
 
 		}
 

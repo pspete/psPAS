@@ -11,22 +11,8 @@ The "Initiate CPM password management operations" permission is required.
 The unique ID  of the account to delete.
 This is retrieved by the Get-PASAccount function.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
 .EXAMPLE
-$token | Start-PASCredVerify -AccountID 19_1
+Start-PASCredVerify -AccountID 19_1
 
 Will mark account with AccountID of 19_1 for Immediate CPM Verification
 
@@ -49,31 +35,7 @@ None
 		)]
 		[ValidateNotNullOrEmpty()]
 		[Alias("id")]
-		[string]$AccountID,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$SessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$AccountID
 	)
 
 	BEGIN { }#begin
@@ -81,14 +43,14 @@ None
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID/VerifyCredentials"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID/VerifyCredentials"
 
 		$body = @{ } | ConvertTo-Json
 
 		if ($PSCmdlet.ShouldProcess($AccountID, "Mark for Immediate Verification")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -Headers $SessionToken -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -WebSession $Script:WebSession
 
 		}
 

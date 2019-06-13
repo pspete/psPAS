@@ -13,32 +13,13 @@ The ID or Name of the directory to return data on.
 .PARAMETER MappingID
 The ID or Name of the directory mapping to return information on.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-If the minimum version requirement of this function is not satisfied, execution will be halted.
-Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
-
 .EXAMPLE
-$token | Get-PASDirectory |  Get-PASDirectoryMapping
+Get-PASDirectory |  Get-PASDirectoryMapping
 
 Returns LDAP directory mappings configured for each directory.
 
 .EXAMPLE
-$token | Get-PASDirectoryMapping -DirectoryName SomeDir -MappingID "User_Mapping"
+Get-PASDirectoryMapping -DirectoryName SomeDir -MappingID "User_Mapping"
 
 Returns information on the User_Mapping for SomeDir
 
@@ -73,38 +54,8 @@ LDAP Directory Mapping Details
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "Mapping"
 		)]
-		[string]$MappingID,
+		[string]$MappingID
 
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
 	)
 
 	BEGIN {
@@ -113,10 +64,10 @@ LDAP Directory Mapping Details
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
+		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
 
 		if($PSCmdlet.ParameterSetName -eq "Mapping") {
 
@@ -126,22 +77,14 @@ LDAP Directory Mapping Details
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If($result) {
 
 			#Return Results
 			$result |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
 
 		}
 

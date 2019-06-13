@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -37,9 +40,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'RecordingID'}
+			$Parameters = @{Parameter = 'RecordingID' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -55,14 +56,10 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith {}
+				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
-					"RecordingID"  = "SomeID"
+					"RecordingID" = "SomeID"
 
 				}
 
@@ -78,7 +75,7 @@ Describe $FunctionName {
 				$InputObj | Get-PASPSMRecordingProperty
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Recordings/SomeID/properties"
+					$URI -eq "$($Script:BaseURI)/API/Recordings/SomeID/properties"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -86,20 +83,21 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 				$InputObj | Get-PASPSMRecordingProperty
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
 				$InputObj | Get-PASPSMRecordingProperty
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "10.5"
 
-				{$InputObj | Get-PASPSMRecordingProperty -ExternalVersion 10.5} | Should throw
-
+				{ $InputObj | Get-PASPSMRecordingProperty } | Should throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}
@@ -118,11 +116,7 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
-					"RecordingID"  = "SomeID"
+					"RecordingID" = "SomeID"
 				}
 
 			}
@@ -141,22 +135,11 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 				$response = $InputObj | Get-PASPSMRecordingProperty
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 9
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 4
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
 
-
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-				($InputObj | Get-PASPSMRecordingProperty).$Property | Should Not BeNullOrEmpty
-
-			}
 
 		}
 

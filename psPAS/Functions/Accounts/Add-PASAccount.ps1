@@ -95,30 +95,13 @@ Safe where reconcile account is stored
 .PARAMETER DynamicProperties
 Hashtable of name=value pairs
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Add-PASAccount -address ThisServer -userName ThisUser -platformID UNIXSSH -SafeName UNIXSafe -automaticManagementEnabled $false
+Add-PASAccount -address ThisServer -userName ThisUser -platformID UNIXSSH -SafeName UNIXSafe -automaticManagementEnabled $false
 
 Using the version 10 API, adds an account which is disbaled for automatic password management
 
 .EXAMPLE
-$token | Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com -Password $secureString -username domainUser
+Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com -Password $secureString -username domainUser
 
 Using the "version 9" API, adds account domain.com\domainuser to the Prod_Access Safe using the WINDOMAIN platform.
 The contents of $secureString will be set as the password value.
@@ -350,37 +333,7 @@ v10.4 outputs th details of the created account.
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "V9"
 		)]
-		[hashtable]$DynamicProperties,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
+		[hashtable]$DynamicProperties
 	)
 
 	BEGIN {
@@ -411,10 +364,10 @@ v10.4 outputs th details of the created account.
 
 		if ($PSCmdlet.ParameterSetName -eq "V10") {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for Request
-			$URI = "$baseURI/$PVWAAppName/api/Accounts"
+			$URI = "$Script:BaseURI/api/Accounts"
 
 			#deal with "secret" SecureString
 			If ($PSBoundParameters.ContainsKey("secret")) {
@@ -453,7 +406,7 @@ v10.4 outputs th details of the created account.
 		if ($PSCmdlet.ParameterSetName -eq "V9") {
 
 			#Create URL for Request
-			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account"
 
 			#deal with Password SecureString
 			If ($PSBoundParameters.ContainsKey("password")) {
@@ -515,22 +468,14 @@ v10.4 outputs th details of the created account.
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 		if ($PSCmdlet.ParameterSetName -eq "V10") {
 
 			if ($result) {
 
 				#Return Results
-				$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Account.V10" -PropertyToAdd @{
-
-					"sessionToken"    = $sessionToken
-					"WebSession"      = $WebSession
-					"BaseURI"         = $BaseURI
-					"PVWAAppName"     = $PVWAAppName
-					"ExternalVersion" = $ExternalVersion
-
-				}
+				$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Account.V10"
 
 			}
 

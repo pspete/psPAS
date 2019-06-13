@@ -67,27 +67,27 @@ function Invoke-PASCredChange {
 	Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 	.EXAMPLE
-	$token | Invoke-PASCredChange -AccountID 21_3
+Invoke-PASCredChange -AccountID 21_3
 
 	Will mark account with ID of "21_3" for immediate password change by CPM
 
 	.EXAMPLE
-	$token | Get-PASAccount xAccount | Invoke-PASCredChange
+Get-PASAccount xAccount | Invoke-PASCredChange
 
 	Will mark xAccount for immediate password change by CPM
 
 	.EXAMPLE
-	$token | Invoke-PASCredChange -AccountID 24_3 -UpdateVaultOnly -NewCredentials (Read-Host -AsSecureString)
+Invoke-PASCredChange -AccountID 24_3 -UpdateVaultOnly -NewCredentials (Read-Host -AsSecureString)
 
 	Updates the password int he vault to the specified value
 
 	.EXAMPLE
-	$token | Invoke-PASCredChange -AccountID 24_3 -SetNextPassword -ChangeImmediately $true -NewCredentials $PassWD
+Invoke-PASCredChange -AccountID 24_3 -SetNextPassword -ChangeImmediately $true -NewCredentials $PassWD
 
 	Immediately changes, via CPM, the password to the value contained in the $PassWD variable
 
 	.EXAMPLE
-	$token | Invoke-PASCredChange -AccountID 24_3 -SetNextPassword -NewCredentials $PassWD
+Invoke-PASCredChange -AccountID 24_3 -SetNextPassword -NewCredentials $PassWD
 
 	Changes, via CPM, the password to the value contained in the $PassWD variable
 
@@ -165,38 +165,7 @@ function Invoke-PASCredChange {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "SetNextPassword"
 		)]
-		[securestring]$NewCredentials,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[securestring]$NewCredentials
 	)
 
 	BEGIN {
@@ -206,12 +175,12 @@ function Invoke-PASCredChange {
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		Write-Debug "ParameterSet $($PSCmdlet.ParameterSetName)"
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/API/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
+		$URI = "$Script:BaseURI/API/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove UpdateVaultOnly, SetNextPassword, AccountID
@@ -219,7 +188,7 @@ function Invoke-PASCredChange {
 		#deal with NewCredentials SecureString
 		If ($PSBoundParameters.ContainsKey("NewCredentials")) {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
 			#Include decoded password in request
 			$boundParameters["NewCredentials"] = $(ConvertTo-InsecureString -SecureString $NewCredentials)
@@ -232,7 +201,7 @@ function Invoke-PASCredChange {
 		if ($PSCmdlet.ShouldProcess($AccountID, "Password: $($PSCmdlet.ParameterSetName) Value")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -body $body -Headers $SessionToken -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -body $body -WebSession $Script:WebSession
 
 		}
 

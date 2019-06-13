@@ -33,7 +33,7 @@ function Export-PASPlatform {
 	Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
 
 	.EXAMPLE
-	$token | Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
+Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 
 	Exports UnixSSH to Platform.zip platform package.
 
@@ -62,38 +62,7 @@ function Export-PASPlatform {
 		[ValidateNotNullOrEmpty()]
 		[ValidateScript( { Test-Path -Path $_ -PathType Leaf -IsValid})]
 		[ValidatePattern( '\.zip$' )]
-		[string]$path,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$SessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$path
 	)
 
 	BEGIN {
@@ -102,15 +71,15 @@ function Export-PASPlatform {
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
+		$URI = "$Script:BaseURI/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
 
 		if($PSCmdlet.ShouldProcess($PlatformID, "Exports Platform Package")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Headers $SessionToken -WebSession $WebSession -Debug:$false
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession -Debug:$false
 
 			#if we get a platform byte array
 			if($result) {

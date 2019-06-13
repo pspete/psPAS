@@ -19,60 +19,34 @@ EXAMPLES
 
     https://github.com/pspete/psPAS#module-functions
 
-    Authentication to the Web Service must take place before any other commands can be issued, this is because every
-    subsequent call to the web service requires the session token returned from the logon operation to be provided.
+    Authentication to the Web Service must take place before any other commands can be issued, every
+    subsequent call to the web service requires the resulting authorization token returned upon successful logon.
 
     LOGON:
 
     PS C:\> New-PASSession -Credential $VaultCredentials -BaseURI https://PVWA_URL
 
-    The output of the New-PASSession function contains:
-     - The CyberArk Authentication Token, required for all subsequent calls to the API
-     - A WebSession object, useful if the API sits behind a loadbalancer
-     - The specified Web Service (PVWA) URL
-     - The connection Number, if specified.
-
-    As all or some of the above properties will need be provided to subsequent functions, the New-PASSession output can
-    be assigned to a variable for convenience:
-
-    PS C:\> $token = New-PASSession -Credential $VaultCredentials -BaseURI https://PVWA_URL
-
-    FURTHER COMMANDS:
-
-    The $token variable can be piped into all other functions to provide the values for the mandatory parameters
-    required to communicate with the Web Service:
-
-    PS C:\> $token | Get-PASAccount -Keywords root -Safe UNIX
-
-    or:
-
-    PS C:\> $token | Add-PASSafe -SafeName psPAS -ManagingCPM PasswordManager -NumberOfVersionsRetention 10
-
-    Alternatively, the mandatory parameters can be specified in the standard way:
-
-    PS C:\> Get-PASUser -UserName uAdmin -sessionToken $token.SessionToken -BaseURI https://CyberArkURL
+    Successful authentication with New-PASSession results in the required authorization token value being made available to all subsequent calls to the API
 
     PIPELINE OPERATIONS:
 
-    All functions of the module accept pipeline input, and all functions which provide output include in their output
-    the required values from New-PASSession. Therefore the session token etc are passed along the pipeline, allowing
-    chains of commands to be created.
+    All functions of the module accept pipeline input, allowing chains of commands to be created.
 
         Find and update a user:
 
-        PS C:\> $token | Get-PASAccount pete | Set-PASAccount -Address 10.10.10.10 -UserName pspete
+        PS C:\> Get-PASAccount pete | Set-PASAccount -Address 10.10.10.10 -UserName pspete
 
         Activate a Suspended CyberArk User:
 
-        PS C:\> $token | Get-PASUser PebKac | Unblock-PASUser -Suspended $false
+        PS C:\> Get-PASUser PebKac | Unblock-PASUser -Suspended $false
 
         Add a User to a group:
 
-        PS C:\> $token | Get-PASUser -UserName User | Add-PASGroupMember Group
+        PS C:\> Get-PASUser -UserName User | Add-PASGroupMember Group
 
         Update Version Retention on all Safes:
 
-        PS C:\> $token | Get-PASSafe | Set-PASSafe -NumberOfVersionsRetention 25
+        PS C:\> Get-PASSafe | Set-PASSafe -NumberOfVersionsRetention 25
 
 
 KEYWORDS

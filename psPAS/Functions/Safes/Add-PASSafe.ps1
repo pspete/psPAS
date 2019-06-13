@@ -35,30 +35,13 @@ Minimum Value: 1
 Maximum Value 3650
 Specify either this parameter or NumberOfVersionsRetention
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Add-PASSafe -SafeName Oracle -Description "Oracle Safe" -ManagingCPM PasswordManager -NumberOfVersionsRetention 7
+Add-PASSafe -SafeName Oracle -Description "Oracle Safe" -ManagingCPM PasswordManager -NumberOfVersionsRetention 7
 
 Creates a new safe named Oracle with a 7 version retention.
 
 .EXAMPLE
-$token | Add-PASSafe -SafeName Dev_Team -Description "Dev Safe" -ManagingCPM DEV_CPM -NumberOfDaysRetention 7
+Add-PASSafe -SafeName Dev_Team -Description "Dev Safe" -ManagingCPM DEV_CPM -NumberOfDaysRetention 7
 
 Creates a new safe named Dev_Team, assigned to CPM DEV_CPM, with a 7 day retention period.
 
@@ -123,38 +106,7 @@ To force all output to be shown, pipe to Select-Object *
 			ParameterSetName = "Days"
 		)]
 		[ValidateRange(1, 3650)]
-		[int]$NumberOfDaysRetention,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[int]$NumberOfDaysRetention
 	)
 
 	BEGIN {}#begin
@@ -162,7 +114,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes"
 
 		#create request body
 		$body = @{
@@ -173,20 +125,12 @@ To force all output to be shown, pipe to Select-Object *
 		} | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 
 		if($result) {
 
-			$result.AddSafeResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			$result.AddSafeResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe
 
 		}
 

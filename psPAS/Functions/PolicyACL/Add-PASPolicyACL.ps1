@@ -25,25 +25,8 @@ A restrictions string
 The user this rule applies to.
 Specify "*" for all users
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Add-PASPolicyACL -Command "chmod" -CommandGroup $false -PermissionType Allow -PolicyId UNIXSSH -UserName user1
+Add-PASPolicyACL -Command "chmod" -CommandGroup $false -PermissionType Allow -PolicyId UNIXSSH -UserName user1
 
 Adds Rule to UNIXSSH platform
 
@@ -105,38 +88,7 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$UserName,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$UserName
 	)
 
 	BEGIN {}#begin
@@ -144,7 +96,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Policy/$($PolicyID |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Policy/$($PolicyID |
 
             Get-EscapedString)/PrivilegedCommands"
 
@@ -156,21 +108,13 @@ To force all output to be shown, pipe to Select-Object *
 		ConvertTo-Json
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 		if($result) {
 
 			$result.AddPolicyPrivilegedCommandResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Policy -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Policy
 
 		}
 

@@ -11,22 +11,8 @@ The "Manage" Safe vault permission is required.
 .PARAMETER SafeName
 The name of the safe to delete.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
 .EXAMPLE
-$token | Remove-PASSafe -SafeName OLD_Safe
+Remove-PASSafe -SafeName OLD_Safe
 
 Deletes "OLD_Safe"
 
@@ -49,31 +35,8 @@ None
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$SafeName,
+		[string]$SafeName
 
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
 	)
 
 	BEGIN {}#begin
@@ -81,14 +44,14 @@ None
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes/$($SafeName |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
 
             Get-EscapedString)"
 
 		if($PSCmdlet.ShouldProcess($SafeName, "Delete Safe")) {
 
 			#Send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
 		}
 

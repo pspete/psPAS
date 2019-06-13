@@ -45,25 +45,6 @@ If the connection is through PSM, the name of the connection component to connec
 .PARAMETER ConnectionParams
 A list of parameters required to perform the connection, as defined in each connection component configuration
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-If the minimum version requirement of this function is not satisfied, execution will be halted.
-Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
-
 .EXAMPLE
 New-PASRequest -AccountId $ID -Reason "Task ABC" -MultipleAccess $true -ConnectionComponent PSM-RDP -sessionToken $ST -BaseURI $url
 
@@ -152,38 +133,7 @@ Minimum CyberArk Version 9.10
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[hashtable]$ConnectionParams,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[hashtable]$ConnectionParams
 	)
 
 	BEGIN {
@@ -192,10 +142,10 @@ Minimum CyberArk Version 9.10
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/MyRequests"
+		$URI = "$Script:BaseURI/API/MyRequests"
 
 		#Get all parameters that will be sent in the web request
 		#$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -219,19 +169,11 @@ Minimum CyberArk Version 9.10
 	if($PSCmdlet.ShouldProcess($AccountId, "Create Request for Account Access")) {
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 		if($result) {
 
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request
 
 	}
 

@@ -15,25 +15,8 @@ This is retrieved by the Get-PASAccount function.
 .PARAMETER UseV9API
 Specify this switch to force usage of the legacy API endpoint.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Remove-PASAccount -AccountID 19_1
+Remove-PASAccount -AccountID 19_1
 
 Deletes the account with AccountID of 19_1
 
@@ -63,38 +46,7 @@ None
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "v9"
 		)]
-		[switch]$UseV9API,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[switch]$UseV9API
 	)
 
 	BEGIN {
@@ -106,24 +58,24 @@ None
 		If($PSCmdlet.ParameterSetName -eq "V9") {
 
 			#Create URL for request (earlier than 10.4)
-			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
 
 		}
 
 		Else {
 
 			#check minimum version
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for request (Version 10.4 onwards)
-			$URI = "$baseURI/$PVWAAppName/api/Accounts/$AccountID"
+			$URI = "$Script:BaseURI/api/Accounts/$AccountID"
 
 		}
 
 		if($PSCmdlet.ShouldProcess($AccountID, "Delete Account")) {
 
 			#Send request to webservice
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -Headers $sessionToken -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
 		}
 

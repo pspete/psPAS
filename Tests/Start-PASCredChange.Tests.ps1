@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -35,23 +38,11 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
 
-		}
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"AccountID"    = "55_5"
-		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'AccountID'}
+			$Parameters = @{Parameter = 'AccountID' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -63,51 +54,68 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Start-PASCredChange -ImmediateChangeByCPM Yes -ChangeCredsForGroup Yes
-
 		Context "Input" {
 
-			It "sends request" {
+			BeforeEach {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+
+				$InputObj = [pscustomobject]@{
+
+					"AccountID" = "55_5"
+
+				}
+
+				$Script:BaseURI = "https://SomeURL/SomeApp"
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It "sends request" {
+				Start-PASCredChange -AccountID 55_5 -ImmediateChangeByCPM Yes -ChangeCredsForGroup Yes
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-
+				Start-PASCredChange -AccountID 55_5 -ImmediateChangeByCPM Yes -ChangeCredsForGroup Yes
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts/55_5/ChangeCredentials"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Accounts/55_5/ChangeCredentials"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'PUT' } -Times 1 -Exactly -Scope Describe
+				Start-PASCredChange -AccountID 55_5 -ImmediateChangeByCPM Yes -ChangeCredsForGroup Yes
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with expected header" {
-
+				Start-PASCredChange -AccountID 55_5 -ImmediateChangeByCPM Yes -ChangeCredsForGroup Yes
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
+					$headers = $WebSession.headers
 					$($headers["ImmediateChangeByCPM"]) -eq "Yes"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with expected body" {
-
+				Start-PASCredChange -AccountID 55_5 -ImmediateChangeByCPM Yes -ChangeCredsForGroup Yes
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Script:RequestBody = $Body | ConvertFrom-Json
 
 					($Script:RequestBody) -ne $null
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
@@ -120,10 +128,26 @@ Describe $FunctionName {
 		}
 
 		Context "Output" {
+			BeforeEach {
 
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+
+				$InputObj = [pscustomobject]@{
+
+					"AccountID" = "55_5"
+
+				}
+
+				$Script:BaseURI = "https://SomeURL/SomeApp"
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
 			it "provides no output" {
 
-				$response | Should BeNullOrEmpty
+				Start-PASCredChange -AccountID 55_5 -ImmediateChangeByCPM Yes -ChangeCredsForGroup Yes | Should BeNullOrEmpty
 
 			}
 

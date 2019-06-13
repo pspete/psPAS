@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -41,10 +44,6 @@ Describe $FunctionName {
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken"    = @{"Authorization" = "P_AuthValue"}
-			"WebSession"      = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"         = "https://P_URI"
-			"PVWAAppName"     = "P_App"
 			"AccountPolicyID" = "UNIXSSH"
 			"AccountAddress"  = "ServerA.domain.com"
 			"AccountUserName" = "root"
@@ -52,9 +51,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'AccountPolicyId'},
+			$Parameters = @{Parameter = 'AccountPolicyId'},
 			@{Parameter = 'AccountAddress'},
 			@{Parameter = 'AccountUserName'}
 
@@ -83,7 +80,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Account/ServerA.domain.com|root|UNIXSSH/PrivilegedCommands"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Account/ServerA.domain.com|root|UNIXSSH/PrivilegedCommands"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -113,7 +110,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
 
 			}
 
@@ -123,18 +120,7 @@ Describe $FunctionName {
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
 
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Not BeNullOrEmpty
-
-			}
 
 		}
 

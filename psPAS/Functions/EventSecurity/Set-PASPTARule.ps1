@@ -32,25 +32,8 @@ Function Set-PASPTARule {
 	.PARAMETER active
 	Indicate if the rule should be active or disbaled
 
-	.PARAMETER sessionToken
-	Hashtable containing the session token returned from New-PASSession
-
-	.PARAMETER WebSession
-	WebRequestSession object returned from New-PASSession
-
-	.PARAMETER BaseURI
-	PVWA Web Address
-	Do not include "/PasswordVault/"
-
-	.PARAMETER PVWAAppName
-	The name of the CyberArk PVWA Virtual Directory.
-	Defaults to PasswordVault
-
-	.PARAMETER ExternalVersion
-	The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 	.EXAMPLE
-	$token | Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 -description "Updated Rule" -response SUSPEND -active $true
+Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 -description "Updated Rule" -response SUSPEND -active $true
 
 	Updates rule 66 in PTA
 
@@ -102,37 +85,8 @@ Function Set-PASPTARule {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[boolean]$active,
+		[boolean]$active
 
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
 	)
 
 	BEGIN {
@@ -143,13 +97,13 @@ Function Set-PASPTARule {
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/API/pta/API/Settings/RiskyActivity/"
+		$URI = "$Script:BaseURI/API/pta/API/Settings/RiskyActivity/"
 
 
 		#Create body of request
@@ -158,7 +112,7 @@ Function Set-PASPTARule {
 		if($PSCmdlet.ShouldProcess($id, "Update Risky Activity Rule")) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 		}
 

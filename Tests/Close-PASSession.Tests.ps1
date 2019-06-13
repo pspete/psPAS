@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -39,30 +42,7 @@ Describe $FunctionName {
 
 		}
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-
-		}
-
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'}
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Close-PASSession).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
-
-			}
-
-		}
-
-		$response = $InputObj | Close-PASSession -UseV9API -verbose
+		$response = Close-PASSession -UseV9API -verbose
 
 		Context "Input" {
 
@@ -76,7 +56,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
+					$URI -eq "$($Script:BaseURI)/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -84,22 +64,44 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Describe
 
 			}
 
 			It "sends request to expected v10 URL" {
 
-				$response = $InputObj | Close-PASSession
+				$response = Close-PASSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Auth/Logoff"
+					$URI -eq "$($Script:BaseURI)/API/Auth/Logoff"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected SAML Auth URL" {
+
+				$response = Close-PASSession -SAMLAuthentication
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected Shared Auth URL" {
+
+				$response = Close-PASSession -SharedAuthentication
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logoff"
 
 				} -Times 1 -Exactly -Scope It
 

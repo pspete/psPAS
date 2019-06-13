@@ -20,26 +20,9 @@ If SafeName or query are not specified, FindAll is the default behaviour.
 See Invoke-WebRequest
 Specify a timeout value in seconds
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 
 .EXAMPLE
-$token | Get-PASSafe -SafeName SAFE1
+Get-PASSafe -SafeName SAFE1
 
 Returns details of "Safe1"
 
@@ -88,38 +71,7 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false
 		)]
-		[int]$TimeoutSec,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[int]$TimeoutSec
 	)
 
 	BEGIN {}#begin
@@ -127,7 +79,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Create base URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes"
 
 		#If SafeName specified
 		If($($PSCmdlet.ParameterSetName) -eq "byName") {
@@ -166,19 +118,11 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 
 		If($result) {
 
-			$result.$returnProperty | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			$result.$returnProperty | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe
 
 		}
 

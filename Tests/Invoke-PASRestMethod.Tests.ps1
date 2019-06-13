@@ -13,9 +13,15 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+
+}
+
+AfterAll {
+
+	Remove-Variable -Name WebSession -Scope Script
 
 }
 
@@ -39,18 +45,18 @@ Describe $FunctionName {
 
 			Mock Invoke-WebRequest -MockWith {
 
-				return [pscustomobject]@{"StatusCode" = 201}
+				return [pscustomobject]@{"StatusCode" = 201 }
 
 			}
 
 			It "does not throw" {
 
-				{Invoke-PASRestMethod @requestArgs2} | Should Not throw
+				{ Invoke-PASRestMethod @requestArgs2 } | Should Not throw
 
 			}
 
 			#If Tls12 Security Protocol is available
-			if([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") {
+			if ([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") {
 
 				It "uses TLS12" {
 					[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls11
@@ -64,7 +70,8 @@ Describe $FunctionName {
 
 		Context "application/json responses" {
 
-			Set-Variable varSession -Value "valSession"
+			Set-Variable varSession -Value $(New-Object Microsoft.PowerShell.Commands.WebRequestSession)
+			$VarSession.Headers["Test"] = "OK"
 
 			$MockResult = [pscustomobject] @{
 
@@ -77,7 +84,7 @@ Describe $FunctionName {
 						"prop2"   = "value2";
 						"prop123" = 123
 						"test"    = 321
-					}| ConvertTo-Json)
+					} | ConvertTo-Json)
 			}
 
 			Mock Invoke-WebRequest -MockWith {
@@ -93,17 +100,17 @@ Describe $FunctionName {
 
 			It "returns expected number of properties when session variable is supplied" {
 				$result = Invoke-PASRestMethod @requestArgs1
-				($result | Get-Member -MemberType NoteProperty).length | Should Be 5
+				($result | Get-Member -MemberType NoteProperty).length | Should Be 4
 			}
 
 			It "returns a websession" {
 				$result = Invoke-PASRestMethod @requestArgs1
-				$result.WebSession | Should Not BeNullOrEmpty
+				$Script:WebSession | Should Not BeNullOrEmpty
 			}
 
 			It "returns websession sessionvariable value" {
 				$result = Invoke-PASRestMethod @requestArgs1
-				$result.WebSession | Should Be "valSession"
+				$Script:WebSession.Headers["Test"] | Should Be "OK"
 			}
 
 			It "returns expected number of properties when websession is supplied" {
@@ -258,7 +265,7 @@ Describe $FunctionName {
 			}
 
 			It "throws other response" {
-				{Invoke-PASRestMethod @requestArgs2} | Should throw "Access is denied."
+				{ Invoke-PASRestMethod @requestArgs2 } | Should throw "Access is denied."
 			}
 
 		}
@@ -285,7 +292,7 @@ Describe $FunctionName {
 
 			Mock Invoke-WebRequest -MockWith {
 
-				throw [pscustomobject]@{"ErrorMessage" = $ErrorMessage; "ErrorCode" = $ErrorCode} | ConvertTo-Json
+				throw [pscustomobject]@{"ErrorMessage" = $ErrorMessage; "ErrorCode" = $ErrorCode } | ConvertTo-Json
 			}
 
 			Try {

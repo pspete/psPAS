@@ -23,42 +23,11 @@ Do not include options such as "command", as they are not supported when
 authenticating through PSMP.
 This key can only include comments in English.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
 .EXAMPLE
-$token | Add-PASPublicSSHKey -UserName keyUser -PublicSSHKey AAAAB3NzaC1kc3MAAACBAJ3hB5SAF6mBXPlZlRoJEZi0KSIN+NU2iGiaXZXi9CDrgVxp6/andonandonandOON==
+Add-PASPublicSSHKey -UserName keyUser -PublicSSHKey AAAAB3NzaC1kc3MAAACBAJ3hB5SAF6mBXPlZlRoJEZi0KSIN+NU2iGiaXZXi9CDrgVxp6/andonandonandOON==
 
 Adds SSH Key to vault user keyUser
 
-.INPUTS
-All parameters can be piped by property name
-Should accept pipeline objects from other *-PASUser
-or *-PASPublicSSHKey functions
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.PASPublicSSHKey
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-
-.LINK
 #>
 	[CmdletBinding()]
 	param(
@@ -74,29 +43,8 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateScript( {$_ -notmatch "`n"})]
-		[string]$PublicSSHKey,
+		[string]$PublicSSHKey
 
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$SessionToken,
-
-		[parameter(ValueFromPipelinebyPropertyName = $true)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault"
 	)
 
 	BEGIN {}#begin
@@ -104,7 +52,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Create URL to endpoint for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users/$($UserName |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
 
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys"
 
@@ -116,7 +64,7 @@ To force all output to be shown, pipe to Select-Object *
 		} | ConvertTo-Json
 
 		#send request to webservice
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $SessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 		if($result) {
 
@@ -125,10 +73,6 @@ To force all output to be shown, pipe to Select-Object *
 			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
 
 				"UserName"     = $UserName
-				"sessionToken" = $sessionToken
-				"WebSession"   = $WebSession
-				"BaseURI"      = $BaseURI
-				"PVWAAppName"  = $PVWAAppName
 
 			}
 

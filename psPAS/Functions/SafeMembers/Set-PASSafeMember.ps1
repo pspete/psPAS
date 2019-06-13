@@ -101,25 +101,8 @@ on safe.
 Boolean value defining if MoveAccountsAndFolders permission will be granted to safe
 member on safe.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$Token | Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true
+Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true
 
 Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts"
 
@@ -291,38 +274,7 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[boolean]$MoveAccountsAndFolders,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[boolean]$MoveAccountsAndFolders
 	)
 
 	BEGIN {
@@ -341,7 +293,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes/$($SafeName |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
 
             Get-EscapedString)/Members/$($MemberName |
 
@@ -387,7 +339,7 @@ To force all output to be shown, pipe to Select-Object *
 		if($PSCmdlet.ShouldProcess($SafeName, "Update Safe Permissions for '$MemberName'")) {
 
 			#Send request to webservice
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 			if($result) {
 
@@ -402,11 +354,6 @@ To force all output to be shown, pipe to Select-Object *
 
 					"UserName"        = $MemberName
 					"SafeName"        = $SafeName
-					"sessionToken"    = $sessionToken
-					"WebSession"      = $WebSession
-					"BaseURI"         = $BaseURI
-					"PVWAAppName"     = $PVWAAppName
-					"ExternalVersion" = $ExternalVersion
 
 				}
 

@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -37,9 +40,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' },
-			@{Parameter = 'id' }
+			$Parameters = @{Parameter = 'id' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -57,15 +58,7 @@ Describe $FunctionName {
 
 			Mock Invoke-PASRestMethod -MockWith { }
 
-			$InputObj = [pscustomobject]@{
-				"sessionToken" = @{"Authorization" = "P_AuthValue" }
-				"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-				"BaseURI"      = "https://P_URI"
-				"PVWAAppName"  = "P_App"
-
-			}
-
-			$response = $InputObj | Remove-PASDirectory -id SomeDir
+			$response = Remove-PASDirectory -id SomeDir
 
 	}
 
@@ -79,7 +72,7 @@ Describe $FunctionName {
 
 		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-			$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories/SomeDir"
+			$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDir"
 
 		} -Times 1 -Exactly -Scope It
 
@@ -98,7 +91,9 @@ Describe $FunctionName {
 	}
 
 	It "throws error if version requirement not met" {
-		{ $InputObj | Get-PASDirectory -ExternalVersion "1.0" } | Should Throw
+$Script:ExternalVersion = "1.0"
+		{ Get-PASDirectory  } | Should Throw
+$Script:ExternalVersion = "0.0"
 }
 
 }
@@ -109,15 +104,7 @@ Context "Output" {
 
 		Mock Invoke-PASRestMethod -MockWith { }
 
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue" }
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-
-		}
-
-		$response = $InputObj | Remove-PASDirectory -id SomeDir
+		$response = Remove-PASDirectory -id SomeDir
 
 }
 

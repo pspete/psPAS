@@ -10,25 +10,8 @@ The domain user who requests access will be added to the local Administrators gr
 .PARAMETER AccountID
 The ID of the local account that will be used to add the logged on user to the Administrators group on the target machine.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Request-PASAdHocAccess -AccountID 36_3
+Request-PASAdHocAccess -AccountID 36_3
 
 Requests "ad hoc" access on the server for which the account with id 36_3 is a local account with local admin membership.
 
@@ -51,38 +34,7 @@ None
 		)]
 		[ValidateNotNullOrEmpty()]
 		[Alias("id")]
-		[string]$AccountID,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$AccountID
 	)
 
 	BEGIN {
@@ -92,13 +44,13 @@ None
 	PROCESS {
 
 		#check minimum version
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request (Version 10.4 onwards)
-		$URI = "$baseURI/$PVWAAppName/api/Accounts/$AccountID/grantAdministrativeAccess"
+		$URI = "$Script:BaseURI/api/Accounts/$AccountID/grantAdministrativeAccess"
 
 		#Send request to webservice
-		Invoke-PASRestMethod -Uri $URI -Method POST -Headers $sessionToken -WebSession $WebSession
+		Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
 	}#process
 
