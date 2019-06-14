@@ -33,7 +33,6 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-	[Alias("Get-PASApplicationAuthenticationMethods")]
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -43,7 +42,7 @@ To force all output to be shown, pipe to Select-Object *
 		[string]$AppID
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -53,7 +52,7 @@ To force all output to be shown, pipe to Select-Object *
 
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result.authentication | Add-ObjectDetail -typename psPAS.CyberArk.Vault.ApplicationAuth
 
@@ -61,6 +60,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
