@@ -175,7 +175,8 @@
 		'Request-PASAdHocAccess',
 		'Get-PASDirectoryMapping',
 		'Remove-PASDirectory',
-		'Set-PASDirectoryMapping'
+		'Set-PASDirectoryMapping',
+		'Find-PASSafe'
 	)
 
 	AliasesToExport   = @(

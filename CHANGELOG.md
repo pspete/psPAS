@@ -34,11 +34,15 @@ _2 years since first commit Anniversary Edition_
 
 ### Other Updates
 
-- `New-PASSession`
-  - Added `OTP` Parameter
-    - Allows One Time Passcode to be provided, which is then sent with the password value.
-      - Tested with Duo RADIUS.
-  - Removed `$SecureMode` & `$AdditionalInfo` parameters.
+- New Functions
+  - `Find-PASSafe` (Thanks (again) [steveredden](https://github.com/steveredden)!)
+    - List or search safes by name
+- Updated Functions
+  - `New-PASSession`
+    - Added `OTP` Parameter
+      - Allows One Time Passcode to be provided, which is then sent with the password value.
+        - Tested with Duo RADIUS.
+    - Removed `$SecureMode` & `$AdditionalInfo` parameters.
 
 ## 2.6.17 (May 16th 2019)
 

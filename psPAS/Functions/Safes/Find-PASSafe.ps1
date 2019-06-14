@@ -1,36 +1,42 @@
 ﻿function Find-PASSafe {
-<#
-.SYNOPSIS
-Returns safe list from the vault.
+	<#
+	.SYNOPSIS
+	Returns safe list from the vault.
 
-.DESCRIPTION
-Returns abbreviated details for all safes
+	.DESCRIPTION
+	Returns abbreviated details for all safes
 
-.PARAMETER search
-List of keywords, separated with a space.
+	.PARAMETER search
+	List of keywords, separated with a space.
 
-.PARAMETER TimeoutSec
-See Invoke-WebRequest
-Specify a timeout value in seconds
+	.PARAMETER TimeoutSec
+	See Invoke-WebRequest
+	Specify a timeout value in seconds
 
-.EXAMPLE
-Find-PASSafe
-Find-PASSafe -search "xyz abc"
+	.EXAMPLE
+	Find-PASSafe
 
-.INPUTS
+	Returns details of all safes which the user has access to.
 
-.OUTPUTS
+	.EXAMPLE
+	Find-PASSafe -search "xyz abc"
 
-.NOTES
-This API is largly undocumented, but appears to be available since V10
-The documentation mentions no body parameters, but search/offset/limit/sort(NYI)/filter(NYI) seem to work
-It returns results faster than the v9 API (invoked with Get-PASSafe) but has a vastly different return object
-Recommended Use:  Use this to search for safes many quickly, then use Get-PASSafe to get full details about individual accounts
+	Returns details of all matching safes which the user has access to.
 
-.LINK
-https://cyberarkdocu.azurewebsites.net/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes%20Web%20Services%20-%20List%20Safes.htm
+	.INPUTS
 
-#>
+	.OUTPUTS
+
+	.NOTES
+	This API is largely undocumented, but appears to be available since V10
+	The documentation mentions no body parameters, but search/offset/limit/sort(NYI)/filter(NYI) seem to work
+	It returns results faster than the v9 API (invoked with Get-PASSafe) but has a vastly different return object
+	Recommended Use:  Use this to search for safes many quickly, then use Get-PASSafe to get full details about individual accounts
+
+	.LINK
+	https://cyberarkdocu.azurewebsites.net/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes%20Web%20Services%20-%20List%20Safes.htm
+
+	#>
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -47,9 +53,13 @@ https://cyberarkdocu.azurewebsites.net/Product-Doc/OnlineHelp/PAS/Latest/en/Cont
 
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"10.1"
+	}#begin
 
 	PROCESS {
+
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create base URL for request
 		$URI = "$Script:BaseURI/api/Safes"
@@ -68,14 +78,15 @@ https://cyberarkdocu.azurewebsites.net/Product-Doc/OnlineHelp/PAS/Latest/en/Cont
 		$Safes += $InitialResponse.Safes
 
 		For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
-			Write-Verbose "Getting next result set: ?limit=$Limit&OffSet=$Offset$searchQuery"
+
 			$Safes += (Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec).Safes
+
 		}
 
 		$Safes
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
