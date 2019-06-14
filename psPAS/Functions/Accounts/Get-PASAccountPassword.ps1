@@ -17,8 +17,8 @@ If using version 10.1+ of the API:
 .PARAMETER AccountID
 The ID of the account whose password will be retrieved.
 
-.PARAMETER UseV10API
-Specify switch to explicitly use the version 10 api when only providing AccountID.
+.PARAMETER UseClassicAPI
+Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
 
 .PARAMETER Reason
 The reason that is required to be specified to retrieve the password/SSH key.
@@ -59,9 +59,9 @@ Password
 Ra^D0MwM666*&U
 
 .EXAMPLE
-Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -UseV10API
+Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -UseClassicAPI
 
-Will retrieve the password value of the account found by Get-PASAccount using the v10 API:
+Will retrieve the password value of the account found by Get-PASAccount using the classic (v9) API:
 
 Password
 --------
@@ -95,12 +95,17 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 
 .LINK
 #>
-	[Alias("Get-PASAccountCredentials")]
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "v10")]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ClassicAPI"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10"
 		)]
 		[Alias("id")]
 		[string]$AccountID,
@@ -108,9 +113,9 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v10"
+			ParameterSetName = "ClassicAPI"
 		)]
-		[switch]$UseV10API,
+		[switch]$UseClassicAPI,
 
 		[parameter(
 			Mandatory = $false,
@@ -184,13 +189,13 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 				"Method" = "POST"
 
 				#Get all parameters that will be sent in the request
-				"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, UseV10API | ConvertTo-Json
+				"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
 
 			}
 
 		}
 
-		Else {
+		ElseIf ($($PSCmdlet.ParameterSetName) -eq "ClassicAPI") {
 
 			#For Version 9.7+
 			$Request = @{
