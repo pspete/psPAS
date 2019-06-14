@@ -13,34 +13,13 @@ List of keywords, separated with a space.
 See Invoke-WebRequest
 Specify a timeout value in seconds
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Find-PASSafe
-$token | Find-PASSafe -search "xyz abc"
+Find-PASSafe
+Find-PASSafe -search "xyz abc"
 
 .INPUTS
-SafeName, SessionToken, WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
 
 .NOTES
 This API is largly undocumented, but appears to be available since V10
@@ -64,37 +43,7 @@ https://cyberarkdocu.azurewebsites.net/Product-Doc/OnlineHelp/PAS/Latest/en/Cont
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false
 		)]
-		[int]$TimeoutSec,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
+		[int]$TimeoutSec
 
 	)
 
@@ -103,7 +52,7 @@ https://cyberarkdocu.azurewebsites.net/Product-Doc/OnlineHelp/PAS/Latest/en/Cont
 	PROCESS {
 
 		#Create base URL for request
-		$URI = "$baseURI/$PVWAAppName/api/Safes"
+		$URI = "$Script:BaseURI/api/Safes"
 		$SearchQuery = $null
 		$Limit = 25   #default if you call the API with no value
 
@@ -113,29 +62,17 @@ https://cyberarkdocu.azurewebsites.net/Product-Doc/OnlineHelp/PAS/Latest/en/Cont
 
 		$Safes = @()
 
-		$InitialResponse = Invoke-PASRestMethod -Uri "$URI`?limit=$Limit$SearchQuery" -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec
+		$InitialResponse = Invoke-PASRestMethod -Uri "$URI`?limit=$Limit$SearchQuery" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 		$Total = $InitialResponse.Total
 
 		$Safes += $InitialResponse.Safes
 
 		For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
 			Write-Verbose "Getting next result set: ?limit=$Limit&OffSet=$Offset$searchQuery"
-			$Safes += (Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec).Safes
+			$Safes += (Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec).Safes
 		}
 
-		If($Safes) {
-
-			$Safes | Add-ObjectDetail -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
-
-		}
+		$Safes
 
 	}#process
 
