@@ -69,7 +69,6 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 
 #>
-	[Alias("Get-PASApplications")]
 	[CmdletBinding(DefaultParameterSetName = 'byQuery')]
 	param(
 		[parameter(
@@ -108,7 +107,7 @@ To force all output to be shown, pipe to Select-Object *
 		[boolean]$IncludeSublocations
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -116,7 +115,7 @@ To force all output to be shown, pipe to Select-Object *
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications"
 
 		#If AppID specified
-		If($($PSCmdlet.ParameterSetName) -eq "byAppID") {
+		If ($($PSCmdlet.ParameterSetName) -eq "byAppID") {
 
 			#Build URL from base URL
 			$URI = "$URI/$($AppID | Get-EscapedString)"
@@ -124,7 +123,7 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#If search query specified
-		ElseIf($($PSCmdlet.ParameterSetName) -eq "byQuery") {
+		ElseIf ($($PSCmdlet.ParameterSetName) -eq "byQuery") {
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -144,7 +143,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			#Return results
 			$result.application | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Application
@@ -153,6 +152,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
