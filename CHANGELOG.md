@@ -22,6 +22,10 @@ _2 years since first commit Anniversary Edition_
   - Default values no longer returned on pipeline
     - values for `BaseURI`, `WebSession`, `PVWAAppName`, `SessionToken` & `ExternalVersion` are
     not returned from module functions in output.
+- `UseV9API` & `UseV10API` Parameters renamed to `UseClassicAPI`
+  - Where functions support operations against both Classic & V10 API, default behaviour is to use the V10 API.
+  - Specify the `UseClassicAPI` switch parameter to force usage of the Classic API Endpoint.
+    - this parameter has an alias of `UseV9API` to attempt some backward compatibility.
 - Functions Removed
   - `New-PASSAMLSession` Removed
     - Functionality moved into `New-PASSession`.
@@ -31,6 +35,11 @@ _2 years since first commit Anniversary Edition_
     - Functionality moved into `Close-PASSession`.
   - `Close-PASSharedSession` Removed
     - Functionality moved into `Close-PASSession`.
+- Aliases Removed
+  - `Get-PASApplications` - Removed old pluralised alias
+  - `Get-PASApplicationAuthenticationMethods` - Removed old pluralised alias
+  - `Get-PASAccountCredentials` - Removed old pluralised alias
+  - `Get-PASSafeMembers` - Removed old pluralised alias
 
 ### Other Updates
 

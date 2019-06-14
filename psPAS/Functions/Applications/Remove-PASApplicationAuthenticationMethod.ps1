@@ -19,7 +19,7 @@ Remove-PASApplicationAuthenticationMethod -AppID NewApp -AuthID 1
 Deletes authentication method with ID of 1 from "NewApp"
 
 .EXAMPLE
-Get-PASApplicationAuthenticationMethods -AppID NewApp | Remove-PASApplicationAuthenticationMethod
+Get-PASApplicationAuthenticationMethod -AppID NewApp | Remove-PASApplicationAuthenticationMethod
 
 Deletes all authentication methods from "NewApp"
 
@@ -51,7 +51,7 @@ None
 		[string]$AuthID
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -62,7 +62,7 @@ None
 
                 Get-EscapedString)"
 
-		if($PSCmdlet.ShouldProcess($AppID, "Delete Authentication Method '$AuthID'")) {
+		if ($PSCmdlet.ShouldProcess($AppID, "Delete Authentication Method '$AuthID'")) {
 
 			#Send Request
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -71,6 +71,6 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

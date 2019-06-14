@@ -62,7 +62,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Remove-PASAccount -useV9API
+		$response = $InputObj | Remove-PASAccount -UseClassicAPI
 
 		Context "Input V9 API" {
 
@@ -129,9 +129,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ $InputObj | Remove-PASAccount  } | Should Throw
-$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | Remove-PASAccount } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

@@ -14,8 +14,8 @@ The following permissions are required on the safe where the account group will 
 .PARAMETER Safe
 The Safe where the account groups are.
 
-.PARAMETER UseV9API
-Specify this switch to force usage of the legacy API endpoint.
+.PARAMETER UseClassicAPI
+Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
 
 .EXAMPLE
 Get-PASAccountGroup -Safe SafeName
@@ -52,7 +52,8 @@ Minimum CyberArk version 9.10
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "v9"
 		)]
-		[switch]$UseV9API
+		[Alias("UseV9API")]
+		[switch]$UseClassicAPI
 	)
 
 	BEGIN {
@@ -61,7 +62,7 @@ Minimum CyberArk version 9.10
 
 	PROCESS {
 
-		If($PSCmdlet.ParameterSetName -eq "v9") {
+		If ($PSCmdlet.ParameterSetName -eq "v9") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -84,7 +85,7 @@ Minimum CyberArk version 9.10
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Group
 
@@ -92,6 +93,6 @@ Minimum CyberArk version 9.10
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

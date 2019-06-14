@@ -56,13 +56,13 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command Get-PASAccountPassword).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Get-PASAccountPassword).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should Be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Get-PASAccountPassword -verbose
+		$response = $InputObj | Get-PASAccountPassword -UseClassicAPI
 
 		Context "Input - legacy API parameterset" {
 
@@ -98,7 +98,7 @@ Describe $FunctionName {
 
 		Context "Input - v10 API parameterset" {
 
-			$InputObj | Get-PASAccountPassword -UseV10API -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345
+			$InputObj | Get-PASAccountPassword -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345
 
 			It "sends request" {
 
@@ -142,9 +142,9 @@ Describe $FunctionName {
 
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ $InputObj | Get-PASAccountPassword -UseV10API -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345  } | Should Throw
-$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | Get-PASAccountPassword -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345 } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 
@@ -163,7 +163,7 @@ $Script:ExternalVersion = "0.0"
 				Mock Invoke-PASRestMethod -MockWith {
 					[system.Text.Encoding]::UTF8.GetBytes("psPAS")
 				}
-				$response = $InputObj | Get-PASAccountPassword -verbose
+				$response = $InputObj | Get-PASAccountPassword -UseClassicAPI
 				$response.Password | Should be "psPAS"
 
 			}
@@ -173,7 +173,7 @@ $Script:ExternalVersion = "0.0"
 				Mock Invoke-PASRestMethod -MockWith {
 					Write-Output "psPAS"
 				}
-				$response = $InputObj | Get-PASAccountPassword -verbose
+				$response = $InputObj | Get-PASAccountPassword -UseClassicAPI
 				$response.Password | Should be "psPAS"
 
 			}

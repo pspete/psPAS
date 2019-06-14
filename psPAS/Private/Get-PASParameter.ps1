@@ -74,7 +74,6 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 			"InformationAction",
 			"InformationVariable",
 			"UseTransaction",
-			"UseV9API",
 			"UseClassicAPI")
 	)
 

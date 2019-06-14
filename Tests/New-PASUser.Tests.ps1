@@ -77,7 +77,7 @@ Describe $FunctionName {
 
 				}
 
-				$response = $InputObj | New-PASUser -UseV9API
+				$response = $InputObj | New-PASUser -UseClassicAPI
 
 			}
 
@@ -188,10 +188,10 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
+				$Script:ExternalVersion = "1.0"
 
-				{ $InputObj | New-PASUser  } | Should Throw
-$Script:ExternalVersion = "0.0"
+				{ $InputObj | New-PASUser } | Should Throw
+				$Script:ExternalVersion = "0.0"
 
 			}
 
@@ -215,7 +215,7 @@ $Script:ExternalVersion = "0.0"
 
 				}
 
-				$response = $InputObj | New-PASUser -UseV9API
+				$response = $InputObj | New-PASUser -UseClassicAPI
 
 			}
 

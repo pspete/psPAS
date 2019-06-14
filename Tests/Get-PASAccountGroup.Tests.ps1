@@ -60,7 +60,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Get-PASAccountGroup -UseV9API -verbose
+		$response = $InputObj | Get-PASAccountGroup -UseClassicAPI -verbose
 
 		Context "Input" {
 

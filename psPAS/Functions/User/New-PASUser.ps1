@@ -154,11 +154,11 @@ Default is Enabled
 The Vault Location where the user will be created
 Default location is "Root"
 
-.PARAMETER UseV9API
-Specify the UseV9API to send the authentication request via the v9 API endpoint.
+.PARAMETER UseClassicAPI
+Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
 
 .EXAMPLE
-New-PASUser -UserName NewUser -InitialPassword $securePWD -UseV9API
+New-PASUser -UserName NewUser -InitialPassword $securePWD -UseClassicAPI
 
 Creates a Vault user named NewUser, with password set to securestring value from $securePWD, using the v9 (classic) API
 
@@ -562,7 +562,8 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "legacy"
 		)]
-		[switch]$UseV9API
+		[Alias("UseV9API")]
+		[switch]$UseClassicAPI
 	)
 
 	BEGIN {
