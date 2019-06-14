@@ -12,8 +12,8 @@ If running against a CyberArk version earlier than 10.4, you must specify the Us
 The unique ID  of the account to delete.
 This is retrieved by the Get-PASAccount function.
 
-.PARAMETER UseV9API
-Specify this switch to force usage of the legacy API endpoint.
+.PARAMETER UseClassicAPI
+Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
 
 .EXAMPLE
 Remove-PASAccount -AccountID 19_1
@@ -46,7 +46,8 @@ None
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "v9"
 		)]
-		[switch]$UseV9API
+		[Alias("UseV9API")]
+		[switch]$UseClassicAPI
 	)
 
 	BEGIN {
@@ -55,7 +56,7 @@ None
 
 	PROCESS {
 
-		If($PSCmdlet.ParameterSetName -eq "V9") {
+		If ($PSCmdlet.ParameterSetName -eq "V9") {
 
 			#Create URL for request (earlier than 10.4)
 			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
@@ -72,7 +73,7 @@ None
 
 		}
 
-		if($PSCmdlet.ShouldProcess($AccountID, "Delete Account")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, "Delete Account")) {
 
 			#Send request to webservice
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -81,5 +82,5 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 }
