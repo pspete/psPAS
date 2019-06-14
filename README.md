@@ -164,9 +164,10 @@ requires version 9.8+).
 [`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                             |**10.6**            |Get property details from</br>a PSM Recording.
 [`Export-PASPSMRecording`][Export-PASPSMRecording]                                       |**10.6**            |Save PSM Session Recording</br>to a file.
 [`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       |**10.6**            |Enable request of temporary</br>administrative access to a</br>server.
-[`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                       |**10.7**            |Get details of configured</br>directory mappings.
-[`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                       |**10.7**            |Update a configured</br>directory mapping.
-[`Remove-PASDirectory`][Remove-PASDirectory]                                       |**10.7**            |Delete a directory configuration.
+[`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     |**10.7**            |Get details of configured</br>directory mappings.
+[`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configured</br>directory mapping.
+[`Remove-PASDirectory`][Remove-PASDirectory]                                             |**10.7**            |Delete a directory configuration.
+[`Find-PASSafe`][Find-PASSafe]                                                           |**10.1**            |List or Search Safes by name.
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
@@ -266,6 +267,7 @@ requires version 9.8+).
 [Get-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Get-PASDirectoryMapping.ps1
 [Set-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Set-PASDirectoryMapping.ps1
 [Remove-PASDirectory]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectory.ps1
+[Find-PASSafe]:/psPAS/Functions/Safes/Find-PASSafe.ps1
 
 ## Installation
 
