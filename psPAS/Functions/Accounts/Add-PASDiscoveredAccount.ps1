@@ -331,11 +331,9 @@ All parameters can be piped by property name
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		Foreach($DateTime in $DateTimes) {
+		Foreach ($DateTime in $DateTimes) {
 
-			if($PSBoundParameters.ContainsKey($DateTime)) {
-
-				Write-Debug "Converting $DateTime to UnixTime"
+			if ($PSBoundParameters.ContainsKey($DateTime)) {
 
 				#convert to unix time
 				$boundParameters["$DateTime"] = Get-Date $PSBoundParameters["$DateTime"] -UFormat %s
@@ -344,8 +342,8 @@ All parameters can be piped by property name
 
 		}
 
-		$platformTypeAccountProperties = @{}
-		$boundParameters.keys | Where-Object {$AccountProperties -contains $_} | ForEach-Object {
+		$platformTypeAccountProperties = @{ }
+		$boundParameters.keys | Where-Object { $AccountProperties -contains $_ } | ForEach-Object {
 
 			#add key=value to hashtable
 			$platformTypeAccountProperties[$_] = $boundParameters[$_]
@@ -353,20 +351,20 @@ All parameters can be piped by property name
 
 		}
 
-		If($platformTypeAccountProperties.Count -gt 0) {
+		If ($platformTypeAccountProperties.Count -gt 0) {
 
 			$boundParameters["platformTypeAccountProperties"] = $platformTypeAccountProperties
 
 		}
 
 		$body = $boundParameters |
-			Get-PASParameter -ParametersToRemove $AccountProperties  |
-			ConvertTo-Json
+		Get-PASParameter -ParametersToRemove $AccountProperties |
+		ConvertTo-Json
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -DefaultProperties id, status
@@ -375,5 +373,5 @@ All parameters can be piped by property name
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

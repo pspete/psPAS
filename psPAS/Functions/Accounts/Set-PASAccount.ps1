@@ -234,7 +234,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 			ValueFromPipelineByPropertyName = $false,
 			ParameterSetName = "V9"
 		)]
-		[hashtable]$Properties = @{},
+		[hashtable]$Properties = @{ },
 
 		[parameter(
 			Mandatory = $false,
@@ -252,7 +252,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove InputObject, AccountID
 
-		if($PSCmdlet.ParameterSetName -match "V10") {
+		if ($PSCmdlet.ParameterSetName -match "V10") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -265,7 +265,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 			#Define type of output object
 			$Type = "psPAS.CyberArk.Vault.Account.V10"
 
-			if($PSCmdlet.ParameterSetName -match "V10MultiOp") {
+			if ($PSCmdlet.ParameterSetName -match "V10MultiOp") {
 
 				$boundParameters = $boundParameters["operations"]
 
@@ -277,7 +277,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 		}
 
-		if($PSCmdlet.ParameterSetName -eq "V9") {
+		if ($PSCmdlet.ParameterSetName -eq "V9") {
 
 			#Create URL for Request
 			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
@@ -288,21 +288,19 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 			#Define type of output object
 			$Type = "psPAS.CyberArk.Vault.Account"
 
-			if($PSBoundParameters.ContainsKey("Properties")) {
+			if ($PSBoundParameters.ContainsKey("Properties")) {
 
 				#Format "Properties" parameter value.
 				#Array of key=value pairs required for JSON convertion
 				$boundParameters["Properties"] = @($boundParameters["Properties"].getenumerator() |
 
-					ForEach-Object {$_})
+					ForEach-Object { $_ })
 
 			}
 
 			#If InputObject is psPAS.CyberArk.Vault.Account
 			#i.e. receiving pipeline from Get-PASAccount
-			If(($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account") {
-
-				Write-Verbose "Processing psPAS.CyberArk.Vault.Account Properties"
+			If (($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account") {
 
 				#Get all existing properties as defined by input object:
 				#Process Pipeline input object properties
@@ -318,19 +316,18 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 				ForEach-Object {
 
 					#Initialise hashtable
-					$ExistingProperty = @{}
+					$ExistingProperty = @{ }
 
 					#if property is not bound to function parameter by name,
-					if(!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
+					if (!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
 
 								#if not being explicitly updated.
 								$($Properties).ContainsKey($($_.Name))))) {
 
-						Write-Debug "Adding $($_.Name) = $($InputObject.$($_.Name)) as Account Property"
 						[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
 
 						#Add to Properties node of request data
-						[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object {$_}
+						[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object { $_ }
 						#any existing properties of an account not sent in a "set" request will be cleared on the account.
 						#This ensures correctly formatted request with all existing account properties included
 						#when function is sent data via the pipeline.
@@ -351,14 +348,14 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 		}
 
-		if($PSCmdlet.ShouldProcess($AccountID, "Update Account Properties")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, "Update Account Properties")) {
 
 			#send request to PAS web service
 			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body -WebSession $Script:WebSession
 
-			If($Result) {
+			If ($Result) {
 
-				if($PSCmdlet.ParameterSetName -eq "V9") {
+				if ($PSCmdlet.ParameterSetName -eq "V9") {
 
 					$Return = $Result.UpdateAccountResult
 
@@ -372,7 +369,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 				$Return | Add-ObjectDetail -typename $Type -PropertyToAdd @{
 
-					"AccountID"       = $AccountID
+					"AccountID" = $AccountID
 
 				}
 
@@ -382,6 +379,6 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

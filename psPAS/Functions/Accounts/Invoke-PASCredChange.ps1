@@ -177,8 +177,6 @@ Invoke-PASCredChange -AccountID 24_3 -SetNextPassword -NewCredentials $PassWD
 
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
-		Write-Debug "ParameterSet $($PSCmdlet.ParameterSetName)"
-
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
 

@@ -47,23 +47,21 @@ Function Compare-MinimumVersion {
 		$MinimumVersion
 	)
 
-	Begin {}
+	Begin { }
 
 	Process {
 
 		# Only compare if version greater than "0.0"
-		If($Version -gt "0.0") {
+		If ($Version -gt "0.0") {
 
 			#Determine if Version is greater than or equal to MinimumVersion
-			If($Version -ge $MinimumVersion) {
+			If ($Version -ge $MinimumVersion) {
 
-				Write-Verbose "Version Requirement Met"
 				#Version is greater than or equal to MinimumVersion
 				$True
 
 			} Else {
 
-				Write-Verbose "Version Requirement Not Met"
 				#Version is less than  MinimumVersion
 				$False
 
@@ -75,13 +73,12 @@ Function Compare-MinimumVersion {
 		Else {
 
 			#Skip - Return True
-			Write-Verbose "Version Requirement Not Checked"
 			$True
 
 		}
 
 	}
 
-	End {}
+	End { }
 
 }
