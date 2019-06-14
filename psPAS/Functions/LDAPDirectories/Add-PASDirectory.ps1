@@ -154,7 +154,7 @@ LDAP Directory Details
 		}
 
 		$body = $boundParameters | ConvertTo-Json
-		write-debug $body
+
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 

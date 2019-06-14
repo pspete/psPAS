@@ -82,7 +82,7 @@ Minimum CyberArk Version 10.5
 			$ThisSession.Headers["Accept"] = $Accept
 
 		}
-		Write-verbose ($ThisSession.Headers).GetEnumerator()
+
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $ThisSession
 

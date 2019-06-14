@@ -80,7 +80,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 	BEGIN {
 
-		Write-Debug "Function: $($MyInvocation.InvocationName)"
+
 
 	}#begin
 
@@ -93,7 +93,6 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 			If ($Parameters.Contains($_)) {
 
-				Write-Debug "Removing Parameter: $_"
 				#remove specified parameters from passed values
 				$Parameters.Remove($_)
 

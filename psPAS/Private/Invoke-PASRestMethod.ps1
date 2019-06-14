@@ -97,8 +97,6 @@ to ensure session persistence.
 
 		#Get the name of the function which invoked this one
 		$CallingFunction = Get-ParentFunction | Select-Object -ExpandProperty FunctionName
-		Write-Debug "Function: $($MyInvocation.InvocationName)"
-		Write-Debug "Invocation Origin: $CallingFunction"
 
 		#Add ContentType for all function calls
 		$PSBoundParameters.Add("ContentType", 'application/json')
@@ -118,14 +116,7 @@ to ensure session persistence.
 			#And Tls12 is not already in use
 			(-not ([System.Net.ServicePointManager]::SecurityProtocol -match "Tls12"))) {
 
-			Write-Verbose "Setting Security Protocol to TLS12"
 			[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-
-		}
-
-		Else {
-
-			Write-Debug "Security Protocol: $([System.Net.ServicePointManager]::SecurityProtocol)"
 
 		}
 
@@ -147,15 +138,11 @@ to ensure session persistence.
 			#Catch any errors, save response
 			$StatusCode = $($_.Exception.Response).StatusCode.value__
 
-			Write-Debug $_
-
 			$response = $_
 
 		}
 
 		finally {
-
-			Write-Debug "Status code: $StatusCode"
 
 			if ( -not ($StatusCode -match "20*")) {
 
@@ -228,8 +215,6 @@ to ensure session persistence.
 
 						elseif (($webResponse.headers)["Content-Type"] -match "text/html") {
 
-							Write-Debug "$($webResponse.content)"
-
 							If ($webResponse.content -match '^"(.*)"$') {
 								#Return only the text between opening and closing quotes
 								$matches[1]
@@ -247,7 +232,6 @@ to ensure session persistence.
 							#Handle Version 10 Logon Token Return
 							If (($CallingFunction -eq "New-PASSession") -and ($PASResponse.length -eq 180)) {
 
-								Write-Verbose "Assigning token to CyberArkLogonResult"
 								#If calling function is New-PASSession, and result is a 180 character token
 								#Create a new object and assign the token to the CyberArkLogonResult property.
 								#This ensures an object is returned instead of a string (which would cause issues).

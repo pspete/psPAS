@@ -208,12 +208,12 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 		#Create Query String, escaped for inclusion in request URL
 		$query = ($boundParameters.keys | ForEach-Object {
 
-			"$_=$($boundParameters[$_] | Get-EscapedString)"
+				"$_=$($boundParameters[$_] | Get-EscapedString)"
 
-		}) -join '&'
+			}) -join '&'
 
 		#Version 10.4 process
-		If($PSCmdlet.ParameterSetName -match "v10") {
+		If ($PSCmdlet.ParameterSetName -match "v10") {
 
 			#check minimum version
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
@@ -224,12 +224,12 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 			#define base URL
 			$URI = "$Script:BaseURI/api/Accounts"
 
-			If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
+			If ($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 				#define query URL
 				$URI = "$URI`?$query"
 			}
 
-			If($PSCmdlet.ParameterSetName -eq "v10ByID") {
+			If ($PSCmdlet.ParameterSetName -eq "v10ByID") {
 
 				#define "by ID" URL
 				$URI = "$URI/$id"
@@ -239,7 +239,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 		}
 
 		#legacy process
-		If($PSCmdlet.ParameterSetName -eq "v9") {
+		If ($PSCmdlet.ParameterSetName -eq "v9") {
 
 			#assign type name
 			$typeName = "psPAS.CyberArk.Vault.Account"
@@ -252,25 +252,23 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 
-		if($result) {
+		if ($result) {
 
 			#Get count of accounts found
 			$count = $($result.count)
 
 			#Version 10.4 individual account process
-			If($PSCmdlet.ParameterSetName -eq "v10ByID") {
+			If ($PSCmdlet.ParameterSetName -eq "v10ByID") {
 
 				$return = $result
 
 			}
 
 			#If accounts found
-			if($count -gt 0) {
-
-				Write-Verbose "Accounts Found: $count"
+			if ($count -gt 0) {
 
 				#Version 10.4 query process
-				If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
+				If ($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 
 					#get results
 					$AccountArray = @()
@@ -279,7 +277,6 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					#iterate any nextLinks
 					$NextLink = $result.nextLink
 					While ( $null -ne $NextLink ) {
-						Write-Verbose "Processing nextLink: $NextLink"
 						$URI = "$Script:BaseURI/$NextLink"
 						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 						$NextLink = $result.nextLink
@@ -291,10 +288,10 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 				}
 
 				#legacy process
-				If($PSCmdlet.ParameterSetName -eq "v9") {
+				If ($PSCmdlet.ParameterSetName -eq "v9") {
 
 					#If multiple accounts found
-					if($count -gt 1) {
+					if ($count -gt 1) {
 
 						#Alert that web service only displays information on first result
 						Write-Warning "$count matching accounts found. Only the first result will be returned"
@@ -313,12 +310,12 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					$InternalProps = New-object -TypeName psobject
 
 					#For every account property
-					For($int = 0; $int -lt $InternalProperties.length; $int++) {
+					For ($int = 0; $int -lt $InternalProperties.length; $int++) {
 
 						$InternalProps |
 
-							#Add each property name and value as object property of $InternalProps
-							Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+						#Add each property name and value as object property of $InternalProps
+						Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
 
 					}
 
@@ -326,7 +323,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					$return = New-object -TypeName psobject -Property @{
 
 						#Internal Unique ID of Account
-						"AccountID"         = $($account | Select-Object -ExpandProperty AccountID)
+						"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)
 
 						#InternalProperties object
 						"InternalProperties" = $InternalProps
@@ -334,12 +331,12 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					}
 
 					#For every account property
-					For($int = 0; $int -lt $properties.length; $int++) {
+					For ($int = 0; $int -lt $properties.length; $int++) {
 
 						$return |
 
-							#Add each property name and value to results
-							Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
+						#Add each property name and value to results
+						Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
 
 					}
 
@@ -349,7 +346,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 
 		}
 
-		if($return) {
+		if ($return) {
 
 			#Return Results
 			$return | Add-ObjectDetail -typename $typeName

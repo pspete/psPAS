@@ -61,7 +61,7 @@ Not Tested
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules"
 
-		If($PSBoundParameters.ContainsKey("Names")) {
+		If ($PSBoundParameters.ContainsKey("Names")) {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -83,9 +83,7 @@ Not Tested
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
-
-			Write-Debug "Rules Found: $($result.Total)"
+		if ($result) {
 
 			$result.AutomaticOnboardingRules |
 
@@ -95,6 +93,6 @@ Not Tested
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
