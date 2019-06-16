@@ -390,7 +390,7 @@
 
 						Set-Variable -Name ExternalVersion -Value $Version -Scope Script
 
-					} Catch { Write-Warning "Could Not Determine CyberArk Version" }
+					} Catch { }
 
 				}
 
