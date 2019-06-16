@@ -229,15 +229,32 @@ to ensure session persistence.
 							#Create Return Object from Returned JSON
 							$PASResponse = ConvertFrom-Json -InputObject $webResponse.content
 
-							#Handle Version 10 Logon Token Return
-							If (($CallingFunction -eq "New-PASSession") -and ($PASResponse.length -eq 180)) {
+							#Handle Logon Token Return
+							If ($CallingFunction -eq "New-PASSession") {
 
-								#If calling function is New-PASSession, and result is a 180 character token
-								#Create a new object and assign the token to the CyberArkLogonResult property.
-								#This ensures an object is returned instead of a string (which would cause issues).
-								$PASResponse = [PSCustomObject]@{
+								#Version 10
+								If ($PASResponse.length -eq 180) {
 
-									CyberArkLogonResult = $PASResponse
+									#If calling function is New-PASSession, and result is a 180 character string
+									#Create a new object and assign the token to the CyberArkLogonResult property.
+									$PASResponse = [PSCustomObject]@{
+
+										CyberArkLogonResult = $PASResponse
+
+									}
+
+								}
+
+								#Shared Auth
+								If ($PASResponse.LogonResult) {
+
+									#If calling function is New-PASSession, and result has a LogonResult property.
+									#Create a new object and assign the LogonResult value to the CyberArkLogonResult property.
+									$PASResponse = [PSCustomObject]@{
+
+										CyberArkLogonResult = $PASResponse.LogonResult
+
+									}
 
 								}
 
