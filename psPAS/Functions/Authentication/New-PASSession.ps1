@@ -87,14 +87,14 @@
 	.EXAMPLE
 	Logon to Version 9 with credential:
 
-	New-PASSession -Credential $cred -BaseURI https://PVWA -UseV9API
+	New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI
 
 	Request would be sent to PVWA URL https://PVWA/PasswordVault/
 
 	.EXAMPLE
 	Logon to Version 9 where PVWA Virtual Directory has non-default name:
 
-	New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseV9API
+	New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseClassicAPI
 
 	Request would be sent to PVWA URL https://PVWA/CustomVault/
 
