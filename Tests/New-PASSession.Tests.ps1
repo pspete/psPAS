@@ -252,6 +252,18 @@ Describe $FunctionName {
 
 			}
 
+			It "includes expected certificate thumbprint in request" {
+
+				New-PASSession -BaseURI "https://P_URI" -UseSharedAuthentication -CertificateThumbprint "SomeCertificateThumbprint"
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$CertificateThumbprint -eq "SomeCertificateThumbprint"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It "`$Script:ExternalVersion has expected value on Get-PASServer error" {
 				Mock Get-PASServer -MockWith {
 					throw "Some Error"
