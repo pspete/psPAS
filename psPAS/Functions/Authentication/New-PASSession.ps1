@@ -72,6 +72,10 @@
 	See Invoke-WebRequest
 	Uses the credentials of the current user to send the web request
 
+	.PARAMETER CertificateThumbprint
+	See Invoke-WebRequest
+	The thumbprint of the certificate to use for client certificate authentication.
+
 	.EXAMPLE
 	Logon to Version 10 with LDAP credential:
 
@@ -135,6 +139,11 @@
 	Logon to Version 10 using RADIUS & Push Authentication (works with DUO 2FA):
 
 	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push
+
+	.EXAMPLE
+	If authentication via certificates is configured, provide CertificateThumbprint details.
+
+	New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
 	#>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "v10")]
 	param(
@@ -264,7 +273,14 @@
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
-		[string]$SessionVariable = "PASSession"
+		[string]$SessionVariable = "PASSession",
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
+		[string]$CertificateThumbprint
 
 	)
 
@@ -277,6 +293,9 @@
 		$LogonRequest["Method"] = "POST"
 		$LogonRequest["SessionVariable"] = $SessionVariable
 		$LogonRequest["UseDefaultCredentials"] = $UseDefaultCredentials.IsPresent
+		If ($CertificateThumbprint) {
+			$LogonRequest["CertificateThumbprint"] = $CertificateThumbprint
+		}
 
 		Switch ($PSCmdlet.ParameterSetName) {
 
@@ -322,7 +341,7 @@
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck, UseDefaultCredentials
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck, UseDefaultCredentials, CertificateThumbprint
 
 		If (($PSCmdlet.ParameterSetName -eq "v9") -or ($PSCmdlet.ParameterSetName -eq "v10") ) {
 

@@ -42,6 +42,10 @@ Used for Integrated Auth
 See Invoke-WebRequest
 Specify a timeout value in seconds
 
+.PARAMETER CertificateThumbprint
+See Invoke-WebRequest
+The thumbprint of the certificate to use for client certificate authentication.
+
 .EXAMPLE
 
 .INPUTS
@@ -90,7 +94,10 @@ to ensure session persistence.
 		[switch]$UseDefaultCredentials,
 
 		[Parameter(Mandatory = $false)]
-		[int]$TimeoutSec
+		[int]$TimeoutSec,
+
+		[Parameter(Mandatory = $false)]
+		[string]$CertificateThumbprint
 	)
 
 	Begin {
