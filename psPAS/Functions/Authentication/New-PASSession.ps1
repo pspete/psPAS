@@ -52,13 +52,6 @@
 	If the SkipVersionCheck switch is specified, Get-PASServer will not be called after
 	successfully authenticating. Get-PASServer is not supported before version 9.7.
 
-	.PARAMETER SessionVariable
-	After successful execution of this function, and authentication to the Vault, a WebSession
-	object, that contains information about the connection and the request, including cookies,
-	will be created and passed back in the return object.
-	This can be passed to subsequent requests to ensure websessions are persistant when the
-	PAS Web Service exists accross PVWA servers behind a load balancer.
-
 	.PARAMETER BaseURI
 	A string containing the base web address to send te request to.
 	Pass the portion the PVWA HTTP address.
@@ -273,13 +266,6 @@
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
-		[string]$SessionVariable = "PASSession",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
-			ValueFromPipelinebyPropertyName = $false
-		)]
 		[string]$CertificateThumbprint
 
 	)
@@ -291,7 +277,7 @@
 
 		#Define Logon Request Parameters
 		$LogonRequest["Method"] = "POST"
-		$LogonRequest["SessionVariable"] = $SessionVariable
+		$LogonRequest["SessionVariable"] = "PASSession"
 		$LogonRequest["UseDefaultCredentials"] = $UseDefaultCredentials.IsPresent
 		If ($CertificateThumbprint) {
 			$LogonRequest["CertificateThumbprint"] = $CertificateThumbprint
