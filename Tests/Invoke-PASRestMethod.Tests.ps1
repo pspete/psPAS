@@ -154,6 +154,42 @@ Describe $FunctionName {
 
 		}
 
+		Context "Shared Authentication" {
+			$RandomString = "ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7"
+
+			$MockResult = [pscustomobject] @{
+
+				"headers"    = @{
+					"Content-Type" = "application/json"
+				};
+				"StatusCode" = 200;
+				"content"    = [PSCustomObject]@{
+
+					LogonResult = $RandomString
+
+				} | ConvertTo-Json
+			}
+
+			Mock Get-ParentFunction -MockWith {
+
+				[PSCustomObject]@{
+					FunctionName = "New-PASSession"
+				}
+
+			}
+
+			Mock Invoke-WebRequest -MockWith {
+
+				return $MockResult
+
+			}
+
+			It "handles shared authentication authentication LogonResult value" {
+				$result = Invoke-PASRestMethod @requestArgs2
+				$result.CyberArkLogonResult | Should Be $RandomString
+			}
+		}
+
 		Context "text/html responses" {
 
 			$MockResult = [pscustomobject] @{
