@@ -71,23 +71,6 @@ Describe $FunctionName {
 				Assert-MockCalled Set-Variable -Times 3 -Exactly -Scope It
 			}
 
-			it "sets expected value for BaseURI" {
-				Use-PASSession -Session $InputObject
-
-				$Script:BaseUri | Should Be "SomeURL"
-			}
-
-			it "sets expected value for ExternalVersion" {
-				Use-PASSession -Session $InputObject
-				$Script:ExternalVersion | Should Be "6.6"
-			}
-
-			it "sets expected value for WebSession" {
-				Use-PASSession -Session $InputObject
-				$Script:WebSession.Headers["Test"] | Should Be "SomeValue"
-			}
-
-
 		}
 
 	}
