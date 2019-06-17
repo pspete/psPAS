@@ -59,9 +59,6 @@ None
 Function uses dynamicparameters.
 Dynamic Parameters IsFolder, AllowInternalScripts & Comment do
 not accept input from the pipeline.
-
-.LINK
-
 #>
     [CmdletBinding()]
     param(

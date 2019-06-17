@@ -37,12 +37,6 @@ Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 
 	Exports UnixSSH to Platform.zip platform package.
 
-	.INPUTS
-	SessionToken, ImportFile, WebSession & BaseURI can be piped by  property name
-
-	.OUTPUTS
-	None
-
 	.NOTES
 	Minimum CyberArk version 10.4
 
@@ -60,7 +54,7 @@ Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateScript( { Test-Path -Path $_ -PathType Leaf -IsValid})]
+		[ValidateScript( { Test-Path -Path $_ -PathType Leaf -IsValid })]
 		[ValidatePattern( '\.zip$' )]
 		[string]$path
 	)
@@ -76,13 +70,13 @@ Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
 
-		if($PSCmdlet.ShouldProcess($PlatformID, "Exports Platform Package")) {
+		if ($PSCmdlet.ShouldProcess($PlatformID, "Exports Platform Package")) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession -Debug:$false
 
 			#if we get a platform byte array
-			if($result) {
+			if ($result) {
 
 				try {
 
@@ -92,7 +86,7 @@ Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 						Encoding = "Byte"
 					}
 
-					If($IsCoreCLR) {
+					If ($IsCoreCLR) {
 
 						#amend parameters for splatting if we are in Core
 						$output.Add("AsByteStream", $true)
@@ -103,7 +97,7 @@ Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 					#write it to a file
 					Set-Content @output -ErrorAction Stop
 
-				} catch {throw "Error Saving $path"}
+				} catch { throw "Error Saving $path" }
 
 			}
 
@@ -111,6 +105,6 @@ Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

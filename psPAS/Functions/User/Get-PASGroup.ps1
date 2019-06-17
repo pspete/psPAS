@@ -49,9 +49,6 @@ psPAS.CyberArk.Vault.Group Object
 
 .NOTES
 Minimum Version 10.5
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

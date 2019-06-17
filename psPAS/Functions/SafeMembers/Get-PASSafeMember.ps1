@@ -35,16 +35,8 @@ contains SafeName in the output
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-
-.LINK
 #>
 	[Alias("Get-PASSafeMembers")]
 	[CmdletBinding()]

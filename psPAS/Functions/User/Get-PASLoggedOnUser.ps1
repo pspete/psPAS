@@ -16,24 +16,15 @@ All parameters can be piped by property name
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.User
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(
 
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -43,7 +34,7 @@ To force all output to be shown, pipe to Select-Object *
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User
 
@@ -51,6 +42,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

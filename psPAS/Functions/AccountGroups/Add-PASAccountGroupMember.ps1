@@ -31,9 +31,6 @@ None
 
 .NOTES
 Minimum version 9.9.5
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

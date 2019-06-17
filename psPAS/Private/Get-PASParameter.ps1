@@ -38,11 +38,6 @@ $PSBoundParameters object
 
 .OUTPUTS
 Hashtable/$PSBoundParameters object, with defined parameters removed.
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	[OutputType('System.Collections.Hashtable')]

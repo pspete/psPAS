@@ -89,11 +89,6 @@ All parameters can be piped by property name
 
 .OUTPUTS
 None
-
-.NOTES
-
-.LINK
-
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'LastPasswordSet', Justification = "Parameter does not hold password")]

@@ -21,11 +21,6 @@ SessionToken, AccountID, WebSession & BaseURI can be piped by  property name
 
 .OUTPUTS
 None
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

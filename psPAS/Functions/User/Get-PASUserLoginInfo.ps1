@@ -16,11 +16,6 @@ WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
 Last successful & failed logon times for the current user
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(	)

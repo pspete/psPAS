@@ -28,11 +28,6 @@ WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
 LDAP Directory Mapping Details
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding(DefaultParameterSetName = "All")]
 	param(

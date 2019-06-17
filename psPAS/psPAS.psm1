@@ -8,11 +8,6 @@
 .INPUTS
 
 .OUTPUTS
-
-.NOTES
-
-.LINK
-
 #>
 [CmdletBinding()]
 param(

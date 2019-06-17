@@ -29,11 +29,6 @@ WebSession & BaseURI can be piped to the function by propertyname
 .OUTPUTS
 Webservice Details
 ServerName, ServerID, ApplicationName & Available Authentication Methods
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

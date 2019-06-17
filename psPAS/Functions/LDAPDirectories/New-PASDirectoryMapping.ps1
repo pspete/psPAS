@@ -85,11 +85,6 @@ AddUpdateUsers, AddSafes, BackupAllSafes
 All parameters can be piped to the function by propertyname
 
 .OUTPUTS
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "AuthNames")]
 	param(

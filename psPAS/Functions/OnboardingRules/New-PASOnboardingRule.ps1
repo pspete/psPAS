@@ -85,10 +85,6 @@ All parameters can be piped by property name
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.OnboardingRule
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
@@ -98,9 +94,6 @@ Create the Safe and the reconcile account according to the rule’s definition.
 Associate the reconcile account with the platform that is defined in the rule.
 Make sure that the user whose credentials will be used for this session is a member of
 the Safe specified in the TargetSafeName parameter with the Add accounts permission.
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "post_V10_2")]
 	param(

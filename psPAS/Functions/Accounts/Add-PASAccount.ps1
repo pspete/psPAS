@@ -112,11 +112,6 @@ All parameters can be piped by property name
 .OUTPUTS
 None for v9
 v10.4 outputs th details of the created account.
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

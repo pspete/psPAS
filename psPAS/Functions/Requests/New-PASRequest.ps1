@@ -54,17 +54,11 @@ Creates a new request for access to account with ID in $ID
 All parameters can be piped by property name
 
 .OUTPUTS
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum CyberArk Version 9.10
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

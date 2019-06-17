@@ -19,11 +19,6 @@ All parameters can be piped by property name
 
 .OUTPUTS
 None
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

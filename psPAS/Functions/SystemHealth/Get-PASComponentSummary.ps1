@@ -19,9 +19,6 @@ All parameters can be piped to the function by propertyname
 
 .NOTES
 Requires minimum version of CyberArk 10.1.
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

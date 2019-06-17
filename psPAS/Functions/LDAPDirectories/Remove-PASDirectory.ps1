@@ -20,11 +20,6 @@ WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
 LDAP Directory Details
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param(

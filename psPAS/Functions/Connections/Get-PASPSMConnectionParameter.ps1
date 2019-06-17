@@ -58,9 +58,6 @@ Outputs RDP file contents for Direct Connection via PSM using account with ID in
 All parameters can be piped by property name
 
 .OUTPUTS
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
@@ -68,9 +65,6 @@ To force all output to be shown, pipe to Select-Object *
 Minimum CyberArk Version 9.10
 PSMGW connections require 10.2
 Ad-Hoc connections require 10.5
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

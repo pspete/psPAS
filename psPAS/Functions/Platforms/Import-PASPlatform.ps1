@@ -33,12 +33,6 @@ Import-PASPlatform -ImportFile CustomApp.zip
 
 	Imports CustomApp.zip Platform package
 
-	.INPUTS
-	SessionToken, ImportFile, WebSession & BaseURI can be piped by  property name
-
-	.OUTPUTS
-	None
-
 	.NOTES
 	Minimum CyberArk version 10.2
 

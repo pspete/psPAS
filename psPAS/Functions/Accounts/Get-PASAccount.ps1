@@ -109,9 +109,6 @@ Should accept pipeline objects from other *-PASAccount functions
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Account
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
 AccountID, Account Safe, Safe Folder, Account Name,
 and any other set property of the account are contained in output.
 
@@ -122,10 +119,7 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 New functionality added in version 10.4, limited functionality before this version.
-As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged - nextLink functionality was added
-
-.LINK
-#>
+As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged - nextLink functionality was added#>
 	[CmdletBinding(DefaultParameterSetName = "v10ByQuery")]
 	param(
 		[parameter(

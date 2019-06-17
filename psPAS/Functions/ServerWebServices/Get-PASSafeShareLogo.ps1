@@ -21,9 +21,6 @@ WebSession & BaseURI can be piped to the function by propertyname
 
 .NOTES
 SafeShare no longer available from CyberArk
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

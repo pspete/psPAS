@@ -28,9 +28,6 @@ Returns parameters to connect to Live PSM Session via HTML5 GW.
 
 .NOTES
 Minimum CyberArk Version 10.5
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

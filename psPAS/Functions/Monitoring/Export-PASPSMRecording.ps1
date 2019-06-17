@@ -24,9 +24,6 @@ All parameters can be piped by property name
 
 .NOTES
 Minimum CyberArk Version 10.6
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

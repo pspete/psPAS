@@ -54,11 +54,6 @@ All parameters can be piped to the function by propertyname
 
 .OUTPUTS
 LDAP Directory Details
-
-.NOTES
-
-.LINK
-
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlaintextForPassword', '', Justification = "It's a path to password object")]
 	[CmdletBinding()]

@@ -34,11 +34,6 @@ Should accept pipeline objects from Get-PASAccountACL function
 
 .OUTPUTS
 None
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

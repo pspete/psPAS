@@ -82,19 +82,12 @@ Accepts pipeline input from other Get-PASAccount
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Credential
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum API version is 9.7 for password retrieval only.
-From version 10.1 onwards both passwords and ssh keys can be retrieved.
-
-.LINK
-#>
+From version 10.1 onwards both passwords and ssh keys can be retrieved.#>
 	[CmdletBinding(DefaultParameterSetName = "v10")]
 	param(
 		[parameter(

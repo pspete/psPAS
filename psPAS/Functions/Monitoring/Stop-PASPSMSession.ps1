@@ -22,9 +22,6 @@ None
 
 .NOTES
 Minimum CyberArk Version 10.1
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

@@ -20,11 +20,6 @@ All parameters can be piped by propertyname
 
 .OUTPUTS
 None
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

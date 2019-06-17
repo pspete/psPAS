@@ -112,10 +112,6 @@ specified will be removed from the account.
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Account or psPAS.CyberArk.Vault.Account.V10
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
@@ -126,9 +122,6 @@ Accounts that do not have a policy ID cannot be updated.
 To update account properties, "Update password properties" permission is required.
 To rename accounts, "Rename accounts" permission is required.
 To move accounts to a different folder, Move accounts/folders permission is required.
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "V10SingleOp")]
 	param(

@@ -52,14 +52,8 @@ The thumbprint of the certificate to use for client certificate authentication.
 
 .OUTPUTS
 Return data from the call to the REST API where content is returned
-Will additionally contain a WebSession property containing a WebRequestSession object if SessionVariable
-parameter was specified.
-
-.NOTES
-SessionVariable/WebSession functionality should be used where the API exists behind a load balancer
-to ensure session persistence.
-
-.LINK
+Will additionally set a WebSession variable in the Module Scope containing a
+WebRequestSession object if the SessionVariable parameter was specified.
 
 #>
 	[CmdletBinding(DefaultParameterSetName = "WebSession")]

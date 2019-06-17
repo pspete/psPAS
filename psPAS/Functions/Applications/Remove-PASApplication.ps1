@@ -21,10 +21,6 @@ Should accept pipeline objects from other *-PASApplication* functions
 
 .OUTPUTS
 None
-
-.NOTES
-
-.LINK
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

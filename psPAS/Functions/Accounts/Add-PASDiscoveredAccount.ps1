@@ -107,11 +107,6 @@ Adds matching discovered account as pending account.
 All parameters can be piped by property name
 
 .OUTPUTS
-
-.NOTES
-
-.LINK
-
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
 	[CmdletBinding(DefaultParameterSetName = "Windows")]

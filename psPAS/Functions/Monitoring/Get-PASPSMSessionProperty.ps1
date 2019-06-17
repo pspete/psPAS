@@ -18,17 +18,11 @@ Returns details of activities in PSM Recording with Id 123_45
 All parameters can be piped by property name
 
 .OUTPUTS
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum CyberArk Version 10.6
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(

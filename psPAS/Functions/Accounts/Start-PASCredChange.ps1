@@ -36,11 +36,6 @@ SessionToken, AccountID, WebSession & BaseURI can be piped by  property name
 
 .OUTPUTS
 None
-
-.NOTES
-
-.LINK
-
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'ChangeCredsForGroup', Justification = "Parameter does not hold password")]
 	[CmdletBinding(SupportsShouldProcess)]
