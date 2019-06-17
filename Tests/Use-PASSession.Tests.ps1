@@ -51,6 +51,26 @@ Describe $FunctionName {
 
 		Context "Standard Operation" {
 
+			BeforeEach {
+				$session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$session.Headers["Test"] = "SomeValue"
+
+				$InputObject = [PSCustomObject]@{
+					PSTypeName      = 'psPAS.CyberArk.Vault.Session'
+					User            = "SomeUser"
+					BaseURI         = "SomeURL"
+					ExternalVersion = "6.6"
+					WebSession      = $session
+				}
+
+			}
+
+			it "invokes set-variable the expected number of times" {
+				Mock Set-Variable -MockWith { }
+				Use-PASSession -Session $InputObject
+				Assert-MockCalled Set-Variable -Times 3 -Exactly -Scope It
+			}
+
 			it "sets expected value for BaseURI" {
 				Use-PASSession -Session $InputObject
 
@@ -62,11 +82,11 @@ Describe $FunctionName {
 				$Script:ExternalVersion | Should Be "6.6"
 			}
 
-			it "invokes set-variable the expected number of times" {
-				Mock Set-Variable -MockWith { }
+			it "sets expected value for WebSession" {
 				Use-PASSession -Session $InputObject
-				Assert-MockCalled Set-Variable -Times 3 -Exactly -Scope It
+				$Script:WebSession.Headers["Test"] | Should Be "SomeValue"
 			}
+
 
 		}
 
