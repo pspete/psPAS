@@ -35,20 +35,6 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		BeforeEach {
-			$session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			$session.Headers["Test"] = "SomeValue"
-
-			$InputObject = [PSCustomObject]@{
-				PSTypeName      = 'psPAS.CyberArk.Vault.Session'
-				User            = "SomeUser"
-				BaseURI         = "SomeURL"
-				ExternalVersion = "6.6"
-				WebSession      = $session
-			}
-
-		}
-
 		Context "Standard Operation" {
 
 			BeforeEach {
