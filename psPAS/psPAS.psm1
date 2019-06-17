@@ -41,7 +41,3 @@ ForEach-Object {
 	}
 
 }
-
-#Initial Value for Version variable
-[System.Version]$Version = "0.0"
-Set-Variable -Name ExternalVersion -Value $Version -Scope Script
