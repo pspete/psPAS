@@ -118,6 +118,7 @@ Describe $FunctionName {
 					"remoteMachines"                   = "someMachine"
 					"accessRestrictedToRemoteMachines" = $false
 				}
+				$Script:ExternalVersion = "0.0"
 
 			}
 
@@ -238,7 +239,6 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
 
 				$Script:ExternalVersion = "1.0"
 				{ $InputObjV10 | Add-PASAccount } | Should Throw
@@ -272,6 +272,7 @@ $Script:ExternalVersion = "1.0"
 					"automaticManagementEnabled" = $true
 					"remoteMachines"             = "someMachine"
 				}
+				$Script:ExternalVersion = "0.0"
 
 			}
 
