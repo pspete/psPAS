@@ -42,6 +42,10 @@ Describe $FunctionName {
 
 		}
 
+		Mock Clear-Variable -MockWith {
+
+		}
+
 		$response = Close-PASSession -UseV9API -verbose
 
 		Context "Input" {

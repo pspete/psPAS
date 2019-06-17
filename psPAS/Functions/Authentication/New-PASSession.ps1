@@ -380,6 +380,9 @@
 
 				$Script:WebSession.Headers["Authorization"] = [string]$($PASSession.CyberArkLogonResult)
 
+				#Initial Value for Version variable
+				[System.Version]$Version = "0.0"
+
 				if ( -not ($SkipVersionCheck)) {
 
 					Try {
@@ -388,11 +391,11 @@
 						[System.Version]$Version = Get-PASServer -ErrorAction Stop |
 						Select-Object -ExpandProperty ExternalVersion
 
-						Set-Variable -Name ExternalVersion -Value $Version -Scope Script
-
-					} Catch { }
+					} Catch { [System.Version]$Version = "0.0" }
 
 				}
+
+				Set-Variable -Name ExternalVersion -Value $Version -Scope Script
 
 			}
 

@@ -97,7 +97,7 @@ Describe $FunctionName {
 		}
 
 		Context "Input V10 API" {
-
+			$Script:ExternalVersion = "0.0"
 			$response = $InputObj | Remove-PASAccount
 
 			It "sends request" {
