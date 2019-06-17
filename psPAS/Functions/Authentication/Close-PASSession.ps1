@@ -108,5 +108,10 @@
 
 	}#process
 
-	END { }#end
+	END {
+		#Clear Module scope variables on logoff
+		Clear-Variable -Name ExternalVersion -Scope Script -ErrorAction SilentlyContinue
+		Clear-Variable -Name BaseURI -Scope Script -ErrorAction SilentlyContinue
+		Clear-Variable -Name WebSession -Scope Script -ErrorAction SilentlyContinue
+	}#end
 }
