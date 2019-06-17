@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -48,76 +48,76 @@ Describe $FunctionName {
 
 				(Get-Command Remove-PASDirectory).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
+			}
+
+		}
+
+		Context "Input" {
+
+			BeforeEach {
+				$Script:ExternalVersion = "0.0"
+				Mock Invoke-PASRestMethod -MockWith { }
+
+				$response = Remove-PASDirectory -id SomeDir
+
+			}
+
+			It "sends request" {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDir"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "uses expected method" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request with no body" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+			}
+
+			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.0"
+				{ Get-PASDirectory } | Should Throw
+				$Script:ExternalVersion = "0.0"
+			}
+
+		}
+
+		Context "Output" {
+
+			BeforeEach {
+				$Script:ExternalVersion = "0.0"
+				Mock Invoke-PASRestMethod -MockWith { }
+
+				$response = Remove-PASDirectory -id SomeDir
+
+			}
+
+			it "provides no output" {
+
+				$response | Should BeNullOrEmpty
+
+			}
+
+
+
 		}
 
 	}
-
-	Context "Input" {
-
-		BeforeEach {
-
-			Mock Invoke-PASRestMethod -MockWith { }
-
-			$response = Remove-PASDirectory -id SomeDir
-
-	}
-
-	It "sends request" {
-
-		Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
-
-	}
-
-	It "sends request to expected endpoint" {
-
-		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-			$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDir"
-
-		} -Times 1 -Exactly -Scope It
-
-	}
-
-	It "uses expected method" {
-
-		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
-
-	}
-
-	It "sends request with no body" {
-
-		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
-
-	}
-
-	It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-		{ Get-PASDirectory  } | Should Throw
-$Script:ExternalVersion = "0.0"
-}
-
-}
-
-Context "Output" {
-
-	BeforeEach {
-
-		Mock Invoke-PASRestMethod -MockWith { }
-
-		$response = Remove-PASDirectory -id SomeDir
-
-}
-
-it "provides no output" {
-
-	$response | Should BeNullOrEmpty
-
-}
-
-
-
-}
-
-}
 
 }

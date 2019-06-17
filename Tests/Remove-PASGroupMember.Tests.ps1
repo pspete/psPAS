@@ -58,7 +58,7 @@ Describe $FunctionName {
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith { }
-
+				$Script:ExternalVersion = "0.0"
 			}
 
 			It "sends request" {
