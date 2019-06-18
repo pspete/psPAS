@@ -46,8 +46,14 @@ _2 years since first commit Anniversary Edition_
 - New Functions
   - `Find-PASSafe` (Thanks (again) [steveredden](https://github.com/steveredden)!)
     - List or search safes by name
+  - `Get-PASSession`
+    - Return module scope variable values which are used to perform each request to the API.
+  - `Use-PASSession`
+    - Set module scope variable values which are used to perform each request to the API.
 - Updated Functions
   - `New-PASSession`
+    - Added `CertificateThumbprint` Parameter
+      - Allows requests to be sent with details required for Client Certificate authentication.
     - Added `OTP` Parameter
       - Allows One Time Passcode to be provided, which is then sent with the password value.
         - Tested with Duo RADIUS.
