@@ -51,6 +51,9 @@ Valid values:
 • BackupAllSafes
 • RestoreAllSafes
 
+.PARAMETER ChangePassOnNextLogon
+Whether or not user will be forced to change password on first logon
+
 .PARAMETER workStreet
 Business Address detail for the user
 
@@ -250,6 +253,8 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "10_9"
 		)]
+		[boolean]$ChangePassOnNextLogon,
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
