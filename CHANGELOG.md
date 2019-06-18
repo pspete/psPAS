@@ -58,6 +58,10 @@ _2 years since first commit Anniversary Edition_
       - Allows One Time Passcode to be provided, which is then sent with the password value.
         - Tested with Duo RADIUS.
     - Removed `$SecureMode` & `$AdditionalInfo` parameters.
+- Fixes
+  - `New-PASUser`
+    - Added `ChangePassOnNextLogon` parameter for working with latest API method
+    - Fixes issue where `New-PASUser` was failing to set the change password at next logon flag for a new user.
 
 ## 2.6.17 (May 16th 2019)
 
