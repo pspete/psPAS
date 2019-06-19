@@ -39,7 +39,6 @@ Describe $FunctionName {
 			"URI"        = "https://CyberArk_URL"
 			"Method"     = "GET"
 			"WebSession" = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"Debug"      = $true
 			"Body"       = "something"
 		}
 
@@ -314,6 +313,8 @@ Describe $FunctionName {
 				"URI"        = "https://www.google.co.uk"
 				"Method"     = "PUT"
 				"WebSession" = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				"Debug"      = $true
+				"Body"       = "Something"
 			}
 
 			It "outputs expected exception" {
