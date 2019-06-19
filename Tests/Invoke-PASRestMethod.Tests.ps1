@@ -39,7 +39,6 @@ Describe $FunctionName {
 			"URI"        = "https://CyberArk_URL"
 			"Method"     = "GET"
 			"WebSession" = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"Body"       = "something"
 		}
 
 		Context "Standard Operation" {
@@ -52,7 +51,7 @@ Describe $FunctionName {
 
 			It "does not throw" {
 
-				{ Invoke-PASRestMethod @requestArgs2 } | Should Not throw
+				{ Invoke-PASRestMethod @requestArgs2 -Debug 5>&1 } | Should Not throw
 
 			}
 
@@ -313,8 +312,6 @@ Describe $FunctionName {
 				"URI"        = "https://www.google.co.uk"
 				"Method"     = "PUT"
 				"WebSession" = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-				"Debug"      = $true
-				"Body"       = "Something"
 			}
 
 			It "outputs expected exception" {
