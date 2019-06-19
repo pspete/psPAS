@@ -125,6 +125,17 @@ WebRequestSession object if the SessionVariable parameter was specified.
 
 	Process {
 
+		#Show sanitised request body if in debug mode
+		If ([System.Management.Automation.ActionPreference]::SilentlyContinue -ne $DebugPreference) {
+
+			If ($PSBoundParameters.ContainsKey("Body")) {
+
+				Write-Debug "[Body] $(Hide-SecretValue -InputValue $Body)"
+
+			}
+
+		}
+
 		try {
 
 			#make web request, splat PSBoundParameters
@@ -144,6 +155,8 @@ WebRequestSession object if the SessionVariable parameter was specified.
 		}
 
 		finally {
+
+			Write-Debug "[Status Code] $StatusCode"
 
 			if ( -not ($StatusCode -match "20*")) {
 
