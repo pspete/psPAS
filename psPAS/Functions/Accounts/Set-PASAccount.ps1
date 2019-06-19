@@ -231,7 +231,8 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipeline = $true
+			ValueFromPipeline = $true,
+			ParameterSetName = "V9"
 		)]
 		[psobject]$InputObject
 	)
