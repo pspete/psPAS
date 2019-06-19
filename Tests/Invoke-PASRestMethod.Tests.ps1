@@ -39,6 +39,7 @@ Describe $FunctionName {
 			"URI"        = "https://CyberArk_URL"
 			"Method"     = "GET"
 			"WebSession" = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			"Body"       = "something"
 		}
 
 		Context "Standard Operation" {
