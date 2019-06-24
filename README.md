@@ -10,9 +10,9 @@ Contains all published methods of the API up to CyberArk v10.9.
 
 ## Module Status
 
-| Master Branch            | Code Coverage            | PowerShell Gallery       | Downloads                  | Latest Build (All Branches) | License                    |
-|--------------------------|--------------------------|--------------------------|----------------------------|-----------------------------|----------------------------|
-|[![appveyor][]][av-site]  | [![coveralls][]][cv-site]|[![psgallery][]][ps-site] |[![downloads][]][ps-site]   |[![tests][]][tests-site]     |[![license][]][license-link]|
+| Master Branch            | Code Coverage            | PowerShell Gallery       | Downloads                  | Latest Build            | License                    |
+|--------------------------|--------------------------|--------------------------|----------------------------|-------------------------|----------------------------|
+|[![appveyor][]][av-site]  | [![coveralls][]][cv-site]|[![psgallery][]][ps-site] |[![downloads][]][ps-site]   |[![tests][]][tests-site] |[![license][]][license-link]|
 
 [appveyor]:https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true
 [av-site]:https://ci.appveyor.com/project/pspete/pspas/branch/master
