@@ -231,6 +231,16 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 		[parameter(
 			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ParameterSetName = "V10SingleOp"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ParameterSetName = "V10MultiOp"
+		)]
+		[parameter(
+			Mandatory = $false,
 			ValueFromPipeline = $true,
 			ParameterSetName = "V9"
 		)]
