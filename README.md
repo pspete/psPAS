@@ -291,7 +291,7 @@ Close-PASSession
 #Specify Vault Logon Credentials
 $LogonCredential = Get-Credential
 
-#Get a Logon Token
+#Logon
 New-PASSession -Credential $LogonCredential -BaseURI "https://your.pvwa.url"
 
 $Safes = Get-PASSafe -query TestSafe
@@ -313,7 +313,7 @@ Close-PASSession
 #Vault Logon Credentials
 $LogonCredential = Get-Credential
 
-#Get a Logon Token
+#Logon
 New-PASSession -Credential $LogonCredential -BaseURI "https://your.pvwa.url"
 
 #get list of users
