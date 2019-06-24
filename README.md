@@ -10,9 +10,9 @@ Contains all published methods of the API up to CyberArk v10.9.
 
 ## Module Status
 
-| Master Branch            | Code Coverage            | PowerShell Gallery       | License                   |
-|--------------------------|--------------------------|--------------------------|---------------------------|
-|[![appveyor][]][av-site]  | [![coveralls][]][cv-site]|[![psgallery][]][ps-site]|[![license][]][license-link]|
+| Master Branch            | Code Coverage            | PowerShell Gallery       | Downloads                  | License                    |
+|--------------------------|--------------------------|--------------------------|----------------------------|----------------------------|
+|[![appveyor][]][av-site]  | [![coveralls][]][cv-site]|[![psgallery][]][ps-site] |[![downloads][]][ps-site]   |[![license][]][license-link]|
 
 
 | Latest Build (All Branches) |
@@ -29,6 +29,7 @@ Contains all published methods of the API up to CyberArk v10.9.
 [license-link]:https://github.com/pspete/psPAS/blob/master/LICENSE.md
 [tests]:https://img.shields.io/appveyor/tests/pspete/pspas.svg
 [tests-site]:https://ci.appveyor.com/project/pspete/pspas
+[downloads]:https://img.shields.io/powershellgallery/dt/pspas.svg?color=blue
 
 ----------
 
@@ -49,11 +50,373 @@ Contains all published methods of the API up to CyberArk v10.9.
 
 ## Usage
 
-See the module in action in the below "_CyberArk REST API: From Start-to-Finish_" video:
+**Existing psPAS Users**: The latest module update (3.0) includes breaking changes; review the [Changelog](CHANGELOG.md) for full details.
 
-[![YouTube Demo](media/youtube.png)](https://www.youtube.com/watch?v=yZinhjsuV1I)
+### Authenticate
 
-## <a id="CyberArk_Version_Compatibility"></a> Module Functions
+_It all starts with a **Logon**_
+
+#### CyberArk Authentication
+
+````powershell
+$cred = Get-Credential
+
+PowerShell credential request
+Enter your credentials.
+User: safeadmin
+Password for user safeadmin: **********
+
+
+New-PASSession -Credential $cred -BaseURI https://cyberark.virtualreal.it
+````
+
+#### LDAP Authentication
+
+````powershell
+$cred = Get-Credential
+
+PowerShell credential request
+Enter your credentials.
+User: xApprover_1
+Password for user xApprover_1: **********
+
+
+New-PASSession -Credential $cred -BaseURI https://cyberark.virtualreal.it -type LDAP
+
+Get-PASLoggedOnUser
+
+UserName    Source UserTypeName AgentUser Expired Disabled Suspended
+--------    ------ ------------ --------- ------- -------- ---------
+xApprover_1 LDAP   EPVUser      False     False   False    False
+````
+
+#### RADIUS Authentication (with OTP if supported)
+
+````powershell
+$cred = Get-Credential
+
+PowerShell credential request
+Enter your credentials.
+User: DuoUser
+Password for user DuoUser: **********
+
+
+New-PASSession -Credential $cred -BaseURI https://cyberark.virtualreal.it -type RADIUS -OTP 006314
+
+Get-PASLoggedOnUser
+
+UserName Source UserTypeName AgentUser Expired Disabled Suspended
+-------- ------ ------------ --------- ------- -------- ---------
+DuoUser  LDAP   EPVUser      False     False   False    False
+````
+
+#### Shared Authentication with Client Certificate
+
+````powershell
+New-PASSession -UseSharedAuthentication -BaseURI https://cyberark.virtualreal.it -CertificateThumbprint 0E199489C57E666115666D6E9990C2ACABDB6EDB
+````
+
+### Basic Operations
+
+#### Search
+
+##### Safes
+
+Get information relating to Safes you have access to:
+
+````powershell
+Find-PASSafe -search 3_TestSafe_028_XYJ
+
+SafeUrlId          SafeName           Description                  Location
+---------          --------           -----------                  --------
+3_TestSafe_028_XYJ 3_TestSafe_028_XYJ TestSafe: 3_TestSafe_028_XYJ \
+
+Get-PASSafe -SafeName 3_TestSafe_028_XYJ
+
+SafeName           ManagingCPM     NumberOfDaysRetention NumberOfVersionsRetention Description
+--------           -----------     --------------------- ------------------------- -----------
+3_TestSafe_028_XYJ PasswordManager                       3                         TestSafe: 3_TestSafe_028_XYJ
+````
+
+##### Safe Members
+
+Find Safe Members:
+
+````powershell
+Get-PASSafeMember -SafeName 3_TestSafe_028_XYJ -MemberName ACC-G-3_TestSafe_028_XYJ-Usr
+
+UserName                     SafeName           Permissions
+--------                     --------           -----------
+ACC-G-3_TestSafe_028_XYJ-Usr 3_TestSafe_028_XYJ {UseAccounts, RetrieveAccounts, ListAccounts, ViewAuditLog…}
+````
+
+##### Users
+
+Query for Vault Users:
+
+````powershell
+Get-PASUser -Search xap
+
+ID  UserName    Source UserType ComponentUser Location
+--  --------    ------ -------- ------------- --------
+657 xApprover_A LDAP   EPVUser  False         \VR\VirtualReal\Users
+658 xApprover_1 LDAP   EPVUser  False         \VR\VirtualReal\Users
+659 xApprover_B LDAP   EPVUser  False         \VR\VirtualReal\Users
+660 xApprover_2 LDAP   EPVUser  False         \VR\VirtualReal\Users
+661 xApprover_C LDAP   EPVUser  False         \VR\VirtualReal\Users
+662 xApprover_3 LDAP   EPVUser  False         \VR\VirtualReal\Users
+````
+
+##### Accounts
+
+Return Account data:
+
+````powershell
+Get-PASAccount -search xy -filter "SafeName eq 3_TestSafe_028_XYJ"
+
+AccountID                 : 286_3
+Safe                      : 3_TestSafe_028_XYJ
+address                   : SOMEDOMAIN.COM
+userName                  : kmgrsebf
+name                      : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-kmgrsebf
+platformId                : Z_WINDOMAIN_OFF
+secretType                : password
+platformAccountProperties : @{LogonDomain=SOMEDOMAIN}
+secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=1559864221}
+createdTime               : 06/06/2019 23:37:01
+
+AccountID                 : 286_4
+Safe                      : 3_TestSafe_028_XYJ
+address                   : SOMEDOMAIN.COM
+userName                  : sbwudlov
+name                      : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-sbwudlov
+platformId                : Z_WINDOMAIN_OFF
+secretType                : password
+platformAccountProperties : @{LogonDomain=SOMEDOMAIN}
+secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=1559864222}
+createdTime               : 06/06/2019 23:37:02
+````
+
+#### Administration
+
+##### Add An Account
+
+Add & Configure managed accounts:
+
+````powershell
+#Convert Password to SecureString
+$Password = ConvertTo-SecureString -String "SecretString1337$" -AsPlainText -Force
+
+#Add Account with required details
+Add-PASAccount -secretType Password -secret $Password -platformAccountProperties @{"LOGONDOMAIN"="domain.com"} `
+-SafeName "YourSafe" -PlatformID "YourPlatform" -Address "domain" -Username SomeUsername
+````
+
+##### Import a Connection Component
+
+Import Custom Connection Components:
+
+````powershell
+Import-PASConnectionComponent -ImportFile C:\Temp\ConnectionComponent.zip
+````
+
+##### Platforms
+
+Export/Import Platforms:
+
+````powershell
+#Import a Platform
+Import-PASPlatform -ImportFile C:\Temp\Platform.zip
+
+#Export a Platform
+Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp\ExportedPlatform.zip
+````
+
+#### Pipeline Operations
+
+Work with the PowerShell pipeline:
+
+````powershell
+#Find directory groups assigned to safes
+Get-PASSafe -query JXW | Get-PASSafeMember | Where-Object{ Get-PASGroup -search $_.UserName -filter 'groupType eq Directory' }
+
+UserName                     SafeName           Permissions
+--------                     --------           -----------
+ACC-G-1_TestSafe_049_JXW-Usr 1_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, ViewAudit…}
+ACC-G-1_TestSafe_049_JXW-Adm 1_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, Unlock…}
+ACC-G-2_TestSafe_049_JXW-Usr 2_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, ViewAudit…}
+ACC-G-2_TestSafe_049_JXW-Adm 2_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, Unlock…}
+ACC-G-3_TestSafe_049_JXW-Usr 3_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, ViewAudit…}
+ACC-G-3_TestSafe_049_JXW-Adm 3_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, Unlock…}
+````
+
+Multiple `psPAS` commands can be used together, along with standard features of the PowerShell language:
+
+````powershell
+#Add all "admin" users in the root location to the PVWAMonitor group
+Get-PASUser -UserType EPVUser -Search Admin | Where-Object{ $_.location -eq "\" } | Add-PASGroupMember -GroupName PVWAMonitor
+````
+
+### Advanced Examples
+
+#### Bulk Operations
+
+Standard features of PowerShell, allowing you to Create and iterate through collections, can be used to perform bulk operations:
+
+##### Example 1 - On-board Multiple Accounts
+
+````powershell
+$Accounts = Import-Csv -Path C:\Temp\Accounts.csv
+
+New-PASSession -Credential $creds -BaseURI $URL
+
+foreach($Account in $Accounts){
+
+    $Password = ConvertTo-SecureString -String $Account.Password -AsPlainText -Force
+
+    Add-PASAccount -secretType Password `
+    -secret $Password `
+    -platformAccountProperties @{"LOGONDOMAIN"=$Account.LogonDomain} `
+    -SafeName $Account.SafeName `
+    -PlatformID $Account.PlatformID `
+    -Address $Account.Address `
+    -Username $Account.Username
+
+}
+
+Close-PASSession
+````
+
+##### Example 2 - Delete Multiple Safes
+
+````powershell
+#Specify Vault Logon Credentials
+$LogonCredential = Get-Credential
+
+#Get a Logon Token
+New-PASSession -Credential $LogonCredential -BaseURI "https://your.pvwa.url"
+
+$Safes = Get-PASSafe -query TestSafe
+
+#Delete Safes
+foreach ($Safe in $Safes){
+
+  Remove-PASSafe -SafeName $Safe -WhatIf
+
+}
+
+#Logoff
+Close-PASSession
+````
+
+##### Example 3 - Move a List of Users to a New Location
+
+````powershell
+#Vault Logon Credentials
+$LogonCredential = Get-Credential
+
+#Get a Logon Token
+New-PASSession -Credential $LogonCredential -BaseURI "https://your.pvwa.url"
+
+#get list of users
+$users = Get-Content .\userlist.txt
+
+#move users
+$users | foreach{
+
+  Set-PASUser -UserName $_ -Location "\New\Location\Path" -WhatIf
+
+}
+
+#Logoff
+Close-PASSession
+````
+
+#### PSM Sessions
+
+##### Terminate all Active PSM Sessions on a PSM Server
+
+````powershell
+#Find Active Sessions for a PSM Server IP
+#Terminate the Sessions
+Get-PASPSMSession | Where-Object{
+  ($_.RawProperties.ProviderID -eq $(Get-PASComponentDetail -ComponentID SessionManagement |
+    Where-Object{$_.ComponentIP -eq "192.168.60.20"} |
+		Select -ExpandProperty ComponentUserName))
+  -and ($_.IsLive) -and ($_.CanTerminate)} | Stop-PASPSMSession
+````
+
+#### API Sessions
+
+If actions are required to be performed under the context of different user accounts, it is possible to work with different authenticated sessions:
+
+````powershell
+#Start first session
+$VaultAdmin = Get-Credential
+
+PowerShell credential request
+Enter your credentials.
+User: VaultAdmin
+Password for user VaultAdmin: **********
+
+
+New-PASSession -Credential $VaultAdmin -BaseURI https://cyberark.virtualreal.it
+
+Get-PASLoggedOnUser
+
+UserName   Source   UserTypeName AgentUser Expired Disabled Suspended
+--------   ------   ------------ --------- ------- -------- ---------
+VaultAdmin Internal EPVUser      False     False   False    False
+
+#Save first session data
+$FirstSession = Get-PASSession
+
+#Start second session
+$SafeAdmin = Get-Credential
+
+PowerShell credential request
+Enter your credentials.
+User: SafeAdmin
+Password for user SafeAdmin: **********
+
+
+New-PASSession -Credential $SafeAdmin -BaseURI https://cyberark.virtualreal.it
+
+Get-PASLoggedOnUser
+
+UserName  Source   UserTypeName AgentUser Expired Disabled Suspended
+--------  ------   ------------ --------- ------- -------- ---------
+SafeAdmin Internal EPVUser      False     False   False    False
+
+#Save second session data
+$SecondSession = Get-PASSession
+
+#Switch back to first session
+Use-PASSession -Session $FirstSession
+
+Get-PASLoggedOnUser
+
+UserName   Source   UserTypeName AgentUser Expired Disabled Suspended
+--------   ------   ------------ --------- ------- -------- ---------
+VaultAdmin Internal EPVUser      False     False   False    False
+
+#End first session
+Close-PASSession
+
+#Switch to second session
+Use-PASSession -Session $SecondSession
+
+Get-PASLoggedOnUser
+
+UserName  Source   UserTypeName AgentUser Expired Disabled Suspended
+--------  ------   ------------ --------- ------- -------- ---------
+SafeAdmin Internal EPVUser      False     False   False    False
+
+#End second session
+Close-PASSession
+````
+
+## Module Functions
 
 Your version of CyberArk determines which functions of psPAS will be supported.
 
@@ -71,6 +434,8 @@ requires version 9.8+).
 -----------------------------------------------------------------------------------------|--------------------|:----------------
 [`New-PASSession`][New-PASSession]                                                       |**9.0**             |Authenticates a user to </br>CyberArk Vault
 [`Close-PASSession`][Close-PASSession]                                                   |**9.0**             |Logoff from CyberArk Vault.
+[`Get-PASSession`][Get-PASSession]                                                       |**---**             |Get `psPAS` Session Data.
+[`Use-PASSession`][Use-PASSession]                                                       |**---**             |Set `psPAS` Session Data.
 [`Add-PASPublicSSHKey`][Add-PASPublicSSHKey]                                             |**9.6**             |Adds an authorised </br>public SSH key for a </br>specific user in the </br>Vault.
 [`Get-PASPublicSSHKey`][Get-PASPublicSSHKey]                                             |**9.6**             |Retrieves a user's </br>SSH Keys.
 [`Remove-PASPublicSSHKey`][Remove-PASPublicSSHKey]                                       |**9.6**             |Deletes a specific </br>Public SSH Key from </br>a specific vault user
@@ -171,6 +536,8 @@ requires version 9.8+).
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
+[Get-PASSession]:/psPAS/Functions/Authentication/Get-PASSession.ps1
+[Use-PASSession]:/psPAS/Functions/Authentication/Use-PASSession.ps1
 [Add-PASPublicSSHKey]:/psPAS/Functions/Authentication/Add-PASPublicSSHKey.ps1
 [Get-PASPublicSSHKey]:/psPAS/Functions/Authentication/Get-PASPublicSSHKey.ps1
 [Remove-PASPublicSSHKey]:/psPAS/Functions/Authentication/Remove-PASPublicSSHKey.ps1
@@ -279,7 +646,7 @@ requires version 9.8+).
 
 ### Install Options
 
-This repository contains a folder named ```psPAS```.
+This repository contains a folder named `psPAS`.
 
 The folder needs to be copied to one of your PowerShell Module Directories.
 
@@ -292,7 +659,7 @@ PowerShell 5.0 or above & Administrator rights are required.
 To download the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/), </br>
 from an elevated PowerShell prompt, run:
 
-````Install-Module -Name psPAS -Scope CurrentUser````
+`Install-Module -Name psPAS -Scope CurrentUser`
 
 #### Option 2: Manual Install
 
@@ -308,7 +675,7 @@ $env:PSModulePath.split(';')
 
 Extract the archive
 
-Copy the ```psPAS``` folder to your "Powershell Modules" directory of choice.
+Copy the `psPAS` folder to your "Powershell Modules" directory of choice.
 
 #### Verification
 
@@ -356,12 +723,11 @@ All notable changes to this project will be documented in the [Changelog](CHANGE
 
 This project is [licensed under the MIT License](LICENSE.md).
 
+## Contributors
+
 ## Contributing
 
 Any and all contributions to this project are appreciated.
-
-The SAML authentication capability needs testing, no federation service is</br>
-available to me to confirm that the functionality works as required...
 
 See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
 
