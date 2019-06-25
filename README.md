@@ -56,11 +56,11 @@ _It all starts with a **Logon**_
 
 `New-PASSession` is used to send a logon request to the CyberArk API.
 
-On successful authentication `psPAS` used data either provided for the request, or returned from the API for all subsequent operations.
+On successful authentication `psPAS` uses the data which is provided for the request & also returned from the API for all subsequent operations.
 
 #### CyberArk Authentication
 
-Use a PowerShell credential object containing a valid vault username and password.
+- Use a PowerShell credential object containing a valid vault username and password.
 
 ````powershell
 $cred = Get-Credential
@@ -76,7 +76,7 @@ New-PASSession -Credential $cred -BaseURI https://cyberark.virtualreal.it
 
 #### LDAP Authentication
 
-Specify LDAP credentials allowed to authenticate to the vault.
+- Specify LDAP credentials allowed to authenticate to the vault.
 
 ````powershell
 $cred = Get-Credential
@@ -98,9 +98,9 @@ xApprover_1 LDAP   EPVUser      False     False   False    False
 
 #### RADIUS Authentication (with OTP if supported)
 
-Some 2FA solutions allow a One Time Passcode to be sent with the password.
+- Some 2FA solutions allow a One Time Passcode to be sent with the password.
 
-If an OTP is provided, it is sent to the API with the password, separated by a comma: "`$Password,$OTP`"
+  - If an OTP is provided, it is sent to the API with the password, separated by a comma: "`$Password,$OTP`"
 
 ````powershell
 $cred = Get-Credential
@@ -122,7 +122,7 @@ DuoUser  LDAP   EPVUser      False     False   False    False
 
 #### Shared Authentication with Client Certificate
 
-If IIS is configured to require client certificates, `psPAS` will use any provided certificate details for the duration of the session.
+- If IIS is configured to require client certificates, `psPAS` will use any provided certificate details for the duration of the session.
 
 ````powershell
 $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
@@ -135,7 +135,7 @@ New-PASSession -UseSharedAuthentication -BaseURI https://cyberark.virtualreal.it
 
 ##### Safes
 
-Get information relating to Safes you have access to:
+- Get information relating to Safes you have access to:
 
 ````powershell
 Find-PASSafe -search 3_TestSafe_028_XYJ
@@ -153,7 +153,7 @@ SafeName           ManagingCPM     NumberOfDaysRetention NumberOfVersionsRetenti
 
 ##### Safe Members
 
-Find Safe Members:
+- Find Safe Members:
 
 ````powershell
 Get-PASSafeMember -SafeName 3_TestSafe_028_XYJ -MemberName ACC-G-3_TestSafe_028_XYJ-Usr
@@ -165,7 +165,7 @@ ACC-G-3_TestSafe_028_XYJ-Usr 3_TestSafe_028_XYJ {UseAccounts, RetrieveAccounts, 
 
 ##### Users
 
-Query for Vault Users:
+- Query for Vault Users:
 
 ````powershell
 Get-PASUser -Search xap
@@ -182,7 +182,7 @@ ID  UserName    Source UserType ComponentUser Location
 
 ##### Accounts
 
-Return Account data:
+- Return Account data:
 
 ````powershell
 Get-PASAccount -filter "SafeName eq 3_TestSafe_028_XYJ" -search sbwudlov
@@ -201,8 +201,8 @@ createdTime               : 06/06/2019 23:37:02
 
 ###### Classic API
 
-The is a limitation of only returning details of the first found account when using the Classic API.
-The `keywords` & `safe` parameters of `Get-PASAccount` force use of the Classic API:
+- There is a limitation of only returning details of the first found account when using the Classic API.
+  - The `keywords` & `safe` parameters of `Get-PASAccount` force use of the Classic API:
 
 ````powershell
 Get-PASAccount -Safe 3_TestSafe_028_XYJ
@@ -219,7 +219,7 @@ Address            : SOMEDOMAIN.COM
 InternalProperties : @{CreationMethod=PVWA}
 ````
 
-More results can be returned by specifying alternative parameters and avoiding the Classic API:
+- More results can be returned by specifying alternative parameters and avoiding the Classic API:
 
 ````powershell
 PS>Get-PASAccount -filter "SafeName eq 3_TestSafe_028_XYJ"
@@ -251,7 +251,7 @@ createdTime               : 06/06/2019 23:37:02
 
 ##### Add An Account
 
-Add an account to manage:
+- Add an account to manage:
 
 ````powershell
 #Convert Password to SecureString
@@ -264,7 +264,7 @@ Add-PASAccount -secretType Password -secret $Password -platformAccountProperties
 
 ##### Create Safes
 
-Simple safe creation:
+- Simple safe creation:
 
 ````powershell
 Add-PASSafe -SafeName NewSafe -Description "A New Safe" -ManagingCPM PasswordManager -NumberOfVersionsRetention 10
@@ -276,7 +276,7 @@ NewSafe  PasswordManager                       10                        A New S
 
 ##### Add Safe Members
 
-Consistent safe membership:
+- Consistent safe membership:
 
 ````powershell
 Add-PASSafeMember -SafeName NewSafe -MemberName NewMember -UseAccounts $false -ListAccounts $true -RetrieveAccounts $false `
@@ -289,7 +289,7 @@ NewMember  vault    NewSafe  {ListAccounts, ViewAuditLog, ViewSafeMembers}
 
 ##### Update Accounts
 
-Update values for individual account properties:
+- Update values for individual account properties:
 
 ````powershell
 Set-PASAccount -AccountID 286_4 -op replace -path /address -value NEWDOMAIN.COM
@@ -321,7 +321,7 @@ createdTime               : 06/06/2019 23:37:02
 
 ##### Import a Connection Component
 
-Import Custom Connection Components:
+- Import Custom Connection Components:
 
 ````powershell
 Import-PASConnectionComponent -ImportFile C:\Temp\ConnectionComponent.zip
@@ -329,7 +329,7 @@ Import-PASConnectionComponent -ImportFile C:\Temp\ConnectionComponent.zip
 
 ##### Platforms
 
-Import & Export of CPM Platforms:
+- Import & Export of CPM Platforms:
 
 ````powershell
 #Import a Platform
@@ -341,7 +341,7 @@ Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp\ExportedPlatfor
 
 #### Pipeline Operations
 
-Work with the PowerShell pipeline:
+- Work with the PowerShell pipeline:
 
 ````powershell
 #Find directory groups assigned to safes
@@ -357,7 +357,7 @@ ACC-G-3_TestSafe_049_JXW-Usr 3_TestSafe_049_JXW {ListContent, RestrictedRetrieve
 ACC-G-3_TestSafe_049_JXW-Adm 3_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, Unlock…}
 ````
 
-Multiple `psPAS` commands can be used together, along with standard PowerShell CmdLets:
+- Multiple `psPAS` commands can be used together, along with standard PowerShell CmdLets:
 
 ````powershell
 #Add all "admin" users in the root location to the PVWAMonitor group
@@ -441,7 +441,7 @@ Close-PASSession
 
 #### Safe Permissions
 
-Define Safe Roles and assign to safe members:
+- Define Safe Roles and assign to safe members:
 
 ````powershell
 $Role1 = [PSCustomObject]@{
@@ -504,7 +504,7 @@ Get-PASPSMSession | Where-Object{
 
 #### Updating Multiple Properties of an Account
 
-Multiple updates can be performed in a single request:
+- Multiple updates can be performed in a single request:
 
 ````powershell
 [array]$operations += @{"op"="remove";"path"="/platformAccountProperties/LogonDomain"}
@@ -526,7 +526,7 @@ createdTime      : 06/06/2019 23:37:02
 
 #### API Sessions
 
-If actions are required to be performed under the context of different user accounts, it is possible to work with different authenticated sessions:
+- If actions are required to be performed under the context of different user accounts, it is possible to work with different authenticated sessions:
 
 ````powershell
 #Start first session
