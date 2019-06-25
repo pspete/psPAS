@@ -184,7 +184,14 @@ WebRequestSession object if the SessionVariable parameter was specified.
 
 				} Finally {
 
-					Write-Error -Message $ErrorMessage -ErrorId $ErrorID
+					$PSCmdlet.WriteError(
+						[System.Management.Automation.ErrorRecord]::new(
+							"$CallingFunction : $ErrorMessage",
+							$ErrorID,
+							[System.Management.Automation.ErrorCategory]::NotSpecified,
+							$response
+						)
+					)
 
 				}
 
@@ -233,7 +240,15 @@ WebRequestSession object if the SessionVariable parameter was specified.
 								#Return only the text between opening and closing quotes
 								$matches[1]
 							} ElseIf ($webResponse.content -match '<HTML>') {
-								throw "Guru Meditation - HTML Response Received"
+
+								$PSCmdlet.ThrowTerminatingError(
+									[System.Management.Automation.ErrorRecord]::new(
+										"$CallingFunction : Guru Meditation - HTML Response Received",
+										$StatusCode,
+										[System.Management.Automation.ErrorCategory]::NotSpecified,
+										$webResponse
+									)
+								)
 							}
 
 						}
