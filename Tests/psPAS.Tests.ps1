@@ -208,7 +208,7 @@ Describe "Module" -Tag "Consistency" {
 
 		$Scripts = Get-ChildItem "$ModulePath" -Filter '*.ps1' -Exclude '*.ps1xml' -Recurse
 
-		$Rules = Get-ScriptAnalyzerRule
+		$Rules = Get-ScriptAnalyzerRule -Severity Warning
 
 		foreach ($Script in $scripts) {
 
