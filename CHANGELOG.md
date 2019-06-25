@@ -4,45 +4,35 @@
 
 _2 years since first commit Anniversary Edition_
 
-### Breaking Changes
-
-**Existing scripts will need to be updated to work with the new module workflow.**
-
-- `$token` Variable requirement removed.
-  - Default values now available to all module functions via variables in the MOdule scope.
-    - `BaseURI` - no longer needs to be passed to each function
-      - All functions except `New-PASSession` can not accept `BaseURI`.
-    - `WebSession` - no longer needs to be passed to each function
-      - Functions can now not accept `WebSession`.
-    - `PVWAAppName` - can no longer to be passed to each function
-      - All functions except `New-PASSession` can not accept `PVWAAppName`.
-    - `SessionToken` - no longer needs to be passed to each function
-      - No function can accept `SessionToken`.
-    - `ExternalVersion` - no longer needs to be passed to each function
+- Breaking Changes
+  - `BaseURI` - no longer needs to be passed to each function
+    - All functions except `New-PASSession` can not accept `BaseURI`.
+  - `WebSession` - no longer needs to be passed to each function
+    - Functions can now not accept `WebSession`.
+  - `PVWAAppName` - can no longer to be passed to each function
+    - All functions except `New-PASSession` can not accept `PVWAAppName`.
+  - `SessionToken` - no longer needs to be passed to each function
+    - No function can accept `SessionToken`.
+  - `ExternalVersion` - no longer needs to be passed to each function
   - Default values no longer returned on pipeline
-    - values for `BaseURI`, `WebSession`, `PVWAAppName`, `SessionToken` & `ExternalVersion` are
-    not returned from module functions in output.
-- `UseV9API` & `UseV10API` Parameters renamed to `UseClassicAPI`
-  - Where functions support operations against both Classic & V10 API, default behaviour is to use the V10 API.
-  - Specify the `UseClassicAPI` switch parameter to force usage of the Classic API Endpoint.
-    - this parameter has an alias of `UseV9API` to attempt some backward compatibility.
-- Functions Removed
-  - `New-PASSAMLSession` Removed
-    - Functionality moved into `New-PASSession`.
-  - `New-PASSharedSession` Removed
-    - Functionality moved into `New-PASSession`.
-  - `Close-PASSAMLSession` Removed
-    - Functionality moved into `Close-PASSession`.
-  - `Close-PASSharedSession` Removed
-    - Functionality moved into `Close-PASSession`.
-- Aliases Removed
-  - `Get-PASApplications` - Removed old pluralised alias
-  - `Get-PASApplicationAuthenticationMethods` - Removed old pluralised alias
-  - `Get-PASAccountCredentials` - Removed old pluralised alias
-  - `Get-PASSafeMembers` - Removed old pluralised alias
-
-### Other Updates
-
+    - Values for `BaseURI`, `WebSession`, `PVWAAppName`, `SessionToken` & `ExternalVersion` are not returned from module functions in output.
+  - `UseV9API` & `UseV10API` Parameters renamed to `UseClassicAPI`
+    - Where functions support operations against both Classic & V10 API, default behaviour is to use the V10 API.
+    - Specify the `UseClassicAPI` switch parameter to force usage of the Classic API Endpoint.
+  - Functions Removed
+    - `New-PASSAMLSession` Removed
+      - Functionality moved into `New-PASSession`.
+    - `New-PASSharedSession` Removed
+      - Functionality moved into `New-PASSession`.
+    - `Close-PASSAMLSession` Removed
+      - Functionality moved into `Close-PASSession`.
+    - `Close-PASSharedSession` Removed
+      - Functionality moved into `Close-PASSession`.
+  - Aliases Removed
+    - `Get-PASApplications` - Removed old pluralised alias
+    - `Get-PASApplicationAuthenticationMethods` - Removed old pluralised alias
+    - `Get-PASAccountCredentials` - Removed old pluralised alias
+    - `Get-PASSafeMembers` - Removed old pluralised alias
 - New Functions
   - `Find-PASSafe` (Thanks (again) [steveredden](https://github.com/steveredden)!)
     - List or search safes by name
