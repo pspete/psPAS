@@ -56,7 +56,7 @@ _It all starts with a **Logon**_
 
 `New-PASSession` is used to send a logon request to the CyberArk API.
 
-On successful authentication `psPAS` uses the data which is provided for the request & also returned from the API for all subsequent operations.
+On successful authentication `psPAS` uses the data which was provided for the request & also returned from the API for all subsequent operations.
 
 #### CyberArk Authentication
 
@@ -345,7 +345,8 @@ Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp\ExportedPlatfor
 
 ````powershell
 #Find directory groups assigned to safes
-Get-PASSafe -query JXW | Get-PASSafeMember | Where-Object{ Get-PASGroup -search $_.UserName -filter 'groupType eq Directory' }
+Get-PASSafe -query JXW | Get-PASSafeMember |
+Where-Object{ Get-PASGroup -search $_.UserName -filter 'groupType eq Directory' }
 
 UserName                     SafeName           Permissions
 --------                     --------           -----------
@@ -361,7 +362,8 @@ ACC-G-3_TestSafe_049_JXW-Adm 3_TestSafe_049_JXW {ListContent, RestrictedRetrieve
 
 ````powershell
 #Add all "admin" users in the root location to the PVWAMonitor group
-Get-PASUser -UserType EPVUser -Search Admin | Where-Object{ $_.location -eq "\" } | Add-PASGroupMember -GroupName PVWAMonitor
+Get-PASUser -UserType EPVUser -Search Admin | Where-Object{ $_.location -eq "\" } |
+Add-PASGroupMember -GroupName PVWAMonitor
 ````
 
 ### Advanced Examples
@@ -837,7 +839,7 @@ Use one of the following methods:
 PowerShell 5.0 or above & Administrator rights are required.
 
 To download the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/), </br>
-from an elevated PowerShell prompt, run:
+from a PowerShell prompt, run:
 
 `Install-Module -Name psPAS -Scope CurrentUser`
 
