@@ -186,7 +186,7 @@ WebRequestSession object if the SessionVariable parameter was specified.
 
 					$PSCmdlet.WriteError(
 						[System.Management.Automation.ErrorRecord]::new(
-							"$CallingFunction : $ErrorMessage",
+							$ErrorMessage,
 							$ErrorID,
 							[System.Management.Automation.ErrorCategory]::NotSpecified,
 							$response
