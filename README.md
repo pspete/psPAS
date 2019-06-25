@@ -911,7 +911,7 @@ Any and all contributions to this project are appreciated.
 
 See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
 
-### Acknowledgements
+## Acknowledgements
 
 Hat Tips:
 
