@@ -267,11 +267,11 @@ Add-PASAccount -secretType Password -secret $Password -platformAccountProperties
 - Simple safe creation:
 
 ````powershell
-Add-PASSafe -SafeName NewSafe -Description "A New Safe" -ManagingCPM PasswordManager -NumberOfVersionsRetention 10
+Add-PASSafe -SafeName NewSafe -Description "New Safe" -ManagingCPM PasswordManager -NumberOfVersionsRetention 10
 
 SafeName ManagingCPM     NumberOfDaysRetention NumberOfVersionsRetention Description
 -------- -----------     --------------------- ------------------------- -----------
-NewSafe  PasswordManager                       10                        A New Safe
+NewSafe  PasswordManager                       10                        New Safe
 ````
 
 ##### Add Safe Members
@@ -279,8 +279,8 @@ NewSafe  PasswordManager                       10                        A New S
 - Consistent safe membership:
 
 ````powershell
-Add-PASSafeMember -SafeName NewSafe -MemberName NewMember -UseAccounts $false -ListAccounts $true -RetrieveAccounts $false `
--ViewAuditLog $true -ViewSafeMembers $true
+Add-PASSafeMember -SafeName NewSafe -MemberName NewMember -UseAccounts $false -ListAccounts $true `
+-RetrieveAccounts $false -ViewAuditLog $true -ViewSafeMembers $true
 
 MemberName SearchIn SafeName Permissions
 ---------- -------- -------- -----------
