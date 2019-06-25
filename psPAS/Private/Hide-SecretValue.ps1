@@ -46,6 +46,7 @@
 
     #>
 	[CmdletBinding()]
+	[OutputType('System.String')]
 	param(
 		[parameter(
 			Position = 0,
