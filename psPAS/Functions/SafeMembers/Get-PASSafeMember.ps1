@@ -38,7 +38,6 @@ Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 #>
-	[Alias("Get-PASSafeMembers")]
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -130,7 +129,7 @@ To force all output to be shown, pipe to Select-Object *
 
 			$Output | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
 
-				"SafeName"        = $SafeName
+				"SafeName" = $SafeName
 
 			}
 
