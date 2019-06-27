@@ -93,7 +93,7 @@ Describe $FunctionName {
 			}
 
 			It "returns expected octet-stream value" {
-				$result = Get-PASResponse -APIResponse $OctetSave
+				$result = Get-PASResponse -APIResponse $OctetStream
 				$([System.Text.Encoding]::ASCII.GetString($result)) | Should Be "Expected"
 			}
 
