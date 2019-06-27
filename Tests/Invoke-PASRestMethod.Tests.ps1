@@ -159,7 +159,7 @@ Describe $FunctionName {
 
 			it "catches Uri Format Exceptions" {
 
-				{ Get-PASUser } | Should -Throw -ExpectedMessage "Invalid URI: The hostname could not be parsed. Run New-PASSession"
+				{ Invoke-PASRestMethod -Method GET -URI "/s/r/f/c" } | Should -Throw -ExpectedMessage "Invalid URI: The hostname could not be parsed. Run New-PASSession"
 			}
 
 			it "reports generic Http Request Exceptions" {
