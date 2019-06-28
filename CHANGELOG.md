@@ -1,6 +1,6 @@
 # psPAS
 
-## **3.0.0** (June XXxx 2019)
+## **3.0.0** (June 30th 2019)
 
 _2 years since first commit Anniversary Edition_
 
@@ -52,6 +52,8 @@ _2 years since first commit Anniversary Edition_
   - `New-PASUser`
     - Added `ChangePassOnNextLogon` parameter for working with latest API method
     - Fixes issue where `New-PASUser` was failing to set the change password at next logon flag for a new user.
+- Other
+  - Improvements to exception handling and error reporting.
 
 ## 2.6.17 (May 16th 2019)
 
