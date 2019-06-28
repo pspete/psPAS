@@ -261,7 +261,7 @@ $Password = ConvertTo-SecureString -String "Secret1337$" -AsPlainText -Force
 $platformAccountProperties = @{
   "LOGONDOMAIN"="domain.com"
   "Notes"="Demo Account. Owner:psPete"
-  "Classification"=1F
+  "Classification"="1F"
 }
 
 #Add Account
