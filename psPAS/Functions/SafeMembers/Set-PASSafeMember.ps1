@@ -105,15 +105,6 @@ member on safe.
 Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true
 
 Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts"
-
-.INPUTS
-MemberName, Session Token, SafeName, WebSession & BaseURI can be
-piped by property name
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'keysToRemove', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess)]
@@ -275,7 +266,7 @@ To force all output to be shown, pipe to Select-Object *
 		$baseParameters = @("MemberName", "MembershipExpirationDate", "SafeName")
 
 		#create hashtable to hold safe member permission information
-		$permissions = @{}
+		$permissions = @{ }
 
 		#Create array of keys to remove from top level of required JSON structure.
 		[array]$keysToRemove += "SafeName", "MemberName"
@@ -294,7 +285,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Get passed parameters to include in request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		If($PSBoundParameters.ContainsKey("MembershipExpirationDate")) {
+		If ($PSBoundParameters.ContainsKey("MembershipExpirationDate")) {
 
 			#Convert ExpiryDate to string in Required format
 			$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yyyy).ToString()
@@ -305,7 +296,7 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#For each "Non-Base"/"Permission" parameters
-		$boundParameters.keys | Where-Object {$baseParameters -notcontains $_} | ForEach-Object {
+		$boundParameters.keys | Where-Object { $baseParameters -notcontains $_ } | ForEach-Object {
 
 			#Add to hash table in key/value pair
 			$permissions[$_] = $boundParameters[$_]
@@ -316,7 +307,7 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#Add Permission parameters as value of "Permissions" property
-		$boundParameters["Permissions"] = @($permissions.getenumerator() | ForEach-Object {$_})
+		$boundParameters["Permissions"] = @($permissions.getenumerator() | ForEach-Object { $_ })
 
 		#Create JSON for body of request
 		$body = @{
@@ -328,24 +319,24 @@ To force all output to be shown, pipe to Select-Object *
 			#Ensure all levels of object are output
 		} | ConvertTo-Json -Depth 3
 
-		if($PSCmdlet.ShouldProcess($SafeName, "Update Safe Permissions for '$MemberName'")) {
+		if ($PSCmdlet.ShouldProcess($SafeName, "Update Safe Permissions for '$MemberName'")) {
 
 			#Send request to webservice
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-			if($result) {
+			if ($result) {
 
 				#format output
 				$result.member | Select-Object MembershipExpirationDate,
 
 				@{Name = "Permissions"; "Expression" = {
 
-						$_.Permissions | Where-Object {$_.value} | Select-Object -ExpandProperty key}
+						$_.Permissions | Where-Object { $_.value } | Select-Object -ExpandProperty key }
 
-				}  | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
+				} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
 
-					"UserName"        = $MemberName
-					"SafeName"        = $SafeName
+					"UserName" = $MemberName
+					"SafeName" = $SafeName
 
 				}
 
@@ -355,6 +346,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

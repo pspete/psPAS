@@ -25,14 +25,6 @@ Specify a timeout value in seconds
 Get-PASSafe -SafeName SAFE1
 
 Returns details of "Safe1"
-
-.INPUTS
-SafeName, SessionToken, WebSession & BaseURI can be piped to the function by propertyname
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
 #>
 	[CmdletBinding(DefaultParameterSetName = "byAll")]
 	param(
@@ -65,7 +57,7 @@ To force all output to be shown, pipe to Select-Object *
 		[int]$TimeoutSec
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -73,7 +65,7 @@ To force all output to be shown, pipe to Select-Object *
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes"
 
 		#If SafeName specified
-		If($($PSCmdlet.ParameterSetName) -eq "byName") {
+		If ($($PSCmdlet.ParameterSetName) -eq "byName") {
 
 			$returnProperty = "GetSafeResult"
 
@@ -83,7 +75,7 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#If search query specified
-		ElseIf($($PSCmdlet.ParameterSetName) -eq "byQuery") {
+		ElseIf ($($PSCmdlet.ParameterSetName) -eq "byQuery") {
 
 			$returnProperty = "SearchSafesResult"
 
@@ -102,7 +94,7 @@ To force all output to be shown, pipe to Select-Object *
 
 		}
 
-		ElseIf($($PSCmdlet.ParameterSetName) -eq "byAll") {
+		ElseIf ($($PSCmdlet.ParameterSetName) -eq "byAll") {
 
 			$returnProperty = "GetSafesResult"
 
@@ -111,7 +103,7 @@ To force all output to be shown, pipe to Select-Object *
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 
-		If($result) {
+		If ($result) {
 
 			$result.$returnProperty | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe
 
@@ -119,6 +111,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

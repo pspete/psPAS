@@ -13,7 +13,7 @@ The PolicyID associated with account.
 The address of the account whose privileged commands will be listed.
 
 .PARAMETER AccountUserName
-The name of the account’s user.
+The name of the account's user.
 
 .PARAMETER Command
 The Command
@@ -35,18 +35,6 @@ Add-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerA.domain.com -A
         -Command 'for /l %a in (0,0,0) do xyz' -CommandGroup $false -PermissionType Deny -UserName TestUser
 
 This will add a new Privileged Command Rule to root for user TestUser
-
-.INPUTS
-AccountPolicyId, AccountAddress, SessionToken, WebSession &
-BaseURI can be piped by property name.
-Results of GET-PASAccount can be piped into this function, but
-username/accountname values must be explicitly specified due to
-ambiguities in the propertynames.
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.ACL
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
 #>
 	[CmdletBinding()]
 	param(
@@ -110,7 +98,7 @@ To force all output to be shown, pipe to Select-Object *
 
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -133,7 +121,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Send Request
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result.AddAccountPrivilegedCommandResult |
 
@@ -143,6 +131,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

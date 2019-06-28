@@ -9,15 +9,8 @@ Returns information on the user who is logged in.
 .EXAMPLE
 Get-PASLoggedOnUser
 
-Returns information on the user associated with the authorisation token.
+Returns information on the currently authenticated user.
 
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.User
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
 #>
 	[CmdletBinding()]
 	param(

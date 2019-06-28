@@ -15,20 +15,14 @@ function Unlock-PASAccount {
 	This is retrieved by the Get-PASAccount function.
 
 	.EXAMPLE
-Unlock-PASAccount -AccountID 21_3
+	Unlock-PASAccount -AccountID 21_3
 
 	Will check-in exclusive access account with ID of "21_3"
 
 	.EXAMPLE
-Get-PASAccount xAccount | Unlock-PASAccount
+	Get-PASAccount xAccount | Unlock-PASAccount
 
 	Will check-in exclusive access account xAccount
-
-	.INPUTS
-	SessionToken, AccountID, WebSession & BaseURI can be piped by  property name
-
-	.OUTPUTS
-	None
 
 	.NOTES
 	Minimum CyberArk version 9.10

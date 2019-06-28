@@ -19,7 +19,7 @@ The unique ID of the account group
 The ID of the account to add as a member
 
 .EXAMPLE
-Add-PASAccountGroupMember -GroupID $groupID -AccountID $accID -sessionToken $ST -BaseURI $URL
+Add-PASAccountGroupMember -GroupID $groupID -AccountID $accID
 
 Adds account with ID held in $accID to group with ID held in $groupID
 
@@ -71,6 +71,6 @@ Minimum version 9.9.5
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
