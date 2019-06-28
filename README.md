@@ -843,7 +843,7 @@ Use one of the following methods:
 
 #### Option 1: Install from PowerShell Gallery
 
-PowerShell 5.0 or above & Administrator rights are required.
+**PowerShell 5.0 or above required.**
 
 To download the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/), </br>
 from a PowerShell prompt, run:
