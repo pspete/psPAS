@@ -87,8 +87,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Build Request Parameters
 		$Request["URI"] = $URI
 		$Request["Method"] = $Method
-		$Request["Headers"] = $sessionToken
-		$Request["WebSession"] = $WebSession
+		$Request["WebSession"] = $Script:WebSession
 
 		#Send request to webservice
 		$result = Invoke-PASRestMethod @Request
