@@ -621,105 +621,105 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 
 **Function Name**                                                                        |**CyberArk Version**|**Description**
 -----------------------------------------------------------------------------------------|--------------------|:----------------
-[`New-PASSession`][New-PASSession]                                                       |**9.0**             |Authenticates a user to </br>CyberArk Vault
+[`New-PASSession`][New-PASSession]                                                       |**9.0**             |Authenticates a user to CyberArk Vault
 [`Close-PASSession`][Close-PASSession]                                                   |**9.0**             |Logoff from CyberArk Vault.
 [`Get-PASSession`][Get-PASSession]                                                       |**---**             |Get `psPAS` Session Data.
 [`Use-PASSession`][Use-PASSession]                                                       |**---**             |Set `psPAS` Session Data.
-[`Add-PASPublicSSHKey`][Add-PASPublicSSHKey]                                             |**9.6**             |Adds an authorised </br>public SSH key for a </br>specific user in the </br>Vault.
-[`Get-PASPublicSSHKey`][Get-PASPublicSSHKey]                                             |**9.6**             |Retrieves a user's </br>SSH Keys.
-[`Remove-PASPublicSSHKey`][Remove-PASPublicSSHKey]                                       |**9.6**             |Deletes a specific </br>Public SSH Key from </br>a specific vault user
-[`Add-PASAccountACL`][Add-PASAccountACL]                                                 |**9.0**             |Adds a new privileged </br>command rule to an </br>account.
-[`Get-PASAccountACL`][Get-PASAccountACL]                                                 |**9.0**             |Lists privileged </br>commands rule for an </br>account
-[`Remove-PASAccountACL`][Remove-PASAccountACL]                                           |**9.0**             |Deletes privileged </br>commands rule from </br>an account
-[`Add-PASAccountGroupMember`][Add-PASAccountGroupMember]                                 |**9.95**            |Adds an account as a </br>member of an account group.
-[`Get-PASAccountGroup`][Get-PASAccountGroup]                                             |**9.10**            |Returns all the account </br>groups in a specific Safe.
-[`Get-PASAccountGroupMember`][Get-PASAccountGroupMember]                                 |**9.10**            |Returns all the members </br>of a specific account group.
-[`New-PASAccountGroup`][New-PASAccountGroup]                                             |**9.95**            |Adds a new account group </br>to the Vault
-[`Remove-PASAccountGroupMember`][Remove-PASAccountGroupMember]                           |**9.10**            |Deletes a member of an </br>account group
-[`Add-PASAccount`][Add-PASAccount]                                                       |**9.0**             |Adds a new privileged </br>account to the Vault
-[`Add-PASPendingAccount`][Add-PASPendingAccount]                                         |**9.7**             |Adds discovered account </br>or SSH key as </br>a pending account in </br>the accounts feed.
-[`Get-PASAccount`][Get-PASAccount]                                                       |**9.3**             |Returns information </br>about accounts.
-[`Get-PASAccountActivity`][Get-PASAccountActivity]                                       |**9.7**             |Returns activities </br>for an account.
-[`Get-PASAccountPassword`][Get-PASAccountPassword]                                       |**9.7**             |Returns password </br>for an account.
-[`Invoke-PASCredChange`][Invoke-PASCredChange]                                           |**9.10**            |Initiate CPM password </br>change to new random </br>or specified value.
-[`Invoke-PASCredReconcile`][Invoke-PASCredReconcile]                                     |**9.10**            |Initiates password reconcile </br>by the CPM to a new </br>random password.
-[`Invoke-PASCredVerify`][Invoke-PASCredVerify]                                           |**9.10**            |Marks account for immediate </br>verification by the CPM.
+[`Add-PASPublicSSHKey`][Add-PASPublicSSHKey]                                             |**9.6**             |Adds an authorised public SSH key for a </br>specific user in the Vault.
+[`Get-PASPublicSSHKey`][Get-PASPublicSSHKey]                                             |**9.6**             |Retrieves a user's SSH Keys.
+[`Remove-PASPublicSSHKey`][Remove-PASPublicSSHKey]                                       |**9.6**             |Deletes a specific Public SSH Key from a specific vault user
+[`Add-PASAccountACL`][Add-PASAccountACL]                                                 |**9.0**             |Adds a new privileged command rule to an account.
+[`Get-PASAccountACL`][Get-PASAccountACL]                                                 |**9.0**             |Lists privileged commands rule for an account
+[`Remove-PASAccountACL`][Remove-PASAccountACL]                                           |**9.0**             |Deletes privileged commands rule from an account
+[`Add-PASAccountGroupMember`][Add-PASAccountGroupMember]                                 |**9.95**            |Adds an account as a member of an account group.
+[`Get-PASAccountGroup`][Get-PASAccountGroup]                                             |**9.10**            |Returns all the account groups in a specific Safe.
+[`Get-PASAccountGroupMember`][Get-PASAccountGroupMember]                                 |**9.10**            |Returns all the members of a specific account group.
+[`New-PASAccountGroup`][New-PASAccountGroup]                                             |**9.95**            |Adds a new account group to the Vault
+[`Remove-PASAccountGroupMember`][Remove-PASAccountGroupMember]                           |**9.10**            |Deletes a member of an account group
+[`Add-PASAccount`][Add-PASAccount]                                                       |**9.0**             |Adds a new privileged account to the Vault
+[`Add-PASPendingAccount`][Add-PASPendingAccount]                                         |**9.7**             |Adds discovered account or SSH key as </br>a pending account in the accounts feed.
+[`Get-PASAccount`][Get-PASAccount]                                                       |**9.3**             |Returns information about accounts.
+[`Get-PASAccountActivity`][Get-PASAccountActivity]                                       |**9.7**             |Returns activities for an account.
+[`Get-PASAccountPassword`][Get-PASAccountPassword]                                       |**9.7**             |Returns password for an account.
+[`Invoke-PASCredChange`][Invoke-PASCredChange]                                           |**9.10**            |Initiate CPM password change to new random </br>or specified value.
+[`Invoke-PASCredReconcile`][Invoke-PASCredReconcile]                                     |**9.10**            |Initiates password reconcile by the CPM.
+[`Invoke-PASCredVerify`][Invoke-PASCredVerify]                                           |**9.10**            |Marks account for immediate verification by the CPM.
 [`Remove-PASAccount`][Remove-PASAccount]                                                 |**9.3**             |Deletes an account
-[`Set-PASAccount`][Set-PASAccount]                                                       |**9.5**             |Updates an existing </br>accounts details.
-[`Start-PASCredChange`][Start-PASCredChange]                                             |**9.3**             |Initiates an immediate </br>password change by the </br>CPM to a new random </br>password.
-[`Start-PASCredVerify`][Start-PASCredVerify]                                             |**9.7**             |Marks account for </br>immediate verification </br>by the CPM
-[`Unlock-PASAccount`][Unlock-PASAccount]                                                 |**9.10**            |Checks in an exclusive </br>account in to the Vault.
-[`Add-PASApplication`][Add-PASApplication]                                               |**9.1**             |Adds a new application </br>to the Vault
-[`Add-PASApplicationAuthenticationMethod`][Add-PASApplicationAuthenticationMethod]       |**9.1**             |Adds an authentication </br>method to an application.
-[`Get-PASApplication`][Get-PASApplication]                                               |**9.1**             |Returns details of </br>applications in the Vault
-[`Get-PASApplicationAuthenticationMethod`][Get-PASApplicationAuthenticationMethod]       |**9.1**             |Returns all of the </br>authentication methods of a </br>specific application.
+[`Set-PASAccount`][Set-PASAccount]                                                       |**9.5**             |Updates an existing accounts details.
+[`Start-PASCredChange`][Start-PASCredChange]                                             |**9.3**             |Initiates an immediate password change by the CPM.
+[`Start-PASCredVerify`][Start-PASCredVerify]                                             |**9.7**             |Marks account for immediate verification by the CPM
+[`Unlock-PASAccount`][Unlock-PASAccount]                                                 |**9.10**            |Checks in an exclusive account in to the Vault.
+[`Add-PASApplication`][Add-PASApplication]                                               |**9.1**             |Adds a new application to the Vault
+[`Add-PASApplicationAuthenticationMethod`][Add-PASApplicationAuthenticationMethod]       |**9.1**             |Adds an authentication method to an application.
+[`Get-PASApplication`][Get-PASApplication]                                               |**9.1**             |Returns details of applications in the Vault
+[`Get-PASApplicationAuthenticationMethod`][Get-PASApplicationAuthenticationMethod]       |**9.1**             |Returns all of the authentication methods </br>of a specific application.
 [`Remove-PASApplication`][Remove-PASApplication]                                         |**9.1**             |Deletes an application
-[`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**             |Deletes an authentication </br>method from an application
+[`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**             |Deletes an authentication method </br>from an application
 [`Import-PASConnectionComponent`][Import-PASConnectionComponent]                         |**10.3**            |Imports a Connection Component
-[`Get-PASPSMConnectionParameter`][Get-PASPSMConnectionParameter]                         |**9.10**            |Get required parameters to </br>connect through PSM
-[`Get-PASPSMRecording`][Get-PASPSMRecording]                                             |**9.10**            |Get details of PSM </br>Recording
-[`Get-PASPSMSession`][Get-PASPSMSession]                                                 |**9.10**            |Get details of Live PSM </br>Sessions
-[`Resume-PASPSMSession`][Resume-PASPSMSession]                                           |**10.2**            |Resumes a Suspended PSM </br>Session.
-[`Stop-PASPSMSession`][Stop-PASPSMSession]                                               |**10.1**            |Terminates a Live PSM </br>Session.
-[`Suspend-PASPSMSession`][Suspend-PASPSMSession]                                         |**10.2**            |Suspends a Live PSM </br>Session.
-[`Get-PASOnboardingRule`][Get-PASOnboardingRule]                                         |**9.7**             |Gets all automatic </br>on-boarding rules
-[`New-PASOnboardingRule`][New-PASOnboardingRule]                                         |**9.7**             |Adds a new on-boarding </br>rule to the Vault
-[`Remove-PASOnboardingRule`][Remove-PASOnboardingRule]                                   |**9.7**             |Deletes an automatic </br>on-boarding rule
-[`Get-PASPlatform`][Get-PASPlatform]                                                     |**9.10**            |Retrieves details of a </br>specified platform from </br>the Vault.
+[`Get-PASPSMConnectionParameter`][Get-PASPSMConnectionParameter]                         |**9.10**            |Get required parameters to connect through PSM
+[`Get-PASPSMRecording`][Get-PASPSMRecording]                                             |**9.10**            |Get details of PSM Recording
+[`Get-PASPSMSession`][Get-PASPSMSession]                                                 |**9.10**            |Get details of Live PSM Sessions
+[`Resume-PASPSMSession`][Resume-PASPSMSession]                                           |**10.2**            |Resumes a Suspended PSM Session.
+[`Stop-PASPSMSession`][Stop-PASPSMSession]                                               |**10.1**            |Terminates a Live PSM Session.
+[`Suspend-PASPSMSession`][Suspend-PASPSMSession]                                         |**10.2**            |Suspends a Live PSM Session.
+[`Get-PASOnboardingRule`][Get-PASOnboardingRule]                                         |**9.7**             |Gets all automatic on-boarding rules
+[`New-PASOnboardingRule`][New-PASOnboardingRule]                                         |**9.7**             |Adds a new on-boarding rule to the Vault
+[`Remove-PASOnboardingRule`][Remove-PASOnboardingRule]                                   |**9.7**             |Deletes an automatic on-boarding rule
+[`Get-PASPlatform`][Get-PASPlatform]                                                     |**9.10**            |Retrieves details of a specified platform from the Vault.
 [`Import-PASPlatform`][Import-PASPlatform]                                               |**10.2**            |Import a new platform
 [`Export-PASPlatform`][Export-PASPlatform]                                               |**10.4**            |Export a  platform
-[`Add-PASPolicyACL`][Add-PASPolicyACL]                                                   |**9.0**             |Adds a new privileged </br>command rule
-[`Get-PASPolicyACL`][Get-PASPolicyACL]                                                   |**9.0**             |Lists OPM Rules for </br>a policy
-[`Remove-PASPolicyACL`][Remove-PASPolicyACL]                                             |**9.0**             |Delete all privileged </br>commands on policy
+[`Add-PASPolicyACL`][Add-PASPolicyACL]                                                   |**9.0**             |Adds a new privileged command rule
+[`Get-PASPolicyACL`][Get-PASPolicyACL]                                                   |**9.0**             |Lists OPM Rules for a policy
+[`Remove-PASPolicyACL`][Remove-PASPolicyACL]                                             |**9.0**             |Delete all privileged commands on policy
 [`Approve-PASRequest`][Approve-PASRequest]                                               |**9.10**            |Confirm a single request
 [`Deny-PASRequest`][Deny-PASRequest]                                                     |**9.10**            |Reject a single request
 [`Get-PASRequest`][Get-PASRequest]                                                       |**9.10**            |List requests
 [`Get-PASRequestDetail`][Get-PASRequestDetail]                                           |**9.10**            |Get request details
-[`New-PASRequest`][New-PASRequest]                                                       |**9.10**            |Creates an access request </br>for a specific account
-[`Remove-PASRequest`][Remove-PASRequest]                                                 |**9.10**            |Deletes a request from </br>the Vault
-[`Add-PASSafeMember`][Add-PASSafeMember]                                                 |**9.3**             |Adds a Safe Member to </br>a safe
-[`Get-PASSafeMember`][Get-PASSafeMember]                                                 |**9.7**             |Lists the members of a </br>Safe
-[`Remove-PASSafeMember`][Remove-PASSafeMember]                                           |**9.3**             |Removes a member from </br>a safe
-[`Set-PASSafeMember`][Set-PASSafeMember]                                                 |**9.3**             |Updates a Safe Member's </br>Permissions
-[`Add-PASSafe`][Add-PASSafe]                                                             |**9.2**             |Adds a new safe to the </br>Vault
-[`Get-PASSafe`][Get-PASSafe]                                                             |**9.7**             |Returns safe details </br>from the vault.
-[`Remove-PASSafe`][Remove-PASSafe]                                                       |**9.3**             |Deletes a safe from the </br>Vault
-[`Set-PASSafe`][Set-PASSafe]                                                             |**9.3**             |Updates a safe in the </br>Vault
-[`Get-PASSafeShareLogo`][Get-PASSafeShareLogo]                                           |**9.7**             |Returns details of </br>SafeShare Logo
-[`Get-PASServer`][Get-PASServer]                                                         |**9.7**             |Returns details of the </br>Web Service Server
-[`Get-PASServerWebService`][Get-PASServerWebService]                                     |**9.7**             |Returns details of </br>the Web Service
-[`Get-PASComponentDetail`][Get-PASComponentDetail]                                       |**10.1**            |Returns details & health </br>information about CyberArk </br>component instances.
-[`Get-PASComponentSummary`][Get-PASComponentSummary]                                     |**10.1**            |Returns consolidated </br>information about </br>CyberArk Components.
-[`Add-PASGroupMember`][Add-PASGroupMember]                                               |**9.7**             |Adds a vault user as </br>a group member
-[`Get-PASLoggedOnUser`][Get-PASLoggedOnUser]                                             |**9.7**             |Returns details of </br>the logged on user
-[`Get-PASUserLoginInfo`][Get-PASUserLoginInfo]                                           |**10.4**            |Returns login details of </br>the current user
+[`New-PASRequest`][New-PASRequest]                                                       |**9.10**            |Creates an access request for a specific account
+[`Remove-PASRequest`][Remove-PASRequest]                                                 |**9.10**            |Deletes a request from the Vault
+[`Add-PASSafeMember`][Add-PASSafeMember]                                                 |**9.3**             |Adds a Safe Member to a safe
+[`Get-PASSafeMember`][Get-PASSafeMember]                                                 |**9.7**             |Lists the members of a Safe
+[`Remove-PASSafeMember`][Remove-PASSafeMember]                                           |**9.3**             |Removes a member from a safe
+[`Set-PASSafeMember`][Set-PASSafeMember]                                                 |**9.3**             |Updates a Safe Member's Permissions
+[`Add-PASSafe`][Add-PASSafe]                                                             |**9.2**             |Adds a new safe to the Vault
+[`Get-PASSafe`][Get-PASSafe]                                                             |**9.7**             |Returns safe details from the vault.
+[`Remove-PASSafe`][Remove-PASSafe]                                                       |**9.3**             |Deletes a safe from the Vault
+[`Set-PASSafe`][Set-PASSafe]                                                             |**9.3**             |Updates a safe in the Vault
+[`Get-PASSafeShareLogo`][Get-PASSafeShareLogo]                                           |**9.7**             |Returns details of SafeShare Logo
+[`Get-PASServer`][Get-PASServer]                                                         |**9.7**             |Returns details of the Web Service Server
+[`Get-PASServerWebService`][Get-PASServerWebService]                                     |**9.7**             |Returns details of the Web Service
+[`Get-PASComponentDetail`][Get-PASComponentDetail]                                       |**10.1**            |Returns details & health information about </br>CyberArk component instances.
+[`Get-PASComponentSummary`][Get-PASComponentSummary]                                     |**10.1**            |Returns consolidated information about CyberArk Components.
+[`Add-PASGroupMember`][Add-PASGroupMember]                                               |**9.7**             |Adds a vault user as a group member
+[`Get-PASLoggedOnUser`][Get-PASLoggedOnUser]                                             |**9.7**             |Returns details of the logged on user
+[`Get-PASUserLoginInfo`][Get-PASUserLoginInfo]                                           |**10.4**            |Returns login details of the current user
 [`Get-PASUser`][Get-PASUser]                                                             |**9.7**             |Returns details of a user
 [`New-PASUser`][New-PASUser]                                                             |**9.7**             |Creates a new vault user
 [`Remove-PASUser`][Remove-PASUser]                                                       |**9.7**             |Deletes a vault user
 [`Set-PASUser`][Set-PASUser]                                                             |**9.7**             |Updates a vault user
 [`Unblock-PASUser`][Unblock-PASUser]                                                     |**9.7**             |Activates a suspended user
-[`Get-PASDirectory`][Get-PASDirectory]                                                   |**10.4**            |Get configured LDAP </br>directories
+[`Get-PASDirectory`][Get-PASDirectory]                                                   |**10.4**            |Get configured LDAP directories
 [`Add-PASDirectory`][Add-PASDirectory]                                                   |**10.4**            |Add a new LDAP directory
-[`Add-PASDirectoryMapping`][Add-PASDirectoryMapping]                                     |**10.4**            |Add a new LDAP directory </br>mapping
-[`Add-PASPTARule`][Add-PASPTARule]                                                       |**10.4**            |Add a new Risky Command</br>rule to PTA
-[`Get-PASPTAEvent`][Get-PASPTAEvent]                                                     |**10.3**            |Get security events</br>from PTA
-[`Get-PASPTARemediation`][Get-PASPTARemediation]                                         |**10.4**            |Get automatic response</br> config from PTA
-[`Get-PASPTARule`][Get-PASPTARule]                                                       |**10.4**            |List all new Risky </br>Command rules from PTA
-[`Set-PASPTARemediation`][Set-PASPTARemediation]                                         |**10.4**            |Update automatic</br>response config in PTA
-[`Set-PASPTARule`][Set-PASPTARule]                                                       |**10.4**            |Update a Risky Command</br>rule in PTA
+[`Add-PASDirectoryMapping`][Add-PASDirectoryMapping]                                     |**10.4**            |Add a new LDAP directory mapping
+[`Add-PASPTARule`][Add-PASPTARule]                                                       |**10.4**            |Add a new Risky Commandrule to PTA
+[`Get-PASPTAEvent`][Get-PASPTAEvent]                                                     |**10.3**            |Get security eventsfrom PTA
+[`Get-PASPTARemediation`][Get-PASPTARemediation]                                         |**10.4**            |Get automatic response config from PTA
+[`Get-PASPTARule`][Get-PASPTARule]                                                       |**10.4**            |List all new Risky Command rules from PTA
+[`Set-PASPTARemediation`][Set-PASPTARemediation]                                         |**10.4**            |Update automaticresponse config in PTA
+[`Set-PASPTARule`][Set-PASPTARule]                                                       |**10.4**            |Update a Risky Commandrule in PTA
 [`Get-PASGroup`][Get-PASGroup]                                                           |**10.5**            |Return vault group information
 [`Remove-PASGroupMember`][Remove-PASGroupMember]                                         |**10.5**            |Remove vault group members
 [`Set-PASOnboardingRule`][Set-PASOnboardingRule]                                         |**10.5**            |Update Onboarding Rules
-[`Add-PASDiscoveredAccount`][Add-PASDiscoveredAccount]                                   |**10.5**            |Add of discovered accounts</br>to the accounts feed
-[`Connect-PASPSMSession`][Connect-PASPSMSession]                                         |**10.5**            |Get required parameters to </br>connect to live PSM Sessions
-[`Get-PASPSMSessionActivity`][Get-PASPSMSessionActivity]                                 |**10.6**            |Get activity details from</br>an active PSM Session.
-[`Get-PASPSMSessionProperty`][Get-PASPSMSessionProperty]                                 |**10.6**            |Get property details from</br>an active PSM Session.
-[`Get-PASPSMRecordingActivity`][Get-PASPSMRecordingActivity]                             |**10.6**            |Get activity details from</br>a PSM Recording.
-[`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                             |**10.6**            |Get property details from</br>a PSM Recording.
-[`Export-PASPSMRecording`][Export-PASPSMRecording]                                       |**10.6**            |Save PSM Session Recording</br>to a file.
-[`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       |**10.6**            |Enable request of temporary</br>administrative access to a</br>server.
-[`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     |**10.7**            |Get details of configured</br>directory mappings.
-[`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configured</br>directory mapping.
+[`Add-PASDiscoveredAccount`][Add-PASDiscoveredAccount]                                   |**10.5**            |Add of discovered accountsto the accounts feed
+[`Connect-PASPSMSession`][Connect-PASPSMSession]                                         |**10.5**            |Get required parameters to connect to live PSM Sessions
+[`Get-PASPSMSessionActivity`][Get-PASPSMSessionActivity]                                 |**10.6**            |Get activity details froman active PSM Session.
+[`Get-PASPSMSessionProperty`][Get-PASPSMSessionProperty]                                 |**10.6**            |Get property details froman active PSM Session.
+[`Get-PASPSMRecordingActivity`][Get-PASPSMRecordingActivity]                             |**10.6**            |Get activity details froma PSM Recording.
+[`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                             |**10.6**            |Get property details froma PSM Recording.
+[`Export-PASPSMRecording`][Export-PASPSMRecording]                                       |**10.6**            |Save PSM Session Recordingto a file.
+[`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       |**10.6**            |Enable request of temporaryadministrative access to aserver.
+[`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     |**10.7**            |Get details of configureddirectory mappings.
+[`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configureddirectory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             |**10.7**            |Delete a directory configuration.
 [`Find-PASSafe`][Find-PASSafe]                                                           |**10.1**            |List or Search Safes by name.
 
