@@ -22,6 +22,16 @@ _2 years since first commit Anniversary Edition_
       - Functionality moved into `Close-PASSession`.
     - `Close-PASSharedSession`
       - Functionality moved into `Close-PASSession`.
+    - `Start-PASCredChange`
+      - Functionality moved into `Invoke-PASCPMOperation`.
+    - `Start-PASCredVerify`
+      - Functionality moved into `Invoke-PASCPMOperation`.
+    - `Invoke-PASCredChange`
+      - Functionality moved into `Invoke-PASCPMOperation`.
+    - `Invoke-PASCredVerify`
+      - Functionality moved into `Invoke-PASCPMOperation`.
+    - `Invoke-PASCredReconcile`
+      - Functionality moved into `Invoke-PASCPMOperation`.
   - Aliases Removed
     - `Get-PASApplications` - Removed old pluralised alias
     - `Get-PASApplicationAuthenticationMethods` - Removed old pluralised alias
@@ -30,6 +40,8 @@ _2 years since first commit Anniversary Edition_
 - New Functions
   - `Find-PASSafe` (Thanks (again) [steveredden](https://github.com/steveredden)!)
     - List or search safes by name
+  - `Invoke-PASCPMOperation`
+    - Invoke CPM Verify, Change & Reconcile via v10 or Classic API.
   - `Get-PASSession`
     - Return module scope variable values which are used to perform each request to the API.
   - `Use-PASSession`
