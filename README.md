@@ -257,9 +257,16 @@ createdTime               : 06/06/2019 23:37:02
 #Convert Password to SecureString
 $Password = ConvertTo-SecureString -String "Secret1337$" -AsPlainText -Force
 
-#Add Account with required details
-Add-PASAccount -secretType Password -secret $Password -platformAccountProperties @{"LOGONDOMAIN"="domain.com"} `
--SafeName "YourSafe" -PlatformID "YourPlatform" -Address "domain" -Username SomeUsername
+#Additional account details
+$platformAccountProperties = @{
+  "LOGONDOMAIN"="domain.com"
+  "Notes"="Demo Account. Owner:psPete"
+  "Classification"=1F
+}
+
+#Add Account
+Add-PASAccount -secretType Password -secret $Password -SafeName "YourSafe" -PlatformID "YourPlatform" `
+-Address "domain" -Username SomeUsername -platformAccountProperties $platformAccountProperties
 ````
 
 ##### Create Safes
