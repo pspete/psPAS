@@ -625,7 +625,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Close-PASSession`][Close-PASSession]                                                   |**9.0**             |Logoff from CyberArk Vault.
 [`Get-PASSession`][Get-PASSession]                                                       |**---**             |Get `psPAS` Session Data.
 [`Use-PASSession`][Use-PASSession]                                                       |**---**             |Set `psPAS` Session Data.
-[`Add-PASPublicSSHKey`][Add-PASPublicSSHKey]                                             |**9.6**             |Adds an authorised public SSH key for a </br>specific user in the Vault.
+[`Add-PASPublicSSHKey`][Add-PASPublicSSHKey]                                             |**9.6**             |Adds an authorised public SSH key for a specific user in the Vault.
 [`Get-PASPublicSSHKey`][Get-PASPublicSSHKey]                                             |**9.6**             |Retrieves a user's SSH Keys.
 [`Remove-PASPublicSSHKey`][Remove-PASPublicSSHKey]                                       |**9.6**             |Deletes a specific Public SSH Key from a specific vault user
 [`Add-PASAccountACL`][Add-PASAccountACL]                                                 |**9.0**             |Adds a new privileged command rule to an account.
@@ -637,11 +637,11 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`New-PASAccountGroup`][New-PASAccountGroup]                                             |**9.95**            |Adds a new account group to the Vault
 [`Remove-PASAccountGroupMember`][Remove-PASAccountGroupMember]                           |**9.10**            |Deletes a member of an account group
 [`Add-PASAccount`][Add-PASAccount]                                                       |**9.0**             |Adds a new privileged account to the Vault
-[`Add-PASPendingAccount`][Add-PASPendingAccount]                                         |**9.7**             |Adds discovered account or SSH key as </br>a pending account in the accounts feed.
+[`Add-PASPendingAccount`][Add-PASPendingAccount]                                         |**9.7**             |Adds discovered account or SSH key as a pending account in the accounts feed.
 [`Get-PASAccount`][Get-PASAccount]                                                       |**9.3**             |Returns information about accounts.
 [`Get-PASAccountActivity`][Get-PASAccountActivity]                                       |**9.7**             |Returns activities for an account.
 [`Get-PASAccountPassword`][Get-PASAccountPassword]                                       |**9.7**             |Returns password for an account.
-[`Invoke-PASCredChange`][Invoke-PASCredChange]                                           |**9.10**            |Initiate CPM password change to new random </br>or specified value.
+[`Invoke-PASCredChange`][Invoke-PASCredChange]                                           |**9.10**            |Initiate CPM password change to new random or specified value.
 [`Invoke-PASCredReconcile`][Invoke-PASCredReconcile]                                     |**9.10**            |Initiates password reconcile by the CPM.
 [`Invoke-PASCredVerify`][Invoke-PASCredVerify]                                           |**9.10**            |Marks account for immediate verification by the CPM.
 [`Remove-PASAccount`][Remove-PASAccount]                                                 |**9.3**             |Deletes an account
@@ -652,9 +652,9 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Add-PASApplication`][Add-PASApplication]                                               |**9.1**             |Adds a new application to the Vault
 [`Add-PASApplicationAuthenticationMethod`][Add-PASApplicationAuthenticationMethod]       |**9.1**             |Adds an authentication method to an application.
 [`Get-PASApplication`][Get-PASApplication]                                               |**9.1**             |Returns details of applications in the Vault
-[`Get-PASApplicationAuthenticationMethod`][Get-PASApplicationAuthenticationMethod]       |**9.1**             |Returns all of the authentication methods </br>of a specific application.
+[`Get-PASApplicationAuthenticationMethod`][Get-PASApplicationAuthenticationMethod]       |**9.1**             |Returns all of the authentication methods of a specific application.
 [`Remove-PASApplication`][Remove-PASApplication]                                         |**9.1**             |Deletes an application
-[`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**             |Deletes an authentication method </br>from an application
+[`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**             |Deletes an authentication method from an application
 [`Import-PASConnectionComponent`][Import-PASConnectionComponent]                         |**10.3**            |Imports a Connection Component
 [`Get-PASPSMConnectionParameter`][Get-PASPSMConnectionParameter]                         |**9.10**            |Get required parameters to connect through PSM
 [`Get-PASPSMRecording`][Get-PASPSMRecording]                                             |**9.10**            |Get details of PSM Recording
@@ -688,7 +688,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Get-PASSafeShareLogo`][Get-PASSafeShareLogo]                                           |**9.7**             |Returns details of SafeShare Logo
 [`Get-PASServer`][Get-PASServer]                                                         |**9.7**             |Returns details of the Web Service Server
 [`Get-PASServerWebService`][Get-PASServerWebService]                                     |**9.7**             |Returns details of the Web Service
-[`Get-PASComponentDetail`][Get-PASComponentDetail]                                       |**10.1**            |Returns details & health information about </br>CyberArk component instances.
+[`Get-PASComponentDetail`][Get-PASComponentDetail]                                       |**10.1**            |Returns details & health information about CyberArk component instances.
 [`Get-PASComponentSummary`][Get-PASComponentSummary]                                     |**10.1**            |Returns consolidated information about CyberArk Components.
 [`Add-PASGroupMember`][Add-PASGroupMember]                                               |**9.7**             |Adds a vault user as a group member
 [`Get-PASLoggedOnUser`][Get-PASLoggedOnUser]                                             |**9.7**             |Returns details of the logged on user
@@ -717,7 +717,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Get-PASPSMRecordingActivity`][Get-PASPSMRecordingActivity]                             |**10.6**            |Get activity details froma PSM Recording.
 [`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                             |**10.6**            |Get property details froma PSM Recording.
 [`Export-PASPSMRecording`][Export-PASPSMRecording]                                       |**10.6**            |Save PSM Session Recordingto a file.
-[`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       |**10.6**            |Enable request of temporaryadministrative access to aserver.
+[`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       |**10.6**            |Enable request of temporary administrative access to a server.
 [`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     |**10.7**            |Get details of configureddirectory mappings.
 [`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configureddirectory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             |**10.7**            |Delete a directory configuration.
