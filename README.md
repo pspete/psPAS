@@ -650,7 +650,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Get-PASApplication`][Get-PASApplication]                                               |**9.1**             |Returns details of applications
 [`Get-PASApplicationAuthenticationMethod`][Get-PASApplicationAuthenticationMethod]       |**9.1**             |Returns application authentication methods
 [`Remove-PASApplication`][Remove-PASApplication]                                         |**9.1**             |Deletes an application
-[`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**             |Deletes an authentication method from an application
+[`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**             |Delete auth method from an application
 [`Import-PASConnectionComponent`][Import-PASConnectionComponent]                         |**10.3**            |Imports a Connection Component
 [`Get-PASPSMConnectionParameter`][Get-PASPSMConnectionParameter]                         |**9.10**            |Get required parameters to connect through PSM
 [`Get-PASPSMRecording`][Get-PASPSMRecording]                                             |**9.10**            |Get details of PSM Recording
