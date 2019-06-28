@@ -650,9 +650,9 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Start-PASCredVerify`][Start-PASCredVerify]                                             |**9.7**             |Marks account for immediate verification by the CPM
 [`Unlock-PASAccount`][Unlock-PASAccount]                                                 |**9.10**            |Checks in an exclusive-use account.
 [`Add-PASApplication`][Add-PASApplication]                                               |**9.1**             |Adds a new application
-[`Add-PASApplicationAuthenticationMethod`][Add-PASApplicationAuthenticationMethod]       |**9.1**             |Adds an authentication method to an application.
+[`Add-PASApplicationAuthenticationMethod`][Add-PASApplicationAuthenticationMethod]       |**9.1**             |Add authentication method to an application
 [`Get-PASApplication`][Get-PASApplication]                                               |**9.1**             |Returns details of applications
-[`Get-PASApplicationAuthenticationMethod`][Get-PASApplicationAuthenticationMethod]       |**9.1**             |Returns authentication methods for an application.
+[`Get-PASApplicationAuthenticationMethod`][Get-PASApplicationAuthenticationMethod]       |**9.1**             |Returns application authentication methods
 [`Remove-PASApplication`][Remove-PASApplication]                                         |**9.1**             |Deletes an application
 [`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**             |Deletes an authentication method from an application
 [`Import-PASConnectionComponent`][Import-PASConnectionComponent]                         |**10.3**            |Imports a Connection Component
