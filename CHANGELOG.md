@@ -5,28 +5,22 @@
 _2 years since first commit Anniversary Edition_
 
 - Breaking Changes
-  - `BaseURI` - no longer needs to be passed to each function
-    - All functions except `New-PASSession` can not accept `BaseURI`.
-  - `WebSession` - no longer needs to be passed to each function
-    - Functions can now not accept `WebSession`.
-  - `PVWAAppName` - can no longer to be passed to each function
-    - All functions except `New-PASSession` can not accept `PVWAAppName`.
-  - `SessionToken` - no longer needs to be passed to each function
-    - No function can accept `SessionToken`.
-  - `ExternalVersion` - no longer needs to be passed to each function
-  - Default values no longer returned on pipeline
+  - Module Wide Parameter Changes
+    - `BaseURI`, `WebSession`, `PVWAAppName`, `SessionToken`, `ExternalVersion`
+      - no longer required parameters.
+      - `New-PASSession` still requires `BaseURI`, and will accept `PVWAAppName`
+    - `UseV9API` & `UseV10API` Parameters renamed to `UseClassicAPI`
+      - Where functions support operations against both Classic & V10 API, default behaviour is to use the V10 API.
+      - Specify the `UseClassicAPI` switch parameter to force usage of the Classic API Endpoint.
     - Values for `BaseURI`, `WebSession`, `PVWAAppName`, `SessionToken` & `ExternalVersion` are not returned from module functions in output.
-  - `UseV9API` & `UseV10API` Parameters renamed to `UseClassicAPI`
-    - Where functions support operations against both Classic & V10 API, default behaviour is to use the V10 API.
-    - Specify the `UseClassicAPI` switch parameter to force usage of the Classic API Endpoint.
   - Functions Removed
-    - `New-PASSAMLSession` Removed
+    - `New-PASSAMLSession`
       - Functionality moved into `New-PASSession`.
-    - `New-PASSharedSession` Removed
+    - `New-PASSharedSession`
       - Functionality moved into `New-PASSession`.
-    - `Close-PASSAMLSession` Removed
+    - `Close-PASSAMLSession`
       - Functionality moved into `Close-PASSession`.
-    - `Close-PASSharedSession` Removed
+    - `Close-PASSharedSession`
       - Functionality moved into `Close-PASSession`.
   - Aliases Removed
     - `Get-PASApplications` - Removed old pluralised alias
@@ -47,6 +41,8 @@ _2 years since first commit Anniversary Edition_
     - Added `OTP` Parameter
       - Allows One Time Passcode to be provided, which is then sent with the password value.
         - Tested with Duo RADIUS.
+    - Added SAML authentication option.
+    - Added Shared authentication option
     - Removed `$SecureMode` & `$AdditionalInfo` parameters.
 - Fixes
   - `New-PASUser`
