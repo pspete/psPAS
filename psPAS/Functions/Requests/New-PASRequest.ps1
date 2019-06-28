@@ -46,16 +46,9 @@ If the connection is through PSM, the name of the connection component to connec
 A list of parameters required to perform the connection, as defined in each connection component configuration
 
 .EXAMPLE
-New-PASRequest -AccountId $ID -Reason "Task ABC" -MultipleAccess $true -ConnectionComponent PSM-RDP -sessionToken $ST -BaseURI $url
+New-PASRequest -AccountId $ID -Reason "Task ABC" -MultipleAccess $true -ConnectionComponent PSM-RDP
 
 Creates a new request for access to account with ID in $ID
-
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum CyberArk Version 9.10
@@ -144,14 +137,14 @@ Minimum CyberArk Version 9.10
 		#Get all parameters that will be sent in the web request
 		#$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		if($PSBoundParameters.ContainsKey("FromDate")) {
+		if ($PSBoundParameters.ContainsKey("FromDate")) {
 
 			#convert to unix time
 			$PSBoundParameters["FromDate"] = Get-Date $FromDate -UFormat %s
 
 		}
 
-		if($PSBoundParameters.ContainsKey("ToDate")) {
+		if ($PSBoundParameters.ContainsKey("ToDate")) {
 
 			#convert to unix time
 			$PSBoundParameters["ToDate"] = Get-Date $ToDate -UFormat %s
@@ -160,21 +153,21 @@ Minimum CyberArk Version 9.10
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
-	if($PSCmdlet.ShouldProcess($AccountId, "Create Request for Account Access")) {
+		if ($PSCmdlet.ShouldProcess($AccountId, "Create Request for Account Access")) {
 
-		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+			#send request to PAS web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if($result) {
+			if ($result) {
 
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request
+				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request
 
-	}
+			}
 
-}
+		}
 
-}#process
+	}#process
 
-END { }#end
+	END { }#end
 
 }

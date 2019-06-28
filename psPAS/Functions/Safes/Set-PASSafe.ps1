@@ -45,14 +45,6 @@ Specify either this parameter or NumberOfVersionsRetention
 Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfVersionsRetention 10
 
 Updates description and version retention on SAFE
-
-.INPUTS
-SafeName, SessionToken, WebSession & BaseURI can be piped to the function by propertyname
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
 #>
 	[CmdletBinding(SupportsShouldProcess,
 		DefaultParameterSetName = "Update")]
@@ -73,7 +65,7 @@ To force all output to be shown, pipe to Select-Object *
 			ParameterSetName = "Versions"
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateScript( {$_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*"})]
+		[ValidateScript( { $_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*" })]
 		[ValidateLength(0, 28)]
 		[string]$SafeName,
 
@@ -82,7 +74,7 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateScript( {$_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*"})]
+		[ValidateScript( { $_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*" })]
 		[ValidateLength(0, 28)]
 		[string]$NewSafeName,
 
@@ -122,7 +114,7 @@ To force all output to be shown, pipe to Select-Object *
 		[int]$NumberOfDaysRetention
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -133,7 +125,7 @@ To force all output to be shown, pipe to Select-Object *
 
 		$BoundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName, NewSafeName
 
-		if($PSBoundParameters.ContainsKey("NewSafeName")) {
+		if ($PSBoundParameters.ContainsKey("NewSafeName")) {
 			$BoundParameters["SafeName"] = $PSBoundParameters["NewSafeName"]
 		}
 
@@ -143,12 +135,12 @@ To force all output to be shown, pipe to Select-Object *
 
 		} | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess($SafeName, "Update Safe Properties")) {
+		if ($PSCmdlet.ShouldProcess($SafeName, "Update Safe Properties")) {
 
 			#Send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-			if($result) {
+			if ($result) {
 
 				$result.UpdateSafeResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe
 
@@ -158,6 +150,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

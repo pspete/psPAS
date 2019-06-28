@@ -17,14 +17,6 @@ Suspension status
 Unblock-PASUser -UserName MrFatFingers -Suspended $false
 
 Activates suspended vault user MrFatFingers
-
-.INPUTS
-UserName, SessionToken, WebSession & BaseURI can be piped to the function by propertyname
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.User
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
 #>
 	[CmdletBinding()]
 	param(
@@ -42,7 +34,7 @@ To force all output to be shown, pipe to Select-Object *
 		[boolean]$Suspended
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -61,7 +53,7 @@ To force all output to be shown, pipe to Select-Object *
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User
 
@@ -69,6 +61,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

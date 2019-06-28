@@ -50,16 +50,9 @@ The expected parameters to be returned, either RDP or PSMGW.
 PSMGW is only available from version 10.2 onwards
 
 .EXAMPLE
-Get-PASPSMConnectionParameter -AccountID $ID -ConnectionComponent PSM-SSH -reason "Fix XYZ" -sessionToken $ST -BaseURI $url
+Get-PASPSMConnectionParameter -AccountID $ID -ConnectionComponent PSM-SSH -reason "Fix XYZ"
 
 Outputs RDP file contents for Direct Connection via PSM using account with ID in $ID
-
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum CyberArk Version 9.10

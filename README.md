@@ -641,13 +641,9 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Get-PASAccount`][Get-PASAccount]                                                       |**9.3**             |Returns information about accounts.
 [`Get-PASAccountActivity`][Get-PASAccountActivity]                                       |**9.7**             |Returns activities for an account.
 [`Get-PASAccountPassword`][Get-PASAccountPassword]                                       |**9.7**             |Returns password for an account.
-[`Invoke-PASCredChange`][Invoke-PASCredChange]                                           |**9.10**            |Initiate CPM password change to new random or specified value.
-[`Invoke-PASCredReconcile`][Invoke-PASCredReconcile]                                     |**9.10**            |Initiates password reconcile by the CPM.
-[`Invoke-PASCredVerify`][Invoke-PASCredVerify]                                           |**9.10**            |Marks account for immediate verification by the CPM.
 [`Remove-PASAccount`][Remove-PASAccount]                                                 |**9.3**             |Deletes an account
 [`Set-PASAccount`][Set-PASAccount]                                                       |**9.5**             |Updates details of an account.
-[`Start-PASCredChange`][Start-PASCredChange]                                             |**9.3**             |Initiates an immediate password change by the CPM.
-[`Start-PASCredVerify`][Start-PASCredVerify]                                             |**9.7**             |Marks account for immediate verification by the CPM
+[`Invoke-PASCPMOperation`][Invoke-PASCPMOperation]                                       |**9.7**             |Invoke CPM verify, change & reconcile tasks.
 [`Unlock-PASAccount`][Unlock-PASAccount]                                                 |**9.10**            |Checks in an exclusive-use account.
 [`Add-PASApplication`][Add-PASApplication]                                               |**9.1**             |Adds a new application
 [`Add-PASApplicationAuthenticationMethod`][Add-PASApplicationAuthenticationMethod]       |**9.1**             |Add authentication method to an application
@@ -743,13 +739,8 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Get-PASAccount]:/psPAS/Functions/Accounts/Get-PASAccount.ps1
 [Get-PASAccountActivity]:/psPAS/Functions/Accounts/Get-PASAccountActivity.ps1
 [Get-PASAccountPassword]:/psPAS/Functions/Accounts/Get-PASAccountPassword.ps1
-[Invoke-PASCredChange]:/psPAS/Functions/Accounts/Invoke-PASCredChange.ps1
-[Invoke-PASCredReconcile]:/psPAS/Functions/Accounts/Invoke-PASCredReconcile.ps1
-[Invoke-PASCredVerify]:/psPAS/Functions/Accounts/Invoke-PASCredVerify.ps1
 [Remove-PASAccount]:/psPAS/Functions/Accounts/Remove-PASAccount.ps1
 [Set-PASAccount]:/psPAS/Functions/Accounts/Set-PASAccount.ps1
-[Start-PASCredChange]:/psPAS/Functions/Accounts/Start-PASCredChange.ps1
-[Start-PASCredVerify]:/psPAS/Functions/Accounts/Start-PASCredVerify.ps1
 [Unlock-PASAccount]:/psPAS/Functions/Accounts/Unlock-PASAccount.ps1
 [Add-PASApplication]:/psPAS/Functions/Applications/Add-PASApplication.ps1
 [Add-PASApplicationAuthenticationMethod]:/psPAS/Functions/Applications/Add-PASApplicationAuthenticationMethod.ps1
@@ -824,6 +815,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Set-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Set-PASDirectoryMapping.ps1
 [Remove-PASDirectory]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectory.ps1
 [Find-PASSafe]:/psPAS/Functions/Safes/Find-PASSafe.ps1
+[Invoke-PASCPMOperation]:/psPAS/Functions/Accounts/Invoke-PASCPMOperation.ps1
 
 ## Installation
 

@@ -13,27 +13,8 @@ function Export-PASPlatform {
 	.PARAMETER Path
 	The output zip file to save the platform configuration in.
 
-	.PARAMETER sessionToken
-	Hashtable containing the session token returned from New-PASSession
-
-	.PARAMETER WebSession
-	WebRequestSession object returned from New-PASSession
-
-	.PARAMETER BaseURI
-	PVWA Web Address
-	Do not include "/PasswordVault/"
-
-	.PARAMETER PVWAAppName
-	The name of the CyberArk PVWA Virtual Directory.
-	Defaults to PasswordVault
-
-	.PARAMETER ExternalVersion
-	The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-	If the minimum version requirement of this function is not satisfied, execution will be halted.
-	Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
-
 	.EXAMPLE
-Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
+	Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 
 	Exports UnixSSH to Platform.zip platform package.
 
