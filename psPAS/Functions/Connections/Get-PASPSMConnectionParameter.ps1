@@ -4,10 +4,8 @@ function Get-PASPSMConnectionParameter {
 Get required parameters to connect through PSM
 
 .DESCRIPTION
-This method enables you to connect to an account through PSM (PSMConnect) using
-a connection method defined in the PVWA.
-The function returns the parameters to be used in an RDP file or with a Remote Desktop Manager, or if
-a PSMGW is configured, the HTML5 connection data and the required PSMGW URL.
+This method enables you to connect to an account through PSM (PSMConnect) using.
+The function returns either an RDP file or URL for PSM connections.
 It requires the PVWA and PSM to be configured for either transparent connections through PSM with RDP files
 or the HTML5 Gateway.
 
@@ -49,10 +47,13 @@ The expected parameters to be returned, either RDP or PSMGW.
 
 PSMGW is only available from version 10.2 onwards
 
+.PARAMETER Path
+The folder to save the output file in.
+
 .EXAMPLE
 Get-PASPSMConnectionParameter -AccountID $ID -ConnectionComponent PSM-SSH -reason "Fix XYZ"
 
-Outputs RDP file contents for Direct Connection via PSM using account with ID in $ID
+Outputs RDP file for Direct Connection via PSM using account with ID in $ID
 
 .NOTES
 Minimum CyberArk Version 9.10
@@ -175,7 +176,14 @@ Ad-Hoc connections require 10.5
 			ParameterSetName = "AdHocConnect"
 		)]
 		[ValidateSet("RDP", "PSMGW")]
-		[string]$ConnectionMethod
+		[string]$ConnectionMethod,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateScript( { Test-Path -Path $_ -PathType Container -IsValid })]
+		[string]$Path
 	)
 
 	BEGIN {
@@ -237,7 +245,7 @@ Ad-Hoc connections require 10.5
 			if ($PSBoundParameters["ConnectionMethod"] -eq "RDP") {
 
 				#RDP accept "application/json" response
-				$Accept = "application/json"
+				$Accept = "application/octet-stream"
 
 			} elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
 
@@ -258,8 +266,11 @@ Ad-Hoc connections require 10.5
 
 		If ($result) {
 
-			#Return PSM Connection Parameters
-			$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.PSM.Connection.RDP"
+			If (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains "PSMGWRequest") {
+
+				$result
+
+			} Else { Out-PASFile -InputObject $result -Path $Path }
 
 		}
 

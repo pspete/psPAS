@@ -50,6 +50,18 @@ function Get-PASResponse {
 			#handle content type
 			switch ($ContentType) {
 
+				'application/octet-stream' {
+
+					#'application/octet-stream' is expected for files returned in web requests
+					if ($($PASResponse | Get-Member | Select-Object -ExpandProperty typename) -eq "System.Byte" ) {
+
+						#return content and headers
+						$PASResponse = $APIResponse | Select-Object Content, Headers
+
+					}
+
+				}
+
 				'text/html; charset=utf-8' {
 
 					#text/html response is expected from the Password/Retrieve Uri path.
