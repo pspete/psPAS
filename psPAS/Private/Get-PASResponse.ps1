@@ -10,12 +10,12 @@ function Get-PASResponse {
 	the format required by the functions which initiated the request.
 
 	.PARAMETER APIResponse
-	A WebResponseObject, as returned form the PAS API using Invoke-WebRequest
+	A WebResponseObject, as returned from the PAS API using Invoke-WebRequest
 
 	.EXAMPLE
 	$WebResponseObject | Get-PASResponse
 
-	Parses, if required, and returns, the content property of $WebResponseObject
+	Parses, if required, and returns, the required properties of $WebResponseObject
 
 	#>
 	[CmdletBinding()]
@@ -30,12 +30,7 @@ function Get-PASResponse {
 
 	)
 
-	BEGIN {
-
-		#Get the name of the first function in the invocation stack
-		$CommandOrigin = Get-ParentFunction -Scope 3 | Select-Object -ExpandProperty FunctionName
-
-	}#begin
+	BEGIN {	}#begin
 
 	PROCESS {
 
@@ -49,30 +44,6 @@ function Get-PASResponse {
 
 			#handle content type
 			switch ($ContentType) {
-
-				'application/octet-stream' {
-
-					#'application/octet-stream' is expected for files returned in web requests
-					if ($($PASResponse | Get-Member | Select-Object -ExpandProperty typename) -eq "System.Byte" ) {
-
-						#return content and headers
-						$PASResponse = $APIResponse | Select-Object Content, Headers
-
-					}
-
-				}
-
-				'application/save' {
-
-					#'application/save' is expected for PSM recordings returned in web requests
-					if ($($PASResponse | Get-Member | Select-Object -ExpandProperty typename) -eq "System.Byte" ) {
-
-						#return content and headers
-						$PASResponse = $APIResponse | Select-Object Content, Headers
-
-					}
-
-				}
 
 				'text/html; charset=utf-8' {
 
@@ -110,40 +81,17 @@ function Get-PASResponse {
 					#Create Return Object from Returned JSON
 					$PASResponse = ConvertFrom-Json -InputObject $APIResponse.Content
 
-					#Handle Logon Token Return
-					If ($CommandOrigin -eq "New-PASSession") {
+				}
 
-						#Classic API returns the auth token in the CyberArkLogonResult property
-						#Other auth methods/endpoints need further processing to assign the auth
-						#token to a property named CyberArkLogonResult.
+				default {
 
-						#Version 10
-						If ($PASResponse.length -eq 180) {
+					# Byte Array expected for files to be saved
+					if ($($PASResponse | Get-Member | Select-Object -ExpandProperty typename) -eq "System.Byte" ) {
 
-							#If calling function is New-PASSession, and result is a 180 character string
-							#Create a new object and assign the token to the CyberArkLogonResult property.
-							$PASResponse = [PSCustomObject]@{
+						#return content and headers
+						$PASResponse = $APIResponse | Select-Object Content, Headers
 
-								CyberArkLogonResult = $PASResponse
-
-							}
-
-						}
-
-						#Shared Auth
-						If ($PASResponse.LogonResult) {
-
-							#If calling function is New-PASSession, and result has a LogonResult property.
-							#Create a new object and assign the LogonResult value to the CyberArkLogonResult property.
-							$PASResponse = [PSCustomObject]@{
-
-								CyberArkLogonResult = $PASResponse.LogonResult
-
-							}
-
-						}
-
-						#?SAML Auth?
+						#! to be passed to `Out-PASFile`
 
 					}
 

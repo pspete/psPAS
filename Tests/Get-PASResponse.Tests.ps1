@@ -99,51 +99,6 @@ Describe $FunctionName {
 
 		}
 
-		Context New-PASSession {
-
-			BeforeEach {
-
-				Mock Get-ParentFunction -MockWith {
-
-					[PSCustomObject]@{
-						FunctionName = "New-PASSession"
-					}
-
-				}
-
-				$RandomString = "ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7"
-
-				$ClassicToken = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
-				$ClassicToken | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$ClassicToken | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/json; charset=utf-8' } -Force
-				$ClassicToken | Add-Member -MemberType NoteProperty -Name Content -Value $([PSCustomObject]@{CyberArkLogonResult = $RandomString } | ConvertTo-Json) -Force
-
-				$V10Token = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
-				$V10Token | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$V10Token | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/json; charset=utf-8' } -Force
-				$V10Token | Add-Member -MemberType NoteProperty -Name Content -Value $($RandomString | ConvertTo-Json) -Force
-
-				$SharedToken = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
-				$SharedToken | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$SharedToken | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/json; charset=utf-8' } -Force
-				$SharedToken | Add-Member -MemberType NoteProperty -Name Content -Value $([PSCustomObject]@{LogonResult = $RandomString } | ConvertTo-Json) -Force
-
-			}
-
-			It "returns expected Classic API Logon Token" {
-				Get-PASResponse -APIResponse $ClassicToken | Select-Object -ExpandProperty CyberArkLogonResult | Should Be $RandomString
-			}
-
-			It "returns expected V10 API Logon Token" {
-				Get-PASResponse -APIResponse $V10Token | Select-Object -ExpandProperty CyberArkLogonResult | Should Be $RandomString
-			}
-
-			It "returns expected Shared Authentication Logon Token" {
-				Get-PASResponse -APIResponse $SharedToken | Select-Object -ExpandProperty CyberArkLogonResult | Should Be $RandomString
-			}
-
-		}
-
 	}
 
 }
