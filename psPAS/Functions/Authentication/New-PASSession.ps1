@@ -376,9 +376,41 @@
 			#If Logon Result
 			If ($PASSession) {
 
+				#Version 10
+				If ($PASSession.length -eq 180) {
+
+					#V10 Auth Token.
+
+					$CyberArkLogonResult = $PASSession
+
+				}
+
+				#Shared Auth
+				ElseIf ($PASSession.LogonResult) {
+
+					#Shared Auth LogonResult.
+
+					$CyberArkLogonResult = $PASSession.LogonResult
+
+
+				}
+
+				#Classic
+				Else {
+
+					#Classic CyberArkLogonResult
+
+					$CyberArkLogonResult = $PASSession.CyberArkLogonResult
+
+				}
+
+				#?SAML Auth?
+
+				#BaseURI set in Module Scope
 				Set-Variable -Name BaseURI -Value "$BaseURI/$PVWAAppName" -Scope Script
 
-				$Script:WebSession.Headers["Authorization"] = [string]$($PASSession.CyberArkLogonResult)
+				#Auth token added to WebSession
+				$Script:WebSession.Headers["Authorization"] = [string]$CyberArkLogonResult
 
 				#Initial Value for Version variable
 				[System.Version]$Version = "0.0"
@@ -395,6 +427,7 @@
 
 				}
 
+				#Version information available in module scope.
 				Set-Variable -Name ExternalVersion -Value $Version -Scope Script
 
 			}
