@@ -45,17 +45,6 @@
 					}
 				</Script>
 			</ScriptMethod>
-			<ScriptMethod>
-				<Name>CopyToSafe</Name>
-				<Script> Param([string]$safe=$(throw "Destination Safe Must Be Specified."))
-
-					$this | Add-PASAccount -Safe $safe -password $($this.GetPassword()).ToSecureString()
-
-					$that = $this | Get-PASAccount -Keywords $this.UserName -Safe $safe
-
-					$this | Set-PASAccount -AccountID $that.AccountID
-				</Script>
-			</ScriptMethod>
 		</Members>
 	</Type>
 </Types>

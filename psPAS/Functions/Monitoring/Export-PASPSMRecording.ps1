@@ -1,30 +1,25 @@
 function Export-PASPSMRecording {
 	<#
-.SYNOPSIS
-Saves a PSM Recording
+	.SYNOPSIS
+	Saves a PSM Recording
 
-.DESCRIPTION
-Saves a specific recorded session to a file
+	.DESCRIPTION
+	Saves a specific recorded session to a file
 
-.PARAMETER RecordingID
-Unique ID of the recorded PSM session
+	.PARAMETER RecordingID
+	Unique ID of the recorded PSM session
 
-.PARAMETER Path
-The output file path for the recording.
+	.PARAMETER Path
+	The folder to export the PSM recording to.
 
-.EXAMPLE
-Export-PASPSMRecording -RecordingID 123_45 -path C:\PSMRecording.avi
+	.EXAMPLE
+	Export-PASPSMRecording -RecordingID 123_45 -path C:\PSMRecording.avi
 
-Saves PSM Recording with Id 123_45 to C:\PSMRecording.avi
+	Saves PSM Recording with Id 123_45 to C:\PSMRecording.avi
 
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-
-.NOTES
-Minimum CyberArk Version 10.6
-#>
+	.NOTES
+	Minimum CyberArk Version 10.6
+	#>
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -38,7 +33,7 @@ Minimum CyberArk Version 10.6
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateScript( { Test-Path -Path $_ -PathType Leaf -IsValid})]
+		[ValidateScript( { Test-Path -Path $_ -IsValid })]
 		[string]$path
 	)
 
@@ -56,34 +51,15 @@ Minimum CyberArk Version 10.6
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
-		#if we get a platform byte array
-		if($result) {
+		#if we get a byte array
+		if ($result) {
 
-			try {
-
-				$output = @{
-					Path     = $path
-					Value    = $result
-					Encoding = "Byte"
-				}
-
-				If($IsCoreCLR) {
-
-					#amend parameters for splatting if we are in Core
-					$output.Add("AsByteStream", $true)
-					$output.Remove("Encoding")
-
-				}
-
-				#write it to a file
-				Set-Content @output -ErrorAction Stop
-
-			} catch {throw "Error Saving $path"}
+			Out-PASFile -InputObject $result -Path $path
 
 		}
 
 	} #process
 
-	END {}#end
+	END { }#end
 
 }

@@ -44,6 +44,8 @@ Describe $FunctionName {
 
 		}
 
+		Mock Out-PASFile -MockWith { }
+
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'PlatformID' },
@@ -65,14 +67,6 @@ Describe $FunctionName {
 
 			It "throws if path is invalid" {
 				{ Export-PASPlatform -PlatformID SomePlatform -path A:\test.txt } | Should throw
-			}
-
-			It "throws if InputFile resolves to a folder" {
-				{ Export-PASPlatform -PlatformID SomePlatform -path $pwd } | Should throw
-			}
-
-			It "throws if InputFile does not have a zip extention" {
-				{ Export-PASPlatform -PlatformID SomePlatform -path README.MD } | Should throw
 			}
 
 			It "sends request" {
@@ -98,28 +92,10 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"  } | Should Throw
-$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = "1.0"
+				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
-
-
-		}
-
-		Context "Output" {
-
-			it "saves output file" {
-
-				Test-Path "$env:Temp\testExport.zip" | should Be $true
-
-			}
-
-			it "reports error saving outputfile" {
-				Mock Set-Content -MockWith { throw something }
-				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" } | should throw "Error Saving $env:Temp\testExport.zip"
-			}
-
-
 
 		}
 

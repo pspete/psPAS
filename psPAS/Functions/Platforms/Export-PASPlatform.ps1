@@ -11,7 +11,7 @@ function Export-PASPlatform {
 	The name of the platform.
 
 	.PARAMETER Path
-	The output zip file to save the platform configuration in.
+	The folder to export the platform configuration to.
 
 	.EXAMPLE
 	Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
@@ -34,9 +34,7 @@ function Export-PASPlatform {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateNotNullOrEmpty()]
-		[ValidateScript( { Test-Path -Path $_ -PathType Leaf -IsValid })]
-		[ValidatePattern( '\.zip$' )]
+		[ValidateScript( { Test-Path -Path $_ -IsValid })]
 		[string]$path
 	)
 
@@ -59,26 +57,7 @@ function Export-PASPlatform {
 			#if we get a platform byte array
 			if ($result) {
 
-				try {
-
-					$output = @{
-						Path     = $path
-						Value    = $result
-						Encoding = "Byte"
-					}
-
-					If ($IsCoreCLR) {
-
-						#amend parameters for splatting if we are in Core
-						$output.Add("AsByteStream", $true)
-						$output.Remove("Encoding")
-
-					}
-
-					#write it to a file
-					Set-Content @output -ErrorAction Stop
-
-				} catch { throw "Error Saving $path" }
+				Out-PASFile -InputObject $result -Path $path
 
 			}
 

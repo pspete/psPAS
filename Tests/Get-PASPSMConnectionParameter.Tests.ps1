@@ -76,6 +76,12 @@ Describe $FunctionName {
 				$Script:BaseURI = "https://SomeURL/SomeApp"
 				$Script:ExternalVersion = "0.0"
 				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+				Mock Out-PASFile -MockWith { }
+			}
+
+			It "throws if path is invalid" {
+				{ $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP -path A:\test.txt } | Should throw
 			}
 
 			It "sends request" {
@@ -134,7 +140,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$WebSession.Headers["Accept"] -eq 'application/json' } -Times 1 -Exactly -Scope It
+					$WebSession.Headers["Accept"] -eq 'application/octet-stream' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -182,9 +188,10 @@ Describe $FunctionName {
 
 		Context "Output" {
 
+
 			BeforeEach {
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
+					[PSCustomObject]@{"PSMGWRequest" = "VAL1"; "PSMGWURL" = "Val2"; "Prop3" = "Val3" }
 				}
 
 				$InputObj = [pscustomobject]@{
@@ -194,39 +201,16 @@ Describe $FunctionName {
 
 				}
 
-				$AdHocObj = [pscustomobject]@{
-					"ConnectionComponent" = "SomeConnectionComponent"
-					"UserName"            = "SomeUser"
-					"secret"              = "SomeSecret" | ConvertTo-SecureString -AsPlainText -Force
-					"address"             = "Some.Address"
-					"platformID"          = "SomePlatform"
-
-				}
-
 				$Script:BaseURI = "https://SomeURL/SomeApp"
 				$Script:ExternalVersion = "0.0"
 				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+				Mock Out-PASFile -MockWith { }
 			}
 
-			it "provides output" {
-
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP | Should not BeNullOrEmpty
-
+			It "outputs PSMGW connection information" {
+				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW | Should -Not -Be Null
 			}
-
-			It "has output with expected number of properties" {
-
-				($InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP | Get-Member -MemberType NoteProperty).length | Should Be 3
-
-			}
-
-			it "outputs object with expected typename" {
-
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.PSM.Connection.RDP
-
-			}
-
-
 
 		}
 

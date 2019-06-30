@@ -533,6 +533,23 @@ secretManagement : @{automaticManagementEnabled=True; lastModifiedTime=155986422
 createdTime      : 06/06/2019 23:37:02
 ````
 
+#### Using Methods
+
+Methods present on objects returned from psPAS functions can be leveraged to get the data you need with ease.
+
+- The `psPAS.CyberArk.Vault.Safe` object returned by `Get-PASSafe` has a ScriptMethod (`SafeMembers()`), which will run a query for the members of the safe:
+
+```powershell
+#List all safes where AppUser is not a member
+Get-PASSafe | Where-Object{ ($_.safemembers() | Select-Object -ExpandProperty UserName) -notcontains "AppUser"}
+```
+
+- Retrieved credentials can be immediately converted into Secure Strings:
+
+```powershell
+(Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToSecureString()
+```
+
 #### API Sessions
 
 - If actions are required to be performed under the context of different user accounts, it is possible to work with different authenticated sessions:

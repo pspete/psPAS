@@ -64,12 +64,12 @@ Describe $FunctionName {
 
 				$ApplicationSave = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$ApplicationSave | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/save' } -Force
+				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/save' ; "Content-Disposition" = "attachment; filename=FILENAME.zip" } -Force
 				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes("Expected")) -Force
 
 				$OctetStream = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$OctetStream | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$OctetStream | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/octet-stream' } -Force
+				$OctetStream | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/octet-stream' ; "Content-Disposition" = "attachment; filename=FILENAME.zip" } -Force
 				$OctetStream | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes("Expected")) -Force
 
 			}
@@ -89,57 +89,12 @@ Describe $FunctionName {
 
 			It "returns expected application-save value" {
 				$result = Get-PASResponse -APIResponse $ApplicationSave
-				$([System.Text.Encoding]::ASCII.GetString($result)) | Should Be "Expected"
+				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should Be "Expected"
 			}
 
 			It "returns expected octet-stream value" {
 				$result = Get-PASResponse -APIResponse $OctetStream
-				$([System.Text.Encoding]::ASCII.GetString($result)) | Should Be "Expected"
-			}
-
-		}
-
-		Context New-PASSession {
-
-			BeforeEach {
-
-				Mock Get-ParentFunction -MockWith {
-
-					[PSCustomObject]@{
-						FunctionName = "New-PASSession"
-					}
-
-				}
-
-				$RandomString = "ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7"
-
-				$ClassicToken = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
-				$ClassicToken | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$ClassicToken | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/json; charset=utf-8' } -Force
-				$ClassicToken | Add-Member -MemberType NoteProperty -Name Content -Value $([PSCustomObject]@{CyberArkLogonResult = $RandomString } | ConvertTo-Json) -Force
-
-				$V10Token = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
-				$V10Token | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$V10Token | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/json; charset=utf-8' } -Force
-				$V10Token | Add-Member -MemberType NoteProperty -Name Content -Value $($RandomString | ConvertTo-Json) -Force
-
-				$SharedToken = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
-				$SharedToken | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$SharedToken | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/json; charset=utf-8' } -Force
-				$SharedToken | Add-Member -MemberType NoteProperty -Name Content -Value $([PSCustomObject]@{LogonResult = $RandomString } | ConvertTo-Json) -Force
-
-			}
-
-			It "returns expected Classic API Logon Token" {
-				Get-PASResponse -APIResponse $ClassicToken | Select-Object -ExpandProperty CyberArkLogonResult | Should Be $RandomString
-			}
-
-			It "returns expected V10 API Logon Token" {
-				Get-PASResponse -APIResponse $V10Token | Select-Object -ExpandProperty CyberArkLogonResult | Should Be $RandomString
-			}
-
-			It "returns expected Shared Authentication Logon Token" {
-				Get-PASResponse -APIResponse $SharedToken | Select-Object -ExpandProperty CyberArkLogonResult | Should Be $RandomString
+				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should Be "Expected"
 			}
 
 		}
