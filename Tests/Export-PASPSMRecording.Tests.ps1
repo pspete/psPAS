@@ -57,7 +57,28 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith { }
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						Content = New-Object Byte[] 512
+						Headers = @{"Content-Disposition" = "attachment; filename=FILENAME.zip" }
+					}
+				}
+
+				$InputObj = [pscustomobject]@{
+					"RecordingID" = "SomeID"
+					"path"        = "$env:Temp"
+
+				}
+
+				Mock Out-PASFile -MockWith { }
+
+			}
+
+			It "throws if path is invalid" {
+				{ $InputObj | Export-PASPSMRecording -PlatformID SomePlatform -path A:\test.avi } | Should throw
+			}
+
+			It "throws if InputFile resolves to a file" {
 
 				$InputObj = [pscustomobject]@{
 					"RecordingID" = "SomeID"
@@ -65,14 +86,7 @@ Describe $FunctionName {
 
 				}
 
-			}
-
-			It "throws if path is invalid" {
-				{ $InputObj | Export-PASPlatform -PlatformID SomePlatform -path A:\test.avi } | Should throw
-			}
-
-			It "throws if InputFile resolves to a folder" {
-				{ $InputObj | Export-PASPlatform -PlatformID SomePlatform -path $pwd } | Should throw
+				{ $InputObj | Export-PASPSMRecording -PlatformID SomePlatform -path $pwd } | Should throw
 			}
 
 			It "sends request" {
@@ -109,38 +123,6 @@ Describe $FunctionName {
 				{ $InputObj | Export-PASPSMRecording } | Should throw
 				$Script:ExternalVersion = "0.0"
 			}
-
-		}
-
-		Context "Output" {
-
-			BeforeEach {
-
-				Mock Invoke-PASRestMethod -MockWith {
-
-					New-Object Byte[] 512
-
-				}
-
-				$InputObj = [pscustomobject]@{
-					"RecordingID" = "SomeID"
-					"path"        = "$env:Temp\test.avi"
-				}
-
-			}
-
-			it "saves output file" {
-				$InputObj | Export-PASPSMRecording
-				Test-Path "$env:Temp\test.avi" | should Be $true
-
-			}
-
-			it "reports error saving outputfile" {
-				Mock Set-Content -MockWith { throw something }
-				{ $InputObj | Export-PASPSMRecording } | should throw "Error Saving $env:Temp\test.avi"
-			}
-
-
 
 		}
 

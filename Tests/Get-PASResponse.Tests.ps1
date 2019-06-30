@@ -64,12 +64,12 @@ Describe $FunctionName {
 
 				$ApplicationSave = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$ApplicationSave | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/save' } -Force
+				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/save' ; "Content-Disposition" = "attachment; filename=FILENAME.zip" } -Force
 				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes("Expected")) -Force
 
 				$OctetStream = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$OctetStream | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$OctetStream | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/octet-stream' } -Force
+				$OctetStream | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/octet-stream' ; "Content-Disposition" = "attachment; filename=FILENAME.zip" } -Force
 				$OctetStream | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes("Expected")) -Force
 
 			}
@@ -89,12 +89,12 @@ Describe $FunctionName {
 
 			It "returns expected application-save value" {
 				$result = Get-PASResponse -APIResponse $ApplicationSave
-				$([System.Text.Encoding]::ASCII.GetString($result)) | Should Be "Expected"
+				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should Be "Expected"
 			}
 
 			It "returns expected octet-stream value" {
 				$result = Get-PASResponse -APIResponse $OctetStream
-				$([System.Text.Encoding]::ASCII.GetString($result)) | Should Be "Expected"
+				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should Be "Expected"
 			}
 
 		}

@@ -10,7 +10,7 @@ Saves a specific recorded session to a file
 Unique ID of the recorded PSM session
 
 .PARAMETER Path
-The output file path for the recording.
+The folder to export the platform configuration to.
 
 .EXAMPLE
 Export-PASPSMRecording -RecordingID 123_45 -path C:\PSMRecording.avi
@@ -38,7 +38,7 @@ Minimum CyberArk Version 10.6
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateScript( { Test-Path -Path $_ -PathType Leaf -IsValid})]
+		[ValidateScript( { Test-Path -Path $_ -PathType Container -IsValid })]
 		[string]$path
 	)
 
@@ -56,34 +56,15 @@ Minimum CyberArk Version 10.6
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
-		#if we get a platform byte array
-		if($result) {
+		#if we get a byte array
+		if ($result) {
 
-			try {
-
-				$output = @{
-					Path     = $path
-					Value    = $result
-					Encoding = "Byte"
-				}
-
-				If($IsCoreCLR) {
-
-					#amend parameters for splatting if we are in Core
-					$output.Add("AsByteStream", $true)
-					$output.Remove("Encoding")
-
-				}
-
-				#write it to a file
-				Set-Content @output -ErrorAction Stop
-
-			} catch {throw "Error Saving $path"}
+			Out-PASFile -InputObject $result -Path $path
 
 		}
 
 	} #process
 
-	END {}#end
+	END { }#end
 
 }

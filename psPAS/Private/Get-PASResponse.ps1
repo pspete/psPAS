@@ -62,6 +62,18 @@ function Get-PASResponse {
 
 				}
 
+				'application/save' {
+
+					#'application/save' is expected for PSM recordings returned in web requests
+					if ($($PASResponse | Get-Member | Select-Object -ExpandProperty typename) -eq "System.Byte" ) {
+
+						#return content and headers
+						$PASResponse = $APIResponse | Select-Object Content, Headers
+
+					}
+
+				}
+
 				'text/html; charset=utf-8' {
 
 					#text/html response is expected from the Password/Retrieve Uri path.
