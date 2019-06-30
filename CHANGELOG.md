@@ -1,6 +1,6 @@
 # psPAS
 
-## **3.0.0** (June 30th 2019)
+## **3.0.0** (July 1st 2019)
 
 _2 years since first commit Anniversary Edition_
 
