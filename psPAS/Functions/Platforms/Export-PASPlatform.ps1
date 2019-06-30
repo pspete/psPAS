@@ -34,7 +34,7 @@ function Export-PASPlatform {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( { Test-Path -Path $_ -PathType Container -IsValid })]
+		[ValidateScript( { Test-Path -Path $_ -IsValid })]
 		[string]$path
 	)
 
