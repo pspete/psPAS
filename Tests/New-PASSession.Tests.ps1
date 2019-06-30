@@ -163,6 +163,15 @@ Describe $FunctionName {
 
 			It "sends request to expected v10 URL for CyberArk Authentication" {
 
+				$RandomString = "ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7"
+
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+					$RandomString
+
+				}
+
 				$Credentials | New-PASSession -BaseURI "https://P_URI" -type CyberArk
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -241,6 +250,12 @@ Describe $FunctionName {
 			}
 
 			It "sends request to expected URL for Shared Authentication" {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						"LogonResult" = "AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN"
+					}
+				}
 
 				New-PASSession -BaseURI "https://P_URI" -UseSharedAuthentication
 
