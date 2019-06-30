@@ -182,7 +182,7 @@ Ad-Hoc connections require 10.5
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( { Test-Path -Path $_ -PathType Container -IsValid })]
+		[ValidateScript( { Test-Path -Path $_ -IsValid })]
 		[string]$Path
 	)
 
@@ -268,9 +268,15 @@ Ad-Hoc connections require 10.5
 
 			If (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains "PSMGWRequest") {
 
+				#Return PSM GW URL Details
 				$result
 
-			} Else { Out-PASFile -InputObject $result -Path $Path }
+			} Else {
+
+				#Save the RDP file to disk
+				Out-PASFile -InputObject $result -Path $Path
+
+			}
 
 		}
 
