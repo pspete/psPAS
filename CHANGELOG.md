@@ -56,6 +56,16 @@ _2 years since first commit Anniversary Edition_
     - Added SAML authentication option.
     - Added Shared authentication option
     - Removed `$SecureMode` & `$AdditionalInfo` parameters.
+  -`Get-PASPSMConnectionParameter`
+    - Now saves an RDP file returned from an API request.
+    - `path` parameter now expects a folder to save the file to.
+    - Output file is named automatically
+  - `Export-PASPlatform`
+    - `path` parameter now expects a folder to save the file to.
+    - Output file is named automatically
+  - `Export-PASPSMRecording`
+    - `path` parameter now expects a folder to save the file to.
+    - Output file is named automatically
 - Fixes
   - `New-PASUser`
     - Added `ChangePassOnNextLogon` parameter for working with latest API method
