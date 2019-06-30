@@ -37,15 +37,15 @@ function Out-PASFile {
 
 	Process {
 
-		#Get filename from Content-Disposition Header element.
-		$FileName = ($InputObject.Headers["Content-Disposition"] -split "filename=")[1] -replace '"'
-
 		If (-not ($Path)) {
 
 			#Default to TEMP if path not provided
 			$Path = [Environment]::GetEnvironmentVariable("Temp")
 
 		}
+
+		#Get filename from Content-Disposition Header element.
+		$FileName = ($InputObject.Headers["Content-Disposition"] -split "filename=")[1] -replace '"'
 
 		#Define output path
 		$OutputPath = Join-Path $Path $FileName
@@ -75,7 +75,22 @@ function Out-PASFile {
 				#return file object
 				Get-Item -Path $OutputPath
 
-			} catch { throw "Error Saving $OutputPath" }
+			} catch {
+
+				#throw the error
+				$PSCmdlet.ThrowTerminatingError(
+
+					[System.Management.Automation.ErrorRecord]::new(
+
+						"Error Saving $OutputPath",
+						$null,
+						[System.Management.Automation.ErrorCategory]::NotSpecified,
+						$PSItem
+
+					)
+
+				)
+			}
 
 		}
 
