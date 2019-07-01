@@ -371,6 +371,25 @@ ACC-G-3_TestSafe_049_JXW-Adm 3_TestSafe_049_JXW {ListContent, RestrictedRetrieve
 #Add all "admin" users in the root location to the PVWAMonitor group
 Get-PASUser -UserType EPVUser -Search Admin | Where-Object{ $_.location -eq "\" } |
 Add-PASGroupMember -GroupName PVWAMonitor
+
+#Find an account, then find the members of the account's safe.
+Get-PASAccount -id 330_5 | Get-PASSafe | Get-PASSafeMember
+
+UserName             SafeName    Permissions
+--------             --------    -----------
+Master               ApproveTest {Add, AddRenameFolder, BackupSafe, Delete...}
+Batch                ApproveTest {Add, AddRenameFolder, BackupSafe, Delete...}
+Backup Users         ApproveTest BackupSafe
+Auditors             ApproveTest {ListContent, ViewAudit, ViewMembers}
+Operators            ApproveTest {AddRenameFolder, DeleteFolder, ManageSafe, MoveFilesAndFolders...}
+DR Users             ApproveTest BackupSafe
+Notification Engines ApproveTest {ListContent, ViewAudit, ViewMembers}
+PVWAGWAccounts       ApproveTest {ListContent, ViewAudit, ViewMembers}
+PasswordManager      ApproveTest {Add, AddRenameFolder, Delete, DeleteFolder...}
+SafeAdmin            ApproveTest {Add, AddRenameFolder, BackupSafe, Delete...}
+SafeAdmin1           ApproveTest {Add, AddRenameFolder, BackupSafe, Delete...}
+zApprover_1          ApproveTest {ListContent, ViewAudit, ViewMembers}
+xReq                 ApproveTest {ListContent, RestrictedRetrieve, Retrieve, ViewAudit...}
 ````
 
 ### Advanced Examples
