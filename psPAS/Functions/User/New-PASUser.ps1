@@ -558,7 +558,6 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "legacy"
 		)]
-		[Alias("UseV9API")]
 		[switch]$UseClassicAPI
 	)
 

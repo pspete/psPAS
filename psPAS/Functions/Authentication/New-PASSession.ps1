@@ -159,7 +159,6 @@
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v9"
 		)]
-		[Alias("UseV9API")]
 		[switch]$UseClassicAPI,
 
 		[Parameter(
@@ -327,7 +326,7 @@
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, UseV9API, SkipVersionCheck, UseDefaultCredentials, CertificateThumbprint
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, UseDefaultCredentials, CertificateThumbprint
 
 		If (($PSCmdlet.ParameterSetName -eq "v9") -or ($PSCmdlet.ParameterSetName -eq "v10") ) {
 

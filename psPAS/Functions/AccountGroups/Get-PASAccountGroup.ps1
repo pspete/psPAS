@@ -46,7 +46,6 @@ Minimum CyberArk version 9.10
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "v9"
 		)]
-		[Alias("UseV9API")]
 		[switch]$UseClassicAPI
 	)
 

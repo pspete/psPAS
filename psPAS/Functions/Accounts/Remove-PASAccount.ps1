@@ -6,7 +6,6 @@ Deletes an account
 .DESCRIPTION
 Deletes a specific account in the Vault.
 The user who runs this web service requires the "Delete Accounts" permission.
-If running against a CyberArk version earlier than 10.4, you must specify the UseV9API switch parameter.
 
 .PARAMETER AccountID
 The unique ID  of the account to delete.
@@ -41,7 +40,6 @@ None
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "v9"
 		)]
-		[Alias("UseV9API")]
 		[switch]$UseClassicAPI
 	)
 

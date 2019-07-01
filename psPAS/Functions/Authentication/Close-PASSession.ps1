@@ -31,9 +31,9 @@
 	Logs off from the session related to the authorisation token using the Shared Authentication API endpoint.
 
 	.EXAMPLE
-	Close-PASSession -UseV9API
+	Close-PASSession -UseClassicAPI
 
-	Logs off from the session related to the authorisation token using the v9 API endpoint.
+	Logs off from the session related to the authorisation token using the Classic API endpoint.
 
 	#>
 	[CmdletBinding(DefaultParameterSetName = "V10")]
@@ -44,7 +44,6 @@
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "v9"
 		)]
-		[Alias("UseV9API")]
 		[switch]$UseClassicAPI,
 
 		[Parameter(
