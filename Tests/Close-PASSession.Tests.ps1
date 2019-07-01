@@ -46,7 +46,7 @@ Describe $FunctionName {
 
 		}
 
-		$response = Close-PASSession -UseV9API -verbose
+		$response = Close-PASSession -UseClassicAPI -verbose
 
 		Context "Input" {
 
