@@ -109,9 +109,14 @@
 	}#process
 
 	END {
+
+		#Set ExternalVersion to 0.0
+		[System.Version]$Version = "0.0"
+		Set-Variable -Name ExternalVersion -Value $Version -Scope Script -ErrorAction SilentlyContinue
+
 		#Clear Module scope variables on logoff
-		Clear-Variable -Name ExternalVersion -Scope Script -ErrorAction SilentlyContinue
 		Clear-Variable -Name BaseURI -Scope Script -ErrorAction SilentlyContinue
 		Clear-Variable -Name WebSession -Scope Script -ErrorAction SilentlyContinue
+
 	}#end
 }
