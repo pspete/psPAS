@@ -52,10 +52,9 @@
 	TypesToProcess    = @(
 		'psPAS.CyberArk.Vault.Account.Type.ps1xml',
 		'psPAS.CyberArk.Vault.ACL.Type.ps1xml',
-		'psPAS.CyberArk.Vault.Credential.Type.ps1xml'
+		'psPAS.CyberArk.Vault.Credential.Type.ps1xml',
 		'psPAS.CyberArk.Vault.Safe.Type.ps1xml',
-		'psPAS.CyberArk.Vault.User.Type.ps1xml',
-		'psPAS.CyberArk.Vault.PSM.Type.ps1xml'
+		'psPAS.CyberArk.Vault.User.Type.ps1xml'
 	)
 
 	# Format files (.ps1xml) to be loaded when importing this module
@@ -86,7 +85,6 @@
 		'Add-PASAccount',
 		'Get-PASAccount',
 		'Remove-PASAccount',
-		'Start-PASCredChange',
 		'Set-PASAccount',
 		'Add-PASSafe',
 		'Set-PASSafe',
@@ -114,7 +112,6 @@
 		'Add-PASGroupMember',
 		'Get-PASAccountActivity',
 		'Add-PASPendingAccount',
-		'Start-PASCredVerify',
 		'Get-PASSafe',
 		'Add-PASAccountGroupMember',
 		'New-PASAccountGroup',
@@ -124,17 +121,10 @@
 		'Get-PASServer',
 		'Get-PASSafeShareLogo',
 		'Get-PASServerWebService',
-		'New-PASSAMLSession',
-		'Close-PASSAMLSession',
-		'New-PASSharedSession',
-		'Close-PASSharedSession',
 		'Get-PASAccountPassword',
 		'Get-PASSafeMember',
 		'Get-PASApplicationAuthenticationMethod',
 		'Get-PASPlatform',
-		'Invoke-PASCredChange',
-		'Invoke-PASCredVerify',
-		'Invoke-PASCredReconcile',
 		'Unlock-PASAccount',
 		'Get-PASAccountGroup',
 		'Get-PASAccountGroupMember',
@@ -179,15 +169,14 @@
 		'Request-PASAdHocAccess',
 		'Get-PASDirectoryMapping',
 		'Remove-PASDirectory',
-		'Set-PASDirectoryMapping'
+		'Set-PASDirectoryMapping',
+		'Find-PASSafe',
+		'Get-PASSession',
+		'Use-PASSession',
+		'Invoke-PASCPMOperation'
 	)
 
-	AliasesToExport   = @(
-		'Get-PASApplications',
-		'Get-PASApplicationAuthenticationMethods',
-		'Get-PASAccountCredentials',
-		'Get-PASSafeMembers'
-	)
+	# AliasesToExport   = @( )
 
 	# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 	PrivateData       = @{

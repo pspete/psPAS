@@ -6,25 +6,8 @@ Function Get-PASPTARemediation {
 	.DESCRIPTION
 	Returns automatic remediation settings configured in PTA
 
-	.PARAMETER sessionToken
-	Hashtable containing the session token returned from New-PASSession
-
-	.PARAMETER WebSession
-	WebRequestSession object returned from New-PASSession
-
-	.PARAMETER BaseURI
-	PVWA Web Address
-	Do not include "/PasswordVault/"
-
-	.PARAMETER PVWAAppName
-	The name of the CyberArk PVWA Virtual Directory.
-	Defaults to PasswordVault
-
-	.PARAMETER ExternalVersion
-	The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 	.EXAMPLE
-	$token | Get-PASPTARemediation
+Get-PASPTARemediation
 
 	Returns all automatic remediation settings from PTA
 
@@ -32,36 +15,7 @@ Function Get-PASPTARemediation {
 	Minimum Version CyberArk 10.4
 	#>
 	[CmdletBinding()]
-	param(
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(ValueFromPipelinebyPropertyName = $true)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
-	)
+	param(	)
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"10.4"
@@ -69,28 +23,20 @@ Function Get-PASPTARemediation {
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
-		$URI = "$baseURI/$PVWAAppName/API/pta/API/Settings"
+		$URI = "$Script:BaseURI/API/pta/API/Settings"
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $SessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If($result) {
 
 			#Return Results
 			$result.automaticRemediation |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Remediation  -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Remediation
 
 		}
 

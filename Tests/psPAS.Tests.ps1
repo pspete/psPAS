@@ -23,14 +23,15 @@ $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 Get-Module -Name $ModuleName -All | Remove-Module -Force -ErrorAction Ignore
 $Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru
 
-Describe "Module" {
+Describe "Module" -Tag "Consistency" {
+
 
 	Context "Module Consistency Tests" {
 
 		It "has a valid manifest" {
 
-			{$null = Test-ModuleManifest -Path $ManifestPath -ErrorAction Stop -WarningAction SilentlyContinue} |
-				Should Not Throw
+			{ $null = Test-ModuleManifest -Path $ManifestPath -ErrorAction Stop -WarningAction SilentlyContinue } |
+			Should Not Throw
 
 		}
 
@@ -61,9 +62,9 @@ Describe "Module" {
 		Context "Files To Process" {
 
 			#validate formats
-			($Module.FormatsToProcess).foreach{
+			($Module.ExportedFormatFiles).foreach{
 
-				$FormatFilePath = (Join-Path $ModulePath $_)
+				$FormatFilePath = $_
 
 				#File Exists
 				It "$_ exists" {
@@ -75,17 +76,17 @@ Describe "Module" {
 				#file contains valid format data
 				It "$_ is valid" {
 
-					{Update-FormatData -AppendPath $FormatFilePath -ErrorAction Stop -WarningAction SilentlyContinue} |
-						Should Not Throw
+					{ Update-FormatData -AppendPath $FormatFilePath -ErrorAction Stop -WarningAction SilentlyContinue } |
+					Should Not Throw
 
 				}
 
 			}
 
 			#validate types
-			($Module.TypesToProcess).foreach{
+			($Module.ExportedTypeFiles).foreach{
 
-				$TypesFilePath = (Join-Path $ModulePath $_)
+				$TypesFilePath = $_
 
 				#file exists
 				It "$_ exists" {
@@ -97,8 +98,8 @@ Describe "Module" {
 				#file contains valid type data
 				It "$_ is valid" {
 
-					{Update-TypeData -AppendPath $TypesFilePath -ErrorAction Stop -WarningAction SilentlyContinue} |
-						Should Not Throw
+					{ Update-TypeData -AppendPath $TypesFilePath -ErrorAction Stop -WarningAction SilentlyContinue } |
+					Should Not Throw
 
 				}
 
@@ -107,8 +108,7 @@ Describe "Module" {
 		}
 
 		#Get Public Function Names
-		$PublicFunctions = Get-ChildItem "$ModulePath\Functions" -Filter *.ps1 -Recurse |
-			Select-Object -ExpandProperty BaseName
+		$PublicFunctions = Get-ChildItem "$ModulePath\Functions" -Include *.ps1 -Recurse | Select-Object -ExpandProperty BaseName
 
 		Context "Exported Function Analysis" {
 
@@ -179,7 +179,9 @@ Describe "Module" {
 		}
 
 		Context "Exported Alias Analysis" {
-
+			BeforeEach {
+				$Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru
+			}
 			$ExportedAliases = $Module.ExportedAliases.Values.name
 
 			$ExportedAliases.foreach{
@@ -206,7 +208,7 @@ Describe "Module" {
 
 		$Scripts = Get-ChildItem "$ModulePath" -Filter '*.ps1' -Exclude '*.ps1xml' -Recurse
 
-		$Rules = Get-ScriptAnalyzerRule
+		$Rules = Get-ScriptAnalyzerRule -Severity Warning
 
 		foreach ($Script in $scripts) {
 

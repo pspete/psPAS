@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -41,21 +44,12 @@ Describe $FunctionName {
 
 		}
 
-
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-		}
+		Mock Out-PASFile -MockWith { }
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'PlatformID'},
-			@{Parameter = 'path'}
+			$Parameters = @{Parameter = 'PlatformID' },
+			@{Parameter = 'path' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -67,20 +61,12 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"
+		$response = Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"
 
 		Context "Input" {
 
 			It "throws if path is invalid" {
-				{$InputObj | Export-PASPlatform -PlatformID SomePlatform -path A:\test.txt} | Should throw
-			}
-
-			It "throws if InputFile resolves to a folder" {
-				{$InputObj | Export-PASPlatform -PlatformID SomePlatform -path $pwd} | Should throw
-			}
-
-			It "throws if InputFile does not have a zip extention" {
-				{$InputObj | Export-PASPlatform -PlatformID SomePlatform -path README.MD} | Should throw
+				{ Export-PASPlatform -PlatformID SomePlatform -path A:\test.txt } | Should throw
 			}
 
 			It "sends request" {
@@ -93,7 +79,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Platforms/SomePlatform/Export?platformID=SomePlatform"
+					$URI -eq "$($Script:BaseURI)/API/Platforms/SomePlatform/Export?platformID=SomePlatform"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -101,40 +87,14 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" -ExternalVersion "1.0"} | Should Throw
-			}
-
-
-		}
-
-		Context "Output" {
-
-			it "saves output file" {
-
-				Test-Path "$env:Temp\testExport.zip" | should Be $true
-
-			}
-
-			it "reports error saving outputfile" {
-				Mock Set-Content -MockWith {throw something}
-				{$InputObj | Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"} | should throw "Error Saving $env:Temp\testExport.zip"
-			}
-
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'}
-
-			It "does not return default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Be $null
-
+				$Script:ExternalVersion = "1.0"
+				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

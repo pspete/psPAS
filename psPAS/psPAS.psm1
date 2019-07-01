@@ -8,11 +8,6 @@
 .INPUTS
 
 .OUTPUTS
-
-.NOTES
-
-.LINK
-
 #>
 [CmdletBinding()]
 param(
@@ -22,8 +17,6 @@ param(
 )
 
 #Get function files
-Write-Verbose $PSScriptRoot
-
 Get-ChildItem $PSScriptRoot\ -Recurse -Filter "*.ps1" -Exclude "*.ps1xml" |
 
 ForEach-Object {
@@ -48,3 +41,6 @@ ForEach-Object {
 	}
 
 }
+
+[System.Version]$Version = "0.0"
+Set-Variable -Name ExternalVersion -Value $Version -Scope Script

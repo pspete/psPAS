@@ -55,41 +55,24 @@ that the authenticated used is authorized to access.
 See Invoke-WebRequest
 Specify a timeout value in seconds
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Get-PASAccount
+Get-PASAccount
 
 Returns  all accounts on safes where your user has "List accounts" rights.
 This will only work from version 10.4 onwards.
 
 .EXAMPLE
-$token | Get-PASAccount -search root -sort name -offset 100 -limit 5
+Get-PASAccount -search root -sort name -offset 100 -limit 5
 
 Returns all accounts matching "root", sorted by AccountName, Search results offset by 100 and limited to 5.
 
 .EXAMPLE
-$token | Get-PASAccount -filter "SafeName eq TargetSafe"
+Get-PASAccount -filter "SafeName eq TargetSafe"
 
 Returns all accounts found in TargetSafe
 
 .EXAMPLE
-$token | Get-PASAccount -Keywords root -Safe UNIX
+Get-PASAccount -Keywords root -Safe UNIX
 
 Finds account(s) matching keywords in UNIX safe:
 
@@ -103,7 +86,7 @@ DeviceType : Operating System
 Address    : machine
 
 .EXAMPLE
-$token | Get-PASAccount -Keywords xtest
+Get-PASAccount -Keywords xtest
 
 Finds accounts matching the specified keyword.
 Only the first matching account will be returned.
@@ -126,9 +109,6 @@ Should accept pipeline objects from other *-PASAccount functions
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Account
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
 AccountID, Account Safe, Safe Folder, Account Name,
 and any other set property of the account are contained in output.
 
@@ -139,10 +119,7 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 New functionality added in version 10.4, limited functionality before this version.
-As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged - nextLink functionality was added
-
-.LINK
-#>
+As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged - nextLink functionality was added#>
 	[CmdletBinding(DefaultParameterSetName = "v10ByQuery")]
 	param(
 		[parameter(
@@ -209,35 +186,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false
 		)]
-		[int]$TimeoutSec,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(ValueFromPipelinebyPropertyName = $true)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
+		[int]$TimeoutSec
 
 	)
 
@@ -253,28 +202,28 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 		#Create Query String, escaped for inclusion in request URL
 		$query = ($boundParameters.keys | ForEach-Object {
 
-			"$_=$($boundParameters[$_] | Get-EscapedString)"
+				"$_=$($boundParameters[$_] | Get-EscapedString)"
 
-		}) -join '&'
+			}) -join '&'
 
 		#Version 10.4 process
-		If($PSCmdlet.ParameterSetName -match "v10") {
+		If ($PSCmdlet.ParameterSetName -match "v10") {
 
 			#check minimum version
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#assign new type name
 			$typeName = "psPAS.CyberArk.Vault.Account.V10"
 
 			#define base URL
-			$URI = "$baseURI/$PVWAAppName/api/Accounts"
+			$URI = "$Script:BaseURI/api/Accounts"
 
-			If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
+			If ($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 				#define query URL
 				$URI = "$URI`?$query"
 			}
 
-			If($PSCmdlet.ParameterSetName -eq "v10ByID") {
+			If ($PSCmdlet.ParameterSetName -eq "v10ByID") {
 
 				#define "by ID" URL
 				$URI = "$URI/$id"
@@ -284,38 +233,36 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 		}
 
 		#legacy process
-		If($PSCmdlet.ParameterSetName -eq "v9") {
+		If ($PSCmdlet.ParameterSetName -eq "v9") {
 
 			#assign type name
 			$typeName = "psPAS.CyberArk.Vault.Account"
 
 			#Create request URL
-			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts?$query"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts?$query"
 
 		}
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 
-		if($result) {
+		if ($result) {
 
 			#Get count of accounts found
 			$count = $($result.count)
 
 			#Version 10.4 individual account process
-			If($PSCmdlet.ParameterSetName -eq "v10ByID") {
+			If ($PSCmdlet.ParameterSetName -eq "v10ByID") {
 
 				$return = $result
 
 			}
 
 			#If accounts found
-			if($count -gt 0) {
-
-				Write-Verbose "Accounts Found: $count"
+			if ($count -gt 0) {
 
 				#Version 10.4 query process
-				If($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
+				If ($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 
 					#get results
 					$AccountArray = @()
@@ -324,9 +271,8 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					#iterate any nextLinks
 					$NextLink = $result.nextLink
 					While ( $null -ne $NextLink ) {
-						Write-Verbose "Processing nextLink: $NextLink"
-						$URI = "$baseURI/$PVWAAppName/$NextLink"
-						$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession -TimeoutSec $TimeoutSec
+						$URI = "$Script:BaseURI/$NextLink"
+						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 						$NextLink = $result.nextLink
 						$AccountArray += ($result | Select-Object value).value
 					}
@@ -336,10 +282,10 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 				}
 
 				#legacy process
-				If($PSCmdlet.ParameterSetName -eq "v9") {
+				If ($PSCmdlet.ParameterSetName -eq "v9") {
 
 					#If multiple accounts found
-					if($count -gt 1) {
+					if ($count -gt 1) {
 
 						#Alert that web service only displays information on first result
 						Write-Warning "$count matching accounts found. Only the first result will be returned"
@@ -358,12 +304,12 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					$InternalProps = New-object -TypeName psobject
 
 					#For every account property
-					For($int = 0; $int -lt $InternalProperties.length; $int++) {
+					For ($int = 0; $int -lt $InternalProperties.length; $int++) {
 
 						$InternalProps |
 
-							#Add each property name and value as object property of $InternalProps
-							Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+						#Add each property name and value as object property of $InternalProps
+						Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
 
 					}
 
@@ -371,7 +317,7 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					$return = New-object -TypeName psobject -Property @{
 
 						#Internal Unique ID of Account
-						"AccountID"         = $($account | Select-Object -ExpandProperty AccountID)
+						"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)
 
 						#InternalProperties object
 						"InternalProperties" = $InternalProps
@@ -379,12 +325,12 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 					}
 
 					#For every account property
-					For($int = 0; $int -lt $properties.length; $int++) {
+					For ($int = 0; $int -lt $properties.length; $int++) {
 
 						$return |
 
-							#Add each property name and value to results
-							Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
+						#Add each property name and value to results
+						Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
 
 					}
 
@@ -394,18 +340,10 @@ As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged -
 
 		}
 
-		if($return) {
+		if ($return) {
 
 			#Return Results
-			$return | Add-ObjectDetail -typename $typeName -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			$return | Add-ObjectDetail -typename $typeName
 
 		}
 

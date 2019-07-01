@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -40,19 +43,13 @@ Describe $FunctionName {
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"AccountID"    = "22_2"
+"AccountID"    = "22_2"
 
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'AccountID'}
+			$Parameters = @{Parameter = 'AccountID'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -78,7 +75,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Accounts/22_2/CheckIn"
+					$URI -eq "$($Script:BaseURI)/API/Accounts/22_2/CheckIn"
 
 				} -Times 1 -Exactly -Scope Describe
 

@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -37,10 +40,8 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'RecordingID'},
-			@{Parameter = 'path'}
+			$Parameters = @{Parameter = 'RecordingID' },
+			@{Parameter = 'path' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -56,26 +57,36 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith {}
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						Content = New-Object Byte[] 512
+						Headers = @{"Content-Disposition" = "attachment; filename=FILENAME.zip" }
+					}
+				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
-					"RecordingID"  = "SomeID"
-					"path"         = "$env:Temp\test.avi"
+					"RecordingID" = "SomeID"
+					"path"        = "$env:Temp"
 
 				}
+
+				Mock Out-PASFile -MockWith { }
 
 			}
 
 			It "throws if path is invalid" {
-				{$InputObj | Export-PASPlatform -PlatformID SomePlatform -path A:\test.avi} | Should throw
+				{ $InputObj | Export-PASPSMRecording -PlatformID SomePlatform -path A:\test.avi } | Should throw
 			}
 
-			It "throws if InputFile resolves to a folder" {
-				{$InputObj | Export-PASPlatform -PlatformID SomePlatform -path $pwd} | Should throw
+			It "throws if InputFile resolves to a file" {
+
+				$InputObj = [pscustomobject]@{
+					"RecordingID" = "SomeID"
+					"path"        = "$env:Temp\test.avi"
+
+				}
+
+				{ $InputObj | Export-PASPSMRecording -PlatformID SomePlatform -path $pwd } | Should throw
 			}
 
 			It "sends request" {
@@ -88,7 +99,7 @@ Describe $FunctionName {
 				$InputObj | Export-PASPSMRecording
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/Recordings/SomeID/Play"
+					$URI -eq "$($Script:BaseURI)/API/Recordings/SomeID/Play"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -96,68 +107,21 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 				$InputObj | Export-PASPSMRecording
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
 				$InputObj | Export-PASPSMRecording
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "10.5"
 
-				{$InputObj | Export-PASPSMRecording -ExternalVersion 10.5} | Should throw
-
-			}
-
-		}
-
-		Context "Output" {
-
-			BeforeEach {
-
-				Mock Invoke-PASRestMethod -MockWith {
-
-					New-Object Byte[] 512
-
-				}
-
-				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
-					"RecordingID"  = "SomeID"
-					"path"         = "$env:Temp\test.avi"
-				}
-
-			}
-
-			it "saves output file" {
-				$InputObj | Export-PASPSMRecording
-				Test-Path "$env:Temp\test.avi" | should Be $true
-
-			}
-
-			it "reports error saving outputfile" {
-				Mock Set-Content -MockWith {throw something}
-				{$InputObj | Export-PASPSMRecording} | should throw "Error Saving $env:Temp\test.avi"
-			}
-
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
-
-
-			It "does not return default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Be $null
-
+				{ $InputObj | Export-PASPSMRecording } | Should throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

@@ -26,30 +26,13 @@ Default=\
 Will search be carried out in sublocations of specified location?
 Boolean
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Get-PASApplication
+Get-PASApplication
 
 Returns information on all defined applications
 
 .EXAMPLE
-$token | Get-PASApplication NewApp -ExactMatch
+Get-PASApplication NewApp -ExactMatch
 
 Gets details of the application "NewApp":
 
@@ -58,7 +41,7 @@ AppID  Description       Location Disabled
 NewApp A new application \        False
 
 .EXAMPLE
-$token | Get-PASApplication NewApp
+Get-PASApplication NewApp
 
 Gets details of all application matching "NewApp":
 
@@ -74,19 +57,9 @@ Should accept pipeline objects from other *-PASApplication* functions
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Application
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-
-.LINK
-
 #>
-	[Alias("Get-PASApplications")]
 	[CmdletBinding(DefaultParameterSetName = 'byQuery')]
 	param(
 		[parameter(
@@ -122,49 +95,18 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "byQuery"
 		)]
-		[boolean]$IncludeSublocations,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[boolean]$IncludeSublocations
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
 		#Base URL for Request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications"
 
 		#If AppID specified
-		If($($PSCmdlet.ParameterSetName) -eq "byAppID") {
+		If ($($PSCmdlet.ParameterSetName) -eq "byAppID") {
 
 			#Build URL from base URL
 			$URI = "$URI/$($AppID | Get-EscapedString)"
@@ -172,7 +114,7 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#If search query specified
-		ElseIf($($PSCmdlet.ParameterSetName) -eq "byQuery") {
+		ElseIf ($($PSCmdlet.ParameterSetName) -eq "byQuery") {
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -190,25 +132,17 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			#Return results
-			$result.application | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Application -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			$result.application | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Application
 
 		}
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

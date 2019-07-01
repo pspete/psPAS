@@ -1,5 +1,5 @@
 # version format
-version: 2.6.{build}
+version: 3.0.{build}
 
 environment:
   access_token:
@@ -30,7 +30,7 @@ only_commits:
     - Tests\
 
 #os: WMF 5
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 install:
 #  - ps: . .\build\install.ps1

@@ -17,8 +17,8 @@ If using version 10.1+ of the API:
 .PARAMETER AccountID
 The ID of the account whose password will be retrieved.
 
-.PARAMETER UseV10API
-Specify switch to explicitly use the version 10 api when only providing AccountID.
+.PARAMETER UseClassicAPI
+Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
 
 .PARAMETER Reason
 The reason that is required to be specified to retrieve the password/SSH key.
@@ -49,27 +49,8 @@ Use of parameter requires version 10.1 at a minimum.
 The address of the remote machine to connect to.
 Use of parameter requires version 10.1 at a minimum.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-If the minimum version requirement of this function is not satisfied, execution will be halted.
-Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
-
 .EXAMPLE
-$token | Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword
+Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword
 
 Will return the password value of the account found by Get-PASAccount:
 
@@ -78,16 +59,16 @@ Password
 Ra^D0MwM666*&U
 
 .EXAMPLE
-$token | Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -UseV10API
+Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -UseClassicAPI
 
-Will retrieve the password value of the account found by Get-PASAccount using the v10 API:
+Will retrieve the password value of the account found by Get-PASAccount using the classic (v9) API:
 
 Password
 --------
 Ra^D0MwM666*&U
 
 .EXAMPLE
-$token | Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -Reason "Incident Investigation"
+Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -Reason "Incident Investigation"
 
 Will retrieve the password value of the account found by Get-PASAccount using the v10 API, and specify a reason for access.
 
@@ -101,25 +82,23 @@ Accepts pipeline input from other Get-PASAccount
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Credential
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum API version is 9.7 for password retrieval only.
-From version 10.1 onwards both passwords and ssh keys can be retrieved.
-
-.LINK
-#>
-	[Alias("Get-PASAccountCredentials")]
-	[CmdletBinding()]
+From version 10.1 onwards both passwords and ssh keys can be retrieved.#>
+	[CmdletBinding(DefaultParameterSetName = "v10")]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ClassicAPI"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10"
 		)]
 		[Alias("id")]
 		[string]$AccountID,
@@ -127,9 +106,9 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v10"
+			ParameterSetName = "ClassicAPI"
 		)]
-		[switch]$UseV10API,
+		[switch]$UseClassicAPI,
 
 		[parameter(
 			Mandatory = $false,
@@ -179,38 +158,7 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "v10"
 		)]
-		[switch]$Machine,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[switch]$Machine
 	)
 
 	BEGIN {
@@ -220,32 +168,32 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 	PROCESS {
 
 		#Build Request
-		if($($PSCmdlet.ParameterSetName) -eq "v10") {
+		if ($($PSCmdlet.ParameterSetName) -eq "v10") {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#For Version 10.1+
 			$Request = @{
 
-				"URI"    = "$baseURI/$PVWAAppName/api/Accounts/$($AccountID |
+				"URI"    = "$Script:BaseURI/api/Accounts/$($AccountID |
 
             	Get-EscapedString)/Password/Retrieve"
 
 				"Method" = "POST"
 
 				#Get all parameters that will be sent in the request
-				"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, UseV10API | ConvertTo-Json
+				"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
 
 			}
 
 		}
 
-		Else {
+		ElseIf ($($PSCmdlet.ParameterSetName) -eq "ClassicAPI") {
 
 			#For Version 9.7+
 			$Request = @{
 
-				"URI"    = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$($AccountID |
+				"URI"    = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$($AccountID |
 
 				Get-EscapedString)/Credentials"
 
@@ -256,36 +204,27 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 		}
 
 		#Add default Request parameters
-		$Request.Add("Headers", $sessionToken)
-		$Request.Add("WebSession", $WebSession)
+		$Request.Add("WebSession", $Script:WebSession)
 
 		#splat request to web service
 		$result = Invoke-PASRestMethod @Request
 
-		If($result) {
+		If ($result) {
 
-			If($result.GetType().Name -eq "Object[]") {
+			If ($PSCmdlet.ParameterSetName -eq "ClassicAPI") {
 
-				$result = [System.Text.Encoding]::ASCII.GetString($result)
-
-			}
-
-			[PSCustomObject] @{"Password" = $result} |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
+				$result = [System.Text.Encoding]::ASCII.GetString([PSCustomObject]$result.Content)
 
 			}
+
+			[PSCustomObject] @{"Password" = $($result -replace '^"|"$', '') } |
+
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
 
 		}
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

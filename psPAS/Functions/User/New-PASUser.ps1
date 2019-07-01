@@ -51,6 +51,9 @@ Valid values:
 • BackupAllSafes
 • RestoreAllSafes
 
+.PARAMETER ChangePassOnNextLogon
+Whether or not user will be forced to change password on first logon
+
 .PARAMETER workStreet
 Business Address detail for the user
 
@@ -154,38 +157,21 @@ Default is Enabled
 The Vault Location where the user will be created
 Default location is "Root"
 
-.PARAMETER UseV9API
-Specify the UseV9API to send the authentication request via the v9 API endpoint.
-
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
+.PARAMETER UseClassicAPI
+Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
 
 .EXAMPLE
-$token | New-PASUser -UserName NewUser -InitialPassword $securePWD -UseV9API
+New-PASUser -UserName NewUser -InitialPassword $securePWD -UseClassicAPI
 
 Creates a Vault user named NewUser, with password set to securestring value from $securePWD, using the v9 (classic) API
 
 .EXAMPLE
-$token | New-PASUser -UserName NewUser -InitialPassword $securePWD
+New-PASUser -UserName NewUser -InitialPassword $securePWD
 
 Creates a Vault user named NewUser, with password set to securestring value from $securePWD
 
 .EXAMPLE
-$token | New-PASUser -UserName NewUser -InitialPassword $securePWD -unAuthorizedInterfaces "PACLI" -vaultAuthorization ManageDirectoryMapping
+New-PASUser -UserName NewUser -InitialPassword $securePWD -unAuthorizedInterfaces "PACLI" -vaultAuthorization ManageDirectoryMapping
 
 Creates a Vault user as per the provided parameter values
 
@@ -194,17 +180,8 @@ All parameters can be piped by property name
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.User
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "10_9")]
 	param(
@@ -276,6 +253,8 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "10_9"
 		)]
+		[boolean]$ChangePassOnNextLogon,
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
@@ -579,38 +558,7 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "legacy"
 		)]
-		[switch]$UseV9API,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[switch]$UseClassicAPI
 	)
 
 	BEGIN {
@@ -636,10 +584,10 @@ To force all output to be shown, pipe to Select-Object *
 
 		If ($PSCmdlet.ParameterSetName -eq "10_9") {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for request
-			$URI = "$baseURI/$PVWAAppName/api/Users"
+			$URI = "$Script:BaseURI/api/Users"
 
 			If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
 
@@ -703,7 +651,7 @@ To force all output to be shown, pipe to Select-Object *
 		ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
 
 			#Create URL for request
-			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Users"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users"
 
 			If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
 
@@ -725,20 +673,12 @@ To force all output to be shown, pipe to Select-Object *
 		if ($PSCmdlet.ShouldProcess($UserName, "Create User")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 			if ($result) {
 
 
-				$result | Add-ObjectDetail -typename $typeName -PropertyToAdd @{
-
-					"sessionToken"    = $sessionToken
-					"WebSession"      = $WebSession
-					"BaseURI"         = $BaseURI
-					"PVWAAppName"     = $PVWAAppName
-					"ExternalVersion" = $ExternalVersion
-
-				}
+				$result | Add-ObjectDetail -typename $typeName
 
 			}
 

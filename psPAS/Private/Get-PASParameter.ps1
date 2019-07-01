@@ -38,13 +38,7 @@ $PSBoundParameters object
 
 .OUTPUTS
 Hashtable/$PSBoundParameters object, with defined parameters removed.
-
-.NOTES
-
-.LINK
-
 #>
-	[Alias("Get-PASParameters")]
 	[CmdletBinding()]
 	[OutputType('System.Collections.Hashtable')]
 	param(
@@ -52,7 +46,6 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 			Position = 0,
 			Mandatory = $true,
 			ValueFromPipeline = $true)]
-		[ValidateNotNullOrEmpty()]
 		[Hashtable]$Parameters,
 
 		[parameter(
@@ -72,21 +65,16 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 			"WarningVariable",
 			"WhatIf",
 			"Confirm",
-			"sessionToken",
-			"BaseURI"
 			"SessionVariable",
-			"WebSession",
-			"PVWAAppName",
 			"InformationAction",
 			"InformationVariable",
 			"UseTransaction",
-			"ExternalVersion",
-			"UseV9API")
+			"UseClassicAPI")
 	)
 
 	BEGIN {
 
-		Write-Debug "Function: $($MyInvocation.InvocationName)"
+
 
 	}#begin
 
@@ -99,7 +87,6 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 			If ($Parameters.Contains($_)) {
 
-				Write-Debug "Removing Parameter: $_"
 				#remove specified parameters from passed values
 				$Parameters.Remove($_)
 

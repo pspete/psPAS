@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -37,9 +40,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' },
-			@{Parameter = 'id' }
+			$Parameters = @{Parameter = 'id' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -47,90 +48,76 @@ Describe $FunctionName {
 
 				(Get-Command Remove-PASDirectory).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
+			}
+
 		}
 
-	}
+		Context "Input" {
 
-	Context "Input" {
+			BeforeEach {
+				$Script:ExternalVersion = "0.0"
+				Mock Invoke-PASRestMethod -MockWith { }
 
-		BeforeEach {
-
-			Mock Invoke-PASRestMethod -MockWith { }
-
-			$InputObj = [pscustomobject]@{
-				"sessionToken" = @{"Authorization" = "P_AuthValue" }
-				"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-				"BaseURI"      = "https://P_URI"
-				"PVWAAppName"  = "P_App"
+				$response = Remove-PASDirectory -id SomeDir
 
 			}
 
-			$response = $InputObj | Remove-PASDirectory -id SomeDir
+			It "sends request" {
 
-	}
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
-	It "sends request" {
+			}
 
-		Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+			It "sends request to expected endpoint" {
 
-	}
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-	It "sends request to expected endpoint" {
+					$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDir"
 
-		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+				} -Times 1 -Exactly -Scope It
 
-			$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Configuration/LDAP/Directories/SomeDir"
+			}
 
-		} -Times 1 -Exactly -Scope It
+			It "uses expected method" {
 
-	}
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
-	It "uses expected method" {
+			}
 
-		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
+			It "sends request with no body" {
 
-	}
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
-	It "sends request with no body" {
+			}
 
-		Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
-
-	}
-
-	It "throws error if version requirement not met" {
-		{ $InputObj | Get-PASDirectory -ExternalVersion "1.0" } | Should Throw
-}
-
-}
-
-Context "Output" {
-
-	BeforeEach {
-
-		Mock Invoke-PASRestMethod -MockWith { }
-
-		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue" }
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
+			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.0"
+				{ Get-PASDirectory } | Should Throw
+				$Script:ExternalVersion = "0.0"
+			}
 
 		}
 
-		$response = $InputObj | Remove-PASDirectory -id SomeDir
+		Context "Output" {
 
-}
+			BeforeEach {
+				$Script:ExternalVersion = "0.0"
+				Mock Invoke-PASRestMethod -MockWith { }
 
-it "provides no output" {
+				$response = Remove-PASDirectory -id SomeDir
 
-	$response | Should BeNullOrEmpty
+			}
 
-}
+			it "provides no output" {
+
+				$response | Should BeNullOrEmpty
+
+			}
 
 
 
-}
+		}
 
-}
+	}
 
 }

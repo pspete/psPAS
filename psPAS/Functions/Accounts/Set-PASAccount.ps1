@@ -71,30 +71,13 @@ Specify properties to update.
 .PARAMETER InputObject
 Receives object from pipeline.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Set-PASAccount -AccountID 27_4 -op replace -path "/address" -value "NewAddress"
+Set-PASAccount -AccountID 27_4 -op replace -path "/address" -value "NewAddress"
 
 Replaces the current address value with NewAddress
 
 .EXAMPLE
-$token | Set-PASAccount -AccountID 27_4 -op remove -path "/platformAccountProperties/UserDN"
+Set-PASAccount -AccountID 27_4 -op remove -path "/platformAccountProperties/UserDN"
 
 Removes UserDN property set on account
 
@@ -102,17 +85,17 @@ Removes UserDN property set on account
 $actions += @{"op"="Add";"path"="/platformAccountProperties/UserDN";"value"="SomeDN"}
 $actions += @{"op"="Replace";"path"="/Name";"value"="SomeName"}
 
-$token | Set-PASAccount -AccountID 27_4 -operations $actions
+Set-PASAccount -AccountID 27_4 -operations $actions
 
 Performs the update operations contained in the $actions array against the account
 
 .EXAMPLE
-$token | Get-PASAccount dbuser | Set-PASAccount -Properties @{"DSN"="myDSN"}
+Get-PASAccount dbuser | Set-PASAccount -Properties @{"DSN"="myDSN"}
 
 Sets DSN value on matched account dbUser
 
 .EXAMPLE
- $token | Set-PASAccount -AccountID 21_3 -Folder Root -AccountName NewName `
+ Set-PASAccount -AccountID 21_3 -Folder Root -AccountName NewName `
  -DeviceType Database -PlatformID Oracle -Address dbServer.domain.com -UserName dbuser
 
  Will set the AccountName of account with AccountID of 21_3 to "NewName".
@@ -129,10 +112,6 @@ specified will be removed from the account.
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Account or psPAS.CyberArk.Vault.Account.V10
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
@@ -143,9 +122,6 @@ Accounts that do not have a policy ID cannot be updated.
 To update account properties, "Update password properties" permission is required.
 To rename accounts, "Rename accounts" permission is required.
 To move accounts to a different folder, Move accounts/folders permission is required.
-
-.LINK
-
 #>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "V10SingleOp")]
 	param(
@@ -251,44 +227,24 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 			ValueFromPipelineByPropertyName = $false,
 			ParameterSetName = "V9"
 		)]
-		[hashtable]$Properties = @{},
+		[hashtable]$Properties = @{ },
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipeline = $true
+			ValueFromPipeline = $false,
+			ParameterSetName = "V10SingleOp"
 		)]
-		[psobject]$InputObject,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipeline = $false,
+			ParameterSetName = "V10MultiOp"
 		)]
-		[string]$PVWAAppName = "PasswordVault",
-
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipeline = $true,
+			ParameterSetName = "V9"
 		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[psobject]$InputObject
 	)
 
 	BEGIN {
@@ -300,12 +256,12 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove InputObject, AccountID
 
-		if($PSCmdlet.ParameterSetName -match "V10") {
+		if ($PSCmdlet.ParameterSetName -match "V10") {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for Request
-			$URI = "$baseURI/$PVWAAppName/api/Accounts/$AccountID"
+			$URI = "$Script:BaseURI/api/Accounts/$AccountID"
 
 			#Define method for request
 			$Method = "PATCH"
@@ -313,7 +269,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 			#Define type of output object
 			$Type = "psPAS.CyberArk.Vault.Account.V10"
 
-			if($PSCmdlet.ParameterSetName -match "V10MultiOp") {
+			if ($PSCmdlet.ParameterSetName -match "V10MultiOp") {
 
 				$boundParameters = $boundParameters["operations"]
 
@@ -325,10 +281,10 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 		}
 
-		if($PSCmdlet.ParameterSetName -eq "V9") {
+		if ($PSCmdlet.ParameterSetName -eq "V9") {
 
 			#Create URL for Request
-			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Accounts/$AccountID"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
 
 			#Define method for request
 			$Method = "PUT"
@@ -336,21 +292,19 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 			#Define type of output object
 			$Type = "psPAS.CyberArk.Vault.Account"
 
-			if($PSBoundParameters.ContainsKey("Properties")) {
+			if ($PSBoundParameters.ContainsKey("Properties")) {
 
 				#Format "Properties" parameter value.
 				#Array of key=value pairs required for JSON convertion
 				$boundParameters["Properties"] = @($boundParameters["Properties"].getenumerator() |
 
-					ForEach-Object {$_})
+					ForEach-Object { $_ })
 
 			}
 
 			#If InputObject is psPAS.CyberArk.Vault.Account
 			#i.e. receiving pipeline from Get-PASAccount
-			If(($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account") {
-
-				Write-Verbose "Processing psPAS.CyberArk.Vault.Account Properties"
+			If (($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account") {
 
 				#Get all existing properties as defined by input object:
 				#Process Pipeline input object properties
@@ -366,19 +320,18 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 				ForEach-Object {
 
 					#Initialise hashtable
-					$ExistingProperty = @{}
+					$ExistingProperty = @{ }
 
 					#if property is not bound to function parameter by name,
-					if(!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
+					if (!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
 
 								#if not being explicitly updated.
 								$($Properties).ContainsKey($($_.Name))))) {
 
-						Write-Debug "Adding $($_.Name) = $($InputObject.$($_.Name)) as Account Property"
 						[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
 
 						#Add to Properties node of request data
-						[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object {$_}
+						[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object { $_ }
 						#any existing properties of an account not sent in a "set" request will be cleared on the account.
 						#This ensures correctly formatted request with all existing account properties included
 						#when function is sent data via the pipeline.
@@ -399,14 +352,14 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 		}
 
-		if($PSCmdlet.ShouldProcess($AccountID, "Update Account Properties")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, "Update Account Properties")) {
 
 			#send request to PAS web service
-			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body -Headers $sessionToken -WebSession $WebSession
+			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body -WebSession $Script:WebSession
 
-			If($Result) {
+			If ($Result) {
 
-				if($PSCmdlet.ParameterSetName -eq "V9") {
+				if ($PSCmdlet.ParameterSetName -eq "V9") {
 
 					$Return = $Result.UpdateAccountResult
 
@@ -420,12 +373,7 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 				$Return | Add-ObjectDetail -typename $Type -PropertyToAdd @{
 
-					"AccountID"       = $AccountID
-					"sessionToken"    = $sessionToken
-					"WebSession"      = $WebSession
-					"BaseURI"         = $BaseURI
-					"PVWAAppName"     = $PVWAAppName
-					"ExternalVersion" = $ExternalVersion
+					"AccountID" = $AccountID
 
 				}
 
@@ -435,6 +383,6 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

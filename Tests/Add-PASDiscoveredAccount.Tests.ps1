@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -37,13 +40,11 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'UserName'},
-			@{Parameter = 'Address'},
-			@{Parameter = 'discoveryDate'},
-			@{Parameter = 'AccountEnabled'},
-			@{Parameter = 'fingerprint'}
+			$Parameters = @{Parameter = 'UserName' },
+			@{Parameter = 'Address' },
+			@{Parameter = 'discoveryDate' },
+			@{Parameter = 'AccountEnabled' },
+			@{Parameter = 'fingerprint' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -59,13 +60,9 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith {}
+				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"   = @{"Authorization" = "P_AuthValue"}
-					"WebSession"     = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"        = "https://P_URI"
-					"PVWAAppName"    = "P_App"
 					"UserName"       = "SomeUser"
 					"Address"        = "SomeDomain"
 					"discoveryDate"  = "$(Get-Date 1/1/1971)"
@@ -85,7 +82,7 @@ Describe $FunctionName {
 				$InputObj | Add-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/DiscoveredAccounts"
+					$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -93,7 +90,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 				$InputObj | Add-PASDiscoveredAccount
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -124,8 +121,11 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.2"
 
-				{$InputObj | Add-PASDiscoveredAccount -ExternalVersion 1.2} | Should throw
+				{ $InputObj | Add-PASDiscoveredAccount } | Should throw
+
+				$Script:ExternalVersion = "0.0"
 
 			}
 
@@ -180,10 +180,6 @@ Describe $FunctionName {
 
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"   = @{"Authorization" = "P_AuthValue"}
-					"WebSession"     = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"        = "https://P_URI"
-					"PVWAAppName"    = "P_App"
 					"UserName"       = "SomeUser"
 					"Address"        = "SomeDomain"
 					"discoveryDate"  = "$(Get-Date 1/1/1971)"
@@ -199,18 +195,7 @@ Describe $FunctionName {
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
 
-
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-				($InputObj | Add-PASDiscoveredAccount).$Property | Should Not BeNullOrEmpty
-
-			}
 
 		}
 

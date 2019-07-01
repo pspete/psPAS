@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -40,11 +43,7 @@ Describe $FunctionName {
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"id"           = 99
+"id"           = 99
 			"category"     = "KEYSTROKES"
 			"regex"        = "(.*)Some Pattern(.*)"
 			"score"        = 80
@@ -56,9 +55,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'id'},
+			$Parameters = @{Parameter = 'id'},
 			@{Parameter = 'category'},
 			@{Parameter = 'regex'},
 			@{Parameter = 'score'},
@@ -90,7 +87,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/pta/API/Settings/RiskyActivity/"
+					$URI -eq "$($Script:BaseURI)/API/pta/API/Settings/RiskyActivity/"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -121,7 +118,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | Set-PASPTARule -ExternalVersion "1.0"} | Should Throw
+$Script:ExternalVersion = "1.0"
+				{$InputObj | Set-PASPTARule } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}

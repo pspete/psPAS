@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -37,9 +40,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'password'}
+			$Parameters = @{Parameter = 'password' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -83,7 +84,7 @@ Describe $FunctionName {
 
 				$secureString = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
 				Mock Invoke-PASRestMethod -MockWith {
-					Write-Output @{}
+					Write-Output @{ }
 				}
 
 				$InputObj = [pscustomobject]@{
@@ -91,13 +92,9 @@ Describe $FunctionName {
 					"platformID"            = "P_Platform"
 					"password"              = $secureString
 					"userName"              = "P_UserName"
-					"sessionToken"          = @{"Authorization" = "P_AuthValue"}
-					"WebSession"            = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"               = "https://P_URI"
-					"PVWAAppName"           = "P_App"
 					"Port"                  = 1234
 					"ExtraPass1Name"        = "P_ExtP1"
-					"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal"}
+					"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal" }
 					"address"               = "10.10.10.10"
 					"accountName"           = "SomeName"
 					"disableAutoMgmt"       = $true
@@ -117,14 +114,11 @@ Describe $FunctionName {
 					"PlatformID"                       = "SomePlatform"
 					"userName"                         = "SomeUser"
 					"secret"                           = $secureString
-					"sessionToken"                     = @{"Authorization" = "P_AuthValue"}
-					"WebSession"                       = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"                          = "https://P_URI"
-					"PVWAAppName"                      = "P_App"
 					"automaticManagementEnabled"       = $true
 					"remoteMachines"                   = "someMachine"
 					"accessRestrictedToRemoteMachines" = $false
 				}
+				$Script:ExternalVersion = "0.0"
 
 			}
 
@@ -142,7 +136,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Account"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Account"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -154,7 +148,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts"
+					$URI -eq "$($Script:BaseURI)/api/Accounts"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -164,7 +158,7 @@ Describe $FunctionName {
 
 				$InputObj | Add-PASAccount
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -246,7 +240,9 @@ Describe $FunctionName {
 
 			It "throws error if version requirement not met" {
 
-				{$InputObjV10 | Add-PASAccount -ExternalVersion "1.0"} | Should Throw
+				$Script:ExternalVersion = "1.0"
+				{ $InputObjV10 | Add-PASAccount } | Should Throw
+				$Script:ExternalVersion = "0.0"
 
 			}
 
@@ -273,13 +269,10 @@ Describe $FunctionName {
 					"PlatformID"                 = "SomePlatform"
 					"userName"                   = "SomeUser"
 					"secret"                     = $secureString
-					"sessionToken"               = @{"Authorization" = "P_AuthValue"}
-					"WebSession"                 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"                    = "https://P_URI"
-					"PVWAAppName"                = "P_App"
 					"automaticManagementEnabled" = $true
 					"remoteMachines"             = "someMachine"
 				}
+				$Script:ExternalVersion = "0.0"
 
 			}
 
@@ -290,13 +283,9 @@ Describe $FunctionName {
 					"platformID"            = "P_Platform"
 					"password"              = $secureString
 					"userName"              = "P_UserName"
-					"sessionToken"          = @{"Authorization" = "P_AuthValue"}
-					"WebSession"            = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"               = "https://P_URI"
-					"PVWAAppName"           = "P_App"
 					"Port"                  = 1234
 					"ExtraPass1Name"        = "P_ExtP1"
-					"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal"}
+					"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal" }
 					"address"               = "10.10.10.10"
 					"accountName"           = "SomeName"
 					"disableAutoMgmt"       = $true
@@ -324,7 +313,7 @@ Describe $FunctionName {
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
 						"Count" = 30
-						"Value" = [pscustomobject]@{"Prop1" = "Val1"}
+						"Value" = [pscustomobject]@{"Prop1" = "Val1" }
 					}
 				}
 				$response = $InputObj | Add-PASAccount
@@ -332,18 +321,7 @@ Describe $FunctionName {
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
 
-			It "returns default property <Property> in V10 response" -TestCases $DefaultProps {
-				param($Property)
-
-				$($InputObj | Add-PASAccount).$Property | Should Not BeNullOrEmpty
-
-			}
 
 		}
 

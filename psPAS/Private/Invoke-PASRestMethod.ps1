@@ -1,63 +1,56 @@
 ﻿function Invoke-PASRestMethod {
 	<#
-.SYNOPSIS
-Wrapper for Invoke-WebRequest to call REST method via API
+	.SYNOPSIS
+	Wrapper for Invoke-WebRequest to call REST method via API
 
-.DESCRIPTION
-Sends requests to web services, and where appropriate returns structured data.
-Acts as wrapper for the Invoke-WebRequest CmdLet so that status codes can be
-queried and acted on.
-All requests are sent with ContentType=application/json.
-If the sessionVariable parameter is passed, the function will return a WebSession
-object to be used on subsequent calls to the web service.
+	.DESCRIPTION
+	Sends requests to web services. Catches Exceptions. Outputs Success.
+	Acts as wrapper for the Invoke-WebRequest CmdLet so that status codes can be
+	queried and acted on.
+	All requests are sent with ContentType=application/json.
+	If the sessionVariable parameter is passed, the function will return the WebSession
+	object to the $Script:WebSession variable.
 
-.PARAMETER Method
-The method for the REST Method.
-Only accepts GET, POST, PUT, PATCH or DELETE
+	.PARAMETER Method
+	The method for the REST Method.
+	Only accepts GET, POST, PUT, PATCH or DELETE
 
-.PARAMETER URI
-The address of the API or service to send the request to.
+	.PARAMETER URI
+	The address of the API or service to send the request to.
 
-.PARAMETER Body
-The body of the request to send to the API
+	.PARAMETER Body
+	The body of the request to send to the API
 
-.PARAMETER Headers
-The header of the request to send to the API.
+	.PARAMETER Headers
+	The header of the request to send to the API.
 
-.PARAMETER SessionVariable
-If passed, will be sent to invoke-webrequest which in turn will create a websession
-variable using the string value as the name. This variable will only exist in the current scope
-so will be returned as a WebSession property in the output object.
-Cannot be specified with WebSession
+	.PARAMETER SessionVariable
+	If passed, will be sent to invoke-webrequest which in turn will create a websession
+	variable using the string value as the name. This variable will only exist in the current scope
+	so will be set as the value of $Script:WebSession to be available in a modules scope.
+	Cannot be specified with WebSession
 
-.PARAMETER WebSession
-Accepts a WebRequestSession object containing session details
-Cannot be specified with SessionVariable
+	.PARAMETER WebSession
+	Accepts a WebRequestSession object containing session details
+	Cannot be specified with SessionVariable
 
-.PARAMETER UseDefaultCredentials
-See Invoke-WebRequest
-Used for Integrated Auth
+	.PARAMETER UseDefaultCredentials
+	See Invoke-WebRequest
+	Used for Integrated Auth
 
-.PARAMETER TimeoutSec
-See Invoke-WebRequest
-Specify a timeout value in seconds
+	.PARAMETER TimeoutSec
+	See Invoke-WebRequest
+	Specify a timeout value in seconds
 
-.EXAMPLE
+	.PARAMETER CertificateThumbprint
+	See Invoke-WebRequest
+	The thumbprint of the certificate to use for client certificate authentication.
 
-.INPUTS
+	.EXAMPLE
+	Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
-.OUTPUTS
-Return data from the call to the REST API where content is returned
-Will additionally contain a WebSession property containing a WebRequestSession object if SessionVariable
-parameter was specified.
-
-.NOTES
-SessionVariable/WebSession functionality should be used where the API exists behind a load balancer
-to ensure session persistence.
-
-.LINK
-
-#>
+	Send request to web service
+	#>
 	[CmdletBinding(DefaultParameterSetName = "WebSession")]
 	param
 	(
@@ -90,22 +83,21 @@ to ensure session persistence.
 		[switch]$UseDefaultCredentials,
 
 		[Parameter(Mandatory = $false)]
-		[int]$TimeoutSec
+		[int]$TimeoutSec,
+
+		[Parameter(Mandatory = $false)]
+		[string]$CertificateThumbprint
 	)
 
 	Begin {
 
-		#Get the name of the function which invoked this one
-		$CallingFunction = Get-ParentFunction | Select-Object -ExpandProperty FunctionName
-		Write-Debug "Function: $($MyInvocation.InvocationName)"
-		Write-Debug "Invocation Origin: $CallingFunction"
-
-		#Add ContentType for all function calls
+		#Set defaults for all function calls
 		$PSBoundParameters.Add("ContentType", 'application/json')
 		$PSBoundParameters.Add("UseBasicParsing", $true)
 
 		#Bypass strict RFC header parsing in PS Core
-		if ($PSVersionTable.PSEdition -eq "Core") {
+		#Use TLS 1.2
+		if ($IsCoreCLR) {
 
 			$PSBoundParameters.Add("SkipHeaderValidation", $true)
 			$PSBoundParameters.Add("SslProtocol", "TLS12")
@@ -113,19 +105,12 @@ to ensure session persistence.
 		}
 
 		#If Tls12 Security Protocol is available
-		if(([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") -and
+		if (([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") -and
 
 			#And Tls12 is not already in use
 			(-not ([System.Net.ServicePointManager]::SecurityProtocol -match "Tls12"))) {
 
-			Write-Verbose "Setting Security Protocol to TLS12"
 			[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-
-		}
-
-		Else {
-
-			Write-Debug "Security Protocol: $([System.Net.ServicePointManager]::SecurityProtocol)"
 
 		}
 
@@ -133,159 +118,118 @@ to ensure session persistence.
 
 	Process {
 
+		#Show sanitised request body if in debug mode
+		If ([System.Management.Automation.ActionPreference]::SilentlyContinue -ne $DebugPreference) {
+
+			If ($PSBoundParameters.ContainsKey("Body")) {
+
+				Write-Debug "[Body] $(Hide-SecretValue -InputValue $Body)"
+
+			}
+
+		}
+
 		try {
 
 			#make web request, splat PSBoundParameters
-			$webResponse = Invoke-WebRequest @PSBoundParameters -ErrorAction Stop
+			$APIResponse = Invoke-WebRequest @PSBoundParameters -ErrorAction Stop
 
-			$StatusCode = $webResponse.StatusCode
+		} catch [System.UriFormatException] {
 
-		}
+			#Catch URI Format errors. Likely $Script:BaseURI is not set; New-PASSession should be run.
+			$PSCmdlet.ThrowTerminatingError(
 
-		catch {
+				[System.Management.Automation.ErrorRecord]::new(
 
-			#Catch any errors, save response
-			$StatusCode = $($_.Exception.Response).StatusCode.value__
+					"$PSItem Run New-PASSession",
+					$null,
+					[System.Management.Automation.ErrorCategory]::NotSpecified,
+					$PSItem
 
-			Write-Debug $_
+				)
 
-			$response = $_
+			)
 
-		}
+		} catch {
 
-		finally {
+			$ErrorID = $null
+			$StatusCode = $($PSItem.Exception.Response).StatusCode.value__
+			$ErrorMessage = $($PSItem.Exception.Message)
 
-			Write-Debug "Status code: $StatusCode"
+			$Response = $PSItem.Exception | Select-Object -ExpandProperty 'Response' -ErrorAction Ignore
+			if ( $Response ) {
 
-			if( -not ($StatusCode -match "20*")) {
+				$ErrorDetails = $($PSItem.ErrorDetails)
+			}
 
-				#Non 20X Status Codes & No Status Code
-				<#
-                    400 - Bad Request
-                    401 - Unauthorised
-                    403 - Forbidden
-                    409 - already exists (CONFLICT)
-					404 - not found
-					500 - server error
-					503 - service unavailable
-				#>
+			# Not an exception making the request or the failed request didn't have a response body.
+			if ( $null -eq $ErrorDetails ) {
 
-				Try {
+				throw $PSItem
 
-					$response = $response | ConvertFrom-Json
-					$ErrorMessage = "[$StatusCode] $($response.ErrorMessage)"
-					$ErrorID = $response.ErrorCode
+			} Else {
 
-				} Catch {
+				If (-not($StatusCode)) {
 
-					$ErrorMessage = $response -replace "`n", " "
-					$ErrorID = $StatusCode
+					#Generic failure message if no status code/response
+					$ErrorMessage = "Error contacting $($PSItem.TargetObject.RequestUri.AbsoluteUri)"
 
-				} Finally {
+				} ElseIf ($ErrorDetails) {
 
-					Write-Error -Message $ErrorMessage -ErrorId $ErrorID
+					try {
 
+						#Convert ErrorDetails JSON to Object
+						$Response = $ErrorDetails | ConvertFrom-Json
+						#API Error Message
+						$ErrorMessage = "[$StatusCode] $($Response.ErrorMessage)"
+						#API Error Code
+						$ErrorID = $Response.ErrorCode
+
+					} catch {
+
+						#If error converting JSON, return $ErrorDetails
+						#replace any new lines or whitespace with single spaces
+						$ErrorMessage = $ErrorDetails -replace "(`n|\W+)", " "
+						#Use $StatusCode as ErrorID
+						$ErrorID = $StatusCode
+
+					}
 				}
 
 			}
 
-			else {
+			#throw the error
+			$PSCmdlet.ThrowTerminatingError(
 
-				#status code is of type 20x
-				#If there is a response from the web request
-				if($webResponse) {
+				[System.Management.Automation.ErrorRecord]::new(
 
-					<#
-                    200 - OK
-                    201 - Created
-                    202 - Accepted
-                    204 - No Content
-                    #>
+					$ErrorMessage,
+					$ErrorID,
+					[System.Management.Automation.ErrorCategory]::NotSpecified,
+					$PSItem
 
-					#If Response has content
-					if($webResponse.content) {
+				)
 
-						if(($webResponse.headers)["Content-Type"] -match "application/octet-stream") {
+			)
 
-							if($($webResponse.content | get-member | select-object -expandproperty typename) -eq "System.Byte" ) {
+		} finally {
 
-								$webResponse.content
+			#If Command Succeeded
+			if ($?) {
 
-							}
+				#If Session Variable passed as argument
+				If ($PSCmdlet.ParameterSetName -eq "SessionVariable") {
 
-						}
+					#Make the WebSession available in the module scope
+					Set-Variable -Name WebSession -Value $(Get-Variable $(Get-Variable sessionVariable).Value).Value -Scope Script
 
-						elseif(($webResponse.headers)["Content-Type"] -match "application/save") {
+				}
 
-							#'application/save' is the Content-Type returned when saving a PSM recording
-							if($($webResponse.content | get-member | select-object -expandproperty typename) -eq "System.Byte" ) {
+				#Status code indicates success
+				If ($APIResponse.StatusCode -match '^20\d$') {
 
-								$webResponse.content
-
-							}
-
-						}
-
-						elseif(($webResponse.headers)["Content-Type"] -match "text/html") {
-
-							Write-Debug "$($webResponse.content)"
-
-							If($webResponse.content -match '^"(.*)"$') {
-								#Return only the text between opening and closing quotes
-								$matches[1]
-							} ElseIf($webResponse.content -match '<HTML>') {
-								throw "Guru Meditation - HTML Response Received"
-							}
-
-						}
-
-						Elseif(($webResponse.headers)["Content-Type"] -match "application/json") {
-
-							#Create Return Object from Returned JSON
-							$PASResponse = ConvertFrom-Json -InputObject $webResponse.content
-
-							#Handle Version 10 Logon Token Return
-							If(($CallingFunction -eq "New-PASSession") -and ($PASResponse.length -eq 180)) {
-
-								Write-Verbose "Assigning token to CyberArkLogonResult"
-								#If calling function is New-PASSession, and result is a 180 character token
-								#Create a new object and assign the token to the CyberArkLogonResult property.
-								#This ensures an object is returned instead of a string (which would cause issues).
-								$PASResponse = [PSCustomObject]@{
-
-									CyberArkLogonResult = $PASResponse
-
-								}
-
-							}
-
-							#If Session Variable passed as argument
-							If($PSBoundParameters.ContainsKey("SessionVariable")) {
-
-								Write-verbose "SessionVariable Passed; Processing WebSession"
-
-								#Add WebSession Object to Return Object
-								$PASResponse | Add-ObjectDetail -PropertyToAdd @{
-
-									#WebSession is stored in sessionVariable variable in current scope
-									"WebSession" = $(Get-Variable $(Get-Variable sessionVariable).Value).Value
-
-								} -Passthru $false
-
-							}
-
-							#Return Object
-							$PASResponse
-
-						}
-
-						Else {
-
-							throw $([System.Text.Encoding]::ASCII.GetString($($webResponse.content)))
-
-						}
-
-					}
+					#Pass APIResponse to Get-PASResponse
+					$APIResponse | Get-PASResponse
 
 				}
 
@@ -294,5 +238,7 @@ to ensure session persistence.
 		}
 
 	}
+
+	End { }
 
 }

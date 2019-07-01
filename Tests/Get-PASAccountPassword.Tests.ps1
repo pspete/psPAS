@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -35,171 +38,50 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			Write-Output "String"
-		}
+		Context "Standard Operation" {
 
-		$InputObj = [pscustomobject]@{
-			"AccountID"    = "77_7"
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
+			BeforeEach {
 
-		}
+				$Script:ExternalVersion = 10.1
 
-		Context "Mandatory Parameters" {
+				Mock Invoke-PASRestMethod -MockWith { }
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'AccountID'}
+				$InputObject = [PSCustomObject]@{
+					AccountID = 1234
+				}
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+				$OctetStream = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
+				$OctetStream | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
+				$OctetStream | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/octet-stream' ; "Content-Disposition" = "attachment; filename=FILENAME.zip" } -Force
+				$OctetStream | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes("Expected")) -Force
 
-				param($Parameter)
-
-				(Get-Command Get-PASAccountPassword).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
 			}
 
-		}
+			It "does not throw" {
 
-		$response = $InputObj | Get-PASAccountPassword -verbose
+				{ $InputObject | Get-PASAccountPassword } | Should -Not -Throw
 
-		Context "Input - legacy API parameterset" {
-
-			It "sends request" {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
 
 			}
 
-			It "sends request to expected endpoint" {
+			It "throws if version requirement not met" {
+				$Script:ExternalVersion = 1.1
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+				{ $InputObject | Get-PASAccountPassword } | Should -Throw -ExpectedMessage "CyberArk 1.1 does not meet the minimum version requirement of 10.1 for Get-PASAccountPassword (using ParameterSet: v10)"
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts/77_7/Credentials"
-
-				} -Times 1 -Exactly -Scope Describe
 
 			}
 
-			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'GET' } -Times 1 -Exactly -Scope Describe
-
-			}
-
-			It "sends request with no body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
-
-			}
-
-		}
-
-		Context "Input - v10 API parameterset" {
-
-			$InputObj | Get-PASAccountPassword -UseV10API -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345
-
-			It "sends request" {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "sends request to expected endpoint" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts/77_7/Password/Retrieve"
-
-				} -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "sends request with expected body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$Script:RequestBody = $Body | ConvertFrom-Json
-
-					($Script:RequestBody) -ne $null
-
-				} -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "has a request body with expected number of properties" {
-
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 3
-
-			}
-
-
-			It "throws error if version requirement not met" {
-				{$InputObj | Get-PASAccountPassword -UseV10API -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345 -ExternalVersion "1.0"} | Should Throw
-			}
-
-
-		}
-
-		Context "Output" {
-
-			it "provides output" {
-
-				$response | Should not be null
-
-			}
-
-			it "outputs string value for CyberArk version 9 byte array result" {
+			It "Returns expected Classic API response" {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[system.Text.Encoding]::UTF8.GetBytes("psPAS")
+					Return $OctetStream
 				}
-				$response = $InputObj | Get-PASAccountPassword -verbose
-				$response.Password | Should be "psPAS"
 
-			}
+				$result = $InputObject | Get-PASAccountPassword -UseClassicAPI
 
-			it "outputs string value for CyberArk version 10 string result" {
-
-				Mock Invoke-PASRestMethod -MockWith {
-					Write-Output "psPAS"
-				}
-				$response = $InputObj | Get-PASAccountPassword -verbose
-				$response.Password | Should be "psPAS"
-
-			}
-
-			It "has output with expected number of properties" {
-
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 6
-
-			}
-
-			it "outputs object with expected typename" {
-
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Credential
-
-			}
-
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
-
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Not BeNullOrEmpty
+				$result.Password | Should -Be "Expected"
 
 			}
 

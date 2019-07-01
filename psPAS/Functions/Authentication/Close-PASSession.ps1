@@ -1,105 +1,121 @@
 ﻿function Close-PASSession {
 	<#
-.SYNOPSIS
-Logoff from CyberArk Vault.
+	.SYNOPSIS
+	Logoff from CyberArk Vault.
 
-.DESCRIPTION
-Performs Logoff and removes the Vault session.
+	.DESCRIPTION
+	Performs Logoff and removes the Vault session.
 
-.PARAMETER UseV9API
-Specify the UseV9API switch to send the authentication request via the v9 API endpoint.
+	.PARAMETER UseClassicAPI
+	Specify the UseClassicAPI switch to send the authentication request via the Classic (v9) API endpoint.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
+	.PARAMETER SharedAuthentication
+	Specify the SharedAuthentication switch to logoff from a shared authentication session
 
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
+	.PARAMETER SAMLAuthentication
+	Specify the SAMLAuthentication switch to logoff from a session authenticated to with SAML
 
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
+	.EXAMPLE
+	Close-PASSession
 
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
+	Logs off from the session related to the authorisation token.
 
-.EXAMPLE
-$token | Close-PASSession
+	.EXAMPLE
+	Close-PASSession -SAMLAuthentication
 
-Logs off from the session related to the authorisation token.
+	Logs off from the session related to the authorisation token using the SAML Authentication API endpoint.
 
-.EXAMPLE
-$token | Close-PASSession -UseV9API
+	.EXAMPLE
+	Close-PASSession -SharedAuthentication
 
-Logs off from the session related to the authorisation token using the v9 API endpoint.
+	Logs off from the session related to the authorisation token using the Shared Authentication API endpoint.
 
-.INPUTS
-All Parameters accept piped values by propertyname
+	.EXAMPLE
+	Close-PASSession -UseClassicAPI
 
-.OUTPUTS
-None
+	Logs off from the session related to the authorisation token using the Classic API endpoint.
 
-.NOTES
-
-.LINK
-#>
-	[CmdletBinding()]
+	#>
+	[CmdletBinding(DefaultParameterSetName = "V10")]
 	param(
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = "v9"
 		)]
-		[switch]$UseV9API,
+		[switch]$UseClassicAPI,
 
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
+		[Parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "shared"
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[switch]$SharedAuthentication,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "saml"
+		)]
+		[switch]$SAMLAuthentication
 
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+
+		Switch ($PSCmdlet.ParameterSetName) {
+
+			"v9" {
+
+				$URI = "$Script:BaseURI/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
+				break
+
+			}
+
+			"saml" {
+
+				$URI = "$Script:BaseURI/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
+				break
+
+			}
+
+			"shared" {
+
+				$URI = "$Script:BaseURI/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logoff"
+				break
+
+			}
+
+			"V10" {
+
+				$URI = "$Script:BaseURI/API/Auth/Logoff"
+				break
+
+			}
+
+		}
+
+	}#begin
 
 	PROCESS {
 
-		If($UseV9API) {
-
-			#Construct URL for request
-			$URI = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
-
-		}
-
-		Else {
-
-			#Construct URL for request
-			$URI = "$baseURI/$PVWAAppName/API/Auth/Logoff"
-
-		}
-
 		#Send Logoff Request
-		Invoke-PASRestMethod -Uri $URI -Method POST -Headers $sessionToken -WebSession $WebSession | Out-Null
+		Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession | Out-Null
 
 	}#process
 
-	END {}#end
+	END {
+
+		#Set ExternalVersion to 0.0
+		[System.Version]$Version = "0.0"
+		Set-Variable -Name ExternalVersion -Value $Version -Scope Script -ErrorAction SilentlyContinue
+
+		#Clear Module scope variables on logoff
+		Clear-Variable -Name BaseURI -Scope Script -ErrorAction SilentlyContinue
+		Clear-Variable -Name WebSession -Scope Script -ErrorAction SilentlyContinue
+
+	}#end
 }

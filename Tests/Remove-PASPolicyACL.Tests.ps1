@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -41,19 +44,13 @@ Describe $FunctionName {
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken" = @{"Authorization" = "P_AuthValue"}
-			"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"      = "https://P_URI"
-			"PVWAAppName"  = "P_App"
-			"PolicyID"     = "UNIXSSH"
+"PolicyID"     = "UNIXSSH"
 			"Id"           = 22
 		}
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'PolicyId'},
+			$Parameters = @{Parameter = 'PolicyId'},
 			@{Parameter = 'Id'}
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
@@ -80,7 +77,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Policy/UNIXSSH/PrivilegedCommands/22"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Policy/UNIXSSH/PrivilegedCommands/22"
 				} -Times 1 -Exactly -Scope Describe
 
 			}

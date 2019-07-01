@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -37,14 +40,12 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'AccountID'},
-			@{Parameter = 'Folder'},
-			@{Parameter = 'AccountName'},
-			@{Parameter = 'op'},
-			@{Parameter = 'path'},
-			@{Parameter = 'operations'}
+			$Parameters = @{Parameter = 'AccountID' },
+			@{Parameter = 'Folder' },
+			@{Parameter = 'AccountName' },
+			@{Parameter = 'op' },
+			@{Parameter = 'path' },
+			@{Parameter = 'operations' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -60,43 +61,36 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith {}
+				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
-					"AccountID"    = "12_3"
-					"Folder"       = "Root"
-					"AccountName"  = "Name"
-					"Name"         = "SomeName"
-					"PolicyID"     = "SomePolicy"
-					"Safe"         = "SafeName"
-					"Random"       = "Rand"
-					"Random1"      = "RandomValue"
+					"AccountID"   = "12_3"
+					"Folder"      = "Root"
+					"AccountName" = "Name"
+					"Name"        = "SomeName"
+					"PolicyID"    = "SomePolicy"
+					"Safe"        = "SafeName"
+					"Random"      = "Rand"
+					"Random1"     = "RandomValue"
 
 				}
 				[void]$InputObj.PSObject.TypeNames.Insert(0, "psPAS.CyberArk.Vault.Account")
 
 				$InputObjV10 = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
-					"AccountID"    = "12_3"
+					"PVWAAppName" = "P_App"
+					"AccountID"   = "12_3"
 				}
 
 				[array]$MultiOps = (
-					@{"op" = "add"; "path" = "/addthis"; "value" = "AddValue"},
-					@{"op" = "replace"; "path" = "/replace/this/path"; "value" = "ReplaceValue"},
-					@{"op" = "remove"; "path" = "/removethispath"}
+					@{"op" = "add"; "path" = "/addthis"; "value" = "AddValue" },
+					@{"op" = "replace"; "path" = "/replace/this/path"; "value" = "ReplaceValue" },
+					@{"op" = "remove"; "path" = "/removethispath" }
 				)
 
 			}
 
 			It "sends request - V9 ParameterSet" {
-				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
+				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
@@ -116,10 +110,10 @@ Describe $FunctionName {
 			}
 
 			It "sends request to expected endpoint - V9 ParameterSet" {
-				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
+				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Accounts/12_3"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Accounts/12_3"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -129,7 +123,7 @@ Describe $FunctionName {
 				$InputObjV10 | Set-PASAccount -op Remove -path "/somepath" -value SomeValue
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts/12_3"
+					$URI -eq "$($Script:BaseURI)/api/Accounts/12_3"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -139,32 +133,32 @@ Describe $FunctionName {
 				$InputObjV10 | Set-PASAccount -operations $MultiOps
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Accounts/12_3"
+					$URI -eq "$($Script:BaseURI)/api/Accounts/12_3"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method - V9 ParameterSet" {
-				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'PUT' } -Times 1 -Exactly -Scope It
+				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method - V10SingleOp ParameterSet" {
 				$InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'PATCH' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PATCH' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method - V10MultiOp ParameterSet" {
 				$InputObjV10 | Set-PASAccount -operations $MultiOps
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'PATCH' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PATCH' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with expected body - V9 ParameterSet" {
-				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
+				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					($Body | ConvertFrom-Json | select-Object -ExpandProperty Accounts) -ne $null
@@ -194,7 +188,7 @@ Describe $FunctionName {
 			}
 
 			It "has a request body with expected number of properties - V9 ParameterSet" {
-				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
+				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					($Body | ConvertFrom-Json | select-Object -ExpandProperty Accounts | Get-Member -MemberType NoteProperty).length -eq 4
@@ -224,7 +218,7 @@ Describe $FunctionName {
 
 			It "has a request body with expected number of nested properties - V9 ParameterSet" {
 
-				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
+				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -236,9 +230,10 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.2"
 
-				{$InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue -ExternalVersion 1.2} | Should throw
-
+				{ $InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue } | Should throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}
@@ -259,34 +254,26 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
-					"AccountID"    = "12_3"
-					"Folder"       = "Root"
-					"AccountName"  = "Name"
-					"Name"         = "SomeName"
-					"PolicyID"     = "SomePolicy"
-					"Safe"         = "SafeName"
-					"Random"       = "Rand"
-					"Random1"      = "RandomValue"
+					"AccountID"   = "12_3"
+					"Folder"      = "Root"
+					"AccountName" = "Name"
+					"Name"        = "SomeName"
+					"PolicyID"    = "SomePolicy"
+					"Safe"        = "SafeName"
+					"Random"      = "Rand"
+					"Random1"     = "RandomValue"
 
 				}
 				[void]$InputObj.PSObject.TypeNames.Insert(0, "psPAS.CyberArk.Vault.Account")
 
 				$InputObjV10 = [pscustomobject]@{
-					"sessionToken" = @{"Authorization" = "P_AuthValue"}
-					"WebSession"   = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"      = "https://P_URI"
-					"PVWAAppName"  = "P_App"
-					"AccountID"    = "12_3"
+					"AccountID" = "12_3"
 				}
 
 			}
 
 			it "provides output - V9 ParameterSet" {
-				$response = $InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
+				$response = $InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
 				$response | Should not BeNullOrEmpty
 
 			}
@@ -298,19 +285,19 @@ Describe $FunctionName {
 			}
 
 			It "has output with expected number of properties - V9 ParameterSet" {
-				$response = $InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 10
+				$response = $InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 5
 
 			}
 
 			It "has output with expected number of properties - V10 ParameterSet" {
 				$response = $InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
 
 			}
 
 			it "outputs object with expected typename - V9 ParameterSet" {
-				$response = $InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3"}
+				$response = $InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
 				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account
 
 			}
@@ -318,20 +305,6 @@ Describe $FunctionName {
 			it "outputs object with expected typename - V10 ParameterSet" {
 				$response = $InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
 				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.V10
-
-			}
-
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'AccountID'},
-			@{Property = 'ExternalVersion'}
-
-
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-				($InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3"}).$Property | Should Not BeNullOrEmpty
 
 			}
 

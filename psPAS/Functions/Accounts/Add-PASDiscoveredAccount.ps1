@@ -98,25 +98,8 @@ Any text added when the key was created.
 .PARAMETER encryption
 The type of encryption used to generate the SSH key.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Add-PASDiscoveredAccount -UserName Discovered23 -Address domain.com -discoveryDate $(Get-Date "29/10/2018") -AccountEnabled $true -platformType "Windows Domain" -SID 12355
+Add-PASDiscoveredAccount -UserName Discovered23 -Address domain.com -discoveryDate $(Get-Date "29/10/2018") -AccountEnabled $true -platformType "Windows Domain" -SID 12355
 
 Adds matching discovered account as pending account.
 
@@ -124,11 +107,6 @@ Adds matching discovered account as pending account.
 All parameters can be piped by property name
 
 .OUTPUTS
-
-.NOTES
-
-.LINK
-
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
 	[CmdletBinding(DefaultParameterSetName = "Windows")]
@@ -326,38 +304,7 @@ All parameters can be piped by property name
 			ParameterSetName = "UnixSSHKey"
 		)]
 		[ValidateSet("RSA", "DSA")]
-		[string]$encryption,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$encryption
 	)
 
 	BEGIN {
@@ -371,19 +318,17 @@ All parameters can be piped by property name
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
-		$URI = "$baseURI/$PVWAAppName/api/DiscoveredAccounts"
+		$URI = "$Script:BaseURI/api/DiscoveredAccounts"
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		Foreach($DateTime in $DateTimes) {
+		Foreach ($DateTime in $DateTimes) {
 
-			if($PSBoundParameters.ContainsKey($DateTime)) {
-
-				Write-Debug "Converting $DateTime to UnixTime"
+			if ($PSBoundParameters.ContainsKey($DateTime)) {
 
 				#convert to unix time
 				$boundParameters["$DateTime"] = Get-Date $PSBoundParameters["$DateTime"] -UFormat %s
@@ -392,8 +337,8 @@ All parameters can be piped by property name
 
 		}
 
-		$platformTypeAccountProperties = @{}
-		$boundParameters.keys | Where-Object {$AccountProperties -contains $_} | ForEach-Object {
+		$platformTypeAccountProperties = @{ }
+		$boundParameters.keys | Where-Object { $AccountProperties -contains $_ } | ForEach-Object {
 
 			#add key=value to hashtable
 			$platformTypeAccountProperties[$_] = $boundParameters[$_]
@@ -401,35 +346,27 @@ All parameters can be piped by property name
 
 		}
 
-		If($platformTypeAccountProperties.Count -gt 0) {
+		If ($platformTypeAccountProperties.Count -gt 0) {
 
 			$boundParameters["platformTypeAccountProperties"] = $platformTypeAccountProperties
 
 		}
 
 		$body = $boundParameters |
-			Get-PASParameter -ParametersToRemove $AccountProperties  |
-			ConvertTo-Json
+		Get-PASParameter -ParametersToRemove $AccountProperties |
+		ConvertTo-Json
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			#Return Results
-			$result | Add-ObjectDetail -DefaultProperties id, status -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			$result | Add-ObjectDetail -DefaultProperties id, status
 
 		}
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

@@ -29,37 +29,23 @@ Only relevant for "Path Authentication".
 Note Property
 only relevant for hash authentication.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
 .EXAMPLE
-$token | Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType machineAddress -AuthValue AppServer1.domain.com
+Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType machineAddress -AuthValue AppServer1.domain.com
 
 Adds a Machine Address application authentication mechanism to NewApp
 
 .EXAMPLE
-$token | Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType osUser -AuthValue Domain\SomeUser
+Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType osUser -AuthValue Domain\SomeUser
 
 Adds an osUSer application authentication mechanism to NewApp
 
 .EXAMPLE
-$token | Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType path -AuthValue SomePath
+Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType path -AuthValue SomePath
 
 Adds path application authentication mechanism to NewApp
 
 .EXAMPLE
-$token | Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType certificateserialnumber -AuthValue 040000000000FA3DEFE9A9 -Comment "DEV Cert"
+Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType certificateserialnumber -AuthValue 040000000000FA3DEFE9A9 -Comment "DEV Cert"
 
 Adds certificateserialnumber application authentication mechanism to NewApp
 
@@ -73,9 +59,6 @@ None
 Function uses dynamicparameters.
 Dynamic Parameters IsFolder, AllowInternalScripts & Comment do
 not accept input from the pipeline.
-
-.LINK
-
 #>
     [CmdletBinding()]
     param(
@@ -98,31 +81,7 @@ not accept input from the pipeline.
             ValueFromPipelinebyPropertyName = $true
         )]
         #[ValidateScript({<#[0-9a-fA-F]+CertSerialnumberValidation#>})]
-        [string]$AuthValue,
-
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [ValidateNotNullOrEmpty()]
-        [hashtable]$sessionToken,
-
-        [parameter(
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$BaseURI,
-
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$PVWAAppName = "PasswordVault"
+        [string]$AuthValue
     )
 
     DynamicParam {
@@ -155,7 +114,7 @@ not accept input from the pipeline.
 
     PROCESS {
 
-        $URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Applications/$($AppID |
+        $URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID |
 
             Get-EscapedString)/Authentications"
 
@@ -165,7 +124,7 @@ not accept input from the pipeline.
 
         } | ConvertTo-Json
 
-        Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+        Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
     }#process
 

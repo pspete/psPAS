@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -36,14 +39,10 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2"; "PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC"}
+			[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2"; "PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC" }
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken"        = @{"Authorization" = "P_AuthValue"}
-			"WebSession"          = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"             = "https://P_URI"
-			"PVWAAppName"         = "P_App"
 			"AccountID"           = "SomeID"
 			"Reason"              =	"Some Important Reason"
 			"TicketingSystemName" = "SomeName"
@@ -55,9 +54,7 @@ Describe $FunctionName {
 
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'AccountID'}
+			$Parameters = @{Parameter = 'AccountID' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
@@ -83,7 +80,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/API/MyRequests"
+					$URI -eq "$($Script:BaseURI)/API/MyRequests"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -91,7 +88,7 @@ Describe $FunctionName {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 
@@ -126,7 +123,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-				{$InputObj | New-PASRequest -ExternalVersion "1.0"} | Should Throw
+$Script:ExternalVersion = "1.0"
+				{ $InputObj | New-PASRequest  } | Should Throw
+$Script:ExternalVersion = "0.0"
 			}
 
 		}
@@ -141,7 +140,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 10
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 5
 
 			}
 
@@ -151,18 +150,7 @@ Describe $FunctionName {
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken'},
-			@{Property = 'WebSession'},
-			@{Property = 'BaseURI'},
-			@{Property = 'PVWAAppName'},
-			@{Property = 'ExternalVersion'}
 
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Not BeNullOrEmpty
-
-			}
 
 		}
 

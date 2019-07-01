@@ -11,37 +11,12 @@ function Export-PASPlatform {
 	The name of the platform.
 
 	.PARAMETER Path
-	The output zip file to save the platform configuration in.
-
-	.PARAMETER sessionToken
-	Hashtable containing the session token returned from New-PASSession
-
-	.PARAMETER WebSession
-	WebRequestSession object returned from New-PASSession
-
-	.PARAMETER BaseURI
-	PVWA Web Address
-	Do not include "/PasswordVault/"
-
-	.PARAMETER PVWAAppName
-	The name of the CyberArk PVWA Virtual Directory.
-	Defaults to PasswordVault
-
-	.PARAMETER ExternalVersion
-	The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-	If the minimum version requirement of this function is not satisfied, execution will be halted.
-	Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
+	The folder to export the platform configuration to.
 
 	.EXAMPLE
-	$token | Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
+	Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 
 	Exports UnixSSH to Platform.zip platform package.
-
-	.INPUTS
-	SessionToken, ImportFile, WebSession & BaseURI can be piped by  property name
-
-	.OUTPUTS
-	None
 
 	.NOTES
 	Minimum CyberArk version 10.4
@@ -59,41 +34,8 @@ function Export-PASPlatform {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateNotNullOrEmpty()]
-		[ValidateScript( { Test-Path -Path $_ -PathType Leaf -IsValid})]
-		[ValidatePattern( '\.zip$' )]
-		[string]$path,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$SessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[ValidateScript( { Test-Path -Path $_ -IsValid })]
+		[string]$path
 	)
 
 	BEGIN {
@@ -102,39 +44,20 @@ function Export-PASPlatform {
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
+		$URI = "$Script:BaseURI/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
 
-		if($PSCmdlet.ShouldProcess($PlatformID, "Exports Platform Package")) {
+		if ($PSCmdlet.ShouldProcess($PlatformID, "Exports Platform Package")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Headers $SessionToken -WebSession $WebSession -Debug:$false
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession -Debug:$false
 
 			#if we get a platform byte array
-			if($result) {
+			if ($result) {
 
-				try {
-
-					$output = @{
-						Path     = $path
-						Value    = $result
-						Encoding = "Byte"
-					}
-
-					If($IsCoreCLR) {
-
-						#amend parameters for splatting if we are in Core
-						$output.Add("AsByteStream", $true)
-						$output.Remove("Encoding")
-
-					}
-
-					#write it to a file
-					Set-Content @output -ErrorAction Stop
-
-				} catch {throw "Error Saving $path"}
+				Out-PASFile -InputObject $result -Path $path
 
 			}
 
@@ -142,6 +65,6 @@ function Export-PASPlatform {
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

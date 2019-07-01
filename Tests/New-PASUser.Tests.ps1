@@ -22,6 +22,9 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -36,17 +39,6 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'SessionToken' }
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command New-PASUser).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
-
-			}
 
 			It "specifies parameter UserName as mandatory for ParameterSet legacy" {
 
@@ -77,10 +69,6 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"    = @{"Authorization" = "P_AuthValue" }
-					"WebSession"      = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"         = "https://P_URI"
-					"PVWAAppName"     = "P_App"
 					"UserName"        = "SomeUser"
 					"InitialPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
 					"FirstName"       = "Some"
@@ -89,7 +77,7 @@ Describe $FunctionName {
 
 				}
 
-				$response = $InputObj | New-PASUser -UseV9API
+				$response = $InputObj | New-PASUser -UseClassicAPI
 
 			}
 
@@ -103,7 +91,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/Users"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -144,10 +132,6 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"    = @{"Authorization" = "P_AuthValue" }
-					"WebSession"      = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"         = "https://P_URI"
-					"PVWAAppName"     = "P_App"
 					"UserName"        = "SomeUser"
 					"InitialPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
 					"FirstName"       = "Some"
@@ -173,7 +157,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/api/Users"
+					$URI -eq "$($Script:BaseURI)/api/Users"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -204,8 +188,10 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.0"
 
-				{ $InputObj | New-PASUser -ExternalVersion "1.0" } | Should Throw
+				{ $InputObj | New-PASUser } | Should Throw
+				$Script:ExternalVersion = "0.0"
 
 			}
 
@@ -221,10 +207,6 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"sessionToken"    = @{"Authorization" = "P_AuthValue" }
-					"WebSession"      = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"BaseURI"         = "https://P_URI"
-					"PVWAAppName"     = "P_App"
 					"UserName"        = "SomeUser"
 					"InitialPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
 					"FirstName"       = "Some"
@@ -233,7 +215,7 @@ Describe $FunctionName {
 
 				}
 
-				$response = $InputObj | New-PASUser -UseV9API
+				$response = $InputObj | New-PASUser -UseClassicAPI
 
 			}
 
@@ -245,7 +227,7 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 7
+				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
 
 			}
 
@@ -261,18 +243,7 @@ Describe $FunctionName {
 
 			}
 
-			$DefaultProps = @{Property = 'sessionToken' },
-			@{Property = 'WebSession' },
-			@{Property = 'BaseURI' },
-			@{Property = 'PVWAAppName' },
-			@{Property = 'ExternalVersion' }
 
-			It "returns default property <Property> in response" -TestCases $DefaultProps {
-				param($Property)
-
-				$response.$Property | Should Not BeNullOrEmpty
-
-			}
 
 		}
 

@@ -15,25 +15,8 @@ The address of the account whose privileged commands will be listed.
 .PARAMETER AccountUserName
 The name of the account’s user.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$token | Get-PASAccount root | Get-PASAccountACL
+Get-PASAccount root | Get-PASAccountACL
 
 Returns Privileged Account Rules for the account root found by Get-PASAccount:
 
@@ -49,16 +32,8 @@ Should accept pipeline objects from other *-PASAccount functions
 
 .OUTPUTS
 Outputs Object of Custom Type psPAS.CyberArk.Vault.ACL
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(
@@ -83,38 +58,7 @@ To force all output to be shown, pipe to Select-Object *
 		)]
 		[Alias("UserName")]
 		[ValidateNotNullOrEmpty()]
-		[string]$AccountUserName,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$AccountUserName
 	)
 
 	BEGIN {}#begin
@@ -122,7 +66,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Account/$($AccountAddress |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account/$($AccountAddress |
 
             Get-EscapedString)|$($AccountUserName |
 
@@ -131,21 +75,13 @@ To force all output to be shown, pipe to Select-Object *
                     Get-EscapedString)/PrivilegedCommands"
 
 		#Send request to Web Service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -Headers $sessionToken -WebSession $WebSession #DevSkim: ignore DS104456
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession #DevSkim: ignore DS104456
 
 		if($result) {
 
 			$result.ListAccountPrivilegedCommandsResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Account -PropertyToAdd @{
-
-				"sessionToken"    = $sessionToken
-				"WebSession"      = $WebSession
-				"BaseURI"         = $BaseURI
-				"PVWAAppName"     = $PVWAAppName
-				"ExternalVersion" = $ExternalVersion
-
-			}
+			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Account
 
 		}
 

@@ -101,44 +101,10 @@ on safe.
 Boolean value defining if MoveAccountsAndFolders permission will be granted to safe
 member on safe.
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-
 .EXAMPLE
-$Token | Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true
+Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true
 
 Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts"
-
-.INPUTS
-MemberName, Session Token, SafeName, WebSession & BaseURI can be
-piped by property name
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-
-.LINK
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'keysToRemove', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess)]
@@ -291,38 +257,7 @@ To force all output to be shown, pipe to Select-Object *
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[boolean]$MoveAccountsAndFolders,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[boolean]$MoveAccountsAndFolders
 	)
 
 	BEGIN {
@@ -331,7 +266,7 @@ To force all output to be shown, pipe to Select-Object *
 		$baseParameters = @("MemberName", "MembershipExpirationDate", "SafeName")
 
 		#create hashtable to hold safe member permission information
-		$permissions = @{}
+		$permissions = @{ }
 
 		#Create array of keys to remove from top level of required JSON structure.
 		[array]$keysToRemove += "SafeName", "MemberName"
@@ -341,7 +276,7 @@ To force all output to be shown, pipe to Select-Object *
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Safes/$($SafeName |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
 
             Get-EscapedString)/Members/$($MemberName |
 
@@ -350,7 +285,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Get passed parameters to include in request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		If($PSBoundParameters.ContainsKey("MembershipExpirationDate")) {
+		If ($PSBoundParameters.ContainsKey("MembershipExpirationDate")) {
 
 			#Convert ExpiryDate to string in Required format
 			$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yyyy).ToString()
@@ -361,7 +296,7 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#For each "Non-Base"/"Permission" parameters
-		$boundParameters.keys | Where-Object {$baseParameters -notcontains $_} | ForEach-Object {
+		$boundParameters.keys | Where-Object { $baseParameters -notcontains $_ } | ForEach-Object {
 
 			#Add to hash table in key/value pair
 			$permissions[$_] = $boundParameters[$_]
@@ -372,7 +307,7 @@ To force all output to be shown, pipe to Select-Object *
 		}
 
 		#Add Permission parameters as value of "Permissions" property
-		$boundParameters["Permissions"] = @($permissions.getenumerator() | ForEach-Object {$_})
+		$boundParameters["Permissions"] = @($permissions.getenumerator() | ForEach-Object { $_ })
 
 		#Create JSON for body of request
 		$body = @{
@@ -384,29 +319,24 @@ To force all output to be shown, pipe to Select-Object *
 			#Ensure all levels of object are output
 		} | ConvertTo-Json -Depth 3
 
-		if($PSCmdlet.ShouldProcess($SafeName, "Update Safe Permissions for '$MemberName'")) {
+		if ($PSCmdlet.ShouldProcess($SafeName, "Update Safe Permissions for '$MemberName'")) {
 
 			#Send request to webservice
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -Headers $sessionToken -WebSession $WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-			if($result) {
+			if ($result) {
 
 				#format output
 				$result.member | Select-Object MembershipExpirationDate,
 
 				@{Name = "Permissions"; "Expression" = {
 
-						$_.Permissions | Where-Object {$_.value} | Select-Object -ExpandProperty key}
+						$_.Permissions | Where-Object { $_.value } | Select-Object -ExpandProperty key }
 
-				}  | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
+				} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
 
-					"UserName"        = $MemberName
-					"SafeName"        = $SafeName
-					"sessionToken"    = $sessionToken
-					"WebSession"      = $WebSession
-					"BaseURI"         = $BaseURI
-					"PVWAAppName"     = $PVWAAppName
-					"ExternalVersion" = $ExternalVersion
+					"UserName" = $MemberName
+					"SafeName" = $SafeName
 
 				}
 
@@ -416,6 +346,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

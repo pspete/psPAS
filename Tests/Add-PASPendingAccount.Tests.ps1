@@ -13,7 +13,7 @@ $ModulePath = Resolve-Path "$Here\..\$ModuleName"
 #Define Path to Module Manifest
 $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+if ( -not (Get-Module -Name $ModuleName -All)) {
 
 	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
@@ -22,6 +22,9 @@ if( -not (Get-Module -Name $ModuleName -All)) {
 BeforeAll {
 
 	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 }
 
@@ -36,14 +39,10 @@ Describe $FunctionName {
 	InModuleScope $ModuleName {
 
 		Mock Invoke-PASRestMethod -MockWith {
-			Write-Output @{}
+			Write-Output @{ }
 		}
 
 		$InputObj = [pscustomobject]@{
-			"sessionToken"            = @{"Authorization" = "P_AuthValue"}
-			"WebSession"              = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			"BaseURI"                 = "https://P_URI"
-			"PVWAAppName"             = "P_App"
 			"UserName"                = "SomeUser"
 			"Address"                 = "SomeAddress"
 			"AccountDiscoveryDate"    = "2018-02-22T22:22:22Z"
@@ -69,12 +68,10 @@ Describe $FunctionName {
 		}
 
 		Context "Mandatory Parameters" {
-			$Parameters = @{Parameter = 'BaseURI'},
-			@{Parameter = 'SessionToken'},
-			@{Parameter = 'UserName'},
-			@{Parameter = 'Address'},
-			@{Parameter = 'AccountDiscoveryDate'},
-			@{Parameter = 'AccountEnabled'}
+			$Parameters = @{Parameter = 'UserName' },
+			@{Parameter = 'Address' },
+			@{Parameter = 'AccountDiscoveryDate' },
+			@{Parameter = 'AccountEnabled' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 				param($Parameter)
@@ -99,7 +96,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled 'Invoke-PASRestMethod' -ParameterFilter {
 
-					$URI -eq "$($InputObj.BaseURI)/$($InputObj.PVWAAppName)/WebServices/PIMServices.svc/PendingAccounts"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/PendingAccounts"
 
 				} -Times 1 -Exactly -Scope Describe
 
@@ -107,7 +104,7 @@ Describe $FunctionName {
 
 			It "sends request using expected method" {
 
-				Assert-MockCalled 'Invoke-PASRestMethod' -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled 'Invoke-PASRestMethod' -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
 
 			}
 

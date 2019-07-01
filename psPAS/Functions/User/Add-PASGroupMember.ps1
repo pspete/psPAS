@@ -25,32 +25,13 @@ The name of the user
 .PARAMETER UserName
 The name of the user
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-If the minimum version requirement of this function is not satisfied, execution will be halted.
-Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
-
 .EXAMPLE
-$token | Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
+Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
 
 Adds TargetUser to PVWAMonitor group
 
 .EXAMPLE
-$token | Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
+Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
 
 Adds TargetUser to PVWAMonitor group
 
@@ -59,11 +40,6 @@ All parameters can be piped by property name
 
 .OUTPUTS
 None
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding(DefaultParameterSetName = "post_10_6")]
 	param(
@@ -108,38 +84,7 @@ None
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "pre_10_6"
 		)]
-		[string]$UserName,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[string]$UserName
 	)
 
 	BEGIN {
@@ -148,20 +93,20 @@ None
 
 	PROCESS {
 
-		If($PSCmdlet.ParameterSetName -eq "pre_10_6") {
+		If ($PSCmdlet.ParameterSetName -eq "pre_10_6") {
 			#Create URL for request
-			$URI = "$baseURI/$PVWAAppName/WebServices/PIMServices.svc/Groups/$($GroupName |
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Groups/$($GroupName |
 
             Get-EscapedString)/Users"
 
 		}
 
-		ElseIf($PSCmdlet.ParameterSetName -eq "post_10_6") {
+		ElseIf ($PSCmdlet.ParameterSetName -eq "post_10_6") {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for request
-			$URI = "$baseURI/$PVWAAppName/API/UserGroups/$groupId/Members"
+			$URI = "$Script:BaseURI/API/UserGroups/$groupId/Members"
 
 		}
 
@@ -173,9 +118,9 @@ None
 		ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Headers $sessionToken -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result
 
@@ -183,6 +128,6 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

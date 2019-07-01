@@ -19,11 +19,6 @@ String Value
 
 .OUTPUTS
 Escaped String Value
-
-.NOTES
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	[OutputType('System.String')]

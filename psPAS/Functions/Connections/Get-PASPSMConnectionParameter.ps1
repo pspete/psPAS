@@ -4,10 +4,8 @@ function Get-PASPSMConnectionParameter {
 Get required parameters to connect through PSM
 
 .DESCRIPTION
-This method enables you to connect to an account through PSM (PSMConnect) using
-a connection method defined in the PVWA.
-The function returns the parameters to be used in an RDP file or with a Remote Desktop Manager, or if
-a PSMGW is configured, the HTML5 connection data and the required PSMGW URL.
+This method enables you to connect to an account through PSM (PSMConnect) using.
+The function returns either an RDP file or URL for PSM connections.
 It requires the PVWA and PSM to be configured for either transparent connections through PSM with RDP files
 or the HTML5 Gateway.
 
@@ -49,47 +47,18 @@ The expected parameters to be returned, either RDP or PSMGW.
 
 PSMGW is only available from version 10.2 onwards
 
-.PARAMETER sessionToken
-Hashtable containing the session token returned from New-PASSession
-
-.PARAMETER WebSession
-WebRequestSession object returned from New-PASSession
-
-.PARAMETER BaseURI
-PVWA Web Address
-Do not include "/PasswordVault/"
-
-.PARAMETER PVWAAppName
-The name of the CyberArk PVWA Virtual Directory.
-Defaults to PasswordVault
-
-.PARAMETER ExternalVersion
-The External CyberArk Version, returned automatically from the New-PASSession function from version 9.7 onwards.
-If the minimum version requirement of this function is not satisfied, execution will be halted.
-Omitting a value for this parameter, or supplying a version of "0.0" will skip the version check.
+.PARAMETER Path
+The folder to save the output file in.
 
 .EXAMPLE
-Get-PASPSMConnectionParameter -AccountID $ID -ConnectionComponent PSM-SSH -reason "Fix XYZ" -sessionToken $ST -BaseURI $url
+Get-PASPSMConnectionParameter -AccountID $ID -ConnectionComponent PSM-SSH -reason "Fix XYZ"
 
-Outputs RDP file contents for Direct Connection via PSM using account with ID in $ID
-
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-SessionToken, WebSession, BaseURI are passed through and
-contained in output object for inclusion in subsequent
-pipeline operations.
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
+Outputs RDP file for Direct Connection via PSM using account with ID in $ID
 
 .NOTES
 Minimum CyberArk Version 9.10
 PSMGW connections require 10.2
 Ad-Hoc connections require 10.5
-
-.LINK
-
 #>
 	[CmdletBinding()]
 	param(
@@ -210,35 +179,11 @@ Ad-Hoc connections require 10.5
 		[string]$ConnectionMethod,
 
 		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[ValidateNotNullOrEmpty()]
-		[hashtable]$sessionToken,
-
-		[parameter(
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault",
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[System.Version]$ExternalVersion = "0.0"
-
+		[ValidateScript( { Test-Path -Path $_ -IsValid })]
+		[string]$Path
 	)
 
 	BEGIN {
@@ -253,22 +198,22 @@ Ad-Hoc connections require 10.5
 
 	PROCESS {
 
-		if($PSCmdlet.ParameterSetName -eq "PSMConnect") {
+		if ($PSCmdlet.ParameterSetName -eq "PSMConnect") {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for Request
-			$URI = "$baseURI/$PVWAAppName/API/Accounts/$($AccountID)/PSMConnect"
+			$URI = "$Script:BaseURI/API/Accounts/$($AccountID)/PSMConnect"
 
 			#Create body of request
 			$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod | ConvertTo-Json
 
-		} elseif($PSCmdlet.ParameterSetName -eq "AdHocConnect") {
+		} elseif ($PSCmdlet.ParameterSetName -eq "AdHocConnect") {
 
-			Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $AdHocVersion
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $AdHocVersion
 
 			#Create URL for Request
-			$URI = "$baseURI/$PVWAAppName/API/Accounts/AdHocConnect"
+			$URI = "$Script:BaseURI/API/Accounts/AdHocConnect"
 
 			#Get all parameters that will be sent in the request
 			$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -276,9 +221,9 @@ Ad-Hoc connections require 10.5
 			#Include decoded password in request
 			$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
 
-			$PSMConnectPrerequisites = @{}
+			$PSMConnectPrerequisites = @{ }
 
-			$boundParameters.keys | Where-Object {$AdHocParameters -contains $_} | ForEach-Object {
+			$boundParameters.keys | Where-Object { $AdHocParameters -contains $_ } | ForEach-Object {
 
 				#add key=value to hashtable
 				$PSMConnectPrerequisites[$_] = $boundParameters[$_]
@@ -291,20 +236,20 @@ Ad-Hoc connections require 10.5
 
 		}
 
-		$Header = $sessionToken
+		$ThisSession = $Script:WebSession
 
 		#if a connection method is specified
-		If($PSBoundParameters.ContainsKey("ConnectionMethod")) {
+		If ($PSBoundParameters.ContainsKey("ConnectionMethod")) {
 
 			#The information needs to passed in the header
-			if($PSBoundParameters["ConnectionMethod"] -eq "RDP") {
+			if ($PSBoundParameters["ConnectionMethod"] -eq "RDP") {
 
 				#RDP accept "application/json" response
-				$Accept = "application/json"
+				$Accept = "application/octet-stream"
 
-			} elseif($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
+			} elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
 
-				Assert-VersionRequirement -ExternalVersion $ExternalVersion -RequiredVersion $RequiredVersion
+				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
 				#PSMGW accept * / * response
 				$Accept = "* / *"
@@ -312,22 +257,31 @@ Ad-Hoc connections require 10.5
 			}
 
 			#add detail to header
-			$Header["Accept"] = $Accept
+			$ThisSession.Headers["Accept"] = $Accept
 
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -Headers $Header -WebSession $WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $ThisSession
 
-		If($result) {
+		If ($result) {
 
-			#Return PSM Connection Parameters
-			$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.PSM.Connection.RDP"
+			If (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains "PSMGWRequest") {
+
+				#Return PSM GW URL Details
+				$result
+
+			} Else {
+
+				#Save the RDP file to disk
+				Out-PASFile -InputObject $result -Path $Path
+
+			}
 
 		}
 
 	} #process
 
-	END {}#end
+	END { }#end
 
 }
