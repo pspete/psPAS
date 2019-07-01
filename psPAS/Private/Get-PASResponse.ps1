@@ -33,7 +33,7 @@ function Get-PASResponse {
 	BEGIN {	}#begin
 
 	PROCESS {
-		$Global:Response = $APIResponse
+
 		if ($APIResponse.Content) {
 
 			#Default Response - Return Content
