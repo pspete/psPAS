@@ -187,9 +187,12 @@ Describe $FunctionName {
 
 			it "catches other errors" {
 
-				Mock Invoke-WebRequest { Throw "Some Error" }
+				$errorDetails = $null
+				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+				$errorRecord.ErrorDetails = $errorDetails
+				Mock Invoke-WebRequest { Throw $errorRecord }
 
-				{ Invoke-PASRestMethod @WebSession } | Should -Throw -ExpectedMessage "Some Error"
+				{ Invoke-PASRestMethod @WebSession } | Should -Throw
 
 			}
 

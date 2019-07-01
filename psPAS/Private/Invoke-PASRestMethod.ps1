@@ -145,44 +145,57 @@
 					$null,
 					[System.Management.Automation.ErrorCategory]::NotSpecified,
 					$PSItem
+
 				)
 
 			)
 
-		} catch [System.Net.Http.HttpRequestException] {
+		} catch {
 
-			#Request Error Default Values
+			$ErrorID = $null
 			$StatusCode = $($PSItem.Exception.Response).StatusCode.value__
 			$ErrorMessage = $($PSItem.Exception.Message)
-			$ErrorDetails = $($PSItem.ErrorDetails)
-			$ErrorID = $null
 
+			$Response = $PSItem.Exception | Select-Object -ExpandProperty 'Response' -ErrorAction Ignore
+			if ( $Response ) {
 
-			If (-not($StatusCode)) {
+				$ErrorDetails = $($PSItem.ErrorDetails)
+			}
 
-				#Generic failure message if no status code/response
-				$ErrorMessage = "Error contacting $($PSItem.TargetObject.RequestUri.AbsoluteUri)"
+			# Not an exception making the request or the failed request didn't have a response body.
+			if ( $null -eq $ErrorDetails ) {
 
-			} ElseIf ($ErrorDetails) {
+				throw $PSItem
 
-				try {
+			} Else {
 
-					#Convert ErrorDetails JSON to Object
-					$Response = $ErrorDetails | ConvertFrom-Json
-					#API Error Message
-					$ErrorMessage = "[$StatusCode] $($Response.ErrorMessage)"
-					#API Error Code
-					$ErrorID = $Response.ErrorCode
+				If (-not($StatusCode)) {
 
-				} catch {
+					#Generic failure message if no status code/response
+					$ErrorMessage = "Error contacting $($PSItem.TargetObject.RequestUri.AbsoluteUri)"
 
-					#If error converting JSON, return $ErrorDetails
-					#replace any new lines or whitespace with single spaces
-					$ErrorMessage = $ErrorDetails -replace "(`n|\W+)", " "
-					#Use $StatusCode as ErrorID
-					$ErrorID = $StatusCode
+				} ElseIf ($ErrorDetails) {
 
+					try {
+
+						#Convert ErrorDetails JSON to Object
+						$Response = $ErrorDetails | ConvertFrom-Json
+						#API Error Message
+						$ErrorMessage = "[$StatusCode] $($Response.ErrorMessage)"
+						#API Error Code
+						$ErrorID = $Response.ErrorCode
+
+					} catch {
+
+						#If error converting JSON, return $ErrorDetails
+						#replace any new lines or whitespace with single spaces
+						$ErrorMessage = $ErrorDetails -replace "(`n|\W+)", " "
+						#Use $StatusCode as ErrorID
+						$ErrorID = $StatusCode
+
+					}
 				}
+
 			}
 
 			#throw the error
@@ -198,11 +211,6 @@
 				)
 
 			)
-
-		} catch {
-
-			#Catch All Other Exceptions
-			throw $PSItem
 
 		} finally {
 
