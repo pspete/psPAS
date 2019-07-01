@@ -33,7 +33,7 @@ function Get-PASResponse {
 	BEGIN {	}#begin
 
 	PROCESS {
-
+		$Global:Response = $APIResponse
 		if ($APIResponse.Content) {
 
 			#Default Response - Return Content
@@ -47,13 +47,7 @@ function Get-PASResponse {
 
 				'text/html; charset=utf-8' {
 
-					#text/html response is expected from the Password/Retrieve Uri path.
-					If ($PASResponse -match '^"(.*)"$') {
-
-						#Return only the text between opening and closing quotes
-						$PASResponse = $matches[1]
-
-					} ElseIf ($PASResponse -match '<HTML>') {
+					If ($PASResponse -match '<HTML>') {
 
 						#Fail if HTML received from API
 
