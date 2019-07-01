@@ -38,159 +38,52 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			Write-Output "String"
-		}
+		Context "Standard Operation" {
 
-		$InputObj = [pscustomobject]@{
+			BeforeEach {
 
-			"AccountID" = "77_7"
+				$Script:ExternalVersion = 10.1
 
-		}
+				Mock Invoke-PASRestMethod -MockWith { }
 
-		Context "Mandatory Parameters" {
+				$InputObject = [PSCustomObject]@{
+					AccountID = 1234
+				}
 
-			$Parameters = @{Parameter = 'AccountID' }
+				$OctetStream = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
+				$OctetStream | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
+				$OctetStream | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/octet-stream' ; "Content-Disposition" = "attachment; filename=FILENAME.zip" } -Force
+				$OctetStream | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes("Expected")) -Force
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Get-PASAccountPassword).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should Be $true
 
 			}
 
-		}
+			It "does not throw" {
 
-		$response = $InputObj | Get-PASAccountPassword -UseClassicAPI
+				{ $InputObject | Get-PASAccountPassword } | Should -Not -Throw
 
-		Context "Input - legacy API parameterset" {
-
-			It "sends request" {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
 
 			}
 
-			It "sends request to expected endpoint" {
+			It "throws if version requirement not met" {
+				$Script:ExternalVersion = 1.1
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+				{ $InputObject | Get-PASAccountPassword } | Should -Throw -ExpectedMessage "CyberArk 1.1 does not meet the minimum version requirement of 10.1 for Get-PASAccountPassword (using ParameterSet: v10)"
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Accounts/77_7/Credentials"
-
-				} -Times 1 -Exactly -Scope Describe
 
 			}
 
-			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Describe
-
-			}
-
-			It "sends request with no body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Describe
-
-			}
-
-		}
-
-		Context "Input - v10 API parameterset" {
-
-			$InputObj | Get-PASAccountPassword -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345
-
-			It "sends request" {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "sends request to expected endpoint" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$URI -eq "$($Script:BaseURI)/api/Accounts/77_7/Password/Retrieve"
-
-				} -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "sends request with expected body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$Script:RequestBody = $Body | ConvertFrom-Json
-
-					($Script:RequestBody) -ne $null
-
-				} -Times 1 -Exactly -Scope Context
-
-			}
-
-			It "has a request body with expected number of properties" {
-
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 3
-
-			}
-
-
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
-				{ $InputObj | Get-PASAccountPassword -Reason "SomeReason" -TicketingSystemName "someSystem" -TicketId 12345 } | Should Throw
-				$Script:ExternalVersion = "0.0"
-			}
-
-
-		}
-
-		Context "Output" {
-
-			it "provides output" {
-
-				$response | Should not be null
-
-			}
-
-			it "outputs string value for CyberArk version 9 byte array result" {
+			It "Returns expected Classic API response" {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[system.Text.Encoding]::UTF8.GetBytes("psPAS")
+					Return $OctetStream
 				}
-				$response = $InputObj | Get-PASAccountPassword -UseClassicAPI
-				$response.Password | Should be "psPAS"
+
+				$result = $InputObject | Get-PASAccountPassword -UseClassicAPI
+
+				$result.Password | Should -Be "Expected"
 
 			}
-
-			it "outputs string value for CyberArk version 10 string result" {
-
-				Mock Invoke-PASRestMethod -MockWith {
-					Write-Output "psPAS"
-				}
-				$response = $InputObj | Get-PASAccountPassword -UseClassicAPI
-				$response.Password | Should be "psPAS"
-
-			}
-
-			It "has output with expected number of properties" {
-
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 1
-
-			}
-
-			it "outputs object with expected typename" {
-
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Credential
-
-			}
-
-
 
 		}
 

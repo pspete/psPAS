@@ -80,7 +80,7 @@ Describe $FunctionName {
 			}
 
 			It "returns expected text value" {
-				Get-PASResponse -APIResponse $TextResponse | Should Be "Value"
+				Get-PASResponse -APIResponse $TextResponse | Should Be '"Value"'
 			}
 
 			It "throws if HTML received" {
