@@ -110,7 +110,7 @@ Describe $FunctionName {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Users/123_45"
+					$URI -eq "$($Script:BaseURI)/api/Users/123"
 
 				} -Times 1 -Exactly -Scope It
 
