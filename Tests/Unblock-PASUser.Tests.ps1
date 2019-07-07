@@ -21,11 +21,6 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 
 BeforeAll {
 
-	$Script:RequestBody = $null
-	$Script:BaseURI = "https://SomeURL/SomeApp"
-	$Script:ExternalVersion = "0.0"
-	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-
 }
 
 AfterAll {
@@ -38,91 +33,34 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
-		}
+		Context "Standard Operation" {
 
-		Context "Mandatory Parameters" {
+			BeforeEach {
 
-			$Parameters = @{Parameter = 'UserName' },
-			@{Parameter = 'Suspended' }
+				$Script:BaseURI = "https://SomeURL/SomeApp"
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
+				}
+			}
 
-				param($Parameter)
-
-				(Get-Command Unblock-PASUser).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+			It "sends request to V10" {
+				Unblock-PASUser -id 123
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It -ParameterFilter {
+					$URI -eq "https://SomeURL/SomeApp/api/Users/123/Activate"
+				}
 
 			}
 
-		}
-
-		$response = Unblock-PASUser -UserName MrFatFingers -Suspended $false
-
-		Context "Input" {
-
-			It "sends request" {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+			It "sends request to Classic API" {
+				Unblock-PASUser -UserName MrFatFingers -Suspended $false
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It -ParameterFilter {
+					$URI -eq "https://SomeURL/SomeApp/WebServices/PIMServices.svc/Users/MrFatFingers"
+				}
 
 			}
-
-			It "sends request to expected endpoint" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/MrFatFingers"
-
-				} -Times 1 -Exactly -Scope Describe
-
-			}
-
-			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope Describe
-
-			}
-
-			It "sends request with expected body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$Script:RequestBody = $Body | ConvertFrom-Json
-
-					($Script:RequestBody) -ne $null
-
-				} -Times 1 -Exactly -Scope Describe
-
-			}
-
-			It "has a request body with expected number of properties" {
-
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 1
-
-			}
-
-		}
-
-		Context "Output" {
-
-			it "provides output" {
-
-				$response | Should not BeNullOrEmpty
-
-			}
-
-			It "has output with expected number of properties" {
-
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
-
-			}
-
-			it "outputs object with expected typename" {
-
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.User
-
-			}
-
 
 
 		}
