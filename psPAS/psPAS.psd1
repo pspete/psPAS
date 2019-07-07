@@ -173,7 +173,8 @@
 		'Find-PASSafe',
 		'Get-PASSession',
 		'Use-PASSession',
-		'Invoke-PASCPMOperation'
+		'Invoke-PASCPMOperation',
+		'Set-PASUserPassword'
 	)
 
 	# AliasesToExport   = @( )

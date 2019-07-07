@@ -1,0 +1,75 @@
+#Get Current Directory
+$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+#Get Function Name
+$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+
+#Assume ModuleName from Repository Root folder
+$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+
+#Resolve Path to Module Directory
+$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+
+#Define Path to Module Manifest
+$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+
+if ( -not (Get-Module -Name $ModuleName -All)) {
+
+	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+
+}
+
+BeforeAll {
+
+	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+}
+
+AfterAll {
+
+	$Script:RequestBody = $null
+
+}
+
+Describe $FunctionName {
+
+	InModuleScope $ModuleName {
+
+		Context "Standard Operation" {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith { }
+
+				$InputObj = [pscustomobject]@{
+					"id"          = "12345"
+					"NewPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+				}
+
+				$InputObj1 = [pscustomobject]@{
+					"id"          = "12345"
+					"NewPassword" = $("P_PasswordP_PasswordP_PasswordP_PasswordP_PasswordP_PasswordP_Password" | ConvertTo-SecureString -AsPlainText -Force)
+				}
+			}
+
+			It 'does not throw' {
+				{ $InputObj | Set-PASUserPassword } | Should -Not -Throw
+			}
+
+			It 'throws if NewPassword exceeds 39 characters' {
+				{ $InputObj1 | Set-PASUserPassword } | Should -Throw -ExpectedMessage "Password must not exceed 39 characters"
+			}
+
+			It 'sends request' {
+				$InputObj | Set-PASUserPassword
+				Assert-MockCalled -CommandName Invoke-PASRestMethod -Times 1 -Scope It
+			}
+
+		}
+
+	}
+
+}
