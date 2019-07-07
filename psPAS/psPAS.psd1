@@ -174,7 +174,8 @@
 		'Get-PASSession',
 		'Use-PASSession',
 		'Invoke-PASCPMOperation',
-		'Set-PASUserPassword'
+		'Set-PASUserPassword',
+		'Set-PASDirectoryMappingOrder'
 	)
 
 	# AliasesToExport   = @( )
