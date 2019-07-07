@@ -21,6 +21,11 @@ if ( -not (Get-Module -Name $ModuleName -All)) {
 
 BeforeAll {
 
+	$Script:RequestBody = $null
+	$Script:BaseURI = "https://SomeURL/SomeApp"
+	$Script:ExternalVersion = "0.0"
+	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
 }
 
 AfterAll {
@@ -37,31 +42,24 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				$Script:BaseURI = "https://SomeURL/SomeApp"
-				$Script:ExternalVersion = "0.0"
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				Mock Invoke-PASRestMethod -MockWith { }
 
-				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
-				}
-			}
-
-			It "sends request to V10" {
-				Unblock-PASUser -id 123
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It -ParameterFilter {
-					$URI -eq "https://SomeURL/SomeApp/api/Users/123/Activate"
+				$InputObj = [pscustomobject]@{
+					"DirectoryName" = "DOMAIN"
+					"MappingsOrder" = (1, 2, 3, 4, 5)
 				}
 
 			}
 
-			It "sends request to Classic API" {
-				Unblock-PASUser -UserName MrFatFingers -Suspended $false
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It -ParameterFilter {
-					$URI -eq "https://SomeURL/SomeApp/WebServices/PIMServices.svc/Users/MrFatFingers"
-				}
-
+			It 'does not throw' {
+				{ $InputObj | Set-PASDirectoryMappingOrder } | Should -Not -Throw
 			}
 
+
+			It 'sends request' {
+				$InputObj | Set-PASDirectoryMappingOrder
+				Assert-MockCalled -CommandName Invoke-PASRestMethod -Times 1 -Scope It
+			}
 
 		}
 

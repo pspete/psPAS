@@ -66,6 +66,9 @@ Specify switch to add the ResetUsersPasswords authorization to the directory map
 .PARAMETER ActivateUsers
 Specify switch to add the ActivateUsers authorization to the directory mapping
 
+.PARAMETER UserActivityLogPeriod
+Retention period in days for user activity logs
+
 .EXAMPLE
 New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map3 -RestoreAllSafes -BackupAllSafes
 
@@ -194,7 +197,6 @@ All parameters can be piped to the function by propertyname
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
-
 		[switch]$RestoreAllSafes,
 
 		[parameter(
@@ -209,12 +211,20 @@ All parameters can be piped to the function by propertyname
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
-		[switch]$ActivateUsers
+		[switch]$ActivateUsers,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateRange(1, 3650)]
+		[int]$UserActivityLogPeriod
 
 	)
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"10.7"
+		$RequiredVersion = [System.Version]"10.10"
 
 		#Enum Flag values for Mapping Authorizations
 		[Flags()]enum Authorizations{
@@ -233,7 +243,18 @@ All parameters can be piped to the function by propertyname
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+		#Ensure minimum required version is being used.
+		if ($PSBoundParameters.ContainsKey("UserActivityLogPeriod")) {
+
+			#10.10 Functionality
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+
+		} Else {
+
+			#10.7 functionality
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+
+		}
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID"
@@ -244,7 +265,7 @@ All parameters can be piped to the function by propertyname
 		RestoreAllSafes, ResetUsersPasswords, ActivateUsers
 
 		#If individual authorisations have been specified
-		if($PSCmdlet.ParameterSetName -eq "AuthNames") {
+		if ($PSCmdlet.ParameterSetName -match "^AuthNames") {
 
 			[array]$Authorizations = @()
 
@@ -252,7 +273,7 @@ All parameters can be piped to the function by propertyname
 			$PSBoundParameters.keys | ForEach-Object {
 
 				#where parameter name is defined in the Authorizations Enum
-				if([enum]::IsDefined([Authorizations], "$_")) {
+				if ([enum]::IsDefined([Authorizations], "$_")) {
 
 					#Add enum name to array
 					$Authorizations = $Authorizations + $_
@@ -260,19 +281,23 @@ All parameters can be piped to the function by propertyname
 				}
 			}
 
-			#Add enum integer flag as array to MappingAuthorizations request parameter
-			$boundParameters["MappingAuthorizations"] = [array][int][Authorizations]$Authorizations
+			If ($Authorizations.count -gt 0) {
+
+				#Add enum integer flag as array to MappingAuthorizations request parameter
+				$boundParameters["MappingAuthorizations"] = [array][int][Authorizations]$Authorizations
+
+			}
 
 		}
 
 		$body = $boundParameters | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess($MappingID, "Update Directory Mapping")) {
+		if ($PSCmdlet.ShouldProcess($MappingID, "Update Directory Mapping")) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-			If($result) {
+			If ($result) {
 
 				#Return Results
 				$result |
@@ -285,5 +310,5 @@ All parameters can be piped to the function by propertyname
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

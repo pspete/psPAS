@@ -7,6 +7,9 @@ Activates a suspended user
 Activates an existing vault user who was suspended due to password
 failures.
 
+.PARAMETER id
+ The user's unique ID
+
 .PARAMETER UserName
 The user's name
 
@@ -16,42 +19,68 @@ Suspension status
 .EXAMPLE
 Unblock-PASUser -UserName MrFatFingers -Suspended $false
 
-Activates suspended vault user MrFatFingers
+Activates suspended vault user MrFatFingers using the Classic API
+
+.EXAMPLE
+Unblock-PASUser -UserName MrFatFingers -id 666
+
+Activates suspended vault user MrFatFingers using the API from 10.10+
+
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "10_10")]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10_10"
+		)]
+		[int]$id,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ClassicAPI"
 		)]
 		[string]$UserName,
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = "ClassicAPI"
 		)]
 		[ValidateSet($false)]
 		[boolean]$Suspended
 	)
 
-	BEGIN { }#begin
+	BEGIN {
+		$MinimumVersion = "10.10"
+
+		$Request = @{"WebSession" = $Script:WebSession }
+
+	}#begin
 
 	PROCESS {
 
-		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
 
-            Get-EscapedString)"
+		If ($PSCmdlet.ParameterSetName -eq "10_10") {
 
-		#request body
-		$body = $PSBoundParameters |
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
-		Get-PASParameter -ParametersToRemove UserName |
+			#Create request
+			$Request["URI"] = "$Script:BaseURI/api/Users/$id/Activate"
+			$Request["Method"] = "POST"
 
-		ConvertTo-Json
+		} ElseIf ($PSCmdlet.ParameterSetName -eq "ClassicAPI") {
+
+			#Create request
+			$Request["URI"] = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
+			$Request["Method"] = "PUT"
+			$Request["Body"] = $PSBoundParameters | Get-PASParameter -ParametersToRemove UserName | ConvertTo-Json
+
+		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod @Request
 
 		if ($result) {
 
