@@ -4,9 +4,9 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v10.9.
+Contains all published methods of the API up to CyberArk v10.10.
 
-**Existing psPAS Users**: The latest module update (3.0) includes breaking changes; review the [Changelog](CHANGELOG.md) for full details.
+**Existing psPAS Users**: Module Version 3.0 introduced breaking changes; review the [Changelog](CHANGELOG.md) for full details.
 
 ----------
 
@@ -343,7 +343,7 @@ Import-PASConnectionComponent -ImportFile C:\Temp\ConnectionComponent.zip
 Import-PASPlatform -ImportFile C:\Temp\Platform.zip
 
 #Export a Platform
-Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp\ExportedPlatform.zip
+Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp
 ````
 
 #### Pipeline Operations
@@ -754,6 +754,8 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configureddirectory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             |**10.7**            |Delete a directory configuration.
 [`Find-PASSafe`][Find-PASSafe]                                                           |**10.1**            |List or Search Safes by name.
+[`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                           |**10.10**           |Reorder Directory Mappings
+[`Set-PASUserPassword`][Set-PASUserPassword]                                             |**10.10**           |Reset a User's Password
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
@@ -852,6 +854,8 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Remove-PASDirectory]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectory.ps1
 [Find-PASSafe]:/psPAS/Functions/Safes/Find-PASSafe.ps1
 [Invoke-PASCPMOperation]:/psPAS/Functions/Accounts/Invoke-PASCPMOperation.ps1
+[Set-PASDirectoryMappingOrder]:psPAS\Functions\LDAPDirectories\Set-PASDirectoryMappingOrder.ps1
+[Set-PASUserPassword]:psPAS\Functions\User\Set-PASUserPassword.ps1
 
 ## Installation
 

@@ -6,6 +6,9 @@ Returns details of a user
 .DESCRIPTION
 Returns information on specific vault user.
 
+.PARAMETER id
+The numeric id of the user to return details of.
+
 .PARAMETER Search
 Search string.
 
@@ -24,6 +27,11 @@ Get-PASUser
 Returns information for all found Users
 
 .EXAMPLE
+Get-PASUser -id 123
+
+Returns information on User with id 123
+
+.EXAMPLE
 Get-PASUser -search SearchTerm -ComponentUser $False
 
 Returns information for all matching Users
@@ -32,17 +40,16 @@ Returns information for all matching Users
 Get-PASUser -UserName Target_User
 
 Displays information on Target_User
-
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.User
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
 #>
 	[CmdletBinding(DefaultParameterSetName = "10_9")]
 	param(
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10_10"
+		)]
+		[int]$id,
 
 		[parameter(
 			Mandatory = $false,
@@ -77,16 +84,23 @@ To force all output to be shown, pipe to Select-Object *
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"10.9"
+		$RequiredVersion = [System.Version]"10.10"
 	}#begin
 
 	PROCESS {
 
-		If ($PSCmdlet.ParameterSetName -eq "10_9") {
+		#Create URL for request
+		$URI = "$Script:BaseURI/api/Users"
+
+		If ($PSCmdlet.ParameterSetName -eq "10_10") {
+
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+
+			$URI = "$URI/$id"
+
+		} ElseIf ($PSCmdlet.ParameterSetName -eq "10_9") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-
-			#Create URL for request
-			$URI = "$Script:BaseURI/api/Users"
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -106,9 +120,7 @@ To force all output to be shown, pipe to Select-Object *
 		ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
 
 			#Create URL for request
-			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
-
-            Get-EscapedString)"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 
 		}
 
@@ -125,10 +137,17 @@ To force all output to be shown, pipe to Select-Object *
 		#Handle legacy return
 		ElseIf ($result) {
 
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User
+			If ($PSCmdlet.ParameterSetName -eq "10_10") {
+
+				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Extended
+
+			} ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
+
+				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User
+
+			}
 
 		}
-
 
 
 	}#process

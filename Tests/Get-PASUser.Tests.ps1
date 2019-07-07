@@ -61,7 +61,7 @@ Describe $FunctionName {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"UserName"     = "SomeUser"
+					"UserName" = "SomeUser"
 
 				}
 
@@ -104,6 +104,18 @@ Describe $FunctionName {
 
 			}
 
+			It "sends request to expected endpoint -V10.10" {
+
+				Get-PASUser -id 123
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/api/Users/123"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It "uses expected method" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
@@ -117,10 +129,18 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
+				$Script:ExternalVersion = "1.0"
 
-				{ $InputObjV10 | Get-PASUser  } | Should Throw
-$Script:ExternalVersion = "0.0"
+				{ $InputObjV10 | Get-PASUser } | Should Throw
+				$Script:ExternalVersion = "0.0"
+
+			}
+
+			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "10.9"
+
+				{ Get-PASUser -id 123 } | Should Throw
+				$Script:ExternalVersion = "0.0"
 
 			}
 
@@ -135,7 +155,7 @@ $Script:ExternalVersion = "0.0"
 				}
 
 				$InputObj = [pscustomobject]@{
-					"UserName"     = "SomeUser"
+					"UserName" = "SomeUser"
 
 				}
 
