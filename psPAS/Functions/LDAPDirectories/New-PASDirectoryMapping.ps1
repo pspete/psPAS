@@ -63,6 +63,9 @@ Specify switch to add the ResetUsersPasswords authorization to the directory map
 .PARAMETER ActivateUsers
 Specify switch to add the ActivateUsers authorization to the directory mapping
 
+.PARAMETER UserActivityLogPeriod
+Retention period in days for user activity logs
+
 .EXAMPLE
 New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map3 -RestoreAllSafes -BackupAllSafes
 
@@ -115,66 +118,21 @@ All parameters can be piped to the function by propertyname
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthFlags-10_7"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string[]]$VaultGroups,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthFlags-10_7"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$Location,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthFlags-10_7"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$LDAPQuery,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthFlags-10_7"
-		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -187,21 +145,9 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$AddUpdateUsers,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -213,21 +159,9 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$AddNetworkAreas,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -239,12 +173,6 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$AuditUsers,
@@ -252,21 +180,9 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$BackupAllSafes,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -279,12 +195,6 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
-		)]
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AuthNames"
 		)]
 		[switch]$ResetUsersPasswords,
@@ -292,21 +202,23 @@ All parameters can be piped to the function by propertyname
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames-10_7"
+			ParameterSetName = "AuthNames"
 		)]
+		[switch]$ActivateUsers,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames"
+			ValueFromPipelinebyPropertyName = $true
 		)]
-		[switch]$ActivateUsers
+		[ValidateRange(1, 3650)]
+		[int]$UserActivityLogPeriod
 
 	)
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"10.4"
 		$RequiredVersion = [System.Version]"10.7"
+		$NeededVersion = [System.Version]"10.10"
 
 		#Enum Flag values for Mapping Authorizations
 		[Flags()]enum Authorizations{
@@ -325,12 +237,20 @@ All parameters can be piped to the function by propertyname
 
 	PROCESS {
 
-		if($PSCmdlet.ParameterSetName -match "10_7$") {
+		#Ensure minimum required version is being used.
+		if ($PSBoundParameters.ContainsKey("UserActivityLogPeriod")) {
 
+			#v10.10
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $NeededVersion
+
+		} Elseif ($PSBoundParameters.keys -match "VaultGroups|Location|LDAPQuery") {
+
+			#v10.7
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
 		} Else {
 
+			#v10.4
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		}
@@ -344,7 +264,7 @@ All parameters can be piped to the function by propertyname
 		ResetUsersPasswords, ActivateUsers
 
 		#If individual authorisations have been specified
-		if($PSCmdlet.ParameterSetName -match "^AuthNames") {
+		if ($PSCmdlet.ParameterSetName -match "^AuthNames") {
 
 			[array]$Authorizations = @()
 
@@ -352,7 +272,7 @@ All parameters can be piped to the function by propertyname
 			$PSBoundParameters.keys | ForEach-Object {
 
 				#where parameter name is defined in the Authorizations Enum
-				if([enum]::IsDefined([Authorizations], "$_")) {
+				if ([enum]::IsDefined([Authorizations], "$_")) {
 
 					#Add enum name to array
 					$Authorizations = $Authorizations + $_
@@ -360,8 +280,12 @@ All parameters can be piped to the function by propertyname
 				}
 			}
 
-			#Add enum integer flag as array to MappingAuthorizations request parameter
-			$boundParameters["MappingAuthorizations"] = [array][int][Authorizations]$Authorizations
+			If ($Authorizations.count -gt 0) {
+
+				#Add enum integer flag as array to MappingAuthorizations request parameter
+				$boundParameters["MappingAuthorizations"] = [array][int][Authorizations]$Authorizations
+
+			}
 
 		}
 
@@ -370,7 +294,7 @@ All parameters can be piped to the function by propertyname
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result |
@@ -381,5 +305,6 @@ All parameters can be piped to the function by propertyname
 
 	}#process
 
-	END {}#end
+	END { }#end
+
 }

@@ -38,24 +38,7 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'DirectoryName' },
-			@{Parameter = 'MappingName' },
-			@{Parameter = 'LDAPBranch' },
-			@{Parameter = 'DomainGroups' }
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command New-PASDirectoryMapping).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
-
-			}
-
-		}
-
-		Context "Input" {
+		Context "Standard Operation" {
 
 			BeforeEach {
 
@@ -71,18 +54,32 @@ Describe $FunctionName {
 
 				}
 
-				$response = $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes
+			}
 
+			It "does not throw - v10.4 parameterset" {
+				$Script:ExternalVersion = "10.4"
+				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes } | Should -Not -Throw
+			}
+
+
+			It "does not throw - v10.7 parameterset" {
+				$Script:ExternalVersion = "10.7"
+				{ $InputObj | New-PASDirectoryMapping -VaultGroups Group1, Group2 } | Should -Not -Throw
+			}
+
+			It "does not throw - v10.10 parameterset" {
+				$Script:ExternalVersion = "10.10"
+				{ $InputObj | New-PASDirectoryMapping -UserActivityLogPeriod 10 } | Should -Not -Throw
 			}
 
 			It "sends request" {
-
+				$InputObj | New-PASDirectoryMapping -RestoreAllSafes
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-
+				$InputObj | New-PASDirectoryMapping -RestoreAllSafes
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDirectory/Mappings"
@@ -92,89 +89,31 @@ Describe $FunctionName {
 			}
 
 			It "uses expected method" {
-
+				$InputObj | New-PASDirectoryMapping -RestoreAllSafes
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$Script:RequestBody = $Body | ConvertFrom-Json
-
-					($Script:RequestBody) -ne $null
-
-				} -Times 1 -Exactly -Scope It
-
-			}
-
-			It "has a request body with expected number of properties" {
-
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 4
-
-			}
-
-			It "sends expected MappingAuthorizations enum integer in request" {
-
-				$Script:RequestBody.MappingAuthorizations | Should Be 1536
-
+			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes } | Should -Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes  } | Should Throw
-$Script:ExternalVersion = "0.0"
-			}
-
-			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
 				$Script:ExternalVersion = "10.6"
-				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -VaultGroups "Group1", "Group2" } | Should Throw
+				{ $InputObj | New-PASDirectoryMapping -VaultGroups "Group1", "Group2" } | Should -Throw
 			}
 
-		}
-
-		Context "Output" {
-
-			BeforeEach {
-
-				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
-				}
-
-				$InputObj = [pscustomobject]@{
-					"DirectoryName"         = "SomeDirectory"
-					"MappingName"           = "SomeMapping"
-					"LDAPBranch"            = "SomeBranch"
-					"DomainGroups"          = "SomeGroup"
-					"DirectoryMappingOrder" = 0
-
-				}
-
-				$response = $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes
-
+			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "10.9"
+				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -VaultGroups "Group1", "Group2" -UserActivityLogPeriod 10 } | Should -Throw
 			}
 
-			it "provides output" {
-
-				$response | Should not BeNullOrEmpty
-
+			It "does not throw if version requirement met" {
+				$Script:ExternalVersion = "10.10"
+				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -VaultGroups "Group1", "Group2" -UserActivityLogPeriod 10 } | Should -Not -Throw
 			}
-
-			It "has output with expected number of properties" {
-
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
-
-			}
-
-			it "outputs object with expected typename" {
-
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Directory.Mapping
-
-			}
-
-
 
 		}
 
