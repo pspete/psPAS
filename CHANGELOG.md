@@ -1,5 +1,24 @@
 # psPAS
 
+## 3.1.0 (July 7th 2019)
+
+### Module update to cover CyberArk 10.10 API features
+
+- New Functions
+  - `Set-PASUserPassword`
+    - Reset user passwords
+  - `Set-PASDirectoryMappingOrder`
+    - Reorder directory mappings
+- Updated Functions
+  - `New-PASDirectoryMapping`
+    - Added parameter `UserActivityLogPeriod` for 10.10 API
+  - `Set-PASDirectoryMapping`
+    - Added parameter `UserActivityLogPeriod` for 10.10 API
+  - `Get-PASUser`
+    - Added parameter `id` for 10.10 API
+  - `Unblock-PASUser`
+    - Added parameter `id` for 10.10 API endpoint
+
 ## **3.0.0** (July 1st 2019)
 
 _2 years since first commit Anniversary Edition_
@@ -56,7 +75,7 @@ _2 years since first commit Anniversary Edition_
     - Added SAML authentication option.
     - Added Shared authentication option
     - Removed `$SecureMode` & `$AdditionalInfo` parameters.
-  -`Get-PASPSMConnectionParameter`
+  - `Get-PASPSMConnectionParameter`
     - Now saves an RDP file returned from an API request.
     - `path` parameter now expects a folder to save the file to.
     - Output file is named automatically
