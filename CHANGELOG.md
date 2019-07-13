@@ -1,6 +1,6 @@
 # psPAS
 
-## 3.1.X (July X 2019)
+## 3.1.7 (July 13th 2019)
 
 - Updates
   - `Add-PASSafeMember`
