@@ -1,5 +1,13 @@
 # psPAS
 
+## 3.1.7 (July 13th 2019)
+
+- Updates
+  - `Add-PASSafeMember`
+    - Added parameter aliases for permission name equivalent names returned from Get-PASSafeMember.
+  - `Get-PASSafeMember`
+    - Updated help text to detail permission name equivalents returned from the API.
+
 ## 3.1.0 (July 7th 2019)
 
 ### Module update to cover CyberArk 10.10 API features
