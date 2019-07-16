@@ -302,9 +302,10 @@ To move accounts to a different folder, Move accounts/folders permission is requ
 
 			}
 
-			#If InputObject is psPAS.CyberArk.Vault.Account
-			#i.e. receiving pipeline from Get-PASAccount
-			If (($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account") {
+			If (($InputObject) -and (($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account")) {
+
+				#If InputObject is psPAS.CyberArk.Vault.Account
+				#i.e. receiving pipeline from Get-PASAccount
 
 				#Get all existing properties as defined by input object:
 				#Process Pipeline input object properties
