@@ -1,6 +1,6 @@
 # psPAS
 
-## 3.1.9 (July 16th 2019)
+## 3.1.10 (July 16th 2019)
 
 - Fixes
   - `Set-PASAccount`
