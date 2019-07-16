@@ -1,5 +1,11 @@
 # psPAS
 
+## 3.1.9 (July 16th 2019)
+
+- Fixes
+  - `Set-PASAccount`
+    - Fixes non-terminating error when not piping an object into the function and using the Classic API.
+
 ## 3.1.7 (July 13th 2019)
 
 - Updates
