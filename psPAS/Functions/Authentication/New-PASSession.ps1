@@ -1,14 +1,16 @@
 ﻿function New-PASSession {
 	<#
 	.SYNOPSIS
-	Authenticates a user to CyberArk Vault.
+	Authenticates a user to CyberArk Vault/API.
 
 	.DESCRIPTION
 	Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object
 	which are used in subsequent calls to the API.
 	In addition, this method allows you to set a new password.
-	Authenticate using CyberArk, LDAP, RADIUS, SAML or Shared authentication (From CyberArk version 9.7 up),
-	Windows authentication is supported (from CyberArk 10.4 up).
+	Will attempt authentication against the V10 API by default.
+	For older CyberArk versions, specify the -UseClassicAPI switch parameter to force use of the V9 API endpoint.
+	Windows authentication is only supported (from CyberArk 10.4+).
+	Authenticate using CyberArk, LDAP, RADIUS, SAML or Shared authentication (From CyberArk version 9.7+),
 	For CyberArk version older than 9.7:
 		Only CyberArk Authentication method is supported.
 		newPassword Parameter is not supported.
@@ -376,7 +378,7 @@
 			If ($PASSession) {
 
 				#Version 10
-				If ($PASSession.length -eq 180) {
+				If ($PASSession.length -ge 180) {
 
 					#V10 Auth Token.
 

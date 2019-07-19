@@ -1,5 +1,11 @@
 # psPAS
 
+## 3.1.13 (July 19th 2019)
+
+- Fixes
+  - `New-PASSession`
+    - Fixes issue where authentication token was not available to other module functions after authenticating via the v10 API endpoint from CyberArk v9.X.
+
 ## 3.1.10 (July 16th 2019)
 
 - Fixes
