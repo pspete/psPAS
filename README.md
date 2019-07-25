@@ -969,7 +969,7 @@ Get detailed information on specific commands:
 
 ```powershell
 
-Get-Help Add-PASUser -Full
+Get-Help New-PASUser -Full
 
 ```
 
