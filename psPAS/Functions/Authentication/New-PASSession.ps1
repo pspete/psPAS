@@ -45,6 +45,19 @@
 	If a One Time Passcode is provided against this parameter, New-PASSession will append it to the
 	password value sent with the logon request, separated by a comma. (password_value,otp_value).
 
+	.PARAMETER ChallengeAuth
+	When using the version 10 API endpoint and type is set to RADIUS, specify the RADIUS challenge authentication.
+	Valid values are Password or OTP.
+	If Password is specified the first authentication attempt will use the OTP, then during RADIUS challenge the
+	password will be used.
+	If OTP is specified the first authentication attempt will use the password, then during RADIUS challenge the
+	OTP will be used.
+
+	.PARAMETER ChallengeMessage
+	When using the version 10 API endpoint and type is set to RADIUS, specify the RADIUS challenge reply-message.
+	Valid values are dependent on the reply-message sent by the RADIUS server when in challenge mode.
+	See https://tools.ietf.org/html/rfc2865#section-5.18 for more information.
+
 	.PARAMETER connectionNumber
 	In order to allow more than one connection for the same user simultaneously, each request
 	should be sent with different 'connectionNumber'.
@@ -224,6 +237,23 @@
 		)]
 		[string]$OTP,
 
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10"
+		)]
+		[ValidateSet("Password", "OTP")]
+		[string]$ChallengeAuth,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10"
+		)]
+		[string]$ChallengeMessage,
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
@@ -343,7 +373,25 @@
 
 					If ($PSBoundParameters.ContainsKey("OTP")) {
 
-						$boundParameters["password"] = "$($boundParameters["password"]),$OTP"
+						If (-not($ChallengeAuth)) {
+
+							$boundParameters["password"] = "$($boundParameters["password"]),$OTP"
+
+						}
+
+						#RADIUS challenge auth
+						If ($ChallengeAuth -eq "Password") {
+						
+							#First authentication will use OTP for request
+							$boundParameters["password"] = $OTP
+
+						}
+
+						If ($ChallengeMessage) {
+
+							$LogonRequest["RadiusReplyMessage"] = $ChallengeMessage
+
+						}
 
 					}
 
@@ -360,7 +408,7 @@
 			}
 
 			#Construct Request Body
-			$LogonRequest["Body"] = $boundParameters | Get-PASParameter -ParametersToRemove BaseURI, PVWAAppName, OTP, type | ConvertTo-Json
+			$LogonRequest["Body"] = $boundParameters | Get-PASParameter -ParametersToRemove BaseURI, PVWAAppName, OTP, type, ChallengeMessage, ChallengeAuth | ConvertTo-Json
 
 		} Elseif ($PSCmdlet.ParameterSetName -eq "saml") {
 
@@ -383,6 +431,61 @@
 					#V10 Auth Token.
 
 					$CyberArkLogonResult = $PASSession
+
+				}
+
+				#RADIUS challenge auth
+				ElseIf ($ChallengeAuth) {
+
+					#Clean up LogonRequest keys for second call of Invoke-PASRestMethod
+					If ($LogonRequest.ContainsKey('SessionVariable')) {
+						
+						$LogonRequest.Remove('SessionVariable')
+					
+					}
+
+					If ($LogonRequest.ContainsKey('RadiusReplyMessage')) {
+						
+						$LogonRequest.Remove('RadiusReplyMessage')
+					
+					}
+
+					#Set password in body of request to challenge auth
+					If ($ChallengeAuth -eq "Password") {
+						
+						$body = $LogonRequest["Body"] | ConvertFrom-Json
+						$body.password = $($Credential.GetNetworkCredential().Password)
+						$LogonRequest["Body"] = $body | ConvertTo-Json
+
+					}
+
+					ElseIf ($ChallengeAuth -eq "OTP") {
+
+						$body = $LogonRequest["Body"] | ConvertFrom-Json
+						$body.password = $OTP
+						$LogonRequest["Body"] = $body | ConvertTo-Json
+
+					}
+
+					#Pass original session variable back to Invoke-PASRestMethod
+					$LogonRequest["WebSession"] = $Script:WebSession
+
+					#Run Invoke-PASRestMethod again with alternate auth cred
+					$PASSession = Invoke-PASRestMethod @LogonRequest
+
+					#If Logon Result
+					If ($PASSession) {
+
+						#Version 10
+						If ($PASSession.length -ge 180) {
+
+							#V10 Auth Token.
+
+							$CyberArkLogonResult = $PASSession
+
+						}
+
+					}
 
 				}
 

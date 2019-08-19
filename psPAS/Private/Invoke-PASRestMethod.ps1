@@ -46,6 +46,10 @@
 	See Invoke-WebRequest
 	The thumbprint of the certificate to use for client certificate authentication.
 
+	.PARAMETER RadiusReplyMessage
+	See https://tools.ietf.org/html/rfc2865#section-5.18
+	The reply-message to use when validating API respone from RADIUS authentication.
+
 	.EXAMPLE
 	Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
@@ -86,7 +90,10 @@
 		[int]$TimeoutSec,
 
 		[Parameter(Mandatory = $false)]
-		[string]$CertificateThumbprint
+		[string]$CertificateThumbprint,
+
+		[Parameter(Mandatory = $false)]
+		[string]$RadiusReplyMessage
 	)
 
 	Begin {
@@ -111,6 +118,13 @@
 			(-not ([System.Net.ServicePointManager]::SecurityProtocol -match "Tls12"))) {
 
 			[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+		}
+
+		# Remove RADIUS reply-message from request
+		If ($PSBoundParameters.ContainsKey("RadiusReplyMessage")) {
+
+			$PSBoundParameters.Remove('RadiusReplyMessage')
 
 		}
 
@@ -153,6 +167,7 @@
 		} catch {
 
 			$ErrorID = $null
+			$RadiusChallengeMode = $false
 			$StatusCode = $($PSItem.Exception.Response).StatusCode.value__
 			$ErrorMessage = $($PSItem.Exception.Message)
 
@@ -185,6 +200,13 @@
 						#API Error Code
 						$ErrorID = $Response.ErrorCode
 
+						#Detect RADIUS challenge/response mode
+						If ($Response.ErrorMessage -eq $RadiusReplyMessage) {
+
+							$RadiusChallengeMode = $true
+
+						}
+
 					} catch {
 
 						#If error converting JSON, return $ErrorDetails
@@ -198,19 +220,23 @@
 
 			}
 
-			#throw the error
-			$PSCmdlet.ThrowTerminatingError(
+			If (-not($RadiusChallengeMode)) {
 
-				[System.Management.Automation.ErrorRecord]::new(
+				#throw the error
+				$PSCmdlet.ThrowTerminatingError(
 
-					$ErrorMessage,
-					$ErrorID,
-					[System.Management.Automation.ErrorCategory]::NotSpecified,
-					$PSItem
+					[System.Management.Automation.ErrorRecord]::new(
+
+						$ErrorMessage,
+						$ErrorID,
+						[System.Management.Automation.ErrorCategory]::NotSpecified,
+						$PSItem
+
+					)
 
 				)
-
-			)
+				
+			}
 
 		} finally {
 
