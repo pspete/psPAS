@@ -138,7 +138,8 @@ User: DuoUser
 Password for user DuoUser: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://cyberark.virtualreal.it -type RADIUS -OTP $OTP -ChallengeAuth "Password" -ChallengeMessage "Enter Windows Password:"
+New-PASSession -Credential $cred -BaseURI https://cyberark.virtualreal.it -type RADIUS -OTP $OTP `
+-ChallengeAuth "Password" -ChallengeMessage "Enter Windows Password:"
 
 Get-PASLoggedOnUser
 
