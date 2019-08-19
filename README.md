@@ -120,6 +120,33 @@ UserName Source UserTypeName AgentUser Expired Disabled Suspended
 DuoUser  LDAP   EPVUser      False     False   False    False
 ````
 
+#### RADIUS Authentication (challenge/response)
+
+- Some 2FA solutions require a challenge/response.
+
+  - If `ChallengeAuth` parameter is set to "Password", initial auth is done using OTP with RADIUS challenge auth using the password.
+  - If `ChallengeAuth` parameter is set to "OTP", initial auth is done using password with RADIUS challenge auth using the OTP.
+  - The `ChallengeMessage` parameter is set to the reply-message returned from your RADIUS provider during challenge auth.
+
+````powershell
+$cred = Get-Credential
+$OTP = Read-Host -Prompt "Please enter your OTP (token)"
+
+PowerShell credential request
+Enter your credentials.
+User: DuoUser
+Password for user DuoUser: **********
+
+
+New-PASSession -Credential $cred -BaseURI https://cyberark.virtualreal.it -type RADIUS -OTP $OTP -ChallengeAuth "Password" -ChallengeMessage "Enter Windows Password:"
+
+Get-PASLoggedOnUser
+
+UserName Source UserTypeName AgentUser Expired Disabled Suspended
+-------- ------ ------------ --------- ------- -------- ---------
+DuoUser  LDAP   EPVUser      False     False   False    False
+````
+
 #### Shared Authentication with Client Certificate
 
 - If IIS is configured to require client certificates, `psPAS` will use any provided certificate details for the duration of the session.
