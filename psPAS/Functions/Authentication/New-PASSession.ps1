@@ -42,8 +42,19 @@
 	Windows is only a valid option for version 10.4 onward.
 
 	.PARAMETER OTP
-	If a One Time Passcode is provided against this parameter, New-PASSession will append it to the
-	password value sent with the logon request, separated by a comma. (password_value,otp_value).
+	One Time Passcode for RADIUS auth.
+
+	.PARAMETER OTPMode
+	Specify if OTP is to be sent in either 'Append' (appended to the password) or 'Challenge' mode (sent in response to RADIUS Challenge).
+	New-PASSession will append it to the password value sent with the logon request, separated by a comma/delimiter. (password_value,otp_value).
+
+	.PARAMETER OTPDelimiter
+	The character to use as a delimiter when appending the OTP to the password. Defaults to comma ",".
+
+	.PARAMETER RadiusChallenge
+	Specify if Radius challenge is satisfied by 'OTP' or 'Password'.
+	If "Password", then OTP value will be sent first, and Password will be sent as the challenge response.
+	If "OTP" (Default), Password will be sent first, with OTP as the challenge response.
 
 	.PARAMETER connectionNumber
 	In order to allow more than one connection for the same user simultaneously, each request
@@ -224,6 +235,51 @@
 		)]
 		[string]$OTP,
 
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10"
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9"
+		)]
+		[ValidateSet("Append", "Challenge")]
+		[string]$OTPMode,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10"
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9"
+		)]
+		[ValidateLength(1, 1)]
+		[string]$OTPDelimiter,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10"
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9"
+		)]
+		[ValidateSet("Password", "OTP")]
+		[string]$RadiusChallenge,
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
@@ -328,7 +384,8 @@
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, UseDefaultCredentials, CertificateThumbprint
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck,
+		UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge
 
 		If (($PSCmdlet.ParameterSetName -eq "v9") -or ($PSCmdlet.ParameterSetName -eq "v10") ) {
 
@@ -339,11 +396,39 @@
 				#Add decoded password value from credential object
 				$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
 
+				#RADIUS Auth
 				If (($PSBoundParameters.ContainsKey("useRadiusAuthentication")) -or ($type -eq "RADIUS")) {
 
-					If ($PSBoundParameters.ContainsKey("OTP")) {
+					#OTP in Append Mode
+					If (($PSBoundParameters.ContainsKey("OTP")) -and ($PSBoundParameters["OTPMode"] -eq "Append")) {
 
-						$boundParameters["password"] = "$($boundParameters["password"]),$OTP"
+						If ($PSBoundParameters.ContainsKey("OTPDelimiter")) {
+
+							#Use specified delimiter to append OTP
+							$Delimiter = $OTPDelimiter
+
+						} Else {
+
+							#delimit with comma by default
+							$Delimiter = ","
+
+						}
+
+						#Append OTP to password
+						$boundParameters["password"] = "$($boundParameters["password"])$Delimiter$OTP"
+
+					}
+
+					#RADIUS Challenge Mode
+					ElseIf (($PSBoundParameters.ContainsKey("OTP")) -and ($PSBoundParameters["OTPMode"] -eq "Challenge")) {
+
+						If ($RadiusChallenge -eq "Password") {
+
+							#Send OTP first + then Password
+							$boundParameters["password"] = $OTP
+							$OTP = $($Credential.GetNetworkCredential().Password)
+
+						}
 
 					}
 
@@ -360,7 +445,7 @@
 			}
 
 			#Construct Request Body
-			$LogonRequest["Body"] = $boundParameters | Get-PASParameter -ParametersToRemove BaseURI, PVWAAppName, OTP, type | ConvertTo-Json
+			$LogonRequest["Body"] = $boundParameters | ConvertTo-Json
 
 		} Elseif ($PSCmdlet.ParameterSetName -eq "saml") {
 
@@ -371,8 +456,56 @@
 
 		if ($PSCmdlet.ShouldProcess("$BaseURI/$PVWAAppName", "Logon")) {
 
-			#Send Logon Request
-			$PASSession = Invoke-PASRestMethod @LogonRequest
+			try {
+
+				#Send Logon Request
+				$PASSession = Invoke-PASRestMethod @LogonRequest
+
+			} catch {
+
+				if ($PSItem.FullyQualifiedErrorId -notmatch "ITATS542I") {
+
+					#Throw all errors not related to ITATS542I
+					throw $PSItem
+
+				} Else {
+
+					#ITATS542I is expected for RADIUS Challenge
+					If ((($PSBoundParameters.ContainsKey("useRadiusAuthentication")) -or ($type -eq "RADIUS")) -and ($PSBoundParameters["OTPMode"] -eq "Challenge")) {
+
+						If ($PSBoundParameters.ContainsKey("OTP")) {
+
+							#$OTP as RADIUS response
+							#If $RadiusChallenge = Password, $OTP will be password value
+							$boundParameters["password"] = $OTP
+
+							#Construct Request Body
+							$LogonRequest["Body"] = $boundParameters | ConvertTo-Json
+
+							#Use WebSession from initial request
+							$LogonRequest.Remove("SessionVariable")
+							$LogonRequest["WebSession"] = $Script:WebSession
+
+							#Respond to RADIUS challenge
+							$PASSession = Invoke-PASRestMethod @LogonRequest
+
+						} Else {
+
+							#Throw error if no OTP provided
+							throw $PSItem
+
+						}
+
+					} Else {
+
+						#Throw error if not RADIUS authentication
+						throw $PSItem
+
+					}
+
+				}
+
+			}
 
 			#If Logon Result
 			If ($PASSession) {
