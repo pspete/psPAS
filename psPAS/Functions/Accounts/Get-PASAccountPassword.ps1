@@ -24,7 +24,7 @@ Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
 The reason that is required to be specified to retrieve the password/SSH key.
 Use of parameter requires version 10.1 at a minimum.
 
-.PARAMETER TicketingSystemName
+.PARAMETER TicketingSystem
 The name of the Ticketing System.
 Use of parameter requires version 10.1 at a minimum.
 
@@ -122,7 +122,7 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.#>
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "v10"
 		)]
-		[string]$TicketingSystemName,
+		[string]$TicketingSystem,
 
 		[parameter(
 			Mandatory = $false,
