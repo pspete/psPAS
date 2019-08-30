@@ -42,8 +42,18 @@
 	Windows is only a valid option for version 10.4 onward.
 
 	.PARAMETER OTP
-	If a One Time Passcode is provided against this parameter, New-PASSession will append it to the
-	password value sent with the logon request, separated by a comma. (password_value,otp_value).
+	One Time Passcode for RADIUS authentication.
+
+	.PARAMETER OTPMode
+	Specify if OTP is to be sent in 'Append' (appended to the password) or 'Challenge' mode (sent in response to RADIUS Challenge).
+
+	.PARAMETER OTPDelimiter
+	The character to use as a delimiter when appending the OTP to the password. Defaults to comma ",".
+
+	.PARAMETER RadiusChallenge
+	Specify if Radius challenge is satisfied by 'OTP' or 'Password'.
+	If "OTP" (Default), Password will be sent first, with OTP as the challenge response.
+	If "Password", then OTP value will be sent first, and Password will be sent as the challenge response.
 
 	.PARAMETER connectionNumber
 	In order to allow more than one connection for the same user simultaneously, each request
@@ -72,32 +82,30 @@
 	The thumbprint of the certificate to use for client certificate authentication.
 
 	.EXAMPLE
-	Logon to Version 10 with LDAP credential:
-
 	New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 
-	.EXAMPLE
-	Logon to Version 10 with CyberArk credential:
+	Logon to Version 10 with LDAP credential
 
+	.EXAMPLE
 	New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
 
-	.EXAMPLE
-	Logon to Version 10 with Windows Integrated Authentication
+	Logon to Version 10 with CyberArk credential
 
+	.EXAMPLE
 	New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
 
-	.EXAMPLE
-	Logon to Version 9 with credential:
+	Logon to Version 10 with Windows Integrated Authentication
 
+	.EXAMPLE
 	New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI
 
+	Logon to Version 9 with credential
 	Request would be sent to PVWA URL https://PVWA/PasswordVault/
 
 	.EXAMPLE
-	Logon to Version 9 where PVWA Virtual Directory has non-default name:
-
 	New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseClassicAPI
 
+	Logon to Version 9 where PVWA Virtual Directory has non-default name
 	Request would be sent to PVWA URL https://PVWA/CustomVault/
 
 	.EXAMPLE
@@ -111,34 +119,34 @@
 	Authenticates to a CyberArk Vault using SAML authentication.
 
 	.EXAMPLE
-	Logon to Version 10 using RADIUS:
-
 	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
 
-	.EXAMPLE
-	Logon using RADIUS via the Classic API:
+	Logon to Version 10 using RADIUS
 
+	.EXAMPLE
 	New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True
 
-	.EXAMPLE
-	Logon to Version 10 using RADIUS & OTP:
-
-	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456
+	Logon using RADIUS via the Classic API
 
 	.EXAMPLE
-	Logon using RADIUS & OTP via the Classic API:
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Challenge
 
-	New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True -OTP 123456
-
-	.EXAMPLE
-	Logon to Version 10 using RADIUS & Push Authentication (works with DUO 2FA):
-
-	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push
+	Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
 
 	.EXAMPLE
-	If authentication via certificates is configured, provide CertificateThumbprint details.
+	New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
 
+	Logon using RADIUS & OTP (Append Mode) via the Classic API
+
+	.EXAMPLE
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append
+
+	Logon to Version 10 using RADIUS & Push Authentication (works with DUO 2FA)
+
+	.EXAMPLE
 	New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
+
+	If authentication via certificates is configured, provide CertificateThumbprint details.
 	#>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "v10")]
 	param(
@@ -151,15 +159,31 @@
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10Radius"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
 			ParameterSetName = "v9"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ParameterSetName = "v9Radius"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,
 
 		[parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v9"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ParameterSetName = "v9Radius"
 		)]
 		[switch]$UseClassicAPI,
 
@@ -194,10 +218,10 @@
 		[switch]$UseSharedAuthentication,
 
 		[Parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9"
+			ParameterSetName = "v9Radius"
 		)]
 		[bool]$useRadiusAuthentication,
 
@@ -207,6 +231,12 @@
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v10"
 		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10Radius"
+		)]
 		[ValidateSet("CyberArk", "LDAP", "Windows", "RADIUS")]
 		[string]$type = "CyberArk",
 
@@ -214,15 +244,60 @@
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10"
+			ParameterSetName = "v10Radius"
 		)]
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9"
+			ParameterSetName = "v9Radius"
 		)]
 		[string]$OTP,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10Radius"
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9Radius"
+		)]
+		[ValidateSet("Append", "Challenge")]
+		[string]$OTPMode,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10Radius"
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9Radius"
+		)]
+		[ValidateLength(1, 1)]
+		[string]$OTPDelimiter,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10Radius"
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9Radius"
+		)]
+		[ValidateSet("Password", "OTP")]
+		[string]$RadiusChallenge,
 
 		[parameter(
 			Mandatory = $false,
@@ -237,6 +312,12 @@
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v9"
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v9Radius"
 		)]
 		[ValidateRange(1, 100)]
 		[int]$connectionNumber,
@@ -284,11 +365,18 @@
 			$LogonRequest["CertificateThumbprint"] = $CertificateThumbprint
 		}
 
-		Switch ($PSCmdlet.ParameterSetName) {
+		Switch -Wildcard ($PSCmdlet.ParameterSetName) {
 
 			"v10" {
 
 				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
+				break
+
+			}
+
+			"v10Radius" {
+
+				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/RADIUS/Logon"
 				break
 
 			}
@@ -300,7 +388,7 @@
 
 			}
 
-			"v9" {
+			"v9*" {
 
 				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
 				break
@@ -328,22 +416,47 @@
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, UseDefaultCredentials, CertificateThumbprint
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck,
+		UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge
 
-		If (($PSCmdlet.ParameterSetName -eq "v9") -or ($PSCmdlet.ParameterSetName -eq "v10") ) {
+		If (($PSCmdlet.ParameterSetName -match "^v9*") -or ($PSCmdlet.ParameterSetName -match "^v10*") ) {
 
-			If ($PSBoundParameters.ContainsKey("Credential")) {
+			#Add user name from credential object
+			$boundParameters["username"] = $($Credential.UserName)
+			#Add decoded password value from credential object
+			$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
 
-				#Add user name from credential object
-				$boundParameters["username"] = $($Credential.UserName)
-				#Add decoded password value from credential object
-				$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
+			#RADIUS Auth
+			If ($PSCmdlet.ParameterSetName -match "Radius$") {
 
-				If (($PSBoundParameters.ContainsKey("useRadiusAuthentication")) -or ($type -eq "RADIUS")) {
+				#OTP in Append Mode
+				If (($PSBoundParameters.ContainsKey("OTP")) -and ($PSBoundParameters["OTPMode"] -eq "Append")) {
 
-					If ($PSBoundParameters.ContainsKey("OTP")) {
+					If ($PSBoundParameters.ContainsKey("OTPDelimiter")) {
 
-						$boundParameters["password"] = "$($boundParameters["password"]),$OTP"
+						#Use specified delimiter to append OTP
+						$Delimiter = $OTPDelimiter
+
+					} Else {
+
+						#delimit with comma by default
+						$Delimiter = ","
+
+					}
+
+					#Append OTP to password
+					$boundParameters["password"] = "$($boundParameters["password"])$Delimiter$OTP"
+
+				}
+
+				#RADIUS Challenge Mode
+				ElseIf (($PSBoundParameters.ContainsKey("OTP")) -and ($PSBoundParameters["OTPMode"] -eq "Challenge")) {
+
+					If ($RadiusChallenge -eq "Password") {
+
+						#Send OTP first + then Password
+						$boundParameters["password"] = $OTP
+						$OTP = $($Credential.GetNetworkCredential().Password)
 
 					}
 
@@ -360,7 +473,7 @@
 			}
 
 			#Construct Request Body
-			$LogonRequest["Body"] = $boundParameters | Get-PASParameter -ParametersToRemove BaseURI, PVWAAppName, OTP, type | ConvertTo-Json
+			$LogonRequest["Body"] = $boundParameters | ConvertTo-Json
 
 		} Elseif ($PSCmdlet.ParameterSetName -eq "saml") {
 
@@ -371,65 +484,115 @@
 
 		if ($PSCmdlet.ShouldProcess("$BaseURI/$PVWAAppName", "Logon")) {
 
-			#Send Logon Request
-			$PASSession = Invoke-PASRestMethod @LogonRequest
+			try {
 
-			#If Logon Result
-			If ($PASSession) {
+				#Send Logon Request
+				$PASSession = Invoke-PASRestMethod @LogonRequest
 
-				#Version 10
-				If ($PASSession.length -ge 180) {
+			} catch {
 
-					#V10 Auth Token.
+				if ($PSItem.FullyQualifiedErrorId -notmatch "ITATS542I") {
 
-					$CyberArkLogonResult = $PASSession
+					#Throw all errors not related to ITATS542I
+					throw $PSItem
 
-				}
+				} Else {
 
-				#Shared Auth
-				ElseIf ($PASSession.LogonResult) {
+					#ITATS542I is expected for RADIUS Challenge
+					If (($PSCmdlet.ParameterSetName -match "Radius$") -and ($PSBoundParameters["OTPMode"] -eq "Challenge")) {
 
-					#Shared Auth LogonResult.
+						If ($PSBoundParameters.ContainsKey("OTP")) {
 
-					$CyberArkLogonResult = $PASSession.LogonResult
+							#$OTP as RADIUS response
+							#If $RadiusChallenge = Password, $OTP will be password value
+							$boundParameters["password"] = $OTP
 
+							#Construct Request Body
+							$LogonRequest["Body"] = $boundParameters | ConvertTo-Json
 
-				}
+							#Use WebSession from initial request
+							$LogonRequest.Remove("SessionVariable")
+							$LogonRequest["WebSession"] = $Script:WebSession
 
-				#Classic
-				Else {
+							#Respond to RADIUS challenge
+							$PASSession = Invoke-PASRestMethod @LogonRequest
 
-					#Classic CyberArkLogonResult
+						} Else {
 
-					$CyberArkLogonResult = $PASSession.CyberArkLogonResult
+							#No OTP
+							throw $PSItem
 
-				}
+						}
 
-				#?SAML Auth?
+					} Else {
 
-				#BaseURI set in Module Scope
-				Set-Variable -Name BaseURI -Value "$BaseURI/$PVWAAppName" -Scope Script
+						#Not RADIUS/Challenge Mode
+						throw $PSItem
 
-				#Auth token added to WebSession
-				$Script:WebSession.Headers["Authorization"] = [string]$CyberArkLogonResult
-
-				#Initial Value for Version variable
-				[System.Version]$Version = "0.0"
-
-				if ( -not ($SkipVersionCheck)) {
-
-					Try {
-
-						#Get CyberArk ExternalVersion number.
-						[System.Version]$Version = Get-PASServer -ErrorAction Stop |
-						Select-Object -ExpandProperty ExternalVersion
-
-					} Catch { [System.Version]$Version = "0.0" }
+					}
 
 				}
 
-				#Version information available in module scope.
-				Set-Variable -Name ExternalVersion -Value $Version -Scope Script
+			} finally {
+
+				#If Logon Result
+				If ($PASSession) {
+
+					#Version 10
+					If ($PASSession.length -ge 180) {
+
+						#V10 Auth Token.
+
+						$CyberArkLogonResult = $PASSession
+
+					}
+
+					#Shared Auth
+					ElseIf ($PASSession.LogonResult) {
+
+						#Shared Auth LogonResult.
+
+						$CyberArkLogonResult = $PASSession.LogonResult
+
+
+					}
+
+					#Classic
+					Else {
+
+						#Classic CyberArkLogonResult
+
+						$CyberArkLogonResult = $PASSession.CyberArkLogonResult
+
+					}
+
+					#?SAML Auth?
+
+					#BaseURI set in Module Scope
+					Set-Variable -Name BaseURI -Value "$BaseURI/$PVWAAppName" -Scope Script
+
+					#Auth token added to WebSession
+					$Script:WebSession.Headers["Authorization"] = [string]$CyberArkLogonResult
+
+					#Initial Value for Version variable
+					[System.Version]$Version = "0.0"
+
+					if ( -not ($SkipVersionCheck)) {
+
+						Try {
+
+							#Get CyberArk ExternalVersion number.
+							[System.Version]$Version = Get-PASServer -ErrorAction Stop |
+							Select-Object -ExpandProperty ExternalVersion
+
+						} Catch { [System.Version]$Version = "0.0" }
+
+					}
+
+					#Version information available in module scope.
+					Set-Variable -Name ExternalVersion -Value $Version -Scope Script
+
+				}
 
 			}
 

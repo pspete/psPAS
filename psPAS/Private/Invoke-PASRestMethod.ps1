@@ -214,16 +214,16 @@
 
 		} finally {
 
+			#If Session Variable passed as argument
+			If ($PSCmdlet.ParameterSetName -eq "SessionVariable") {
+
+				#Make the WebSession available in the module scope
+				Set-Variable -Name WebSession -Value $(Get-Variable $(Get-Variable sessionVariable).Value).Value -Scope Script
+
+			}
+
 			#If Command Succeeded
 			if ($?) {
-
-				#If Session Variable passed as argument
-				If ($PSCmdlet.ParameterSetName -eq "SessionVariable") {
-
-					#Make the WebSession available in the module scope
-					Set-Variable -Name WebSession -Value $(Get-Variable $(Get-Variable sessionVariable).Value).Value -Scope Script
-
-				}
 
 				#Status code indicates success
 				If ($APIResponse.StatusCode -match '^20\d$') {
