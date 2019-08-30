@@ -11,6 +11,7 @@ environment:
 
 skip_commits:
   files:
+    - docs/
     - .github\*
     - .vscode\*
     - README.md
