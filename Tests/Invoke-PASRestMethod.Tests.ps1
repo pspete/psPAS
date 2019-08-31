@@ -46,6 +46,8 @@ Describe $FunctionName {
 
 				}
 
+				Mock Skip-CertificateCheck -MockWith { }
+
 				$SessionVariable = @{
 					"URI"             = "https://CyberArk_URL"
 					"Method"          = "GET"
@@ -86,23 +88,43 @@ Describe $FunctionName {
 
 			}
 
-			#PSCore specific
-			If ($IsCoreCLR) {
-
-				it "specifies -SslProtocol TLS12" {
-					Invoke-PASRestMethod @WebSession
-					Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
-						$SslProtocol -eq "TLS12"
-					}
+			it "specifies -SslProtocol TLS12" {
+				Mock Test-IsCoreCLR -MockWith { return $true }
+				Invoke-PASRestMethod @WebSession
+				Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
+					$SslProtocol -eq "TLS12"
 				}
+			}
 
-				it "specifies SkipHeaderValidation" {
-					Invoke-PASRestMethod @WebSession
-					Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
-						$SkipHeaderValidation -eq $true
-					}
+			it "specifies SkipHeaderValidation" {
+				Mock Test-IsCoreCLR -MockWith { return $true }
+				Invoke-PASRestMethod @WebSession
+				Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
+					$SkipHeaderValidation -eq $true
 				}
+			}
 
+			It "invokes Skip-CertificateCheck when run from PowerShell" {
+				Mock Test-IsCoreCLR -MockWith { return $false }
+				Invoke-PASRestMethod @WebSession -SkipCertificateCheck
+				Assert-MockCalled "Skip-CertificateCheck" -Times 1 -Scope It -Exactly
+			}
+
+			It "uses parameter SkipCertificateCheck when run from PWSH" {
+				Mock Test-IsCoreCLR -MockWith { return $true }
+				Invoke-PASRestMethod @WebSession -SkipCertificateCheck
+				Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
+					$SkipCertificateCheck -eq $true
+				}
+			}
+
+			It "Skips Certificate Validation when run from PWSH" {
+				Mock Test-IsCoreCLR -MockWith { return $true }
+				$Script:SkipCertificateCheck = $true
+				Invoke-PASRestMethod @WebSession
+				Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
+					$SkipCertificateCheck -eq $true
+				}
 			}
 
 			It "sets WebSession variable in the module scope" {

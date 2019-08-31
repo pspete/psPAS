@@ -61,7 +61,7 @@ function Out-PASFile {
 					Encoding = "Byte"
 				}
 
-				If ($IsCoreCLR) {
+				If (Test-IsCoreCLR) {
 
 					#amend parameters for splatting if we are in Core
 					$output.Add("AsByteStream", $true)

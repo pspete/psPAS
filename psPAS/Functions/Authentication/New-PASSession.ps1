@@ -81,6 +81,12 @@
 	See Invoke-WebRequest
 	The thumbprint of the certificate to use for client certificate authentication.
 
+	.PARAMETER SkipCertificateCheck
+	Skips certificate validation checks.
+	Using this parameter is not secure and is not recommended.
+	This switch is only intended to be used against known hosts using a self-signed certificate for testing purposes.
+	Use at your own risk.
+
 	.EXAMPLE
 	New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 
@@ -147,6 +153,11 @@
 	New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
 
 	If authentication via certificates is configured, provide CertificateThumbprint details.
+
+	.EXAMPLE
+	New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck
+
+	Skip SSL Certificate validation for the session.
 	#>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "v10")]
 	param(
@@ -348,7 +359,14 @@
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
-		[string]$CertificateThumbprint
+		[string]$CertificateThumbprint,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[switch]$SkipCertificateCheck
 
 	)
 
@@ -361,6 +379,7 @@
 		$LogonRequest["Method"] = "POST"
 		$LogonRequest["SessionVariable"] = "PASSession"
 		$LogonRequest["UseDefaultCredentials"] = $UseDefaultCredentials.IsPresent
+		$LogonRequest["SkipCertificateCheck"] = $SkipCertificateCheck.IsPresent
 		If ($CertificateThumbprint) {
 			$LogonRequest["CertificateThumbprint"] = $CertificateThumbprint
 		}
@@ -416,7 +435,7 @@
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck,
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, SkipCertificateCheck,
 		UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge
 
 		If (($PSCmdlet.ParameterSetName -match "^v9*") -or ($PSCmdlet.ParameterSetName -match "^v10*") ) {
@@ -542,7 +561,6 @@
 					If ($PASSession.length -ge 180) {
 
 						#V10 Auth Token.
-
 						$CyberArkLogonResult = $PASSession
 
 					}
