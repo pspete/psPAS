@@ -103,7 +103,7 @@
 
 		#Bypass strict RFC header parsing in PS Core
 		#Use TLS 1.2
-		if ($IsCoreCLR) {
+		if (Test-IsCoreCLR) {
 
 			$PSBoundParameters.Add("SkipHeaderValidation", $true)
 			$PSBoundParameters.Add("SslProtocol", "TLS12")
@@ -115,7 +115,7 @@
 			$true {
 
 				#SkipCertificateCheck Declared
-				if ( -not ($IsCoreCLR)) {
+				if ( -not (Test-IsCoreCLR)) {
 
 					#Remove parameter, incompatible with PowerShell
 					$PSBoundParameters.Remove("SkipCertificateCheck") | Out-Null
@@ -148,7 +148,7 @@
 				If ($Script:SkipCertificateCheck) {
 
 					#PWSH Zone
-					if ($IsCoreCLR) {
+					if (Test-IsCoreCLR) {
 
 						#Add SkipCertificateCheck to PS Core command
 						#Parameter must be included for all pwsh invocations of Invoke-WebRequest
