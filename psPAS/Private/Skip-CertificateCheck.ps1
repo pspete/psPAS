@@ -11,15 +11,17 @@ Function Skip-CertificateCheck {
 
 	#>
 
-	#Only required to be executed once per ps session
-	$Provider = New-Object Microsoft.CSharp.CSharpCodeProvider
-	$Compiler = $Provider.CreateCompiler()
-	$Params = New-Object System.CodeDom.Compiler.CompilerParameters
-	$Params.GenerateExecutable = $false
-	$Params.GenerateInMemory = $true
-	$Params.IncludeDebugInformation = $false
-	$Params.ReferencedAssemblies.Add("System.DLL") | Out-Null
-	$TASource = @'
+	#Do Not Run in PWSH
+	if ( -not ($IsCoreCLR)) {
+
+		#Only required to be executed once per ps session
+		$CSharpCodeProvider = New-Object Microsoft.CSharp.CSharpCodeProvider
+		$CompilerParameters = New-Object System.CodeDom.Compiler.CompilerParameters
+		$CompilerParameters.GenerateExecutable = $false
+		$CompilerParameters.GenerateInMemory = $true
+		$CompilerParameters.IncludeDebugInformation = $false
+		$CompilerParameters.ReferencedAssemblies.Add("System.DLL") | Out-Null
+		$CertificatePolicy = @'
         namespace Local.ToolkitExtensions.Net.CertificatePolicy
         {
             public class TrustAll : System.Net.ICertificatePolicy
@@ -32,9 +34,11 @@ Function Skip-CertificateCheck {
         }
 '@
 
-	$TAResults = $Provider.CompileAssemblyFromSource($Params, $TASource)
-	$TAAssembly = $TAResults.CompiledAssembly
-	## Create an instance of TrustAll and attach it to the ServicePointManager
-	$TrustAll = $TAAssembly.CreateInstance("Local.ToolkitExtensions.Net.CertificatePolicy.TrustAll")
-	[System.Net.ServicePointManager]::CertificatePolicy = $TrustAll
+		$PolicyResult = $CSharpCodeProvider.CompileAssemblyFromSource($CompilerParameters, $CertificatePolicy)
+		$CompiledAssembly = $PolicyResult.CompiledAssembly
+		## Create an instance of TrustAll and attach it to the ServicePointManager
+		$TrustAll = $CompiledAssembly.CreateInstance("Local.ToolkitExtensions.Net.CertificatePolicy.TrustAll")
+		[System.Net.ServicePointManager]::CertificatePolicy = $TrustAll
+	}
+
 }
