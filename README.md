@@ -96,9 +96,9 @@ UserName    Source UserTypeName AgentUser Expired Disabled Suspended
 xApprover_1 LDAP   EPVUser      False     False   False    False
 ````
 
-## RADIUS Authentication
+#### RADIUS Authentication
 
-### Challenge Mode
+##### Challenge Mode
 
 ````powershell
 $cred = Get-Credential
@@ -118,7 +118,7 @@ UserName Source UserTypeName AgentUser Expired Disabled Suspended
 DuoUser  LDAP   EPVUser      False     False   False    False
 ````
 
-### Append Mode
+##### Append Mode
 
 - Some 2FA solutions allow a One Time Passcode to be sent with the password.
 
