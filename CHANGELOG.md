@@ -1,6 +1,6 @@
 # psPAS
 
-## 3.2.XX (Sept 1st 2019)
+## 3.2.27 (Sept 1st 2019)
 
 - Updates
   - `New-PASSession`
