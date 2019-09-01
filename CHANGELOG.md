@@ -1,5 +1,10 @@
 # psPAS
 
+## 3.2.29 (Sept 1st 2019)
+
+- Update
+  - Raise minimum required PowerShell version to 5.0.
+
 ## 3.2.27 (Sept 1st 2019)
 
 - Updates

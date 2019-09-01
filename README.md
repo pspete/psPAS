@@ -924,7 +924,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 
 ### Prerequisites
 
-- Requires Powershell v3 (minimum)
+- Powershell v5 (minimum), or PowerShell Core
 - CyberArk PAS REST API/Web Service
 - A user with which to authenticate, with appropriate Vault/Safe permissions.
 
@@ -938,7 +938,7 @@ Use one of the following methods:
 
 #### Option 1: Install from PowerShell Gallery
 
-**PowerShell 5.0 or above required.**
+**PowerShell 5.0 or above must be used**
 
 To download the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/), </br>
 from a PowerShell prompt, run:
