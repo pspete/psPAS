@@ -1,5 +1,16 @@
 # psPAS
 
+## 3.2.27 (Sept 1st 2019)
+
+- Updates
+  - `New-PASSession`
+    - Adds support for sending OTP in response to RADIUS Challenge
+    - Adds support to skip certificate validation
+
+- Fixes
+  - `Get-PASAccountPassword`
+    - Parameter name corrected to `TicketingSystem` from `TicketingSystemName`
+
 ## 3.1.13 (July 19th 2019)
 
 - Fixes

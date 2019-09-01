@@ -46,6 +46,9 @@
 	See Invoke-WebRequest
 	The thumbprint of the certificate to use for client certificate authentication.
 
+	.PARAMETER SkipCertificateCheck
+	Skips certificate validation checks.
+
 	.EXAMPLE
 	Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
 
@@ -86,7 +89,10 @@
 		[int]$TimeoutSec,
 
 		[Parameter(Mandatory = $false)]
-		[string]$CertificateThumbprint
+		[string]$CertificateThumbprint,
+
+		[Parameter(Mandatory = $false)]
+		[switch]$SkipCertificateCheck
 	)
 
 	Begin {
@@ -97,10 +103,62 @@
 
 		#Bypass strict RFC header parsing in PS Core
 		#Use TLS 1.2
-		if ($IsCoreCLR) {
+		if (Test-IsCoreCLR) {
 
 			$PSBoundParameters.Add("SkipHeaderValidation", $true)
 			$PSBoundParameters.Add("SslProtocol", "TLS12")
+
+		}
+
+		Switch ($PSBoundParameters.ContainsKey("SkipCertificateCheck")) {
+
+			$true {
+
+				#SkipCertificateCheck Declared
+				if ( -not (Test-IsCoreCLR)) {
+
+					#Remove parameter, incompatible with PowerShell
+					$PSBoundParameters.Remove("SkipCertificateCheck") | Out-Null
+
+					if ($SkipCertificateCheck) {
+
+						#Skip SSL Validation
+						Skip-CertificateCheck
+
+					}
+
+				} else {
+
+					#PWSH
+					if ($SkipCertificateCheck) {
+
+						#Ongoing SSL Validation Bypass Required
+						$Script:SkipCertificateCheck = $true
+
+					}
+
+				}
+
+			}
+
+			$false {
+
+				#SkipCertificateCheck Not Declared
+				#SSL Validation Bypass Previously Requested
+				If ($Script:SkipCertificateCheck) {
+
+					#PWSH Zone
+					if (Test-IsCoreCLR) {
+
+						#Add SkipCertificateCheck to PS Core command
+						#Parameter must be included for all pwsh invocations of Invoke-WebRequest
+						$PSBoundParameters.Add("SkipCertificateCheck", $true)
+
+					}
+
+				}
+
+			}
 
 		}
 
@@ -214,16 +272,16 @@
 
 		} finally {
 
+			#If Session Variable passed as argument
+			If ($PSCmdlet.ParameterSetName -eq "SessionVariable") {
+
+				#Make the WebSession available in the module scope
+				Set-Variable -Name WebSession -Value $(Get-Variable $(Get-Variable sessionVariable).Value).Value -Scope Script
+
+			}
+
 			#If Command Succeeded
 			if ($?) {
-
-				#If Session Variable passed as argument
-				If ($PSCmdlet.ParameterSetName -eq "SessionVariable") {
-
-					#Make the WebSession available in the module scope
-					Set-Variable -Name WebSession -Value $(Get-Variable $(Get-Variable sessionVariable).Value).Value -Scope Script
-
-				}
 
 				#Status code indicates success
 				If ($APIResponse.StatusCode -match '^20\d$') {

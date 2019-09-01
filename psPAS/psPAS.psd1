@@ -16,7 +16,7 @@
 	# CompanyName = ''
 
 	# Copyright statement for this module
-	Copyright         = '(c) 2018 Pete Maan. All rights reserved.'
+	Copyright         = '(c) 2019 Pete Maan. All rights reserved.'
 
 	# Description of the functionality provided by this module
 	Description       = 'Module for CyberArk Privileged Access Security Web Service REST API'
@@ -50,29 +50,29 @@
 
 	# Type files (.ps1xml) to be loaded when importing this module
 	TypesToProcess    = @(
-		'psPAS.CyberArk.Vault.Account.Type.ps1xml',
-		'psPAS.CyberArk.Vault.ACL.Type.ps1xml',
-		'psPAS.CyberArk.Vault.Credential.Type.ps1xml',
-		'psPAS.CyberArk.Vault.Safe.Type.ps1xml',
-		'psPAS.CyberArk.Vault.User.Type.ps1xml'
+		'xml\psPAS.CyberArk.Vault.Account.Type.ps1xml',
+		'xml\psPAS.CyberArk.Vault.ACL.Type.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Credential.Type.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Safe.Type.ps1xml',
+		'xml\psPAS.CyberArk.Vault.User.Type.ps1xml'
 	)
 
 	# Format files (.ps1xml) to be loaded when importing this module
 	FormatsToProcess  = @(
-		'psPAS.CyberArk.Vault.Account.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.ACL.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.Application.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.Credential.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.OnboardingRule.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.Platform.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.PSM.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.PublicSSHKey.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.Request.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.Safe.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.User.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.Directory.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.PTA.Formats.ps1xml',
-		'psPAS.CyberArk.Vault.Group.Formats.ps1xml'
+		'xml\psPAS.CyberArk.Vault.Account.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.ACL.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Application.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Credential.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.OnboardingRule.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Platform.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.PSM.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.PublicSSHKey.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Request.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Safe.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.User.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Directory.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.PTA.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Group.Formats.ps1xml'
 	)
 
 	# Functions to export from this module
@@ -192,10 +192,10 @@
 			LicenseUri = 'https://github.com/pspete/psPAS/blob/master/LICENSE.md'
 
 			# A URL to the main website for this project.
-			ProjectUri = 'https://github.com/pspete/psPAS'
+			ProjectUri = 'https://pspas.pspete.dev/'
 
 			# A URL to an icon representing this module.
-			# IconUri = ''
+			IconUri    = 'https://pspas.pspete.dev/assets/images/symbol.png'
 
 			# ReleaseNotes of this module
 			# ReleaseNotes = ''

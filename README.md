@@ -96,11 +96,9 @@ UserName    Source UserTypeName AgentUser Expired Disabled Suspended
 xApprover_1 LDAP   EPVUser      False     False   False    False
 ````
 
-#### RADIUS Authentication (with OTP if supported)
+#### RADIUS Authentication
 
-- Some 2FA solutions allow a One Time Passcode to be sent with the password.
-
-  - If an OTP is provided, it is sent to the API with the password, separated by a comma: "`$Password,$OTP`"
+##### Challenge Mode
 
 ````powershell
 $cred = Get-Credential
@@ -111,7 +109,31 @@ User: DuoUser
 Password for user DuoUser: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://cyberark.virtualreal.it -type RADIUS -OTP 006314
+New-PASSession -Credential $cred -BaseURI https://cyberark.pspete.dev -type RADIUS -OTP 123456 -OTPMode Challenge
+
+Get-PASLoggedOnUser
+
+UserName Source UserTypeName AgentUser Expired Disabled Suspended
+-------- ------ ------------ --------- ------- -------- ---------
+DuoUser  LDAP   EPVUser      False     False   False    False
+````
+
+##### Append Mode
+
+- Some 2FA solutions allow a One Time Passcode to be sent with the password.
+
+  - If an OTP is provided, it is sent to the API with the password, separated by a delimiter: "`$Password,$OTP`"
+
+````powershell
+$cred = Get-Credential
+
+PowerShell credential request
+Enter your credentials.
+User: DuoUser
+Password for user DuoUser: **********
+
+
+New-PASSession -Credential $cred -BaseURI https://cyberark.pspete.dev -type RADIUS -OTP 738458 -OTPMode Append
 
 Get-PASLoggedOnUser
 

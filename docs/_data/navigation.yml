@@ -1,0 +1,318 @@
+# main links
+main:
+  - title: "Docs"
+    url: /docs/authentication/
+  - title: "Commands"
+    url: commands/New-PASSession
+  - title: "Install"
+    url: /docs/install/
+  - title: "About"
+    url: /about/
+
+commands:
+  - title: "Authentication"
+    children:
+      - title: "New-PASSession"
+        url: /commands/New-PASSession
+      - title: "Get-PASSession"
+        url: /commands/Get-PASSession
+      - title: "Use-PASSession"
+        url: /commands/Use-PASSession
+      - title: "Close-PASSession"
+        url: /commands/Close-PASSession
+      - title: "Add-PASPublicSSHKey"
+        url: /commands/Add-PASPublicSSHKey
+      - title: "Get-PASPublicSSHKey"
+        url: /commands/Get-PASPublicSSHKey
+      - title: "Remove-PASPublicSSHKey"
+        url: /commands/Remove-PASPublicSSHKey
+
+  - title: "Account ACL"
+    children:
+      - title: "Add-PASAccountACL"
+        url: /commands/Add-PASAccountACL
+      - title: "Get-PASAccountACL"
+        url: /commands/Get-PASAccountACL
+      - title: "Remove-PASAccountACL"
+        url: /commands/Remove-PASAccountACL
+
+  - title: "Account Groups"
+    children:
+      - title: "Get-PASAccountGroup"
+        url: /commands/Get-PASAccountGroup
+      - title: "New-PASAccountGroup"
+        url: /commands/New-PASAccountGroup
+      - title: "Add-PASAccountGroupMember"
+        url: /commands/Add-PASAccountGroupMember
+      - title: "Get-PASAccountGroupMember"
+        url: /commands/Get-PASAccountGroupMember
+      - title: "Remove-PASAccountGroupMember"
+        url: /commands/Remove-PASAccountGroupMember
+
+  - title: "Accounts"
+    children:
+      - title: "Add-PASAccount"
+        url: /commands/Add-PASAccount
+      - title: "Get-PASAccount"
+        url: /commands/Get-PASAccount
+      - title: "Remove-PASAccount"
+        url: /commands/Remove-PASAccount
+      - title: "Set-PASAccount"
+        url: /commands/Set-PASAccount
+      - title: "Unlock-PASAccount"
+        url: /commands/Unlock-PASAccount
+      - title: "Get-PASAccountActivity"
+        url: /commands/Get-PASAccountActivity
+      - title: "Get-PASAccountPassword"
+        url: /commands/Get-PASAccountPassword
+      - title: "Add-PASDiscoveredAccount"
+        url: /commands/Add-PASDiscoveredAccount
+      - title: "Add-PASPendingAccount"
+        url: /commands/Add-PASPendingAccount
+      - title: "Invoke-PASCPMOperation"
+        url: /commands/Invoke-PASCPMOperation
+      - title: "Request-PASAdHocAccess"
+        url: /commands/Request-PASAdHocAccess
+
+  - title: "Applications"
+    children:
+      - title: "Add-PASApplication"
+        url: /commands/Add-PASApplication
+      - title: "Get-PASApplication"
+        url: /commands/Get-PASApplication
+      - title: "Remove-PASApplication"
+        url: /commands/Remove-PASApplication
+      - title: "Add-PASApplicationAuthenticationMethod"
+        url: /commands/Add-PASApplicationAuthenticationMethod
+      - title: "Get-PASApplicationAuthenticationMethod"
+        url: /commands/Get-PASApplicationAuthenticationMethod
+      - title: "Remove-PASApplicationAuthenticationMethod"
+        url: /commands/Remove-PASApplicationAuthenticationMethod
+
+  - title: "Connections"
+    children:
+      - title: "Get-PASPSMConnectionParameter"
+        url: /commands/Get-PASPSMConnectionParameter
+      - title: "Import-PASConnectionComponent"
+        url: /commands/Import-PASConnectionComponent
+
+  - title: "Event Security"
+    children:
+      - title: "Get-PASPTAEvent"
+        url: /commands/Get-PASPTAEvent
+      - title: "Add-PASPTARule"
+        url: /commands/Add-PASPTARule
+      - title: "Get-PASPTARule"
+        url: /commands/Get-PASPTARule
+      - title: "Set-PASPTARule"
+        url: /commands/Set-PASPTARule
+      - title: "Get-PASPTARemediation"
+        url: /commands/Get-PASPTARemediation
+      - title: "Set-PASPTARemediation"
+        url: /commands/Set-PASPTARemediation
+
+  - title: "LDAP Directories"
+    children:
+      - title: "Add-PASDirectory"
+        url: /commands/Add-PASDirectory
+      - title: "Get-PASDirectory"
+        url: /commands/Get-PASDirectory
+      - title: "Remove-PASDirectory"
+        url: /commands/Remove-PASDirectory
+      - title: "Get-PASDirectoryMapping"
+        url: /commands/Get-PASDirectoryMapping
+      - title: "New-PASDirectoryMapping"
+        url: /commands/New-PASDirectoryMapping
+      - title: "Set-PASDirectoryMapping"
+        url: /commands/Set-PASDirectoryMapping
+      - title: "Set-PASDirectoryMappingOrder"
+        url: /commands/Set-PASDirectoryMappingOrder
+
+  - title: "Monitoring"
+    children:
+      - title: "Connect-PASPSMSession"
+        url: /commands/Connect-PASPSMSession
+      - title: "Get-PASPSMSession"
+        url: /commands/Get-PASPSMSession
+      - title: "Get-PASPSMSessionActivity"
+        url: /commands/Get-PASPSMSessionActivity
+      - title: "Get-PASPSMSessionProperty"
+        url: /commands/Get-PASPSMSessionProperty
+      - title: "Resume-PASPSMSession"
+        url: /commands/Resume-PASPSMSession
+      - title: "Stop-PASPSMSession"
+        url: /commands/Stop-PASPSMSession
+      - title: "Suspend-PASPSMSession"
+        url: /commands/Suspend-PASPSMSession
+      - title: "Export-PASPSMRecording"
+        url: /commands/Export-PASPSMRecording
+      - title: "Get-PASPSMRecording"
+        url: /commands/Get-PASPSMRecording
+      - title: "Get-PASPSMRecordingActivity"
+        url: /commands/Get-PASPSMRecordingActivity
+      - title: "Get-PASPSMRecordingProperty"
+        url: /commands/Get-PASPSMRecordingProperty
+
+  - title: "Onboarding Rules"
+    children:
+      - title: "Get-PASOnboardingRule"
+        url: /commands/Get-PASOnboardingRule
+      - title: "New-PASOnboardingRule"
+        url: /commands/New-PASOnboardingRule
+      - title: "Remove-PASOnboardingRule"
+        url: /commands/Remove-PASOnboardingRule
+      - title: "Set-PASOnboardingRule"
+        url: /commands/Set-PASOnboardingRule
+
+  - title: "Platforms"
+    children:
+      - title: "Get-PASPlatform"
+        url: /commands/Get-PASPlatform
+      - title: "Export-PASPlatform"
+        url: /commands/Export-PASPlatform
+      - title: "Import-PASPlatform"
+        url: /commands/Import-PASPlatform
+
+  - title: "Policy ACL"
+    children:
+      - title: "Add-PASPolicyACL"
+        url: /commands/Add-PASPolicyACL
+      - title: "Get-PASPolicyACL"
+        url: /commands/Get-PASPolicyACL
+      - title: "Remove-PASPolicyACL"
+        url: /commands/Remove-PASPolicyACL
+
+  - title: "Requests"
+    children:
+      - title: "Approve-PASRequest"
+        url: /commands/Approve-PASRequest
+      - title: "Deny-PASRequest"
+        url: /commands/Deny-PASRequest
+      - title: "Get-PASRequest"
+        url: /commands/Get-PASRequest
+      - title: "Get-PASRequestDetail"
+        url: /commands/Get-PASRequestDetail
+      - title: "New-PASRequest"
+        url: /commands/New-PASRequest
+      - title: "Remove-PASRequest"
+        url: /commands/Remove-PASRequest
+
+  - title: "Safes"
+    children:
+      - title: "Add-PASSafe"
+        url: /commands/Add-PASSafe
+      - title: "Find-PASSafe"
+        url: /commands/Find-PASSafe
+      - title: "Get-PASSafe"
+        url: /commands/Get-PASSafe
+      - title: "Remove-PASSafe"
+        url: /commands/Remove-PASSafe
+      - title: "Set-PASSafe"
+        url: /commands/Set-PASSafe
+
+  - title: "Safe Members"
+    children:
+      - title: "Add-PASSafeMember"
+        url: /commands/Add-PASSafeMember
+      - title: "Get-PASSafeMember"
+        url: /commands/Get-PASSafeMember
+      - title: "Remove-PASSafeMember"
+        url: /commands/Remove-PASSafeMember
+      - title: "Set-PASSafeMember"
+        url: /commands/Set-PASSafeMember
+
+  - title: "Server Web Services"
+    children:
+      - title: "Get-PASServer"
+        url: /commands/Get-PASServer
+      - title: "Get-PASServerWebService"
+        url: /commands/Get-PASServerWebService
+      - title: "Get-PASSafeShareLogo"
+        url: /commands/Get-PASSafeShareLogo
+
+  - title: "System Health"
+    children:
+      - title: "Get-PASComponentSummary"
+        url: /commands/Get-PASComponentSummary
+      - title: "Get-PASComponentDetail"
+        url: /commands/Get-PASComponentDetail
+
+  - title: "Users & Groups"
+    children:
+      - title: "Get-PASLoggedOnUser"
+        url: /commands/Get-PASLoggedOnUser
+      - title: "Get-PASUser"
+        url: /commands/Get-PASUser
+      - title: "Get-PASUserLoginInfo"
+        url: /commands/Get-PASUserLoginInfo
+      - title: "New-PASUser"
+        url: /commands/New-PASUser
+      - title: "Remove-PASUser"
+        url: /commands/Remove-PASUser
+      - title: "Set-PASUser"
+        url: /commands/Set-PASUser
+      - title: "Set-PASUserPassword"
+        url: /commands/Set-PASUserPassword
+      - title: "Unblock-PASUser"
+        url: /commands/Unblock-PASUser
+      - title: "Get-PASGroup"
+        url: /commands/Get-PASGroup
+      - title: "Add-PASGroupMember"
+        url: /commands/Add-PASGroupMember
+      - title: "Remove-PASGroupMember"
+        url: /commands/Remove-PASGroupMember
+
+# documentation links
+docs:
+  - title: Installation
+    children:
+      - title: Install Options
+        url: /docs/install/
+  - title: Getting Started
+    children:
+      - title: "Authentication"
+        url: /docs/authentication/
+      - title: "Compatibility"
+        url: /docs/compatibility/
+  - title: "Basic Operations"
+    children:
+        - title: Search
+          url: /docs/search/
+        - title: Administration
+          url: /docs/administration/
+        - title: "CPM Operations"
+          url: /docs/cpm-operations/
+        - title: "Pipeline Operations"
+          url: /docs/pipeline-operations/
+  - title: "Examples"
+    children:
+        - title: Bulk Operations
+          url: /docs/bulk-operations/
+        - title: Safe Permissions
+          url: /docs/safe-permissions/
+        - title: PSM Sessions
+          url: /docs/psm-sessions/
+        - title: Update Accounts
+          url: /docs/update-accounts/
+        - title: Methods
+          url: /docs/methods/
+        - title: API Sessions
+          url: /docs/api-sessions/
+  - title: External Links
+    children:
+      - title: GitHub
+        url: https://github.com/pspete/psPAS/
+      - title: Build Reference
+        url: https://ci.appveyor.com/project/pspete/pspas/history
+      - title: Code Coverage
+        url: https://coveralls.io/github/pspete/psPAS
+      - title: API Documentation
+        url: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/API%20Commands.htm
+  - title: More psPete Tools
+    children:
+      - title: "CredentialRetriever"
+        url: https://www.powershellgallery.com/packages/CredentialRetriever/
+      - title: "PoShPACLI"
+        url: https://www.powershellgallery.com/packages/PoShPACLI/
+      - title: "VaultControl"
+        url: https://www.powershellgallery.com/packages/VaultControl/

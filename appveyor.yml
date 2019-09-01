@@ -1,5 +1,5 @@
 # version format
-version: 3.1.{build}
+version: 3.2.{build}
 
 environment:
   access_token:
@@ -11,6 +11,7 @@ environment:
 
 skip_commits:
   files:
+    - docs/
     - .github\*
     - .vscode\*
     - README.md
