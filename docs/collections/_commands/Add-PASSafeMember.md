@@ -49,6 +49,7 @@ $false in the request.
 
     -MemberName <String>
         Vault or Domain User, or Group, to add as member.
+        Must not contain '&' (ampersand).
 
         Required?                    true
         Position?                    named
