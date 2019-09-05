@@ -1,5 +1,11 @@
 # psPAS
 
+## 3.2.32 (Sept 5th 2019)
+
+- Fixes
+  - `Add-PASSafeMember`
+    - Update validation of MemberName parameter to not accept values containing `&` symbol.
+
 ## 3.2.30 (Sept 1st 2019)
 
 - Update
