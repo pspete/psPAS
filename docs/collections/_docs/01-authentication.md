@@ -24,7 +24,7 @@ User: safeadmin
 Password for user safeadmin: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://cyberark.pspete.dev
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com
 ````
 
 ## LDAP Authentication
@@ -40,7 +40,7 @@ User: xApprover_1
 Password for user xApprover_1: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://cyberark.pspete.dev -type LDAP
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type LDAP
 
 Get-PASLoggedOnUser
 
@@ -62,7 +62,7 @@ User: DuoUser
 Password for user DuoUser: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://cyberark.pspete.dev -type RADIUS -OTP 123456 -OTPMode Challenge
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type RADIUS -OTP 123456 -OTPMode Challenge
 
 Get-PASLoggedOnUser
 
@@ -86,7 +86,7 @@ User: DuoUser
 Password for user DuoUser: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://cyberark.pspete.dev -type RADIUS -OTP 738458 -OTPMode Append
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type RADIUS -OTP 738458 -OTPMode Append
 
 Get-PASLoggedOnUser
 
@@ -101,6 +101,6 @@ DuoUser  LDAP   EPVUser      False     False   False    False
 
 ````powershell
 $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
-New-PASSession -UseSharedAuthentication -BaseURI https://cyberark.pspete.dev
+New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com
 -CertificateThumbprint $Cert
 ````

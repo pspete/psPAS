@@ -71,7 +71,7 @@ User: safeadmin
 Password for user safeadmin: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://cyberark.virtualreal.it
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com
 ````
 
 #### LDAP Authentication
@@ -87,7 +87,7 @@ User: xApprover_1
 Password for user xApprover_1: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://cyberark.virtualreal.it -type LDAP
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type LDAP
 
 Get-PASLoggedOnUser
 
@@ -109,7 +109,7 @@ User: DuoUser
 Password for user DuoUser: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://cyberark.pspete.dev -type RADIUS -OTP 123456 -OTPMode Challenge
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type RADIUS -OTP 123456 -OTPMode Challenge
 
 Get-PASLoggedOnUser
 
@@ -133,7 +133,7 @@ User: DuoUser
 Password for user DuoUser: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://cyberark.pspete.dev -type RADIUS -OTP 738458 -OTPMode Append
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type RADIUS -OTP 738458 -OTPMode Append
 
 Get-PASLoggedOnUser
 
@@ -148,7 +148,7 @@ DuoUser  LDAP   EPVUser      False     False   False    False
 
 ````powershell
 $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
-New-PASSession -UseSharedAuthentication -BaseURI https://cyberark.virtualreal.it -CertificateThumbprint $Cert
+New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
 ````
 
 ### Basic Operations
@@ -646,7 +646,7 @@ User: VaultAdmin
 Password for user VaultAdmin: **********
 
 
-New-PASSession -Credential $VaultAdmin -BaseURI https://cyberark.virtualreal.it
+New-PASSession -Credential $VaultAdmin -BaseURI https://pvwa.somedomain.com
 
 Get-PASLoggedOnUser
 
@@ -666,7 +666,7 @@ User: SafeAdmin
 Password for user SafeAdmin: **********
 
 
-New-PASSession -Credential $SafeAdmin -BaseURI https://cyberark.virtualreal.it
+New-PASSession -Credential $SafeAdmin -BaseURI https://pvwa.somedomain.com
 
 Get-PASLoggedOnUser
 

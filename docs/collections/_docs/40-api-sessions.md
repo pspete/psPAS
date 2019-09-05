@@ -17,7 +17,7 @@ User: VaultAdmin
 Password for user VaultAdmin: **********
 
 
-New-PASSession -Credential $VaultAdmin -BaseURI https://cyberark.pspete.dev
+New-PASSession -Credential $VaultAdmin -BaseURI https://pvwa.somedomain.com
 
 Get-PASLoggedOnUser
 
@@ -37,7 +37,7 @@ User: SafeAdmin
 Password for user SafeAdmin: **********
 
 
-New-PASSession -Credential $SafeAdmin -BaseURI https://cyberark.pspete.dev
+New-PASSession -Credential $SafeAdmin -BaseURI https://pvwa.somedomain.com
 
 Get-PASLoggedOnUser
 
