@@ -16,6 +16,7 @@ The name of the safe to add the member to
 
 .PARAMETER MemberName
 Vault or Domain User, or Group, to add as member.
+Must not contain '&' (ampersand).
 
 .PARAMETER SearchIn
 The Vault or Domain, defined in the vault,
@@ -169,7 +170,7 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateScript( { $_ -notmatch ".*(\?).*" })]
+		[ValidateScript( { $_ -notmatch ".*(\?|\&).*" })]
 		[string]$MemberName,
 
 		[parameter(
