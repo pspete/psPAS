@@ -53,6 +53,7 @@ Adds a new user to the vault
 
     -userType <String>
         The user type
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -62,6 +63,7 @@ Adds a new user to the vault
 
     -unAuthorizedInterfaces <String[]>
         The CyberArk interfaces that this user is not authorized to use.
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -71,6 +73,7 @@ Adds a new user to the vault
 
     -enableUser <Boolean>
         Whether the user will be enabled upon creation.
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -84,6 +87,7 @@ Adds a new user to the vault
         "AuthTypePass", for CyberArk Authentication (default)
         "AuthTypeLDAP", for LDAP authentication
         "AuthTypeRADIUS", for RADIUS authentication
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -102,6 +106,7 @@ Adds a new user to the vault
 
     -ChangePassOnNextLogon <Boolean>
         Whether or not user will be forced to change password on first logon
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -120,6 +125,7 @@ Adds a new user to the vault
 
     -passwordNeverExpires <Boolean>
         Whether or not the user's password will expire
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -129,6 +135,7 @@ Adds a new user to the vault
 
     -distinguishedName <String>
         The distinguished name of the user.
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -140,6 +147,7 @@ Adds a new user to the vault
         The user permissions in the vault.
         To grant authorization to a user, the same authorization must be held by the account
         logged on to the API.
+        Requires CyberArk version 10.9+
 
         Valid values:
           AddSafes
@@ -201,6 +209,7 @@ Adds a new user to the vault
 
     -workStreet <String>
         Business Address detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -210,6 +219,7 @@ Adds a new user to the vault
 
     -workCity <String>
         Business Address detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -219,6 +229,7 @@ Adds a new user to the vault
 
     -workState <String>
         Business Address detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -228,6 +239,7 @@ Adds a new user to the vault
 
     -workZip <String>
         Business Address detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -237,6 +249,7 @@ Adds a new user to the vault
 
     -workCountry <String>
         Business Address detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -246,6 +259,7 @@ Adds a new user to the vault
 
     -homePage <String>
         The user's email address
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -255,6 +269,7 @@ Adds a new user to the vault
 
     -homeEmail <String>
         The user's email address
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -264,6 +279,7 @@ Adds a new user to the vault
 
     -businessEmail <String>
         The user's email address
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -273,6 +289,7 @@ Adds a new user to the vault
 
     -otherEmail <String>
         The user's email address
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -282,6 +299,7 @@ Adds a new user to the vault
 
     -homeNumber <String>
         The user's phone number
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -291,6 +309,7 @@ Adds a new user to the vault
 
     -businessNumber <String>
         The user's phone number
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -300,6 +319,7 @@ Adds a new user to the vault
 
     -cellularNumber <String>
         The user's phone number
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -309,6 +329,7 @@ Adds a new user to the vault
 
     -faxNumber <String>
         The user's phone number
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -318,6 +339,7 @@ Adds a new user to the vault
 
     -pagerNumber <String>
         The user's phone number
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -327,6 +349,7 @@ Adds a new user to the vault
 
     -description <String>
         Description Text
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -345,6 +368,7 @@ Adds a new user to the vault
 
     -MiddleName <String>
         The User's Middle Name
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -363,6 +387,7 @@ Adds a new user to the vault
 
     -street <String>
         Address detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -372,6 +397,7 @@ Adds a new user to the vault
 
     -city <String>
         Address detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -381,6 +407,7 @@ Adds a new user to the vault
 
     -state <String>
         Address detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -390,6 +417,7 @@ Adds a new user to the vault
 
     -zip <String>
         Address detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -399,6 +427,7 @@ Adds a new user to the vault
 
     -country <String>
         Address detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -408,6 +437,7 @@ Adds a new user to the vault
 
     -title <String>
         Personal detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -417,6 +447,7 @@ Adds a new user to the vault
 
     -organization <String>
         Personal detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -426,6 +457,7 @@ Adds a new user to the vault
 
     -department <String>
         Personal detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -435,6 +467,7 @@ Adds a new user to the vault
 
     -profession <String>
         Personal detail for the user
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named

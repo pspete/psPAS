@@ -7,7 +7,8 @@
 	Performs Logoff and removes the Vault session.
 
 	.PARAMETER UseClassicAPI
-	Specify the UseClassicAPI switch to send the authentication request via the Classic (v9) API endpoint.
+	Specify the UseClassicAPI switch to send the logoff request via the Classic (v9) API endpoint.
+	Relevant for CyberArk versions earlier than 10.4
 
 	.PARAMETER SharedAuthentication
 	Specify the SharedAuthentication switch to logoff from a shared authentication session

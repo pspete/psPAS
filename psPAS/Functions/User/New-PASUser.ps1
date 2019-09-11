@@ -9,19 +9,21 @@ Adds a new user to the vault
 .PARAMETER UserName
 The name of the user to create in the vault
 
-
 .PARAMETER InitialPassword
 The password to set on the account, as a Secure String
 Must meet the password complexity requirements
 
 .PARAMETER userType
 The user type
+Requires CyberArk version 10.9+
 
 .PARAMETER unAuthorizedInterfaces
 The CyberArk interfaces that this user is not authorized to use.
+Requires CyberArk version 10.9+
 
 .PARAMETER enableUser
 Whether the user will be enabled upon creation.
+Requires CyberArk version 10.9+
 
 .PARAMETER authenticationMethod
 The authentication method that the user will use to log on.
@@ -29,12 +31,15 @@ Valid Values:
 "AuthTypePass", for CyberArk Authentication (default)
 "AuthTypeLDAP", for LDAP authentication
 "AuthTypeRADIUS", for RADIUS authentication
+Requires CyberArk version 10.9+
 
 .PARAMETER passwordNeverExpires
 Whether or not the user's password will expire
+Requires CyberArk version 10.9+
 
 .PARAMETER distinguishedName
 The distinguished name of the user.
+Requires CyberArk version 10.9+
 
 .PARAMETER vaultAuthorization
 The user permissions in the vault.
@@ -50,84 +55,111 @@ Valid values:
 • ManageServerFileCategories
 • BackupAllSafes
 • RestoreAllSafes
+Requires CyberArk version 10.9+
 
 .PARAMETER ChangePassOnNextLogon
 Whether or not user will be forced to change password on first logon
+Requires CyberArk version 10.9+
 
 .PARAMETER workStreet
 Business Address detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER workCity
 Business Address detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER workState
 Business Address detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER workZip
 Business Address detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER workCountry
 Business Address detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER homePage
 The user's email address
+Requires CyberArk version 10.9+
 
 .PARAMETER homeEmail
 The user's email address
+Requires CyberArk version 10.9+
 
 .PARAMETER businessEmail
 The user's email address
+Requires CyberArk version 10.9+
 
 .PARAMETER otherEmail
 The user's email address
+Requires CyberArk version 10.9+
 
 .PARAMETER homeNumber
 The user's phone number
+Requires CyberArk version 10.9+
 
 .PARAMETER businessNumber
 The user's phone number
+Requires CyberArk version 10.9+
 
 .PARAMETER cellularNumber
 The user's phone number
+Requires CyberArk version 10.9+
 
 .PARAMETER faxNumber
 The user's phone number
+Requires CyberArk version 10.9+
 
 .PARAMETER pagerNumber
 The user's phone number
+Requires CyberArk version 10.9+
 
 .PARAMETER description
 Description Text
+Requires CyberArk version 10.9+
 
 .PARAMETER MiddleName
 The User's Middle Name
+Requires CyberArk version 10.9+
 
 .PARAMETER street
 Address detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER city
 Address detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER state
 Address detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER zip
 Address detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER country
 Address detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER title
 Personal detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER organization
 Personal detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER department
 Personal detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER profession
 Personal detail for the user
+Requires CyberArk version 10.9+
 
 .PARAMETER Email
 The user's email address

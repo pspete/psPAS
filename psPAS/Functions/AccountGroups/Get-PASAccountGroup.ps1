@@ -16,6 +16,7 @@ The Safe where the account groups are.
 
 .PARAMETER UseClassicAPI
 Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
+Relevant for CyberArk versions earlier than 10.5
 
 .EXAMPLE
 Get-PASAccountGroup -Safe SafeName
@@ -51,6 +52,7 @@ Minimum CyberArk version 9.10
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"9.10"
+		$RequiredVersion = [System.Version]"10.5"
 	}#begin
 
 	PROCESS {
@@ -65,8 +67,6 @@ Minimum CyberArk version 9.10
 		}
 
 		Else {
-
-			[System.Version]$RequiredVersion = "10.5"
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 

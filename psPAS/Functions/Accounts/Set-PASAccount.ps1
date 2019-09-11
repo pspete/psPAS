@@ -23,15 +23,19 @@ Retrieved by Get-PASAccount
 
 .PARAMETER op
 The operation to perform (add, remove, replace).
+Requires CyberArk version 10.4+
 
 .PARAMETER path
 The path of the property to update, for instance /address or /name.
+Requires CyberArk version 10.4+
 
 .PARAMETER value
 The new property value for add or replace operations.
+Requires CyberArk version 10.4+
 
 .PARAMETER operations
 A collection of update actions to perform, must include op, path & value (except where action is remove).
+Requires CyberArk version 10.4+
 
 .PARAMETER Folder
 The folder where the account is stored.

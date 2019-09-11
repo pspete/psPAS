@@ -22,6 +22,7 @@ Membership of the Vault Admins group required.
 
     -id <String>
         The ID or Name of the directory to return information on.
+        Requires CyberArk version 10.5+
 
         Required?                    false
         Position?                    named

@@ -33,6 +33,7 @@ The following permissions are required on the safe where the account group will 
 
     -UseClassicAPI [<SwitchParameter>]
         Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
+        Relevant for CyberArk versions earlier than 10.5
 
         Required?                    false
         Position?                    named

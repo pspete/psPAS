@@ -12,7 +12,8 @@ The unique ID  of the account to delete.
 This is retrieved by the Get-PASAccount function.
 
 .PARAMETER UseClassicAPI
-Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
+Specify the UseClassicAPI to force usage the Classic API endpoint.
+Relevant for CyberArk versions earlier than 10.4
 
 .EXAMPLE
 Remove-PASAccount -AccountID 19_1

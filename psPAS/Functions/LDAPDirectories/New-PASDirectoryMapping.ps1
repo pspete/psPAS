@@ -21,13 +21,16 @@ Users who belong to these LDAP groups will be automatically assigned to the rele
 
 .PARAMETER VaultGroups
 A list of Vault groups that a mapped user will be added to.
+Requires CyberArk version 10.7+
 
 .PARAMETER Location
 The path of the Vault location that mapped users are added under.
 This value cannot be updated.
+Requires CyberArk version 10.7+
 
 .PARAMETER LDAPQuery
 Match LDAP query results to mapping
+Requires CyberArk version 10.7+
 
 .PARAMETER MappingAuthorizations
 The integer flag representation of the security attributes and authorizations that will be applied when an
@@ -65,6 +68,7 @@ Specify switch to add the ActivateUsers authorization to the directory mapping
 
 .PARAMETER UserActivityLogPeriod
 Retention period in days for user activity logs
+Requires CyberArk version 10.10+
 
 .EXAMPLE
 New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map3 -RestoreAllSafes -BackupAllSafes

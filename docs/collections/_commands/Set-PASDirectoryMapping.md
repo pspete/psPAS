@@ -196,6 +196,7 @@ Membership of the Vault Admins group required.
 
     -UserActivityLogPeriod <Int32>
         Retention period in days for user activity logs
+        Requires CyberArk version 10.10+
 
         Required?                    false
         Position?                    named

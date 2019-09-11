@@ -46,6 +46,7 @@ For CyberArk version prior to 10.4:
 
     -op <String>
         The operation to perform (add, remove, replace).
+        Requires CyberArk version 10.4+
 
         Required?                    true
         Position?                    named
@@ -55,6 +56,7 @@ For CyberArk version prior to 10.4:
 
     -path <String>
         The path of the property to update, for instance /address or /name.
+        Requires CyberArk version 10.4+
 
         Required?                    true
         Position?                    named
@@ -64,6 +66,7 @@ For CyberArk version prior to 10.4:
 
     -value <String>
         The new property value for add or replace operations.
+        Requires CyberArk version 10.4+
 
         Required?                    false
         Position?                    named
@@ -74,6 +77,7 @@ For CyberArk version prior to 10.4:
     -operations <Hashtable[]>
         A collection of update actions to perform, must include op, path & value (except where
         action is remove).
+        Requires CyberArk version 10.4+
 
         Required?                    true
         Position?                    named

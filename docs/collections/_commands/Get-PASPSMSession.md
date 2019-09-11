@@ -22,6 +22,7 @@ Returns the details of active PSM sessions.
 
     -liveSessionId <String>
         The ID of an active session to get details of.
+        Requires CyberArk version 10.6+
 
         Required?                    false
         Position?                    named

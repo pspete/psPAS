@@ -22,6 +22,7 @@ Returns information on specific vault user.
 
     -id <Int32>
         The numeric id of the user to return details of.
+        Requires CyberArk version 10.10+
 
         Required?                    true
         Position?                    named
@@ -31,6 +32,7 @@ Returns information on specific vault user.
 
     -Search <String>
         Search string.
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -40,6 +42,7 @@ Returns information on specific vault user.
 
     -UserType <String>
         The type of the user.
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named
@@ -49,6 +52,7 @@ Returns information on specific vault user.
 
     -ComponentUser <Boolean>
         Whether the user is a known component or not.
+        Requires CyberArk version 10.9+
 
         Required?                    false
         Position?                    named

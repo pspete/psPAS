@@ -78,6 +78,7 @@ Verify & Reconcile both require "Initiate CPM password management operations"
 
     -ReconcileTask [<SwitchParameter>]
         Initiates a reconcile task
+        Requires CyberArk version 9.10+
 
         Required?                    true
         Position?                    named
@@ -88,6 +89,7 @@ Verify & Reconcile both require "Initiate CPM password management operations"
     -ChangeImmediately <Boolean>
         Whether or not the password will be changed immediately in the Vault.
         Only relevant when specifying a password value for the next CPM change.
+        Requires CyberArk version 10.1+
 
         Required?                    true
         Position?                    named
@@ -100,6 +102,7 @@ Verify & Reconcile both require "Initiate CPM password management operations"
         the Vault.
         Only relevant when specifying a password value for the next CPM change, or updating the
         password only in the vault.
+        Requires CyberArk version 10.1+
 
         Required?                    true
         Position?                    named
