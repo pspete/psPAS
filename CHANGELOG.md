@@ -1,5 +1,10 @@
 # psPAS
 
+## 3.2.34 (Sept 11th 2019)
+
+- Minor updates to Help Text.
+  - Clarified version requirements for parameters & api capabilities.
+
 ## 3.2.32 (Sept 5th 2019)
 
 - Fixes
