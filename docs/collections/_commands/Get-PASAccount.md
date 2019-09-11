@@ -107,6 +107,7 @@ If ten or more accounts are found, the Count Output parameter will show 10.
         Keyword to search for.
         If multiple keywords are specified, the search will include all the keywords.
         Separate keywords with a space.
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -118,6 +119,7 @@ If ten or more accounts are found, the Count Output parameter will show 10.
         The name of a Safe to search. The search will be carried out only in the Safes
         in the Vault
         that the authenticated used is authorized to access.
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named

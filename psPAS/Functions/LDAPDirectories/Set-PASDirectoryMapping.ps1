@@ -68,6 +68,7 @@ Specify switch to add the ActivateUsers authorization to the directory mapping
 
 .PARAMETER UserActivityLogPeriod
 Retention period in days for user activity logs
+Requires CyberArk version 10.10+
 
 .EXAMPLE
 New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map3 -RestoreAllSafes -BackupAllSafes

@@ -29,20 +29,24 @@ Initiates a change task
 
 .PARAMETER ReconcileTask
 Initiates a reconcile task
+Requires CyberArk version 9.10+
 
 .PARAMETER ChangeImmediately
 Whether or not the password will be changed immediately in the Vault.
 Only relevant when specifying a password value for the next CPM change.
+Requires CyberArk version 10.1+
 
 .PARAMETER NewCredentials
 Secure String value of the new account password that will be allocated to the account in the Vault.
 Only relevant when specifying a password value for the next CPM change, or updating the password only in the vault.
+Requires CyberArk version 10.1+
 
 .PARAMETER ChangeEntireGroup
 Boolean value, dictating if all accounts that belong to the same group should have their passwords changed.
 This is only relevant for accounts that belong to an account group.
 Parameter will be ignored if account does not belong to a group.
 Applicable to immediate change via CPM, and password change in the vault only.
+Requires CyberArk version 10.1+
 
 .PARAMETER ImmediateChangeByCPM
 Yes/No value, dictating if the account will be scheduled for immediate change.

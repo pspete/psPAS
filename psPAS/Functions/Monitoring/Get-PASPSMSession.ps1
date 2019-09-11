@@ -8,6 +8,7 @@ Returns the details of active PSM sessions.
 
 .PARAMETER liveSessionId
 The ID of an active session to get details of.
+Requires CyberArk version 10.6+
 
 .PARAMETER Limit
 The number of sessions that are returned in the list.
@@ -154,7 +155,7 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/LiveSessions"
 
-		If($PSCmdlet.ParameterSetName -eq "bySessionID") {
+		If ($PSCmdlet.ParameterSetName -eq "bySessionID") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
@@ -162,7 +163,7 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 
 		}
 
-		ElseIf($PSCmdlet.ParameterSetName -eq "byQuery") {
+		ElseIf ($PSCmdlet.ParameterSetName -eq "byQuery") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -176,7 +177,7 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 
 				}) -join '&'
 
-			if($queryString) {
+			if ($queryString) {
 
 				#Build URL from base URL
 				$URI = "$URI`?$queryString"
@@ -188,7 +189,7 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result.LiveSessions |
@@ -199,6 +200,6 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 
 	}
 
-	END {}#end
+	END { }#end
 
 }

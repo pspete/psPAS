@@ -52,48 +52,62 @@ The Address of the machine where the account will be used
 
 .PARAMETER AccountName
 The name of the account
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER Password
 The password value as a secure string
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER Username
 Username on the target machine
 
 .PARAMETER DisableAutoMgmt
 Whether or not automatic management wll be disabled for the account
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER DisableAutoMgmtReason
 The reason why automatic management wll be disabled for the account
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER GroupName
 A groupname with which the account will be associated
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER GroupPlatformID
 Group platform to base created group ID on, if ID doesn't exist
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER Port
 Port number over which the account will be used
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER ExtraPass1Name
 Logon account name
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER ExtraPass1Folder
 Folder where logon account is stored
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER ExtraPass1Safe
 Safe where logon account is stored
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER ExtraPass3Name
 Reconcile account name
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER ExtraPass3Folder
 Folder where reconcile account is stored
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER ExtraPass3Safe
 Safe where reconcile account is stored
+Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER DynamicProperties
 Hashtable of name=value pairs
+Relevant for CyberArk versions earlier than 10.4
 
 .EXAMPLE
 Add-PASAccount -address ThisServer -userName ThisUser -platformID UNIXSSH -SafeName UNIXSafe -automaticManagementEnabled $false

@@ -22,6 +22,7 @@ Returns the details of recordings of PSM, PSMP or OPM sessions.
 
     -RecordingID <String>
         Unique ID of the recorded PSM session
+        Requires CyberArk version 10.6+
 
         Required?                    false
         Position?                    named

@@ -795,7 +795,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Unblock-PASUser`][Unblock-PASUser]                                                     |**9.7**             |Activates a suspended user
 [`Get-PASDirectory`][Get-PASDirectory]                                                   |**10.4**            |Get configured LDAP directories
 [`Add-PASDirectory`][Add-PASDirectory]                                                   |**10.4**            |Add a new LDAP directory
-[`Add-PASDirectoryMapping`][Add-PASDirectoryMapping]                                     |**10.4**            |Add a new LDAP directory mapping
+[`New-PASDirectoryMapping`][New-PASDirectoryMapping]                                     |**10.4**            |Create a new LDAP directory mapping
 [`Add-PASPTARule`][Add-PASPTARule]                                                       |**10.4**            |Add a new Risky Commandrule to PTA
 [`Get-PASPTAEvent`][Get-PASPTAEvent]                                                     |**10.3**            |Get security eventsfrom PTA
 [`Get-PASPTARemediation`][Get-PASPTARemediation]                                         |**10.4**            |Get automatic response config from PTA
@@ -894,7 +894,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Unblock-PASUser]:/psPAS/Functions/User/Unblock-PASUser.ps1
 [Get-PASDirectory]:/psPAS/Functions/LDAPDirectories/Get-PASDirectory.ps1
 [Add-PASDirectory]:/psPAS/Functions/LDAPDirectories/Add-PASDirectory.ps1
-[Add-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Add-PASDirectoryMapping.ps1
+[New-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/New-PASDirectoryMapping.ps1
 [Add-PASPTARule]:/psPAS/Functions/EventSecurity/Add-PASPTARule.ps1
 [Get-PASPTAEvent]:/psPAS/Functions/EventSecurity/Get-PASPTAEvent.ps1
 [Get-PASPTARemediation]:/psPAS/Functions/EventSecurity/Get-PASPTARemediation.ps1

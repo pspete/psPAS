@@ -8,6 +8,7 @@ Returns the details of recordings of PSM, PSMP or OPM sessions.
 
 .PARAMETER RecordingID
 Unique ID of the recorded PSM session
+Requires CyberArk version 10.6+
 
 .PARAMETER Limit
 The number of recordings that are returned in the list.
@@ -148,7 +149,7 @@ Minimum CyberArk Version 9.10
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/Recordings"
 
-		If($PSCmdlet.ParameterSetName -eq "byRecordingID") {
+		If ($PSCmdlet.ParameterSetName -eq "byRecordingID") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
@@ -156,7 +157,7 @@ Minimum CyberArk Version 9.10
 
 		}
 
-		ElseIf($PSCmdlet.ParameterSetName -eq "byQuery") {
+		ElseIf ($PSCmdlet.ParameterSetName -eq "byQuery") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -170,7 +171,7 @@ Minimum CyberArk Version 9.10
 
 				}) -join '&'
 
-			if($queryString) {
+			if ($queryString) {
 
 				#Build URL from base URL
 				$URI = "$URI`?$queryString"
@@ -182,7 +183,7 @@ Minimum CyberArk Version 9.10
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result.Recordings |
@@ -193,6 +194,6 @@ Minimum CyberArk Version 9.10
 
 	}
 
-	END {}#end
+	END { }#end
 
 }

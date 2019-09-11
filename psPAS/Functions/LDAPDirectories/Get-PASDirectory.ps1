@@ -10,6 +10,7 @@ Membership of the Vault Admins group required.
 
 .PARAMETER id
 The ID or Name of the directory to return information on.
+Requires CyberArk version 10.5+
 
 .EXAMPLE
 Get-PASDirectory
@@ -36,6 +37,7 @@ LDAP Directory Details
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"10.4"
+		$RequiredVersion = [System.Version]"10.5"
 	}#begin
 
 	PROCESS {
@@ -45,9 +47,8 @@ LDAP Directory Details
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories"
 
-		if($PSCmdlet.ParameterSetName -eq "v10_5") {
+		if ($PSCmdlet.ParameterSetName -eq "v10_5") {
 
-			[System.Version]$RequiredVersion = "10.5"
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
 			#Update URL for request
@@ -55,12 +56,12 @@ LDAP Directory Details
 
 			$type = "psPAS.CyberArk.Vault.Directory.Extended"
 
-		} Else {$type = "psPAS.CyberArk.Vault.Directory"}
+		} Else { $type = "psPAS.CyberArk.Vault.Directory" }
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result |
@@ -71,5 +72,5 @@ LDAP Directory Details
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

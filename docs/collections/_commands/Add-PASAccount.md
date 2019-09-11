@@ -152,6 +152,7 @@ Parameters are processed to create request object in the required format.
 
     -accountName <String>
         The name of the account
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -161,6 +162,7 @@ Parameters are processed to create request object in the required format.
 
     -password <SecureString>
         The password value as a secure string
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    true
         Position?                    named
@@ -170,6 +172,7 @@ Parameters are processed to create request object in the required format.
 
     -disableAutoMgmt <Boolean>
         Whether or not automatic management wll be disabled for the account
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -179,6 +182,7 @@ Parameters are processed to create request object in the required format.
 
     -disableAutoMgmtReason <String>
         The reason why automatic management wll be disabled for the account
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -188,6 +192,7 @@ Parameters are processed to create request object in the required format.
 
     -groupName <String>
         A groupname with which the account will be associated
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -197,6 +202,7 @@ Parameters are processed to create request object in the required format.
 
     -groupPlatformID <String>
         Group platform to base created group ID on, if ID doesn't exist
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -206,6 +212,7 @@ Parameters are processed to create request object in the required format.
 
     -Port <Int32>
         Port number over which the account will be used
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -215,6 +222,7 @@ Parameters are processed to create request object in the required format.
 
     -ExtraPass1Name <String>
         Logon account name
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -224,6 +232,7 @@ Parameters are processed to create request object in the required format.
 
     -ExtraPass1Folder <String>
         Folder where logon account is stored
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -233,6 +242,7 @@ Parameters are processed to create request object in the required format.
 
     -ExtraPass1Safe <String>
         Safe where logon account is stored
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -242,6 +252,7 @@ Parameters are processed to create request object in the required format.
 
     -ExtraPass3Name <String>
         Reconcile account name
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -251,6 +262,7 @@ Parameters are processed to create request object in the required format.
 
     -ExtraPass3Folder <String>
         Folder where reconcile account is stored
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -260,6 +272,7 @@ Parameters are processed to create request object in the required format.
 
     -ExtraPass3Safe <String>
         Safe where reconcile account is stored
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named
@@ -269,6 +282,7 @@ Parameters are processed to create request object in the required format.
 
     -DynamicProperties <Hashtable>
         Hashtable of name=value pairs
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named

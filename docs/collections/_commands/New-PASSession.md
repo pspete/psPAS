@@ -72,6 +72,7 @@ For CyberArk version older than 9.7:
 
     -UseClassicAPI [<SwitchParameter>]
         Specify the UseClassicAPI to send the authentication request via the Classic (v9) API endpoint.
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    true
         Position?                    named

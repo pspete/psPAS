@@ -22,6 +22,7 @@
 
 	.PARAMETER UseClassicAPI
 	Specify the UseClassicAPI to send the authentication request via the Classic (v9) API endpoint.
+	Relevant for CyberArk versions earlier than 10.4
 
 	.PARAMETER newPassword
 	Optional parameter, enables you to change a CyberArk users password.

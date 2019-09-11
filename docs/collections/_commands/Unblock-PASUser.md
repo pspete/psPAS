@@ -20,6 +20,7 @@ Activates an existing vault user who was suspended due to password failures.
 
     -id <Int32>
         The user's unique ID
+        Requires CyberArk version 10.10+
 
         Required?                    true
         Position?                    named
@@ -64,6 +65,6 @@ Activates an existing vault user who was suspended due to password failures.
 
     -------------------------- EXAMPLE 2 --------------------------
 
-    PS C:\>Unblock-PASUser -UserName MrFatFingers -id 666
+    PS C:\>Unblock-PASUser -id 666
 
-    Activates suspended vault user MrFatFingers using the API from 10.10+
+    Activates suspended vault user with id 666, using the API from 10.10+

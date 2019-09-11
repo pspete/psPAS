@@ -29,7 +29,8 @@ The user who runs this web service requires the "Delete Accounts" permission.
         Accept wildcard characters?  false
 
     -UseClassicAPI [<SwitchParameter>]
-        Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
+        Specify the UseClassicAPI to force usage the Classic API endpoint.
+        Relevant for CyberArk versions earlier than 10.4
 
         Required?                    false
         Position?                    named

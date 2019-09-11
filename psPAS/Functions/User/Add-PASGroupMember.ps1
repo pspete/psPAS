@@ -8,16 +8,20 @@ Adds an existing user to an existing group in the vault
 
 .PARAMETER groupId
 The unique ID of the group to add the member to.
+Requires CyberArk version 10.6+
 
 .PARAMETER memberId
 The name of the user or group to add as a member.
+Requires CyberArk version 10.6+
 
 .PARAMETER memberType
 The type of user being added to the Vault group.
 Valid values: domain/vault
+Requires CyberArk version 10.6+
 
 .PARAMETER domainName
 If memberType=domain, dns address of the domain
+Requires CyberArk version 10.6+
 
 .PARAMETER GroupName
 The name of the user
