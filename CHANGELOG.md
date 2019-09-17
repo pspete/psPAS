@@ -1,5 +1,10 @@
 # psPAS
 
+## 3.2.37 (Sept 17th 2019)
+
+- Update Format for `psPAS.CyberArk.Vault.User`
+  - Change default displayed properties when searching users with V10 API.
+
 ## 3.2.34 (Sept 11th 2019)
 
 - Minor updates to Help Text.
