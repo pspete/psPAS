@@ -72,16 +72,43 @@
 								<PropertyName>Location</PropertyName>
 							</ListItem>
 							<ListItem>
-								<Label>FirstName</Label>
-								<ScriptBlock>$_.personalDetails.firstName</ScriptBlock>
+								<PropertyName>Suspended</PropertyName>
 							</ListItem>
 							<ListItem>
-								<Label>Middlename</Label>
-								<ScriptBlock>$_.personalDetails.middlename</ScriptBlock>
+								<PropertyName>EnableUser</PropertyName>
 							</ListItem>
 							<ListItem>
-								<Label>LastName</Label>
-								<ScriptBlock>$_.personalDetails.lastname</ScriptBlock>
+								<PropertyName>ExpiryDate</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>PasswordNeverExpires</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ChangePassOnNextLogon</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AuthenticationMethod</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Description</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>distinguishedName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>PersonalDetails</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>BusinessAddress</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Internet</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Phones</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>unAuthorizedInterfaces</PropertyName>
 							</ListItem>
 						</ListItems>
 					</ListEntry>
