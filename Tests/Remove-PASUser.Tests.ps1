@@ -43,7 +43,7 @@ Describe $FunctionName {
 		}
 
 		$InputObj = [pscustomobject]@{
-"UserName"     = "ThatUser"
+			"UserName"     = "ThatUser"
 
 		}
 
@@ -61,35 +61,45 @@ Describe $FunctionName {
 
 		}
 
-		$response = $InputObj | Remove-PASUser
+		
 
 		Context "Input" {
 
 			It "sends request" {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				$InputObj | Remove-PASUser
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
-
+			It "sends request to expected endpoint - Classic API" {
+				$InputObj | Remove-PASUser
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/ThatUser"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - V2 API" {
+				Remove-PASUser -id 1234
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/api/Users/1234"
+
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'DELETE' } -Times 1 -Exactly -Scope Describe
+				$InputObj | Remove-PASUser
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope Describe
+				$InputObj | Remove-PASUser
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -98,7 +108,7 @@ Describe $FunctionName {
 		Context "Output" {
 
 			it "provides no output" {
-
+				$response = $InputObj | Remove-PASUser
 				$response | Should BeNullOrEmpty
 
 			}
