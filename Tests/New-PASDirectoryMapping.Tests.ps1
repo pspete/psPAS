@@ -103,16 +103,19 @@ Describe $FunctionName {
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "10.6"
 				{ $InputObj | New-PASDirectoryMapping -VaultGroups "Group1", "Group2" } | Should -Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "10.9"
 				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -VaultGroups "Group1", "Group2" -UserActivityLogPeriod 10 } | Should -Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 			It "does not throw if version requirement met" {
 				$Script:ExternalVersion = "10.10"
 				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -VaultGroups "Group1", "Group2" -UserActivityLogPeriod 10 } | Should -Not -Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}
