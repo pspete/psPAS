@@ -38,7 +38,7 @@ psPAS.CyberArk.Vault.Group Object
 .NOTES
 Minimum Version 11.1
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -73,8 +73,12 @@ Minimum Version 11.1
 		#Construct Request Body
 		$Body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
-		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		if ($PSCmdlet.ShouldProcess($groupName, "Create Group")) {
+
+			#send request to web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+
+		}
 
 		if ($result) {
 
