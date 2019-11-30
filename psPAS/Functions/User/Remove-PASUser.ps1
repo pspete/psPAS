@@ -6,6 +6,10 @@ Deletes a vault user
 .DESCRIPTION
 Deletes an existing user from the vault
 
+.PARAMETER id
+The numeric id of the user to delete.
+Requires CyberArk version 11.1+
+
 .PARAMETER UserName
 The name of the user to delete from the vault
 
@@ -22,23 +26,46 @@ None
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
+		
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "11_1"
+		)]
+		[int]$id,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "legacy"
 		)]
 		[string]$UserName
 	)
 
-	BEGIN {}#begin
+	BEGIN {
+		$MinimumVersion = [System.Version]"11.1"
+	}#begin
 
 	PROCESS {
 
-		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
+		If ($PSCmdlet.ParameterSetName -eq "11_1") {
 
-            Get-EscapedString)"
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
-		if($PSCmdlet.ShouldProcess($UserName, "Delete User")) {
+			$URI = "$Script:BaseURI/api/Users/$id"
+
+		}
+
+		Else {
+
+			#Create URL for request
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
+
+				Get-EscapedString)"
+
+		}
+
+		if ($PSCmdlet.ShouldProcess($UserName, "Delete User")) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -47,5 +74,5 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 }
