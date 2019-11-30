@@ -15,8 +15,8 @@ Requires CyberArk version 11.1+
 .PARAMETER UserName
 The name of the user to create in the vault
 
-.PARAMETER InitialPassword
-The password to set on the account, as a Secure String
+.PARAMETER NewPassword
+A new password to set on the account, as a Secure String
 Must meet the password complexity requirements
 
 .PARAMETER userType
