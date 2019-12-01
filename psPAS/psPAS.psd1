@@ -176,7 +176,8 @@
 		'Invoke-PASCPMOperation',
 		'Set-PASUserPassword',
 		'Set-PASDirectoryMappingOrder',
-		'New-PASGroup'
+		'New-PASGroup',
+		'Get-PASPlatformSafe'
 	)
 
 	# AliasesToExport   = @( )
