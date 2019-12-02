@@ -7,13 +7,16 @@ Removes a configured directory mapping from the Vault
 Removes a directory mapping configuration from the vault.
 Membership of the Vault Admins group required.
 
-.PARAMETER id
-The ID or Name of the directory to return information on.
+.PARAMETER DirectoryName
+The Name of the directory containing the mapping.
+
+.PARAMETER MappingID
+The id of the directory mapping to delete.
 
 .EXAMPLE
-Remove-PASDirectoryMapping -DirectoryName SomeDir -MappingID "User_Mapping"
+Remove-PASDirectoryMapping -DirectoryName SomeDir -MappingID 66
 
-Removes the User_Mapping directory mapping for the SomeDir directory
+Removes the  directory mapping with id 66 for the SomeDir directory
 
 .INPUTS
 WebSession & BaseURI can be piped to the function by propertyname
