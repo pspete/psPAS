@@ -177,7 +177,8 @@
 		'Set-PASUserPassword',
 		'Set-PASDirectoryMappingOrder',
 		'New-PASGroup',
-		'Get-PASPlatformSafe'
+		'Get-PASPlatformSafe',
+		'Remove-PASDirectoryMapping'
 	)
 
 	# AliasesToExport   = @( )
