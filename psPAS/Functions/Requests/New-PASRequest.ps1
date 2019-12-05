@@ -24,7 +24,7 @@ The Ticket ID given by the ticketing system.
 If the connection is through PSM, the name of the connection component to connect with,
 as defined in the configuration.
 
-.PARAMETER MultipleAccess
+.PARAMETER MultipleAccessRequired
 Whether the request is for multiple accesses
 
 .PARAMETER FromDate
@@ -46,7 +46,7 @@ If the connection is through PSM, the name of the connection component to connec
 A list of parameters required to perform the connection, as defined in each connection component configuration
 
 .EXAMPLE
-New-PASRequest -AccountId $ID -Reason "Task ABC" -MultipleAccess $true -ConnectionComponent PSM-RDP
+New-PASRequest -AccountId $ID -Reason "Task ABC" -MultipleAccessRequired $true -ConnectionComponent PSM-RDP
 
 Creates a new request for access to account with ID in $ID
 
@@ -84,7 +84,7 @@ Minimum CyberArk Version 9.10
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[boolean]$MultipleAccess,
+		[boolean]$MultipleAccessRequired,
 
 		[parameter(
 			Mandatory = $false,
@@ -133,9 +133,6 @@ Minimum CyberArk Version 9.10
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/MyRequests"
-
-		#Get all parameters that will be sent in the web request
-		#$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		if ($PSBoundParameters.ContainsKey("FromDate")) {
 
