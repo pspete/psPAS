@@ -176,6 +176,7 @@
 		'Invoke-PASCPMOperation',
 		'Set-PASUserPassword',
 		'Set-PASDirectoryMappingOrder',
+		'Enable-PASCPMAutoManagement',
 		'New-PASGroup',
 		'Get-PASPlatformSafe',
 		'Remove-PASDirectoryMapping'
