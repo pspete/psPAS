@@ -56,7 +56,7 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith { }
+				Mock Set-PASAccount -MockWith { }
 
 				$InputObj = [pscustomobject]@{
 					"AccountID"   = "12_3"
@@ -67,7 +67,7 @@ Describe $FunctionName {
 
 			It "sends request" {
 				$InputObj | Enable-PASCPMAutoManagement
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+				Assert-MockCalled Set-PASAccount -Times 1 -Exactly -Scope It
 
 			}
 
