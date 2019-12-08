@@ -48,7 +48,8 @@ Describe $FunctionName {
 					Headers = @{"Content-Disposition" = "attachment; filename=FILENAME.zip" }
 				}
 
-
+				Mock Get-Item -MockWith { }
+				
 				Mock Set-Content -MockWith { }
 
 			}
