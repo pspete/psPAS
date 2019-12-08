@@ -71,22 +71,22 @@ Retention period in days for user activity logs
 Requires CyberArk version 10.10+
 
 .EXAMPLE
-New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map3 -RestoreAllSafes -BackupAllSafes
+Get-PASDirectoryMapping -DirectoryName $Directory -MappingID $ID | 
+Set-PASDirectoryMapping -DirectoryName $Directory -AddUpdateUsers -AuditUsers
 
-Creates a new  LDAP directory mapping in the Vault with the following authorizations:
-BackupAllSafes, RestoreAllSafes
-
-.EXAMPLE
-New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map2 -MappingAuthorizations 1536
-
-Creates a new  LDAP directory mapping in the Vault with the following authorizations:
-BackupAllSafes, RestoreAllSafes
+Configures the AddUpdateUsers & AuditUsers authorisations on the mapping.
 
 .EXAMPLE
-New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map1 -MappingAuthorizations 1,3,512
+Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch `
+-AddUpdateUsers -ActivateUsers -ResetUsersPasswords
 
-Creates a new  LDAP directory mapping in the Vault with the following authorizations:
-AddUpdateUsers, AddSafes, BackupAllSafes
+Sets AddUpdateUsers, ActivateUsers & ResetUsersPasswords authorisations on the directory mapping
+
+.EXAMPLE
+Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch `
+-UserActivityLogPeriod 365
+
+Sets UserActivityLogPeriod for the mapping to 365 
 
 .INPUTS
 All parameters can be piped to the function by propertyname
@@ -146,7 +146,7 @@ All parameters can be piped to the function by propertyname
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
+			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "AuthFlags"
 		)]
 		[int[]]$MappingAuthorizations,
@@ -250,7 +250,8 @@ All parameters can be piped to the function by propertyname
 			#10.10 Functionality
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
-		} Else {
+		}
+		Else {
 
 			#10.7 functionality
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion

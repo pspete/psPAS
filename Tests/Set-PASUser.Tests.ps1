@@ -38,40 +38,46 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
-		}
-
-		$InputObj = [pscustomobject]@{
-"UserName" = "SomeUser"
-			"NewPassword"                           = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
-			"FirstName"                             = "Some"
-			"LastName"                              = "User"
-			"ExpiryDate"                            = "10/31/2018"
-
-		}
-
 		Context "Mandatory Parameters" {
 
-			$Parameters = @{Parameter = 'UserName' }
+			It "specifies parameter UserName as mandatory for ParameterSet legacy" {
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+				(Get-Command Set-PASUser).Parameters["UserName"].ParameterSets["legacy"].IsMandatory | Should be $true
 
-				param($Parameter)
+			}
 
-				(Get-Command Set-PASUser).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+			It "specifies parameter UserName as mandatory for ParameterSet 11_1" {
+
+				(Get-Command Set-PASUser).Parameters["UserName"].ParameterSets["11_1"].IsMandatory | Should be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Set-PASUser -NewPassword $("P_Password" | ConvertTo-SecureString -AsPlainText -Force) -ExpiryDate "10/31/2018"
+		Context "Input - legacy" {
 
-		Context "Input" {
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
+				}
+
+				$InputObj = [pscustomobject]@{
+					"UserName"    = "SomeUser"
+					"NewPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+					"FirstName"   = "Some"
+					"LastName"    = "User"
+					"ExpiryDate"  = "10/31/2018"
+
+				}
+
+				$response = $InputObj | Set-PASUser -NewPassword $("P_Password" | ConvertTo-SecureString -AsPlainText -Force) -ExpiryDate "10/31/2018" -UseClassicAPI
+
+			}
 
 			It "sends request" {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
@@ -81,13 +87,62 @@ Describe $FunctionName {
 
 					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/SomeUser"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
+		Context "Input - V11" {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
+				}
+
+				$InputObj = [pscustomobject]@{
+					"id"			  = 1234
+					"UserName"        = "SomeUser"
+					"NewPassword"     = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+					"FirstName"       = "Some"
+					"LastName"        = "User"
+					"ExpiryDate"      = "10/31/2018"
+					"workStreet"      = "SomeStreet"
+					"homePage"        = "www.geocities.com"
+					"faxNumber"       = "1979"
+
+				}
+
+				$response = $InputObj | Set-PASUser
+
+			}
+
+			It "sends request" {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/api/Users/1234"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "uses expected method" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -99,19 +154,41 @@ Describe $FunctionName {
 
 					($Script:RequestBody) -ne $null
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.0"
 
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 2
+				{ $InputObj | Set-PASUser } | Should Throw
+				$Script:ExternalVersion = "0.0"
 
 			}
+
 
 		}
 
 		Context "Output" {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
+				}
+
+				$InputObj = [pscustomobject]@{
+					"UserName"    = "SomeUser"
+					"NewPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+					"FirstName"   = "Some"
+					"LastName"    = "User"
+					"ExpiryDate"  = "10/31/2018"
+
+				}
+
+				$response = $InputObj | Set-PASUser -NewPassword $("P_Password" | ConvertTo-SecureString -AsPlainText -Force) -ExpiryDate "10/31/2018" -UseClassicAPI
+
+			}
 
 			it "provides output" {
 
