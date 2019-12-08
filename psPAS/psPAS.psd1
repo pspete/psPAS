@@ -179,7 +179,8 @@
 		'Enable-PASCPMAutoManagement',
 		'New-PASGroup',
 		'Get-PASPlatformSafe',
-		'Remove-PASDirectoryMapping'
+		'Remove-PASDirectoryMapping',
+		'Disable-PASCPMAutoManagement'
 	)
 
 	# AliasesToExport   = @( )
