@@ -4,7 +4,7 @@
 Enables an account for Automatic CPM Management.
 
 .DESCRIPTION
-Enables an account for CPm management by setting automaticManagementEnabled to $true, 
+Enables an account for CPM management by setting automaticManagementEnabled to $true, 
 and clearing any value set for manualManagementReason.
 
 Attempting to set automaticManagementEnabled to $true without clearing manualManagementReason
@@ -13,7 +13,7 @@ at the same time results in an error.
 This function requests the API to perform both operations with a single command.
 
 .PARAMETER AccountID
-The ID of the account whose activities will be retrieved.
+The ID of the account to enable for automatic management by CPM.
 
 .EXAMPLE
 Enable-PASCPMAutoManagement -AccountID 543_2
@@ -33,7 +33,6 @@ Applicable to and requires 10.4+
 		)]
 		[Alias("id")]
 		[string]$AccountID
-
 
 	)
 
