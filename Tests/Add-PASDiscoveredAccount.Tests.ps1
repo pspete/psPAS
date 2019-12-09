@@ -161,6 +161,16 @@ Describe $FunctionName {
 				} -Times 1 -Exactly -Scope It
 			}
 
+			It "has a request body with expected platformTypeAccountProperties property for AWS" {
+				$InputObj | Add-PASDiscoveredAccount -awsAccountID 123456777889 -awsAccessKeyID SomeAccessKey
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.awsAccountID -eq "123456777889"
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.awsAccessKeyID -eq "SomeAccessKey"
+
+				} -Times 1 -Exactly -Scope It
+			}
+
 		}
 
 		Context "Output" {
