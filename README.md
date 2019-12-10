@@ -28,8 +28,6 @@ Contains all published methods of the API up to CyberArk v11.1.
 [tests-site]:https://ci.appveyor.com/project/pspete/pspas
 [downloads]:https://img.shields.io/powershellgallery/dt/pspas.svg?color=blue
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
-
 ----------
 
 - [Usage](#usage)
@@ -46,6 +44,8 @@ Contains all published methods of the API up to CyberArk v11.1.
 - [License](#license)
 - [Contributing](#contributing)
 - [Acknowledgements](#acknowledgements)
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 ## Usage
 
@@ -149,6 +149,8 @@ DuoUser  LDAP   EPVUser      False     False   False    False
 $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
 ````
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 ### Basic Operations
 
@@ -453,6 +455,8 @@ SafeAdmin1           ApproveTest {Add, AddRenameFolder, BackupSafe, Delete...}
 zApprover_1          ApproveTest {ListContent, ViewAudit, ViewMembers}
 xReq                 ApproveTest {ListContent, RestrictedRetrieve, Retrieve, ViewAudit...}
 ````
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 ### Advanced Examples
 
