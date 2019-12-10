@@ -1,7 +1,8 @@
-# **PowerShell Module for the CyberArk API**
-
-![psPAS](docs/assets/images/Email.png)
+# psPAS
+![psPAS](docs/assets/images/header_photo.png)
 ![psPAS](docs/assets/images/shop_banner_symbol.png)
+
+## **PowerShell Module for CyberArk Privileged Access Security**
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
