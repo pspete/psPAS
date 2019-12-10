@@ -1,6 +1,6 @@
 ![psPAS](docs/assets/images/header_photo.png)
 
-# **PowerShell Module for the CyberArk API**
+# **psPAS: PowerShell Module for the CyberArk API**
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
