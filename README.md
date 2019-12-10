@@ -1,5 +1,7 @@
 # psPAS
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 ## **PowerShell Module for CyberArk Privileged Access Security**
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
@@ -194,12 +196,12 @@ Get-PASUser -Search xap
 
 ID  UserName    Source UserType ComponentUser Location
 --  --------    ------ -------- ------------- --------
-657 xApprover_A LDAP   EPVUser  False         \VR\VirtualReal\Users
-658 xApprover_1 LDAP   EPVUser  False         \VR\VirtualReal\Users
-659 xApprover_B LDAP   EPVUser  False         \VR\VirtualReal\Users
-660 xApprover_2 LDAP   EPVUser  False         \VR\VirtualReal\Users
-661 xApprover_C LDAP   EPVUser  False         \VR\VirtualReal\Users
-662 xApprover_3 LDAP   EPVUser  False         \VR\VirtualReal\Users
+657 xApprover_A LDAP   EPVUser  False         \psPETE\Users
+658 xApprover_1 LDAP   EPVUser  False         \psPETE\Users
+659 xApprover_B LDAP   EPVUser  False         \psPETE\Users
+660 xApprover_2 LDAP   EPVUser  False         \psPETE\Users
+661 xApprover_C LDAP   EPVUser  False         \psPETE\Users
+662 xApprover_3 LDAP   EPVUser  False         \psPETE\Users
 ````
 
 ##### Accounts
@@ -819,6 +821,11 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Find-PASSafe`][Find-PASSafe]                                                           |**10.1**            |List or Search Safes by name.
 [`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                           |**10.10**           |Reorder Directory Mappings
 [`Set-PASUserPassword`][Set-PASUserPassword]                                             |**10.10**           |Reset a User's Password
+[`New-PASGroup`][New-PASGroup]                                                           |**11.1**            |Create a new CyberArk group
+[`Get-PASPlatformSafe`][Get-PASPlatformSafe]                                             |**11.1**            |List details for all platforms
+[`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                               |**11.1**            |Deletes a Directory Mapping
+[`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             |**10.4**            |Enables Automatic CPM Managment for an account
+[`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           |**10.4**            |Disables Automatic CPM Managment for an account
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
@@ -917,8 +924,13 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Remove-PASDirectory]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectory.ps1
 [Find-PASSafe]:/psPAS/Functions/Safes/Find-PASSafe.ps1
 [Invoke-PASCPMOperation]:/psPAS/Functions/Accounts/Invoke-PASCPMOperation.ps1
-[Set-PASDirectoryMappingOrder]:psPAS\Functions\LDAPDirectories\Set-PASDirectoryMappingOrder.ps1
-[Set-PASUserPassword]:psPAS\Functions\User\Set-PASUserPassword.ps1
+[Set-PASDirectoryMappingOrder]:/psPAS/Functions/LDAPDirectories/Set-PASDirectoryMappingOrder.ps1
+[Set-PASUserPassword]:/psPAS/Functions/User/Set-PASUserPassword.ps1
+[Disable-PASCPMAutoManagement]:/psPAS/Functions/Accounts/Disable-PASCPMAutoManagement.ps1
+[Enable-PASCPMAutoManagement]:/psPAS/Functions/Accounts/Enable-PASCPMAutoManagement.ps1
+[Remove-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectoryMapping.ps1
+[Get-PASPlatformSafe]:/psPAS/Functions/Platforms/Get-PASPlatformSafe.ps1
+[New-PASGroup]:/psPAS/Functions/User/New-PASGroup.ps1
 
 ## Installation
 
