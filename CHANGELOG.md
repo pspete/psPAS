@@ -1,5 +1,48 @@
 # psPAS
 
+## 3.3.XX (December XX 2019)
+
+### Module update to cover CyberArk 11.1 API features
+
+- Additions
+  - `New-PASGroup`
+    - Creates CyberArk Groups
+    - Requires 11.1
+  - `Get-PASPlatformSafe`
+    - List safes by platform id
+    - Requires 11.1
+  - `Remove-PASDirectoryMapping`
+    - Delete Directory Mappings
+    - Requires 11.1
+  - `Enable-PASCPMAutoManagement`
+    - Enable Automatic CPM Management for an Account.
+    - Requires 10.4+
+  - `Disable-PASCPMAutoManagement`
+    - Disable Automatic CPM Management for an Account.
+    - Requires 10.4+
+
+- Updates
+  - `Set-PASDirectoryMapping`
+    - MappingAuthorizations parameter no longer accepts pipeline input
+  - `Add-PASDiscoveredAccount`
+    - Added features introduced in version 10.8
+    - Supports Account Dependancy & AWS specific parameters
+  - `Get-PASPlatform`
+    - Added features introduced in version 11.1
+    - New options for finding platforms
+  - `Remove-PASUser`
+    - Added features introduced in version 11.1
+    - Delete User by ID
+  - `Set-PASUser`
+    - Added features introduced in version 11.1
+    - Expanded options for updating users.
+
+- Fixes
+  - `Get-PASAccountPassword`
+    - Fixed incorrectly escaped value for passwords begining with "\"
+  - `New-PASRequest`
+    - Fixed incorrect parameter name which prevented requests specifying mulitple access as required being created.
+
 ## 3.2.37 (Sept 17th 2019)
 
 - Update Format for `psPAS.CyberArk.Vault.User`
