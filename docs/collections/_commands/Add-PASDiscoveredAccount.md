@@ -4,49 +4,47 @@ title: Add-PASDiscoveredAccount
 
 ## SYNOPSIS
 
-Adds discovered account or SSH key as a pending account in the accounts feed.
+    Adds discovered account or SSH key as a pending account in the accounts feed.
 
 ## SYNTAX
 
-    Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime>
-    -AccountEnabled <Boolean> [-osGroups <String>] [-platformType <String>] [-Domain <String>]
-    [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>]
-    [-passwordNeverExpires <Boolean>] [-OSVersion <String>] [-privileged <String>]
-    [-privilegedCriteria <String>] [-UserDisplayName <String>] [-description <String>]
-    [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
-    [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-SID <String>]
+    Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime> -AccountEnabled <Boolean> [-osGroups <String>] [-platformType
+    <String>] [-Domain <String>] [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>] [-passwordNeverExpires <Boolean>] [-OSVersion
+    <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>] [-description <String>] [-passwordExpirationDateTime
+    <DateTime>] [-osFamily <String>] [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-SID <String>] [<CommonParameters>]
+
+    Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime> -AccountEnabled <Boolean> [-osGroups <String>] [-platformType
+    <String>] [-Domain <String>] [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>] [-passwordNeverExpires <Boolean>] [-OSVersion
+    <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>] [-description <String>] [-passwordExpirationDateTime
+    <DateTime>] [-osFamily <String>] [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-uid <String>] [-gid <String>] -fingerprint
+    <String> [-size <Int32>] [-path <String>] [-format <String>] [-comment <String>] [-encryption <String>] [<CommonParameters>]
+
+    Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime> -AccountEnabled <Boolean> [-osGroups <String>] [-platformType
+    <String>] [-Domain <String>] [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>] [-passwordNeverExpires <Boolean>] [-OSVersion
+    <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>] [-description <String>] [-passwordExpirationDateTime
+    <DateTime>] [-osFamily <String>] [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-uid <String>] [-gid <String>] [<CommonParameters>]
+
+    Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime> -AccountEnabled <Boolean> [-osGroups <String>] [-platformType
+    <String>] [-Domain <String>] [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>] [-passwordNeverExpires <Boolean>] [-OSVersion
+    <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>] [-description <String>] [-passwordExpirationDateTime
+    <DateTime>] [-osFamily <String>] [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-awsAccountID <String>] [-awsAccessKeyID <String>]
     [<CommonParameters>]
 
-    Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime>
-    -AccountEnabled <Boolean> [-osGroups <String>] [-platformType <String>] [-Domain <String>]
-    [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>]
-    [-passwordNeverExpires <Boolean>] [-OSVersion <String>] [-privileged <String>]
-    [-privilegedCriteria <String>] [-UserDisplayName <String>] [-description <String>]
-    [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
-    [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-uid <String>]
-    [-gid <String>] -fingerprint <String> [-size <Int32>] [-path <String>] [-format <String>]
-    [-comment <String>] [-encryption <String>] [<CommonParameters>]
-
-    Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime>
-    -AccountEnabled <Boolean> [-osGroups <String>] [-platformType <String>] [-Domain <String>]
-    [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>]
-    [-passwordNeverExpires <Boolean>] [-OSVersion <String>] [-privileged <String>]
-    [-privilegedCriteria <String>] [-UserDisplayName <String>] [-description <String>]
-    [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
-    [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-uid <String>]
-    [-gid <String>] [<CommonParameters>]
+    Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime> -AccountEnabled <Boolean> [-osGroups <String>] [-platformType
+    <String>] [-Domain <String>] [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>] [-passwordNeverExpires <Boolean>] [-OSVersion
+    <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>] [-description <String>] [-passwordExpirationDateTime
+    <DateTime>] [-osFamily <String>] [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-Dependencies <Hashtable[]>] [<CommonParameters>]
 
 ## DESCRIPTION
 
-Enables an account or SSH key that is discovered by an external scanner to be added
-as a pending account to the Accounts Feed.
-
-Users can identify privileged accounts and determine which are on-boarded to the vault.
+    Enables an account or SSH key that is discovered by an external scanner to be added
+    as a pending account to the Accounts Feed.
+    Users can identify privileged accounts and determine which are on-boarded to the vault.
 
 ## PARAMETERS
 
     -UserName <String>
-        The name of the account user.
+        The name of the account user.
 
         Required?                    true
         Position?                    named
@@ -144,18 +142,17 @@ Users can identify privileged accounts and determine which are on-boarded to the
         Accept pipeline input?       true (ByPropertyName)
         Accept wildcard characters?  false
 
-    -privileged <String>
+    -privileged <Boolean>
         Whether the discovered account is privileged or non-privileged.
 
         Required?                    false
         Position?                    named
-        Default value
+        Default value                False
         Accept pipeline input?       true (ByPropertyName)
         Accept wildcard characters?  false
 
     -privilegedCriteria <String>
-        The criteria that determines whether or not the discovered account is privileged.
-        For example, the user or group name.
+        The criteria that determines whether or not the discovered account is privileged. For example, the user or group name.
 
         Required?                    false
         Position?                    named
@@ -200,7 +197,7 @@ Users can identify privileged accounts and determine which are on-boarded to the
         Accept wildcard characters?  false
 
     -additionalProperties <Hashtable>
-        List of name=value pairs for additional properties added to the account.
+        A hashtable of additional properties added to the account.
 
         Required?                    false
         Position?                    named
@@ -219,6 +216,7 @@ Users can identify privileged accounts and determine which are on-boarded to the
 
     -SID <String>
         Security ID. This parameter is relevant only for Windows accounts.
+        Relevent when platformType is set to Windows
 
         Required?                    false
         Position?                    named
@@ -228,6 +226,7 @@ Users can identify privileged accounts and determine which are on-boarded to the
 
     -uid <String>
         The unique user ID. This parameter is relevant only for Unix accounts.
+        Relevent when platformType is set to "Unix" or "Unix SSH Key"
 
         Required?                    false
         Position?                    named
@@ -237,6 +236,7 @@ Users can identify privileged accounts and determine which are on-boarded to the
 
     -gid <String>
         The unique group ID. This parameter is relevant only for Unix accounts.
+        Relevent when platformType is set to "Unix" or "Unix SSH Key"
 
         Required?                    false
         Position?                    named
@@ -245,8 +245,9 @@ Users can identify privileged accounts and determine which are on-boarded to the
         Accept wildcard characters?  false
 
     -fingerprint <String>
-        The fingerprint of the discovered SSH key. The public and private keys of the same trust
-        have the same fingerprint. This is relevant for SSH keys only.
+        The fingerprint of the discovered SSH key. The public and private keys of the same trust have the same fingerprint. This is relevant for SSH keys
+        only.
+        Relevent when platformType is set to "Unix SSH Key"
 
         Required?                    true
         Position?                    named
@@ -256,6 +257,7 @@ Users can identify privileged accounts and determine which are on-boarded to the
 
     -size <Int32>
         The size in bits of the generated key.
+        Relevent when platformType is set to "Unix SSH Key"
 
         Required?                    false
         Position?                    named
@@ -265,6 +267,7 @@ Users can identify privileged accounts and determine which are on-boarded to the
 
     -path <String>
         The path of the public key on the target machine.
+        Relevent when platformType is set to "Unix SSH Key"
 
         Required?                    false
         Position?                    named
@@ -274,6 +277,7 @@ Users can identify privileged accounts and determine which are on-boarded to the
 
     -format <String>
         The format of the private SSH key.
+        Relevent when platformType is set to "Unix SSH Key"
 
         Required?                    false
         Position?                    named
@@ -283,6 +287,7 @@ Users can identify privileged accounts and determine which are on-boarded to the
 
     -comment <String>
         Any text added when the key was created.
+        Relevent when platformType is set to "Unix SSH Key"
 
         Required?                    false
         Position?                    named
@@ -292,6 +297,48 @@ Users can identify privileged accounts and determine which are on-boarded to the
 
     -encryption <String>
         The type of encryption used to generate the SSH key.
+        Relevent when platformType is set to "Unix SSH Key"
+
+        Required?                    false
+        Position?                    named
+        Default value
+        Accept pipeline input?       true (ByPropertyName)
+        Accept wildcard characters?  false
+
+    -awsAccountID <String>
+        The AWS Account ID, in the format of a 12-digit number.
+        Relevent when platformType is set to AWS or AWS Access Keys
+        Requires 10.8+
+
+        Required?                    false
+        Position?                    named
+        Default value
+        Accept pipeline input?       true (ByPropertyName)
+        Accept wildcard characters?  false
+
+    -awsAccessKeyID <String>
+        The AWS Access Key ID string
+        Relevent when platformType is set to AWS or AWS Access Keys
+        Requires 10.8+
+
+        Required?                    false
+        Position?                    named
+        Default value
+        Accept pipeline input?       true (ByPropertyName)
+        Accept wildcard characters?  false
+
+    -Dependencies <Hashtable[]>
+        Accepts hashtable representing key/value pairs for:
+        - name: the Name of the dependancy
+        - address (mandatory): IP address or DNS hostname of the dependancy
+        - type (mandatory): The dependency type from the following list:
+          - COM+ Application
+          - IIS Anonymous Authentication
+          - IIS Application Pool
+          - Windows Scheduled Task
+          - Windows Service
+        - taskFolder: The dependency task folder, relevant for Windows Scheduled Tasks.
+        Requires 10.8+
 
         Required?                    false
         Position?                    named
@@ -309,8 +356,36 @@ Users can identify privileged accounts and determine which are on-boarded to the
 
     -------------------------- EXAMPLE 1 --------------------------
 
-    PS C:\>Add-PASDiscoveredAccount -UserName Discovered23 -Address domain.com
-    -discoveryDate $(Get-Date "29/10/2018") -AccountEnabled $true
-    -platformType "Windows Domain" -SID 12355
+    PS C:\>Add-PASDiscoveredAccount -UserName Discovered23 -Address domain.com -discoveryDate $(Get-Date "29/10/2018") -AccountEnabled $true -platformType
+    "Windows Domain" -SID 12355
 
     Adds matching discovered account as pending account.
+
+
+    -------------------------- EXAMPLE 2 --------------------------
+
+    PS C:\>Add-PASDiscoveredAccount -UserName AWSUser -Address aws.com -discoveryDate (Get-Date 1/1/1974) -AccountEnabled $true -platformType AWS
+    -awsAccountID 123456777889 -privileged $false
+
+    Adds matching account to pending/discovered account list.
+
+
+    -------------------------- EXAMPLE 3 --------------------------
+
+    PS C:\>$dependancy = @()
+
+    $dependancy += @{
+    "name"="SomeDependancy"
+    "address"="1.2.3.4"
+    "type"="Windows Service"
+    }
+    $dependancy += @{
+    "name"="Some"
+    "address"="1.2.3.4"
+    "type"="Windows Scheduled Task"
+    "taskFolder"="\Some\Folder"
+    }
+    Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (Get-Date 25/3/2013) -AccountEnabled $true -platformType 'Windows Server
+    Local' -Dependencies $dependancy
+
+    Adds or updates matching pending account with defined dependancies.

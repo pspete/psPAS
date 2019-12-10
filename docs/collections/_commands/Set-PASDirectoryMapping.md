@@ -4,25 +4,22 @@ title: Set-PASDirectoryMapping
 
 ## SYNOPSIS
 
-Adds a new Directory Mapping for an existing directory
+    Adds a new Directory Mapping for an existing directory
 
 ## SYNTAX
 
-    Set-PASDirectoryMapping -DirectoryName <String> -MappingID <String> -MappingName <String>
-    -LDAPBranch <String> [-DomainGroups <String[]>] [-VaultGroups <String[]>] [-Location <String>]
-    [-LDAPQuery <String>] [-MappingAuthorizations <Int32[]>] [-UserActivityLogPeriod <Int32>]
+    Set-PASDirectoryMapping -DirectoryName <String> -MappingID <String> -MappingName <String> -LDAPBranch <String> [-DomainGroups <String[]>] [-VaultGroups
+    <String[]>] [-Location <String>] [-LDAPQuery <String>] [-MappingAuthorizations <Int32[]>] [-UserActivityLogPeriod <Int32>] [-WhatIf] [-Confirm]
+    [<CommonParameters>]
 
-    Set-PASDirectoryMapping -DirectoryName <String> -MappingID <String> -MappingName <String>
-    -LDAPBranch <String> [-DomainGroups <String[]>] [-VaultGroups <String[]>] [-Location <String>]
-    [-LDAPQuery <String>] [-AddUpdateUsers] [-AddSafes] [-AddNetworkAreas]
-    [-ManageServerFileCategories] [-AuditUsers] [-BackupAllSafes] [-RestoreAllSafes]
-    [-ResetUsersPasswords] [-ActivateUsers] [-UserActivityLogPeriod <Int32>]
+    Set-PASDirectoryMapping -DirectoryName <String> -MappingID <String> -MappingName <String> -LDAPBranch <String> [-DomainGroups <String[]>] [-VaultGroups
+    <String[]>] [-Location <String>] [-LDAPQuery <String>] [-AddUpdateUsers] [-AddSafes] [-AddNetworkAreas] [-ManageServerFileCategories] [-AuditUsers]
+    [-BackupAllSafes] [-RestoreAllSafes] [-ResetUsersPasswords] [-ActivateUsers] [-UserActivityLogPeriod <Int32>] [-WhatIf] [-Confirm] [<CommonParameters>]
 
 ## DESCRIPTION
 
-Adds an LDAP directory to the Vault.
-
-Membership of the Vault Admins group required.
+    Adds an LDAP directory to the Vault.
+    Membership of the Vault Admins group required.
 
 ## PARAMETERS
 
@@ -63,8 +60,7 @@ Membership of the Vault Admins group required.
         Accept wildcard characters?  false
 
     -DomainGroups <String[]>
-        Users who belong to these LDAP groups will be automatically assigned to the relevant
-        roles in the PAS system.
+        Users who belong to these LDAP groups will be automatically assigned to the relevant roles in the PAS system.
 
         Required?                    false
         Position?                    named
@@ -101,16 +97,16 @@ Membership of the Vault Admins group required.
         Accept wildcard characters?  false
 
     -MappingAuthorizations <Int32[]>
-        The integer flag representation of the security attributes and authorizations that will
-        be applied when an LDAP User Account is created in the Vault.
+        The integer flag representation of the security attributes and authorizations that will be applied when an
+        LDAP User Account is created in the Vault.
         To apply specific authorizations to a mapping, the user must have the same authorizations.
-        Possible authorizations: AddSafes, AuditUsers, AddUpdateUsers, ResetUsersPasswords,
-        ActivateUsers, AddNetworkAreas, ManageServerFileCategories, BackupAllSafes, RestoreAllSafes.
+        Possible authorizations: AddSafes, AuditUsers, AddUpdateUsers, ResetUsersPasswords, ActivateUsers, AddNetworkAreas,
+        ManageServerFileCategories, BackupAllSafes, RestoreAllSafes.
 
         Required?                    false
         Position?                    named
         Default value
-        Accept pipeline input?       true (ByPropertyName)
+        Accept pipeline input?       false
         Accept wildcard characters?  false
 
     -AddUpdateUsers [<SwitchParameter>]
@@ -230,30 +226,22 @@ Membership of the Vault Admins group required.
 
     -------------------------- EXAMPLE 1 --------------------------
 
-    PS C:\>New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM"
-    -DomainGroups ADGroup -MappingName Map3 -RestoreAllSafes -BackupAllSafes
+    PS C:\>Get-PASDirectoryMapping -DirectoryName $Directory -MappingID $ID |
 
-    Creates a new  LDAP directory mapping in the Vault with the following authorizations:
-    BackupAllSafes, RestoreAllSafes
+    Set-PASDirectoryMapping -DirectoryName $Directory -AddUpdateUsers -AuditUsers
 
-
+    Configures the AddUpdateUsers & AuditUsers authorisations on the mapping.
 
 
     -------------------------- EXAMPLE 2 --------------------------
 
-    PS C:\>New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM"
-    -DomainGroups ADGroup -MappingName Map2 -MappingAuthorizations 1536
+    PS C:\>Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch -AddUpdateUsers -ActivateUsers -ResetUsersPasswords
 
-    Creates a new  LDAP directory mapping in the Vault with the following authorizations:
-    BackupAllSafes, RestoreAllSafes
-
-
+    Sets AddUpdateUsers, ActivateUsers & ResetUsersPasswords authorisations on the directory mapping
 
 
     -------------------------- EXAMPLE 3 --------------------------
 
-    PS C:\>New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM"
-    -DomainGroups ADGroup -MappingName Map1 -MappingAuthorizations 1,3,512
+    PS C:\>Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch -UserActivityLogPeriod 365
 
-    Creates a new  LDAP directory mapping in the Vault with the following authorizations:
-    AddUpdateUsers, AddSafes, BackupAllSafes
+    Sets UserActivityLogPeriod for the mapping to 365

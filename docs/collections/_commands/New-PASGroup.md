@@ -1,38 +1,49 @@
 ---
-title: Remove-PASUser
+title: New-PASGroup
 ---
 
 ## SYNOPSIS
 
-    Deletes a vault user
+    Creates a vault group.
 
 ## SYNTAX
 
-    Remove-PASUser -id <Int32> [-WhatIf] [-Confirm] [<CommonParameters>]
-
-    Remove-PASUser -UserName <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+    New-PASGroup [-groupName] <String> [[-description] <String>] [[-location] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 
 ## DESCRIPTION
 
-    Deletes an existing user from the vault
+    Adds a new Vault group.
+
+    Requires the following permissions:
+    - Add Users
+    - Update Users
 
 ## PARAMETERS
 
-    -id <Int32>
-        The numeric id of the user to delete.
-        Requires CyberArk version 11.1+
+    -groupName <String>
+        The name of the group to create
 
         Required?                    true
-        Position?                    named
-        Default value                0
+        Position?                    1
+        Default value
         Accept pipeline input?       true (ByPropertyName)
         Accept wildcard characters?  false
 
-    -UserName <String>
-        The name of the user to delete from the vault
+    -description <String>
+        A description for the group
 
-        Required?                    true
-        Position?                    named
+        Required?                    false
+        Position?                    2
+        Default value
+        Accept pipeline input?       true (ByPropertyName)
+        Accept wildcard characters?  false
+
+    -location <String>
+        The vault location to create the group in.
+        Preceeded by "\"
+
+        Required?                    false
+        Position?                    3
         Default value
         Accept pipeline input?       true (ByPropertyName)
         Accept wildcard characters?  false
@@ -59,17 +70,23 @@ title: Remove-PASUser
         OutBuffer, PipelineVariable, and OutVariable. For more information, see
         about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
+## NOTES
+
+        Minimum Version 11.1
+
 ## EXAMPLES
 
     -------------------------- EXAMPLE 1 --------------------------
 
-    PS C:\>Remove-PASUser -id 1234
+    PS C:\>New-PASGroup -groupName SomeNewGroup -description "Some Description" -location \PSP\CyberArk\Groups
 
-    Deletes vault user with id 1234
+    Creates SomeNewGroup in the \PSP\CyberArk\Groups vault location
+
+
 
 
     -------------------------- EXAMPLE 2 --------------------------
 
-    PS C:\>Remove-PASUser -UserName This_User
+    PS C:\>New-PASGroup -groupName VaultGroup -description "Some Description" -location \
 
-    Deletes vault user "This_User"
+    Creates VaultGroup in the root vault location
