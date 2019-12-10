@@ -1,5 +1,4 @@
 ![psPAS](docs/assets/images/header_photo.png)
-![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 # **PowerShell Module for the CyberArk API**
 
@@ -29,25 +28,24 @@ Contains all published methods of the API up to CyberArk v11.1.
 [tests-site]:https://ci.appveyor.com/project/pspete/pspas
 [downloads]:https://img.shields.io/powershellgallery/dt/pspas.svg?color=blue
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 ----------
 
-- [psPAS](#pspas)
-  - [Introduction](#powershell-module-for-cyberark-privileged-access-security)
-    - [Status](#module-status)
-  - [Usage](#usage)
-    - [Authenticate](#authenticate)
-    - [Basic Operations](#basic-operations)
-    - [Advanced Examples](#advanced-examples)
-  - [psPAS Functions](#pspas-functions)
-  - [Installation](#installation)
-    - [Prerequisites](#prerequisites)
-    - [Install Options](#install-options)
-    - [Verification](#verification)
-  - [Changelog](#changelog)
-  - [Author](#author)
-  - [License](#license)
-  - [Contributing](#contributing)
-  - [Acknowledgements](#acknowledgements)
+- [Usage](#usage)
+  - [Authenticate](#authenticate)
+  - [Basic Operations](#basic-operations)
+  - [Advanced Examples](#advanced-examples)
+- [psPAS Functions](#pspas-functions)
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Install Options](#install-options)
+  - [Verification](#verification)
+- [Changelog](#changelog)
+- [Author](#author)
+- [License](#license)
+- [Contributing](#contributing)
+- [Acknowledgements](#acknowledgements)
 
 ## Usage
 
@@ -703,6 +701,8 @@ SafeAdmin Internal EPVUser      False     False   False    False
 Close-PASSession
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 ## psPAS Functions
 
 Your version of CyberArk determines which functions of psPAS will be supported.
@@ -931,6 +931,8 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Get-PASPlatformSafe]:/psPAS/Functions/Platforms/Get-PASPlatformSafe.ps1
 [New-PASGroup]:/psPAS/Functions/User/New-PASGroup.ps1
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 ## Installation
 
 ### Prerequisites
@@ -1005,6 +1007,8 @@ Get detailed information on specific commands:
 Get-Help New-PASUser -Full
 
 ```
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 ## Changelog
 
