@@ -14,7 +14,12 @@ Requires CyberArk version 11.1+
 The name of the user to delete from the vault
 
 .EXAMPLE
-Remove-PASUser This_User
+Remove-PASUser -id 1234
+
+Deletes vault user with id 1234
+
+.EXAMPLE
+Remove-PASUser -UserName This_User
 
 Deletes vault user "This_User"
 
