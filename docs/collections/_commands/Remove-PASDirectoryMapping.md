@@ -1,38 +1,36 @@
 ---
-title: Remove-PASUser
+title: Remove-PASDirectoryMapping
 ---
 
 ## SYNOPSIS
 
-    Deletes a vault user
+    Removes a configured directory mapping from the Vault
 
 ## SYNTAX
 
-    Remove-PASUser -id <Int32> [-WhatIf] [-Confirm] [<CommonParameters>]
-
-    Remove-PASUser -UserName <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+    Remove-PASDirectoryMapping [-DirectoryName] <String> [-MappingID] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 
 ## DESCRIPTION
 
-    Deletes an existing user from the vault
+    Removes a directory mapping configuration from the vault.
+    Membership of the Vault Admins group required.
 
 ## PARAMETERS
 
-    -id <Int32>
-        The numeric id of the user to delete.
-        Requires CyberArk version 11.1+
+    -DirectoryName <String>
+        The Name of the directory containing the mapping.
 
         Required?                    true
-        Position?                    named
-        Default value                0
+        Position?                    1
+        Default value
         Accept pipeline input?       true (ByPropertyName)
         Accept wildcard characters?  false
 
-    -UserName <String>
-        The name of the user to delete from the vault
+    -MappingID <String>
+        The id of the directory mapping to delete.
 
         Required?                    true
-        Position?                    named
+        Position?                    2
         Default value
         Accept pipeline input?       true (ByPropertyName)
         Accept wildcard characters?  false
@@ -63,13 +61,6 @@ title: Remove-PASUser
 
     -------------------------- EXAMPLE 1 --------------------------
 
-    PS C:\>Remove-PASUser -id 1234
+    PS C:\>Remove-PASDirectoryMapping -DirectoryName SomeDir -MappingID 66
 
-    Deletes vault user with id 1234
-
-
-    -------------------------- EXAMPLE 2 --------------------------
-
-    PS C:\>Remove-PASUser -UserName This_User
-
-    Deletes vault user "This_User"
+    Removes the  directory mapping with id 66 for the SomeDir directory

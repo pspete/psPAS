@@ -73,6 +73,12 @@ commands:
         url: /commands/Invoke-PASCPMOperation
       - title: "Request-PASAdHocAccess"
         url: /commands/Request-PASAdHocAccess
+      - title: "Enable-PASCPMAutoManagement"
+        url: /commands/Enable-PASCPMAutoManagement
+      - title: "Disable-PASCPMAutoManagement"
+        url: /commands/Disable-PASCPMAutoManagement
+      - title: "New-PASGroup"
+        url: /commands/New-PASGroup
 
   - title: "Applications"
     children:
@@ -127,6 +133,8 @@ commands:
         url: /commands/Set-PASDirectoryMapping
       - title: "Set-PASDirectoryMappingOrder"
         url: /commands/Set-PASDirectoryMappingOrder
+      - title: "Remove-PASDirectoryMapping"
+        url: /commands/Remove-PASDirectoryMapping
 
   - title: "Monitoring"
     children:
@@ -168,6 +176,8 @@ commands:
     children:
       - title: "Get-PASPlatform"
         url: /commands/Get-PASPlatform
+      - title: "Get-PASPlatformSafe"
+        url: /commands/Get-PASPlatformSafe
       - title: "Export-PASPlatform"
         url: /commands/Export-PASPlatform
       - title: "Import-PASPlatform"
