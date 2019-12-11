@@ -6,8 +6,6 @@ Use PowerShell to manage CyberArk via the Web Services REST API.
 
 Contains all published methods of the API up to CyberArk v11.1.
 
-**Existing psPAS Users**: Module Version 3.0 introduced breaking changes; review the [Changelog](CHANGELOG.md) for full details.
-
 ----------
 
 ## Module Status
@@ -45,9 +43,9 @@ Contains all published methods of the API up to CyberArk v11.1.
 - [Contributing](#contributing)
 - [Acknowledgements](#acknowledgements)
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
-
 ## Usage
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 ### Authenticate
 
@@ -150,9 +148,9 @@ $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
 ````
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
-
 ### Basic Operations
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 #### Search
 
@@ -270,6 +268,8 @@ secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=
 createdTime               : 06/06/2019 23:37:02
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 #### Administration
 
 ##### Add An Account
@@ -349,6 +349,8 @@ secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=
 createdTime               : 06/06/2019 23:37:02
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 ##### CPM Operations
 
 ###### Verify
@@ -410,6 +412,8 @@ Import-PASPlatform -ImportFile C:\Temp\Platform.zip
 Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 #### Pipeline Operations
 
 - Work with the PowerShell pipeline:
@@ -456,9 +460,9 @@ zApprover_1          ApproveTest {ListContent, ViewAudit, ViewMembers}
 xReq                 ApproveTest {ListContent, RestrictedRetrieve, Retrieve, ViewAudit...}
 ````
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
-
 ### Advanced Examples
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 #### Bulk Operations
 
@@ -533,6 +537,8 @@ $users | foreach{
 Close-PASSession
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 #### Safe Permissions
 
 - Define Safe Roles and assign to safe members:
@@ -582,6 +588,8 @@ MemberName SearchIn SafeName Permissions
 SafeAdmin1 Vault    NewSafe  {ListAccounts, AddAccounts, UpdateAccountContent, UpdateAccountProperties…}
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 #### PSM Sessions
 
 ##### Terminate all Active PSM Sessions on a PSM Server
@@ -595,6 +603,8 @@ Get-PASPSMSession | Where-Object{
     Select -ExpandProperty ComponentUserName))
   -and ($_.IsLive) -and ($_.CanTerminate)} | Stop-PASPSMSession
 ````
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 #### Updating Multiple Properties of an Account
 
@@ -618,6 +628,8 @@ secretManagement : @{automaticManagementEnabled=True; lastModifiedTime=155986422
 createdTime      : 06/06/2019 23:37:02
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 #### Using Methods
 
 Methods present on objects returned from psPAS functions can be leveraged to get the data you need with ease.
@@ -634,6 +646,7 @@ Get-PASSafe | Where-Object{ ($_.safemembers() | Select-Object -ExpandProperty Us
 ```powershell
 (Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToSecureString()
 ```
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 #### API Sessions
 
@@ -935,9 +948,9 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Get-PASPlatformSafe]:/psPAS/Functions/Platforms/Get-PASPlatformSafe.ps1
 [New-PASGroup]:/psPAS/Functions/User/New-PASGroup.ps1
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
-
 ## Installation
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 ### Prerequisites
 
