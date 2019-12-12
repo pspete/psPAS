@@ -127,7 +127,8 @@
 
 					}
 
-				} else {
+				}
+				else {
 
 					#PWSH
 					if ($SkipCertificateCheck) {
@@ -192,7 +193,8 @@
 			#make web request, splat PSBoundParameters
 			$APIResponse = Invoke-WebRequest @PSBoundParameters -ErrorAction Stop
 
-		} catch [System.UriFormatException] {
+		}
+		catch [System.UriFormatException] {
 
 			#Catch URI Format errors. Likely $Script:BaseURI is not set; New-PASSession should be run.
 			$PSCmdlet.ThrowTerminatingError(
@@ -208,7 +210,8 @@
 
 			)
 
-		} catch {
+		}
+		catch {
 
 			$ErrorID = $null
 			$StatusCode = $($PSItem.Exception.Response).StatusCode.value__
@@ -225,25 +228,41 @@
 
 				throw $PSItem
 
-			} Else {
+			}
+			Else {
 
 				If (-not($StatusCode)) {
 
 					#Generic failure message if no status code/response
 					$ErrorMessage = "Error contacting $($PSItem.TargetObject.RequestUri.AbsoluteUri)"
 
-				} ElseIf ($ErrorDetails) {
+				}
+				ElseIf ($ErrorDetails) {
 
 					try {
 
 						#Convert ErrorDetails JSON to Object
 						$Response = $ErrorDetails | ConvertFrom-Json
+
 						#API Error Message
 						$ErrorMessage = "[$StatusCode] $($Response.ErrorMessage)"
+						
 						#API Error Code
 						$ErrorID = $Response.ErrorCode
+						
+						#Inner error details are present
+						if ($Response.Details) {
+							
+							#Join Inner Error Text to Error Message
+							$ErrorMessage = $ErrorMessage, $(($Response.Details | Select-Object -ExpandProperty ErrorMessage) -join ", ") -join ": "
+							
+							#Join Inner Error Codes to ErrorID
+							$ErrorID = $ErrorID, $(($Response.Details | Select-Object -ExpandProperty ErrorCode) -join ",") -join ","
 
-					} catch {
+						}
+
+					}
+					catch {
 
 						#If error converting JSON, return $ErrorDetails
 						#replace any new lines or whitespace with single spaces
@@ -270,7 +289,8 @@
 
 			)
 
-		} finally {
+		}
+		finally {
 
 			#If Session Variable passed as argument
 			If ($PSCmdlet.ParameterSetName -eq "SessionVariable") {
