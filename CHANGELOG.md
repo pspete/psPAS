@@ -36,6 +36,8 @@
   - `Set-PASUser`
     - Added features introduced in version 11.1
     - Expanded options for updating users.
+  - `New-PASSession`
+    - Added `Certificate` parameter to allow specification of a client certificate to be used for a secure web request.
 
 - Fixes & Other Updates
   - `Get-PASAccountPassword`

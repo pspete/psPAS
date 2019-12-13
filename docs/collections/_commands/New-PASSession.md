@@ -4,54 +4,49 @@ title: New-PASSession
 
 ## SYNOPSIS
 
-Authenticates a user to CyberArk Vault/API.
+    Authenticates a user to CyberArk Vault/API.
 
 ## SYNTAX
 
-    New-PASSession -Credential <PSCredential> [-newPassword <SecureString>] [-type <String>]
-    -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-CertificateThumbprint <String>]
+    New-PASSession -Credential <PSCredential> [-newPassword <SecureString>] [-type <String>] -BaseURI <String>
+    [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
     [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 
-    New-PASSession -Credential <PSCredential> -UseClassicAPI -useRadiusAuthentication <Boolean>
-    [-OTP <String>] [-OTPMode <String>] [-OTPDelimiter <String>] [-RadiusChallenge <String>]
-    [-connectionNumber <Int32>] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
+    New-PASSession -Credential <PSCredential> -UseClassicAPI -useRadiusAuthentication <Boolean> [-OTP <String>]
+    [-OTPMode <String>] [-OTPDelimiter <String>] [-RadiusChallenge <String>] [-connectionNumber <Int32>] -BaseURI
+    <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint
+    <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
+
+    New-PASSession -Credential <PSCredential> -UseClassicAPI [-newPassword <SecureString>] [-connectionNumber <Int32>]
+    -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
     [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 
-    New-PASSession -Credential <PSCredential> -UseClassicAPI [-newPassword <SecureString>]
-    [-connectionNumber <Int32>] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
-    [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
-
-    New-PASSession -Credential <PSCredential> [-type <String>] [-OTP <String>] [-OTPMode <String>]
-    [-OTPDelimiter <String>] [-RadiusChallenge <String>] -BaseURI <String> [-PVWAAppName <String>]
-    [-SkipVersionCheck] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm]
+    New-PASSession -Credential <PSCredential> [-type <String>] [-OTP <String>] [-OTPMode <String>] [-OTPDelimiter
+    <String>] [-RadiusChallenge <String>] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate
+    <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm]
     [<CommonParameters>]
 
-    New-PASSession -SAMLToken <String> -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
-    [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
-
-    New-PASSession -UseSharedAuthentication -BaseURI <String> [-PVWAAppName <String>]
-    [-SkipVersionCheck] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm]
+    New-PASSession -SAMLToken <String> -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate
+    <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm]
     [<CommonParameters>]
 
-    New-PASSession [-UseDefaultCredentials] -BaseURI <String> [-PVWAAppName <String>]
-    [-SkipVersionCheck] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm]
+    New-PASSession -UseSharedAuthentication -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
+    [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm]
+    [<CommonParameters>]
+
+    New-PASSession [-UseDefaultCredentials] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
+    [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm]
     [<CommonParameters>]
 
 ## DESCRIPTION
 
 Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object
 which are used in subsequent calls to the API.
-
 In addition, this method allows you to set a new password.
-
 Will attempt authentication against the V10 API by default.
-
 For older CyberArk versions, specify the -UseClassicAPI switch parameter to force use of the V9 API endpoint.
-
 Windows authentication is only supported (from CyberArk 10.4+).
-
 Authenticate using CyberArk, LDAP, RADIUS, SAML or Shared authentication (From CyberArk version 9.7+),
-
 For CyberArk version older than 9.7:
 
 - Only CyberArk Authentication method is supported.
@@ -138,8 +133,8 @@ For CyberArk version older than 9.7:
         Accept wildcard characters?  false
 
     -OTPMode <String>
-        Specify if OTP is to be sent in 'Append' (appended to the password) or 'Challenge' mode
-        (sent in response to RADIUS Challenge).
+        Specify if OTP is to be sent in 'Append' (appended to the password) or 'Challenge' mode (sent in response to
+        RADIUS Challenge).
 
         Required?                    false
         Position?                    named
@@ -148,8 +143,7 @@ For CyberArk version older than 9.7:
         Accept wildcard characters?  false
 
     -OTPDelimiter <String>
-        The character to use as a delimiter when appending the OTP to the password.
-        Defaults to comma ",".
+        The character to use as a delimiter when appending the OTP to the password. Defaults to comma ",".
 
         Required?                    false
         Position?                    named
@@ -160,8 +154,7 @@ For CyberArk version older than 9.7:
     -RadiusChallenge <String>
         Specify if Radius challenge is satisfied by 'OTP' or 'Password'.
         If "OTP" (Default), Password will be sent first, with OTP as the challenge response.
-        If "Password", then OTP value will be sent first, and Password will be sent as the
-        challenge response.
+        If "Password", then OTP value will be sent first, and Password will be sent as the challenge response.
 
         Required?                    false
         Position?                    named
@@ -221,6 +214,17 @@ For CyberArk version older than 9.7:
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    -Certificate <X509Certificate>
+        See Invoke-WebRequest
+        Specifies the client certificate that is used for a secure web request.
+        Enter a variable that contains a certificate or a command or expression that gets the certificate.
+
+        Required?                    false
+        Position?                    named
+        Default value
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     -CertificateThumbprint <String>
         See Invoke-WebRequest
         The thumbprint of the certificate to use for client certificate authentication.
@@ -234,8 +238,8 @@ For CyberArk version older than 9.7:
     -SkipCertificateCheck [<SwitchParameter>]
         Skips certificate validation checks.
         Using this parameter is not secure and is not recommended.
-        This switch is only intended to be used against known hosts using a self-signed
-        certificate for testing purposes.
+        This switch is only intended to be used against known hosts using a self-signed certificate for testing
+        purposes.
         Use at your own risk.
 
         Required?                    false
@@ -353,8 +357,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 10 --------------------------
 
-    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
-    -OTP 123456 -OTPMode Challenge
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Challenge
 
     Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
 
@@ -363,8 +366,8 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 11 --------------------------
 
-    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI
-    -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI -useRadiusAuthentication $True -OTP
+    123456 -OTPMode Append
 
     Logon using RADIUS & OTP (Append Mode) via the Classic API
 
@@ -382,8 +385,8 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 13 --------------------------
 
-    PS > New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co
-    -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
+    PS > New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint
+    0e194289c57e666115109d6e2800c24fb7db6edb
 
     If authentication via certificates is configured, provide CertificateThumbprint details.
 
@@ -395,3 +398,12 @@ For CyberArk version older than 9.7:
     PS > New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck
 
     Skip SSL Certificate validation for the session.
+
+
+
+
+    -------------------------- EXAMPLE 15 --------------------------
+
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
+
+    Logon to Version 10 with LDAP credential & Client Certificate

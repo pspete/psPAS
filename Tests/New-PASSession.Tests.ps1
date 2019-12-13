@@ -303,6 +303,19 @@ Describe $FunctionName {
 
 			}
 
+			It "includes expected certificate in request" {
+
+				$certificate = Get-ChildItem -Path Cert:\CurrentUser\My\ | Select-Object -First 1
+				New-PASSession -BaseURI "https://P_URI" -UseSharedAuthentication -Certificate $certificate
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Certificate -eq $certificate
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It "`$Script:ExternalVersion has expected value on Get-PASServer error" {
 				Mock Get-PASServer -MockWith {
 					throw "Some Error"
