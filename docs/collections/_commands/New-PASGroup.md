@@ -4,7 +4,7 @@ title: New-PASGroup
 
 ## SYNOPSIS
 
-    Creates a vault group.
+Creates a vault group.
 
 ## SYNTAX
 
@@ -12,11 +12,12 @@ title: New-PASGroup
 
 ## DESCRIPTION
 
-    Adds a new Vault group.
+Adds a new Vault group.
 
-    Requires the following permissions:
-    - Add Users
-    - Update Users
+Requires the following permissions:
+
+- Add Users
+- Update Users
 
 ## PARAMETERS
 

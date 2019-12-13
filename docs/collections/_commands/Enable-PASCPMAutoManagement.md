@@ -4,7 +4,7 @@ title: Enable-PASCPMAutoManagement
 
 ## SYNOPSIS
 
-    Enables an account for Automatic CPM Management.
+Enables an account for Automatic CPM Management.
 
 ## SYNTAX
 
@@ -12,13 +12,13 @@ title: Enable-PASCPMAutoManagement
 
 ## DESCRIPTION
 
-    Enables an account for CPM management by setting automaticManagementEnabled to $true,
-    and clearing any value set for manualManagementReason.
+Enables an account for CPM management by setting automaticManagementEnabled to $true,
+and clearing any value set for manualManagementReason.
 
-    Attempting to set automaticManagementEnabled to $true without clearing manualManagementReason
-    at the same time results in an error.
+Attempting to set automaticManagementEnabled to $true without clearing manualManagementReason
+at the same time results in an error.
 
-    This function requests the API to perform both operations with a single command.
+This function requests the API to perform both operations with a single command.
 
 ## PARAMETERS
 

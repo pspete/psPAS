@@ -4,7 +4,7 @@ title: Add-PASDiscoveredAccount
 
 ## SYNOPSIS
 
-    Adds discovered account or SSH key as a pending account in the accounts feed.
+Adds discovered account or SSH key as a pending account in the accounts feed.
 
 ## SYNTAX
 
@@ -37,9 +37,9 @@ title: Add-PASDiscoveredAccount
 
 ## DESCRIPTION
 
-    Enables an account or SSH key that is discovered by an external scanner to be added
-    as a pending account to the Accounts Feed.
-    Users can identify privileged accounts and determine which are on-boarded to the vault.
+Enables an account or SSH key that is discovered by an external scanner to be added
+as a pending account to the Accounts Feed.
+Users can identify privileged accounts and determine which are on-boarded to the vault.
 
 ## PARAMETERS
 

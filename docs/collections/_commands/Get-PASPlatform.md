@@ -4,7 +4,7 @@ title: Get-PASPlatform
 
 ## SYNOPSIS
 
-    Retrieves details of Vault platforms.
+Retrieves details of Vault platforms.
 
 ## SYNTAX
 
@@ -14,16 +14,16 @@ title: Get-PASPlatform
 
 ## DESCRIPTION
 
-    Request platform configuration information from the Vault.
+Request platform configuration information from the Vault.
 
-    11.1+ can return details of all platforms.
-    Filters can be used to retrieve a subset of the platforms
+11.1+ can return details of all platforms.
+Filters can be used to retrieve a subset of the platforms
 
-    For 9.10+, the "PlatformID" parameter must be used to retrieve details of a single
-    specified platform from the Vault.
+For 9.10+, the "PlatformID" parameter must be used to retrieve details of a single
+specified platform from the Vault.
 
-    The output contained under the "Details" property differs depending
-    on which method (9.10+ or 11.1+) is used.
+The output contained under the "Details" property differs depending
+on which method (9.10+ or 11.1+) is used.
 
 ## PARAMETERS
 

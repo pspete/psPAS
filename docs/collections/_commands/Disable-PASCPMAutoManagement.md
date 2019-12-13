@@ -4,7 +4,7 @@ title: Disable-PASCPMAutoManagement
 
 ## SYNOPSIS
 
-    Disables an account for Automatic CPM Management.
+Disables an account for Automatic CPM Management.
 
 ## SYNTAX
 
@@ -12,8 +12,8 @@ title: Disable-PASCPMAutoManagement
 
 ## DESCRIPTION
 
-    Disables an account for CPM management by setting automaticManagementEnabled to $false,
-    and optionally sets a value for manualManagementReason.
+Disables an account for CPM management by setting automaticManagementEnabled to $false,
+and optionally sets a value for manualManagementReason.
 
 ## PARAMETERS
 

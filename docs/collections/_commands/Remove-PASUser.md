@@ -4,7 +4,7 @@ title: Remove-PASUser
 
 ## SYNOPSIS
 
-    Deletes a vault user
+Deletes a vault user
 
 ## SYNTAX
 
@@ -14,7 +14,7 @@ title: Remove-PASUser
 
 ## DESCRIPTION
 
-    Deletes an existing user from the vault
+Deletes an existing user from the vault
 
 ## PARAMETERS
 
