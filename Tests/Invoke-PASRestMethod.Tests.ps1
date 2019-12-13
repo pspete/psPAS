@@ -207,6 +207,15 @@ Describe $FunctionName {
 				{ Invoke-PASRestMethod @WebSession } | Should -Throw
 			}
 
+			it "reports inner error messages" {
+				$Details = [pscustomobject]@{"ErrorCode" = "URA666"; "ErrorMessage" = "Some Inner Error" }
+				$errorDetails = $([pscustomobject]@{"ErrorCode" = "URA999"; "ErrorMessage" = "Some Error Message" ; "Details" = $Details } | ConvertTo-Json)
+				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+				$errorRecord.ErrorDetails = $errorDetails
+				Mock Invoke-WebRequest { Throw $errorRecord }
+				{ Invoke-PASRestMethod @WebSession } | Should -Throw
+			}
+
 			it "catches other errors" {
 
 				$errorDetails = $null
