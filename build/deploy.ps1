@@ -48,26 +48,38 @@ if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'm
 	# Publish to PS Gallery           #
 	#---------------------------------#
 
-	Try {
+	if ($ENV:psgallery_deploy -eq "automatic_deploy") {
 
-		Write-Host 'Publish to Powershell Gallery...'
+		Try {
 
-		$ModulePath = Join-Path $env:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME
+			Write-Host 'Publish to Powershell Gallery...'
 
-		Write-Host "Publishing: $ModulePath"
+			$ModulePath = Join-Path $env:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME
+
+			Write-Host "Publishing: $ModulePath"
 		
-		Publish-Module -Path $ModulePath -NuGetApiKey $($env:psgallery_key) -SkipAutomaticTags -Confirm:$false -ErrorAction Stop -Force
+			Publish-Module -Path $ModulePath -NuGetApiKey $($env:psgallery_key) -SkipAutomaticTags -Confirm:$false -ErrorAction Stop -Force
 
-		Write-Host "$($env:APPVEYOR_PROJECT_NAME) published." -ForegroundColor Cyan
+			Write-Host "$($env:APPVEYOR_PROJECT_NAME) published." -ForegroundColor Cyan
+
+		}
+		Catch {
+
+			Write-Warning "Publish Failed."
+			throw $_
+
+		}
+	
+	}
+
+	Elseif ($ENV:psgallery_deploy -eq "manual_deploy") { 
+
+		Write-Host "Finished testing of branch: $env:APPVEYOR_REPO_BRANCH"
+		Write-Host "Manual Deployment to PSGallery Required"
+		Write-Host "Exiting"
+		exit;
 
 	}
- Catch {
-
-		Write-Warning "Publish Failed."
-		throw $_
-
-	}
-
 
 }
 
