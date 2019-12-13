@@ -4,7 +4,7 @@ title: Remove-PASDirectoryMapping
 
 ## SYNOPSIS
 
-    Removes a configured directory mapping from the Vault
+Removes a configured directory mapping from the Vault
 
 ## SYNTAX
 
@@ -12,8 +12,8 @@ title: Remove-PASDirectoryMapping
 
 ## DESCRIPTION
 
-    Removes a directory mapping configuration from the vault.
-    Membership of the Vault Admins group required.
+Removes a directory mapping configuration from the vault.
+Membership of the Vault Admins group required.
 
 ## PARAMETERS
 

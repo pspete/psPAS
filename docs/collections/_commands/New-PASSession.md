@@ -4,7 +4,7 @@ title: New-PASSession
 
 ## SYNOPSIS
 
-    Authenticates a user to CyberArk Vault/API.
+Authenticates a user to CyberArk Vault/API.
 
 ## SYNTAX
 

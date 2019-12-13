@@ -4,7 +4,7 @@ title: Set-PASDirectoryMapping
 
 ## SYNOPSIS
 
-    Adds a new Directory Mapping for an existing directory
+Adds a new Directory Mapping for an existing directory
 
 ## SYNTAX
 
@@ -18,8 +18,8 @@ title: Set-PASDirectoryMapping
 
 ## DESCRIPTION
 
-    Adds an LDAP directory to the Vault.
-    Membership of the Vault Admins group required.
+Adds an LDAP directory to the Vault.
+Membership of the Vault Admins group required.
 
 ## PARAMETERS
 

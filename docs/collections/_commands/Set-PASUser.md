@@ -4,7 +4,7 @@ title: Set-PASUser
 
 ## SYNOPSIS
 
-    Updates a vault user
+Updates a vault user
 
 ## SYNTAX
 
@@ -22,9 +22,9 @@ title: Set-PASUser
 
 ## DESCRIPTION
 
-    Updates an existing user in the vault
-    Appears to require all properties set on a user to be passed with the request.
-    Not passing a value to an already set property will result in it being cleared.
+Updates an existing user in the vault
+Appears to require all properties set on a user to be passed with the request.
+Not passing a value to an already set property will result in it being cleared.
 
 ## PARAMETERS
 

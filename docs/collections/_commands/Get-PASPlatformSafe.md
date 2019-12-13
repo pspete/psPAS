@@ -4,7 +4,7 @@ title: Get-PASPlatformSafe
 
 ## SYNOPSIS
 
-    Get safes by platform id
+Get safes by platform id
 
 ## SYNTAX
 
@@ -12,7 +12,7 @@ title: Get-PASPlatformSafe
 
 ## DESCRIPTION
 
-    Returns all safes for a given platform ID
+Returns all safes for a given platform ID
 
 ## PARAMETERS
 
