@@ -78,6 +78,11 @@
 	See Invoke-WebRequest
 	Uses the credentials of the current user to send the web request
 
+	.PARAMETER Certificate
+	See Invoke-WebRequest
+	Specifies the client certificate that is used for a secure web request. 
+	Enter a variable that contains a certificate or a command or expression that gets the certificate.
+
 	.PARAMETER CertificateThumbprint
 	See Invoke-WebRequest
 	The thumbprint of the certificate to use for client certificate authentication.
@@ -159,6 +164,11 @@
 	New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck
 
 	Skip SSL Certificate validation for the session.
+
+	.EXAMPLE
+	New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
+
+	Logon to Version 10 with LDAP credential & Client Certificate
 	#>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "v10")]
 	param(
@@ -360,6 +370,13 @@
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
+		[X509Certificate]$Certificate,
+		
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $false
+		)]
 		[string]$CertificateThumbprint,
 
 		[parameter(
@@ -383,6 +400,9 @@
 		$LogonRequest["SkipCertificateCheck"] = $SkipCertificateCheck.IsPresent
 		If ($CertificateThumbprint) {
 			$LogonRequest["CertificateThumbprint"] = $CertificateThumbprint
+		}
+		If ($Certificate) {
+			$LogonRequest["Certificate"] = $Certificate
 		}
 
 		Switch -Wildcard ($PSCmdlet.ParameterSetName) {
@@ -437,7 +457,7 @@
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, SkipCertificateCheck,
-		UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge
+		UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge, Certificate
 
 		If (($PSCmdlet.ParameterSetName -match "^v9*") -or ($PSCmdlet.ParameterSetName -match "^v10*") ) {
 
@@ -457,7 +477,8 @@
 						#Use specified delimiter to append OTP
 						$Delimiter = $OTPDelimiter
 
-					} Else {
+					}
+					Else {
 
 						#delimit with comma by default
 						$Delimiter = ","
@@ -495,7 +516,8 @@
 			#Construct Request Body
 			$LogonRequest["Body"] = $boundParameters | ConvertTo-Json
 
-		} Elseif ($PSCmdlet.ParameterSetName -eq "saml") {
+		}
+		Elseif ($PSCmdlet.ParameterSetName -eq "saml") {
 
 			#add token to header
 			$LogonRequest["Headers"] = @{"Authorization" = $SAMLToken }
@@ -509,14 +531,16 @@
 				#Send Logon Request
 				$PASSession = Invoke-PASRestMethod @LogonRequest
 
-			} catch {
+			}
+			catch {
 
 				if ($PSItem.FullyQualifiedErrorId -notmatch "ITATS542I") {
 
 					#Throw all errors not related to ITATS542I
 					throw $PSItem
 
-				} Else {
+				}
+				Else {
 
 					#ITATS542I is expected for RADIUS Challenge
 					If (($PSCmdlet.ParameterSetName -match "Radius$") -and ($PSBoundParameters["OTPMode"] -eq "Challenge")) {
@@ -537,14 +561,16 @@
 							#Respond to RADIUS challenge
 							$PASSession = Invoke-PASRestMethod @LogonRequest
 
-						} Else {
+						}
+						Else {
 
 							#No OTP
 							throw $PSItem
 
 						}
 
-					} Else {
+					}
+					Else {
 
 						#Not RADIUS/Challenge Mode
 						throw $PSItem
@@ -553,7 +579,8 @@
 
 				}
 
-			} finally {
+			}
+			finally {
 
 				#If Logon Result
 				If ($PASSession) {
@@ -604,7 +631,8 @@
 							[System.Version]$Version = Get-PASServer -ErrorAction Stop |
 							Select-Object -ExpandProperty ExternalVersion
 
-						} Catch { [System.Version]$Version = "0.0" }
+						}
+						Catch { [System.Version]$Version = "0.0" }
 
 					}
 

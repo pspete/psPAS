@@ -42,6 +42,10 @@
 	See Invoke-WebRequest
 	Specify a timeout value in seconds
 
+	.PARAMETER Certificate
+	See Invoke-WebRequest
+	The client certificate used for a secure web request.
+
 	.PARAMETER CertificateThumbprint
 	See Invoke-WebRequest
 	The thumbprint of the certificate to use for client certificate authentication.
@@ -87,6 +91,9 @@
 
 		[Parameter(Mandatory = $false)]
 		[int]$TimeoutSec,
+
+		[Parameter(Mandatory = $false)]
+		[X509Certificate]$Certificate,
 
 		[Parameter(Mandatory = $false)]
 		[string]$CertificateThumbprint,
