@@ -175,7 +175,12 @@
 		'Use-PASSession',
 		'Invoke-PASCPMOperation',
 		'Set-PASUserPassword',
-		'Set-PASDirectoryMappingOrder'
+		'Set-PASDirectoryMappingOrder',
+		'Enable-PASCPMAutoManagement',
+		'New-PASGroup',
+		'Get-PASPlatformSafe',
+		'Remove-PASDirectoryMapping',
+		'Disable-PASCPMAutoManagement'
 	)
 
 	# AliasesToExport   = @( )

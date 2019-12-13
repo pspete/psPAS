@@ -9,7 +9,7 @@ Creates an access request for a specific account
 ## SYNTAX
 
     New-PASRequest [-AccountId] <String> [[-Reason] <String>] [[-TicketingSystemName] <String>]
-    [[-TicketID] <String>] [[-MultipleAccess] <Boolean>] [[-FromDate] <DateTime>]
+    [[-TicketID] <String>] [[-MultipleAccessRequired] <Boolean>] [[-FromDate] <DateTime>]
     [[-ToDate] <DateTime>] [[-AdditionalInfo] <Hashtable>] [[-UseConnect] <Boolean>]
     [[-ConnectionComponent] <String>] [[-ConnectionParams] <Hashtable>] [-WhatIf] [-Confirm]
     [<CommonParameters>]
@@ -60,7 +60,7 @@ Officially supported from version 9.10. Reports received that function works in 
         Accept pipeline input?       true (ByPropertyName)
         Accept wildcard characters?  false
 
-    -MultipleAccess <Boolean>
+    -MultipleAccessRequired <Boolean>
         Whether the request is for multiple accesses
 
         Required?                    false

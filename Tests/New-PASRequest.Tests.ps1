@@ -47,7 +47,7 @@ Describe $FunctionName {
 			"Reason"              =	"Some Important Reason"
 			"TicketingSystemName" = "SomeName"
 			"TicketID"            = "TicketID123"
-			"MultipleAccess"      = $true
+			"MultipleAccessRequired"      = $true
 			"FromDate"            = (Get-Date 1-1-2018)
 			"ToDate"              = (Get-Date 12-12-2018)
 		}

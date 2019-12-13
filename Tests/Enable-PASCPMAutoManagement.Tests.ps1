@@ -38,31 +38,44 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
+		Context "Mandatory Parameters" {
 
+			$Parameters = @{Parameter = 'AccountID' }
 
-		Context "Standard Operation" {
+			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+
+				param($Parameter)
+
+				(Get-Command Enable-PASCPMAutoManagement).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+
+			}
+
+		}
+
+		Context "Input" {
+
 			BeforeEach {
 
-				$Object = [PSCustomObject]@{
-					Content = New-Object Byte[] 512
-					Headers = @{"Content-Disposition" = "attachment; filename=FILENAME.zip" }
+				Mock Set-PASAccount -MockWith { }
+
+				$InputObj = [pscustomobject]@{
+					"AccountID"   = "12_3"
+
 				}
 
-				Mock Get-Item -MockWith { }
-				
-				Mock Set-Content -MockWith { }
+			}
+
+			It "sends request" {
+				$InputObj | Enable-PASCPMAutoManagement
+				Assert-MockCalled Set-PASAccount -Times 1 -Exactly -Scope It
 
 			}
 
-			it "does not throw" {
+			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "1.2"
 
-				{ Out-PASFile -InputObject $Object -Path "C:\Temp" } | Should -Not -Throw
-
-			}
-
-			It "throws on Set-Content error" {
-				Mock Set-Content -MockWith { throw "error" }
-				{ Out-PASFile -InputObject $Object } | Should -Throw
+				{ $InputObj | Enable-PASCPMAutoManagement } | Should throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

@@ -1,12 +1,10 @@
-# psPAS
+![psPAS](docs/assets/images/header_photo.png)
 
-## **PowerShell Module for CyberArk Privileged Access Security**
+# **psPAS: PowerShell Module for the CyberArk API**
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v10.10.
-
-**Existing psPAS Users**: Module Version 3.0 introduced breaking changes; review the [Changelog](CHANGELOG.md) for full details.
+Contains all published methods of the API up to CyberArk v11.1.
 
 ----------
 
@@ -30,25 +28,24 @@ Contains all published methods of the API up to CyberArk v10.10.
 
 ----------
 
-- [psPAS](#pspas)
-  - [Introduction](#powershell-module-for-cyberark-privileged-access-security)
-    - [Status](#module-status)
-  - [Usage](#usage)
-    - [Authenticate](#authenticate)
-    - [Basic Operations](#basic-operations)
-    - [Advanced Examples](#advanced-examples)
-  - [psPAS Functions](#pspas-functions)
-  - [Installation](#installation)
-    - [Prerequisites](#prerequisites)
-    - [Install Options](#install-options)
-    - [Verification](#verification)
-  - [Changelog](#changelog)
-  - [Author](#author)
-  - [License](#license)
-  - [Contributing](#contributing)
-  - [Acknowledgements](#acknowledgements)
+- [Usage](#usage)
+  - [Authenticate](#authenticate)
+  - [Basic Operations](#basic-operations)
+  - [Advanced Examples](#advanced-examples)
+- [psPAS Functions](#pspas-functions)
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Install Options](#install-options)
+  - [Verification](#verification)
+- [Changelog](#changelog)
+- [Author](#author)
+- [License](#license)
+- [Contributing](#contributing)
+- [Acknowledgements](#acknowledgements)
 
 ## Usage
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 ### Authenticate
 
@@ -153,6 +150,8 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 
 ### Basic Operations
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 #### Search
 
 ##### Safes
@@ -194,12 +193,12 @@ Get-PASUser -Search xap
 
 ID  UserName    Source UserType ComponentUser Location
 --  --------    ------ -------- ------------- --------
-657 xApprover_A LDAP   EPVUser  False         \VR\VirtualReal\Users
-658 xApprover_1 LDAP   EPVUser  False         \VR\VirtualReal\Users
-659 xApprover_B LDAP   EPVUser  False         \VR\VirtualReal\Users
-660 xApprover_2 LDAP   EPVUser  False         \VR\VirtualReal\Users
-661 xApprover_C LDAP   EPVUser  False         \VR\VirtualReal\Users
-662 xApprover_3 LDAP   EPVUser  False         \VR\VirtualReal\Users
+657 xApprover_A LDAP   EPVUser  False         \psPETE\Users
+658 xApprover_1 LDAP   EPVUser  False         \psPETE\Users
+659 xApprover_B LDAP   EPVUser  False         \psPETE\Users
+660 xApprover_2 LDAP   EPVUser  False         \psPETE\Users
+661 xApprover_C LDAP   EPVUser  False         \psPETE\Users
+662 xApprover_3 LDAP   EPVUser  False         \psPETE\Users
 ````
 
 ##### Accounts
@@ -268,6 +267,8 @@ platformAccountProperties : @{LogonDomain=SOMEDOMAIN}
 secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=1559864222}
 createdTime               : 06/06/2019 23:37:02
 ````
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 #### Administration
 
@@ -348,6 +349,8 @@ secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=
 createdTime               : 06/06/2019 23:37:02
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 ##### CPM Operations
 
 ###### Verify
@@ -409,6 +412,8 @@ Import-PASPlatform -ImportFile C:\Temp\Platform.zip
 Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 #### Pipeline Operations
 
 - Work with the PowerShell pipeline:
@@ -456,6 +461,8 @@ xReq                 ApproveTest {ListContent, RestrictedRetrieve, Retrieve, Vie
 ````
 
 ### Advanced Examples
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 #### Bulk Operations
 
@@ -530,6 +537,8 @@ $users | foreach{
 Close-PASSession
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 #### Safe Permissions
 
 - Define Safe Roles and assign to safe members:
@@ -579,6 +588,8 @@ MemberName SearchIn SafeName Permissions
 SafeAdmin1 Vault    NewSafe  {ListAccounts, AddAccounts, UpdateAccountContent, UpdateAccountProperties…}
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 #### PSM Sessions
 
 ##### Terminate all Active PSM Sessions on a PSM Server
@@ -592,6 +603,8 @@ Get-PASPSMSession | Where-Object{
     Select -ExpandProperty ComponentUserName))
   -and ($_.IsLive) -and ($_.CanTerminate)} | Stop-PASPSMSession
 ````
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 #### Updating Multiple Properties of an Account
 
@@ -615,6 +628,8 @@ secretManagement : @{automaticManagementEnabled=True; lastModifiedTime=155986422
 createdTime      : 06/06/2019 23:37:02
 ````
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 #### Using Methods
 
 Methods present on objects returned from psPAS functions can be leveraged to get the data you need with ease.
@@ -631,6 +646,7 @@ Get-PASSafe | Where-Object{ ($_.safemembers() | Select-Object -ExpandProperty Us
 ```powershell
 (Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToSecureString()
 ```
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 #### API Sessions
 
@@ -701,6 +717,8 @@ SafeAdmin Internal EPVUser      False     False   False    False
 #End second session
 Close-PASSession
 ````
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 ## psPAS Functions
 
@@ -819,6 +837,11 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Find-PASSafe`][Find-PASSafe]                                                           |**10.1**            |List or Search Safes by name.
 [`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                           |**10.10**           |Reorder Directory Mappings
 [`Set-PASUserPassword`][Set-PASUserPassword]                                             |**10.10**           |Reset a User's Password
+[`New-PASGroup`][New-PASGroup]                                                           |**11.1**            |Create a new CyberArk group
+[`Get-PASPlatformSafe`][Get-PASPlatformSafe]                                             |**11.1**            |List details for all platforms
+[`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                               |**11.1**            |Deletes a Directory Mapping
+[`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             |**10.4**            |Enables Automatic CPM Managment for an account
+[`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           |**10.4**            |Disables Automatic CPM Managment for an account
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
@@ -917,10 +940,17 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Remove-PASDirectory]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectory.ps1
 [Find-PASSafe]:/psPAS/Functions/Safes/Find-PASSafe.ps1
 [Invoke-PASCPMOperation]:/psPAS/Functions/Accounts/Invoke-PASCPMOperation.ps1
-[Set-PASDirectoryMappingOrder]:psPAS\Functions\LDAPDirectories\Set-PASDirectoryMappingOrder.ps1
-[Set-PASUserPassword]:psPAS\Functions\User\Set-PASUserPassword.ps1
+[Set-PASDirectoryMappingOrder]:/psPAS/Functions/LDAPDirectories/Set-PASDirectoryMappingOrder.ps1
+[Set-PASUserPassword]:/psPAS/Functions/User/Set-PASUserPassword.ps1
+[Disable-PASCPMAutoManagement]:/psPAS/Functions/Accounts/Disable-PASCPMAutoManagement.ps1
+[Enable-PASCPMAutoManagement]:/psPAS/Functions/Accounts/Enable-PASCPMAutoManagement.ps1
+[Remove-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectoryMapping.ps1
+[Get-PASPlatformSafe]:/psPAS/Functions/Platforms/Get-PASPlatformSafe.ps1
+[New-PASGroup]:/psPAS/Functions/User/New-PASGroup.ps1
 
 ## Installation
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)
 
 ### Prerequisites
 
@@ -995,6 +1025,8 @@ Get-Help New-PASUser -Full
 
 ```
 
+![psPAS](docs/assets/images/shop_banner_symbol.png)
+
 ## Changelog
 
 All notable changes to this project will be documented in the [Changelog](CHANGELOG.md)
@@ -1030,3 +1062,5 @@ helper functions.
 for the unofficial API documentation.
 
 Chapeau!
+
+![psPAS](docs/assets/images/shop_banner_symbol.png)

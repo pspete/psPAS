@@ -38,57 +38,16 @@ Describe $FunctionName {
 
 	InModuleScope $ModuleName {
 
-		Context "Input - Legacy" {
+		Context "Mandatory Parameters" {
 
-			BeforeEach {
+			$Parameters = @{Parameter = 'PlatformID'}
 
-				Mock Invoke-PASRestMethod -MockWith {
+			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
-					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = 123 }
+				param($Parameter)
 
-				}
+				(Get-Command Get-PASPlatform).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
 
-				$InputObj = [pscustomobject]@{
-					"Name" = "SomeName"
-
-				}
-
-				$response = $InputObj | Get-PASPlatform -verbose
-
-			}
-
-			It "sends request" {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
-
-			}
-
-			It "sends request to expected endpoint" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$URI -eq "$($Script:BaseURI)/API/Platforms/SomeName"
-
-				} -Times 1 -Exactly -Scope It
-
-			}
-
-			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
-
-			}
-
-			It "sends request with no body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
-
-			}
-
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
-				{$InputObj | Get-PASPlatform } | Should Throw
-				$Script:ExternalVersion = "0.0"
 			}
 
 		}
@@ -99,20 +58,17 @@ Describe $FunctionName {
 				Mock Invoke-PASRestMethod -MockWith {
 
 					[PSCustomObject]@{
-						"Platforms" = [PSCustomObject]@{
-							"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = 123 
+						"count" = 2
+						"value" = [array] "value1","value2","value3"
 						} 
 					}
-					
-				}
+
 
 				$InputObj = [pscustomobject]@{
-					"Search" = "SomeName"
-					"Active" = $true
-					"PlatformType" = "Regular"
+					"PlatformID" = "SomeName"
 				}
 
-				$response = $InputObj | Get-PASPlatform
+				$response = $InputObj | Get-PASPlatformSafe
 
 			}
 
@@ -125,6 +81,16 @@ Describe $FunctionName {
 			It "uses expected method" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/API/Platforms/SomeName/Safes"
+
+				} -Times 1 -Exactly -Scope It
 
 			}
 
@@ -136,7 +102,7 @@ Describe $FunctionName {
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "10.0"
-				{ $InputObj | Get-PASPlatform } | Should Throw
+				{ $InputObj | Get-PASPlatformSafe } | Should Throw
 				$Script:ExternalVersion = "0.0"
 			}
 

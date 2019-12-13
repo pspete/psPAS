@@ -73,6 +73,18 @@ Describe $FunctionName {
 
 			}
 
+			It "Returns expected response" {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					Return "\\Expected" | ConvertTo-Json
+				}
+
+				$result = $InputObject | Get-PASAccountPassword
+
+				$result.Password | Should -Be "\\Expected"
+
+			}
+
 			It "Returns expected Classic API response" {
 
 				Mock Invoke-PASRestMethod -MockWith {

@@ -60,48 +60,96 @@ The expiration date of the account, defined in the discovery source.
 The type of machine where the account was discovered.
 
 .PARAMETER additionalProperties
-List of name=value pairs for additional properties added to the account.
+A hashtable of additional properties added to the account.
 
 .PARAMETER organizationalUnit
 The organizational unit where the account is defined.
 
 .PARAMETER SID
 Security ID. This parameter is relevant only for Windows accounts.
+Relevent when platformType is set to Windows
 
 .PARAMETER uid
 The unique user ID. This parameter is relevant only for Unix accounts.
+Relevent when platformType is set to "Unix" or "Unix SSH Key"
 
 .PARAMETER gid
 The unique group ID. This parameter is relevant only for Unix accounts.
-
-.PARAMETER uid
-The unique user ID. This parameter is relevant only for Unix SSH Key.
-
-.PARAMETER gid
-The unique group ID. This parameter is relevant only for Unix SSH Key.
+Relevent when platformType is set to "Unix" or "Unix SSH Key"
 
 .PARAMETER fingerprint
 The fingerprint of the discovered SSH key. The public and private keys of the same trust have the same fingerprint. This is relevant for SSH keys only.
+Relevent when platformType is set to "Unix SSH Key"
 
 .PARAMETER size
 The size in bits of the generated key.
+Relevent when platformType is set to "Unix SSH Key"
 
 .PARAMETER path
 The path of the public key on the target machine.
+Relevent when platformType is set to "Unix SSH Key"
 
 .PARAMETER format
 The format of the private SSH key.
+Relevent when platformType is set to "Unix SSH Key"
 
 .PARAMETER comment
 Any text added when the key was created.
+Relevent when platformType is set to "Unix SSH Key"
 
 .PARAMETER encryption
 The type of encryption used to generate the SSH key.
+Relevent when platformType is set to "Unix SSH Key"
+
+.PARAMETER awsAccountID
+The AWS Account ID, in the format of a 12-digit number.
+Relevent when platformType is set to AWS or AWS Access Keys
+Requires 10.8+
+
+.PARAMETER awsAccessKeyID
+The AWS Access Key ID string
+Relevent when platformType is set to AWS or AWS Access Keys
+Requires 10.8+
+
+.PARAMETER Dependencies
+Accepts hashtable representing key/value pairs for:
+- name: the Name of the dependancy
+- address (mandatory): IP address or DNS hostname of the dependancy
+- type (mandatory): The dependency type from the following list:
+  - COM+ Application
+  - IIS Anonymous Authentication
+  - IIS Application Pool
+  - Windows Scheduled Task
+  - Windows Service
+- taskFolder: The dependency task folder, relevant for Windows Scheduled Tasks.
+Requires 10.8+
 
 .EXAMPLE
 Add-PASDiscoveredAccount -UserName Discovered23 -Address domain.com -discoveryDate $(Get-Date "29/10/2018") -AccountEnabled $true -platformType "Windows Domain" -SID 12355
 
 Adds matching discovered account as pending account.
+
+.EXAMPLE
+Add-PASDiscoveredAccount -UserName AWSUser -Address aws.com -discoveryDate (Get-Date 1/1/1974) -AccountEnabled $true -platformType AWS -awsAccountID 123456777889 -privileged $false
+
+Adds matching account to pending/discovered account list.
+
+.EXAMPLE
+$dependancy = @()
+$dependancy += @{
+"name"="SomeDependancy"
+"address"="1.2.3.4"
+"type"="Windows Service"
+}
+$dependancy += @{
+"name"="Some"
+"address"="1.2.3.4"
+"type"="Windows Scheduled Task"
+"taskFolder"="\Some\Folder"
+}
+Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (Get-Date 25/3/2013) -AccountEnabled $true -platformType 'Windows Server Local' -Dependencies $dependancy
+
+Adds or updates matching pending account with defined dependancies.
 
 .INPUTS
 All parameters can be piped by property name
@@ -146,7 +194,7 @@ All parameters can be piped by property name
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key")]
+		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key", "AWS", "AWS Access Keys")]
 		[string]$platformType,
 
 		[parameter(
@@ -183,8 +231,7 @@ All parameters can be piped by property name
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Privileged", "Non-privileged")]
-		[string]$privileged,
+		[boolean]$privileged,
 
 		[parameter(
 			Mandatory = $false,
@@ -304,13 +351,35 @@ All parameters can be piped by property name
 			ParameterSetName = "UnixSSHKey"
 		)]
 		[ValidateSet("RSA", "DSA")]
-		[string]$encryption
+		[string]$encryption,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "108_AWS"
+		)]
+		[ValidateLength(12, 12)]
+		[string]$awsAccountID,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "108_AWS"
+		)]
+		[string]$awsAccessKeyID,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "108_Dependancy"
+		)]
+		[hashtable[]]$Dependencies
 	)
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"10.5"
-
-		$AccountProperties = @("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption")
+		$RequiredVersion = [System.Version]"10.8"
+		$AccountProperties = @("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption", "awsAccountID", "awsAccessKeyID")
 
 		$DateTimes = @("discoveryDate", "lastLogonDateTime", "lastPasswordSetDateTime", "passwordExpirationDateTime")
 
@@ -318,7 +387,18 @@ All parameters can be piped by property name
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+		if ($PSCmdlet.ParameterSetName -match "^108_") {
+			
+			#v10.8 required for AWS & Dependancies
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+
+		}
+		Else {
+
+			#v10.5 Minimum version required
+			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+
+		}
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/api/DiscoveredAccounts"
@@ -342,7 +422,6 @@ All parameters can be piped by property name
 
 			#add key=value to hashtable
 			$platformTypeAccountProperties[$_] = $boundParameters[$_]
-
 
 		}
 
