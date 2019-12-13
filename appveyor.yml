@@ -2,6 +2,7 @@
 version: 3.3.{build}
 
 environment:
+  psgallery_deploy: manual_deploy
   access_token:
     secure: eWAovbJD8C/F5ObWegnOimwNFyeU1vXzW6lwbJzhHpSUgjT+CMexMcPUBMKrm+Wl
   psgallery_key:
