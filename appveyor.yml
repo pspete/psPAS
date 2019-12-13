@@ -31,7 +31,7 @@ only_commits:
     - Tests\
 
 #os: WMF 5
-image: Visual Studio 2019
+image: Visual Studio 2017
 
 install:
 #  - ps: . .\build\install.ps1
