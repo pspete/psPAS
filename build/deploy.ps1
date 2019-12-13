@@ -6,29 +6,6 @@ Write-Host "Deploy Process:" -ForegroundColor Yellow
 if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'master')) {
 
 	#---------------------------------#
-	# Publish to PS Gallery           #
-	#---------------------------------#
-
-	Try {
-
-		Write-Host 'Publish to Powershell Gallery...'
-
-		$ModulePath = Join-Path $env:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME
-
-		Write-Host "Publishing: $ModulePath"
-		
-		Publish-Module -Path $ModulePath -NuGetApiKey $($env:psgallery_key) -SkipAutomaticTags -Confirm:$false -ErrorAction Stop -Verbose
-
-		Write-Host "$($env:APPVEYOR_PROJECT_NAME) published." -ForegroundColor Cyan
-
-	} Catch {
-
-		Write-Warning "Publish Failed."
-		throw $_
-
-	}
-
-	#---------------------------------#
 	# Push to Master Branch        #
 	#---------------------------------#
 
@@ -66,6 +43,31 @@ if ((! $ENV:APPVEYOR_PULL_REQUEST_NUMBER) -and ($ENV:APPVEYOR_REPO_BRANCH -eq 'm
 		throw $_
 
 	}
+
+	#---------------------------------#
+	# Publish to PS Gallery           #
+	#---------------------------------#
+
+	Try {
+
+		Write-Host 'Publish to Powershell Gallery...'
+
+		$ModulePath = Join-Path $env:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME
+
+		Write-Host "Publishing: $ModulePath"
+		
+		Publish-Module -Path $ModulePath -NuGetApiKey $($env:psgallery_key) -SkipAutomaticTags -Confirm:$false -ErrorAction Stop -Force
+
+		Write-Host "$($env:APPVEYOR_PROJECT_NAME) published." -ForegroundColor Cyan
+
+	}
+ Catch {
+
+		Write-Warning "Publish Failed."
+		throw $_
+
+	}
+
 
 }
 
