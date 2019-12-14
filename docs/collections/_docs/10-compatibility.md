@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2019-09-11T01:33:52-00:00
+last_modified_at: 2019-12-114T01:33:52-00:00
 toc: false
 ---
 
@@ -63,7 +63,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASOnboardingRule`][Get-PASOnboardingRule]                                         |**9.7**                                             |Gets automatic on-boarding rules
 [`New-PASOnboardingRule`][New-PASOnboardingRule]                                         |**9.7** ([Notes](#new-pasonboardingrule))           |Adds a new on-boarding rule
 [`Remove-PASOnboardingRule`][Remove-PASOnboardingRule]                                   |**9.7**                                             |Deletes an automatic on-boarding rule
-[`Get-PASPlatform`][Get-PASPlatform]                                                     |**9.10**                                            |Retrieves details of a specified platform.
+[`Get-PASPlatform`][Get-PASPlatform]                                                     |**9.10** ([Notes](#get-pasplatform))                |Retrieves details of a specified platform.
 [`Import-PASPlatform`][Import-PASPlatform]                                               |**10.2**                                            |Import a new platform
 [`Export-PASPlatform`][Export-PASPlatform]                                               |**10.4**                                            |Export a  platform
 [`Add-PASPolicyACL`][Add-PASPolicyACL]                                                   |**9.0**                                             |Adds a new privileged command rule
@@ -93,8 +93,8 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASUserLoginInfo`][Get-PASUserLoginInfo]                                           | **10.4**                                           |Returns login details of the current user
 [`Get-PASUser`][Get-PASUser]                                                             | **9.7** ([Notes](#get-pasuser))                    |Returns details of a user
 [`New-PASUser`][New-PASUser]                                                             | **9.7** ([Notes](#new-pasuser))                    |Creates a new user
-[`Remove-PASUser`][Remove-PASUser]                                                       | **9.7**                                            |Deletes a user
-[`Set-PASUser`][Set-PASUser]                                                             | **9.7**                                            |Updates a user
+[`Remove-PASUser`][Remove-PASUser]                                                       | **9.7** ([Notes](#remove-pasuser))                 |Deletes a user
+[`Set-PASUser`][Set-PASUser]                                                             | **9.7** ([Notes](#set-pasuser))                    |Updates a user
 [`Unblock-PASUser`][Unblock-PASUser]                                                     | **9.7** ([Notes](#unblock-pasuser))                |Activates a suspended user
 [`Get-PASDirectory`][Get-PASDirectory]                                                   | **10.4** ([Notes](#get-pasdirectory))              |Get configured LDAP directories
 [`Add-PASDirectory`][Add-PASDirectory]                                                   | **10.4** ([Notes](#add-pasdirectory))              |Add a new LDAP directory
@@ -108,7 +108,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASGroup`][Get-PASGroup]                                                           | **10.5**                                           |Return group information
 [`Remove-PASGroupMember`][Remove-PASGroupMember]                                         | **10.5**                                           |Remove group members
 [`Set-PASOnboardingRule`][Set-PASOnboardingRule]                                         | **10.5**                                           |Update Onboarding Rules
-[`Add-PASDiscoveredAccount`][Add-PASDiscoveredAccount]                                   | **10.5**                                           |Add discovered accounts to the Accounts Feed
+[`Add-PASDiscoveredAccount`][Add-PASDiscoveredAccount]                                   | **10.5** ([Notes](#add-pasdiscoveredaccount))      |Add discovered accounts to the Accounts Feed
 [`Connect-PASPSMSession`][Connect-PASPSMSession]                                         | **10.5**                                           |Get required parameters to connect to a PSM Session
 [`Get-PASPSMSessionActivity`][Get-PASPSMSessionActivity]                                 | **10.6**                                           |Get activity details from an active PSM Session.
 [`Get-PASPSMSessionProperty`][Get-PASPSMSessionProperty]                                 | **10.6**                                           |Get property details from an active PSM Session.
@@ -122,6 +122,11 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Find-PASSafe`][Find-PASSafe]                                                           | **10.1**                                           |List or Search Safes by name.
 [`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                           | **10.10**                                          |Reorder Directory Mappings
 [`Set-PASUserPassword`][Set-PASUserPassword]                                             | **10.10**                                          |Reset a User's Password
+[`New-PASGroup`][New-PASGroup]                                                           | **11.1**                                           |Create a new CyberArk group
+[`Get-PASPlatformSafe`][Get-PASPlatformSafe]                                             | **11.1**                                           |List details for all platforms
+[`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                               | **11.1**                                           |Deletes a Directory Mapping
+[`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             | **10.4**                                           |Enables Automatic CPM Managment for an account
+[`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           | **10.4**                                           |Disables Automatic CPM Managment for an account
 
 [New-PASSession]:/commands/New-PASSession
 [Close-PASSession]:/commands/Close-PASSession
@@ -222,6 +227,11 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [Invoke-PASCPMOperation]:/commands/Invoke-PASCPMOperation
 [Set-PASDirectoryMappingOrder]:/commands/Set-PASDirectoryMappingOrder
 [Set-PASUserPassword]:/commands/Set-PASUserPassword
+[Disable-PASCPMAutoManagement]:/commands/Disable-PASCPMAutoManagement.ps1
+[Enable-PASCPMAutoManagement]:/commands/Enable-PASCPMAutoManagement.ps1
+[Remove-PASDirectoryMapping]:/commands/Remove-PASDirectoryMapping.ps1
+[Get-PASPlatformSafe]:/commands/Get-PASPlatformSafe.ps1
+[New-PASGroup]:/commands/New-PASGroup.ps1
 
 ## Notes
 
@@ -332,7 +342,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 ### `*-PASRequest`*
 
 - The functions related to requests (`Approve-PASRequest`, `Deny-PASRequest`, `Get-PASRequest`, `Get-PASRequestDetail`, `New-PASRequest` & `Remove-PASRequest`), are documented as supported from version 9.10.
-  - `psPAS` user reports observer that these functions may also work in version 9.9.
+  - Reports received from `psPAS` users, observing that these functions also work in version 9.9.
 
 ### Add-PASGroupMember
 
@@ -393,3 +403,27 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 10.10 introduced a new API endpoint.
   - Supports:
     - `UserActivityLogPeriod`.
+
+### Add-PASDiscoveredAccount
+
+- Version 10.8 introduced a new API endpoint.
+  - Supports:
+    - Account Dependancy & AWS specific parameters
+
+### Get-PASPlatform
+
+- Version 11.1 introduced a new API endpoint.
+  - Supports:
+    - New options for finding platforms
+
+### Remove-PASUser
+
+- Version 11.1 introduced a new API endpoint.
+  - Supports:
+    - Delete User by ID
+
+### Set-PASUser
+
+- Version 11.1 introduced a new API endpoint.
+  - Supports:
+    - Additional parameters for updating users.
