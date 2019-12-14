@@ -1,19 +1,22 @@
 Function Get-PASPTARemediation {
 	<#
-	.SYNOPSIS
-	Returns automatic remediation settings from PTA
+.SYNOPSIS
+Returns automatic remediation settings from PTA
 
-	.DESCRIPTION
-	Returns automatic remediation settings configured in PTA
+.DESCRIPTION
+Returns automatic remediation settings configured in PTA
 
-	.EXAMPLE
+.EXAMPLE
 Get-PASPTARemediation
 
-	Returns all automatic remediation settings from PTA
+Returns all automatic remediation settings from PTA
 
-	.NOTES
-	Minimum Version CyberArk 10.4
-	#>
+.NOTES
+Minimum Version CyberArk 10.4
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASPTARemediation
+#>
 	[CmdletBinding()]
 	param(	)
 
@@ -31,7 +34,7 @@ Get-PASPTARemediation
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result.automaticRemediation |
@@ -42,5 +45,5 @@ Get-PASPTARemediation
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

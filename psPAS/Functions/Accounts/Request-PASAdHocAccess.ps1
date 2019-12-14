@@ -1,4 +1,4 @@
-﻿function Request-PASAdHocAccess {
+function Request-PASAdHocAccess {
 	<#
 .SYNOPSIS
 Requests access to a target Windows machine
@@ -18,8 +18,9 @@ Requests "ad hoc" access on the server for which the account with id 36_3 is a l
 .INPUTS
 All parameters can be piped by propertyname
 
-.OUTPUTS
-None
+
+.LINK
+https://pspas.pspete.dev/commands/Request-PASAdHocAccess
 #>
 	[CmdletBinding()]
 	param(
@@ -49,5 +50,5 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

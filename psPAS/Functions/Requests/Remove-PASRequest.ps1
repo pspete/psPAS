@@ -1,4 +1,4 @@
-﻿function Remove-PASRequest {
+function Remove-PASRequest {
 	<#
 .SYNOPSIS
 Deletes a request from the Vault
@@ -19,8 +19,8 @@ Deletes Request <ID>
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASRequest
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -43,7 +43,7 @@ None
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/MyRequests/$($RequestID)"
 
-		if($PSCmdlet.ShouldProcess($RequestID, "Delete Request")) {
+		if ($PSCmdlet.ShouldProcess($RequestID, "Delete Request")) {
 
 			#Send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession

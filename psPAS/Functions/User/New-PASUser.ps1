@@ -1,4 +1,4 @@
-﻿function New-PASUser {
+function New-PASUser {
 	<#
 .SYNOPSIS
 Creates a new vault user
@@ -45,16 +45,16 @@ Requires CyberArk version 10.9+
 The user permissions in the vault.
 To grant authorization to a user, the same authorization must be held by the account logged on to the API.
 Valid values:
-• AddSafes
-• AuditUsers
-• AddUpdateUsers
-• ResetUsersPasswords
-• ActivateUsers
-• AddNetworkAreas
-• ManageDirectoryMapping
-• ManageServerFileCategories
-• BackupAllSafes
-• RestoreAllSafes
+� AddSafes
+� AuditUsers
+� AddUpdateUsers
+� ResetUsersPasswords
+� ActivateUsers
+� AddNetworkAreas
+� ManageDirectoryMapping
+� ManageServerFileCategories
+� BackupAllSafes
+� RestoreAllSafes
 Requires CyberArk version 10.9+
 
 .PARAMETER ChangePassOnNextLogon
@@ -214,6 +214,9 @@ All parameters can be piped by property name
 Outputs Object of Custom Type psPAS.CyberArk.Vault.User
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
+
+.LINK
+https://pspas.pspete.dev/commands/New-PASUser
 #>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "10_9")]
 	param(

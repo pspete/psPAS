@@ -1,5 +1,5 @@
-﻿function Enable-PASCPMAutoManagement {
-<#
+function Enable-PASCPMAutoManagement {
+	<#
 .SYNOPSIS
 Enables an account for Automatic CPM Management.
 
@@ -24,6 +24,8 @@ on account with ID 543_2
 .NOTES
 Applicable to and requires 10.4+
 
+.LINK
+https://pspas.pspete.dev/commands/Enable-PASCPMAutoManagement
 #>
 	[CmdletBinding()]
 	param(

@@ -1,4 +1,4 @@
-﻿function Add-PASAccount {
+function Add-PASAccount {
 	<#
 .SYNOPSIS
 Adds a new privileged account to the Vault
@@ -9,7 +9,7 @@ Adds a new privileged account to the Vault.
 Parameters are processed to create request object from passed parameters in the required format.
 
 .PARAMETER name
-The name of the account.
+The name�of the account.
 A version 10.4 onward specific parameter
 
 .PARAMETER secretType
@@ -126,6 +126,9 @@ All parameters can be piped by property name
 .OUTPUTS
 None for v9
 v10.4 outputs th details of the created account.
+
+.LINK
+https://pspas.pspete.dev/commands/Add-PASAccount
 #>
 	[CmdletBinding()]
 	param(

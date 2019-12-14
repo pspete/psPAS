@@ -1,4 +1,4 @@
-﻿function New-PASGroup {
+function New-PASGroup {
 	<#
 .SYNOPSIS
 Creates a vault group.
@@ -37,6 +37,9 @@ psPAS.CyberArk.Vault.Group Object
 
 .NOTES
 Minimum Version 11.1
+
+.LINK
+https://pspas.pspete.dev/commands/New-PASGroup
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

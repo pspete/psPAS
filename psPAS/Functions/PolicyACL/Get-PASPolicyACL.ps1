@@ -1,4 +1,4 @@
-﻿function Get-PASPolicyACL {
+function Get-PASPolicyACL {
 	<#
 .SYNOPSIS
 Lists OPM Rules for a policy
@@ -22,6 +22,9 @@ All parameters can be piped by property name
 Outputs Object of Custom Type psPAS.CyberArk.Vault.ACL
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASPolicyACL
 #>
 	[CmdletBinding()]
 	param(
@@ -34,7 +37,7 @@ To force all output to be shown, pipe to Select-Object *
 
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -46,7 +49,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Send Request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result.ListPolicyPrivilegedCommandsResult |
 
@@ -56,6 +59,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

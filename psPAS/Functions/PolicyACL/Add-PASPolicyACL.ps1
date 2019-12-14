@@ -1,4 +1,4 @@
-﻿function Add-PASPolicyACL {
+function Add-PASPolicyACL {
 	<#
 .SYNOPSIS
 Adds a new privileged command rule
@@ -37,6 +37,9 @@ All parameters can be piped by property name
 Outputs Object of Custom Type psPAS.CyberArk.Vault.ACL
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
+
+.LINK
+https://pspas.pspete.dev/commands/Add-PASPolicyACL
 #>
 	[CmdletBinding()]
 	param(
@@ -82,7 +85,7 @@ To force all output to be shown, pipe to Select-Object *
 		[string]$UserName
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -101,7 +104,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result.AddPolicyPrivilegedCommandResult |
 
@@ -111,6 +114,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

@@ -1,4 +1,4 @@
-﻿function Remove-PASAccountACL {
+function Remove-PASAccountACL {
 	<#
 .SYNOPSIS
 Deletes privileged commands rule from an account
@@ -32,8 +32,8 @@ Removes matching Privileged Account Rule from account.
 All parameters can be piped by property name
 Should accept pipeline objects from Get-PASAccountACL function
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASAccountACL
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -66,7 +66,7 @@ None
 		[string]$Id
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -80,9 +80,9 @@ None
                     Get-EscapedString)/PrivilegedCommands/$Id"
 
 		#Request Body
-		$Body = @{}
+		$Body = @{ }
 
-		if($PSCmdlet.ShouldProcess("$AccountAddress|$AccountUserName|$AccountPolicyId",
+		if ($PSCmdlet.ShouldProcess("$AccountAddress|$AccountUserName|$AccountPolicyId",
 				"Delete Privileged Command '$Id'")) {
 
 			#Send Request to Web Service
@@ -92,6 +92,6 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

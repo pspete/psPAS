@@ -1,4 +1,4 @@
-﻿function Set-PASDirectoryMapping {
+function Set-PASDirectoryMapping {
 	<#
 .SYNOPSIS
 Adds a new Directory Mapping for an existing directory
@@ -91,7 +91,8 @@ Sets UserActivityLogPeriod for the mapping to 365
 .INPUTS
 All parameters can be piped to the function by propertyname
 
-.OUTPUTS
+.LINK
+https://pspas.pspete.dev/commands/Set-PASDirectoryMapping
 #>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "AuthFlags")]
 	param(

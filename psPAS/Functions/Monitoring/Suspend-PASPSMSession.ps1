@@ -23,6 +23,9 @@ None
 
 .NOTES
 Minimum CyberArk Version 10.2
+
+.LINK
+https://pspas.pspete.dev/commands/Suspend-PASPSMSession
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -46,7 +49,7 @@ Minimum CyberArk Version 10.2
 		#Create URL for Request
 		$URI = "$Script:BaseURI/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Suspend"
 
-		if($PSCmdlet.ShouldProcess($LiveSessionId, "Suspend PSM Session")) {
+		if ($PSCmdlet.ShouldProcess($LiveSessionId, "Suspend PSM Session")) {
 
 			#send request to PAS web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
@@ -55,6 +58,6 @@ Minimum CyberArk Version 10.2
 
 	} #process
 
-	END {}#end
+	END { }#end
 
 }

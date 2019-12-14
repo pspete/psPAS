@@ -1,4 +1,4 @@
-﻿function Disable-PASCPMAutoManagement {
+function Disable-PASCPMAutoManagement {
 	<#
 .SYNOPSIS
 Disables an account for Automatic CPM Management.
@@ -26,6 +26,8 @@ Sets automaticManagementEnabled to $false & sets manualManagementReason on accou
 .NOTES
 Applicable to and requires 10.4+
 
+.LINK
+https://pspas.pspete.dev/commands/Disable-PASCPMAutoManagement
 #>
 	[CmdletBinding()]
 	param(

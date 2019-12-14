@@ -1,4 +1,4 @@
-﻿function Get-PASDirectory {
+function Get-PASDirectory {
 	<#
 .SYNOPSIS
 Get LDAP directories configured in the Vault
@@ -22,6 +22,9 @@ WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
 LDAP Directory Details
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASDirectory
 #>
 	[CmdletBinding()]
 	param(
@@ -56,7 +59,8 @@ LDAP Directory Details
 
 			$type = "psPAS.CyberArk.Vault.Directory.Extended"
 
-		} Else { $type = "psPAS.CyberArk.Vault.Directory" }
+		}
+		Else { $type = "psPAS.CyberArk.Vault.Directory" }
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession

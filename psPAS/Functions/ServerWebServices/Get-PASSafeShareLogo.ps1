@@ -1,4 +1,4 @@
-﻿function Get-PASSafeShareLogo {
+function Get-PASSafeShareLogo {
 	<#
 .SYNOPSIS
 Returns details of configured SafeShare Logo
@@ -17,10 +17,11 @@ Retrieves Safe Share Logo
 .INPUTS
 WebSession & BaseURI can be piped to the function by propertyname
 
-.OUTPUTS
-
 .NOTES
 SafeShare no longer available from CyberArk
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASSafeShareLogo
 #>
 	[CmdletBinding()]
 	param(
@@ -31,7 +32,7 @@ SafeShare no longer available from CyberArk
 		[String]$ImageType
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -42,7 +43,7 @@ SafeShare no longer available from CyberArk
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 
-		if($result) {
+		if ($result) {
 
 			$result
 
@@ -50,5 +51,5 @@ SafeShare no longer available from CyberArk
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

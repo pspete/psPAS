@@ -1,4 +1,4 @@
-﻿function Remove-PASSafe {
+function Remove-PASSafe {
 	<#
 .SYNOPSIS
 Deletes a safe from the Vault
@@ -19,9 +19,8 @@ Deletes "OLD_Safe"
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
-
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASSafe
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -34,7 +33,7 @@ None
 
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -43,7 +42,7 @@ None
 
             Get-EscapedString)"
 
-		if($PSCmdlet.ShouldProcess($SafeName, "Delete Safe")) {
+		if ($PSCmdlet.ShouldProcess($SafeName, "Delete Safe")) {
 
 			#Send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -52,5 +51,5 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

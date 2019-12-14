@@ -1,4 +1,4 @@
-﻿function Add-PASDirectory {
+function Add-PASDirectory {
 	<#
 .SYNOPSIS
 Adds an LDAP directory to the Vault
@@ -54,6 +54,9 @@ All parameters can be piped to the function by propertyname
 
 .OUTPUTS
 LDAP Directory Details
+
+.LINK
+https://pspas.pspete.dev/commands/Add-PASDirectory
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlaintextForPassword', '', Justification = "It's a path to password object")]
 	[CmdletBinding()]
@@ -128,7 +131,8 @@ LDAP Directory Details
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
-		} Elseif ($PSCmdlet.ParameterSetName -eq "v10_4") {
+		}
+		Elseif ($PSCmdlet.ParameterSetName -eq "v10_4") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 

@@ -1,4 +1,4 @@
-﻿function Get-PASAccount {
+function Get-PASAccount {
 	<#
 .SYNOPSIS
 Returns details of matching accounts. (Version 10.4 onwards)
@@ -121,7 +121,13 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 New functionality added in version 10.4, limited functionality before this version.
-As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged - nextLink functionality was added#>
+As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged - nextLink functionality was added
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASAccount
+
+#>
+
 	[CmdletBinding(DefaultParameterSetName = "v10ByQuery")]
 	param(
 		[parameter(

@@ -1,4 +1,4 @@
-﻿function Set-PASSafeMember {
+function Set-PASSafeMember {
 	<#
 .SYNOPSIS
 Updates a Safe Member
@@ -105,6 +105,9 @@ member on safe.
 Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true
 
 Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts"
+
+.LINK
+https://pspas.pspete.dev/commands/Set-PASSafeMember
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'keysToRemove', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess)]

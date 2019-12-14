@@ -1,4 +1,4 @@
-﻿function Remove-PASOnboardingRule {
+function Remove-PASOnboardingRule {
 	<#
 .SYNOPSIS
 Deletes an automatic on-boarding rule
@@ -19,8 +19,8 @@ Removes specified on-boarding rule.
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASOnboardingRule
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -31,7 +31,7 @@ None
 		[string]$RuleID
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -40,7 +40,7 @@ None
 
             Get-EscapedString)"
 
-		if($PSCmdlet.ShouldProcess($RuleID, "Delete On-boarding Rule")) {
+		if ($PSCmdlet.ShouldProcess($RuleID, "Delete On-boarding Rule")) {
 
 			#Send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -49,5 +49,5 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

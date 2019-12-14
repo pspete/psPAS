@@ -1,4 +1,4 @@
-﻿function Remove-PASDirectory {
+function Remove-PASDirectory {
 	<#
 .SYNOPSIS
 Removes an LDAP directory configured in the Vault
@@ -20,6 +20,9 @@ WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
 LDAP Directory Details
+
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASDirectory
 #>
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param(
@@ -43,7 +46,7 @@ LDAP Directory Details
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$id"
 
-		if($PSCmdlet.ShouldProcess($id, "Delete Directory")) {
+		if ($PSCmdlet.ShouldProcess($id, "Delete Directory")) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession

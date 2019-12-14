@@ -1,4 +1,4 @@
-﻿function Remove-PASGroupMember {
+function Remove-PASGroupMember {
 	<#
 .SYNOPSIS
 Removes a vault user from a group
@@ -20,8 +20,8 @@ Removes TargetUser from group
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASGroupMember
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -51,7 +51,7 @@ None
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/UserGroups/$GroupID/members/$Member"
 
-		if($PSCmdlet.ShouldProcess($GroupID, "Remove Group Member $Member")) {
+		if ($PSCmdlet.ShouldProcess($GroupID, "Remove Group Member $Member")) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -60,6 +60,6 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

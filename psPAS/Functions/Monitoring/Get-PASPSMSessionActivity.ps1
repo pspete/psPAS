@@ -23,6 +23,9 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum CyberArk Version 10.6
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASPSMSessionActivity
 #>
 	[CmdletBinding()]
 	param(
@@ -48,7 +51,7 @@ Minimum CyberArk Version 10.6
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result.Activities |
@@ -59,6 +62,6 @@ Minimum CyberArk Version 10.6
 
 	}
 
-	END {}#end
+	END { }#end
 
 }

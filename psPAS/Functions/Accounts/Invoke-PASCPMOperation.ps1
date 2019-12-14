@@ -97,6 +97,8 @@ Invoke-PASCPMOperation -AccountID $ID -ReconcileTask
 
 Marks an account for immediate reconcile
 
+.LINK
+https://pspas.pspete.dev/commands/Invoke-PASCPMOperation
 #>
 
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'ChangeCredsForGroup', Justification = "Parameter does not hold password")]

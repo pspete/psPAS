@@ -1,4 +1,4 @@
-﻿function Remove-PASUser {
+function Remove-PASUser {
 	<#
 .SYNOPSIS
 Deletes a vault user
@@ -26,8 +26,8 @@ Deletes vault user "This_User"
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASUser
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

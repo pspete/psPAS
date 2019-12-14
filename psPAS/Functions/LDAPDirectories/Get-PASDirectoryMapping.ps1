@@ -1,4 +1,4 @@
-﻿function Get-PASDirectoryMapping {
+function Get-PASDirectoryMapping {
 	<#
 .SYNOPSIS
 Get directory mappings configured for a directory
@@ -28,6 +28,9 @@ WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
 LDAP Directory Mapping Details
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASDirectoryMapping
 #>
 	[CmdletBinding(DefaultParameterSetName = "All")]
 	param(
@@ -64,7 +67,7 @@ LDAP Directory Mapping Details
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
 
-		if($PSCmdlet.ParameterSetName -eq "Mapping") {
+		if ($PSCmdlet.ParameterSetName -eq "Mapping") {
 
 			#Update URL for request
 			$URI = "$URI/$MappingID"
@@ -74,7 +77,7 @@ LDAP Directory Mapping Details
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result |
@@ -85,5 +88,5 @@ LDAP Directory Mapping Details
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

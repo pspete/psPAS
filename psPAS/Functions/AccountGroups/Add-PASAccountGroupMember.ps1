@@ -1,4 +1,4 @@
-﻿function Add-PASAccountGroupMember {
+function Add-PASAccountGroupMember {
 	<#
 .SYNOPSIS
 Adds an account as a member of an account group.
@@ -31,6 +31,9 @@ None
 
 .NOTES
 Minimum version 9.9.5
+
+.LINK
+https://pspas.pspete.dev/commands/Add-PASAccountGroupMember
 #>
 	[CmdletBinding()]
 	param(

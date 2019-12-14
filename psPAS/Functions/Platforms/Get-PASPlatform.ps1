@@ -1,56 +1,59 @@
 function Get-PASPlatform {
 	<#
-	.SYNOPSIS
-	Retrieves details of Vault platforms.
+.SYNOPSIS
+Retrieves details of Vault platforms.
 
-	.DESCRIPTION
-	Request platform configuration information from the Vault.
-	
-	11.1+ can return details of all platforms.
-	Filters can be used to retrieve a subset of the platforms
+.DESCRIPTION
+Request platform configuration information from the Vault.
 
-	For 9.10+, the "PlatformID" parameter must be used to retrieve details of a single 
-	specified platform from the Vault.
+11.1+ can return details of all platforms.
+Filters can be used to retrieve a subset of the platforms
 
-	The output contained under the "Details" property differs depending 
-	on which method (9.10+ or 11.1+) is used. 
+For 9.10+, the "PlatformID" parameter must be used to retrieve details of a single 
+specified platform from the Vault.
 
-	.PARAMETER Active
-	Filter active/inactive platforms
+The output contained under the "Details" property differs depending 
+on which method (9.10+ or 11.1+) is used. 
 
-	.PARAMETER PlatformType
-	Filter regular/group platforms
+.PARAMETER Active
+Filter active/inactive platforms
 
-	.PARAMETER Search
-	Filter platform by search pattern
+.PARAMETER PlatformType
+Filter regular/group platforms
 
-	.PARAMETER PlatformID
-	The unique ID/Name of the platform.
+.PARAMETER Search
+Filter platform by search pattern
 
-	.EXAMPLE
-	Get-PASPlatform
+.PARAMETER PlatformID
+The unique ID/Name of the platform.
 
-	Return details of all platforms
+.EXAMPLE
+Get-PASPlatform
 
-	.EXAMPLE
-	Get-PASPlatform -Active $true
+Return details of all platforms
 
-	Get all active platforms
+.EXAMPLE
+Get-PASPlatform -Active $true
 
-	.EXAMPLE
-	Get-PASPlatform -Active $true -Search "WIN_"
+Get all active platforms
 
-	Get active platforms matching search string "WIN_"
+.EXAMPLE
+Get-PASPlatform -Active $true -Search "WIN_"
 
-	.EXAMPLE
-	Get-PASPlatform -PlatformID "CyberArk"
+Get active platforms matching search string "WIN_"
 
-	Get details of specific platform CyberArk
+.EXAMPLE
+Get-PASPlatform -PlatformID "CyberArk"
 
-	.NOTES
-	Minimum CyberArk version 9.10
-	CyberArk version 11.1 required for Active, PlatformType & Search paramters.
-	#>
+Get details of specific platform CyberArk
+
+.NOTES
+Minimum CyberArk version 9.10
+CyberArk version 11.1 required for Active, PlatformType & Search paramters.
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASPlatform
+#>
 
 	[CmdletBinding(DefaultParameterSetName = "11_1")]
 	param(
@@ -141,7 +144,7 @@ function Get-PASPlatform {
 							"privilegedAccessWorkflows" = $_.privilegedAccessWorkflows
 						} 
 					} 
-    			}
+				}
 
 			}
 

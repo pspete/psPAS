@@ -1,4 +1,4 @@
-﻿function Add-PASSafe {
+function Add-PASSafe {
 	<#
 .SYNOPSIS
 Adds a new safe to the Vault
@@ -52,6 +52,9 @@ All parameters can be piped by property name
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
+
+.LINK
+https://pspas.pspete.dev/commands/Add-PASSafe
 #>
 	[CmdletBinding()]
 	param(
@@ -60,7 +63,7 @@ To force all output to be shown, pipe to Select-Object *
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateScript( {$_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*"})]
+		[ValidateScript( { $_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*" })]
 		[ValidateLength(0, 28)]
 		[string]$SafeName,
 
@@ -100,7 +103,7 @@ To force all output to be shown, pipe to Select-Object *
 		[int]$NumberOfDaysRetention
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -119,7 +122,7 @@ To force all output to be shown, pipe to Select-Object *
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 
-		if($result) {
+		if ($result) {
 
 			$result.AddSafeResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe
 
@@ -127,6 +130,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

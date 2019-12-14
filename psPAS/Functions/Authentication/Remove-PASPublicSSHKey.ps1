@@ -1,4 +1,4 @@
-﻿function Remove-PASPublicSSHKey {
+function Remove-PASPublicSSHKey {
 	<#
 .SYNOPSIS
 Deletes a specific Public SSH Key from a specific vault user.
@@ -10,10 +10,10 @@ using a corresponding private SSH key.
 "Reset Users Passwords" Vault permission is required.
 The authenticated user who runs this function must be in the same Vault
 Location or higher as the user whose public SSH keys are deleted.
-A user cannot manage their own public SSH keys.
+A user cannot manage their own public SSH�keys.
 
 .PARAMETER UserName
-The username of the Vault user whose public SSH keys will be added
+The username of the Vault user whose public SSH�keys will be added
 A username cannot contain te follwing characters: "%", "&", "+" or ".".
 
 .PARAMETER KeyID
@@ -24,6 +24,8 @@ Remove-PASPublicSSHKey -UserName Splitter -KeyID 415161FE8F2B408BB76BC244258C369
 
 Deletes specified ssh key from vault user "Splitter"
 
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASPublicSSHKey
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -31,7 +33,7 @@ Deletes specified ssh key from vault user "Splitter"
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( {$_ -notmatch ".*(%|\&|\+|\.).*"})]
+		[ValidateScript( { $_ -notmatch ".*(%|\&|\+|\.).*" })]
 		[string]$UserName,
 
 		[parameter(
@@ -42,7 +44,7 @@ Deletes specified ssh key from vault user "Splitter"
 
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -51,7 +53,7 @@ Deletes specified ssh key from vault user "Splitter"
 
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/$KeyID"
 
-		if($PSCmdlet.ShouldProcess($KeyID, "Delete Public SSH Key")) {
+		if ($PSCmdlet.ShouldProcess($KeyID, "Delete Public SSH Key")) {
 
 			#Send Request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -60,5 +62,5 @@ Deletes specified ssh key from vault user "Splitter"
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

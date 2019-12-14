@@ -1,4 +1,4 @@
-﻿function Set-PASOnboardingRule {
+function Set-PASOnboardingRule {
 	<#
 .SYNOPSIS
 Updates an automatic onboarding rule.
@@ -66,6 +66,9 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum Version: 10.5
+
+.LINK
+https://pspas.pspete.dev/commands/Set-PASOnboardingRule
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -173,12 +176,12 @@ Minimum Version: 10.5
 		#create request body
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove Id | ConvertTo-Json
 
-		if($PSCmdlet.ShouldProcess($TargetPlatformId, "Update On-Boarding Rule $ID")) {
+		if ($PSCmdlet.ShouldProcess($TargetPlatformId, "Update On-Boarding Rule $ID")) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-			if($result) {
+			if ($result) {
 
 				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
 
@@ -188,6 +191,6 @@ Minimum Version: 10.5
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

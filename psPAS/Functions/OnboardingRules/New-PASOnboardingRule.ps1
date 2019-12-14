@@ -1,4 +1,4 @@
-﻿function New-PASOnboardingRule {
+function New-PASOnboardingRule {
 	<#
 .SYNOPSIS
 Adds a new on-boarding rule to the Vault
@@ -90,10 +90,13 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Before running:
-Create the Safe and the reconcile account according to the rule’s definition.
+Create the Safe and the reconcile account according to the rule�s definition.
 Associate the reconcile account with the platform that is defined in the rule.
 Make sure that the user whose credentials will be used for this session is a member of
 the Safe specified in the TargetSafeName parameter with the Add accounts permission.
+
+.LINK
+https://pspas.pspete.dev/commands/New-PASOnboardingRule
 #>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "post_V10_2")]
 	param(
@@ -225,7 +228,7 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
 		#Get Values for ShouldProcess Message
-		If($PSCmdlet.ParameterSetName -eq "post_V10_2") {
+		If ($PSCmdlet.ParameterSetName -eq "post_V10_2") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
@@ -233,7 +236,8 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 			$SafeName = $TargetSafeName
 			$PlatformID = $TargetPlatformId
 
-		} ElseIf($PSCmdlet.ParameterSetName -eq "pre_V10_2") {
+		}
+		ElseIf ($PSCmdlet.ParameterSetName -eq "pre_V10_2") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -243,12 +247,12 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 
 		}
 
-		if($PSCmdlet.ShouldProcess($SafeName, "Add On-Boarding Rule Using '$PlatformID'")) {
+		if ($PSCmdlet.ShouldProcess($SafeName, "Add On-Boarding Rule Using '$PlatformID'")) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-			if($result) {
+			if ($result) {
 
 				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
 
@@ -258,6 +262,6 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

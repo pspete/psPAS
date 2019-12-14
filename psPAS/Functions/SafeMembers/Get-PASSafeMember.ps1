@@ -1,4 +1,4 @@
-﻿function Get-PASSafeMember {
+function Get-PASSafeMember {
 	<#
 .SYNOPSIS
 Lists the members of a Safe
@@ -30,7 +30,7 @@ Manage Safe Members							ManageSafeMembers
 Validate Safe Content						ValidateSafeContent
 Backup Safe								BackupSafe
 Access Safe without confirmation					<NOT RETURNED>
-Authorize account requests (level1, level2)				<NOT RETURNED>
+Authorize account requests�(level1, level2)				<NOT RETURNED>
 
 If a Safe Member Name is provided, the full permissions of the member on the Safe will be returned:
 
@@ -83,6 +83,9 @@ contains SafeName in the output
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASSafeMember
 #>
 	[CmdletBinding()]
 	param(

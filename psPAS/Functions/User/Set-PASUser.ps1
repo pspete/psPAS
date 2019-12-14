@@ -1,4 +1,4 @@
-﻿function Set-PASUser {
+function Set-PASUser {
 	<#
 .SYNOPSIS
 Updates a vault user
@@ -55,16 +55,16 @@ Requires CyberArk version 11.1+
 The user permissions in the vault.
 To grant authorization to a user, the same authorization must be held by the account logged on to the API.
 Valid values:
-• AddSafes
-• AuditUsers
-• AddUpdateUsers
-• ResetUsersPasswords
-• ActivateUsers
-• AddNetworkAreas
-• ManageDirectoryMapping
-• ManageServerFileCategories
-• BackupAllSafes
-• RestoreAllSafes
+� AddSafes
+� AuditUsers
+� AddUpdateUsers
+� ResetUsersPasswords
+� ActivateUsers
+� AddNetworkAreas
+� ManageDirectoryMapping
+� ManageServerFileCategories
+� BackupAllSafes
+� RestoreAllSafes
 Requires CyberArk version 11.1+
 
 .PARAMETER ChangePassOnNextLogon
@@ -206,6 +206,9 @@ Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
 set-pasuser -UserName Bill -Disabled $true
 
 Disables vault user Bill
+
+.LINK
+https://pspas.pspete.dev/commands/Set-PASUser
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

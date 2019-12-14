@@ -1,4 +1,4 @@
-﻿function Get-PASAccountGroup {
+function Get-PASAccountGroup {
 	<#
 .SYNOPSIS
 Returns all the account groups in a specific Safe.
@@ -33,6 +33,9 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum CyberArk version 9.10
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASAccountGroup
 #>
 	[CmdletBinding()]
 	param(

@@ -1,4 +1,4 @@
-﻿function Add-PASGroupMember {
+function Add-PASGroupMember {
 	<#
 .SYNOPSIS
 Adds a vault user as a group member
@@ -42,8 +42,8 @@ Adds TargetUser to PVWAMonitor group
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Add-PASGroupMember
 #>
 	[CmdletBinding(DefaultParameterSetName = "post_10_6")]
 	param(

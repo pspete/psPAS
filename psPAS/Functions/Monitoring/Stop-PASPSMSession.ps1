@@ -17,11 +17,11 @@ Terminates Live PSM Session identified by the session UUID.
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
-
 .NOTES
 Minimum CyberArk Version 10.1
+
+.LINK
+https://pspas.pspete.dev/commands/Stop-PASPSMSession
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -45,7 +45,7 @@ Minimum CyberArk Version 10.1
 		#Create URL for Request
 		$URI = "$Script:BaseURI/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Terminate"
 
-		if($PSCmdlet.ShouldProcess($LiveSessionId, "Terminate PSM Session")) {
+		if ($PSCmdlet.ShouldProcess($LiveSessionId, "Terminate PSM Session")) {
 
 			#send request to PAS web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
@@ -54,6 +54,6 @@ Minimum CyberArk Version 10.1
 
 	} #process
 
-	END {}#end
+	END { }#end
 
 }

@@ -1,4 +1,4 @@
-﻿function New-PASDirectoryMapping {
+function New-PASDirectoryMapping {
 	<#
 .SYNOPSIS
 Adds a new Directory Mapping for an existing directory
@@ -91,7 +91,9 @@ AddUpdateUsers, AddSafes, BackupAllSafes
 .INPUTS
 All parameters can be piped to the function by propertyname
 
-.OUTPUTS
+
+.LINK
+https://pspas.pspete.dev/commands/New-PASDirectoryMapping
 #>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "AuthNames")]
 	param(
@@ -247,12 +249,14 @@ All parameters can be piped to the function by propertyname
 			#v10.10
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $NeededVersion
 
-		} Elseif ($PSBoundParameters.keys -match "VaultGroups|Location|LDAPQuery") {
+		}
+		Elseif ($PSBoundParameters.keys -match "VaultGroups|Location|LDAPQuery") {
 
 			#v10.7
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
-		} Else {
+		}
+		Else {
 
 			#v10.4
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion

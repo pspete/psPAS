@@ -1,4 +1,4 @@
-﻿function Set-PASSafe {
+function Set-PASSafe {
 	<#
 .SYNOPSIS
 Updates a safe in the Vault
@@ -45,6 +45,9 @@ Specify either this parameter or NumberOfVersionsRetention
 Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfVersionsRetention 10
 
 Updates description and version retention on SAFE
+
+.LINK
+https://pspas.pspete.dev/commands/Set-PASSafe
 #>
 	[CmdletBinding(SupportsShouldProcess,
 		DefaultParameterSetName = "Update")]

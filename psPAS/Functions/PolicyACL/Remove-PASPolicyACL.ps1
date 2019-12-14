@@ -1,4 +1,4 @@
-﻿function Remove-PASPolicyACL {
+function Remove-PASPolicyACL {
 	<#
 .SYNOPSIS
 Delete all privileged commands on policy
@@ -20,8 +20,8 @@ Deletes Rule with ID of 13 from UNIXSSH platform.
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASPolicyACL
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -40,7 +40,7 @@ None
 
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -51,7 +51,7 @@ None
 
                 Get-EscapedString)"
 
-		if($PSCmdlet.ShouldProcess($PolicyID, "Delete Rule $Id")) {
+		if ($PSCmdlet.ShouldProcess($PolicyID, "Delete Rule $Id")) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -60,6 +60,6 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }
