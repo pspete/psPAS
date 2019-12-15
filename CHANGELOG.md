@@ -284,7 +284,7 @@ _2 years since first commit Anniversary Edition_
 ## 2.4.3 (February 15th 2019)
 
 - Bug Fix
-  - Remove debug output which could contain plaintex passwords.
+  - Remove debug output which could contain plaintext passwords.
     - Thanks [karrth](https://github.com/karrth)!
 
 ## 2.4.0 (February 1st 2019)
