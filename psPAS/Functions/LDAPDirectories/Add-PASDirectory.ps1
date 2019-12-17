@@ -43,11 +43,11 @@ Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -HostAddresses "192.168
 
 Adds the Domain.Com directory to the vault
 
-.EXAMPLE
-Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "bind@domain.com" -BindPassword $pw -DomainName DOMAIN `
--DomainBaseContext "DC=DOMAIN,DC=COM" -DCList @(@{"Name"="192.168.99.1";"Port"=389;"SSLConnect"=$false},@{"Name"="192.168.99.1";"Port"=389;"SSLConnect"=$false}) -Port 389
+.EXAMPLE 
+Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "BindUser@domain.com" -BindPassword $($Creds.Password) -DomainName DOMAIN `
+-DomainBaseContext "DC=domain,DC=com" -DCList @{"Name"="DC.domain.com";"Port"=636;"SSLConnect"=$true} -SSLConnect $true -Port 636
 
-(For 10.7+) - Adds the Domain.Com directory to the vault
+(For 10.7+) - Adds the Domain.Com directory to the vault, configured for LDAPS.
 
 .INPUTS
 All parameters can be piped to the function by propertyname
