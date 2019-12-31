@@ -10,9 +10,9 @@ Contains all published methods of the API up to CyberArk v11.1.
 
 ## Module Status
 
-| Master Branch            | Code Coverage            | PowerShell Gallery       | Downloads                  | Latest Build            | License                    |
-|--------------------------|--------------------------|--------------------------|----------------------------|-------------------------|----------------------------|
-|[![appveyor][]][av-site]  | [![coveralls][]][cv-site]|[![psgallery][]][ps-site] |[![downloads][]][ps-site]   |[![tests][]][tests-site] |[![license][]][license-link]|
+| Master Branch            | Code Coverage            | CodeFactor               |  PowerShell Gallery       | Downloads                  | Latest Build            | License                     |
+|--------------------------|--------------------------|--------------------------|---------------------------|----------------------------|-------------------------|-----------------------------|
+|[![appveyor][]][av-site]  | [![coveralls][]][cv-site]|[![codefactor][]][cf-site]| [![psgallery][]][ps-site] |[![downloads][]][ps-site]   |[![tests][]][tests-site] |[![license][]][license-link] |
 
 [appveyor]:https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true
 [av-site]:https://ci.appveyor.com/project/pspete/pspas/branch/master
@@ -25,6 +25,8 @@ Contains all published methods of the API up to CyberArk v11.1.
 [tests]:https://img.shields.io/appveyor/tests/pspete/pspas.svg
 [tests-site]:https://ci.appveyor.com/project/pspete/pspas
 [downloads]:https://img.shields.io/powershellgallery/dt/pspas.svg?color=blue
+[cf-site]:https://www.codefactor.io/repository/github/pspete/pspas
+[codefactor]:https://www.codefactor.io/repository/github/pspete/pspas/badge
 
 ----------
 
