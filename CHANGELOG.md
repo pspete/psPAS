@@ -26,8 +26,8 @@
     - MappingAuthorizations parameter no longer accepts pipeline input
   - `Add-PASDiscoveredAccount`
     - Added features introduced in version 10.8
-    - Supports Account Dependancy & AWS specific parameters
-  - `Get-PASPlatform`
+    - Supports Account Dependency & AWS specific parameters
+  - `Get-PASPlatform`s
     - Added features introduced in version 11.1
     - New options for finding platforms
   - `Remove-PASUser`
