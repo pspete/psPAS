@@ -19,14 +19,6 @@ Accepts an array of any additional parameter keys which should be removed from t
 object. Specifying additional parameter names/keys here means that the default value assigned
 to the BaseParameters parameter will remain unchanged.
 
-.PARAMETER BaseParameters
-This is the default list of parameter names/keys which will be removed from the passed object.
-Contains all standard parameters associated with PowerShell advanced functions, as well as
-additional parameter names related to the CyberArk REST API but which are never included in a
-JSON object sent to the API (URL for instance).
-For normal operation, there is no need to pass anything for the BaseParameters parameter.
-The default value should be used.
-
 .EXAMPLE
 $PSBoundParameters | Get-PASParameter
 
@@ -50,56 +42,39 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 		[parameter(
 			Mandatory = $false)]
-		[array]$ParametersToRemove = @(),
+		[array]$ParametersToRemove = @()
 
-		[parameter(
-			Mandatory = $false)]
-		[array]$BaseParameters = @("Debug",
-			"ErrorAction",
-			"ErrorVariable",
-			"OutVariable",
-			"OutBuffer",
-			"PipelineVariable",
-			"Verbose",
-			"WarningAction",
-			"WarningVariable",
-			"WhatIf",
-			"Confirm",
-			"SessionVariable",
-			"InformationAction",
-			"InformationVariable",
-			"UseTransaction",
-			"UseClassicAPI")
 	)
 
 	BEGIN {
 
-
+		$BaseParameters = [Collections.Generic.List[String]]@(
+			[System.Management.Automation.PSCmdlet]::CommonParameters + 
+			[System.Management.Automation.PSCmdlet]::OptionalCommonParameters + 
+			"SessionVariable" + 
+			"UseClassicAPI"
+		)
 
 	}#begin
 
 	PROCESS {
 
-		#Combine base parameters and any additional parameters to remove
-		($BaseParameters + $ParametersToRemove) |
+		$Parameters.Keys | ForEach-Object {
 
-		ForEach-Object {
+			$FilteredParameters = @{ }
 
-			If ($Parameters.Contains($_)) {
+		} {
+			
+			if (($BaseParameters + $ParametersToRemove) -notcontains $PSItem) {
 
-				#remove specified parameters from passed values
-				$Parameters.Remove($_)
+				$FilteredParameters[$PSItem] = $Parameters[$PSItem];
 
 			}
 
-		}
+		} { $FilteredParameters }
 
 	}#process
 
-	END {
+	END { }#end
 
-		#Return Object
-		$Parameters
-
-	}#end
 }
