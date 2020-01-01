@@ -1,4 +1,4 @@
-function Add-PASAccount {
+﻿function Add-PASAccount {
 	<#
 .SYNOPSIS
 Adds a new privileged account to the Vault

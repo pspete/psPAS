@@ -1,4 +1,4 @@
-function New-PASUser {
+﻿function New-PASUser {
 	<#
 .SYNOPSIS
 Creates a new vault user

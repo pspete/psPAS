@@ -1,4 +1,4 @@
-function Set-PASUser {
+﻿function Set-PASUser {
 	<#
 .SYNOPSIS
 Updates a vault user

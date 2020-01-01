@@ -1,4 +1,4 @@
-function Get-PASSafeMember {
+﻿function Get-PASSafeMember {
 	<#
 .SYNOPSIS
 Lists the members of a Safe

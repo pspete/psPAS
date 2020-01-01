@@ -1,4 +1,4 @@
-function New-PASOnboardingRule {
+﻿function New-PASOnboardingRule {
 	<#
 .SYNOPSIS
 Adds a new on-boarding rule to the Vault

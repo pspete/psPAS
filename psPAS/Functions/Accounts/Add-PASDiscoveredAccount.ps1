@@ -1,4 +1,4 @@
-function Add-PASDiscoveredAccount {
+﻿function Add-PASDiscoveredAccount {
 	<#
 .SYNOPSIS
 Adds discovered account or SSH key as a pending account in the accounts feed.

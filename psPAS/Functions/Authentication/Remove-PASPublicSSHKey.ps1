@@ -1,4 +1,4 @@
-function Remove-PASPublicSSHKey {
+﻿function Remove-PASPublicSSHKey {
 	<#
 .SYNOPSIS
 Deletes a specific Public SSH Key from a specific vault user.

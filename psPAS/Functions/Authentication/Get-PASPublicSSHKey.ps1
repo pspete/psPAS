@@ -1,4 +1,4 @@
-function Get-PASPublicSSHKey {
+﻿function Get-PASPublicSSHKey {
 	<#
 .SYNOPSIS
 Retrieves a user's SSH Keys.
