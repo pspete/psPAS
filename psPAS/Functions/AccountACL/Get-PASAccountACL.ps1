@@ -1,4 +1,4 @@
-function Get-PASAccountACL {
+﻿function Get-PASAccountACL {
 	<#
 .SYNOPSIS
 Lists privileged commands rule for an account

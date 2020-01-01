@@ -1,4 +1,4 @@
-function Add-PASPublicSSHKey {
+﻿function Add-PASPublicSSHKey {
 	<#
 .SYNOPSIS
 Adds an authorised public SSH key foraspecific user in the Vault.
