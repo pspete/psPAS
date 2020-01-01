@@ -51,7 +51,7 @@ https://pspas.pspete.dev/commands/Disable-PASCPMAutoManagement
 
 		$MinimumVersion = [System.Version]"10.4"
 
-		$ops = @(
+		$ops = [Collections.Generic.List[Object]]@(
 			@{
 				"path"  = "/secretManagement/automaticManagementEnabled"
 				"op"    = "replace"
@@ -67,11 +67,11 @@ https://pspas.pspete.dev/commands/Disable-PASCPMAutoManagement
 
 		if ($PSCmdlet.ParameterSetName -eq "manualManagementReason") {
 			
-			$ops += @{
+			$null = $ops.Add(@{
 				"path"  = "/secretManagement/manualManagementReason"
 				"op"    = "replace"
 				"value" = $Reason
-			}
+			})
 		}
 
 		Set-PASAccount -AccountID $AccountID -operations $ops

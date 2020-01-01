@@ -42,7 +42,7 @@ https://pspas.pspete.dev/commands/Enable-PASCPMAutoManagement
 
 		$MinimumVersion = [System.Version]"10.4"
 
-		$ops = @(
+		$ops = [Collections.Generic.List[Object]]@(
 			@{
 				"path"  = "/secretManagement/automaticManagementEnabled"
 				"op"    = "replace"

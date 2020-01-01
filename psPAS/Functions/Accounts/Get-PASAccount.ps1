@@ -273,8 +273,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 				If ($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 
 					#get results
-					$AccountArray = @()
-					$AccountArray += ($result | Select-Object value).value
+					$AccountList = [Collections.Generic.List[Object]]::New(($result | Select-Object -ExpandProperty value))
 
 					#iterate any nextLinks
 					$NextLink = $result.nextLink
@@ -282,10 +281,10 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 						$URI = "$Script:BaseURI/$NextLink"
 						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 						$NextLink = $result.nextLink
-						$AccountArray += ($result | Select-Object value).value
+						$null = $AccountList.AddRange(($result | Select-Object -ExpandProperty value))
 					}
 
-					$return = $AccountArray
+					$return = $AccountList
 
 				}
 
@@ -309,7 +308,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 					#Get internal properties from found account
 					$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
 
-					$InternalProps = New-object -TypeName psobject
+					$InternalProps = New-Object -TypeName psobject
 
 					#For every account property
 					For ($int = 0; $int -lt $InternalProperties.length; $int++) {

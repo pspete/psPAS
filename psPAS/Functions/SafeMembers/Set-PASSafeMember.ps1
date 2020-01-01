@@ -272,7 +272,7 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 		$permissions = @{ }
 
 		#Create array of keys to remove from top level of required JSON structure.
-		[array]$keysToRemove += "SafeName", "MemberName"
+		$keysToRemove = [Collections.Generic.List[String]]@('SafeName', 'MemberName')
 
 	}#begin
 
@@ -305,7 +305,7 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 			$permissions[$_] = $boundParameters[$_]
 
 			#non-base parameter name
-			$keysToRemove += $_
+			$null = $keysToRemove.Add($_)
 
 		}
 
