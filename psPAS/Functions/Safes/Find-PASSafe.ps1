@@ -57,36 +57,43 @@ https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes
 	)
 
 	BEGIN {
+
 		$MinimumVersion = [System.Version]"10.1"
-	}#begin
-
-	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create base URL for request
 		$URI = "$Script:BaseURI/api/Safes"
 		$SearchQuery = $null
 		$Limit = 25   #default if you call the API with no value
 
-		If ( -Not [string]::IsNullOrEmpty($search) ) {
-			$SearchQuery = "&search=$($search | Get-EscapedString)"
-		}
+	}#begin
 
-		$Safes = @()
+	PROCESS {
+
+		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+		
+		If ( -Not [string]::IsNullOrEmpty($search) ) {
+
+			$SearchQuery = "&search=$($search | Get-EscapedString)"
+
+		}
 
 		$InitialResponse = Invoke-PASRestMethod -Uri "$URI`?limit=$Limit$SearchQuery" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
+
 		$Total = $InitialResponse.Total
 
-		$Safes += $InitialResponse.Safes
+		If ($Total -gt 0) {
 
-		For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+			$Safes = [Collections.Generic.List[Object]]::New(($InitialResponse.Safes))
 
-			$Safes += (Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec).Safes
+			For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+
+				$Null = $Safes.AddRange((Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec).Safes)
+
+			}
+
+			$Safes	
 
 		}
-
-		$Safes
 
 	}#process
 
