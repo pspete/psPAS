@@ -389,7 +389,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 	PROCESS {
 
 		if ($PSCmdlet.ParameterSetName -match "^108_") {
-			
+
 			#v10.8 required for AWS & Dependancies
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 

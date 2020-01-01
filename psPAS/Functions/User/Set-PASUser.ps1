@@ -658,7 +658,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 			If ($businessAddress.keys -gt 0) {
 
 				$boundParameters["businessAddress"] = $businessAddress
-		
+
 			}
 
 			$boundParameters.keys | Where-Object { $internetParams -contains $_ } | ForEach-Object {
@@ -671,7 +671,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 			If ($internet.keys -gt 0) {
 
 				$boundParameters["internet"] = $internet
-		
+
 			}
 
 			$boundParameters.keys | Where-Object { $phonesParams -contains $_ } | ForEach-Object {
@@ -685,7 +685,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 			If ($phones.keys -gt 0) {
 
 				$boundParameters["phones"] = $phones
-		
+
 			}
 
 			$boundParameters.keys | Where-Object { $personalDetailsParams -contains $_ } | ForEach-Object {
@@ -698,7 +698,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 			If ($personalDetails.keys -gt 0) {
 
 				$boundParameters["personalDetails"] = $personalDetails
-		
+
 			}
 
 			#Construct Request Body

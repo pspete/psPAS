@@ -9,11 +9,11 @@ Request platform configuration information from the Vault.
 11.1+ can return details of all platforms.
 Filters can be used to retrieve a subset of the platforms
 
-For 9.10+, the "PlatformID" parameter must be used to retrieve details of a single 
+For 9.10+, the "PlatformID" parameter must be used to retrieve details of a single
 specified platform from the Vault.
 
-The output contained under the "Details" property differs depending 
-on which method (9.10+ or 11.1+) is used. 
+The output contained under the "Details" property differs depending
+on which method (9.10+ or 11.1+) is used.
 
 .PARAMETER Active
 Filter active/inactive platforms
@@ -134,7 +134,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 			#11.1 returns result under "platforms" property
 			If ($result.Platforms) {
 
-				$result = $result | Select-Object -ExpandProperty Platforms | 
+				$result = $result | Select-Object -ExpandProperty Platforms |
 				Select-Object @{ Name = 'PlatformID'; Expression = { $_.general.id } }, @{ Name = 'Active'; Expression = { $_.general.active } }, @{ Name = 'Details'; Expression = { [pscustomobject]@{
 							"General"                   = $_.general
 							"properties"                = $_.properties
@@ -142,8 +142,8 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 							"credentialsManagement"     = $_.credentialsManagement
 							"sessionManagement"         = $_.sessionManagement
 							"privilegedAccessWorkflows" = $_.privilegedAccessWorkflows
-						} 
-					} 
+						}
+					}
 				}
 
 			}

@@ -80,7 +80,7 @@ Uses the credentials of the current user to send the web request
 
 .PARAMETER Certificate
 See Invoke-WebRequest
-Specifies the client certificate that is used for a secure web request. 
+Specifies the client certificate that is used for a secure web request.
 Enter a variable that contains a certificate or a command or expression that gets the certificate.
 
 .PARAMETER CertificateThumbprint
@@ -374,7 +374,7 @@ https://pspas.pspete.dev/commands/New-PASSession
 			ValueFromPipelinebyPropertyName = $false
 		)]
 		[X509Certificate]$Certificate,
-		
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,

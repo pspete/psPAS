@@ -70,7 +70,7 @@ https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes
 	PROCESS {
 
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-		
+
 		If ( -Not [string]::IsNullOrEmpty($search) ) {
 
 			$SearchQuery = "&search=$($search | Get-EscapedString)"
@@ -91,7 +91,7 @@ https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes
 
 			}
 
-			$Safes	
+			$Safes
 
 		}
 

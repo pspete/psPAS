@@ -71,7 +71,7 @@ Retention period in days for user activity logs
 Requires CyberArk version 10.10+
 
 .EXAMPLE
-Get-PASDirectoryMapping -DirectoryName $Directory -MappingID $ID | 
+Get-PASDirectoryMapping -DirectoryName $Directory -MappingID $ID |
 Set-PASDirectoryMapping -DirectoryName $Directory -AddUpdateUsers -AuditUsers
 
 Configures the AddUpdateUsers & AuditUsers authorisations on the mapping.
@@ -86,7 +86,7 @@ Sets AddUpdateUsers, ActivateUsers & ResetUsersPasswords authorisations on the d
 Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch `
 -UserActivityLogPeriod 365
 
-Sets UserActivityLogPeriod for the mapping to 365 
+Sets UserActivityLogPeriod for the mapping to 365
 
 .INPUTS
 All parameters can be piped to the function by propertyname

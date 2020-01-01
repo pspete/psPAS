@@ -31,7 +31,7 @@ https://pspas.pspete.dev/commands/Remove-PASUser
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
-		
+
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,

@@ -4,7 +4,7 @@ function Enable-PASCPMAutoManagement {
 Enables an account for Automatic CPM Management.
 
 .DESCRIPTION
-Enables an account for CPM management by setting automaticManagementEnabled to $true, 
+Enables an account for CPM management by setting automaticManagementEnabled to $true,
 and clearing any value set for manualManagementReason.
 
 Attempting to set automaticManagementEnabled to $true without clearing manualManagementReason
@@ -38,7 +38,7 @@ https://pspas.pspete.dev/commands/Enable-PASCPMAutoManagement
 
 	)
 
-	BEGIN { 
+	BEGIN {
 
 		$MinimumVersion = [System.Version]"10.4"
 

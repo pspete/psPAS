@@ -43,7 +43,7 @@ Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -HostAddresses "192.168
 
 Adds the Domain.Com directory to the vault
 
-.EXAMPLE 
+.EXAMPLE
 Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "BindUser@domain.com" -BindPassword $($Creds.Password) -DomainName DOMAIN `
 -DomainBaseContext "DC=domain,DC=com" -DCList @{"Name"="DC.domain.com";"Port"=636;"SSLConnect"=$true} -SSLConnect $true -Port 636
 

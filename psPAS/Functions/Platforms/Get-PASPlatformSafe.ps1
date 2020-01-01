@@ -33,12 +33,12 @@ https://pspas.pspete.dev/commands/Get-PASPlatformSafe
 	}#begin
 
 	PROCESS {
-		
+
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
 		$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)/Safes"
-			
+
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 

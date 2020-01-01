@@ -221,13 +221,13 @@ https://pspas.pspete.dev/commands/Get-PASAccountPassword
 
 			}
 			elseif ($PSCmdlet.ParameterSetName -eq "v10") {
-				
+
 				#Unescape returned string and remove enclosing quotes.
 				$result = $([System.Text.RegularExpressions.Regex]::Unescape($result) -replace '^"|"$', '')
 
 			}
-			
-			
+
+
 			[PSCustomObject] @{"Password" = $result } |
 
 			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential

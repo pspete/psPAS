@@ -49,9 +49,9 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 	BEGIN {
 
 		$BaseParameters = [Collections.Generic.List[String]]@(
-			[System.Management.Automation.PSCmdlet]::CommonParameters + 
-			[System.Management.Automation.PSCmdlet]::OptionalCommonParameters + 
-			"SessionVariable" + 
+			[System.Management.Automation.PSCmdlet]::CommonParameters +
+			[System.Management.Automation.PSCmdlet]::OptionalCommonParameters +
+			"SessionVariable" +
 			"UseClassicAPI"
 		)
 
@@ -64,7 +64,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 			$FilteredParameters = @{ }
 
 		} {
-			
+
 			if (($BaseParameters + $ParametersToRemove) -notcontains $PSItem) {
 
 				$FilteredParameters[$PSItem] = $Parameters[$PSItem];
