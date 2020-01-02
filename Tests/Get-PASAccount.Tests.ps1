@@ -124,9 +124,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ Get-PASAccount -ID "SomeID"  } | Should Throw
-$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = "1.0"
+				{ Get-PASAccount -ID "SomeID" } | Should Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}
@@ -236,7 +236,7 @@ $Script:ExternalVersion = "0.0"
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
 						"Count" = 30
-						"Value" = [pscustomobject]@{"Prop1" = "Val1" }
+						"Value" = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
 					}
 				}
 				$response = Get-PASAccount -search SomeSearchTerm
@@ -250,13 +250,14 @@ $Script:ExternalVersion = "0.0"
 						[pscustomobject]@{
 							"Count"    = 30
 							"nextLink" = "SomeLink"
-							"Value"    = [pscustomobject]@{"Prop1" = "Val1" }
+							"Value"    = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
 						}
 						$script:iteration++
-					} else {
+					}
+					else {
 						[pscustomobject]@{
 							"Count" = 30
-							"Value" = [pscustomobject]@{"Prop1" = "Val1" }
+							"Value" = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
 						}
 					}
 				}
@@ -282,7 +283,7 @@ $Script:ExternalVersion = "0.0"
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
 						"Count" = 30
-						"Value" = [pscustomobject]@{"Prop1" = "Val1" }
+						"Value" = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
 					}
 				}
 				$response = Get-PASAccount -search SomeSearch
