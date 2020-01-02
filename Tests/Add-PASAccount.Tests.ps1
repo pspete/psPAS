@@ -179,7 +179,7 @@ Describe $FunctionName {
 				$InputObj | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account | Get-Member -MemberType NoteProperty).length -eq 11
+					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account | Get-Member -MemberType NoteProperty).length -eq 10
 				} -Times 1 -Exactly -Scope It
 			}
 
