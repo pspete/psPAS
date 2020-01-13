@@ -239,7 +239,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 			ParameterSetName = "11_1"
 		)]
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "legacy"
 		)]
