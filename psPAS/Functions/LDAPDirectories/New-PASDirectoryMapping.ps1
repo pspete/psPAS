@@ -181,13 +181,17 @@ https://pspas.pspete.dev/commands/New-PASDirectoryMapping
 
 		$body = $boundParameters | ConvertTo-Json
 
-		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		if ($PSCmdlet.ShouldProcess($MappingName, "Create Directory Mapping")) {
 
-		If ($result) {
+			#send request to web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-			#Return Results
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
+			If ($result) {
+
+				#Return Results
+				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
+
+			}
 
 		}
 
