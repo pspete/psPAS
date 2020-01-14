@@ -5,7 +5,7 @@ Returns details of matching accounts. (Version 10.4 onwards)
 Returns information about a single account. (Version 9.3 - 10.3)
 
 .DESCRIPTION
-Version 10.4 onwards:
+Version 10.4+:
 This method returns a list of either a specific, or all the accounts in the Vault.
 Requires the following permission in the Safe: List accounts.
 
@@ -27,8 +27,13 @@ A specific account ID to return details for.
 .PARAMETER search
 The search term or keywords.
 
+.PARAMETER searchType
+Get accounts that either contain or start with the value specified in the Search parameter.
+
 .PARAMETER sort
-An account property to sort the results by.
+Property or properties by which to sort returned accounts,
+followed by asc (default) or desc to control sort direction.
+Separate multiple properties with commas, up to a maximum of three properties.
 
 .PARAMETER offset
 An offset for the search results (to discard the first x results for instance).
@@ -40,7 +45,7 @@ this value determines the number of accounts to return, starting from the first 
 
 .PARAMETER filter
 A filter for the search.
-Requires format: "SafeName eq YourSafe"
+Requires format: "SafeName eq 'YourSafe'"
 
 .PARAMETER Keywords
 Keyword to search for.
@@ -69,9 +74,19 @@ Get-PASAccount -search root -sort name -offset 100 -limit 5
 Returns all accounts matching "root", sorted by AccountName, Search results offset by 100 and limited to 5.
 
 .EXAMPLE
+Get-PASAccount -search XUser -searchType startswith
+
+Returns all accounts starting with "XUser".
+
+.EXAMPLE
 Get-PASAccount -filter "SafeName eq TargetSafe"
 
 Returns all accounts found in TargetSafe
+
+.EXAMPLE
+Get-PASAccount -filter "SafeName eq 'TargetSafe'" -sort "userName desc"
+
+Returns all accounts found in TargetSafe, sort by username in descending order.
 
 .EXAMPLE
 Get-PASAccount -Keywords root -Safe UNIX
@@ -150,6 +165,14 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v10ByQuery"
 		)]
+		[ValidateSet("startswith", "contains")]
+		[string]$searchType,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByQuery"
+		)]
 		[string[]]$sort,
 
 		[parameter(
@@ -200,6 +223,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"10.4"
+		$RequiredVersion = [System.Version]"11.2"
 	}#begin
 
 	PROCESS {
@@ -217,8 +241,19 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 		#Version 10.4 process
 		If ($PSCmdlet.ParameterSetName -match "v10") {
 
-			#check minimum version
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			#check version
+			if ($PSBoundParameters.ContainsKey("searchType")) {
+
+				#check required version
+				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+
+			}
+			Else {
+
+				#check minimum version
+				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+
+			}
 
 			#assign new type name
 			$typeName = "psPAS.CyberArk.Vault.Account.V10"

@@ -58,7 +58,7 @@ Describe $FunctionName {
 
 			It "sends request - v10ByQuery parameterset" {
 
-				Get-PASAccount -search SearchTerm
+				Get-PASAccount -search SearchTerm -searchType contains
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
