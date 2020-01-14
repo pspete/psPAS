@@ -58,7 +58,7 @@ Describe $FunctionName {
 
 			It "does not throw - v10.4 parameterset" {
 				$Script:ExternalVersion = "10.4"
-				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes } | Should -Not -Throw
+				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes } | Should -Not -Throw
 			}
 
 
@@ -73,13 +73,13 @@ Describe $FunctionName {
 			}
 
 			It "sends request" {
-				$InputObj | New-PASDirectoryMapping -RestoreAllSafes
+				$InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-				$InputObj | New-PASDirectoryMapping -RestoreAllSafes
+				$InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDirectory/Mappings"
@@ -89,14 +89,14 @@ Describe $FunctionName {
 			}
 
 			It "uses expected method" {
-				$InputObj | New-PASDirectoryMapping -RestoreAllSafes
+				$InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "1.0"
-				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes } | Should -Throw
+				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes, BackupAllSafes } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
@@ -108,13 +108,13 @@ Describe $FunctionName {
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "10.9"
-				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -VaultGroups "Group1", "Group2" -UserActivityLogPeriod 10 } | Should -Throw
+				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes, BackupAllSafes -VaultGroups "Group1", "Group2" -UserActivityLogPeriod 10 } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
 			It "does not throw if version requirement met" {
 				$Script:ExternalVersion = "10.10"
-				{ $InputObj | New-PASDirectoryMapping -RestoreAllSafes -BackupAllSafes -VaultGroups "Group1", "Group2" -UserActivityLogPeriod 10 } | Should -Not -Throw
+				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes, BackupAllSafes -VaultGroups "Group1", "Group2" -UserActivityLogPeriod 10 } | Should -Not -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 

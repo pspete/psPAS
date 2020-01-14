@@ -57,13 +57,13 @@ Describe $FunctionName {
 			}
 
 			It "sends request" {
-				$InputObj | Set-PASDirectoryMapping -AddUpdateUsers -ActivateUsers
+				$InputObj | Set-PASDirectoryMapping -MappingAuthorizations AddUpdateUsers ActivateUsers
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-				$InputObj | Set-PASDirectoryMapping -AddUpdateUsers -ActivateUsers
+				$InputObj | Set-PASDirectoryMapping -MappingAuthorizations AddUpdateUsers, ActivateUsers
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDirectory/Mappings/SomeMappingID"
@@ -73,7 +73,7 @@ Describe $FunctionName {
 			}
 
 			It "uses expected method" {
-				$InputObj | Set-PASDirectoryMapping -AddUpdateUsers -ActivateUsers
+				$InputObj | Set-PASDirectoryMapping -MappingAuthorizations AddUpdateUsers, ActivateUsers
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
 			}

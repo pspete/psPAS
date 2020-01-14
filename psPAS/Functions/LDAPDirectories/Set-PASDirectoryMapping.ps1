@@ -1,10 +1,10 @@
 function Set-PASDirectoryMapping {
 	<#
 .SYNOPSIS
-Adds a new Directory Mapping for an existing directory
+Updates an existing Directory Mapping for a directory
 
 .DESCRIPTION
-Adds an LDAP directory to the Vault.
+Updates a  directory mapping.
 Membership of the Vault Admins group required.
 
 .PARAMETER DirectoryName
@@ -33,38 +33,10 @@ This value cannot be updated.
 Match LDAP query results to mapping
 
 .PARAMETER MappingAuthorizations
-The integer flag representation of the security attributes and authorizations that will be applied when an
-LDAP User Account is created in the Vault.
+Specify authorizations that will be applied when an LDAP User Account is created in the Vault.
 To apply specific authorizations to a mapping, the user must have the same authorizations.
-Possible authorizations: AddSafes, AuditUsers, AddUpdateUsers, ResetUsersPasswords, ActivateUsers, AddNetworkAreas,
-ManageServerFileCategories, BackupAllSafes, RestoreAllSafes.
-
-.PARAMETER AddUpdateUsers
-Specify switch to add the AddUpdateUsers authorization to the directory mapping
-
-.PARAMETER AddSafes
-Specify switch to add the AddSafes authorization to the directory mapping
-
-.PARAMETER AddNetworkAreas
-Specify switch to add the AddNetworkAreas authorization to the directory mapping
-
-.PARAMETER ManageServerFileCategories
-Specify switch to add the ManageServerFileCategories authorization to the directory mapping
-
-.PARAMETER AuditUsers
-Specify switch to add the AuditUsers authorization to the directory mapping
-
-.PARAMETER BackupAllSafes
-Specify switch to add the BackupAllSafes authorization to the directory mapping
-
-.PARAMETER RestoreAllSafes
-Specify switch to add the RestoreAllSafes authorization to the directory mapping
-
-.PARAMETER ResetUsersPasswords
-Specify switch to add the ResetUsersPasswords authorization to the directory mapping
-
-.PARAMETER ActivateUsers
-Specify switch to add the ActivateUsers authorization to the directory mapping
+Possible authorizations: AddSafes, AuditUsers, AddUpdateUsers, ResetUsersPasswords, ActivateUsers,
+AddNetworkAreas, ManageServerFileCategories, BackupAllSafes, RestoreAllSafes.
 
 .PARAMETER UserActivityLogPeriod
 Retention period in days for user activity logs
@@ -72,13 +44,13 @@ Requires CyberArk version 10.10+
 
 .EXAMPLE
 Get-PASDirectoryMapping -DirectoryName $Directory -MappingID $ID |
-Set-PASDirectoryMapping -DirectoryName $Directory -AddUpdateUsers -AuditUsers
+Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpdateUsers, AuditUsers
 
 Configures the AddUpdateUsers & AuditUsers authorisations on the mapping.
 
 .EXAMPLE
 Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch `
--AddUpdateUsers -ActivateUsers -ResetUsersPasswords
+-MappingAuthorizations AddUpdateUsers, ActivateUsers & ResetUsersPasswords
 
 Sets AddUpdateUsers, ActivateUsers & ResetUsersPasswords authorisations on the directory mapping
 
@@ -94,7 +66,7 @@ All parameters can be piped to the function by propertyname
 .LINK
 https://pspas.pspete.dev/commands/Set-PASDirectoryMapping
 #>
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "AuthFlags")]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -147,73 +119,9 @@ https://pspas.pspete.dev/commands/Set-PASDirectoryMapping
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "AuthFlags"
+			ValueFromPipelinebyPropertyName = $false
 		)]
-		[int[]]$MappingAuthorizations,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames"
-		)]
-		[switch]$AddUpdateUsers,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames"
-		)]
-		[switch]$AddSafes,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames"
-		)]
-		[switch]$AddNetworkAreas,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames"
-		)]
-		[switch]$ManageServerFileCategories,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames"
-		)]
-		[switch]$AuditUsers,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames"
-		)]
-		[switch]$BackupAllSafes,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames"
-		)]
-		[switch]$RestoreAllSafes,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames"
-		)]
-		[switch]$ResetUsersPasswords,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AuthNames"
-		)]
-		[switch]$ActivateUsers,
+		[Authorizations]$MappingAuthorizations,
 
 		[parameter(
 			Mandatory = $false,
@@ -225,73 +133,47 @@ https://pspas.pspete.dev/commands/Set-PASDirectoryMapping
 	)
 
 	BEGIN {
+
 		$MinimumVersion = [System.Version]"10.7"
 		$RequiredVersion = [System.Version]"10.10"
-
-		#Enum Flag values for Mapping Authorizations
-		[Flags()]enum Authorizations{
-			AddUpdateUsers = 1
-			AddSafes = 2
-			AddNetworkAreas = 4
-			ManageServerFileCategories = 16
-			AuditUsers = 32
-			BackupAllSafes = 512
-			RestoreAllSafes = 1024
-			ResetUsersPasswords = 8388608
-			ActivateUsers = 16777216
-		}
 
 	}#begin
 
 	PROCESS {
 
+		#Get request parameters
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove DirectoryName, MappingID, MappingAuthorizations
+
 		#Ensure minimum required version is being used.
-		if ($PSBoundParameters.ContainsKey("UserActivityLogPeriod")) {
+		switch ($PSBoundParameters.Keys) {
 
-			#10.10 Functionality
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+			'MappingAuthorizations' {
 
-		}
-		Else {
+				#Transform MappingAuthorizations
+				$boundParameters.Add("MappingAuthorizations", [array][int]$MappingAuthorizations)
+				Continue
 
-			#10.7 functionality
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			}
+
+			'UserActivityLogPeriod' {
+
+				#v10.10
+				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+				Continue
+
+			}
+
+			Default {
+
+				#10.7 functionality
+				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+
+			}
 
 		}
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID"
-
-		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove DirectoryName, MappingID,
-		AddUpdateUsers, AddSafes, AddNetworkAreas, ManageServerFileCategories, AuditUsers, BackupAllSafes,
-		RestoreAllSafes, ResetUsersPasswords, ActivateUsers
-
-		#If individual authorisations have been specified
-		if ($PSCmdlet.ParameterSetName -match "^AuthNames") {
-
-			[array]$Authorizations = @()
-
-			#For each bound parameter
-			$PSBoundParameters.keys | ForEach-Object {
-
-				#where parameter name is defined in the Authorizations Enum
-				if ([enum]::IsDefined([Authorizations], "$_")) {
-
-					#Add enum name to array
-					$Authorizations = $Authorizations + $_
-
-				}
-			}
-
-			If ($Authorizations.count -gt 0) {
-
-				#Add enum integer flag as array to MappingAuthorizations request parameter
-				$boundParameters["MappingAuthorizations"] = [array][int][Authorizations]$Authorizations
-
-			}
-
-		}
 
 		$body = $boundParameters | ConvertTo-Json
 
@@ -303,9 +185,7 @@ https://pspas.pspete.dev/commands/Set-PASDirectoryMapping
 			If ($result) {
 
 				#Return Results
-				$result |
-
-				Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
+				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
 
 			}
 
