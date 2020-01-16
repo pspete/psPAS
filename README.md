@@ -4,7 +4,7 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v11.1.
+Contains all published methods of the API up to CyberArk v11.2.
 
 ----------
 

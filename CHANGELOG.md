@@ -1,5 +1,12 @@
 # psPAS
 
+## 4.0.XX (January XX 2020)
+
+### Module update to cover CyberArk 11.2 API features
+
+- Updates
+  - Breaking Changes
+
 ## 3.3.88 (December 13th 2019)
 
 ### Module update to cover CyberArk 11.1 API features
