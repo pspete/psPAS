@@ -8,7 +8,7 @@ Contains all published methods of the API up to CyberArk v11.2.
 
 ----------
 
-## Module Status
+## Module Status [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 | Master Branch            | Code Coverage            | CodeFactor               |  PowerShell Gallery       | Downloads                  | Latest Build            | License                     |
 |--------------------------|--------------------------|--------------------------|---------------------------|----------------------------|-------------------------|-----------------------------|
@@ -48,8 +48,6 @@ Contains all published methods of the API up to CyberArk v11.2.
 ## Usage
 
 ![psPAS](docs/assets/images/shop_banner_symbol.png)
-
-More Documentation : [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ### Authenticate
 
