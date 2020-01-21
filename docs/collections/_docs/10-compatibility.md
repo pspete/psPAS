@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2019-12-114T01:33:52-00:00
+last_modified_at: 2021-21-014T01:33:52-00:00
 toc: false
 ---
 
@@ -127,6 +127,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                               | **11.1**                                           |Deletes a Directory Mapping
 [`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             | **10.4**                                           |Enables Automatic CPM Managment for an account
 [`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           | **10.4**                                           |Disables Automatic CPM Managment for an account
+[`Test-PASPSMRecording`][Test-PASPSMRecording]                                           | **11.2**                                           |Determine validity of PSM Session Recording
 
 [New-PASSession]:/commands/New-PASSession
 [Close-PASSession]:/commands/Close-PASSession
@@ -232,6 +233,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [Remove-PASDirectoryMapping]:/commands/Remove-PASDirectoryMapping.ps1
 [Get-PASPlatformSafe]:/commands/Get-PASPlatformSafe.ps1
 [New-PASGroup]:/commands/New-PASGroup.ps1
+[Test-PASPSMRecording]:/commands/Test-PASPSMRecording.ps1
 
 ## Notes
 

@@ -158,6 +158,8 @@ commands:
         url: /commands/Get-PASPSMRecordingActivity
       - title: "Get-PASPSMRecordingProperty"
         url: /commands/Get-PASPSMRecordingProperty
+      - title: "Test-PASPSMRecording"
+        url: /commands/Test-PASPSMRecording
 
   - title: "Onboarding Rules"
     children:
