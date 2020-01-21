@@ -6,9 +6,11 @@ Use PowerShell to manage CyberArk via the Web Services REST API.
 
 Contains all published methods of the API up to CyberArk v11.2.
 
+Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
+
 ----------
 
-## Module Status [https://pspas.pspete.dev](https://pspas.pspete.dev)
+## Module Status
 
 | Master Branch            | Code Coverage            | CodeFactor               |  PowerShell Gallery       | Downloads                  | Latest Build            | License                     |
 |--------------------------|--------------------------|--------------------------|---------------------------|----------------------------|-------------------------|-----------------------------|
