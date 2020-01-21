@@ -6,6 +6,8 @@ Use PowerShell to manage CyberArk via the Web Services REST API.
 
 Contains all published methods of the API up to CyberArk v11.2.
 
+Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
+
 ----------
 
 ## Module Status
@@ -844,6 +846,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                               |**11.1**            |Deletes a Directory Mapping
 [`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             |**10.4**            |Enables Automatic CPM Managment for an account
 [`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           |**10.4**            |Disables Automatic CPM Managment for an account
+[`Test-PASPSMRecording`][Test-PASPSMRecording]                                           | **11.2**           |Determine validity of PSM Session Recording
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
@@ -949,6 +952,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Remove-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectoryMapping.ps1
 [Get-PASPlatformSafe]:/psPAS/Functions/Platforms/Get-PASPlatformSafe.ps1
 [New-PASGroup]:/psPAS/Functions/User/New-PASGroup.ps1
+[Test-PASPSMRecording]:/psPAS/Functions/Monitoring/Test-PASPSMRecording.ps1
 
 ## Installation
 
