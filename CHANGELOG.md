@@ -1,11 +1,35 @@
 # psPAS
 
-## 4.0.XX (January XX 2020)
+## 3.4.XX (January XX 2020)
 
 ### Module update to cover CyberArk 11.2 API features
 
 - Updates
   - Breaking Changes
+    - Parameters Changed: `New-PASDirectoryMapping` & `Set-PASDirectoryMapping`
+      - Functions updated to use enum flag for mapping authorization options
+      - `MappingAuthorizations`
+        - Parameter now accepts string values representing the autorizations to configure for the mapping instead of an integer representation of them.
+      - The following parameters are no longer accepted by the functions, the string values must be provided to the `MappingAuthorizations` parameter instead:
+        - `AddUpdateUsers`
+        - `AddSafes`
+        - `AddNetworkAreas`
+        - `ManageServerFileCategories`
+        - `AuditUsers`
+        - `BackupAllSafes`
+        - `RestoreAllSafes`
+        - `ResetUsersPasswords`
+        - `ActivateUsers`
+
+  - New Function
+    - Added `Test-PASPSMRecording`
+
+  - Fixes & Other Updates
+    - Update `Get-PASAccount` to accept `searchType` parameter. Relevant to 11.2+.
+    - Fixed incorrectly declared mandatory parameter in `Set-PASUser`
+    - Performance related updates to internal module mechanics.
+    - All functions help text updated to include link to function documentation on https://pspas.pspete.dev
+    - Corrections & updates to documentation on https://pspas.pspete.dev
 
 ## 3.3.88 (December 13th 2019)
 
