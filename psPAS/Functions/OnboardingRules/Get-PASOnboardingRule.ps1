@@ -1,4 +1,4 @@
-﻿function Get-PASOnboardingRule {
+function Get-PASOnboardingRule {
 	<#
 .SYNOPSIS
 Gets all automatic on-boarding rules
@@ -31,8 +31,8 @@ Outputs Object of Custom Type psPAS.CyberArk.Vault.OnboardingRule
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
-.NOTES
-Not Tested
+.LINK
+https://pspas.pspete.dev/commands/Get-PASOnboardingRule
 #>
 	[CmdletBinding()]
 	param(

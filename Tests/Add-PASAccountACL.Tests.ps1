@@ -109,7 +109,7 @@ Describe $FunctionName {
 
 			It "has a request body with expected number of properties" {
 
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 5
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 4
 
 			}
 

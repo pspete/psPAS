@@ -1,19 +1,22 @@
 Function Get-PASPTARule {
 	<#
-	.SYNOPSIS
-	Returns risky activities rules from PTA
+.SYNOPSIS
+Returns risky activities rules from PTA
 
-	.DESCRIPTION
-	Returns risky activities rules configured in PTA
+.DESCRIPTION
+Returns risky activities rules configured in PTA
 
-	.EXAMPLE
+.EXAMPLE
 Get-PASPTARule
 
-	Returns all risky activities rules from PTA
+Returns all risky activities rules from PTA
 
-	.NOTES
-	Minimum Version CyberArk 10.4
-	#>
+.NOTES
+Minimum Version CyberArk 10.4
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASPTARule
+#>
 	[CmdletBinding()]
 	param(	)
 
@@ -31,7 +34,7 @@ Get-PASPTARule
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result.riskyActivities |
@@ -42,5 +45,5 @@ Get-PASPTARule
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

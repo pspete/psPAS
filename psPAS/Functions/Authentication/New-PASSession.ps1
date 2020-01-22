@@ -1,175 +1,178 @@
-﻿function New-PASSession {
+function New-PASSession {
 	<#
-	.SYNOPSIS
-	Authenticates a user to CyberArk Vault/API.
+.SYNOPSIS
+Authenticates a user to CyberArk Vault/API.
 
-	.DESCRIPTION
-	Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object
-	which are used in subsequent calls to the API.
-	In addition, this method allows you to set a new password.
-	Will attempt authentication against the V10 API by default.
-	For older CyberArk versions, specify the -UseClassicAPI switch parameter to force use of the V9 API endpoint.
-	Windows authentication is only supported (from CyberArk 10.4+).
-	Authenticate using CyberArk, LDAP, RADIUS, SAML or Shared authentication (From CyberArk version 9.7+),
-	For CyberArk version older than 9.7:
-		Only CyberArk Authentication method is supported.
-		newPassword Parameter is not supported.
-		useRadiusAuthentication Parameter is not supported.
-		connectionNumber Parameter is not supported.
+.DESCRIPTION
+Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object
+which are used in subsequent calls to the API.
+In addition, this method allows you to set a new password.
+Will attempt authentication against the V10 API by default.
+For older CyberArk versions, specify the -UseClassicAPI switch parameter to force use of the V9 API endpoint.
+Windows authentication is only supported (from CyberArk 10.4+).
+Authenticate using CyberArk, LDAP, RADIUS, SAML or Shared authentication (From CyberArk version 9.7+),
+For CyberArk version older than 9.7:
+	Only CyberArk Authentication method is supported.
+	newPassword Parameter is not supported.
+	useRadiusAuthentication Parameter is not supported.
+	connectionNumber Parameter is not supported.
 
-	.PARAMETER Credential
-	A Valid PSCredential object.
+.PARAMETER Credential
+A Valid PSCredential object.
 
-	.PARAMETER UseClassicAPI
-	Specify the UseClassicAPI to send the authentication request via the Classic (v9) API endpoint.
-	Relevant for CyberArk versions earlier than 10.4
+.PARAMETER UseClassicAPI
+Specify the UseClassicAPI to send the authentication request via the Classic (v9) API endpoint.
+Relevant for CyberArk versions earlier than 10.4
 
-	.PARAMETER newPassword
-	Optional parameter, enables you to change a CyberArk users password.
-	Must be supplied as a SecureString (Not Plain Text).
+.PARAMETER newPassword
+Optional parameter, enables you to change a CyberArk users password.
+Must be supplied as a SecureString (Not Plain Text).
 
-	.PARAMETER SAMLToken
-	SAML token that identifies the session, encoded in BASE 64.
+.PARAMETER SAMLToken
+SAML token that identifies the session, encoded in BASE 64.
 
-	.PARAMETER UseSharedAuthentication
-	Specify the UseSharedAuthentication switch to use the Shared Authentication API endpoint to logon
+.PARAMETER UseSharedAuthentication
+Specify the UseSharedAuthentication switch to use the Shared Authentication API endpoint to logon
 
-	.PARAMETER useRadiusAuthentication
-	Whether or not users will be authenticated via a RADIUS server.
+.PARAMETER useRadiusAuthentication
+Whether or not users will be authenticated via a RADIUS server.
 
-	.PARAMETER type
-	When using the version 10 API endpoint, specify the type of authentication to use.
-	Valid values are CyberArk, LDAP, Windows or RADIUS
-	Windows is only a valid option for version 10.4 onward.
+.PARAMETER type
+When using the version 10 API endpoint, specify the type of authentication to use.
+Valid values are CyberArk, LDAP, Windows or RADIUS
+Windows is only a valid option for version 10.4 onward.
 
-	.PARAMETER OTP
-	One Time Passcode for RADIUS authentication.
+.PARAMETER OTP
+One Time Passcode for RADIUS authentication.
 
-	.PARAMETER OTPMode
-	Specify if OTP is to be sent in 'Append' (appended to the password) or 'Challenge' mode (sent in response to RADIUS Challenge).
+.PARAMETER OTPMode
+Specify if OTP is to be sent in 'Append' (appended to the password) or 'Challenge' mode (sent in response to RADIUS Challenge).
 
-	.PARAMETER OTPDelimiter
-	The character to use as a delimiter when appending the OTP to the password. Defaults to comma ",".
+.PARAMETER OTPDelimiter
+The character to use as a delimiter when appending the OTP to the password. Defaults to comma ",".
 
-	.PARAMETER RadiusChallenge
-	Specify if Radius challenge is satisfied by 'OTP' or 'Password'.
-	If "OTP" (Default), Password will be sent first, with OTP as the challenge response.
-	If "Password", then OTP value will be sent first, and Password will be sent as the challenge response.
+.PARAMETER RadiusChallenge
+Specify if Radius challenge is satisfied by 'OTP' or 'Password'.
+If "OTP" (Default), Password will be sent first, with OTP as the challenge response.
+If "Password", then OTP value will be sent first, and Password will be sent as the challenge response.
 
-	.PARAMETER connectionNumber
-	In order to allow more than one connection for the same user simultaneously, each request
-	should be sent with different 'connectionNumber'.
-	Valid values: 1-100
+.PARAMETER connectionNumber
+In order to allow more than one connection for the same user simultaneously, each request
+should be sent with different 'connectionNumber'.
+Valid values: 1-100
 
-	.PARAMETER SkipVersionCheck
-	If the SkipVersionCheck switch is specified, Get-PASServer will not be called after
-	successfully authenticating. Get-PASServer is not supported before version 9.7.
+.PARAMETER SkipVersionCheck
+If the SkipVersionCheck switch is specified, Get-PASServer will not be called after
+successfully authenticating. Get-PASServer is not supported before version 9.7.
 
-	.PARAMETER BaseURI
-	A string containing the base web address to send te request to.
-	Pass the portion the PVWA HTTP address.
-	Do not include "/PasswordVault/"
+.PARAMETER BaseURI
+A string containing the base web address to send te request to.
+Pass the portion the PVWA HTTP address.
+Do not include "/PasswordVault/"
 
-	.PARAMETER PVWAAppName
-	The name of the CyberArk PVWA Virtual Directory.
-	Defaults to PasswordVault
+.PARAMETER PVWAAppName
+The name of the CyberArk PVWA Virtual Directory.
+Defaults to PasswordVault
 
-	.PARAMETER UseDefaultCredentials
-	See Invoke-WebRequest
-	Uses the credentials of the current user to send the web request
+.PARAMETER UseDefaultCredentials
+See Invoke-WebRequest
+Uses the credentials of the current user to send the web request
 
-	.PARAMETER Certificate
-	See Invoke-WebRequest
-	Specifies the client certificate that is used for a secure web request. 
-	Enter a variable that contains a certificate or a command or expression that gets the certificate.
+.PARAMETER Certificate
+See Invoke-WebRequest
+Specifies the client certificate that is used for a secure web request.
+Enter a variable that contains a certificate or a command or expression that gets the certificate.
 
-	.PARAMETER CertificateThumbprint
-	See Invoke-WebRequest
-	The thumbprint of the certificate to use for client certificate authentication.
+.PARAMETER CertificateThumbprint
+See Invoke-WebRequest
+The thumbprint of the certificate to use for client certificate authentication.
 
-	.PARAMETER SkipCertificateCheck
-	Skips certificate validation checks.
-	Using this parameter is not secure and is not recommended.
-	This switch is only intended to be used against known hosts using a self-signed certificate for testing purposes.
-	Use at your own risk.
+.PARAMETER SkipCertificateCheck
+Skips certificate validation checks.
+Using this parameter is not secure and is not recommended.
+This switch is only intended to be used against known hosts using a self-signed certificate for testing purposes.
+Use at your own risk.
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 
-	Logon to Version 10 with LDAP credential
+Logon to Version 10 with LDAP credential
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
 
-	Logon to Version 10 with CyberArk credential
+Logon to Version 10 with CyberArk credential
 
-	.EXAMPLE
-	New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
+.EXAMPLE
+New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
 
-	Logon to Version 10 with Windows Integrated Authentication
+Logon to Version 10 with Windows Integrated Authentication
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI
 
-	Logon to Version 9 with credential
-	Request would be sent to PVWA URL https://PVWA/PasswordVault/
+Logon to Version 9 with credential
+Request would be sent to PVWA URL https://PVWA/PasswordVault/
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseClassicAPI
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseClassicAPI
 
-	Logon to Version 9 where PVWA Virtual Directory has non-default name
-	Request would be sent to PVWA URL https://PVWA/CustomVault/
+Logon to Version 9 where PVWA Virtual Directory has non-default name
+Request would be sent to PVWA URL https://PVWA/CustomVault/
 
-	.EXAMPLE
-	New-PASSession -UseSharedAuthentication -BaseURI https://PVWA.domain.com
+.EXAMPLE
+New-PASSession -UseSharedAuthentication -BaseURI https://PVWA.domain.com
 
-	Gets authorisation token by authenticating to a CyberArk Vault using shared authentication.
+Gets authorisation token by authenticating to a CyberArk Vault using shared authentication.
 
-	.EXAMPLE
-	New-PASSession -SAMLToken $SAMLToken -BaseURI https://PVWA.domain.com
+.EXAMPLE
+New-PASSession -SAMLToken $SAMLToken -BaseURI https://PVWA.domain.com
 
-	Authenticates to a CyberArk Vault using SAML authentication.
+Authenticates to a CyberArk Vault using SAML authentication.
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
 
-	Logon to Version 10 using RADIUS
+Logon to Version 10 using RADIUS
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True
 
-	Logon using RADIUS via the Classic API
+Logon using RADIUS via the Classic API
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Challenge
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Challenge
 
-	Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
+Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
 
-	Logon using RADIUS & OTP (Append Mode) via the Classic API
+Logon using RADIUS & OTP (Append Mode) via the Classic API
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append
 
-	Logon to Version 10 using RADIUS & Push Authentication (works with DUO 2FA)
+Logon to Version 10 using RADIUS & Push Authentication (works with DUO 2FA)
 
-	.EXAMPLE
-	New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
+.EXAMPLE
+New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
 
-	If authentication via certificates is configured, provide CertificateThumbprint details.
+If authentication via certificates is configured, provide CertificateThumbprint details.
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck
 
-	Skip SSL Certificate validation for the session.
+Skip SSL Certificate validation for the session.
 
-	.EXAMPLE
-	New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
 
-	Logon to Version 10 with LDAP credential & Client Certificate
-	#>
+Logon to Version 10 with LDAP credential & Client Certificate
+
+.LINK
+https://pspas.pspete.dev/commands/New-PASSession
+#>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "v10")]
 	param(
 		[parameter(
@@ -371,7 +374,7 @@
 			ValueFromPipelinebyPropertyName = $false
 		)]
 		[X509Certificate]$Certificate,
-		
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,

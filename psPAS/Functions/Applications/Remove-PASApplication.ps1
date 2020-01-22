@@ -1,4 +1,4 @@
-﻿function Remove-PASApplication {
+function Remove-PASApplication {
 	<#
 .SYNOPSIS
 Deletes an application
@@ -19,8 +19,8 @@ Deletes application "NewApp"
 All parameters can be piped by property name
 Should accept pipeline objects from other *-PASApplication* functions
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASApplication
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -32,7 +32,7 @@ None
 		[string]$AppID
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -41,7 +41,7 @@ None
 
             Get-EscapedString)/"
 
-		if($PSCmdlet.ShouldProcess($AppID, "Delete Application")) {
+		if ($PSCmdlet.ShouldProcess($AppID, "Delete Application")) {
 
 			#Send Request
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -50,6 +50,6 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

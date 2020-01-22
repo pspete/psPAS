@@ -3,14 +3,14 @@ title: "About psPAS"
 layout: single
 permalink: /about/
 excerpt: "All about psPAS"
-last_modified_at: 2019-09-01T01:33:52-00:00
+last_modified_at: 2020-21-01T01:33:52-00:00
 toc: true
 author_profile: true
 header:
   image: /assets/images/shop_banner_symbol.png
 ---
 
-Initially released in 2017, psPAS contains almost 100 commands for the CyberArk REST API.
+Initially released in 2017, psPAS contains over 100 commands for the CyberArk REST API.
 
 The module is designed to be compatible with CyberArk from Version 9 onwards, providing CyberArk users with an accessible resource for automating simple day to day administration tasks as well as more complex requirements.
 

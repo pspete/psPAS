@@ -70,9 +70,10 @@ Describe $FunctionName {
 
 			It "sends request with expected query" {
 
+				Find-PASSafe -search SomeQuery
+
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					Find-PASSafe -search SomeQuery
 					$URI -eq "$($Script:BaseURI)/api/Safes?limit=25&search=SomeQuery"
 
 				} -Times 1 -Exactly -Scope It
@@ -102,7 +103,13 @@ Describe $FunctionName {
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
 						"Total" = 100
-						"Safes" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+						"Safes" = @(
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+						)
 					}
 				}
 
@@ -122,7 +129,14 @@ Describe $FunctionName {
 
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
-						"Safes" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+						"Total" = 20
+						"Safes" = @(
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+						)
 					}
 				}
 
@@ -147,13 +161,19 @@ Describe $FunctionName {
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
 						"Total" = 100
-						"Safes" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+						"Safes" = @(
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
+							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+						)
 					}
 				}
 
 				$response = Find-PASSafe
 
-				$response.count | Should be 4
+				$response.count | Should be 20
 
 			}
 

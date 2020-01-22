@@ -1,22 +1,25 @@
 Function Get-PASPTAEvent {
 	<#
-	.SYNOPSIS
-	Returns PTA security events
+.SYNOPSIS
+Returns PTA security events
 
-	.DESCRIPTION
-	Returns PTA security events
+.DESCRIPTION
+Returns PTA security events
 
-	.PARAMETER lastUpdatedEventDate
-	Parameter description
+.PARAMETER lastUpdatedEventDate
+Parameter description
 
-	.EXAMPLE
+.EXAMPLE
 Get-PASPTAEvent
 
-	Returns all PTA security events
+Returns all PTA security events
 
-	.NOTES
-	Minimum Version CyberArk 10.3
-	#>
+.NOTES
+Minimum Version CyberArk 10.3
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASPTAEvent
+#>
 	[CmdletBinding()]
 	param(
 		[parameter(

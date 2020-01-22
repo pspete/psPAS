@@ -52,6 +52,9 @@ Creates a new request for access to account with ID in $ID
 
 .NOTES
 Minimum CyberArk Version 9.10
+
+.LINK
+https://pspas.pspete.dev/commands/New-PASRequest
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

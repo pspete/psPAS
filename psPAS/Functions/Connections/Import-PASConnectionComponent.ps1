@@ -1,24 +1,26 @@
 function Import-PASConnectionComponent {
 	<#
-	.SYNOPSIS
-	Import a new connection component.
+.SYNOPSIS
+Import a new connection component.
 
-	.DESCRIPTION
-	Allows administrators to import a new connection component, such as those available to download from the
-	CyberArk Marketplace.
+.DESCRIPTION
+Allows administrators to import a new connection component, such as those available to download from the
+CyberArk Marketplace.
 
-	.PARAMETER ImportFile
-	The zip file that contains the connection component.
+.PARAMETER ImportFile
+The zip file that contains the connection component.
 
-	.EXAMPLE
-	Import-PASConnectionComponent -ImportFile ConnectionComponent.zip
+.EXAMPLE
+Import-PASConnectionComponent -ImportFile ConnectionComponent.zip
 
-	Imports ConnectionComponent.zip Connection Component
+Imports ConnectionComponent.zip Connection Component
 
-	.NOTES
-	Minimum CyberArk version 10.3
+.NOTES
+Minimum CyberArk version 10.3
 
-	#>
+.LINK
+https://pspas.pspete.dev/commands/Import-PASConnectionComponent
+#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

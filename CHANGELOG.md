@@ -1,5 +1,36 @@
 # psPAS
 
+## 3.4.XX (January XX 2020)
+
+### Module update to cover CyberArk 11.2 API features
+
+- Updates
+  - Breaking Changes
+    - Parameters Changed: `New-PASDirectoryMapping` & `Set-PASDirectoryMapping`
+      - Functions updated to use enum flag for mapping authorization options
+      - `MappingAuthorizations`
+        - Parameter now accepts string values representing the autorizations to configure for the mapping instead of an integer representation of them.
+      - The following parameters are no longer accepted by the functions, the string values must be provided to the `MappingAuthorizations` parameter instead:
+        - `AddUpdateUsers`
+        - `AddSafes`
+        - `AddNetworkAreas`
+        - `ManageServerFileCategories`
+        - `AuditUsers`
+        - `BackupAllSafes`
+        - `RestoreAllSafes`
+        - `ResetUsersPasswords`
+        - `ActivateUsers`
+
+  - New Function
+    - Added `Test-PASPSMRecording`
+
+  - Fixes & Other Updates
+    - Update `Get-PASAccount` to accept `searchType` parameter. Relevant to 11.2+.
+    - Fixed incorrectly declared mandatory parameter in `Set-PASUser`
+    - Performance related updates to internal module mechanics.
+    - All functions help text updated to include link to function documentation on https://pspas.pspete.dev
+    - Corrections & updates to documentation on https://pspas.pspete.dev
+
 ## 3.3.88 (December 13th 2019)
 
 ### Module update to cover CyberArk 11.1 API features
@@ -26,8 +57,8 @@
     - MappingAuthorizations parameter no longer accepts pipeline input
   - `Add-PASDiscoveredAccount`
     - Added features introduced in version 10.8
-    - Supports Account Dependancy & AWS specific parameters
-  - `Get-PASPlatform`
+    - Supports Account Dependency & AWS specific parameters
+  - `Get-PASPlatform`s
     - Added features introduced in version 11.1
     - New options for finding platforms
   - `Remove-PASUser`
@@ -284,7 +315,7 @@ _2 years since first commit Anniversary Edition_
 ## 2.4.3 (February 15th 2019)
 
 - Bug Fix
-  - Remove debug output which could contain plaintex passwords.
+  - Remove debug output which could contain plaintext passwords.
     - Thanks [karrth](https://github.com/karrth)!
 
 ## 2.4.0 (February 1st 2019)

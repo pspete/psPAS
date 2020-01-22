@@ -1,4 +1,4 @@
-﻿function Get-PASSafe {
+function Get-PASSafe {
 	<#
 .SYNOPSIS
 Returns safe details from the vault.
@@ -20,11 +20,13 @@ If SafeName or query are not specified, FindAll is the default behaviour.
 See Invoke-WebRequest
 Specify a timeout value in seconds
 
-
 .EXAMPLE
 Get-PASSafe -SafeName SAFE1
 
 Returns details of "Safe1"
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASSafe
 #>
 	[CmdletBinding(DefaultParameterSetName = "byAll")]
 	param(

@@ -13,10 +13,10 @@
 	Author            = 'Pete Maan'
 
 	# Company or vendor of this module
-	# CompanyName = ''
+	CompanyName = 'PSPETE LTD'
 
 	# Copyright statement for this module
-	Copyright         = '(c) 2019 Pete Maan. All rights reserved.'
+	Copyright         = '(c) 2020 PSPETE LTD. All rights reserved.'
 
 	# Description of the functionality provided by this module
 	Description       = 'Module for CyberArk Privileged Access Security Web Service REST API'
@@ -180,7 +180,8 @@
 		'New-PASGroup',
 		'Get-PASPlatformSafe',
 		'Remove-PASDirectoryMapping',
-		'Disable-PASCPMAutoManagement'
+		'Disable-PASCPMAutoManagement',
+		'Test-PASPSMRecording'
 	)
 
 	# AliasesToExport   = @( )
@@ -203,7 +204,7 @@
 			IconUri    = 'https://pspas.pspete.dev/assets/images/symbol.png'
 
 			# ReleaseNotes of this module
-			# ReleaseNotes = ''
+			ReleaseNotes = 'https://github.com/pspete/psPAS/blob/master/CHANGELOG.md'
 
 		} # End of PSData hashtable
 

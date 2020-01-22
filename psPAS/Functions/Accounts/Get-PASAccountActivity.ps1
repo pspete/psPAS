@@ -1,4 +1,4 @@
-﻿function Get-PASAccountActivity {
+function Get-PASAccountActivity {
 	<#
 .SYNOPSIS
 Returns activities for an account.
@@ -32,7 +32,9 @@ Outputs Object of Custom Type psPAS.CyberArk.Vault.Account.Activity
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
 
-.NOTES#>
+.LINK
+https://pspas.pspete.dev/commands/Get-PASAccountActivity
+#>
 	[CmdletBinding()]
 	param(
 		[parameter(

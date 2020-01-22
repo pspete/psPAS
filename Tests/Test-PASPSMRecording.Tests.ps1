@@ -43,51 +43,44 @@ Describe $FunctionName {
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+					$true
 				}
 
 				$InputObj = [pscustomobject]@{
-					"DirectoryName" = "SomeDirectory"
-					"MappingID"     = "SomeMappingID"
-					"MappingName"   = "SomeName"
-					"LDAPBranch"    = "SomeBranch"
+					"SessionID" = "777_7"
 
 				}
+
+				$response = $InputObj | Test-PASPSMRecording
 
 			}
 
 			It "sends request" {
-				$InputObj | Set-PASDirectoryMapping -MappingAuthorizations AddUpdateUsers ActivateUsers
+
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-				$InputObj | Set-PASDirectoryMapping -MappingAuthorizations AddUpdateUsers, ActivateUsers
+
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDirectory/Mappings/SomeMappingID"
+					$URI -eq "$($Script:BaseURI)/API/Recordings/777_7/valid"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
-				$InputObj | Set-PASDirectoryMapping -MappingAuthorizations AddUpdateUsers, ActivateUsers
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
-				{ $InputObj | Set-PASDirectoryMapping } | Should Throw
-				$Script:ExternalVersion = "0.0"
-			}
+			It "sends request with no body" {
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "10.9"
-				{ $InputObj | Set-PASDirectoryMapping -UserActivityLogPeriod 10 } | Should Throw
-				$Script:ExternalVersion = "0.0"
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
 			}
 
 		}

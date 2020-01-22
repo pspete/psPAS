@@ -1,23 +1,26 @@
-﻿function Set-PASUserPassword {
+function Set-PASUserPassword {
 	<#
-	.SYNOPSIS
-	Updates a vault user
+.SYNOPSIS
+Updates a vault user
 
-	.DESCRIPTION
-	Updates an existing user in the vault
+.DESCRIPTION
+Updates an existing user in the vault
 
-	.PARAMETER id
-	The name of the user to update in the vault
+.PARAMETER id
+The name of the user to update in the vault
 
-	.PARAMETER NewPassword
-	The password to set on the account.
-	Must meet the password complexity requirements
+.PARAMETER NewPassword
+The password to set on the account.
+Must meet the password complexity requirements
 
-	.EXAMPLE
-	Set-PASUserPassword -id 123 -NewPassword $SecureString
+.EXAMPLE
+Set-PASUserPassword -id 123 -NewPassword $SecureString
 
-	Resets password on account with id 123
-	#>
+Resets password on account with id 123
+
+.LINK
+https://pspas.pspete.dev/commands/Set-PASUserPassword
+#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

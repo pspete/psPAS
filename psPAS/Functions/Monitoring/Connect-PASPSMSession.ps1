@@ -22,12 +22,11 @@ Connect-PASPSMSession -LiveSessionId $SessionUUID -ConnectionMethod PSMGW
 
 Returns parameters to connect to Live PSM Session via HTML5 GW.
 
-.INPUTS
-
-.OUTPUTS
-
 .NOTES
 Minimum CyberArk Version 10.5
+
+.LINK
+https://pspas.pspete.dev/commands/Connect-PASPSMSession
 #>
 	[CmdletBinding()]
 	param(
@@ -68,7 +67,8 @@ Minimum CyberArk Version 10.5
 				#RDP accept "application/json" response
 				$Accept = "application/json"
 
-			} elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
+			}
+			elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
 
 				#PSMGW accept * / * response
 				$Accept = "* / *"

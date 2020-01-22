@@ -1,4 +1,4 @@
-﻿function Get-PASUserLoginInfo {
+function Get-PASUserLoginInfo {
 	<#
 .SYNOPSIS
 Get Login information for the current user
@@ -16,6 +16,9 @@ WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
 Last successful & failed logon times for the current user
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASUserLoginInfo
 #>
 	[CmdletBinding()]
 	param(	)
@@ -34,7 +37,7 @@ Last successful & failed logon times for the current user
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If($result) {
+		If ($result) {
 
 			#Return Results
 			$result |
@@ -45,6 +48,6 @@ Last successful & failed logon times for the current user
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

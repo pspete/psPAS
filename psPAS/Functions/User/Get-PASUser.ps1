@@ -1,4 +1,4 @@
-﻿function Get-PASUser {
+function Get-PASUser {
 	<#
 .SYNOPSIS
 Returns details of a user
@@ -44,6 +44,9 @@ Returns information for all matching Users
 Get-PASUser -UserName Target_User
 
 Displays information on Target_User
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASUser
 #>
 	[CmdletBinding(DefaultParameterSetName = "10_9")]
 	param(
@@ -102,7 +105,8 @@ Displays information on Target_User
 
 			$URI = "$URI/$id"
 
-		} ElseIf ($PSCmdlet.ParameterSetName -eq "10_9") {
+		}
+		ElseIf ($PSCmdlet.ParameterSetName -eq "10_9") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -145,7 +149,8 @@ Displays information on Target_User
 
 				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Extended
 
-			} ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
+			}
+			ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
 
 				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User
 

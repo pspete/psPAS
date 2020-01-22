@@ -1,4 +1,4 @@
-﻿function Get-PASGroup {
+function Get-PASGroup {
 	<#
 .SYNOPSIS
 List groups from the vault
@@ -49,6 +49,9 @@ psPAS.CyberArk.Vault.Group Object
 
 .NOTES
 Minimum Version 10.5
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASGroup
 #>
 	[CmdletBinding()]
 	param(
@@ -93,7 +96,7 @@ Minimum Version 10.5
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result.value | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Group
 
@@ -101,6 +104,6 @@ Minimum Version 10.5
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

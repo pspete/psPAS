@@ -1,4 +1,4 @@
-﻿function Get-PASAccountGroupMember {
+function Get-PASAccountGroupMember {
 	<#
 .SYNOPSIS
 Returns all the members of a specific account group.
@@ -30,6 +30,9 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum CyberArk version 9.10
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASAccountGroupMember
 #>
 	[CmdletBinding()]
 	param(
@@ -54,7 +57,7 @@ Minimum CyberArk version 9.10
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Group.Member
 
@@ -62,6 +65,6 @@ Minimum CyberArk version 9.10
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

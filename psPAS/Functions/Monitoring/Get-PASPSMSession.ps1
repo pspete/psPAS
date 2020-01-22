@@ -71,6 +71,9 @@ To force all output to be shown, pipe to Select-Object *
 .NOTES
 Minimum CyberArk Version 9.10
 For querying sessions by ID, Required CyberArk Version is 10.6
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASPSMSession
 #>
 	[CmdletBinding(DefaultParameterSetName = "byQuery")]
 	param(

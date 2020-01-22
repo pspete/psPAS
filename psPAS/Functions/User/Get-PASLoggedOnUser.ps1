@@ -1,4 +1,4 @@
-﻿function Get-PASLoggedOnUser {
+function Get-PASLoggedOnUser {
 	<#
 .SYNOPSIS
 Returns details of the logged on user
@@ -11,6 +11,8 @@ Get-PASLoggedOnUser
 
 Returns information on the currently authenticated user.
 
+.LINK
+https://pspas.pspete.dev/commands/Get-PASLoggedOnUser
 #>
 	[CmdletBinding()]
 	param(

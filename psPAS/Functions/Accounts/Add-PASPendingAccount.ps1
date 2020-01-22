@@ -1,4 +1,4 @@
-﻿function Add-PASPendingAccount {
+function Add-PASPendingAccount {
 	<#
 .SYNOPSIS
 Adds discovered account or SSH key as a pending account in the accounts feed.
@@ -87,8 +87,8 @@ Adds matching discovered account as pending account.
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Add-PASPendingAccount
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'LastPasswordSet', Justification = "Parameter does not hold password")]
@@ -228,7 +228,7 @@ None
 		[string]$MachineOSFamily
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -238,7 +238,7 @@ None
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		If($PSBoundParameters.ContainsKey("AccountDiscoveryDate")) {
+		If ($PSBoundParameters.ContainsKey("AccountDiscoveryDate")) {
 
 			#Convert ExpiryDate to string in Required format
 			$Date = (Get-Date $AccountDiscoveryDate.ToUniversalTime() -Format "yyyy-MM-ddTHH:mm:ssZ").ToString()
@@ -262,5 +262,5 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

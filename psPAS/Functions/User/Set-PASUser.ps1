@@ -55,16 +55,16 @@ Requires CyberArk version 11.1+
 The user permissions in the vault.
 To grant authorization to a user, the same authorization must be held by the account logged on to the API.
 Valid values:
-• AddSafes
-• AuditUsers
-• AddUpdateUsers
-• ResetUsersPasswords
-• ActivateUsers
-• AddNetworkAreas
-• ManageDirectoryMapping
-• ManageServerFileCategories
-• BackupAllSafes
-• RestoreAllSafes
+� AddSafes
+� AuditUsers
+� AddUpdateUsers
+� ResetUsersPasswords
+� ActivateUsers
+� AddNetworkAreas
+� ManageDirectoryMapping
+� ManageServerFileCategories
+� BackupAllSafes
+� RestoreAllSafes
 Requires CyberArk version 11.1+
 
 .PARAMETER ChangePassOnNextLogon
@@ -206,6 +206,9 @@ Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
 set-pasuser -UserName Bill -Disabled $true
 
 Disables vault user Bill
+
+.LINK
+https://pspas.pspete.dev/commands/Set-PASUser
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -236,7 +239,7 @@ Disables vault user Bill
 			ParameterSetName = "11_1"
 		)]
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "legacy"
 		)]
@@ -655,7 +658,7 @@ Disables vault user Bill
 			If ($businessAddress.keys -gt 0) {
 
 				$boundParameters["businessAddress"] = $businessAddress
-		
+
 			}
 
 			$boundParameters.keys | Where-Object { $internetParams -contains $_ } | ForEach-Object {
@@ -668,7 +671,7 @@ Disables vault user Bill
 			If ($internet.keys -gt 0) {
 
 				$boundParameters["internet"] = $internet
-		
+
 			}
 
 			$boundParameters.keys | Where-Object { $phonesParams -contains $_ } | ForEach-Object {
@@ -682,7 +685,7 @@ Disables vault user Bill
 			If ($phones.keys -gt 0) {
 
 				$boundParameters["phones"] = $phones
-		
+
 			}
 
 			$boundParameters.keys | Where-Object { $personalDetailsParams -contains $_ } | ForEach-Object {
@@ -695,7 +698,7 @@ Disables vault user Bill
 			If ($personalDetails.keys -gt 0) {
 
 				$boundParameters["personalDetails"] = $personalDetails
-		
+
 			}
 
 			#Construct Request Body

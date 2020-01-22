@@ -1,4 +1,4 @@
-﻿function Add-PASApplicationAuthenticationMethod {
+function Add-PASApplicationAuthenticationMethod {
     <#
 .SYNOPSIS
 Adds an authentication method to an application.
@@ -59,6 +59,9 @@ None
 Function uses dynamicparameters.
 Dynamic Parameters IsFolder, AllowInternalScripts & Comment do
 not accept input from the pipeline.
+
+.LINK
+https://pspas.pspete.dev/commands/Add-PASApplicationAuthenticationMethod
 #>
     [CmdletBinding()]
     param(
@@ -90,7 +93,7 @@ not accept input from the pipeline.
         $Dictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
         #Add dynamic parameters to $dictionary
-        if($AuthType -eq "path") {
+        if ($AuthType -eq "path") {
 
             #parameters only relevant to path authentication
             New-DynamicParam -Name IsFolder -DPDictionary $Dictionary -Type boolean
@@ -98,7 +101,7 @@ not accept input from the pipeline.
 
         }
 
-        if(($AuthType -eq "hash") -or ($AuthType -eq "certificateserialnumber")) {
+        if (($AuthType -eq "hash") -or ($AuthType -eq "certificateserialnumber")) {
 
             #add comment parmater
             New-DynamicParam -Name Comment -DPDictionary $Dictionary
@@ -110,7 +113,7 @@ not accept input from the pipeline.
 
     }
 
-    BEGIN {}#begin
+    BEGIN { }#begin
 
     PROCESS {
 
@@ -128,6 +131,6 @@ not accept input from the pipeline.
 
     }#process
 
-    END {}#end
+    END { }#end
 
 }

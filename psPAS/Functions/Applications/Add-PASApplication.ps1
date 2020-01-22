@@ -1,4 +1,4 @@
-﻿function Add-PASApplication {
+function Add-PASApplication {
 	<#
 .SYNOPSIS
 Adds a new application to the Vault
@@ -58,8 +58,9 @@ Will add a new application called "NewApp", in the root location, accessible fro
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
+
+.LINK
+https://pspas.pspete.dev/commands/Add-PASApplication
 #>
 	[CmdletBinding()]
 	param(
