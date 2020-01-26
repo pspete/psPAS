@@ -14,6 +14,10 @@
 					<TableColumnHeader />
 					<TableColumnHeader />
 					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>ExpiryDate</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
 				</TableHeaders>
 				<TableRowEntries>
 					<TableRowEntry>
@@ -31,7 +35,13 @@
 								<PropertyName>UserType</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>ComponentUser</PropertyName>
+								<PropertyName>Suspended</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>enableUser</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.expiryDate)</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>Location</PropertyName>
@@ -75,10 +85,15 @@
 								<PropertyName>Suspended</PropertyName>
 							</ListItem>
 							<ListItem>
+								<Label>lastSuccessfulLoginDate</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.lastSuccessfulLoginDate)</ScriptBlock>
+							</ListItem>
+							<ListItem>
 								<PropertyName>EnableUser</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>ExpiryDate</PropertyName>
+								<Label>ExpiryDate</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.ExpiryDate)</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>PasswordNeverExpires</PropertyName>
@@ -122,6 +137,7 @@
 			</ViewSelectedBy>
 			<TableControl>
 				<TableHeaders>
+				<TableColumnHeader />
 					<TableColumnHeader />
 					<TableColumnHeader />
 					<TableColumnHeader />
@@ -134,6 +150,9 @@
 					<TableRowEntry>
 						<TableColumnItems>
 							<TableColumnItem>
+								<PropertyName>ID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
 								<PropertyName>UserName</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
@@ -143,16 +162,16 @@
 								<PropertyName>UserTypeName</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>AgentUser</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>Expired</PropertyName>
+								<PropertyName>Suspended</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>Disabled</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>Suspended</PropertyName>
+								<PropertyName>ExpiryDate</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Location</PropertyName>
 							</TableColumnItem>
 						</TableColumnItems>
 					</TableRowEntry>
@@ -188,6 +207,9 @@
 							</ListItem>
 							<ListItem>
 								<PropertyName>Expired</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ExpiryDate</PropertyName>
 							</ListItem>
 							<ListItem>
 								<PropertyName>Disabled</PropertyName>

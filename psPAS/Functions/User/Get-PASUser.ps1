@@ -105,6 +105,8 @@ https://pspas.pspete.dev/commands/Get-PASUser
 
 			$URI = "$URI/$id"
 
+			$TypeName = "psPAS.CyberArk.Vault.User.Extended"
+
 		}
 		ElseIf ($PSCmdlet.ParameterSetName -eq "10_9") {
 
@@ -123,6 +125,8 @@ https://pspas.pspete.dev/commands/Get-PASUser
 			#Build URL from base URL
 			$URI = "$URI`?$queryString"
 
+			$TypeName = "psPAS.CyberArk.Vault.User.Extended"
+
 		}
 
 		ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
@@ -130,34 +134,26 @@ https://pspas.pspete.dev/commands/Get-PASUser
 			#Create URL for request
 			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 
+			$TypeName = "psPAS.CyberArk.Vault.User"
+
 		}
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		#Handle V10 return
-		if ($result.Users) {
+		#Handle return
+		If ($result) {
 
-			$result.Users | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Extended
+			#Handle V10 list return
+			If ($result.Users) {
 
-		}
-
-		#Handle legacy return
-		ElseIf ($result) {
-
-			If ($PSCmdlet.ParameterSetName -eq "10_10") {
-
-				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Extended
-
-			}
-			ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
-
-				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User
+				$result = $result.Users
 
 			}
 
-		}
+			$result | Add-ObjectDetail -typename $TypeName
 
+		}
 
 	}#process
 
