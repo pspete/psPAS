@@ -297,6 +297,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 			#Version 10.4 individual account process
 			If ($PSCmdlet.ParameterSetName -eq "v10ByID") {
 
+				#return expected single result
 				$return = $result
 
 			}
@@ -307,8 +308,11 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 				#Version 10.4 query process
 				If ($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
 
-					#get results
-					$AccountList = [Collections.Generic.List[Object]]::New(($result | Select-Object -ExpandProperty value))
+					#to store list of query results
+					$AccountList = [Collections.Generic.List[Object]]@()
+
+					#add resultst to list
+					$null = $AccountList.Add($result.value)
 
 					#iterate any nextLinks
 					$NextLink = $result.nextLink
@@ -316,9 +320,10 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 						$URI = "$Script:BaseURI/$NextLink"
 						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 						$NextLink = $result.nextLink
-						$null = $AccountList.AddRange(($result | Select-Object -ExpandProperty value))
+						$null = $AccountList.AddRange(($result.value))
 					}
 
+					#return list
 					$return = $AccountList
 
 				}
