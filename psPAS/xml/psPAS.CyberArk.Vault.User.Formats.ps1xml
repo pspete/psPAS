@@ -41,7 +41,9 @@
 								<PropertyName>enableUser</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
-								<ScriptBlock>(get-date 1/1/1970).addseconds($_.expiryDate)</ScriptBlock>
+								<ScriptBlock>
+									If($_.expiryDate -gt 0){get-date 1/1/1970).addseconds($_.expiryDate)}
+								</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>Location</PropertyName>
@@ -86,14 +88,14 @@
 							</ListItem>
 							<ListItem>
 								<Label>lastSuccessfulLoginDate</Label>
-								<ScriptBlock>(get-date 1/1/1970).addseconds($_.lastSuccessfulLoginDate)</ScriptBlock>
+								<ScriptBlock>If($_.lastSuccessfulLoginDate -gt 0){get-date 1/1/1970).addseconds($_.lastSuccessfulLoginDate)}</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>EnableUser</PropertyName>
 							</ListItem>
 							<ListItem>
 								<Label>ExpiryDate</Label>
-								<ScriptBlock>(get-date 1/1/1970).addseconds($_.ExpiryDate)</ScriptBlock>
+								<ScriptBlock>If($_.expiryDate -gt 0){get-date 1/1/1970).addseconds($_.expiryDate)}</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>PasswordNeverExpires</PropertyName>
@@ -246,7 +248,7 @@
 					<TableRowEntry>
 						<TableColumnItems>
 							<TableColumnItem>
-								<ScriptBlock>(get-date 1/1/1970).addseconds($_.LastSuccessLoginTime)</ScriptBlock>
+								<ScriptBlock>If($_.LastSuccessLoginTime -gt 0){get-date 1/1/1970).addseconds($_.LastSuccessLoginTime)}</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>LastSuccessLoginIP</PropertyName>
@@ -255,7 +257,7 @@
 								<PropertyName>FailedLogins</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
-								<ScriptBlock>(get-date 1/1/1970).addseconds($_.LastFailLoginTime)</ScriptBlock>
+								<ScriptBlock>If($_.LastFailLoginTime -gt 0){get-date 1/1/1970).addseconds($_.LastFailLoginTime)}</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>LastFailLoginIP</PropertyName>
@@ -276,7 +278,7 @@
 						<ListItems>
 							<ListItem>
 								<Label>LastSuccessLoginTime</Label>
-								<ScriptBlock>(get-date 1/1/1970).addseconds($_.LastSuccessLoginTime)</ScriptBlock>
+								<ScriptBlock>If($_.LastSuccessLoginTime -gt 0){get-date 1/1/1970).addseconds($_.LastSuccessLoginTime)}</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>LastSuccessLoginIP</PropertyName>
@@ -286,7 +288,7 @@
 							</ListItem>
 							<ListItem>
 								<Label>LastFailLoginTime</Label>
-								<ScriptBlock>(get-date 1/1/1970).addseconds($_.LastFailLoginTime)</ScriptBlock>
+								<ScriptBlock>If($_.LastFailLoginTime -gt 0){get-date 1/1/1970).addseconds($_.LastFailLoginTime)}</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>LastFailLoginIP</PropertyName>
