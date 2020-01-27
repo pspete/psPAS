@@ -1,4 +1,4 @@
-﻿function Remove-PASApplicationAuthenticationMethod {
+function Remove-PASApplicationAuthenticationMethod {
 	<#
 .SYNOPSIS
 Deletes an authentication method from an application
@@ -27,8 +27,8 @@ Deletes all authentication methods from "NewApp"
 All parameters can be piped by property name
 Should accept pipeline objects from other *-PASApplication* functions
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASApplicationAuthenticationMethod
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

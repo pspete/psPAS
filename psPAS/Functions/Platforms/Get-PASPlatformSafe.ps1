@@ -1,20 +1,23 @@
 function Get-PASPlatformSafe {
 	<#
-	.SYNOPSIS
-	Get safes by platform id
-	
-	.DESCRIPTION
-	Returns all safes for a given platform ID
+.SYNOPSIS
+Get safes by platform id
 
-	.PARAMETER PlatformID
-	The unique ID/Name of the platform.
+.DESCRIPTION
+Returns all safes for a given platform ID
 
-	.EXAMPLE
-	Get-PASPlatformSafe -PlatformID WINDOMAIN
+.PARAMETER PlatformID
+The unique ID/Name of the platform.
 
-	.NOTES
-	Minimum CyberArk version 11.1
-	#>
+.EXAMPLE
+Get-PASPlatformSafe -PlatformID WINDOMAIN
+
+.NOTES
+Minimum CyberArk version 11.1
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASPlatformSafe
+#>
 
 	[CmdletBinding()]
 	param(
@@ -30,12 +33,12 @@ function Get-PASPlatformSafe {
 	}#begin
 
 	PROCESS {
-		
+
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
 		$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)/Safes"
-			
+
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 

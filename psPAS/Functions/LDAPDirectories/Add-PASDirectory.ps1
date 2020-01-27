@@ -1,4 +1,4 @@
-﻿function Add-PASDirectory {
+function Add-PASDirectory {
 	<#
 .SYNOPSIS
 Adds an LDAP directory to the Vault
@@ -44,16 +44,19 @@ Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -HostAddresses "192.168
 Adds the Domain.Com directory to the vault
 
 .EXAMPLE
-Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "bind@domain.com" -BindPassword $pw -DomainName DOMAIN `
--DomainBaseContext "DC=DOMAIN,DC=COM" -DCList @(@{"Name"="192.168.99.1";"Port"=389;"SSLConnect"=$false},@{"Name"="192.168.99.1";"Port"=389;"SSLConnect"=$false}) -Port 389
+Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "BindUser@domain.com" -BindPassword $($Creds.Password) -DomainName DOMAIN `
+-DomainBaseContext "DC=domain,DC=com" -DCList @{"Name"="DC.domain.com";"Port"=636;"SSLConnect"=$true} -SSLConnect $true -Port 636
 
-(For 10.7+) - Adds the Domain.Com directory to the vault
+(For 10.7+) - Adds the Domain.Com directory to the vault, configured for LDAPS.
 
 .INPUTS
 All parameters can be piped to the function by propertyname
 
 .OUTPUTS
 LDAP Directory Details
+
+.LINK
+https://pspas.pspete.dev/commands/Add-PASDirectory
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlaintextForPassword', '', Justification = "It's a path to password object")]
 	[CmdletBinding()]
@@ -128,7 +131,8 @@ LDAP Directory Details
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
-		} Elseif ($PSCmdlet.ParameterSetName -eq "v10_4") {
+		}
+		Elseif ($PSCmdlet.ParameterSetName -eq "v10_4") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 

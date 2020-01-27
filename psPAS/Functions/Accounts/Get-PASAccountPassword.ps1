@@ -1,4 +1,4 @@
-﻿function Get-PASAccountPassword {
+function Get-PASAccountPassword {
 	<#
 .SYNOPSIS
 Returns password for an account.
@@ -87,7 +87,11 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum API version is 9.7 for password retrieval only.
-From version 10.1 onwards both passwords and ssh keys can be retrieved.#>
+From version 10.1 onwards both passwords and ssh keys can be retrieved.
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASAccountPassword
+#>
 	[CmdletBinding(DefaultParameterSetName = "v10")]
 	param(
 		[parameter(
@@ -217,13 +221,13 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.#>
 
 			}
 			elseif ($PSCmdlet.ParameterSetName -eq "v10") {
-				
+
 				#Unescape returned string and remove enclosing quotes.
 				$result = $([System.Text.RegularExpressions.Regex]::Unescape($result) -replace '^"|"$', '')
 
 			}
-			
-			
+
+
 			[PSCustomObject] @{"Password" = $result } |
 
 			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential

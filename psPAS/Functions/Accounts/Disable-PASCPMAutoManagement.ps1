@@ -1,10 +1,10 @@
-﻿function Disable-PASCPMAutoManagement {
+function Disable-PASCPMAutoManagement {
 	<#
 .SYNOPSIS
 Disables an account for Automatic CPM Management.
 
 .DESCRIPTION
-Disables an account for CPM management by setting automaticManagementEnabled to $false, 
+Disables an account for CPM management by setting automaticManagementEnabled to $false,
 and optionally sets a value for manualManagementReason.
 
 .PARAMETER AccountID
@@ -26,6 +26,8 @@ Sets automaticManagementEnabled to $false & sets manualManagementReason on accou
 .NOTES
 Applicable to and requires 10.4+
 
+.LINK
+https://pspas.pspete.dev/commands/Disable-PASCPMAutoManagement
 #>
 	[CmdletBinding()]
 	param(
@@ -45,11 +47,11 @@ Applicable to and requires 10.4+
 
 	)
 
-	BEGIN { 
+	BEGIN {
 
 		$MinimumVersion = [System.Version]"10.4"
 
-		$ops = @(
+		$ops = [Collections.Generic.List[Object]]@(
 			@{
 				"path"  = "/secretManagement/automaticManagementEnabled"
 				"op"    = "replace"
@@ -64,12 +66,12 @@ Applicable to and requires 10.4+
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		if ($PSCmdlet.ParameterSetName -eq "manualManagementReason") {
-			
-			$ops += @{
-				"path"  = "/secretManagement/manualManagementReason"
-				"op"    = "replace"
-				"value" = $Reason
-			}
+
+			$null = $ops.Add(@{
+					"path"  = "/secretManagement/manualManagementReason"
+					"op"    = "replace"
+					"value" = $Reason
+				})
 		}
 
 		Set-PASAccount -AccountID $AccountID -operations $ops

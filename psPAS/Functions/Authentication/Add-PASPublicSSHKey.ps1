@@ -10,10 +10,10 @@ to authenticate to the Vault through PSMP using a corresponding private SSH key.
 The "Reset User Passwords" Permission is required in the vault to manage public SSH keys.
 The user account used to add the key MUST be in the same Vault Location or higher
 then the user whose public SSH keys are added.
-A user cannot manage their own public SSH keys.
+A user cannot manage their own public SSH�keys.
 
 .PARAMETER UserName
-The username of the Vault user whose public SSH keys will be added
+The username of the Vault user whose public SSH�keys will be added
 A username cannot contain te follwing characters: "%", "&", "+" or ".".
 
 .PARAMETER PublicSSHKey
@@ -28,6 +28,8 @@ Add-PASPublicSSHKey -UserName keyUser -PublicSSHKey AAAAB3NzaC1kc3MAAACBAJ3hB5SA
 
 Adds SSH Key to vault user keyUser
 
+.LINK
+https://pspas.pspete.dev/commands/Add-PASPublicSSHKey
 #>
 	[CmdletBinding()]
 	param(
@@ -35,19 +37,19 @@ Adds SSH Key to vault user keyUser
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( {$_ -notmatch ".*(%|\&|\+|\.).*"})]
+		[ValidateScript( { $_ -notmatch ".*(%|\&|\+|\.).*" })]
 		[string]$UserName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( {$_ -notmatch "`n"})]
+		[ValidateScript( { $_ -notmatch "`n" })]
 		[string]$PublicSSHKey
 
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -66,13 +68,13 @@ Adds SSH Key to vault user keyUser
 		#send request to webservice
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result.AddUserAuthorizedKeyResult |
 
 			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
 
-				"UserName"     = $UserName
+				"UserName" = $UserName
 
 			}
 
@@ -80,5 +82,5 @@ Adds SSH Key to vault user keyUser
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

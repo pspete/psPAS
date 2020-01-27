@@ -13,7 +13,7 @@ The PolicyID associated with account.
 The address of the account whose privileged commands will be listed.
 
 .PARAMETER AccountUserName
-The name of the account’s user.
+The name of the account�s user.
 
 .EXAMPLE
 Get-PASAccount root | Get-PASAccountACL
@@ -34,6 +34,9 @@ Should accept pipeline objects from other *-PASAccount functions
 Outputs Object of Custom Type psPAS.CyberArk.Vault.ACL
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASAccountACL
 #>
 	[CmdletBinding()]
 	param(
@@ -61,7 +64,7 @@ To force all output to be shown, pipe to Select-Object *
 		[string]$AccountUserName
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -77,7 +80,7 @@ To force all output to be shown, pipe to Select-Object *
 		#Send request to Web Service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession #DevSkim: ignore DS104456
 
-		if($result) {
+		if ($result) {
 
 			$result.ListAccountPrivilegedCommandsResult |
 
@@ -87,6 +90,6 @@ To force all output to be shown, pipe to Select-Object *
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

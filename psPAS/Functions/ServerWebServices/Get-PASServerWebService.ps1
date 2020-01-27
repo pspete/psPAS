@@ -1,4 +1,4 @@
-﻿function Get-PASServerWebService {
+function Get-PASServerWebService {
 	<#
 .SYNOPSIS
 Returns details of the Web Service
@@ -29,6 +29,9 @@ WebSession & BaseURI can be piped to the function by propertyname
 .OUTPUTS
 Webservice Details
 ServerName, ServerID, ApplicationName & Available Authentication Methods
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASServerWebService
 #>
 	[CmdletBinding()]
 	param(
@@ -51,7 +54,7 @@ ServerName, ServerID, ApplicationName & Available Authentication Methods
 		[string]$PVWAAppName = "PasswordVault"
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -61,7 +64,7 @@ ServerName, ServerID, ApplicationName & Available Authentication Methods
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			#return results
 			$result | Select-Object ServerName, ServerId, ApplicationName , AuthenticationMethods
@@ -70,5 +73,5 @@ ServerName, ServerID, ApplicationName & Available Authentication Methods
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

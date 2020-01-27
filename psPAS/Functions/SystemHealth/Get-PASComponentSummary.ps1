@@ -19,6 +19,9 @@ All parameters can be piped to the function by propertyname
 
 .NOTES
 Requires minimum version of CyberArk 10.1.
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASComponentSummary
 #>
 	[CmdletBinding()]
 	param(
@@ -39,7 +42,7 @@ Requires minimum version of CyberArk 10.1.
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if($result) {
+		if ($result) {
 
 			$result | Select-Object -ExpandProperty Components
 
@@ -52,5 +55,5 @@ Requires minimum version of CyberArk 10.1.
 
 	}#process
 
-	END {}#end
+	END { }#end
 }

@@ -1,4 +1,4 @@
-﻿function Remove-PASSafeMember {
+function Remove-PASSafeMember {
 	<#
 .SYNOPSIS
 Removes a member from a safe
@@ -22,8 +22,8 @@ Removes TargetUser as safe member from TargetSafe
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
-None
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASSafeMember
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -43,7 +43,7 @@ None
 		[string]$MemberName
 	)
 
-	BEGIN {}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -54,7 +54,7 @@ None
 
                 Get-EscapedString)"
 
-		if($PSCmdlet.ShouldProcess($SafeName, "Remove Safe Member '$MemberName'")) {
+		if ($PSCmdlet.ShouldProcess($SafeName, "Remove Safe Member '$MemberName'")) {
 
 			#Send Delete request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -63,6 +63,6 @@ None
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

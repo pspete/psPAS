@@ -1,4 +1,4 @@
-﻿function Remove-PASDirectoryMapping {
+function Remove-PASDirectoryMapping {
 	<#
 .SYNOPSIS
 Removes a configured directory mapping from the Vault
@@ -23,6 +23,9 @@ WebSession & BaseURI can be piped to the function by propertyname
 
 .OUTPUTS
 LDAP Directory Details
+
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASDirectoryMapping
 #>
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param(

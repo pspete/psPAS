@@ -1,4 +1,4 @@
-﻿function Unblock-PASUser {
+function Unblock-PASUser {
 	<#
 .SYNOPSIS
 Activates a suspended user
@@ -26,6 +26,8 @@ Unblock-PASUser -id 666
 
 Activates suspended vault user with id 666, using the API from 10.10+
 
+.LINK
+https://pspas.pspete.dev/commands/Unblock-PASUser
 #>
 	[CmdletBinding(DefaultParameterSetName = "10_10")]
 	param(
@@ -70,7 +72,8 @@ Activates suspended vault user with id 666, using the API from 10.10+
 			$Request["URI"] = "$Script:BaseURI/api/Users/$id/Activate"
 			$Request["Method"] = "POST"
 
-		} ElseIf ($PSCmdlet.ParameterSetName -eq "ClassicAPI") {
+		}
+		ElseIf ($PSCmdlet.ParameterSetName -eq "ClassicAPI") {
 
 			#Create request
 			$Request["URI"] = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"

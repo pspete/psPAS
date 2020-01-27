@@ -1,4 +1,4 @@
-﻿function Set-PASSafeMember {
+function Set-PASSafeMember {
 	<#
 .SYNOPSIS
 Updates a Safe Member
@@ -105,6 +105,9 @@ member on safe.
 Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true
 
 Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts"
+
+.LINK
+https://pspas.pspete.dev/commands/Set-PASSafeMember
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'keysToRemove', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess)]
@@ -269,7 +272,7 @@ Updates TargetUser's permissions as safe member on TargetSafe to include "Add Ac
 		$permissions = @{ }
 
 		#Create array of keys to remove from top level of required JSON structure.
-		[array]$keysToRemove += "SafeName", "MemberName"
+		$keysToRemove = [Collections.Generic.List[String]]@('SafeName', 'MemberName')
 
 	}#begin
 
@@ -302,7 +305,7 @@ Updates TargetUser's permissions as safe member on TargetSafe to include "Add Ac
 			$permissions[$_] = $boundParameters[$_]
 
 			#non-base parameter name
-			$keysToRemove += $_
+			$null = $keysToRemove.Add($_)
 
 		}
 

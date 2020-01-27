@@ -1,4 +1,4 @@
-﻿function Get-PASApplicationAuthenticationMethod {
+function Get-PASApplicationAuthenticationMethod {
 	<#
 .SYNOPSIS
 Returns information about all of the authentication methods of a specific application.
@@ -23,6 +23,9 @@ Should accept pipeline objects from other *-PASApplication* functions
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Application
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASApplicationAuthenticationMethod
 #>
 	[CmdletBinding()]
 	param(

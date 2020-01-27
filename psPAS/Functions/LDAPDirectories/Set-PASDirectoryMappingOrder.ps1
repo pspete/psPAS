@@ -1,25 +1,28 @@
-﻿function Set-PASDirectoryMappingOrder {
+function Set-PASDirectoryMappingOrder {
 	<#
-	.SYNOPSIS
-	Changes the order of directory mappings for a directory
+.SYNOPSIS
+Changes the order of directory mappings for a directory
 
-	.DESCRIPTION
-	Updates the order of all a directories mappings.
+.DESCRIPTION
+Updates the order of all a directories mappings.
 
-	Requires membership of Vault Admins group  & "Audit users", "Add/Update users" & "Manage Directory mappings" authorizations.
-	Minimum version 10.10
+Requires membership of Vault Admins group  & "Audit users", "Add/Update users" & "Manage Directory mappings" authorizations.
+Minimum version 10.10
 
-	.PARAMETER DirectoryName
-	The name of the directory
+.PARAMETER DirectoryName
+The name of the directory
 
-	.PARAMETER MappingsOrder
-	The MappingID of each directory mapping, in the order they should be applied.
+.PARAMETER MappingsOrder
+The MappingID of each directory mapping, in the order they should be applied.
 
-	.EXAMPLE
-	Set-PASDirectoryMappingOrder -DirectoryName "DOMAIN.COM" -MappingsOrder 39,43,41,669,668,667
+.EXAMPLE
+Set-PASDirectoryMappingOrder -DirectoryName "DOMAIN.COM" -MappingsOrder 39,43,41,669,668,667
 
-	Sets the order of the directory mappings for directory "DOMAIN.COM"
-	#>
+Sets the order of the directory mappings for directory "DOMAIN.COM"
+
+.LINK
+https://pspas.pspete.dev/commands/Set-PASDirectoryMappingOrder
+#>
 
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

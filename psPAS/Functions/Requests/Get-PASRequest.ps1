@@ -35,6 +35,9 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Minimum CyberArk Version 9.10
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASRequest
 #>
 	[CmdletBinding()]
 	param(

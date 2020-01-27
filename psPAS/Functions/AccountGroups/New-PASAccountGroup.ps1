@@ -1,4 +1,4 @@
-﻿function New-PASAccountGroup {
+function New-PASAccountGroup {
 	<#
 .SYNOPSIS
 Adds a new account group to the Vault
@@ -34,6 +34,9 @@ None
 
 .NOTES
 Minimum version 9.9.5
+
+.LINK
+https://pspas.pspete.dev/commands/New-PASAccountGroup
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

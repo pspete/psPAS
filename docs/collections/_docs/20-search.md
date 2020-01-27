@@ -44,12 +44,12 @@ Get-PASUser -Search xap
 
 ID  UserName    Source UserType ComponentUser Location
 --  --------    ------ -------- ------------ - --------
-657 xApprover_A LDAP   EPVUser  False         \VR\VirtualReal\Users
-658 xApprover_1 LDAP   EPVUser  False         \VR\VirtualReal\Users
-659 xApprover_B LDAP   EPVUser  False         \VR\VirtualReal\Users
-660 xApprover_2 LDAP   EPVUser  False         \VR\VirtualReal\Users
-661 xApprover_C LDAP   EPVUser  False         \VR\VirtualReal\Users
-662 xApprover_3 LDAP   EPVUser  False         \VR\VirtualReal\Users
+657 xApprover_A LDAP   EPVUser  False         \SomeLocation\Users
+658 xApprover_1 LDAP   EPVUser  False         \SomeLocation\Users
+659 xApprover_B LDAP   EPVUser  False         \SomeLocation\Users
+660 xApprover_2 LDAP   EPVUser  False         \SomeLocation\Users
+661 xApprover_C LDAP   EPVUser  False         \SomeLocation\Users
+662 xApprover_3 LDAP   EPVUser  False         \SomeLocation\Users
 ````
 
 ## Accounts

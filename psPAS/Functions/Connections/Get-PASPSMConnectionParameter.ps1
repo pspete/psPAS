@@ -59,6 +59,9 @@ Outputs RDP file for Direct Connection via PSM using account with ID in $ID
 Minimum CyberArk Version 9.10
 PSMGW connections require 10.2
 Ad-Hoc connections require 10.5
+
+.LINK
+https://pspas.pspete.dev/commands/Get-PASPSMConnectionParameter
 #>
 	[CmdletBinding()]
 	param(
@@ -208,7 +211,8 @@ Ad-Hoc connections require 10.5
 			#Create body of request
 			$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod | ConvertTo-Json
 
-		} elseif ($PSCmdlet.ParameterSetName -eq "AdHocConnect") {
+		}
+		elseif ($PSCmdlet.ParameterSetName -eq "AdHocConnect") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $AdHocVersion
 
@@ -247,7 +251,8 @@ Ad-Hoc connections require 10.5
 				#RDP accept "application/json" response
 				$Accept = "application/octet-stream"
 
-			} elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
+			}
+			elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
 
 				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
@@ -271,7 +276,8 @@ Ad-Hoc connections require 10.5
 				#Return PSM GW URL Details
 				$result
 
-			} Else {
+			}
+			Else {
 
 				#Save the RDP file to disk
 				Out-PASFile -InputObject $result -Path $Path

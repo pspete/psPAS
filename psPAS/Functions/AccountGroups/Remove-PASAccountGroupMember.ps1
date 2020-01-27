@@ -1,4 +1,4 @@
-﻿function Remove-PASAccountGroupMember {
+function Remove-PASAccountGroupMember {
 	<#
 .SYNOPSIS
 Deletes a member of an account group.
@@ -31,6 +31,9 @@ None
 
 .NOTES
 Minimum CyberArk version 9.10
+
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASAccountGroupMember
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -58,7 +61,7 @@ Minimum CyberArk version 9.10
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/AccountGroups/$GroupID/Members/$AccountID"
 
-		if($PSCmdlet.ShouldProcess($AccountID, "Delete Member from Account Group $($GroupID)")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, "Delete Member from Account Group $($GroupID)")) {
 
 			#send request to PAS web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -67,6 +70,6 @@ Minimum CyberArk version 9.10
 
 	}#process
 
-	END {}#end
+	END { }#end
 
 }

@@ -1,4 +1,4 @@
-﻿function Set-PASAccount {
+function Set-PASAccount {
 	<#
 .SYNOPSIS
 Updates an existing accounts details.
@@ -126,6 +126,9 @@ Accounts that do not have a policy ID cannot be updated.
 To update account properties, "Update password properties" permission is required.
 To rename accounts, "Rename accounts" permission is required.
 To move accounts to a different folder, Move accounts/folders permission is required.
+
+.LINK
+https://pspas.pspete.dev/commands/Set-PASAccount
 #>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "V10SingleOp")]
 	param(

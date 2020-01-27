@@ -253,16 +253,16 @@
 
 						#API Error Message
 						$ErrorMessage = "[$StatusCode] $($Response.ErrorMessage)"
-						
+
 						#API Error Code
 						$ErrorID = $Response.ErrorCode
-						
+
 						#Inner error details are present
 						if ($Response.Details) {
-							
+
 							#Join Inner Error Text to Error Message
 							$ErrorMessage = $ErrorMessage, $(($Response.Details | Select-Object -ExpandProperty ErrorMessage) -join ", ") -join ": "
-							
+
 							#Join Inner Error Codes to ErrorID
 							$ErrorID = $ErrorID, $(($Response.Details | Select-Object -ExpandProperty ErrorCode) -join ",") -join ","
 

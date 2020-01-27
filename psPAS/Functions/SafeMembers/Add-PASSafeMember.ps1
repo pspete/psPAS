@@ -1,4 +1,4 @@
-﻿function Add-PASSafeMember {
+function Add-PASSafeMember {
 	<#
 .SYNOPSIS
 Adds a Safe Member to safe
@@ -153,6 +153,9 @@ All parameters can be piped by property name
 Outputs Object of Custom Type psPAS.CyberArk.Vault.Safe.Member.Extended
 Output format is defined via psPAS.Format.ps1xml.
 To force all output to be shown, pipe to Select-Object *
+
+.LINK
+https://pspas.pspete.dev/commands/Add-PASSafeMember
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'keysToRemove', Justification = "False Positive")]
 	[CmdletBinding()]
@@ -337,7 +340,7 @@ To force all output to be shown, pipe to Select-Object *
 		$permissions = @{ }
 
 		#array for parameter names which will do not appear in the top-tier of the JSON object
-		[array]$keysToRemove += "SafeName"
+		$keysToRemove = [Collections.Generic.List[String]]@('SafeName')
 
 	}#begin
 
@@ -368,7 +371,7 @@ To force all output to be shown, pipe to Select-Object *
 			$permissions[$_] = $boundParameters[$_]
 
 			#Add parameter name to array
-			$keysToRemove += $_
+			$null = $keysToRemove.Add($_)
 
 		}
 
@@ -377,6 +380,7 @@ To force all output to be shown, pipe to Select-Object *
 
 		#Create required request object
 		$body = @{
+
 			"member" = $boundParameters |
 
 			Get-PASParameter -ParametersToRemove $keysToRemove

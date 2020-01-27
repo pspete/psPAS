@@ -77,8 +77,6 @@ commands:
         url: /commands/Enable-PASCPMAutoManagement
       - title: "Disable-PASCPMAutoManagement"
         url: /commands/Disable-PASCPMAutoManagement
-      - title: "New-PASGroup"
-        url: /commands/New-PASGroup
 
   - title: "Applications"
     children:
@@ -160,6 +158,8 @@ commands:
         url: /commands/Get-PASPSMRecordingActivity
       - title: "Get-PASPSMRecordingProperty"
         url: /commands/Get-PASPSMRecordingProperty
+      - title: "Test-PASPSMRecording"
+        url: /commands/Test-PASPSMRecording
 
   - title: "Onboarding Rules"
     children:
@@ -271,6 +271,8 @@ commands:
         url: /commands/Add-PASGroupMember
       - title: "Remove-PASGroupMember"
         url: /commands/Remove-PASGroupMember
+      - title: "New-PASGroup"
+        url: /commands/New-PASGroup
 
 # documentation links
 docs:

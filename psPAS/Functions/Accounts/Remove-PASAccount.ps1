@@ -1,4 +1,4 @@
-﻿function Remove-PASAccount {
+function Remove-PASAccount {
 	<#
 .SYNOPSIS
 Deletes an account
@@ -23,8 +23,9 @@ Deletes the account with AccountID of 19_1
 .INPUTS
 All parameters can be piped by propertyname
 
-.OUTPUTS
-None
+
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASAccount
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

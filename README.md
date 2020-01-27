@@ -4,15 +4,17 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v11.1.
+Contains all published methods of the API up to CyberArk v11.2.
+
+Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ----------
 
 ## Module Status
 
-| Master Branch            | Code Coverage            | PowerShell Gallery       | Downloads                  | Latest Build            | License                    |
-|--------------------------|--------------------------|--------------------------|----------------------------|-------------------------|----------------------------|
-|[![appveyor][]][av-site]  | [![coveralls][]][cv-site]|[![psgallery][]][ps-site] |[![downloads][]][ps-site]   |[![tests][]][tests-site] |[![license][]][license-link]|
+| Master Branch            | Code Coverage            | CodeFactor               |  PowerShell Gallery       | Downloads                  | Latest Build            | License                     |
+|--------------------------|--------------------------|--------------------------|---------------------------|----------------------------|-------------------------|-----------------------------|
+|[![appveyor][]][av-site]  | [![coveralls][]][cv-site]|[![codefactor][]][cf-site]| [![psgallery][]][ps-site] |[![downloads][]][ps-site]   |[![tests][]][tests-site] |[![license][]][license-link] |
 
 [appveyor]:https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true
 [av-site]:https://ci.appveyor.com/project/pspete/pspas/branch/master
@@ -25,6 +27,8 @@ Contains all published methods of the API up to CyberArk v11.1.
 [tests]:https://img.shields.io/appveyor/tests/pspete/pspas.svg
 [tests-site]:https://ci.appveyor.com/project/pspete/pspas
 [downloads]:https://img.shields.io/powershellgallery/dt/pspas.svg?color=blue
+[cf-site]:https://www.codefactor.io/repository/github/pspete/pspas
+[codefactor]:https://www.codefactor.io/repository/github/pspete/pspas/badge
 
 ----------
 
@@ -842,6 +846,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                               |**11.1**            |Deletes a Directory Mapping
 [`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             |**10.4**            |Enables Automatic CPM Managment for an account
 [`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           |**10.4**            |Disables Automatic CPM Managment for an account
+[`Test-PASPSMRecording`][Test-PASPSMRecording]                                           | **11.2**           |Determine validity of PSM Session Recording
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
@@ -947,6 +952,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Remove-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectoryMapping.ps1
 [Get-PASPlatformSafe]:/psPAS/Functions/Platforms/Get-PASPlatformSafe.ps1
 [New-PASGroup]:/psPAS/Functions/User/New-PASGroup.ps1
+[Test-PASPSMRecording]:/psPAS/Functions/Monitoring/Test-PASPSMRecording.ps1
 
 ## Installation
 

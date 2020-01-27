@@ -9,7 +9,7 @@ as a pending account to the Accounts Feed.
 Users can identify privileged accounts and determine which are on-boarded to the vault.
 
 .PARAMETER userName
-The name of the account user.
+The name�of the account user.
 
 .PARAMETER address
 The name or address of the machine where the account is located.
@@ -154,7 +154,8 @@ Adds or updates matching pending account with defined dependancies.
 .INPUTS
 All parameters can be piped by property name
 
-.OUTPUTS
+.LINK
+https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
 	[CmdletBinding(DefaultParameterSetName = "Windows")]
@@ -388,7 +389,7 @@ All parameters can be piped by property name
 	PROCESS {
 
 		if ($PSCmdlet.ParameterSetName -match "^108_") {
-			
+
 			#v10.8 required for AWS & Dependancies
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 

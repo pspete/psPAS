@@ -26,6 +26,9 @@ None
 
 .NOTES
 Minimum CyberArk Version 9.10
+
+.LINK
+https://pspas.pspete.dev/commands/Deny-PASRequest
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -57,15 +60,15 @@ Minimum CyberArk Version 9.10
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestId | ConvertTo-Json
 
-	if($PSCmdlet.ShouldProcess($RequestId, "Reject Request for Account Access")) {
+		if ($PSCmdlet.ShouldProcess($RequestId, "Reject Request for Account Access")) {
 
-		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+			#send request to PAS web service
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-	}
+		}
 
-}#process
+	}#process
 
-END { }#end
+	END { }#end
 
 }
