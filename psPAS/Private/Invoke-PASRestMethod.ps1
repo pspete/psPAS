@@ -99,7 +99,10 @@
 		[string]$CertificateThumbprint,
 
 		[Parameter(Mandatory = $false)]
-		[switch]$SkipCertificateCheck
+		[switch]$SkipCertificateCheck,
+
+		[ValidateNotNullOrEmpty()]
+		[PSCredential]$Credential
 	)
 
 	Begin {
