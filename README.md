@@ -12,9 +12,10 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ## Module Status
 
-| Master Branch            | Code Coverage            | CodeFactor               |  PowerShell Gallery       | Downloads                  | Latest Build            | License                     |
-|--------------------------|--------------------------|--------------------------|---------------------------|----------------------------|-------------------------|-----------------------------|
-|[![appveyor][]][av-site]  | [![coveralls][]][cv-site]|[![codefactor][]][cf-site]| [![psgallery][]][ps-site] |[![downloads][]][ps-site]   |[![tests][]][tests-site] |[![license][]][license-link] |
+| Master Branch            | Latest Build            | CodeFactor                | Coverage                    |  PowerShell Gallery       |  License                   |
+|--------------------------|-------------------------|---------------------------|-----------------------------|---------------------------|----------------------------|
+|[![appveyor][]][av-site]  |[![tests][]][tests-site] | [![codefactor][]][cf-site]| [![codecov][]][codecov-link]| [![psgallery][]][ps-site] |[![license][]][license-link]|
+|                          |                         |                           | [![coveralls][]][cv-site]   | [![downloads][]][ps-site] |                            |
 
 [appveyor]:https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true
 [av-site]:https://ci.appveyor.com/project/pspete/pspas/branch/master
@@ -29,6 +30,8 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 [downloads]:https://img.shields.io/powershellgallery/dt/pspas.svg?color=blue
 [cf-site]:https://www.codefactor.io/repository/github/pspete/pspas
 [codefactor]:https://www.codefactor.io/repository/github/pspete/pspas/badge
+[codecov]:https://codecov.io/gh/pspete/psPAS/branch/master/graph/badge.svg
+[codecov-link]:https://codecov.io/gh/pspete/psPAS
 
 ----------
 
