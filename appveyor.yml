@@ -2,17 +2,25 @@
 version: 3.4.{build}
 
 environment:
-  psgallery_deploy: manual_deploy
+  #GIT_TRACE: 1
   access_token:
-    secure: eWAovbJD8C/F5ObWegnOimwNFyeU1vXzW6lwbJzhHpSUgjT+CMexMcPUBMKrm+Wl
+    secure: bDZ9LJ84SWlGw/D3R/q3ADwDslfrLNZLMdH3ZRjdi5xwkGanmjf7DvgN+crc4BU/
   psgallery_key:
     secure: FuPgJskczZMptxRgdUlBAy7OYmXBQl4zq86kXXSmBt6wKudnM2PK7W6cM7bj0te1
   coveralls_key:
     secure: cWv4+OPfqRLSt7I4f+p3lEixKoYZzi42IDc7C4Kf+2WZW/dO+H+RBCM7m0Si2uuP
+  github_email:
+    secure: x5ljenzXfYXkzpEu9eX7AQvb3AkFbiXG2NndMzw9Zc4=
+  #sig_key:
+    #secure: LPEv2aGCLb1WPw89OFF8gmhk5tVZtOAPaUJ9cAATBnD1+qREYmvh/fH53NbJSNP
+  #PfxSecure:
+    #secure: Kkp5iutKCw8ACijkd5Et8xUjF4e39dJRuoaTWIHem5tVaF5QeqUnrPSjkPsNDwro
+
+skip_tags: true
 
 skip_commits:
   files:
-    - docs/
+    - docs\*
     - .github\*
     - .vscode\*
     - README.md
@@ -29,22 +37,24 @@ only_commits:
   files:
     - build\
     - psPAS\
-    - Tests\
+    - tests\
 
-#os: WMF 5
-image: Visual Studio 2015
+image: Visual Studio 2017
 
-init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 install:
-#  - ps: . .\build\install.ps1
-- pwsh.exe -File .\build\install.ps1
+  - ps: . .\build\install.ps1
+  - pwsh.exe -File .\build\install.ps1
+
 build_script:
-#  - ps: . .\build\build.ps1
-- pwsh.exe -File .\build\build.ps1
+  - ps: . .\build\build.ps1
+
 test_script:
-#  - ps: . .\build\test.ps1
-- pwsh.exe -File .\build\test.ps1
-deploy_script:
-#  - ps: . .\build\deploy.ps1
-- pwsh.exe -File .\build\deploy.ps1
+  - ps: . .\build\test.ps1
+  - pwsh.exe -File .\build\test.ps1
+
+#deploy_script:
+  - ps: . .\build\deploy-github.ps1
+  - pwsh.exe -File .\build\deploy-psgallery.ps1
+
+on_failure:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

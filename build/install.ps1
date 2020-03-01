@@ -1,7 +1,15 @@
 #---------------------------------#
 # Header                          #
 #---------------------------------#
-Write-Host "Installing:" -ForegroundColor Yellow
+Write-Host "Installing Required Modules:" -ForegroundColor Yellow
+
+$RequiredModules = @(
+	"PowerShellGet"
+	"Pester",
+	"PSScriptAnalyzer",
+	"coveralls",
+	"PSCodeCovIo"
+)
 
 #---------------------------------#
 # Install NuGet                   #
@@ -14,11 +22,15 @@ if(-not $IsCoreCLR) {
 #---------------------------------#
 # Install Required Modules        #
 #---------------------------------#
-Try {
-	Write-Host "`tRequired Module: Pester..."
-	Install-Module -Name Pester -Repository PSGallery -Confirm:$false -Force -ErrorAction Stop | Out-Null
-	Write-Host "`tRequired Module: PSScriptAnalyzer..."
-	Install-Module -Name PSScriptAnalyzer -Repository PSGallery -Confirm:$false -Force -SkipPublisherCheck -ErrorAction Stop | Out-Null
-	Write-Host "`tRequired Module: coveralls..."
-	Install-Module -Name coveralls -Repository PSGallery -Confirm:$false -Force -ErrorAction Stop | Out-Null
-} Catch {throw "`t`tError Installing Module"}
+foreach ($Module in $RequiredModules) {
+
+	Try {
+		Write-Host "`tInstalling: $Module..." -NoNewline
+		Install-Module -Name $Module -Repository PSGallery -Confirm:$false -Force -SkipPublisherCheck -ErrorAction Stop | Out-Null
+		Write-Host " OK" -ForegroundColor Green
+	}Catch {
+		Write-Host "Error" -ForegroundColor Red
+		throw $_
+	}
+
+}
