@@ -30,7 +30,7 @@ param(
 }
 
 #Get function files
-Get-ChildItem $PSScriptRoot\ -Recurse -Filter "*.ps1" -Exclude "*.ps1xml" |
+Get-ChildItem $PSScriptRoot\ -Recurse -Include "*.ps1" -Exclude "*.ps1xml" |
 
 ForEach-Object {
 
