@@ -49,7 +49,7 @@ build_script:
   - ps: . .\build\build.ps1
 
 test_script:
-  - ps: . .\build\test.ps1
+  #- ps: . .\build\test.ps1
   - pwsh.exe -File .\build\test.ps1
 
 #deploy_script:
