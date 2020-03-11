@@ -44,6 +44,7 @@ Windows is only a valid option for version 10.4 onward.
 
 .PARAMETER OTP
 One Time Passcode for RADIUS authentication.
+To provide an OTP value after the initial RADIUS authentication, specify a value of 'passcode' to get prompted for the OTP to use.
 
 .PARAMETER OTPMode
 Specify if OTP is to be sent in 'Append' (appended to the password) or 'Challenge' mode (sent in response to RADIUS Challenge).
@@ -169,6 +170,16 @@ Skip SSL Certificate validation for the session.
 New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
 
 Logon to Version 10 with LDAP credential & Client Certificate
+
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP 123456 -OTPMode Challenge
+
+Perform initial Windows authentication and satisfy secondary RADIUS challenge
+
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP passcode -OTPMode Challenge
+
+Perform initial authentication and then get prompted to supply OTP value for  RADIUS challenge.
 
 .LINK
 https://pspas.pspete.dev/commands/New-PASSession
@@ -401,30 +412,35 @@ https://pspas.pspete.dev/commands/New-PASSession
 		$LogonRequest["SessionVariable"] = "PASSession"
 		$LogonRequest["UseDefaultCredentials"] = $UseDefaultCredentials.IsPresent
 		$LogonRequest["SkipCertificateCheck"] = $SkipCertificateCheck.IsPresent
-		If ($CertificateThumbprint) {
-			$LogonRequest["CertificateThumbprint"] = $CertificateThumbprint
+
+		If ($PSBoundParameters["type"] -eq "Windows") {
+
+			$LogonRequest["Credential"] = $Credential
+
 		}
+
+		If ($CertificateThumbprint) {
+
+			$LogonRequest["CertificateThumbprint"] = $CertificateThumbprint
+
+		}
+
 		If ($Certificate) {
+
 			$LogonRequest["Certificate"] = $Certificate
+
 		}
 
 		Switch -Wildcard ($PSCmdlet.ParameterSetName) {
 
-			"v10" {
+			"v10*" {
 
 				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
 				break
 
 			}
 
-			"v10Radius" {
-
-				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/RADIUS/Logon"
-				break
-
-			}
-
-			"integrated" {
+			"integrated*" {
 
 				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
 				break
@@ -458,11 +474,11 @@ https://pspas.pspete.dev/commands/New-PASSession
 
 	PROCESS {
 
-		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, SkipCertificateCheck,
-		UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge, Certificate
-
 		If (($PSCmdlet.ParameterSetName -match "^v9*") -or ($PSCmdlet.ParameterSetName -match "^v10*") ) {
+
+			#Get request parameters
+			$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, SkipCertificateCheck,
+			UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge, Certificate
 
 			#Add user name from credential object
 			$boundParameters["username"] = $($Credential.UserName)
@@ -534,6 +550,29 @@ https://pspas.pspete.dev/commands/New-PASSession
 				#Send Logon Request
 				$PASSession = Invoke-PASRestMethod @LogonRequest
 
+				If($null -ne $PASSession.UserName){
+
+					#$PASSession is expected to be a string value
+					#For IIS Windows auth:
+					#An object with a username property can be returned if a secondary authentication is required
+
+					If ($PSCmdlet.ParameterSetName -match "Radius$") {
+
+						#If RADIUS parameters are specified
+						#Prepare RADIUS auth request
+						$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/RADIUS/Logon"
+
+						#Use WebSession from initial request
+						$LogonRequest.Remove("SessionVariable")
+						$LogonRequest["WebSession"] = $Script:WebSession
+
+						#Submit initial RADIUS auth request
+						$PASSession = Invoke-PASRestMethod @LogonRequest
+
+					}
+
+				}
+
 			}
 			catch {
 
@@ -549,6 +588,12 @@ https://pspas.pspete.dev/commands/New-PASSession
 					If (($PSCmdlet.ParameterSetName -match "Radius$") -and ($PSBoundParameters["OTPMode"] -eq "Challenge")) {
 
 						If ($PSBoundParameters.ContainsKey("OTP")) {
+
+							If ($OTP -match "passcode") {
+
+								$OTP = $(Read-Host -Prompt "Enter OTP")
+
+							}
 
 							#$OTP as RADIUS response
 							#If $RadiusChallenge = Password, $OTP will be password value
@@ -587,6 +632,12 @@ https://pspas.pspete.dev/commands/New-PASSession
 
 				#If Logon Result
 				If ($PASSession) {
+
+					If ($null -ne $PASSession.UserName) {
+
+						throw "No Session Token for user $($PASSession.UserName)"
+
+					}
 
 					#Version 10
 					If ($PASSession.length -ge 180) {
