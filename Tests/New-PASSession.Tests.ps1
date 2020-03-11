@@ -50,8 +50,6 @@ Describe $FunctionName {
 
 		}
 
-		$response =
-
 		Context "Input" {
 
 			BeforeEach {
@@ -240,6 +238,17 @@ Describe $FunctionName {
 
 			It "sends request to expected v10 URL for WINDOWS Authentication" {
 
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected v10 URL for WINDOWS Integrated Authentication" {
+
 				New-PASSession -BaseURI "https://P_URI" -UseDefaultCredentials
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -316,6 +325,18 @@ Describe $FunctionName {
 
 			}
 
+			It "includes expected credential for Windows Auth" {
+
+
+				New-PASSession -BaseURI "https://P_URI" -type Windows -Credential $Credentials
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Credential -ne $null
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It "`$Script:ExternalVersion has expected value on Get-PASServer error" {
 				Mock Get-PASServer -MockWith {
 					throw "Some Error"
@@ -351,7 +372,7 @@ Describe $FunctionName {
 				$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
 				$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
 				$errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
-				$errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
+				$errorID = 'ITATS542I'
 				$targetObject = $null
 				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
 				$errorRecord.ErrorDetails = $errorDetails
@@ -452,6 +473,92 @@ Describe $FunctionName {
 				{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Append -OTP 123456 } | Should -Throw
 
 			}
+
+			It "prompts for OTP if parameter value for $OTP is 'passcode'" {
+
+				Mock Read-Host -MockWith {
+					return "123456"
+				}
+
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP passcode -OTPMode Challenge
+				Assert-MockCalled Read-Host -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
+		Context "Windows + Radius" {
+
+			BeforeEach {
+
+				$errorDetails = $([pscustomobject]@{"ErrorCode" = "ITATS542I"; "ErrorMessage" = "Some Radius Message" } | ConvertTo-Json)
+				$statusCode = 500
+				$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+				$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+				$errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+				$errorID = 'ITATS542I'
+				$targetObject = $null
+				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+				$errorRecord.ErrorDetails = $errorDetails
+
+				$Script:counter = 0
+
+				$RandomString = "ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7"
+
+				Mock -CommandName Invoke-PASRestMethod {
+					If($Script:counter -eq 0){
+						$Script:counter++
+						Throw $errorRecord
+					}
+					ElseIf ($Script:counter -ge 1) {
+
+						return $RandomString
+
+					}
+
+				} -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon" }
+
+				Mock -CommandName Invoke-PASRestMethod {return @{UserName = "AUserName" } } -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon" }
+
+				Mock Set-Variable -MockWith { }
+				Mock Get-Variable -MockWith { }
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = "6.6.6"
+					}
+				}
+
+				$Credentials = New-Object System.Management.Automation.PSCredential ("SomeUser", $(ConvertTo-SecureString "SomePassword" -AsPlainText -Force))
+
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It "throws if no session token is returned after successful IIS authentication" {
+
+				{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows } | should throw
+
+			}
+
+			It "sends expected number of requests for Windows Auth + RADIUS" {
+
+				$Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows -OTP 123456 -OTPMode Challenge
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon"
+
+				} -Times 1 -Exactly -Scope It
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon"
+
+				} -Times 2 -Exactly -Scope It
+
+			}
+
 		}
 
 	}
