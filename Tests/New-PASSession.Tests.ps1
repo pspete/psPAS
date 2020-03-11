@@ -559,6 +559,26 @@ Describe $FunctionName {
 
 			}
 
+			It "throws if RADIUS challenge fails" {
+
+				Mock -CommandName Invoke-PASRestMethod {Throw $errorRecord} -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon" }
+
+				{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows -OTP 123456 -OTPMode Challenge } | Should throw
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon"
+
+				} -Times 1 -Exactly -Scope It
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon"
+
+				} -Times 2 -Exactly -Scope It
+
+			}
+
 		}
 
 	}
