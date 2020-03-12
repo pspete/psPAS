@@ -1063,9 +1063,7 @@ Hat Tips:
 For the JSON formatting assistance.
 
 **Warren Frame**
-([RamblingCookieMonster](https://github.com/RamblingCookieMonster)) for the borrowed [Add-ObjectDetail.ps1](https://github.com/RamblingCookieMonster/PowerShell/blob/master/Add-ObjectDetail.ps1)
-& </br>[New-DynamicParam.ps1](https://github.com/RamblingCookieMonster/PowerShell/blob/master/New-DynamicParam.ps1)
-helper functions.
+([RamblingCookieMonster](https://github.com/RamblingCookieMonster)) for [Add-ObjectDetail.ps1](https://github.com/RamblingCookieMonster/PowerShell/blob/master/Add-ObjectDetail.ps1).
 
 **Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg))
 for the unofficial API documentation.
