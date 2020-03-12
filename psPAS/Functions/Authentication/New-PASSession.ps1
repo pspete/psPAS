@@ -57,6 +57,10 @@ Specify if Radius challenge is satisfied by 'OTP' or 'Password'.
 If "OTP" (Default), Password will be sent first, with OTP as the challenge response.
 If "Password", then OTP value will be sent first, and Password will be sent as the challenge response.
 
+.PARAMETER concurrentSession
+Enables multiple simultaneous connection sessions as the same user.
+Requires 11.3+
+
 .PARAMETER connectionNumber
 In order to allow more than one connection for the same user simultaneously, each request
 should be sent with different 'connectionNumber'.
@@ -98,6 +102,11 @@ Use at your own risk.
 New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 
 Logon to Version 10 with LDAP credential
+
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -concurrentSession $true
+
+Establish a concurrent session
 
 .EXAMPLE
 New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
@@ -343,6 +352,26 @@ https://pspas.pspete.dev/commands/New-PASSession
 		)]
 		[switch]$UseDefaultCredentials,
 
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10Radius"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "integrated"
+		)]
+		[Boolean]$concurrentSession,
+
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
@@ -552,9 +581,9 @@ https://pspas.pspete.dev/commands/New-PASSession
 
 				If($null -ne $PASSession.UserName){
 
-					#$PASSession is expected to be a string value
-					#For IIS Windows auth:
-					#An object with a username property can be returned if a secondary authentication is required
+					#*$PASSession is expected to be a string value
+					#*For IIS Windows auth:
+					#*An object with a username property can be returned if a secondary authentication is required
 
 					If ($PSCmdlet.ParameterSetName -match "Radius$") {
 
@@ -651,7 +680,6 @@ https://pspas.pspete.dev/commands/New-PASSession
 					ElseIf ($PASSession.LogonResult) {
 
 						#Shared Auth LogonResult.
-
 						$CyberArkLogonResult = $PASSession.LogonResult
 
 
@@ -661,7 +689,6 @@ https://pspas.pspete.dev/commands/New-PASSession
 					Else {
 
 						#Classic CyberArkLogonResult
-
 						$CyberArkLogonResult = $PASSession.CyberArkLogonResult
 
 					}

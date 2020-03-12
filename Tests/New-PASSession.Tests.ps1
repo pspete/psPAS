@@ -183,6 +183,20 @@ Describe $FunctionName {
 
 			}
 
+			It "sends request with concurrentSession value when specified" {
+
+
+				New-PASSession -BaseURI "https://P_URI" -type LDAP -Credential $Credentials -concurrentSession $true
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					$Script:RequestBody.concurrentSession -eq $true
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It "sends request to expected v10 URL for CyberArk Authentication" {
 
 				$RandomString = "ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7"
