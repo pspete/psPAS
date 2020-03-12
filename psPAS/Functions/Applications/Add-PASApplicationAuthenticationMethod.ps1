@@ -10,55 +10,69 @@ The "Manage Users" permission is required to be held by the user running the fun
 .PARAMETER AppID
 The name of the application for which a new authentication method is being added.
 
-.PARAMETER AuthType
-The tye of authentication.
-Valid Values are machineAddress, osUser, path, hashValue
+.PARAMETER path
+The path to configure as an authentication method
 
-.PARAMETER AuthValue
-The content of the authentication.
+.PARAMETER hash
+A file hash to configure as an authentication method
+
+.PARAMETER osUser
+An osUser to configure as an authentication method
+
+.PARAMETER machineAddress
+Address value to configure as an authentication method
+
+.PARAMETER certificateserialnumber
+Certificate Serial Number to configure as an authentication method
+
+.PARAMETER Subject
+The content of the subject attribute.
+
+.PARAMETER Issuer
+The content of the issuer attribute
+
+.PARAMETER SubjectAlternativeName
+The content of the subject alternative name attribute
+Accepts attributes "DNS Name", "IP Address", "URI", "RFC822"
 
 .PARAMETER IsFolder
 Boolean value denoting if path is a folder.
-Only relevant for "Path Authentication".
 
 .PARAMETER AllowInternalScripts
 Boolean value denoting if internal scripts are allowed.
-Only relevant for "Path Authentication".
 
 .PARAMETER Comment
 Note Property
-only relevant for hash authentication.
 
 .EXAMPLE
-Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType machineAddress -AuthValue AppServer1.domain.com
+Add-PASApplicationAuthenticationMethod -AppID NewApp -machineAddress "AppServer1.domain.com"
 
 Adds a Machine Address application authentication mechanism to NewApp
 
 .EXAMPLE
-Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType osUser -AuthValue Domain\SomeUser
+Add-PASApplicationAuthenticationMethod -AppID NewApp -osUser "Domain\SomeUser"
 
 Adds an osUSer application authentication mechanism to NewApp
 
 .EXAMPLE
-Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType path -AuthValue SomePath
+Add-PASApplicationAuthenticationMethod -AppID NewApp -path "SomePath"
 
 Adds path application authentication mechanism to NewApp
 
 .EXAMPLE
-Add-PASApplicationAuthenticationMethod -AppID NewApp -AuthType certificateserialnumber -AuthValue 040000000000FA3DEFE9A9 -Comment "DEV Cert"
+Add-PASApplicationAuthenticationMethod -AppID NewApp -certificateserialnumber 040000000000FA3DEFE9A9 -Comment "DEV Cert"
 
 Adds certificateserialnumber application authentication mechanism to NewApp
 
-.INPUTS
-All parameters can be piped by property name
+.EXAMPLE
+Add-PASApplicationAuthenticationMethod -AppID AppWebService -Subject "CN=application.company.com"
 
-.OUTPUTS
-None
+Adds Certificate Attribute authentication
 
-.NOTES
-Function uses dynamicparameters.
-Dynamic Parameters IsFolder, AllowInternalScripts & Comment do
-not accept input from the pipeline.
+.EXAMPLE
+Add-PASApplicationAuthenticationMethod -AppID AppWebService -SubjectAlternativeName "DNS Name=application.service"
+
+Adds Certificate Attribute authentication for certificate SAN attribute
 
 .LINK
 https://pspas.pspete.dev/commands/Add-PASApplicationAuthenticationMethod
@@ -67,63 +81,148 @@ https://pspas.pspete.dev/commands/Add-PASApplicationAuthenticationMethod
     param(
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "path"
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "certificateattr"
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "certificateserialnumber"
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "hash"
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "osUser"
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "machineAddress"
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AppID,
 
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "path"
         )]
-        [ValidateSet("path", "hash", "osUser", "machineAddress", "certificateserialnumber")]
-        [string]$AuthType,
+        [string]$path,
 
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "hash"
         )]
-        #[ValidateScript({<#[0-9a-fA-F]+CertSerialnumberValidation#>})]
-        [string]$AuthValue
+        [string]$hash,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "osUser"
+        )]
+        [string]$osUser,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "machineAddress"
+        )]
+        [string]$machineAddress,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "certificateserialnumber"
+        )]
+        [string]$certificateserialnumber,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "certificateattr"
+        )]
+        [string[]]$Subject,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "certificateattr"
+        )]
+        [string[]]$Issuer,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "certificateattr"
+        )]
+        [string[]]$SubjectAlternativeName,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "path"
+        )]
+        [boolean]$IsFolder,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "path"
+        )]
+        [boolean]$AllowInternalScripts,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "certificateattr"
+        )]
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "certificateserialnumber"
+        )]
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = "hash"
+        )]
+        [string]$Comment
     )
-
-    DynamicParam {
-
-        #Create a RuntimeDefinedParameterDictionary
-        $Dictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-
-        #Add dynamic parameters to $dictionary
-        if ($AuthType -eq "path") {
-
-            #parameters only relevant to path authentication
-            New-DynamicParam -Name IsFolder -DPDictionary $Dictionary -Type boolean
-            New-DynamicParam -Name AllowInternalScripts -DPDictionary $Dictionary -Type boolean
-
-        }
-
-        if (($AuthType -eq "hash") -or ($AuthType -eq "certificateserialnumber")) {
-
-            #add comment parmater
-            New-DynamicParam -Name Comment -DPDictionary $Dictionary
-
-        }
-
-        #return RuntimeDefinedParameterDictionary
-        $Dictionary
-
-    }
 
     BEGIN { }#begin
 
     PROCESS {
 
-        $URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID |
+        $URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID | Get-EscapedString)/Authentications"
 
-            Get-EscapedString)/Authentications"
+        $boundParamters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AppID
+
+        #Accepted authtype names match parameterset names
+        $boundParamters.Add("AuthType", $($PSCmdlet.ParameterSetName))
+
+        #When parameterset name matches parametername
+        If ($boundParamters.ContainsKey($PSCmdlet.ParameterSetName)) {
+
+            #Rename hashtable key to "AuthValue"
+            $boundParamters.Add("AuthValue", $boundParamters.$($PSCmdlet.ParameterSetName))
+            $boundParamters.Remove($($PSCmdlet.ParameterSetName))
+
+        }
 
         $Body = @{
 
-            "authentication" = $PSBoundParameters | Get-PASParameter
+            "authentication" = $boundParamters
 
         } | ConvertTo-Json
 
