@@ -248,6 +248,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 10.4 introduced a new Authentication Option.
   - New Authentication Method:
     - Windows
+- Version 11.3 introduced support for concurrent API sessions.
 - The Classic API endpoint can be used by specifying the `-UseClassicAPI` parameter.
 
 ### Close-PASSession
