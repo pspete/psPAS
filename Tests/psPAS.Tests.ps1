@@ -159,7 +159,7 @@ Describe "Module" -Tag "Consistency" {
 
 						}
 
-						$HelpParameters = $help.parameters.parameter | Where-Object name -NotIn @("WhatIf", "Confirm")
+						[array]$HelpParameters = $help.parameters.parameter | Where-Object name -NotIn @("WhatIf", "Confirm")
 
 						$HelpParameters.foreach{
 

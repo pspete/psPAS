@@ -381,16 +381,17 @@ Describe $FunctionName {
 
 			BeforeEach {
 
-				$errorDetails = $([pscustomobject]@{"ErrorCode" = "ITATS542I"; "ErrorMessage" = "Some Radius Message" } | ConvertTo-Json)
-				$statusCode = 500
-				$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
-				$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
-				$errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
-				$errorID = 'ITATS542I'
-				$targetObject = $null
-				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
-				$errorRecord.ErrorDetails = $errorDetails
-
+				if($IsCoreCLR){
+					$errorDetails = $([pscustomobject]@{"ErrorCode" = "ITATS542I"; "ErrorMessage" = "Some Radius Message" } | ConvertTo-Json)
+					$statusCode = 500
+					$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+					$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+					$errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+					$errorID = 'ITATS542I'
+					$targetObject = $null
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+				}
 				Mock -CommandName Invoke-WebRequest -ParameterFilter { $SessionVariable -eq "PASSession" } -mockwith { Throw $errorRecord }
 				Mock -CommandName Invoke-WebRequest -ParameterFilter { $WebSession -eq $Script:WebSession } -mockwith { [PSCustomObject]@{"CyberArkLogonResult" = "AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN" } }
 
@@ -409,94 +410,95 @@ Describe $FunctionName {
 			}
 
 			It "sends expected number of requests when exception ITATS542I is raised" {
-
-				$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP 123456 -OTPMode Challenge
-				Assert-MockCalled Invoke-WebRequest -Times 2 -Exactly -Scope It
-
+				if ($IsCoreCLR) {
+					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP 123456 -OTPMode Challenge
+					Assert-MockCalled Invoke-WebRequest -Times 2 -Exactly -Scope It
+				}Else{Set-ItResult -Inconclusive}
 			}
 
 			It "sends expected OTP value for Radius Challenge" {
+				if ($IsCoreCLR) {
+					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP 987654 -OTPMode Challenge
 
-				$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP 987654 -OTPMode Challenge
+					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-				Assert-MockCalled Invoke-WebRequest -ParameterFilter {
+						$Script:RequestBody = $Body | ConvertFrom-Json
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody.password -eq "SomePassword"
 
-					$Script:RequestBody.password -eq "SomePassword"
+					} -Times 1 -Exactly -Scope It
 
-				} -Times 1 -Exactly -Scope It
+					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-				Assert-MockCalled Invoke-WebRequest -ParameterFilter {
+						$Script:RequestBody = $Body | ConvertFrom-Json
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody.password -eq "987654"
 
-					$Script:RequestBody.password -eq "987654"
-
-				} -Times 1 -Exactly -Scope It
-
+					} -Times 1 -Exactly -Scope It
+				}Else{Set-ItResult -Inconclusive}
 			}
 
 			It "sends expected password value as radius challenge" {
+				if ($IsCoreCLR) {
+					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP 987654 -OTPMode Challenge -RadiusChallenge Password
 
-				$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP 987654 -OTPMode Challenge -RadiusChallenge Password
+					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-				Assert-MockCalled Invoke-WebRequest -ParameterFilter {
+						$Script:RequestBody = $Body | ConvertFrom-Json
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody.password -eq "987654"
 
-					$Script:RequestBody.password -eq "987654"
+					} -Times 1 -Exactly -Scope It
 
-				} -Times 1 -Exactly -Scope It
+					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-				Assert-MockCalled Invoke-WebRequest -ParameterFilter {
+						$Script:RequestBody = $Body | ConvertFrom-Json
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody.password -eq "SomePassword"
 
-					$Script:RequestBody.password -eq "SomePassword"
-
-				} -Times 1 -Exactly -Scope It
-
+					} -Times 1 -Exactly -Scope It
+				}Else{Set-ItResult -Inconclusive}
 			}
 
 			It "throws ITATS542I if no OTP provided" {
-
-				{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Challenge } | Should -Throw
-
+				if ($IsCoreCLR) {
+					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Challenge } | Should -Throw
+				}Else{Set-ItResult -Inconclusive}
 			}
 
 			It "throws ITATS542I if not Radius challenge mode" {
-
-				{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Append -OTP 123456 } | Should -Throw
-
+				if ($IsCoreCLR) {
+					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Append -OTP 123456 } | Should -Throw
+				}Else{Set-ItResult -Inconclusive}
 			}
 
 			It "throws if error code does not indicate Radius Challenge" {
-				$errorDetails = $([pscustomobject]@{"ErrorCode" = "ITATS123I"; "ErrorMessage" = "Some Radius Message" } | ConvertTo-Json)
-				$statusCode = 500
-				$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
-				$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
-				$errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
-				$errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
-				$targetObject = $null
-				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
-				$errorRecord.ErrorDetails = $errorDetails
+				if ($IsCoreCLR) {
+					$errorDetails = $([pscustomobject]@{"ErrorCode" = "ITATS123I"; "ErrorMessage" = "Some Radius Message" } | ConvertTo-Json)
+					$statusCode = 500
+					$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+					$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+					$errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+					$errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
+					$targetObject = $null
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
 
-				Mock -CommandName Invoke-WebRequest -ParameterFilter { $SessionVariable -eq "PASSession" } -mockwith { Throw $errorRecord }
+					Mock -CommandName Invoke-WebRequest -ParameterFilter { $SessionVariable -eq "PASSession" } -mockwith { Throw $errorRecord }
 
-				{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Append -OTP 123456 } | Should -Throw
-
+					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Append -OTP 123456 } | Should -Throw
+				}Else{Set-ItResult -Inconclusive}
 			}
 
 			It "prompts for OTP if parameter value for $OTP is 'passcode'" {
+				if ($IsCoreCLR) {
+					Mock Read-Host -MockWith {
+						return "123456"
+					}
 
-				Mock Read-Host -MockWith {
-					return "123456"
-				}
-
-				$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP passcode -OTPMode Challenge
-				Assert-MockCalled Read-Host -Times 1 -Exactly -Scope It
-
+					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP passcode -OTPMode Challenge
+					Assert-MockCalled Read-Host -Times 1 -Exactly -Scope It
+				}Else{Set-ItResult -Inconclusive}
 			}
 
 		}
@@ -504,17 +506,17 @@ Describe $FunctionName {
 		Context "Windows + Radius" {
 
 			BeforeEach {
-
-				$errorDetails = $([pscustomobject]@{"ErrorCode" = "ITATS542I"; "ErrorMessage" = "Some Radius Message" } | ConvertTo-Json)
-				$statusCode = 500
-				$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
-				$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
-				$errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
-				$errorID = 'ITATS542I'
-				$targetObject = $null
-				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
-				$errorRecord.ErrorDetails = $errorDetails
-
+				if ($IsCoreCLR) {
+					$errorDetails = $([pscustomobject]@{"ErrorCode" = "ITATS542I"; "ErrorMessage" = "Some Radius Message" } | ConvertTo-Json)
+					$statusCode = 500
+					$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+					$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+					$errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+					$errorID = 'ITATS542I'
+					$targetObject = $null
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+				}
 				$Script:counter = 0
 
 				$RandomString = "ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7"
@@ -550,46 +552,48 @@ Describe $FunctionName {
 			}
 
 			It "throws if no session token is returned after successful IIS authentication" {
-
-				{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows } | should throw
-
+				if ($IsCoreCLR) {
+					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows } | should throw
+				}Else{Set-ItResult -Inconclusive}
 			}
 
 			It "sends expected number of requests for Windows Auth + RADIUS" {
+				if ($IsCoreCLR) {
+					$Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows -OTP 123456 -OTPMode Challenge
 
-				$Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows -OTP 123456 -OTPMode Challenge
+					Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+						$URI -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon"
 
-					$URI -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon"
+					} -Times 1 -Exactly -Scope It
 
-				} -Times 1 -Exactly -Scope It
+					Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+						$URI -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon"
 
-					$URI -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon"
-
-				} -Times 2 -Exactly -Scope It
-
+					} -Times 2 -Exactly -Scope It
+				}Else{Set-ItResult -Inconclusive}
 			}
 
 			It "throws if RADIUS challenge fails" {
+				if ($IsCoreCLR) {
+					Mock -CommandName Invoke-PASRestMethod {Throw $errorRecord} -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon" }
 
-				Mock -CommandName Invoke-PASRestMethod {Throw $errorRecord} -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon" }
+					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows -OTP 123456 -OTPMode Challenge } | Should throw
 
-				{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows -OTP 123456 -OTPMode Challenge } | Should throw
+					Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+						$URI -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon"
 
-					$URI -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon"
+					} -Times 1 -Exactly -Scope It
 
-				} -Times 1 -Exactly -Scope It
+					Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+						$URI -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon"
 
-					$URI -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon"
+					} -Times 2 -Exactly -Scope It
 
-				} -Times 2 -Exactly -Scope It
+				}Else{Set-ItResult -Inconclusive}
 
 			}
 
