@@ -68,7 +68,9 @@ Describe $FunctionName {
 
 			It "does not throw" {
 
-				{ Invoke-PASRestMethod @WebSession -Debug 5>&1 } | Should -Not -Throw
+				{ 	$DebugPreference = "Continue"
+					Invoke-PASRestMethod @WebSession 5>&1
+					$DebugPreference = "SilentlyContinue" } | Should -Not -Throw
 
 			}
 			It "sends request" {
@@ -88,44 +90,65 @@ Describe $FunctionName {
 
 			}
 
-			it "specifies -SslProtocol TLS12" {
-				Mock Test-IsCoreCLR -MockWith { return $true }
-				Invoke-PASRestMethod @WebSession
-				Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
-					$SslProtocol -eq "TLS12"
-				}
-			}
+				it "specifies -SslProtocol TLS12" {
 
-			it "specifies SkipHeaderValidation" {
-				Mock Test-IsCoreCLR -MockWith { return $true }
-				Invoke-PASRestMethod @WebSession
-				Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
-					$SkipHeaderValidation -eq $true
-				}
-			}
+					If ($IsCoreCLR) {
 
-			It "invokes Skip-CertificateCheck when run from PowerShell" {
-				Mock Test-IsCoreCLR -MockWith { return $false }
-				Invoke-PASRestMethod @WebSession -SkipCertificateCheck
-				Assert-MockCalled "Skip-CertificateCheck" -Times 1 -Scope It -Exactly
-			}
-
-			It "uses parameter SkipCertificateCheck when run from PWSH" {
-				Mock Test-IsCoreCLR -MockWith { return $true }
-				Invoke-PASRestMethod @WebSession -SkipCertificateCheck
-				Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
-					$SkipCertificateCheck -eq $true
+						Mock Test-IsCoreCLR -MockWith { return $true }
+						Mock Invoke-WebRequest -MockWith { }
+						Invoke-PASRestMethod @WebSession
+						Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
+							$SslProtocol -eq "TLS12"
+						}
+					}else{Set-ItResult -Inconclusive}
 				}
-			}
 
-			It "Skips Certificate Validation when run from PWSH" {
-				Mock Test-IsCoreCLR -MockWith { return $true }
-				$Script:SkipCertificateCheck = $true
-				Invoke-PASRestMethod @WebSession
-				Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
-					$SkipCertificateCheck -eq $true
+				it "specifies SkipHeaderValidation" {
+
+					If ($IsCoreCLR) {
+						Mock Test-IsCoreCLR -MockWith { return $true }
+						Mock Invoke-WebRequest -MockWith { }
+
+						Invoke-PASRestMethod @WebSession
+						Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
+							$SkipHeaderValidation -eq $true
+						}
+					}else{Set-ItResult -Inconclusive}
 				}
-			}
+
+				It "invokes Skip-CertificateCheck when run from PowerShell" {
+					Mock Test-IsCoreCLR -MockWith { return $false }
+					Invoke-PASRestMethod @WebSession -SkipCertificateCheck
+					Assert-MockCalled "Skip-CertificateCheck" -Times 1 -Scope It -Exactly
+				}
+
+				It "uses parameter SkipCertificateCheck when run from PWSH" {
+
+					If ($IsCoreCLR) {
+						Mock Test-IsCoreCLR -MockWith { return $true }
+
+						Mock Invoke-WebRequest -MockWith { }
+						Invoke-PASRestMethod @WebSession -SkipCertificateCheck
+						Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
+							$SkipCertificateCheck -eq $true
+						}
+					}else{Set-ItResult -Inconclusive}
+				}
+
+				It "Skips Certificate Validation when run from PWSH" {
+					If ($IsCoreCLR) {
+
+						Mock Test-IsCoreCLR -MockWith { return $true }
+						Mock Invoke-WebRequest -MockWith { }
+						$Script:SkipCertificateCheck = $true
+						Invoke-PASRestMethod @WebSession
+						Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
+							$SkipCertificateCheck -eq $true
+						}
+
+					}else{Set-ItResult -Inconclusive}
+				}
+
 
 			It "sets WebSession variable in the module scope" {
 				Invoke-PASRestMethod @SessionVariable
@@ -160,6 +183,7 @@ Describe $FunctionName {
 
 			BeforeEach {
 
+				If ($IsCoreCLR) {
 				$errorDetails = $([pscustomobject]@{"ErrorCode" = "URA999"; "ErrorMessage" = "Some Error Message" } | ConvertTo-Json)
 				$statusCode = 400
 				$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
@@ -169,6 +193,7 @@ Describe $FunctionName {
 				$targetObject = $null
 				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
 				$errorRecord.ErrorDetails = $errorDetails
+				}
 
 				$WebSession = @{
 					"URI"        = "https://CyberArk_URL"
@@ -187,43 +212,49 @@ Describe $FunctionName {
 			it "reports generic Http Request Exceptions" {
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ("SomeUser", $(ConvertTo-SecureString "SomePassword" -AsPlainText -Force))
-				{ New-PASSession -Credential $Credentials -BaseURI "https://dead.server.no-site.io" } | Should -Throw -ExpectedMessage "Error contacting https://dead.server.no-site.io"
+				{ New-PASSession -Credential $Credentials -BaseURI "https://dead.server.no-site.io" } | Should -Throw "dead.server.no-site.io"
 
 			}
 
 			it "reports expected error message" {
+				If ($IsCoreCLR) {
+					Mock Invoke-WebRequest { Throw $errorRecord }
 
-				Mock Invoke-WebRequest { Throw $errorRecord }
-
-				{ Invoke-PASRestMethod @WebSession } | Should -Throw -ExpectedMessage "[400] Some Error Message"
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw -ExpectedMessage "[400] Some Error Message"
+				}Else{Set-ItResult -Inconclusive}
 
 			}
 
 			it "reports http errors not returned as json" {
-				$errorDetails = '"ErrorCode" [=] "URA999"[;] "ErrorMessage" [=] "Some Error Message"'
-				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
-				$errorRecord.ErrorDetails = $errorDetails
-				Mock Invoke-WebRequest { Throw $errorRecord }
-				{ Invoke-PASRestMethod @WebSession } | Should -Throw
+				If ($IsCoreCLR) {
+					$errorDetails = '"ErrorCode" [=] "URA999"[;] "ErrorMessage" [=] "Some Error Message"'
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+					Mock Invoke-WebRequest { Throw $errorRecord }
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw
+				}Else { Set-ItResult -Inconclusive}
 			}
 
 			it "reports inner error messages" {
-				$Details = [pscustomobject]@{"ErrorCode" = "URA666"; "ErrorMessage" = "Some Inner Error" }
-				$errorDetails = $([pscustomobject]@{"ErrorCode" = "URA999"; "ErrorMessage" = "Some Error Message" ; "Details" = $Details } | ConvertTo-Json)
-				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
-				$errorRecord.ErrorDetails = $errorDetails
-				Mock Invoke-WebRequest { Throw $errorRecord }
-				{ Invoke-PASRestMethod @WebSession } | Should -Throw
+				If ($IsCoreCLR) {
+					$Details = [pscustomobject]@{"ErrorCode" = "URA666"; "ErrorMessage" = "Some Inner Error" }
+					$errorDetails = $([pscustomobject]@{"ErrorCode" = "URA999"; "ErrorMessage" = "Some Error Message" ; "Details" = $Details } | ConvertTo-Json)
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+					Mock Invoke-WebRequest { Throw $errorRecord }
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw
+				}Else { Set-ItResult -Inconclusive }
 			}
 
 			it "catches other errors" {
+				If ($IsCoreCLR) {
+					$errorDetails = $null
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+					Mock Invoke-WebRequest { Throw $errorRecord }
 
-				$errorDetails = $null
-				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
-				$errorRecord.ErrorDetails = $errorDetails
-				Mock Invoke-WebRequest { Throw $errorRecord }
-
-				{ Invoke-PASRestMethod @WebSession } | Should -Throw
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw
+				}Else { Set-ItResult -Inconclusive }
 
 			}
 
