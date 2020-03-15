@@ -5,6 +5,23 @@
 - Continued development to encompass any capability updates released for the CyberArk API.
 - psPAS v4.0...
 
+## 3.5.0 (March 15th 2020)
+
+### Module update to cover CyberArk 11.3
+
+- **Breaking Changes**
+  - `Add-PASApplicationAuthenticationMethod` - Parameters Changed
+    - Removed `AuthName` & `AuthValue` parameters
+    - Added named parameters for each authentication type, which accept the `AuthValue` string.
+- Updates + Fixes
+  - `New-PASSession`
+    - Added Parameter `concurrentSession` - supported from 11.3
+    - Added support for Windows + RADIUS authentication
+    - PSCredential object can now be used for Windows/IIS Authentication.
+    - Added logic to prompt for OTP by supplying a value of `passcode` to the `OTP` parameter
+  - `Add-PASApplicationAuthenticationMethod`
+    - Added support for configuring Certificate Attribute authentication method
+
 ## 3.4.100 (January 27th 2020)
 
 ### Module update to cover CyberArk 11.2 API features
