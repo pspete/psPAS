@@ -63,8 +63,10 @@ Describe $FunctionName {
 
 			It "outputs byte array of expected size" {
 
-				(Get-ByteArray -Path "$($InputObj.Path)").Count | Should Be (Get-Content "$($InputObj.Path)" -ReadCount 0 -AsByteStream).Count
-
+				if($IsCoreCLR){
+					(Get-ByteArray -Path "$($InputObj.Path)").Count | Should Be (Get-Content "$($InputObj.Path)" -ReadCount 0 -AsByteStream).Count
+				}
+				Else { Set-ItResult -Inconclusive }
 			}
 
 		}

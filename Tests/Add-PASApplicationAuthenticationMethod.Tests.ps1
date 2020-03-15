@@ -45,119 +45,141 @@ Describe $FunctionName {
 		$InputObj = [pscustomobject]@{
 
 			"AppID"        = "SomeApplication"
-			"AuthValue"    = "SomePath"
 
 		}
 
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'AppID'},
-			@{Parameter = 'AuthType'},
-			@{Parameter = 'AuthValue'}
+			@{Parameter = 'path' },
+			@{Parameter = 'hash' },
+			@{Parameter = 'osUser' },
+			@{Parameter = 'machineAddress' },
+			@{Parameter = 'certificateserialnumber' }
 
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Add-PASApplicationAuthenticationMethod).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Add-PASApplicationAuthenticationMethod).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique |  Should Be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Add-PASApplicationAuthenticationMethod -AuthType path -IsFolder $true -AllowInternalScripts $true
-
 		Context "Input" {
 
-			It "validates authType parameter" {
-
-				{$InputObj | Add-PASApplicationAuthenticationMethod -AuthType InvalidAuthType} | Should throw
+			BeforeEach{
 
 			}
 
 			It "sends request" {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				$InputObj | Add-PASApplicationAuthenticationMethod -path "SomePath" -IsFolder $true -AllowInternalScripts $true
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
 
+				$InputObj | Add-PASApplicationAuthenticationMethod -path "SomePath" -IsFolder $true -AllowInternalScripts $true
+
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Applications/SomeApplication/Authentications"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				$InputObj | Add-PASApplicationAuthenticationMethod -path "SomePath" -IsFolder $true -AllowInternalScripts $true
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It "sends request with expected AuthType for path authentication" {
+
+				$InputObj | Add-PASApplicationAuthenticationMethod -path "SomePath" -IsFolder $true -AllowInternalScripts $true
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Script:RequestBody = $Body | ConvertFrom-Json
 
-					($Script:RequestBody.authentication) -ne $null
-
-				} -Times 1 -Exactly -Scope Describe
-
-			}
-
-			It "has dynamic parameter 'IsFolder' when authtype path is specified" {
-
-				$Script:RequestBody.authentication.IsFolder | Should Be $true
-
-			}
-
-			It "has dynamic parameter 'AllowInternalScripts' when authtype path is specified" {
-
-				$Script:RequestBody.authentication.AllowInternalScripts | Should Be $true
-
-			}
-
-			It "has a request body with expected number of properties" {
-
-				($Script:RequestBody.authentication | Get-Member -MemberType NoteProperty).length | Should Be 5
-
-			}
-
-			It "has dynamic parameter 'Comment' when authtype 'hash' is specified" {
-
-				$InputObj | Add-PASApplicationAuthenticationMethod -AuthType hash -Comment "Some Comment"
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$RequestBody = $Body | ConvertFrom-Json
-
-					($RequestBody.authentication.Comment) -eq "Some Comment"
+					($Script:RequestBody.authentication.AuthType) -eq "path"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "has dynamic parameter 'comment' when authtype 'certificateserialnumber' is specified" {
+			It "sends request with expected AuthType for hash authentication" {
 
-				$InputObj | Add-PASApplicationAuthenticationMethod -AuthType certificateserialnumber -Comment "Some Other Comment"
+				$InputObj | Add-PASApplicationAuthenticationMethod -hash "SomeHash"
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = $Body | ConvertFrom-Json
 
-					($RequestBody.authentication.Comment) -eq "Some Other Comment"
+					($Script:RequestBody.authentication.AuthType) -eq "hash"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws if dynamic parameter 'comment' is specified with incorrect authtype" {
+			It "sends request with expected AuthType for osUser authentication" {
 
-				{$InputObj | Add-PASApplicationAuthenticationMethod -AuthType path -Comment "Some Random Comment"} | Should Throw
+				$InputObj | Add-PASApplicationAuthenticationMethod -osUser "SomeUser"
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody.authentication.AuthType) -eq "osUser"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request with expected AuthType for machineAddress authentication" {
+
+				$InputObj | Add-PASApplicationAuthenticationMethod -machineAddress "machineAddress"
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody.authentication.AuthType) -eq "machineAddress"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request with expected AuthType for certificateserialnumber authentication" {
+
+				$InputObj | Add-PASApplicationAuthenticationMethod -certificateserialnumber "certificateserialnumber"
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody.authentication.AuthType) -eq "certificateserialnumber"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request with expected AuthType for certificateattr authentication" {
+
+				Add-PASApplicationAuthenticationMethod -AppID AppWebService -SubjectAlternativeName "DNS Name=application.service"
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody.authentication.AuthType) -eq "certificateattr"
+
+				} -Times 1 -Exactly -Scope It
 
 			}
 
@@ -166,6 +188,8 @@ Describe $FunctionName {
 		Context "Output" {
 
 			it "provides no output" {
+
+				$response = $InputObj | Add-PASApplicationAuthenticationMethod -path "SomePath"  -IsFolder $true -AllowInternalScripts $true
 
 				$response | Should BeNullOrEmpty
 

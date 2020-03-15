@@ -30,7 +30,8 @@ When submitting a Pull Request to psPAS, automated tasks will run in Appveyor.
 - Appveyor will increment the version number (there is no need to do this manually)
 - The [`Pester`][pester-repo] tests for the module will run.
 - [Code Coverage][code-coverage] metrics for the module will be determined
-- If the PR is accepted into the `master` branch, and all tests pass, the module is automatically published to the PowerShell Gallery.
+- Once code is merged into the `master` branch, and all tests pass, the module is automatically published to the PowerShell Gallery and tagged as a Release on GitHub
+  - No PR's should be submitted to the master branch; submitting to the Dev branch allows for required tests & documentation to be updated prior to any code release.
 
 [commit]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 [OTBS]: https://github.com/PoshCode/PowerShellPracticeAndStyle/issues/81

@@ -38,6 +38,10 @@
 	See Invoke-WebRequest
 	Used for Integrated Auth
 
+	.PARAMETER Credential
+	See Invoke-WebRequest
+	Used for Integrated Auth
+
 	.PARAMETER TimeoutSec
 	See Invoke-WebRequest
 	Specify a timeout value in seconds
@@ -88,6 +92,9 @@
 
 		[Parameter(Mandatory = $false)]
 		[switch]$UseDefaultCredentials,
+
+		[Parameter(Mandatory = $false)]
+		[pscredential]$Credential,
 
 		[Parameter(Mandatory = $false)]
 		[int]$TimeoutSec,

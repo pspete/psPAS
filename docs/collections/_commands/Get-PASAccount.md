@@ -4,8 +4,8 @@ title: Get-PASAccount
 
 ## SYNOPSIS
 
-    Returns details of matching accounts. (Version 10.4 onwards)
-    Returns information about a single account. (Version 9.3 - 10.3)
+Returns details of matching accounts. (Version 10.4 onwards)
+Returns information about a single account. (Version 9.3 - 10.3)
 
 ## SYNTAX
 
@@ -18,21 +18,21 @@ title: Get-PASAccount
 
 ## DESCRIPTION
 
-    Version 10.4+:
-    This method returns a list of either a specific, or all the accounts in the Vault.
-    Requires the following permission in the Safe: List accounts.
+Version 10.4+:
+This method returns a list of either a specific, or all the accounts in the Vault.
+Requires the following permission in the Safe: List accounts.
 
-    Version 9.3 - 10.3:
-    Returns information about an account. If more than one account meets the search criteria,
-    only the first account will be returned (the Count output parameter will display the number
-    of accounts that were found).
-    Only the following users can access this account:
-        - Users who are members of the Safe where the account is stored
-        - Users who have access to this specific account.
-        - The user who runs this web service requires the following permission in the Safe:
-        - Retrieve account
-    This method does not display the actual password.
-    If ten or more accounts are found, the Count Output parameter will show 10.
+Version 9.3 - 10.3:
+Returns information about an account. If more than one account meets the search criteria,
+only the first account will be returned (the Count output parameter will display the number
+of accounts that were found).
+Only the following users can access this account:
+    - Users who are members of the Safe where the account is stored
+    - Users who have access to this specific account.
+    - The user who runs this web service requires the following permission in the Safe:
+    - Retrieve account
+This method does not display the actual password.
+If ten or more accounts are found, the Count Output parameter will show 10.
 
 ## PARAMETERS
 
