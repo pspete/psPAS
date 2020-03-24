@@ -112,6 +112,7 @@
 	Begin {
 
 		#Set defaults for all function calls
+		$ProgressPreference = 'SilentlyContinue'
 		$PSBoundParameters.Add("ContentType", 'application/json')
 		$PSBoundParameters.Add("UseBasicParsing", $true)
 
