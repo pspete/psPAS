@@ -156,12 +156,19 @@
 					<TableColumnHeader />
 					<TableColumnHeader />
 					<TableColumnHeader />
+					<TableColumnHeader />
 				</TableHeaders>
 				<TableRowEntries>
 					<TableRowEntry>
 						<TableColumnItems>
 							<TableColumnItem>
+								<PropertyName>MappingID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
 								<PropertyName>MappingName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>DirectoryMappingOrder</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>LDAPBranch</PropertyName>
@@ -172,9 +179,7 @@
 							<TableColumnItem>
 								<PropertyName>MappingAuthorizations</PropertyName>
 							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>DirectoryMappingOrder</PropertyName>
-							</TableColumnItem>
+
 						</TableColumnItems>
 					</TableRowEntry>
 				</TableRowEntries>

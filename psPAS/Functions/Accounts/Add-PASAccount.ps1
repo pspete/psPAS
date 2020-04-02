@@ -429,11 +429,11 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 			}
 
 			#Process for required formatting - fix V10 specific parameter names
+			$boundParameters.remove("SafeName")
+			$boundParameters.remove("userName")
 			$boundParameters["safe"] = $SafeName
 			$boundParameters["username"] = $userName
 
-			$boundParameters.remove("SafeName")
-			$boundParameters.remove("userName")
 			#declare empty hashtable to hold "non-base" parameters
 			$properties = @{ }
 

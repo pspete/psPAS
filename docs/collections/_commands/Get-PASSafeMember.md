@@ -82,7 +82,9 @@ If a Safe Member Name is provided, the full permissions of the member on the Saf
 
     -MemberName <String>
         Specify the name of a safe member to return their safe permissions in full.
-        You cannot report on the permissions of the user authenticated to the API.
+        An empty PUT request (update) is sent to retrieve full safe permissions for a user, as such:
+        - You cannot report on the permissions of the user authenticated to the API.
+        - Reporting on the permissions of the Quota Owner is expected to fail.
 
         Required?                    false
         Position?                    named

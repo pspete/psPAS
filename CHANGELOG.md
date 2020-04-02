@@ -5,6 +5,18 @@
 - Continued development to encompass any capability updates released for the CyberArk API.
 - psPAS v4.0...
 
+## 3.5.8 (April 2nd 2020)
+
+- Changes minimum required PowerShell version to 5.1
+- Updates + Fixes
+  - Marginal performance improvement by suppressing progress bar for `Invoke-WebRequest`.
+  - `Add-PASAccount`
+    - Fixed bug where mandatory username parameter is not sent in the request body when using the classic API.
+  - `Get-PASDirectoryMapping`
+    - include MappingID in default table output
+  - `Get-PASSafeMember`
+    - Updated help text to clarify `MemberName` parameter and expected failure conditions due to request method (`PUT` instead of `GET`)
+
 ## 3.5.0 (March 15th 2020)
 
 ### Module update to cover CyberArk 11.3
