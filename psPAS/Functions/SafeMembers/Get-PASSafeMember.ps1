@@ -9,53 +9,53 @@ View Safe Members permission is required.
 
 When querying all members of a safe, the permissions are reported as per the following table:
 
-List accounts							ListContent
+List accounts							    ListContent
 Retrieve accounts							Retrieve
-Add accounts (includes update properties)				Add
+Add accounts (includes update properties)	Add
 Update account content						Update
-Update account properties						UpdateMetadata
-Rename accounts							Rename
-Delete accounts							Delete
-View Audit log							ViewAudit
+Update account properties					UpdateMetadata
+Rename accounts							    Rename
+Delete accounts							    Delete
+View Audit log							    ViewAudit
 View Safe Members							ViewMembers
-Use accounts							RestrictedRetrieve
-Initiate CPM account management operations				<NOT RETURNED>
-Specify next account content					<NOT RETURNED>
-Create folders							AddRenameFolder
-Delete folders							DeleteFolder
-Unlock accounts							Unlock
+Use accounts								RestrictedRetrieve
+Initiate CPM account management operations	<NOT RETURNED>
+Specify next account content			    <NOT RETURNED>
+Create folders							    AddRenameFolder
+Delete folders							    DeleteFolder
+Unlock accounts							    Unlock
 Move accounts/folders						MoveFilesAndFolders
-Manage Safe								ManageSafe
+Manage Safe								    ManageSafe
 Manage Safe Members							ManageSafeMembers
 Validate Safe Content						ValidateSafeContent
-Backup Safe								BackupSafe
-Access Safe without confirmation					<NOT RETURNED>
-Authorize account requests�(level1, level2)				<NOT RETURNED>
+Backup Safe								    BackupSafe
+Access Safe without confirmation			<NOT RETURNED>
+Authorize account requests�(level1, level2)	<NOT RETURNED>
 
 If a Safe Member Name is provided, the full permissions of the member on the Safe will be returned:
 
-List accounts							ListAccounts
+List accounts							    ListAccounts
 Retrieve accounts							RetrieveAccounts
-Add accounts (includes update properties)				AddAccounts
+Add accounts (includes update properties)	AddAccounts
 Update account content						UpdateAccountContent
-Update account properties						UpdateAccountProperties
-Rename accounts							RenameAccounts
-Delete accounts							DeleteAccounts
-View Audit log							ViewAuditLog
+Update account properties					UpdateAccountProperties
+Rename accounts							    RenameAccounts
+Delete accounts							    DeleteAccounts
+View Audit log							    ViewAuditLog
 View Safe Members							ViewSafeMembers
-Use accounts							UseAccounts
-Initiate CPM account management operations				InitiateCPMAccountManagementOperations
-Specify next account content					SpecifyNextAccountContent
-Create folders							CreateFolders
-Delete folders							DeleteFolder
-Unlock accounts							UnlockAccounts
+Use accounts							    UseAccounts
+Initiate CPM account management operations	InitiateCPMAccountManagementOperations
+Specify next account content				SpecifyNextAccountContent
+Create folders							    CreateFolders
+Delete folders							    DeleteFolder
+Unlock accounts							    UnlockAccounts
 Move accounts/folders						MoveAccountsAndFolders
-Manage Safe								ManageSafe
+Manage Safe								    ManageSafe
 Manage Safe Members							ManageSafeMembers
 Validate Safe Content						<NOT RETURNED>
-Backup Safe								BackupSafe
-Access Safe without confirmation					AccessWithoutConfirmation
-Authorize account requests (level1, level2)				RequestsAuthorizationLevel
+Backup Safe								    BackupSafe
+Access Safe without confirmation			AccessWithoutConfirmation
+Authorize account requests (level1, level2)	RequestsAuthorizationLevel
 
 .PARAMETER SafeName
 The name of the safe to get the members of
@@ -147,6 +147,12 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 
 			if ($PSCmdlet.ParameterSetName -eq "MemberPermissions") {
 
+				$MemberPermissions = [PSCustomObject]@{}
+
+				$result.member.Permissions | ForEach-Object {
+					$MemberPermissions | Add-Member -MemberType NoteProperty -Name $($PSItem | Select-Object -ExpandProperty key) -Value $($PSItem | Select-Object -ExpandProperty value)
+				}
+
 				#format output
 				$Output = $result.member | Select-Object MembershipExpirationDate,
 
@@ -158,7 +164,7 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 
 				@{Name = "Permissions"; "Expression" = {
 
-						$_.Permissions | Where-Object { $_.value } | Select-Object -ExpandProperty key }
+						$MemberPermissions }
 
 				}
 
@@ -167,13 +173,7 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 			Else {
 
 				#output
-				$Output = $result.members | Select-Object UserName, @{Name = "Permissions"; "Expression" = {
-
-						($_.Permissions).psobject.properties | Where-Object { $_.Value -eq $true } |
-
-						Select-Object -ExpandProperty Name }
-
-				}
+				$Output = $result.members | Select-Object UserName, Permissions
 
 			}
 
