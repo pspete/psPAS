@@ -15,7 +15,7 @@ $configuration = [PesterConfiguration]::Default
 # assing properties & discover via intellisense
 $configuration.Run.Path = ".\Tests"
 $configuration.Run.PassThru = $true
-$configuration.CodeCoverage.Enabled = $true
+$configuration.CodeCoverage.Enabled = $false
 $configuration.CodeCoverage.Path = $files
 $configuration.TestResult.Enabled = $true
 $configuration.TestResult.OutputFormat = "NUnitXml"
@@ -31,6 +31,7 @@ $null = (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/
 
 Remove-Item -Path $(Resolve-Path .\TestsResults.xml) -Force
 
+<#
 if ($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq "Pete Maan") {
 
 	Write-Host 'Formating Code Coverage'
@@ -49,6 +50,7 @@ if ($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq "Pete Maan") {
 	Remove-Item -Path $(Resolve-Path .\codecov.sh) -Force
 
 }
+#>
 #---------------------------------#
 # Validate                        #
 #---------------------------------#
