@@ -8,8 +8,6 @@ Write-Host "Testing: PSVersion $($PSVersionTable.PSVersion)" -ForegroundColor Ye
 #---------------------------------#
 $files = Get-ChildItem $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME) -Include *.ps1 -Recurse | Select-Object -ExpandProperty FullName
 
-#$res = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -CodeCoverage $files -PassThru -Show Summary, Failed
-
 # get default from static property
 $configuration = [PesterConfiguration]::Default
 # assing properties & discover via intellisense

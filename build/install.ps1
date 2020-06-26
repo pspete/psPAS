@@ -31,6 +31,6 @@ foreach ($Module in $RequiredModules) {
 	}Catch {
 		Write-Host "Error" -ForegroundColor Red
 		throw $_
-	}
+	}Finally{Import-Module -Name $Module}
 
 }

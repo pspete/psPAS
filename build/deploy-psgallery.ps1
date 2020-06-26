@@ -60,7 +60,7 @@ if (-not ($ENV:APPVEYOR_PULL_REQUEST_NUMBER)) {
 
 		<# No Deployment      #>
 
-		Write-Host "Finished testing: $($env:APPVEYOR_PROJECT_NAME) $env:APPVEYOR_REPO_BRANCH ($($env:APPVEYOR_BUILD_VERSION)) - Exiting" -ForegroundColor Cyan
+		Write-Host "$ENV:APPVEYOR_REPO_BRANCH Branch; No Deployment - Finished testing: $($env:APPVEYOR_PROJECT_NAME) ($($env:APPVEYOR_BUILD_VERSION)) - Exiting" -ForegroundColor Cyan
 		exit;
 
 	}
