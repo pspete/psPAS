@@ -1,41 +1,39 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-}
+		}
 
-BeforeAll {
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-	$Script:RequestBody = $null
-
-}
-
-AfterAll {
-
-	$Script:RequestBody = $null
-
-}
-
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
+	}
 
 
+	AfterAll {
+
+		$Script:RequestBody = $null
+
+	}
+
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		Context "Mandatory Parameters" {
 
@@ -46,7 +44,7 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command Connect-PASPSMSession).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should Be $true
+				(Get-Command Connect-PASPSMSession).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should -Be $true
 
 			}
 
@@ -130,7 +128,7 @@ Describe $FunctionName {
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "9.8"
-				{ $InputObj | Connect-PASPSMSession -ConnectionMethod RDP } | Should Throw
+				{ $InputObj | Connect-PASPSMSession -ConnectionMethod RDP } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
@@ -160,19 +158,19 @@ Describe $FunctionName {
 
 			it "provides output" {
 
-				$InputObj | Connect-PASPSMSession | Should not BeNullOrEmpty
+				$InputObj | Connect-PASPSMSession | Should -Not -BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties" {
 
-				($InputObj | Connect-PASPSMSession | Get-Member -MemberType NoteProperty).length | Should Be 3
+				($InputObj | Connect-PASPSMSession | Get-Member -MemberType NoteProperty).length | Should -Be 3
 
 			}
 
 			it "outputs object with expected typename" {
 
-				$InputObj | Connect-PASPSMSession | get-member | select-object -expandproperty typename -Unique | Should Be System.Management.Automation.PSCustomObject
+				$InputObj | Connect-PASPSMSession | get-member | select-object -expandproperty typename -Unique | Should -Be System.Management.Automation.PSCustomObject
 
 			}
 

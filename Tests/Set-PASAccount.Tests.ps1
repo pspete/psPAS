@@ -1,42 +1,39 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-}
+		}
 
-BeforeAll {
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-	$Script:RequestBody = $null
-	$Script:BaseURI = "https://SomeURL/SomeApp"
-	$Script:ExternalVersion = "0.0"
-	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+	}
 
-}
 
-AfterAll {
+	AfterAll {
 
-	$Script:RequestBody = $null
+		$Script:RequestBody = $null
 
-}
+	}
 
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		Context "Mandatory Parameters" {
 
@@ -51,14 +48,14 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command Set-PASAccount).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Set-PASAccount).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
 		}
 
-		Context "v10 API" { 
-			
+		Context "v10 API" {
+
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
@@ -128,28 +125,28 @@ Describe $FunctionName {
 
 			it "provides output - V10 ParameterSet" {
 				$response = $InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
-				$response | Should not BeNullOrEmpty
+				$response | Should -Not -BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties - V10 ParameterSet" {
 				$response = $InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 2
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
 			}
 
 			it "outputs object with expected typename - V10 ParameterSet" {
 				$response = $InputObjV10 | Set-PASAccount -op Replace -path "/somepath" -value SomeValue
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.V10
+				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.V10
 
 			}
 
 		}
-		
+
 		Context "Classic API" {
 
 			BeforeEach {
-				
+
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
 						"UpdateAccountResult" = [pscustomobject]@{
@@ -173,9 +170,9 @@ Describe $FunctionName {
 
 				}
 				[void]$InputObj.PSObject.TypeNames.Insert(0, "psPAS.CyberArk.Vault.Account")
-				
+
 			}
-				
+
 			It "sends request - V9 ParameterSet" {
 				$InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
@@ -207,22 +204,22 @@ Describe $FunctionName {
 				} -Times 1 -Exactly -Scope It
 
 			}
-			
+
 			it "provides output - V9 ParameterSet" {
 				$response = $InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
-				$response | Should not BeNullOrEmpty
+				$response | Should -Not -BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties - V9 ParameterSet" {
 				$response = $InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 5
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 5
 
 			}
 
 			it "outputs object with expected typename - V9 ParameterSet" {
 				$response = $InputObj | Set-PASAccount -Properties @{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = "Val3" }
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account
+				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account
 
 			}
 

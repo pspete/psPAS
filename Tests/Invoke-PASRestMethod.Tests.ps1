@@ -1,27 +1,39 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-}
+		}
 
-Describe $FunctionName {
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-	InModuleScope $ModuleName {
+	}
+
+
+	AfterAll {
+
+		$Script:RequestBody = $null
+
+	}
+
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		Context "Standard Operation" {
 
@@ -85,7 +97,7 @@ Describe $FunctionName {
 				It "enforces use of TLS 1.2" {
 					[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls11
 					Invoke-PASRestMethod @WebSession
-					[System.Net.ServicePointManager]::SecurityProtocol | Should Be Tls12
+					[System.Net.ServicePointManager]::SecurityProtocol | Should -Be Tls12
 				}
 
 			}
@@ -152,12 +164,12 @@ Describe $FunctionName {
 
 			It "sets WebSession variable in the module scope" {
 				Invoke-PASRestMethod @SessionVariable
-				$Script:WebSession | Should Not BeNullOrEmpty
+				$Script:WebSession | Should -Not -BeNullOrEmpty
 			}
 
 			It "returns WebSession sessionvariable value" {
 				Invoke-PASRestMethod @SessionVariable
-				$Script:WebSession.Headers["Test"] | Should Be "OK"
+				$Script:WebSession.Headers["Test"] | Should -Be "OK"
 			}
 
 			It "sends output to Get-PASResponse" {
@@ -212,7 +224,7 @@ Describe $FunctionName {
 			it "reports generic Http Request Exceptions" {
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ("SomeUser", $(ConvertTo-SecureString "SomePassword" -AsPlainText -Force))
-				{ New-PASSession -Credential $Credentials -BaseURI "https://dead.server.no-site.io" } | Should -Throw "dead.server.no-site.io"
+				{ New-PASSession -Credential $Credentials -BaseURI "https://dead.server.no-site.io" } | Should -Throw
 
 			}
 
@@ -220,7 +232,7 @@ Describe $FunctionName {
 				If ($IsCoreCLR) {
 					Mock Invoke-WebRequest { Throw $errorRecord }
 
-					{ Invoke-PASRestMethod @WebSession } | Should -Throw -ExpectedMessage "[400] Some Error Message"
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw
 				}Else{Set-ItResult -Inconclusive}
 
 			}
