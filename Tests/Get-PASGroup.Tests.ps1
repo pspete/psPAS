@@ -1,42 +1,39 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-}
+		}
 
-BeforeAll {
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-	$Script:RequestBody = $null
-	$Script:BaseURI = "https://SomeURL/SomeApp"
-	$Script:ExternalVersion = "0.0"
-	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+	}
 
-}
 
-AfterAll {
+	AfterAll {
 
-	$Script:RequestBody = $null
+		$Script:RequestBody = $null
 
-}
+	}
 
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		Context "Input" {
 
@@ -87,7 +84,7 @@ Describe $FunctionName {
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "1.2"
 
-				{ Get-PASGroup } | Should throw
+				{ Get-PASGroup } | Should -Throw
 
 				$Script:ExternalVersion = "0.0"
 
@@ -114,13 +111,13 @@ Describe $FunctionName {
 
 			it "provides output" {
 				$response = Get-PASGroup
-				$response | Should not BeNullOrEmpty
+				$response | Should -Not -BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties" {
 				$response = Get-PASGroup
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 4
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 4
 
 			}
 

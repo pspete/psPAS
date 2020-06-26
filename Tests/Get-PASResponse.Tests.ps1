@@ -1,42 +1,39 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-}
+		}
 
-BeforeAll {
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-	$Script:RequestBody = $null
-	$Script:BaseURI = "https://SomeURL/SomeApp"
-	$Script:ExternalVersion = "0.0"
-	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+	}
 
-}
 
-AfterAll {
+	AfterAll {
 
-	$Script:RequestBody = $null
+		$Script:RequestBody = $null
 
-}
+	}
 
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		Context "Standard Operation" {
 
@@ -76,11 +73,11 @@ Describe $FunctionName {
 
 			It "returns expected number of properties" {
 				$result = Get-PASResponse -APIResponse $JSONResponse
-				($result | Get-Member -MemberType NoteProperty).length | Should Be 4
+				($result | Get-Member -MemberType NoteProperty).length | Should -Be 4
 			}
 
 			It "returns expected text value" {
-				Get-PASResponse -APIResponse $TextResponse | Should Be '"Value"'
+				Get-PASResponse -APIResponse $TextResponse | Should -Be '"Value"'
 			}
 
 			It "throws if HTML received" {
@@ -89,12 +86,12 @@ Describe $FunctionName {
 
 			It "returns expected application-save value" {
 				$result = Get-PASResponse -APIResponse $ApplicationSave
-				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should Be "Expected"
+				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should -Be "Expected"
 			}
 
 			It "returns expected octet-stream value" {
 				$result = Get-PASResponse -APIResponse $OctetStream
-				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should Be "Expected"
+				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should -Be "Expected"
 			}
 
 		}

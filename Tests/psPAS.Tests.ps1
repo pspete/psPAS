@@ -8,54 +8,61 @@
     A generic set of tests to apply to a module
 #>
 
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
-
-#Assume ModuleName from Test File Name
-$ModuleName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
-
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
-
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
-
-Get-Module -Name $ModuleName -All | Remove-Module -Force -ErrorAction Ignore
-$Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru
-
 Describe "Module" -Tag "Consistency" {
 
+	BeforeAll{
+
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
+
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+
+		Get-Module -Name $ModuleName -All | Remove-Module -Force -ErrorAction Ignore
+		$Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru
+
+		$Scripts = Get-ChildItem "$ModulePath" -Filter '*.ps1' -Exclude '*.ps1xml' -Recurse
+
+		$Rules = Get-ScriptAnalyzerRule -Severity Warning
+
+	}
 
 	Context "Module Consistency Tests" {
 
 		It "has a valid manifest" {
 
 			{ $null = Test-ModuleManifest -Path $ManifestPath -ErrorAction Stop -WarningAction SilentlyContinue } |
-			Should Not Throw
+			Should -Not -Throw
 
 		}
 
 		It "specifies valid root module" {
 
-			$Module.RootModule | Should Be "$ModuleName.psm1"
+			$Module.RootModule | Should -Be "$ModuleName.psm1"
 
 		}
 
 		It "has a valid description" {
 
-			$Module.Description | Should Not BeNullOrEmpty
+			$Module.Description | Should -Not -BeNullOrEmpty
 
 		}
 
 		It "has a valid guid" {
 
-			$Module.Guid | Should Be '11c880d2-1430-4bd2-b6e8-f324741b460b'
+			$Module.Guid | Should -Be '11c880d2-1430-4bd2-b6e8-f324741b460b'
 
 		}
 
 		It "has a valid copyright" {
 
-			$Module.Copyright | Should Not BeNullOrEmpty
+			$Module.Copyright | Should -Not -BeNullOrEmpty
 
 		}
 
@@ -69,7 +76,7 @@ Describe "Module" -Tag "Consistency" {
 				#File Exists
 				It "$_ exists" {
 
-					$FormatFilePath | Should Exist
+					$FormatFilePath | Should -Exist
 
 				}
 
@@ -91,7 +98,7 @@ Describe "Module" -Tag "Consistency" {
 				#file exists
 				It "$_ exists" {
 
-					$TypesFilePath | Should Exist
+					$TypesFilePath | Should -Exist
 
 				}
 
@@ -99,7 +106,7 @@ Describe "Module" -Tag "Consistency" {
 				It "$_ is valid" {
 
 					{ Update-TypeData -AppendPath $TypesFilePath -ErrorAction Stop -WarningAction SilentlyContinue } |
-					Should Not Throw
+					Should -Not -Throw
 
 				}
 
@@ -107,19 +114,24 @@ Describe "Module" -Tag "Consistency" {
 
 		}
 
-		#Get Public Function Names
-		$PublicFunctions = Get-ChildItem "$ModulePath\Functions" -Include *.ps1 -Recurse | Select-Object -ExpandProperty BaseName
+
 
 		Context "Exported Function Analysis" {
 
-			#Get Exported Function Names
-			$ExportedFunctions = $Module.ExportedFunctions.Values.name
+			BeforeEach{
+				#Get Public Function Names
+				$PublicFunctions = Get-ChildItem "$ModulePath\Functions" -Include *.ps1 -Recurse | Select-Object -ExpandProperty BaseName
+
+				#Get Exported Function Names
+				$ExportedFunctions = $Module.ExportedFunctions.Values.name
+			}
+
 
 			It 'exports the expected number of functions' {
 
 				($PublicFunctions | Measure-Object | Select-Object -ExpandProperty Count) |
 
-				Should be ($ExportedFunctions | Measure-Object | Select-Object -ExpandProperty Count)
+				Should -Be ($ExportedFunctions | Measure-Object | Select-Object -ExpandProperty Count)
 
 			}
 
@@ -129,12 +141,12 @@ Describe "Module" -Tag "Consistency" {
 
 					It 'is a public function' {
 
-						$PublicFunctions -contains $_ | Should Be $true
+						$PublicFunctions -contains $_ | Should -Be $true
 
 					}
 
 					It 'has a related pester tests file' {
-						Test-Path (Join-Path $here "$_.Tests.ps1") | Should Be $true
+						Test-Path (Join-Path $here "$_.Tests.ps1") | Should -Be $true
 					}
 
 					Context "Help" {
@@ -143,19 +155,19 @@ Describe "Module" -Tag "Consistency" {
 
 						It 'has synopsis' {
 
-							$help.synopsis | Should Not BeNullOrEmpty
+							$help.synopsis | Should -Not -BeNullOrEmpty
 
 						}
 
 						It 'has description' {
 
-							$help.description | Should Not BeNullOrEmpty
+							$help.description | Should -Not -BeNullOrEmpty
 
 						}
 
 						It 'has example code' {
 
-							$help.examples.example.code | Should Not BeNullOrEmpty
+							$help.examples.example.code | Should -Not -BeNullOrEmpty
 
 						}
 
@@ -165,7 +177,7 @@ Describe "Module" -Tag "Consistency" {
 
 							It "has description of parameter $($_.name)" {
 
-								$_.description | Should Not BeNullOrEmpty
+								$_.description | Should -Not -BeNullOrEmpty
 							}
 
 						}
@@ -181,8 +193,11 @@ Describe "Module" -Tag "Consistency" {
 		Context "Exported Alias Analysis" {
 			BeforeEach {
 				$Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru
+
+					$PublicFunctions = Get-ChildItem "$ModulePath\Functions" -Include *.ps1 -Recurse | Select-Object -ExpandProperty BaseName
+					$ExportedAliases = $Module.ExportedAliases.Values.name
 			}
-			$ExportedAliases = $Module.ExportedAliases.Values.name
+
 
 			$ExportedAliases.foreach{
 
@@ -190,7 +205,7 @@ Describe "Module" -Tag "Consistency" {
 
 					It "Resolves to Public Function" {
 
-						$PublicFunctions -contains $((Get-Alias $_).ResolvedCommand) | Should Be $true
+						$PublicFunctions -contains $((Get-Alias $_).ResolvedCommand) | Should -Be $true
 
 					}
 
@@ -204,23 +219,15 @@ Describe "Module" -Tag "Consistency" {
 
 	}
 
-	Describe 'PSScriptAnalyzer' {
+	foreach ($Script in $scripts) {
 
-		$Scripts = Get-ChildItem "$ModulePath" -Filter '*.ps1' -Exclude '*.ps1xml' -Recurse
+		Context "PSScriptAnalyzer: $($script.BaseName)" {
 
-		$Rules = Get-ScriptAnalyzerRule -Severity Warning
+			foreach ($rule in $rules) {
 
-		foreach ($Script in $scripts) {
+				It "passes rule $rule" {
 
-			Context "Checking: $($script.BaseName)" {
-
-				foreach ($rule in $rules) {
-
-					It "passes rule $rule" {
-
-						(Invoke-ScriptAnalyzer -Path $script.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
-
-					}
+					(Invoke-ScriptAnalyzer -Path $script.FullName -IncludeRule $rule.RuleName ).Count | Should -Be 0
 
 				}
 

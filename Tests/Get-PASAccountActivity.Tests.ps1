@@ -1,55 +1,57 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-}
-
-BeforeAll {
-
-	$Script:RequestBody = $null
-	$Script:BaseURI = "https://SomeURL/SomeApp"
-	$Script:ExternalVersion = "0.0"
-	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-
-}
-
-AfterAll {
-
-	$Script:RequestBody = $null
-
-}
-
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
-
-		Mock Invoke-PASRestMethod -MockWith {
-			[pscustomobject]@{"GetAccountActivitiesResult" = [pscustomobject]@{
-					"prop1" = "val1"
-					"prop2" = "val2"
-					"prop3" = "val3"
-				}
-			}
 		}
 
-		$InputObj = [pscustomobject]@{
-			"AccountID" = "66_6"
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
+	}
+
+
+	AfterAll {
+
+		$Script:RequestBody = $null
+
+	}
+
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+
+		BeforeEach{
+
+			Mock Invoke-PASRestMethod -MockWith {
+				[pscustomobject]@{"GetAccountActivitiesResult" = [pscustomobject]@{
+						"prop1" = "val1"
+						"prop2" = "val2"
+						"prop3" = "val3"
+					}
+				}
+			}
+
+			$InputObj = [pscustomobject]@{
+				"AccountID" = "66_6"
+
+			}
+
+			$response = $InputObj | Get-PASAccountActivity -verbose
 		}
 
 		Context "Mandatory Parameters" {
@@ -60,19 +62,21 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command Get-PASAccountActivity).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Get-PASAccountActivity).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
+
+
 		}
 
-		$response = $InputObj | Get-PASAccountActivity -verbose
+
 
 		Context "Input" {
 
 			It "sends request" {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
@@ -82,19 +86,19 @@ Describe $FunctionName {
 
 					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Accounts/66_6/Activities"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -104,19 +108,19 @@ Describe $FunctionName {
 
 			it "provides output" {
 
-				$response | Should not be null
+				$response | Should -not -be null
 
 			}
 
 			It "has output with expected number of properties" {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 3
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 3
 
 			}
 
 			it "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.Activity
+				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.Activity
 
 			}
 

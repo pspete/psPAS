@@ -1,42 +1,39 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repo Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-}
+		}
 
-BeforeAll {
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-	$Script:RequestBody = $null
-	$Script:BaseURI = "https://SomeURL/SomeApp"
-	$Script:ExternalVersion = "0.0"
-	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+	}
 
-}
 
-AfterAll {
+	AfterAll {
 
-	$Script:RequestBody = $null
+		$Script:RequestBody = $null
 
-}
+	}
 
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		Context "Request Input" {
 
@@ -125,7 +122,7 @@ Describe $FunctionName {
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "1.0"
-				{ Get-PASAccount -ID "SomeID" } | Should Throw
+				{ Get-PASAccount -ID "SomeID" } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
@@ -216,7 +213,7 @@ Describe $FunctionName {
 
 			It "provides output - legacy parameterset" {
 				$response = Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
-				$response | Should not be null
+				$response | Should -Not -Be Null
 
 			}
 
@@ -228,7 +225,7 @@ Describe $FunctionName {
 					}
 				}
 				$response = Get-PASAccount -id "SomeID"
-				$response | Should not be null
+				$response | Should -not -be null
 
 			}
 
@@ -240,7 +237,7 @@ Describe $FunctionName {
 					}
 				}
 				$response = Get-PASAccount -search SomeSearchTerm
-				$response | Should not be null
+				$response | Should -not -be null
 
 			}
 
@@ -269,13 +266,13 @@ Describe $FunctionName {
 
 			It "has output with expected number of properties - legacy parameterset" {
 				$response = Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
-				($response | Get-Member -MemberType NoteProperty).length | Should Be 11
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 11
 
 			}
 
 			It "outputs object with expected typename - legacy parameterset" {
 				$response = Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
-				$response | Get-Member | Select-Object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account
+				$response | Get-Member | Select-Object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account
 
 			}
 
@@ -287,13 +284,13 @@ Describe $FunctionName {
 					}
 				}
 				$response = Get-PASAccount -search SomeSearch
-				$response | Get-Member | Select-Object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.Account.V10
+				$response | Get-Member | Select-Object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.V10
 
 			}
 
 			It "writes warning that more than 1 account returned from the search - legacy parameterset" {
 				$response = Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningVariable warning -WarningAction SilentlyContinue
-				$warning | Should be "30 matching accounts found. Only the first result will be returned"
+				$warning | Should -Be "30 matching accounts found. Only the first result will be returned"
 
 			}
 

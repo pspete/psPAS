@@ -1,51 +1,54 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
-
-}
-
-BeforeAll {
-
-	$Script:RequestBody = $null
-	$Script:BaseURI = "https://SomeURL/SomeApp"
-	$Script:ExternalVersion = "0.0"
-	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-
-}
-
-AfterAll {
-
-	$Script:RequestBody = $null
-
-}
-
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
-
-		Mock Invoke-PASRestMethod -MockWith {
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
 		}
 
-		$InputObj = [pscustomobject]@{
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-			"AppID"        = "SomeApplication"
-			"Location"     = "\SomeLocation\"
+	}
+
+
+	AfterAll {
+
+		$Script:RequestBody = $null
+
+	}
+
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+
+		BeforeEach{
+			Mock Invoke-PASRestMethod -MockWith {
+
+			}
+
+			$InputObj = [pscustomobject]@{
+
+				"AppID"        = "SomeApplication"
+				"Location"     = "\SomeLocation\"
+
+			}
+
+
+			$response = $InputObj | Add-PASApplication -ExpirationDate 04-20-2019
 
 		}
 
@@ -58,25 +61,25 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command Add-PASApplication).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Add-PASApplication).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Add-PASApplication -ExpirationDate 04-20-2019
+
 
 		Context "Input" {
 
 			It "validates expiration date pattern" {
 
-				{$InputObj | Add-PASApplication -ExpirationDate 20-04-2019} | Should throw
+				{$InputObj | Add-PASApplication -ExpirationDate 20-04-2019} | Should -Throw
 
 			}
 
 			It "sends request" {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
@@ -86,13 +89,13 @@ Describe $FunctionName {
 
 					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Applications"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -104,13 +107,13 @@ Describe $FunctionName {
 
 					($Script:RequestBody.application) -ne $null
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "has a request body with expected number of properties" {
 
-				($Script:RequestBody.application | Get-Member -MemberType NoteProperty).length | Should Be 3
+				($Script:RequestBody.application | Get-Member -MemberType NoteProperty).length | Should -Be 3
 
 			}
 
@@ -120,7 +123,7 @@ Describe $FunctionName {
 
 			it "provides no output" {
 
-				$response | Should BeNullOrEmpty
+				$response | Should -BeNullOrEmpty
 
 			}
 

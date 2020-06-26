@@ -1,39 +1,39 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-}
+		}
 
-BeforeAll {
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-	$Script:RequestBody = $null
+	}
 
-}
 
-AfterAll {
+	AfterAll {
 
-	$Script:RequestBody = $null
+		$Script:RequestBody = $null
 
-}
+	}
 
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		Context "Mandatory Parameters" {
 
@@ -44,7 +44,7 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command New-PASSession).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should Be $true
+				(Get-Command New-PASSession).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should -Be $true
 
 			}
 
@@ -113,25 +113,25 @@ Describe $FunctionName {
 
 			It "has a request body with expected number of properties" {
 
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should Be 3
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 3
 
 			}
 
 			It "sends expected username in request" {
 
-				$Script:RequestBody.username | Should Be SomeUser
+				$Script:RequestBody.username | Should -Be SomeUser
 
 			}
 
 			It "sends expected password in request" {
 
-				$Script:RequestBody.password | Should Be SomePassword
+				$Script:RequestBody.password | Should -Be SomePassword
 
 			}
 
 			It "sends expected new password in request" {
 
-				$Script:RequestBody.newpassword | Should Be SomeNewPassword
+				$Script:RequestBody.newpassword | Should -Be SomeNewPassword
 
 			}
 
@@ -357,7 +357,7 @@ Describe $FunctionName {
 				}
 
 				$Credentials | New-PASSession -BaseURI "https://P_URI" -PVWAAppName "SomeApp" -WarningAction SilentlyContinue
-				$Script:ExternalVersion | Should be "0.0"
+				$Script:ExternalVersion | Should -Be "0.0"
 
 			}
 
@@ -553,7 +553,7 @@ Describe $FunctionName {
 
 			It "throws if no session token is returned after successful IIS authentication" {
 				if ($IsCoreCLR) {
-					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows } | should throw
+					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows } | Should -Throw
 				}Else{Set-ItResult -Inconclusive}
 			}
 
@@ -579,7 +579,7 @@ Describe $FunctionName {
 				if ($IsCoreCLR) {
 					Mock -CommandName Invoke-PASRestMethod {Throw $errorRecord} -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon" }
 
-					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows -OTP 123456 -OTPMode Challenge } | Should throw
+					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows -OTP 123456 -OTPMode Challenge } | Should -Throw
 
 					Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 

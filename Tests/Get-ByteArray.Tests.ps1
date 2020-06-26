@@ -1,39 +1,40 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Define Path to Module Manifest
-$Global:ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-if( -not (Get-Module -Name $ModuleName -All)) {
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-	Import-Module -Name "$Global:ManifestPath" -Force -ErrorAction Stop
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-}
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-BeforeAll {
+		}
 
-	#$Script:RequestBody = $null
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-}
+	}
 
-AfterAll {
 
-	#$Script:RequestBody = $null
+	AfterAll {
 
-}
+		$Script:RequestBody = $null
 
-Describe $FunctionName {
+	}
 
-	InModuleScope $ModuleName {
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		Context "Mandatory Parameters" {
 
@@ -43,7 +44,7 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command Get-ByteArray).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Get-ByteArray).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
@@ -51,20 +52,11 @@ Describe $FunctionName {
 
 		Context "General" {
 
-			BeforeEach {
-
-
-				#$file = $((Join-Path $(Resolve-Path "$Here\..\$ModuleName") "psPAS.psm1"))
-				$InputObj = [pscustomobject]@{
-					Path = "$Global:ManifestPath"
-				}
-
-			}
-
 			It "outputs byte array of expected size" {
 
 				if($IsCoreCLR){
-					(Get-ByteArray -Path "$($InputObj.Path)").Count | Should Be (Get-Content "$($InputObj.Path)" -ReadCount 0 -AsByteStream).Count
+
+					$(Get-ByteArray -Path "$PSCommandPath").Count | Should -Be (Get-Content "$PSCommandPath" -ReadCount 0 -AsByteStream).Count
 				}
 				Else { Set-ItResult -Inconclusive }
 			}
