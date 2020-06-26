@@ -20,6 +20,7 @@ $configuration.CodeCoverage.Path = $files
 $configuration.TestResult.Enabled = $true
 $configuration.TestResult.OutputFormat = "NUnitXml"
 $configuration.TestResult.OutputPath = ".\TestsResults.xml"
+$configuration.Output.Verbosity = "None"
 
 $result = Invoke-Pester -Configuration $configuration
 
