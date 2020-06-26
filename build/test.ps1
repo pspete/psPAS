@@ -2,7 +2,7 @@
 # Header                          #
 #---------------------------------#
 Write-Host "Testing: PSVersion $($PSVersionTable.PSVersion)" -ForegroundColor Yellow
-
+Import-Module Pester -Force
 #---------------------------------#
 # Run Pester Tests                #
 #---------------------------------#
