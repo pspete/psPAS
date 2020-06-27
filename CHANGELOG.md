@@ -7,6 +7,8 @@
 
 ## 3.6.xx
 
+### Module update to cover CyberArk 11.4 API features
+
 - **Breaking Changes**
   - `Get-PASSafeMember`, `Add-PASSafeMember` & `Set-PASSafeMember`: Output Changed
     - "Permission" property of returned object now contains a nested property=value pair for each permission instead of an array containing only the name of the assigned permissions.
