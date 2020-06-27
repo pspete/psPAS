@@ -64,6 +64,10 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 						[pscustomobject]@{
 							"Key"   = "AnotherFalseKey"
 							"Value" = $false
+						},
+						[pscustomobject]@{
+							"Key"   = "IntegerKey"
+							"Value" = 1
 						}
 
 
@@ -92,7 +96,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			"BackupSafe"                             = $false
 			"ViewAuditLog"                           = $true
 			"ViewSafeMembers"                        = $true
-			"RequestsAuthorizationLevel"             = 0
+			"RequestsAuthorizationLevel"             = 1
 			"AccessWithoutConfirmation"              = $false
 			"CreateFolders"                          = $false
 			"DeleteFolders"                          = $false
@@ -190,9 +194,30 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has expected number of nested array elements" {
+			It "has expected number of nested permission properties" {
 
-				($response.permissions).count | Should -Be 4
+				($response.permissions | Get-Member -MemberType NoteProperty).count | Should -Be 7
+
+			}
+
+			It "has expected boolean false property value" {
+
+				$response.permissions.FalseKey | Should -Be $False
+
+
+			}
+
+			It "has expected boolean true property value" {
+
+
+				$response.permissions.TrueKey | Should -Be $True
+
+			}
+
+			It "has expected integer property value" {
+
+
+				$response.permissions.IntegerKey | Should -Be 1
 
 			}
 
