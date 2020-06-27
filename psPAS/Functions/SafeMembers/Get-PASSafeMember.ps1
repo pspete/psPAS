@@ -150,12 +150,7 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 				$MemberPermissions = [PSCustomObject]@{}
 
 				$result.member.Permissions | ForEach-Object {
-
-					$MemberPermissions |
-						Add-Member -MemberType NoteProperty -Name $($PSItem |
-							Select-Object -ExpandProperty key) -Value $($PSItem |
-								Select-Object -ExpandProperty value)
-
+					$MemberPermissions | Add-Member -MemberType NoteProperty -Name $($PSItem | Select-Object -ExpandProperty key) -Value $($PSItem | Select-Object -ExpandProperty value)
 				}
 
 				#format output

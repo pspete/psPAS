@@ -394,23 +394,12 @@ https://pspas.pspete.dev/commands/Add-PASSafeMember
 
 		if ($result) {
 
-			$MemberPermissions = [PSCustomObject]@{}
-
-			$result.member.Permissions | ForEach-Object {
-
-				$MemberPermissions |
-					Add-Member -MemberType NoteProperty -Name $($PSItem |
-						Select-Object -ExpandProperty key) -Value $($PSItem |
-							Select-Object -ExpandProperty value)
-
-			}
-
 			#format output
 			$result.member | Select-Object MemberName, MembershipExpirationDate, SearchIn,
 
 			@{Name = "Permissions"; "Expression" = {
 
-					$MemberPermissions }
+					$_.Permissions | Where-Object { $_.value } | Select-Object -ExpandProperty key }
 
 			} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Extended -PropertyToAdd @{
 
