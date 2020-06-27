@@ -701,10 +701,8 @@ https://pspas.pspete.dev/commands/Set-PASUser
 
 			}
 
-			#Construct Request Body
-			$body = $boundParameters |
-			Get-PASParameter -ParametersToRemove id, @($businessAddressParams + $internetParams + $phonesParams + $personalDetailsParams) |
-			ConvertTo-Json -depth 4
+			#Prepare Request Body
+			$boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove @("id", $businessAddressParams + $internetParams + $phonesParams + $personalDetailsParams)
 
 			$TypeName = "psPAS.CyberArk.Vault.User.Extended"
 
@@ -729,12 +727,13 @@ https://pspas.pspete.dev/commands/Set-PASUser
 
 			$TypeName = "psPAS.CyberArk.Vault.User"
 
+			#Prepare Request Body
 			$boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove UserName
 
 		}
 
-		#create request body
-		$body = $boundParameters | ConvertTo-Json
+		#Construct Request Body
+		$body = $boundParameters | ConvertTo-Json -depth 4
 
 		if ($PSCmdlet.ShouldProcess($UserName, "Update User Properties")) {
 			#send request to web service
