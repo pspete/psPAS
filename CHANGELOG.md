@@ -5,6 +5,13 @@
 - Continued development to encompass any capability updates released for the CyberArk API.
 - psPAS v4.0...
 
+## 3.6.xx
+
+- **Breaking Changes**
+  - `Get-PASSafeMember`, `Add-PASSafeMember` & `Set-PASSafeMember`: Output Changed
+    - "Permission" property of returned object now contains a nested property=value pair for each permission instead of an array containing only the name of the assigned permissions.
+    - Existing scripts which rely on the legacy array value of the `Permissions` property when working with the `*-PASSafeMember` functions must either be updated to work with the new output or use an earlier compatible psPAS version.
+
 ## 3.5.8 (April 2nd 2020)
 
 - Changes minimum required PowerShell version to 5.1
