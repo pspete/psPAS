@@ -4,7 +4,7 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v11.3.
+Contains all published methods of the API up to CyberArk v11.4.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
