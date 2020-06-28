@@ -265,14 +265,35 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 
 	BEGIN {
 
-		#define base parameters that exist at top level of required JSON structure.
-		$baseParameters = @("MemberName", "MembershipExpirationDate", "SafeName")
-
 		#create hashtable to hold safe member permission information
-		$permissions = @{ }
+		$Permissions = [ordered]@{ }
 
 		#Create array of keys to remove from top level of required JSON structure.
 		$keysToRemove = [Collections.Generic.List[String]]@('SafeName', 'MemberName')
+
+		$OrderedPermisions = [ordered]@{
+			UseAccounts                            = $false
+			RetrieveAccounts                       = $false
+			ListAccounts                           = $false
+			AddAccounts                            = $false
+			UpdateAccountContent                   = $false
+			UpdateAccountProperties                = $false
+			InitiateCPMAccountManagementOperations = $false
+			SpecifyNextAccountContent              = $false
+			RenameAccounts                         = $false
+			DeleteAccounts                         = $false
+			UnlockAccounts                         = $false
+			ManageSafe                             = $false
+			ManageSafeMembers                      = $false
+			BackupSafe                             = $false
+			ViewAuditLog                           = $false
+			ViewSafeMembers                        = $false
+			RequestsAuthorizationLevel             = 0
+			AccessWithoutConfirmation              = $false
+			CreateFolders                          = $false
+			DeleteFolders                          = $false
+			MoveAccountsAndFolders                 = $false
+		}
 
 	}#begin
 
@@ -298,19 +319,24 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 
 		}
 
-		#For each "Non-Base"/"Permission" parameters
-		$boundParameters.keys | Where-Object { $baseParameters -notcontains $_ } | ForEach-Object {
+		#For each Member Permission parameter
+		$OrderedPermisions.keys | ForEach-Object{
 
-			#Add to hash table in key/value pair
-			$permissions[$_] = $boundParameters[$_]
+			#include permission in request
+			If($boundParameters.ContainsKey($PSItem)){
 
-			#non-base parameter name
-			$null = $keysToRemove.Add($_)
+				#Add to hash table in key/value pair
+				$Permissions.Add($PSItem, $boundParameters[$PSItem])
+
+				#permission parameter name
+				$null = $keysToRemove.Add($PSItem)
+
+			}
 
 		}
 
 		#Add Permission parameters as value of "Permissions" property
-		$boundParameters["Permissions"] = @($permissions.getenumerator() | ForEach-Object { $_ })
+		$boundParameters["Permissions"] = @($Permissions.getenumerator() | ForEach-Object { $PSItem })
 
 		#Create JSON for body of request
 		$body = @{
@@ -334,9 +360,9 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 				$result.member.Permissions | ForEach-Object {
 
 					$MemberPermissions |
-						Add-Member -MemberType NoteProperty -Name $($PSItem |
-							Select-Object -ExpandProperty key) -Value $($PSItem |
-								Select-Object -ExpandProperty value)
+					Add-Member -MemberType NoteProperty -Name $($PSItem |
+						Select-Object -ExpandProperty key) -Value $($PSItem |
+						Select-Object -ExpandProperty value)
 
 				}
 
