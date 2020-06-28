@@ -7,10 +7,23 @@
 
 ## 3.6.xx
 
+### Module update to cover CyberArk 11.4 API features
+
 - **Breaking Changes**
   - `Get-PASSafeMember`, `Add-PASSafeMember` & `Set-PASSafeMember`: Output Changed
     - "Permission" property of returned object now contains a nested property=value pair for each permission instead of an array containing only the name of the assigned permissions.
     - Existing scripts which rely on the legacy array value of the `Permissions` property when working with the `*-PASSafeMember` functions must either be updated to work with the new output or use an earlier compatible psPAS version.
+
+- New Function
+  - Added `Set-PASPTAEvent`
+    - Appeared in 11.3
+    - Set status of PTA events
+
+- Updated Functions
+  - `New-PASSession`
+    - Adds support for updated saml auth updated in 11.4
+  - `Get-PASPTAEvent`
+    - Adds newly documented parameters for 11.4 and updates request format for filtering events
 
 ## 3.5.8 (April 2nd 2020)
 

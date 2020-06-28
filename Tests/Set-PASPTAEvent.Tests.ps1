@@ -50,42 +50,32 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "sends request" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
+				Set-PASPTAEvent -EventID 1234 -mStatus CLOSED
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
+				Set-PASPTAEvent -EventID 1234 -mStatus CLOSED
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -match "$($Script:BaseURI)/API/pta/API/Events/"
+					$URI -match "$($Script:BaseURI)/API/pta/API/Events/1234"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+				Set-PASPTAEvent -EventID 1234 -mStatus CLOSED
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PATCH' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected header" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 -UseLegacyMethod
+			It "sends request with expected body" {
+				Set-PASPTAEvent  -EventID 1234 -mStatus CLOSED
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$($Websession.headers["lastUpdatedEventDate"]) -eq "283996800"
-
-				} -Times 1 -Exactly -Scope It
-
-			}
-
-			It "sends request with no body" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$Body -eq $null
+					($Body | ConvertFrom-Json | Select-Object -ExpandProperty mStatus) -eq "ClOSED"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -93,7 +83,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "1.0"
-				{ Get-PASPTAEvent  } | Should -Throw
+				{ Set-PASPTAEvent  -EventID 1234 -mStatus CLOSED } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
@@ -111,21 +101,22 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
+
 			it "provides output" {
 
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | Should -Not -BeNullOrEmpty
+				Set-PASPTAEvent -EventID 1234 -mStatus CLOSED | Should -Not -BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties" {
 
-				(Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | Get-Member -MemberType NoteProperty).length | Should -Be 1
+				(Set-PASPTAEvent -EventID 1234 -mStatus CLOSED | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
 			}
 
 			it "outputs object with expected typename" {
 
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Event
+				Set-PASPTAEvent -EventID 1234 -mStatus CLOSED | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Event
 
 			}
 

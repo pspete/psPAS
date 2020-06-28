@@ -2,7 +2,7 @@
 title: "Safe Permissions"
 permalink: /docs/safe-permissions/
 excerpt: "psPAS Safe Permissions"
-last_modified_at: 2019-09-01T01:33:52-00:00
+last_modified_at: 2020-06-28T01:33:52-00:00
 ---
 
 - Define Safe Roles and assign to safe members:
@@ -43,11 +43,11 @@ $Role1 | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Vault
 
 MemberName SearchIn SafeName Permissions
 ---------- -------- -------- -----------
-User23     Vault    NewSafe  {UseAccounts, RetrieveAccounts, ListAccounts}
+User23     Vault    NewSafe  @{Add=False; AddRenameFolder=False; BackupSafe=False...}
 
 $Role2 | Add-PASSafeMember -SafeName NewSafe -MemberName SafeAdmin1 -SearchIn Vault
 
 MemberName SearchIn SafeName Permissions
 ---------- -------- -------- -----------
-SafeAdmin1 Vault    NewSafe  {ListAccounts, AddAccounts, UpdateAccountContent, UpdateAccountProperties…}
+SafeAdmin1 Vault    NewSafe  @{Add=True; AddRenameFolder=True; BackupSafe=True...}
 ````

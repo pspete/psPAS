@@ -2,7 +2,7 @@
 title: "Search"
 permalink: /docs/search/
 excerpt: "Basic Operations - Searching"
-last_modified_at: 2019-09-01T01:33:52-00:00
+last_modified_at: 2020-06-28T01:33:52-00:00
 ---
 
 ## Safes
@@ -32,7 +32,7 @@ Get-PASSafeMember -SafeName 3_TestSafe_028_XYJ -MemberName ACC-G-3_TestSafe_028_
 
 UserName                     SafeName           Permissions
 --------                     --------           ---------- -
-ACC-G-3_TestSafe_028_XYJ-Usr 3_TestSafe_028_XYJ { UseAccounts, RetrieveAccounts, ListAccounts, ViewAuditLog… }
+ACC-G-3_TestSafe_028_XYJ-Usr 3_TestSafe_028_XYJ @{Add=True; AddRenameFolder=True; BackupSafe=True...
 ````
 
 ## Users
