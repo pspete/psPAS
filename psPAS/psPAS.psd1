@@ -181,7 +181,8 @@
 		'Get-PASPlatformSafe',
 		'Remove-PASDirectoryMapping',
 		'Disable-PASCPMAutoManagement',
-		'Test-PASPSMRecording'
+		'Test-PASPSMRecording',
+		'Set-PASPTAEvent'
 	)
 
 	# AliasesToExport   = @( )
