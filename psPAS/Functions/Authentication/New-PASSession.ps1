@@ -28,6 +28,10 @@ Relevant for CyberArk versions earlier than 10.4
 Optional parameter, enables you to change a CyberArk users password.
 Must be supplied as a SecureString (Not Plain Text).
 
+.PARAMETER SAMLAuth
+Supported from 11.4
+Specify to authenticate after retrieval of saml token.
+
 .PARAMETER SAMLToken
 SAML token that identifies the session, encoded in BASE 64.
 
@@ -190,6 +194,11 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP passco
 
 Perform initial authentication and then get prompted to supply OTP value for  RADIUS challenge.
 
+.EXAMPLE
+New-PASSession -BaseURI $url -SAMLAuth
+
+Perform saml authentication from version 11.4
+
 .LINK
 https://pspas.pspete.dev/commands/New-PASSession
 #>
@@ -245,6 +254,14 @@ https://pspas.pspete.dev/commands/New-PASSession
 			ParameterSetName = "v9"
 		)]
 		[SecureString]$newPassword,
+
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "11_3_saml"
+		)]
+		[switch]$SAMLAuth,
 
 		[Parameter(
 			Mandatory = $true,
@@ -370,6 +387,12 @@ https://pspas.pspete.dev/commands/New-PASSession
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "integrated"
 		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "11_3_saml"
+		)]
 		[Boolean]$concurrentSession,
 
 		[Parameter(
@@ -465,6 +488,13 @@ https://pspas.pspete.dev/commands/New-PASSession
 			"v10*" {
 
 				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
+				break
+
+			}
+
+			"11_3_saml" {
+
+				$URI = "$baseURI/$PVWAAppName/api/Auth/SAML/Logon"
 				break
 
 			}
@@ -575,6 +605,38 @@ https://pspas.pspete.dev/commands/New-PASSession
 		if ($PSCmdlet.ShouldProcess("$BaseURI/$PVWAAppName", "Logon")) {
 
 			try {
+
+				If ($PSCmdlet.ParameterSetName -eq "11_3_saml") {
+
+					#The only expected parameter should be concurrentSessions
+					$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SAMLAuth,
+					SkipVersionCheck, SkipCertificateCheck, CertificateThumbprint, BaseURI, PVWAAppName, Certificate
+
+					#*For SAML auth:
+					#*https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
+					$SAMLResponse = Get-PASSAMLResponse -URL "$baseURI/$PVWAAppName"
+
+					#add required parameters
+					$boundParameters.Add("SAMLResponse", $SAMLResponse)
+					$boundParameters.Add("apiUse", $true)
+
+					#Create Logon URL
+					$LogonString = ($boundParameters.keys | ForEach-Object {
+
+							"$_=$($boundParameters[$_] | Get-EscapedString)"
+
+						}) -join '&'
+
+					if ($LogonString) {
+
+						#Build URL from base URL
+						$URI = "$URI`?$LogonString"
+
+					}
+
+					$LogonRequest["Uri"] = $URI
+
+				}
 
 				#Send Logon Request
 				$PASSession = Invoke-PASRestMethod @LogonRequest

@@ -599,6 +599,67 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
+		Context "SAML" {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						"CyberArkLogonResult" = "AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN"
+					}
+				}
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = "6.6.6"
+					}
+				}
+
+				Mock Set-Variable -MockWith { }
+
+				$Script:ExternalVersion = "0.0"
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+				Mock Get-PASSAMLResponse -MockWith{
+
+					"ThisIsTheSAMLResponse"
+
+				}
+
+			}
+
+			It "sends request" {
+				New-PASSession -BaseURI "https://P_URI" -SAMLAuth
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint" {
+
+				New-PASSession -BaseURI "https://P_URI" -SAMLAuth
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($URI -eq "https://P_URI/PasswordVault/api/Auth/SAML/Logon?apiUse=true&SAMLResponse=ThisIsTheSAMLResponse") -or
+					($URI -eq "https://P_URI/PasswordVault/api/Auth/SAML/Logon?SAMLResponse=ThisIsTheSAMLResponse&apiUse=true")
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "throws if saml response is not available" {
+
+				Mock Get-PASSAMLResponse -MockWith{
+
+					Throw "ThisIsTheSAMLResponse"
+
+				}
+
+				{New-PASSession -BaseURI "https://P_URI" -SAMLAuth} | Should -Throw
+
+			}
+
+		}
+
 	}
 
 }
