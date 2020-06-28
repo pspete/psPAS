@@ -188,7 +188,7 @@ Get-PASSafeMember -SafeName 3_TestSafe_028_XYJ -MemberName ACC-G-3_TestSafe_028_
 
 UserName                     SafeName           Permissions
 --------                     --------           -----------
-ACC-G-3_TestSafe_028_XYJ-Usr 3_TestSafe_028_XYJ {UseAccounts, RetrieveAccounts, ListAccounts, ViewAuditLog…}
+ACC-G-3_TestSafe_028_XYJ-Usr 3_TestSafe_028_XYJ @{Add=True; AddRenameFolder=True; BackupSafe=True...}
 ````
 
 ##### Users
@@ -321,7 +321,7 @@ Add-PASSafeMember -SafeName NewSafe -MemberName NewMember -UseAccounts $false -L
 
 MemberName SearchIn SafeName Permissions
 ---------- -------- -------- -----------
-NewMember  vault    NewSafe  {ListAccounts, ViewAuditLog, ViewSafeMembers}
+NewMember  vault    NewSafe  @{Add=True; AddRenameFolder=True; BackupSafe=True...}
 ````
 
 ##### Update Accounts
@@ -432,12 +432,12 @@ Where-Object{ Get-PASGroup -search $_.UserName -filter 'groupType eq Directory' 
 
 UserName                     SafeName           Permissions
 --------                     --------           -----------
-ACC-G-1_TestSafe_049_JXW-Usr 1_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, ViewAudit…}
-ACC-G-1_TestSafe_049_JXW-Adm 1_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, Unlock…}
-ACC-G-2_TestSafe_049_JXW-Usr 2_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, ViewAudit…}
-ACC-G-2_TestSafe_049_JXW-Adm 2_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, Unlock…}
-ACC-G-3_TestSafe_049_JXW-Usr 3_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, ViewAudit…}
-ACC-G-3_TestSafe_049_JXW-Adm 3_TestSafe_049_JXW {ListContent, RestrictedRetrieve, Retrieve, Unlock…}
+ACC-G-1_TestSafe_049_JXW-Usr 1_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+ACC-G-1_TestSafe_049_JXW-Adm 1_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+ACC-G-2_TestSafe_049_JXW-Usr 2_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+ACC-G-2_TestSafe_049_JXW-Adm 2_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+ACC-G-3_TestSafe_049_JXW-Usr 3_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+ACC-G-3_TestSafe_049_JXW-Adm 3_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
 ````
 
 - Multiple `psPAS` commands can be used together, along with standard PowerShell CmdLets:
@@ -451,20 +451,20 @@ Add-PASGroupMember -GroupName PVWAMonitor
 Get-PASAccount -id 330_5 | Get-PASSafe | Get-PASSafeMember
 
 UserName             SafeName    Permissions
---------             --------    -----------
-Master               ApproveTest {Add, AddRenameFolder, BackupSafe, Delete...}
-Batch                ApproveTest {Add, AddRenameFolder, BackupSafe, Delete...}
-Backup Users         ApproveTest BackupSafe
-Auditors             ApproveTest {ListContent, ViewAudit, ViewMembers}
-Operators            ApproveTest {AddRenameFolder, DeleteFolder, ManageSafe, MoveFilesAndFolders...}
-DR Users             ApproveTest BackupSafe
-Notification Engines ApproveTest {ListContent, ViewAudit, ViewMembers}
-PVWAGWAccounts       ApproveTest {ListContent, ViewAudit, ViewMembers}
-PasswordManager      ApproveTest {Add, AddRenameFolder, Delete, DeleteFolder...}
-SafeAdmin            ApproveTest {Add, AddRenameFolder, BackupSafe, Delete...}
-SafeAdmin1           ApproveTest {Add, AddRenameFolder, BackupSafe, Delete...}
-zApprover_1          ApproveTest {ListContent, ViewAudit, ViewMembers}
-xReq                 ApproveTest {ListContent, RestrictedRetrieve, Retrieve, ViewAudit...}
+--------             --------    ---------- -
+Master               ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+Batch                ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+Backup Users         ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=True...}
+Auditors             ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
+Operators            ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+DR Users             ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=True...}
+Notification Engines ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
+PVWAGWAccounts       ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
+PasswordManager      ApproveTest @{Add=False; AddRenameFolder=True; BackupSafe=False...}
+SafeAdmin            ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+SafeAdmin1           ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+zApprover_1          ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
+xReq                 ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
 ````
 
 ### Advanced Examples
@@ -586,13 +586,13 @@ $Role1 | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Vault
 
 MemberName SearchIn SafeName Permissions
 ---------- -------- -------- -----------
-User23     Vault    NewSafe  {UseAccounts, RetrieveAccounts, ListAccounts}
+User23     Vault    NewSafe  @{Add=False; AddRenameFolder=False; BackupSafe=False...}
 
 $Role2 | Add-PASSafeMember -SafeName NewSafe -MemberName SafeAdmin1 -SearchIn Vault
 
 MemberName SearchIn SafeName Permissions
 ---------- -------- -------- -----------
-SafeAdmin1 Vault    NewSafe  {ListAccounts, AddAccounts, UpdateAccountContent, UpdateAccountProperties…}
+SafeAdmin1 Vault    NewSafe  @{Add=True; AddRenameFolder=True; BackupSafe=True...}
 ````
 
 ![psPAS](docs/assets/images/shop_banner_symbol.png)
@@ -822,7 +822,8 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Add-PASDirectory`][Add-PASDirectory]                                                   |**10.4**            |Add a new LDAP directory
 [`New-PASDirectoryMapping`][New-PASDirectoryMapping]                                     |**10.4**            |Create a new LDAP directory mapping
 [`Add-PASPTARule`][Add-PASPTARule]                                                       |**10.4**            |Add a new Risky Commandrule to PTA
-[`Get-PASPTAEvent`][Get-PASPTAEvent]                                                     |**10.3**            |Get security eventsfrom PTA
+[`Get-PASPTAEvent`][Get-PASPTAEvent]                                                     |**10.3**            |Get security events from PTA
+[`Set-PASPTAEvent`][Set-PASPTAEvent]                                                     |**11.3**            |Set PTA security event status
 [`Get-PASPTARemediation`][Get-PASPTARemediation]                                         |**10.4**            |Get automatic response config from PTA
 [`Get-PASPTARule`][Get-PASPTARule]                                                       |**10.4**            |List Risky Command rules from PTA
 [`Set-PASPTARemediation`][Set-PASPTARemediation]                                         |**10.4**            |Update automaticresponse config in PTA
@@ -838,8 +839,8 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                             |**10.6**            |Get property details from a PSM Recording.
 [`Export-PASPSMRecording`][Export-PASPSMRecording]                                       |**10.6**            |Save PSM Session Recording to a file.
 [`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       |**10.6**            |Request temporary access to a server.
-[`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     |**10.7**            |Get details of configureddirectory mappings.
-[`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configureddirectory mapping.
+[`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     |**10.7**            |Get details of configured directory mappings.
+[`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configured directory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             |**10.7**            |Delete a directory configuration.
 [`Find-PASSafe`][Find-PASSafe]                                                           |**10.1**            |List or Search Safes by name.
 [`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                           |**10.10**           |Reorder Directory Mappings
@@ -847,8 +848,8 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`New-PASGroup`][New-PASGroup]                                                           |**11.1**            |Create a new CyberArk group
 [`Get-PASPlatformSafe`][Get-PASPlatformSafe]                                             |**11.1**            |List details for all platforms
 [`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                               |**11.1**            |Deletes a Directory Mapping
-[`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             |**10.4**            |Enables Automatic CPM Managment for an account
-[`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           |**10.4**            |Disables Automatic CPM Managment for an account
+[`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             |**10.4**            |Enables Automatic CPM Management for an account
+[`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           |**10.4**            |Disables Automatic CPM Management for an account
 [`Test-PASPSMRecording`][Test-PASPSMRecording]                                           | **11.2**           |Determine validity of PSM Session Recording
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
@@ -928,6 +929,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [New-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/New-PASDirectoryMapping.ps1
 [Add-PASPTARule]:/psPAS/Functions/EventSecurity/Add-PASPTARule.ps1
 [Get-PASPTAEvent]:/psPAS/Functions/EventSecurity/Get-PASPTAEvent.ps1
+[Set-PASPTAEvent]:/psPAS/Functions/EventSecurity/Set-PASPTAEvent.ps1
 [Get-PASPTARemediation]:/psPAS/Functions/EventSecurity/Get-PASPTARemediation.ps1
 [Get-PASPTARule]:/psPAS/Functions/EventSecurity/Get-PASPTARule.ps1
 [Set-PASPTARemediation]:/psPAS/Functions/EventSecurity/Set-PASPTARemediation.ps1

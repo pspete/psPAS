@@ -104,6 +104,8 @@ commands:
     children:
       - title: "Get-PASPTAEvent"
         url: /commands/Get-PASPTAEvent
+      - title: "Set-PASPTAEvent"
+        url: /commands/Set-PASPTAEvent
       - title: "Add-PASPTARule"
         url: /commands/Add-PASPTARule
       - title: "Get-PASPTARule"
