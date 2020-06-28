@@ -59,7 +59,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/pta/API/Events/"
+					$URI -match "$($Script:BaseURI)/API/pta/API/Events/"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -72,7 +72,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "sends request with expected header" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 -UseLegacyMethod
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$($Websession.headers["lastUpdatedEventDate"]) -eq "283996800"
@@ -92,9 +92,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
+				$Script:ExternalVersion = "1.0"
 				{ Get-PASPTAEvent  } | Should -Throw
-$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}
