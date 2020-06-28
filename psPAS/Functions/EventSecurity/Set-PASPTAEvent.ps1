@@ -15,9 +15,6 @@ The status to update (open or closed).
 .EXAMPLE
 Set-PASPTAEvent -EventID $id
 
-.EXAMPLE
-Set-PASPTAEvent
-
 .NOTES
 Minimum Version CyberArk 11.3
 
