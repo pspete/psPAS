@@ -25,6 +25,10 @@
   - `Get-PASPTAEvent`
     - Adds newly documented parameters for 11.4 and updates request format for filtering events
 
+- Fixes
+  - `Set-PASUser`
+    - Corrects issue where an incorrectly formed json body was being sent with the request if using the parameters introduced in psPAS 3.3.88.
+
 ## 3.5.8 (April 2nd 2020)
 
 - Changes minimum required PowerShell version to 5.1
