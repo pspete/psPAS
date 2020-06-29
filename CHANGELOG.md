@@ -28,6 +28,8 @@
 - Fixes
   - `Set-PASUser`
     - Corrects issue where an incorrectly formed json body was being sent with the request if using the parameters introduced in psPAS 3.3.88.
+  - `Add-PASSafeMember` & `Set-PASSafeMember`
+    - Update ensures json body of request is always sent with the permission properties statically ordered.
 
 ## 3.5.8 (April 2nd 2020)
 
