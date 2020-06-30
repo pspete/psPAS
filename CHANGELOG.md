@@ -2,10 +2,11 @@
 
 ## Planned Updates
 
-- Continued development to encompass any capability updates released for the CyberArk API.
-- psPAS v4.0...
+- Update for PAS 11.5
+- Continued development to encompass any new documented features of the CyberArk API.
+- psPAS v5.0...
 
-## 3.6.xx
+## **4.0.0** (July 1st 2020)
 
 ### Module update to cover CyberArk 11.4 API features
 
