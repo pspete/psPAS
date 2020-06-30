@@ -1,42 +1,39 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-}
+		}
 
-BeforeAll {
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-	$Script:RequestBody = $null
-	$Script:BaseURI = "https://SomeURL/SomeApp"
-	$Script:ExternalVersion = "0.0"
-	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+	}
 
-}
 
-AfterAll {
+	AfterAll {
 
-	$Script:RequestBody = $null
+		$Script:RequestBody = $null
 
-}
+	}
 
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		Context "Input" {
 
@@ -62,7 +59,7 @@ Describe $FunctionName {
 				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/pta/API/Events/"
+					$URI -match "$($Script:BaseURI)/API/pta/API/Events/"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -75,7 +72,7 @@ Describe $FunctionName {
 			}
 
 			It "sends request with expected header" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 -UseLegacyMethod
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$($Websession.headers["lastUpdatedEventDate"]) -eq "283996800"
@@ -95,9 +92,9 @@ Describe $FunctionName {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ Get-PASPTAEvent  } | Should Throw
-$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = "1.0"
+				{ Get-PASPTAEvent  } | Should -Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}
@@ -116,19 +113,19 @@ $Script:ExternalVersion = "0.0"
 			}
 			it "provides output" {
 
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | Should not BeNullOrEmpty
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | Should -Not -BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties" {
 
-				(Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | Get-Member -MemberType NoteProperty).length | Should Be 1
+				(Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
 			}
 
 			it "outputs object with expected typename" {
 
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | get-member | select-object -expandproperty typename -Unique | Should Be psPAS.CyberArk.Vault.PTA.Event
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Event
 
 			}
 

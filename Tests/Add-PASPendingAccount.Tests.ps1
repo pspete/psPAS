@@ -1,71 +1,75 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repo Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
-}
-
-BeforeAll {
-
-	$Script:RequestBody = $null
-	$Script:BaseURI = "https://SomeURL/SomeApp"
-	$Script:ExternalVersion = "0.0"
-	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-
-}
-
-AfterAll {
-
-	$Script:RequestBody = $null
-
-}
-
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
-
-		Mock Invoke-PASRestMethod -MockWith {
-			Write-Output @{ }
 		}
 
-		$InputObj = [pscustomobject]@{
-			"UserName"                = "SomeUser"
-			"Address"                 = "SomeAddress"
-			"AccountDiscoveryDate"    = "2018-02-22T22:22:22Z"
-			"OSType"                  = "Windows"
-			"AccountEnabled"          = "enabled"
-			"AccountOSGroups"         = "SomeGroup"
-			"AccountType"             = "local"
-			"DiscoveryPlatformType"   = "SomePlatform"
-			"Domain"                  = "SomeDomain"
-			"LastLogonDate"           = "2017-12-31T23:59:59Z"
-			"LastPasswordSet"         = "1995-05-06T20:20:00Z"
-			"PasswordNeverExpires"    = $true
-			"OSVersion"               = "SomeValue"
-			"OU"                      = "SomeOU"
-			"AccountCategory"         = "privileged"
-			"AccountCategoryCriteria" = "some;category"
-			"UserDisplayName"         = "DisplayThis"
-			"AccountDescription"      = "SomeDescription"
-			"AccountExpirationDate"   = "2020-01-01T00:00:00Z"
-			"UID"                     = "0"
-			"GID"                     = "0"
-			"MachineOSFamily"         = "Workstation"
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+	}
+
+
+	AfterAll {
+
+		$Script:RequestBody = $null
+
+	}
+
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+
+		BeforeEach{
+
+			Mock Invoke-PASRestMethod -MockWith {
+				Write-Output @{ }
+			}
+
+			$InputObj = [pscustomobject]@{
+				"UserName"                = "SomeUser"
+				"Address"                 = "SomeAddress"
+				"AccountDiscoveryDate"    = "2018-02-22T22:22:22Z"
+				"OSType"                  = "Windows"
+				"AccountEnabled"          = "enabled"
+				"AccountOSGroups"         = "SomeGroup"
+				"AccountType"             = "local"
+				"DiscoveryPlatformType"   = "SomePlatform"
+				"Domain"                  = "SomeDomain"
+				"LastLogonDate"           = "2017-12-31T23:59:59Z"
+				"LastPasswordSet"         = "1995-05-06T20:20:00Z"
+				"PasswordNeverExpires"    = $true
+				"OSVersion"               = "SomeValue"
+				"OU"                      = "SomeOU"
+				"AccountCategory"         = "privileged"
+				"AccountCategoryCriteria" = "some;category"
+				"UserDisplayName"         = "DisplayThis"
+				"AccountDescription"      = "SomeDescription"
+				"AccountExpirationDate"   = "2020-01-01T00:00:00Z"
+				"UID"                     = "0"
+				"GID"                     = "0"
+				"MachineOSFamily"         = "Workstation"
+			}
+
+			$response = $InputObj | Add-PASPendingAccount -verbose
+
 		}
+
 
 		Context "Mandatory Parameters" {
 			$Parameters = @{Parameter = 'UserName' },
@@ -76,19 +80,17 @@ Describe $FunctionName {
 			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
 				param($Parameter)
 
-				(Get-Command Add-PASPendingAccount).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Add-PASPendingAccount).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Add-PASPendingAccount -verbose
-
 		Context "Input" {
 
 			It "sends request" {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
@@ -98,13 +100,13 @@ Describe $FunctionName {
 
 					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/PendingAccounts"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request using expected method" {
 
-				Assert-MockCalled 'Invoke-PASRestMethod' -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled 'Invoke-PASRestMethod' -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -116,13 +118,13 @@ Describe $FunctionName {
 
 					($Script:RequestBody.pendingAccount) -ne $null
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "has a request body with expected number of properties" {
 
-				($Script:RequestBody.pendingAccount | Get-Member -MemberType NoteProperty).length | Should Be 21
+				($Script:RequestBody.pendingAccount | Get-Member -MemberType NoteProperty).length | Should -Be 21
 
 			}
 
@@ -132,7 +134,7 @@ Describe $FunctionName {
 
 			it "provides no output" {
 
-				$response | Should BeNullOrEmpty
+				$response | Should -BeNullOrEmpty
 
 			}
 

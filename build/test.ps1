@@ -2,19 +2,36 @@
 # Header                          #
 #---------------------------------#
 Write-Host "Testing: PSVersion $($PSVersionTable.PSVersion)" -ForegroundColor Yellow
-
+$ManifestPath = Join-Path "$pwd" $(Join-Path "$env:APPVEYOR_PROJECT_NAME" "$env:APPVEYOR_PROJECT_NAME.psd1")
+Import-Module Pester -Force
+Import-Module $ManifestPath -Force
 #---------------------------------#
 # Run Pester Tests                #
 #---------------------------------#
-$files = Get-ChildItem $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME) -Include *.ps1 -Recurse
+$files = Get-ChildItem $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME) -Include *.ps1 -Recurse | Select-Object -ExpandProperty FullName
 
-$res = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -CodeCoverage $files -PassThru -Show Summary, Failed
+# get default from static property
+$configuration = [PesterConfiguration]::Default
+# assing properties & discover via intellisense
+$configuration.Run.Path = ".\Tests"
+$configuration.Run.PassThru = $true
+$configuration.CodeCoverage.Enabled = $false
+$configuration.CodeCoverage.Path = $files
+$configuration.TestResult.Enabled = $true
+$configuration.TestResult.OutputFormat = "NUnitXml"
+$configuration.TestResult.OutputPath = ".\TestsResults.xml"
+$configuration.Output.Verbosity = "None"
+
+$result = Invoke-Pester -Configuration $configuration
+
+$res = $result | ConvertTo-Pester4Result
 
 Write-Host 'Uploading Test Results'
 $null = (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $(Resolve-Path .\TestsResults.xml))
 
 Remove-Item -Path $(Resolve-Path .\TestsResults.xml) -Force
 
+<#
 if ($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq "Pete Maan") {
 
 	Write-Host 'Formating Code Coverage'
@@ -33,6 +50,7 @@ if ($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq "Pete Maan") {
 	Remove-Item -Path $(Resolve-Path .\codecov.sh) -Force
 
 }
+#>
 #---------------------------------#
 # Validate                        #
 #---------------------------------#

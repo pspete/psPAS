@@ -18,6 +18,8 @@ Authenticates a user to CyberArk Vault/API.
     New-PASSession -Credential <PSCredential> [-type <String>] [-OTP <String>] [-OTPMode <String>] [-OTPDelimiter <String>] [-RadiusChallenge <String>] [-concurrentSession <Boolean>] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
     [-Confirm] [<CommonParameters>]
 
+    New-PASSession -SAMLAuth [-concurrentSession <Boolean>] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
+
     New-PASSession -SAMLToken <String> -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 
     New-PASSession -UseSharedAuthentication -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -67,6 +69,16 @@ For CyberArk version older than 9.7:
         Required?                    false
         Position?                    named
         Default value
+        Accept pipeline input?       true (ByPropertyName)
+        Accept wildcard characters?  false
+
+    -SAMLAuth [<SwitchParameter>]
+        Supported from 11.4
+        Specify to authenticate after retrieval of saml token.
+
+        Required?                    true
+        Position?                    named
+        Default value                False
         Accept pipeline input?       true (ByPropertyName)
         Accept wildcard characters?  false
 
@@ -424,3 +436,9 @@ For CyberArk version older than 9.7:
     PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP passcode -OTPMode Challenge
 
     Perform initial authentication and then get prompted to supply OTP value for  RADIUS challenge.
+
+    -------------------------- EXAMPLE 19 --------------------------
+
+    PS C:\>New-PASSession -BaseURI $url -SAMLAuth
+
+    Perform saml authentication from version 11.4

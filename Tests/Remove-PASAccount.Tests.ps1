@@ -1,52 +1,40 @@
-#Get Current Directory
-$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
-#Get Function Name
-$FunctionName = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -Replace ".Tests.ps1"
+	BeforeAll {
+		#Get Current Directory
+		$Here = Split-Path -Parent $PSCommandPath
 
-#Assume ModuleName from Repository Root folder
-$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+		#Assume ModuleName from Repository Root folder
+		$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
 
-#Resolve Path to Module Directory
-$ModulePath = Resolve-Path "$Here\..\$ModuleName"
+		#Resolve Path to Module Directory
+		$ModulePath = Resolve-Path "$Here\..\$ModuleName"
 
-#Define Path to Module Manifest
-$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+		#Define Path to Module Manifest
+		$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
 
-if ( -not (Get-Module -Name $ModuleName -All)) {
+		if ( -not (Get-Module -Name $ModuleName -All)) {
 
-	Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
-
-}
-
-BeforeAll {
-
-	$Script:RequestBody = $null
-	$Script:BaseURI = "https://SomeURL/SomeApp"
-	$Script:ExternalVersion = "0.0"
-	$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-
-}
-
-AfterAll {
-
-	$Script:RequestBody = $null
-
-}
-
-Describe $FunctionName {
-
-	InModuleScope $ModuleName {
-
-		Mock Invoke-PASRestMethod -MockWith {
-			Write-Output @{ }
-		}
-
-		$InputObj = [pscustomobject]@{
-
-			"AccountID" = "11_1"
+			Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
 		}
+
+		$Script:RequestBody = $null
+		$Script:BaseURI = "https://SomeURL/SomeApp"
+		$Script:ExternalVersion = "0.0"
+		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+	}
+
+
+	AfterAll {
+
+		$Script:RequestBody = $null
+
+	}
+
+	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+
 
 		Context "Mandatory Parameters" {
 
@@ -56,19 +44,34 @@ Describe $FunctionName {
 
 				param($Parameter)
 
-				(Get-Command Remove-PASAccount).Parameters["$Parameter"].Attributes.Mandatory | Should Be $true
+				(Get-Command Remove-PASAccount).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
 		}
 
-		$response = $InputObj | Remove-PASAccount -UseClassicAPI
+
 
 		Context "Input V9 API" {
 
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					Write-Output @{ }
+				}
+
+				$InputObj = [pscustomobject]@{
+
+					"AccountID" = "11_1"
+
+				}
+
+				$response = $InputObj | Remove-PASAccount -UseClassicAPI
+
+			}
+
 			It "sends request" {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
@@ -78,59 +81,72 @@ Describe $FunctionName {
 
 					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Accounts/11_1"
 
-				} -Times 1 -Exactly -Scope Describe
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Describe
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
 		}
 
 		Context "Input V10 API" {
-			$Script:ExternalVersion = "0.0"
-			$response = $InputObj | Remove-PASAccount
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					Write-Output @{ }
+				}
+
+				$InputObj = [pscustomobject]@{
+
+					"AccountID" = "11_1"
+
+				}
+
+				$response = $InputObj | Remove-PASAccount
+
+			}
 
 			It "sends request" {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope Context
+				#$response = $InputObj | Remove-PASAccount
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-
+				#$response = $InputObj | Remove-PASAccount
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($Script:BaseURI)/api/Accounts/11_1"
 
-				} -Times 1 -Exactly -Scope Context
+				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope Context
+				#$response = $InputObj | Remove-PASAccount
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with no body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope Context
+				#$response = $InputObj | Remove-PASAccount
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "1.0"
-				{ $InputObj | Remove-PASAccount } | Should Throw
+				{ $InputObj | Remove-PASAccount } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
@@ -138,9 +154,24 @@ Describe $FunctionName {
 
 		Context "Output" {
 
-			it "provides no output" {
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					Write-Output @{ }
+				}
 
-				$response | Should BeNullOrEmpty
+				$InputObj = [pscustomobject]@{
+
+					"AccountID" = "11_1"
+
+				}
+
+				$response = $InputObj | Remove-PASAccount -UseClassicAPI
+
+			}
+
+			it "provides no output" {
+				#$response = $InputObj | Remove-PASAccount
+				$response | Should -BeNullOrEmpty
 
 			}
 

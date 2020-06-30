@@ -40,13 +40,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"LiveSessions" = [PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" } }
-				}
-
-				$InputObj = [pscustomobject]@{
-
-					"Limit" = 9
-
+					[PSCustomObject]@{"addsaferesult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
 				}
 
 				$Script:BaseURI = "https://SomeURL/SomeApp"
@@ -56,40 +50,32 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "sends request" {
-				$InputObj | Get-PASPSMSession
+				Set-PASPTAEvent -EventID 1234 -mStatus CLOSED
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-				$InputObj | Get-PASPSMSession
+				Set-PASPTAEvent -EventID 1234 -mStatus CLOSED
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/LiveSessions?Limit=9"
+					$URI -match "$($Script:BaseURI)/API/pta/API/Events/1234"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It "uses expected method" {
-				$InputObj | Get-PASPSMSession
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+				Set-PASPTAEvent -EventID 1234 -mStatus CLOSED
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PATCH' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
-				$InputObj | Get-PASPSMSession
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
-
-			}
-
-			It "sends request to expected endpoint when querying by ID" {
-
-				Get-PASPSMSession -liveSessionId SomeID
-
+			It "sends request with expected body" {
+				Set-PASPTAEvent  -EventID 1234 -mStatus CLOSED
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/LiveSessions/SomeID"
+					($Body | ConvertFrom-Json | Select-Object -ExpandProperty mStatus) -eq "ClOSED"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -97,14 +83,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "1.0"
-				{ $InputObj | Get-PASPSMSession } | Should -Throw
-				$Script:ExternalVersion = "0.0"
-			}
-
-			It "throws error if version requirement not met when querying by ID" {
-				$Script:ExternalVersion = "10.5"
-				{ Get-PASPSMSession -liveSessionId SomeID } | Should -Throw
-
+				{ Set-PASPTAEvent  -EventID 1234 -mStatus CLOSED } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
@@ -114,13 +93,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"LiveSessions" = [PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" } }
-				}
-
-				$InputObj = [pscustomobject]@{
-
-					"Limit" = 9
-
+					[PSCustomObject]@{"addsaferesult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
 				}
 
 				$Script:BaseURI = "https://SomeURL/SomeApp"
@@ -128,21 +101,22 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
+
 			it "provides output" {
 
-				$InputObj | Get-PASPSMSession | Should -Not -BeNullOrEmpty
+				Set-PASPTAEvent -EventID 1234 -mStatus CLOSED | Should -Not -BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties" {
 
-				($InputObj | Get-PASPSMSession | Get-Member -MemberType NoteProperty).length | Should -Be 3
+				(Set-PASPTAEvent -EventID 1234 -mStatus CLOSED | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
 			}
 
 			it "outputs object with expected typename" {
 
-				$InputObj | Get-PASPSMSession | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PSM.Session
+				Set-PASPTAEvent -EventID 1234 -mStatus CLOSED | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Event
 
 			}
 

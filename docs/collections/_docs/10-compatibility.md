@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2020-01-21T22:05:00-00:00
+last_modified_at: 2020-06-28T01:33:52-00:00
 toc: false
 ---
 
@@ -100,7 +100,8 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Add-PASDirectory`][Add-PASDirectory]                                                   | **10.4** ([Notes](#add-pasdirectory))              |Add a new LDAP directory
 [`New-PASDirectoryMapping`][New-PASDirectoryMapping]                                     | **10.4** ([Notes](#new-pasdirectorymapping))       |Create a new LDAP directory mapping
 [`Add-PASPTARule`][Add-PASPTARule]                                                       | **10.4**                                           |Add a new Risky Commandrule to PTA
-[`Get-PASPTAEvent`][Get-PASPTAEvent]                                                     | **10.3**                                           |Get security eventsfrom PTA
+[`Get-PASPTAEvent`][Get-PASPTAEvent]                                                     | **10.3**                                           |Get security events from PTA
+[`Set-PASPTAEvent`][Set-PASPTAEvent]                                                     | **11.3**                                           |Set status of PTA security events
 [`Get-PASPTARemediation`][Get-PASPTARemediation]                                         | **10.4**                                           |Get automatic response config from PTA
 [`Get-PASPTARule`][Get-PASPTARule]                                                       | **10.4**                                           |List Risky Command rules from PTA
 [`Set-PASPTARemediation`][Set-PASPTARemediation]                                         | **10.4**                                           |Update automaticresponse config in PTA
@@ -125,8 +126,8 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`New-PASGroup`][New-PASGroup]                                                           | **11.1**                                           |Create a new CyberArk group
 [`Get-PASPlatformSafe`][Get-PASPlatformSafe]                                             | **11.1**                                           |List details for all platforms
 [`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                               | **11.1**                                           |Deletes a Directory Mapping
-[`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             | **10.4**                                           |Enables Automatic CPM Managment for an account
-[`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           | **10.4**                                           |Disables Automatic CPM Managment for an account
+[`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             | **10.4**                                           |Enables Automatic CPM Management for an account
+[`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           | **10.4**                                           |Disables Automatic CPM Management for an account
 [`Test-PASPSMRecording`][Test-PASPSMRecording]                                           | **11.2**                                           |Determine validity of PSM Session Recording
 
 [New-PASSession]:/commands/New-PASSession
@@ -206,6 +207,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [New-PASDirectoryMapping]:/commands/New-PASDirectoryMapping
 [Add-PASPTARule]:/commands/Add-PASPTARule
 [Get-PASPTAEvent]:/commands/Get-PASPTAEvent
+[Set-PASPTAEvent]:/commands/Set-PASPTAEvent
 [Get-PASPTARemediation]:/commands/Get-PASPTARemediation
 [Get-PASPTARule]:/commands/Get-PASPTARule
 [Set-PASPTARemediation]:/commands/Set-PASPTARemediation
@@ -249,6 +251,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
   - New Authentication Method:
     - Windows
 - Version 11.3 introduced support for concurrent API sessions.
+- Version 11.4 introduced updated support for SAML auth.
 - The Classic API endpoint can be used by specifying the `-UseClassicAPI` parameter.
 
 ### Close-PASSession
@@ -430,3 +433,10 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 11.1 introduced a new API endpoint.
   - Supports:
     - Additional parameters for updating users.
+
+### Get-PASPTAEvent
+
+- Version 11.4 introduced new parameters for filtering events
+  - Supports:
+    - status
+    - accountID

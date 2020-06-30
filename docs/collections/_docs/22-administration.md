@@ -2,7 +2,7 @@
 title: "Administration"
 permalink: /docs/administration/
 excerpt: "psPAS Administration"
-last_modified_at: 2019-09-01T01:33:52-00:00
+last_modified_at: 2020-06-28T01:33:52-00:00
 ---
 
 ## Add An Account
@@ -47,7 +47,7 @@ Add-PASSafeMember -SafeName NewSafe -MemberName NewMember -UseAccounts $false -L
 
 MemberName SearchIn SafeName Permissions
 ---------- -------- -------- ---------- -
-NewMember  vault    NewSafe { ListAccounts, ViewAuditLog, ViewSafeMembers }
+NewMember  vault    NewSafe @{Add=True; AddRenameFolder=True; BackupSafe=True...
 ````
 
 ## Update Accounts
