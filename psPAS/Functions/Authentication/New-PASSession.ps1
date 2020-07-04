@@ -682,7 +682,18 @@ https://pspas.pspete.dev/commands/New-PASSession
 
 							If ($OTP -match "passcode") {
 
-								$OTP = $(Read-Host -Prompt "Enter OTP")
+								#The message of the exception should contain instructions on the expected OTP or other options.
+								If ($($PSItem.Exception.Message)){
+
+									$Prompt = $($PSItem.Exception.Message)
+
+								}
+								Else {
+
+									$Prompt = "Enter OTP"
+
+								}
+								$OTP = $(Read-Host -Prompt $Prompt)
 
 							}
 
