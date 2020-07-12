@@ -62,7 +62,7 @@ User: DuoUser
 Password for user DuoUser: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type RADIUS -OTP 123456 -OTPMode Challenge
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type RADIUS -OTP 123456
 
 Get-PASLoggedOnUser
 

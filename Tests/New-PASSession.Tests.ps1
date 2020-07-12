@@ -381,7 +381,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			BeforeEach {
 
-				if($IsCoreCLR){
+				if ($IsCoreCLR) {
 					$errorDetails = $([pscustomobject]@{"ErrorCode" = "ITATS542I"; "ErrorMessage" = "Some Radius Message" } | ConvertTo-Json)
 					$statusCode = 500
 					$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
@@ -395,6 +395,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				Mock -CommandName Invoke-WebRequest -ParameterFilter { $SessionVariable -eq "PASSession" } -mockwith { Throw $errorRecord }
 				Mock -CommandName Invoke-WebRequest -ParameterFilter { $WebSession -eq $Script:WebSession } -mockwith { [PSCustomObject]@{"CyberArkLogonResult" = "AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN" } }
 
+				Mock Read-Host -MockWith {
+					return "123456"
+				}
 				Mock Get-Variable -MockWith { }
 				Mock Get-PASServer -MockWith {
 					[PSCustomObject]@{
@@ -413,7 +416,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				if ($IsCoreCLR) {
 					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP 123456 -OTPMode Challenge
 					Assert-MockCalled Invoke-WebRequest -Times 2 -Exactly -Scope It
-				}Else{Set-ItResult -Inconclusive}
+				}
+				Else { Set-ItResult -Inconclusive }
 			}
 
 			It "sends expected OTP value for Radius Challenge" {
@@ -435,7 +439,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 						$Script:RequestBody.password -eq "987654"
 
 					} -Times 1 -Exactly -Scope It
-				}Else{Set-ItResult -Inconclusive}
+				}
+				Else { Set-ItResult -Inconclusive }
 			}
 
 			It "sends expected password value as radius challenge" {
@@ -457,24 +462,34 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 						$Script:RequestBody.password -eq "SomePassword"
 
 					} -Times 1 -Exactly -Scope It
-				}Else{Set-ItResult -Inconclusive}
+				}
+				Else { Set-ItResult -Inconclusive }
 			}
 
-			It "throws ITATS542I if no OTP provided" {
+			It "prompts for OTP value" {
 				if ($IsCoreCLR) {
-					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Challenge } | Should -Throw
-				}Else{Set-ItResult -Inconclusive}
+					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Challenge
+					Assert-MockCalled Read-Host -Times 1 -Exactly -Scope It
+				}
+				Else { Set-ItResult -Inconclusive }
 			}
 
-			It "throws ITATS542I if not Radius challenge mode" {
+			It "relay RADIUS response as prompt" {
 				if ($IsCoreCLR) {
-					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Append -OTP 123456 } | Should -Throw
-				}Else{Set-ItResult -Inconclusive}
+
+					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Challenge
+					Assert-MockCalled Read-Host -ParameterFilter {
+
+						$Prompt -eq "[500] Some Radius Message"
+
+					} -Times 1 -Exactly -Scope It
+				}
+				Else { Set-ItResult -Inconclusive }
 			}
 
 			It "throws if error code does not indicate Radius Challenge" {
 				if ($IsCoreCLR) {
-					$errorDetails = $([pscustomobject]@{"ErrorCode" = "ITATS123I"; "ErrorMessage" = "Some Radius Message" } | ConvertTo-Json)
+					$errorDetails = $([pscustomobject]@{"ErrorCode" = "ITATS123I"; "ErrorMessage" = "Some Message" } | ConvertTo-Json)
 					$statusCode = 500
 					$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
 					$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
@@ -487,18 +502,16 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 					Mock -CommandName Invoke-WebRequest -ParameterFilter { $SessionVariable -eq "PASSession" } -mockwith { Throw $errorRecord }
 
 					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Append -OTP 123456 } | Should -Throw
-				}Else{Set-ItResult -Inconclusive}
+				}
+				Else { Set-ItResult -Inconclusive }
 			}
 
 			It "prompts for OTP if parameter value for $OTP is 'passcode'" {
 				if ($IsCoreCLR) {
-					Mock Read-Host -MockWith {
-						return "123456"
-					}
-
 					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP passcode -OTPMode Challenge
 					Assert-MockCalled Read-Host -Times 1 -Exactly -Scope It
-				}Else{Set-ItResult -Inconclusive}
+				}
+				Else { Set-ItResult -Inconclusive }
 			}
 
 		}
@@ -522,7 +535,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				$RandomString = "ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7"
 
 				Mock -CommandName Invoke-PASRestMethod {
-					If($Script:counter -eq 0){
+					If ($Script:counter -eq 0) {
 						$Script:counter++
 						Throw $errorRecord
 					}
@@ -534,7 +547,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 				} -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon" }
 
-				Mock -CommandName Invoke-PASRestMethod {return @{UserName = "AUserName" } } -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon" }
+				Mock -CommandName Invoke-PASRestMethod { return @{UserName = "AUserName" } } -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/Windows/Logon" }
 
 				Mock Set-Variable -MockWith { }
 				Mock Get-Variable -MockWith { }
@@ -554,7 +567,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			It "throws if no session token is returned after successful IIS authentication" {
 				if ($IsCoreCLR) {
 					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows } | Should -Throw
-				}Else{Set-ItResult -Inconclusive}
+				}
+				Else { Set-ItResult -Inconclusive }
 			}
 
 			It "sends expected number of requests for Windows Auth + RADIUS" {
@@ -572,12 +586,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 						$URI -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon"
 
 					} -Times 2 -Exactly -Scope It
-				}Else{Set-ItResult -Inconclusive}
+				}
+				Else { Set-ItResult -Inconclusive }
 			}
 
 			It "throws if RADIUS challenge fails" {
 				if ($IsCoreCLR) {
-					Mock -CommandName Invoke-PASRestMethod {Throw $errorRecord} -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon" }
+					Mock -CommandName Invoke-PASRestMethod { Throw $errorRecord } -ParameterFilter { $Uri -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon" }
 
 					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows -OTP 123456 -OTPMode Challenge } | Should -Throw
 
@@ -593,7 +608,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 					} -Times 2 -Exactly -Scope It
 
-				}Else{Set-ItResult -Inconclusive}
+				}
+				Else { Set-ItResult -Inconclusive }
 
 			}
 
@@ -620,7 +636,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				$Script:ExternalVersion = "0.0"
 				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
-				Mock Get-PASSAMLResponse -MockWith{
+				Mock Get-PASSAMLResponse -MockWith {
 
 					"ThisIsTheSAMLResponse"
 
@@ -648,13 +664,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "throws if saml response is not available" {
 
-				Mock Get-PASSAMLResponse -MockWith{
+				Mock Get-PASSAMLResponse -MockWith {
 
 					Throw "ThisIsTheSAMLResponse"
 
 				}
 
-				{New-PASSession -BaseURI "https://P_URI" -SAMLAuth} | Should -Throw
+				{ New-PASSession -BaseURI "https://P_URI" -SAMLAuth } | Should -Throw
 
 			}
 
