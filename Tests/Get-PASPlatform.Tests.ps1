@@ -139,6 +139,95 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
+		Context "Input - 11.4" {
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+					[PSCustomObject]@{
+						"Platforms" = [PSCustomObject]@{
+							"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = 123
+						}
+					}
+
+				}
+
+				Get-PASPlatform
+
+			}
+
+			It "sends request" {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It "uses expected method" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - target" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/API/Platforms/targets"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - dependent" {
+
+				Get-PASPlatform -DependentPlatform
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/API/Platforms/dependents"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - group" {
+
+				Get-PASPlatform -GroupPlatform
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/API/Platforms/groups"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - rotational group" {
+
+				Get-PASPlatform -RotationalGroup
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/API/Platforms/rotationalGroups"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request with no body" {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+			}
+
+			It "throws error if version requirement not met" {
+				$Script:ExternalVersion = "11.3"
+				{ Get-PASPlatform } | Should -Throw
+				$Script:ExternalVersion = "0.0"
+			}
+
+		}
+
 		Context "Output" {
 
 			BeforeEach {
@@ -171,6 +260,24 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "has output with expected number of properties - 11.1" {
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+					[PSCustomObject]@{
+						"Platforms" = [PSCustomObject]@{
+							"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = 123
+						}
+					}
+
+				}
+
+				$response = Get-PASPlatform -Active $true -PlatformType Regular
+
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 3
+
+			}
+
+			It "has output with expected number of properties - 11.4" {
 
 				Mock Invoke-PASRestMethod -MockWith {
 

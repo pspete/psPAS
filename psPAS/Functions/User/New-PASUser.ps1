@@ -182,7 +182,7 @@ The Type of User to create.
 EPVUser type will be created by default.
 
 .PARAMETER Disabled
-Whether or not the user will be created as a disbaled user
+Whether or not the user will be created as a disabled user
 Default is Enabled
 
 .PARAMETER Location

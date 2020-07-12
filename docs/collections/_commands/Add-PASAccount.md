@@ -303,7 +303,7 @@ Parameters are processed to create request object in the required format.
     PS C:\>Add-PASAccount -address ThisServer -userName ThisUser -platformID UNIXSSH
     -SafeName UNIXSafe -automaticManagementEnabled $false
 
-    Using the version 10 API, adds an account which is disbaled for automatic password management
+    Using the version 10 API, adds an account which is disabled for automatic password management
 
 
 

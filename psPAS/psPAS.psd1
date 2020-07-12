@@ -182,7 +182,12 @@
 		'Remove-PASDirectoryMapping',
 		'Disable-PASCPMAutoManagement',
 		'Test-PASPSMRecording',
-		'Set-PASPTAEvent'
+		'Set-PASPTAEvent',
+		'Copy-PASPlatform',
+		'Disable-PASPlatform',
+		'Enable-PASPlatform',
+		'Remove-PASPlatform',
+		'Remove-PASGroup'
 	)
 
 	# AliasesToExport   = @( )

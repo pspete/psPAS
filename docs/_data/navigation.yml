@@ -184,6 +184,14 @@ commands:
         url: /commands/Export-PASPlatform
       - title: "Import-PASPlatform"
         url: /commands/Import-PASPlatform
+      - title: "Copy-PASPlatform"
+        url: /commands/Copy-PASPlatform
+      - title: "Enable-PASPlatform"
+        url: /commands/Enable-PASPlatform
+      - title: "Disable-PASPlatform"
+        url: /commands/Disable-PASPlatform
+      - title: "Remove-PASPlatform"
+        url: /commands/Remove-PASPlatform
 
   - title: "Policy ACL"
     children:
@@ -275,6 +283,8 @@ commands:
         url: /commands/Remove-PASGroupMember
       - title: "New-PASGroup"
         url: /commands/New-PASGroup
+      - title: "Remove-PASGroup"
+        url: /commands/Remove-PASGroup
 
 # documentation links
 docs:
