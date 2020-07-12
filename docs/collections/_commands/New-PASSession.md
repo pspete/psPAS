@@ -121,8 +121,7 @@ For CyberArk version older than 9.7:
         Accept wildcard characters?  false
 
     -OTP <String>
-        One Time Passcode for RADIUS authentication.
-        To provide an OTP value after the initial RADIUS authentication, specify a value of 'passcode' to get prompted for the OTP to use.
+        One Time Passcode, if known, for RADIUS authentication.
 
         Required?                    false
         Position?                    named
@@ -278,7 +277,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 1 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 
     Logon to Version 10 with LDAP credential
 
@@ -287,7 +286,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 2 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -concurrentSession $true
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -concurrentSession $true
 
     Establish a concurrent session
 
@@ -296,7 +295,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 3 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
 
     Logon to Version 10 with CyberArk credential
 
@@ -305,7 +304,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 4 --------------------------
 
-    PS C:\>New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
+    PS > New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
 
     Logon to Version 10 with Windows Integrated Authentication
 
@@ -314,7 +313,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 5 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI
 
     Logon to Version 9 with credential
     Request would be sent to PVWA URL https://PVWA/PasswordVault/
@@ -324,7 +323,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 6 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseClassicAPI
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseClassicAPI
 
     Logon to Version 9 where PVWA Virtual Directory has non-default name
     Request would be sent to PVWA URL https://PVWA/CustomVault/
@@ -334,7 +333,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 7 --------------------------
 
-    PS C:\>New-PASSession -UseSharedAuthentication -BaseURI https://PVWA.domain.com
+    PS > New-PASSession -UseSharedAuthentication -BaseURI https://PVWA.domain.com
 
     Gets authorisation token by authenticating to a CyberArk Vault using shared authentication.
 
@@ -343,7 +342,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 8 --------------------------
 
-    PS C:\>New-PASSession -SAMLToken $SAMLToken -BaseURI https://PVWA.domain.com
+    PS > New-PASSession -SAMLToken $SAMLToken -BaseURI https://PVWA.domain.com
 
     Authenticates to a CyberArk Vault using SAML authentication.
 
@@ -352,7 +351,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 9 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
 
     Logon to Version 10 using RADIUS
 
@@ -361,7 +360,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 10 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True
 
     Logon using RADIUS via the Classic API
 
@@ -370,7 +369,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 11 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Challenge
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456
 
     Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
 
@@ -379,7 +378,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 12 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
 
     Logon using RADIUS & OTP (Append Mode) via the Classic API
 
@@ -388,7 +387,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 13 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append
 
     Logon to Version 10 using RADIUS & Push Authentication (works with DUO 2FA)
 
@@ -397,7 +396,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 14 --------------------------
 
-    PS C:\>New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
+    PS > New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
 
     If authentication via certificates is configured, provide CertificateThumbprint details.
 
@@ -406,7 +405,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 15 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck
+    PS > New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck
 
     Skip SSL Certificate validation for the session.
 
@@ -415,7 +414,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 16 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
 
     Logon to Version 10 with LDAP credential & Client Certificate
 
@@ -424,7 +423,7 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 17 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP 123456 -OTPMode Challenge
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP 123456
 
     Perform initial Windows authentication and satisfy secondary RADIUS challenge
 
@@ -433,12 +432,24 @@ For CyberArk version older than 9.7:
 
     -------------------------- EXAMPLE 18 --------------------------
 
-    PS C:\>New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP passcode -OTPMode Challenge
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -RadiusChallenge Password -OTPMode Challenge
 
-    Perform initial authentication and then get prompted to supply OTP value for  RADIUS challenge.
+    For RADIUS, send OTP first and password value as response to challenge.
+
+
+
 
     -------------------------- EXAMPLE 19 --------------------------
 
-    PS C:\>New-PASSession -BaseURI $url -SAMLAuth
+    PS > New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
+
+    Perform initial authentication and supply OTP value for  RADIUS challenge when prompted.
+
+
+
+
+    -------------------------- EXAMPLE 20 --------------------------
+
+    PS > New-PASSession -BaseURI $url -SAMLAuth
 
     Perform saml authentication from version 11.4
