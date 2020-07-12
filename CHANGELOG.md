@@ -2,15 +2,15 @@
 
 ## Planned Updates
 
-- Update for PAS 11.5
 - Continued development to encompass any new documented features of the CyberArk API.
+- Rename `Get-PASPSMConnectionParameter` to something better.... suggestions welcome.
 - psPAS v5.0...
 
 ## **4.1.X** (July X 2020)
 
 ### Module update to cover CyberArk 11.5 API features
 
-- **Behavior Changes**
+- **Behaviour Changes**
   - `Get-PASPlatform`
     - When invoked with no parameters to return details of all configured platforms, defaults to operation against the endpoint for the 11.4 API.
     - When invoked with a value provided for the `Active` parameter, will perform operation against the endpoint for the 11.4 API.
