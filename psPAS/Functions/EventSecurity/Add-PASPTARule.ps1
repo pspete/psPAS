@@ -27,7 +27,7 @@ Automatic response to be executed
 Valid Values: NONE, TERMINATE or SUSPEND
 
 .PARAMETER active
-Indicate if the rule should be active or disbaled
+Indicate if the rule should be active or disabled
 
 .EXAMPLE
 Add-PASPTARule -category KEYSTROKES -regex '(*.)risky command(.*)' -score 60 -description "Example Rule" -response NONE -active $true
