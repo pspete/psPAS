@@ -680,7 +680,6 @@ https://pspas.pspete.dev/commands/New-PASSession
 				Else {
 
 					#ITATS542I is expected for RADIUS Challenge
-					#If (($PSCmdlet.ParameterSetName -match "Radius$") -and ($PSBoundParameters["OTPMode"] -eq "Challenge")) {
 
 					#OTP value has not yet been provided.
 					#Initial RADIUS auth attempt will trigger notification of OTP for user to provide.
@@ -719,14 +718,6 @@ https://pspas.pspete.dev/commands/New-PASSession
 
 					#Respond to RADIUS challenge
 					$PASSession = Invoke-PASRestMethod @LogonRequest
-
-					#}
-					#Else {
-
-					#Not RADIUS/Challenge Mode
-					#throw $PSItem
-
-					#}
 
 				}
 
