@@ -24,7 +24,7 @@ Escaped String Value
 	[OutputType('System.String')]
 	param(
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipeline = $true
 		)]
 		[string]$inputString
