@@ -53,7 +53,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				Get-PASGroup
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/UserGroups?"
+					$URI -eq "$($Script:BaseURI)/API/UserGroups"
 
 				} -Times 1 -Exactly -Scope It
 

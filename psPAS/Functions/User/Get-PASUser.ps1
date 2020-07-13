@@ -116,14 +116,14 @@ https://pspas.pspete.dev/commands/Get-PASUser
 			$boundParameters = $PSBoundParameters | Get-PASParameter
 
 			#Create Query String, escaped for inclusion in request URL
-			$queryString = ($boundParameters.keys | ForEach-Object {
+			$queryString = $boundParameters | ConvertTo-QueryString
 
-					"$_=$($boundParameters[$_] | Get-EscapedString)"
+			if ($queryString) {
 
-				}) -join '&'
+				#Build URL from base URL
+				$URI = "$URI`?$queryString"
 
-			#Build URL from base URL
-			$URI = "$URI`?$queryString"
+			}
 
 			$TypeName = "psPAS.CyberArk.Vault.User.Extended"
 

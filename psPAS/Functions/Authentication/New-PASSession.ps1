@@ -625,11 +625,7 @@ https://pspas.pspete.dev/commands/New-PASSession
 					$boundParameters.Add("apiUse", $true)
 
 					#Create Logon URL
-					$LogonString = ($boundParameters.keys | ForEach-Object {
-
-							"$_=$($boundParameters[$_] | Get-EscapedString)"
-
-						}) -join '&'
+					$LogonString = $boundParameters | ConvertTo-QueryString
 
 					if ($LogonString) {
 

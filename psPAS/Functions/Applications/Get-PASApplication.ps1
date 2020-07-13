@@ -123,14 +123,14 @@ https://pspas.pspete.dev/commands/Get-PASApplication
 			$boundParameters = $PSBoundParameters | Get-PASParameter
 
 			#Create query string
-			$query = ($boundParameters.keys | ForEach-Object {
+			$queryString = $boundParameters | ConvertTo-QueryString
 
-					"$_=$($boundParameters[$_] | Get-EscapedString)"
+			if ($queryString) {
 
-				}) -join '&'
+				#Build URL from base URL
+				$URI = "$URI`?$queryString"
 
-			#Build URL from base URL
-			$URI = "$URI`?$query"
+			}
 
 		}
 

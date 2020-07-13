@@ -67,7 +67,7 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "11_4"
 		)]
-		[ValidateSet("OPEN","CLOSED")]
+		[ValidateSet("OPEN", "CLOSED")]
 		[string]$status,
 
 		[parameter(
@@ -111,18 +111,14 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 
 		}
 
-		if($PSCmdlet.ParameterSetName -eq "11_4"){
+		if ($PSCmdlet.ParameterSetName -eq "11_4") {
 
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
 			#Create Query String, escaped for inclusion in request URL
-			$queryString = ($boundParameters.keys | ForEach-Object {
+			$queryString = $boundParameters | ConvertTo-QueryString
 
-					"$_=$($boundParameters[$_] | Get-EscapedString)"
-
-				}) -join '&'
-
-			if ($queryString){
+			if ($queryString) {
 
 				#Build URL from base URL
 				$URI = "$URI`?$queryString"
@@ -130,7 +126,7 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 			}
 
 		}
-		Else{
+		Else {
 
 			if ($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
 
