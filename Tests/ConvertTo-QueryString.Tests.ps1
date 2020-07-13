@@ -60,13 +60,17 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "converts hashtable to expected query string" {
 
-				$InputObj | ConvertTo-QueryString | Should -Be "Property1=Value&Property2=Another%20Value"
+				$InputObj | ConvertTo-QueryString | Should -Match "Value&Property"
+				$InputObj | ConvertTo-QueryString | Should -Match "Property1=Value"
+				$InputObj | ConvertTo-QueryString | Should -Match "Property2=Another%20Value"
 
 			}
 
 			It "converts hashtable to expected filter string" {
 
-				$InputObj | ConvertTo-QueryString -Format Filter | Should -Be "Property1%20eq%20Value%20AND%20Property2%20eq%20Another%20Value"
+				$InputObj | ConvertTo-QueryString -Format Filter | Should -Match "%20AND%20"
+				$InputObj | ConvertTo-QueryString -Format Filter  | Should -Match "Property1%20eq%20Value"
+				$InputObj | ConvertTo-QueryString -Format Filter | Should -Match "Property2%20eq%20Another%20Value"
 
 			}
 
