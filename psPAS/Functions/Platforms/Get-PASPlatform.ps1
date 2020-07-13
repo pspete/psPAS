@@ -243,11 +243,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 				$boundParameters = $PSBoundParameters | Get-PASParameter
 
 				#Create Query String, escaped for inclusion in request URL
-				$queryString = ($boundParameters.keys | ForEach-Object {
-
-						"$_=$($boundParameters[$_] | Get-EscapedString)"
-
-					}) -join '&'
+				$queryString = $boundParameters | ConvertTo-QueryString
 
 				If ($queryString) {
 					#Build URL from base URL
@@ -274,9 +270,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 				#Get Parameters to include in request
 				$boundParameters = $PSBoundParameters | Get-PASParameter
 
-				$queryString = ($boundParameters.keys | ForEach-Object {
-						"$_ eq $($boundParameters[$_])"
-					}) -join ' AND ' | Get-EscapedString
+				$queryString = $boundParameters | ConvertTo-QueryString -Format Filter
 
 				If ($queryString) {
 					$URI = "$URI`?filter=$queryString"
