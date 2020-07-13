@@ -52,6 +52,7 @@
 
 - Other Fixes & Updates
   - Documentation updated.
+  - Duplicated code for creating the query portion of a URL replaced with new helper function internal to the module.
 
 ## **4.0.0** (July 1st 2020)
 
