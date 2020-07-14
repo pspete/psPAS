@@ -6,7 +6,7 @@
 - Rename `Get-PASPSMConnectionParameter` to something... better.... suggestions welcome.
 - psPAS v5.0...
 
-## **4.1.X** (July X 2020)
+## **4.1.11** (July 14th 2020)
 
 ### Module update to cover CyberArk 11.5 API features
 
