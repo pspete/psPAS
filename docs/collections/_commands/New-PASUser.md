@@ -188,7 +188,7 @@ Adds a new user to the vault
         Accept wildcard characters?  false
 
     -Disabled <Boolean>
-        Whether or not the user will be created as a disbaled user
+        Whether or not the user will be created as a disabled user
         Default is Enabled
 
         Required?                    false

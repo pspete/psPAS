@@ -232,11 +232,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#Create Query String, escaped for inclusion in request URL
-		$query = ($boundParameters.keys | ForEach-Object {
-
-				"$_=$($boundParameters[$_] | Get-EscapedString)"
-
-			}) -join '&'
+		$queryString = $boundParameters | ConvertTo-QueryString
 
 		#Version 10.4 process
 		If ($PSCmdlet.ParameterSetName -match "v10") {
@@ -262,8 +258,12 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 			$URI = "$Script:BaseURI/api/Accounts"
 
 			If ($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
-				#define query URL
-				$URI = "$URI`?$query"
+				if ($queryString) {
+
+					#Build URL from base URL
+					$URI = "$URI`?$queryString"
+
+				}
 			}
 
 			If ($PSCmdlet.ParameterSetName -eq "v10ByID") {
@@ -282,7 +282,14 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 			$typeName = "psPAS.CyberArk.Vault.Account"
 
 			#Create request URL
-			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts?$query"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts"
+
+			if ($queryString) {
+
+				#Build URL from base URL
+				$URI = "$URI`?$queryString"
+
+			}
 
 		}
 

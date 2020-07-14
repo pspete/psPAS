@@ -30,7 +30,7 @@ Automatic response to be executed
 Valid Values: NONE, TERMINATE or SUSPEND
 
 .PARAMETER active
-Indicate if the rule should be active or disbaled
+Indicate if the rule should be active or disabled
 
 .EXAMPLE
 Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 -description "Updated Rule" -response SUSPEND -active $true

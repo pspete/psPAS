@@ -174,11 +174,7 @@ https://pspas.pspete.dev/commands/Get-PASPSMSession
 			$boundParameters = $PSBoundParameters | Get-PASParameter
 
 			#Create Query String, escaped for inclusion in request URL
-			$queryString = ($boundParameters.keys | ForEach-Object {
-
-					"$_=$($boundParameters[$_] | Get-EscapedString)"
-
-				}) -join '&'
+			$queryString = $boundParameters | ConvertTo-QueryString
 
 			if ($queryString) {
 

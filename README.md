@@ -4,7 +4,7 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v11.4.
+Contains all published methods of the API up to CyberArk v11.5.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -850,7 +850,12 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                               |**11.1**            |Deletes a Directory Mapping
 [`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             |**10.4**            |Enables Automatic CPM Management for an account
 [`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           |**10.4**            |Disables Automatic CPM Management for an account
-[`Test-PASPSMRecording`][Test-PASPSMRecording]                                           | **11.2**           |Determine validity of PSM Session Recording
+[`Test-PASPSMRecording`][Test-PASPSMRecording]                                           |**11.2**            |Determine validity of PSM Session Recording
+[`Copy-PASPlatform`][Copy-PASPlatform]                                                   |**11.4**            |Duplicate a platform
+[`Enable-PASPlatform`][Enable-PASPlatform]                                               |**11.4**            |Enable a platform
+[`Disable-PASPlatform`][Disable-PASPlatform]                                             |**11.4**            |Disable a platform
+[`Remove-PASPlatform`][Remove-PASPlatform]                                               |**11.4**            |Delete a platform
+[`Remove-PASGroup`][Remove-PASGroup]                                                     |**11.5**            |Delete a user group
 
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
@@ -958,6 +963,11 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Get-PASPlatformSafe]:/psPAS/Functions/Platforms/Get-PASPlatformSafe.ps1
 [New-PASGroup]:/psPAS/Functions/User/New-PASGroup.ps1
 [Test-PASPSMRecording]:/psPAS/Functions/Monitoring/Test-PASPSMRecording.ps1
+[Copy-PASPlatform]:psPAS/Functions/Platforms/Copy-PASPlatform.ps1
+[Disable-PASPlatform]:psPAS/Functions/Platforms/Disable-PASPlatform.ps1
+[Enable-PASPlatform]:psPAS/Functions/Platforms/Enable-PASPlatform.ps1
+[Remove-PASPlatform]:psPAS/Functions/Platforms/Remove-PASPlatform.ps1
+[Remove-PASGroup]:psPAS/Functions/User/Remove-PASGroup.ps1
 
 ## Installation
 

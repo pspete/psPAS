@@ -116,6 +116,9 @@
 								<PropertyName>PersonalDetails</PropertyName>
 							</ListItem>
 							<ListItem>
+								<PropertyName>groupsMembership</PropertyName>
+							</ListItem>
+							<ListItem>
 								<PropertyName>BusinessAddress</PropertyName>
 							</ListItem>
 							<ListItem>

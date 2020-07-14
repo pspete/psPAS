@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2020-06-28T01:33:52-00:00
+last_modified_at: 2020-07-12zT01:33:52-00:00
 toc: false
 ---
 
@@ -129,6 +129,11 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             | **10.4**                                           |Enables Automatic CPM Management for an account
 [`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                           | **10.4**                                           |Disables Automatic CPM Management for an account
 [`Test-PASPSMRecording`][Test-PASPSMRecording]                                           | **11.2**                                           |Determine validity of PSM Session Recording
+[`Copy-PASPlatform`][Copy-PASPlatform]                                                   |**11.4**                                            |Duplicate a platform
+[`Enable-PASPlatform`][Enable-PASPlatform]                                               |**11.4**                                            |Enable a platform
+[`Disable-PASPlatform`][Disable-PASPlatform]                                             |**11.4**                                            |Disable a platform
+[`Remove-PASPlatform`][Remove-PASPlatform]                                               |**11.4**                                            |Delete a platform
+[`Remove-PASGroup`][Remove-PASGroup]                                                     |**11.5**                                            |Delete a user group
 
 [New-PASSession]:/commands/New-PASSession
 [Close-PASSession]:/commands/Close-PASSession
@@ -236,6 +241,11 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [Get-PASPlatformSafe]:/commands/Get-PASPlatformSafe.ps1
 [New-PASGroup]:/commands/New-PASGroup.ps1
 [Test-PASPSMRecording]:/commands/Test-PASPSMRecording.ps1
+[Copy-PASPlatform]:/commands/Copy-PASPlatform.ps1
+[Disable-PASPlatform]:/commands/Disable-PASPlatform.ps1
+[Enable-PASPlatform]:/commands/Enable-PASPlatform.ps1
+[Remove-PASPlatform]:/commands/Remove-PASPlatform.ps1
+[Remove-PASGroup]:/commands/Remove-PASGroup.ps1
 
 ## Notes
 
@@ -366,6 +376,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 10.10 introduced a new API endpoint.
   - Supports:
     - Get user by ID.
+- Version 11.5 returns additional group membership  detail for user accounts.
 
 ### New-PASUser
 
@@ -421,6 +432,9 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 11.1 introduced a new API endpoint.
   - Supports:
     - New options for finding platforms
+- Version 11.4 introduced new API endpoints
+  - Parameters added to enable more filtering options for querying target platforms
+  - Parameters addded to request details of dependent, group & rotational group platforms.
 
 ### Remove-PASUser
 

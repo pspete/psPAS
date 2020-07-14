@@ -68,7 +68,7 @@ Adds a new Risky Activity rule in the PTA server configuration.
         Accept wildcard characters?  false
 
     -active <Boolean>
-        Indicate if the rule should be active or disbaled
+        Indicate if the rule should be active or disabled
 
         Required?                    true
         Position?                    6

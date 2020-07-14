@@ -112,7 +112,7 @@ Relevant for CyberArk versions earlier than 10.4
 .EXAMPLE
 Add-PASAccount -address ThisServer -userName ThisUser -platformID UNIXSSH -SafeName UNIXSafe -automaticManagementEnabled $false
 
-Using the version 10 API, adds an account which is disbaled for automatic password management
+Using the version 10 API, adds an account which is disabled for automatic password management
 
 .EXAMPLE
 Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com -Password $secureString -username domainUser
@@ -125,7 +125,7 @@ All parameters can be piped by property name
 
 .OUTPUTS
 None for v9
-v10.4 outputs th details of the created account.
+v10.4 outputs the details of the created account.
 
 .LINK
 https://pspas.pspete.dev/commands/Add-PASAccount

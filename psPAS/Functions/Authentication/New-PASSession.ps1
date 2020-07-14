@@ -47,8 +47,7 @@ Valid values are CyberArk, LDAP, Windows or RADIUS
 Windows is only a valid option for version 10.4 onward.
 
 .PARAMETER OTP
-One Time Passcode for RADIUS authentication.
-To provide an OTP value after the initial RADIUS authentication, specify a value of 'passcode' to get prompted for the OTP to use.
+One Time Passcode, if known, for RADIUS authentication.
 
 .PARAMETER OTPMode
 Specify if OTP is to be sent in 'Append' (appended to the password) or 'Challenge' mode (sent in response to RADIUS Challenge).
@@ -155,7 +154,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication 
 Logon using RADIUS via the Classic API
 
 .EXAMPLE
-New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Challenge
+New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456
 
 Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
 
@@ -185,14 +184,19 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $
 Logon to Version 10 with LDAP credential & Client Certificate
 
 .EXAMPLE
-New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP 123456 -OTPMode Challenge
+New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP 123456
 
 Perform initial Windows authentication and satisfy secondary RADIUS challenge
 
 .EXAMPLE
-New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP passcode -OTPMode Challenge
+New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -RadiusChallenge Password -OTPMode Challenge
 
-Perform initial authentication and then get prompted to supply OTP value for  RADIUS challenge.
+For RADIUS, send OTP first and password value as response to challenge.
+
+.EXAMPLE
+New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
+
+Perform initial authentication and supply OTP value for  RADIUS challenge when prompted.
 
 .EXAMPLE
 New-PASSession -BaseURI $url -SAMLAuth
@@ -621,11 +625,7 @@ https://pspas.pspete.dev/commands/New-PASSession
 					$boundParameters.Add("apiUse", $true)
 
 					#Create Logon URL
-					$LogonString = ($boundParameters.keys | ForEach-Object {
-
-							"$_=$($boundParameters[$_] | Get-EscapedString)"
-
-						}) -join '&'
+					$LogonString = $boundParameters | ConvertTo-QueryString
 
 					if ($LogonString) {
 
@@ -641,7 +641,7 @@ https://pspas.pspete.dev/commands/New-PASSession
 				#Send Logon Request
 				$PASSession = Invoke-PASRestMethod @LogonRequest
 
-				If($null -ne $PASSession.UserName){
+				If ($null -ne $PASSession.UserName) {
 
 					#*$PASSession is expected to be a string value
 					#*For IIS Windows auth:
@@ -676,45 +676,44 @@ https://pspas.pspete.dev/commands/New-PASSession
 				Else {
 
 					#ITATS542I is expected for RADIUS Challenge
-					If (($PSCmdlet.ParameterSetName -match "Radius$") -and ($PSBoundParameters["OTPMode"] -eq "Challenge")) {
 
-						If ($PSBoundParameters.ContainsKey("OTP")) {
+					#OTP value has not yet been provided.
+					#Initial RADIUS auth attempt will trigger notification of OTP for user to provide.
+					#?"passcode" remains an option for backward compatibility.
+					If ((-not ($PSBoundParameters.ContainsKey("OTP"))) -or ($OTP -match "passcode")) {
 
-							If ($OTP -match "passcode") {
+						#*The message of the exception should contain instructions from the RADIUS server
+						#*containing information the expected OTP value to provide or other available options.
+						If ($($PSItem.Exception.Message)) {
 
-								$OTP = $(Read-Host -Prompt "Enter OTP")
-
-							}
-
-							#$OTP as RADIUS response
-							#If $RadiusChallenge = Password, $OTP will be password value
-							$boundParameters["password"] = $OTP
-
-							#Construct Request Body
-							$LogonRequest["Body"] = $boundParameters | ConvertTo-Json
-
-							#Use WebSession from initial request
-							$LogonRequest.Remove("SessionVariable")
-							$LogonRequest["WebSession"] = $Script:WebSession
-
-							#Respond to RADIUS challenge
-							$PASSession = Invoke-PASRestMethod @LogonRequest
+							$Prompt = $($PSItem.Exception.Message)
 
 						}
 						Else {
 
-							#No OTP
-							throw $PSItem
+							#Default value for the Read-Host prompt.
+							$Prompt = "Enter OTP"
 
 						}
 
-					}
-					Else {
-
-						#Not RADIUS/Challenge Mode
-						throw $PSItem
+						#Prompt user for OTP
+						$OTP = $(Read-Host -Prompt $Prompt)
 
 					}
+
+					#$OTP as RADIUS response
+					#!If $RadiusChallenge = Password, $OTP will be password value
+					$boundParameters["password"] = $OTP
+
+					#Construct Request Body
+					$LogonRequest["Body"] = $boundParameters | ConvertTo-Json
+
+					#Use WebSession from initial request
+					$LogonRequest.Remove("SessionVariable")
+					$LogonRequest["WebSession"] = $Script:WebSession
+
+					#Respond to RADIUS challenge
+					$PASSession = Invoke-PASRestMethod @LogonRequest
 
 				}
 
