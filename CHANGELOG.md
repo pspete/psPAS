@@ -3,7 +3,7 @@
 ## Planned Updates
 
 - Continued development to encompass any new documented features of the CyberArk API.
-- Rename `Get-PASPSMConnectionParameter` to something... better.... suggestions welcome.
+- Rename `Get-PASPSMConnectionParameter` to `New-PASPSMSession`.
 - psPAS v5.0...
 
 ## **4.1.11** (July 14th 2020)
