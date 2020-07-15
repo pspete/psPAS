@@ -161,3 +161,14 @@ RDP files or the HTML5 Gateway.
     -reason "Fix XYZ"
 
     Outputs RDP file for Direct Connection via PSM using account with ID in $ID
+
+    -------------------------- EXAMPLE 2 --------------------------
+
+    PS C:\>[Hashtable]$connectionParams = @{
+    "AllowMappingLocalDrives" = @{"value"="No";"ShouldSave"=$false}
+    "PSMRemoteMachine" = @{"value"="ServerName";"ShouldSave"=$false}
+    }
+
+    New-PASPSMSession -AccountID $id -ConnectionParams $connectionParams -ConnectionComponent PSM-RDP
+
+    Provide connection parameters for the new PSM connection

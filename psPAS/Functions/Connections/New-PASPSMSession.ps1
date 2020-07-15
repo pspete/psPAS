@@ -4,7 +4,7 @@ function New-PASPSMSession {
 Get required parameters to connect through PSM
 
 .DESCRIPTION
-This method enables you to connect to an account through PSM (PSMConnect) using.
+This method enables you to connect to an account through PSM (PSMConnect).
 The function returns either an RDP file or URL for PSM connections.
 It requires the PVWA and PSM to be configured for either transparent connections through PSM with RDP files
 or the HTML5 Gateway.
@@ -54,6 +54,16 @@ The folder to save the output file in.
 New-PASPSMSession -AccountID $ID -ConnectionComponent PSM-SSH -reason "Fix XYZ"
 
 Outputs RDP file for Direct Connection via PSM using account with ID in $ID
+
+.EXAMPLE
+[Hashtable]$connectionParams = @{
+"AllowMappingLocalDrives" = @{"value"="No";"ShouldSave"=$false}
+"PSMRemoteMachine" = @{"value"="ServerName";"ShouldSave"=$false}
+}
+
+New-PASPSMSession -AccountID $id -ConnectionParams $connectionParams -ConnectionComponent PSM-RDP
+
+Provide connection parameters for the new PSM connection
 
 .NOTES
 Minimum CyberArk Version 9.10
