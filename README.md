@@ -1,4 +1,7 @@
-![psPAS](docs/assets/images/header_photo.png)
+[![psPAS][]][Docs]
+
+[psPAS]:/docs/assets/images/header_photo.png
+[Docs]:https://pspas.pspete.dev
 
 # **psPAS: PowerShell Module for the CyberArk API**
 
@@ -981,40 +984,55 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 
 ### Install Options
 
-This repository contains a folder named `psPAS`.
-
-The folder needs to be copied to one of your PowerShell Module Directories.
-
 Use one of the following methods:
 
 #### Option 1: Install from PowerShell Gallery
 
 **PowerShell 5.0 or above must be used**
 
-To download the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/), </br>
+This is the simplest & preferred method for installation of the module.
+
+To install the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/), </br>
 from a PowerShell prompt, run:
 
 `Install-Module -Name psPAS -Scope CurrentUser`
 
 #### Option 2: Manual Install
 
+You can manually copy the module files to one of your powershell module folders.
+
 Find your PowerShell Module Paths with the following command:
 
-```powershell
+`$env:PSModulePath.split(';')`
 
-$env:PSModulePath.split(';')
+The module files should be placed in a folder named `psPAS` in one of the listed locations.
 
-```
+More: [about_PSModulePath](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_psmodulepath)
 
-[Download the ```master branch```](https://github.com/pspete/psPAS/archive/master.zip)
+There are multiple options for downloading the module files:
 
-Extract the archive
+##### PowerShell Gallery
 
-Copy the `psPAS` folder to your "Powershell Modules" directory of choice.
+- Download from the module [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/):
+  - Run the PowerShell command `Save-Module -Name psPAS -Path C:\temp`
+  - Copy the `C:\temp\psPAS` folder to your "Powershell Modules" directory of choice.
+
+##### psPAS Release
+
+- [Download the latest release](https://github.com/pspete/psPAS/releases/latest)
+  - Unblock & Extract the archive
+  - Rename the extracted `psPAS-v#.#.#` folder to `psPAS`
+  - Copy the `psPAS` folder to your "Powershell Modules" directory of choice.
+
+##### psPAS Branch
+
+- [Download the ```master branch```](https://github.com/pspete/psPAS/archive/master.zip)
+  - Unblock & Extract the archive
+  - Copy the `psPAS` (`\<Archive Root>\psPAS-master\psPAS`) folder to your "Powershell Modules" directory of choice.
 
 #### Verification
 
-Validate Module Exists on your local machine:
+Validate Install:
 
 ```powershell
 
