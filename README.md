@@ -776,7 +776,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Remove-PASApplication`][Remove-PASApplication]                                         |**9.1**             |Deletes an application
 [`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**             |Delete auth method from an application
 [`Import-PASConnectionComponent`][Import-PASConnectionComponent]                         |**10.3**            |Imports a Connection Component
-[`Get-PASPSMConnectionParameter`][Get-PASPSMConnectionParameter]                         |**9.10**            |Get required parameters to connect through PSM
+[`New-PASPSMSession`][New-PASPSMSession]                                                 |**9.10**            |Get required parameters to connect through PSM
 [`Get-PASPSMRecording`][Get-PASPSMRecording]                                             |**9.10**            |Get details of PSM Recording
 [`Get-PASPSMSession`][Get-PASPSMSession]                                                 |**9.10**            |Get details of PSM Sessions
 [`Resume-PASPSMSession`][Resume-PASPSMSession]                                           |**10.2**            |Resumes a Suspended PSM Session.
@@ -887,7 +887,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Remove-PASApplication]:/psPAS/Functions/Applications/Remove-PASApplication.ps1
 [Remove-PASApplicationAuthenticationMethod]:/psPAS/Functions/Applications/Remove-PASApplicationAuthenticationMethod.ps1
 [Import-PASConnectionComponent]:/psPAS/Functions/Connections/Import-PASConnectionComponent.ps1
-[Get-PASPSMConnectionParameter]:/psPAS/Functions/Connections/Get-PASPSMConnectionParameter.ps1
+[New-PASPSMSession]:/psPAS/Functions/Connections/New-PASPSMSession.ps1
 [Get-PASPSMRecording]:/psPAS/Functions/Monitoring/Get-PASPSMRecording.ps1
 [Get-PASPSMSession]:/psPAS/Functions/Monitoring/Get-PASPSMSession.ps1
 [Resume-PASPSMSession]:/psPAS/Functions/Monitoring/Resume-PASPSMSession.ps1

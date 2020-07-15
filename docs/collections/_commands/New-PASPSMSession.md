@@ -1,5 +1,5 @@
 ---
-title: Get-PASPSMConnectionParameter
+title: New-PASPSMSession
 ---
 
 ## SYNOPSIS
@@ -8,11 +8,11 @@ Get required parameters to connect through PSM
 
 ## SYNTAX
 
-    Get-PASPSMConnectionParameter -AccountID <String> [-reason <String>] [-TicketingSystemName <String>]
+    New-PASPSMSession -AccountID <String> [-reason <String>] [-TicketingSystemName <String>]
     [-TicketId <String>] -ConnectionComponent <String> [-ConnectionParams <Hashtable>]
     [-ConnectionMethod <String>] [-Path <String>] [<CommonParameters>]
 
-    Get-PASPSMConnectionParameter -userName <String> -secret <SecureString> -address <String>
+    New-PASPSMSession -userName <String> -secret <SecureString> -address <String>
     -platformID <String> [-extraFields <String>] [-reason <String>] [-TicketingSystemName <String>]
     [-TicketId <String>] -ConnectionComponent <String> [-ConnectionParams <Hashtable>]
     [-ConnectionMethod <String>] [-Path <String>] [<CommonParameters>]
@@ -157,7 +157,7 @@ RDP files or the HTML5 Gateway.
 
     -------------------------- EXAMPLE 1 --------------------------
 
-    PS C:\>Get-PASPSMConnectionParameter -AccountID $ID -ConnectionComponent PSM-SSH
+    PS C:\>New-PASPSMSession -AccountID $ID -ConnectionComponent PSM-SSH
     -reason "Fix XYZ"
 
     Outputs RDP file for Direct Connection via PSM using account with ID in $ID

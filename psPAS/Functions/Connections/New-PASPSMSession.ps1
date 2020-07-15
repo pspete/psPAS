@@ -1,4 +1,4 @@
-function Get-PASPSMConnectionParameter {
+function New-PASPSMSession {
 	<#
 .SYNOPSIS
 Get required parameters to connect through PSM
@@ -51,7 +51,7 @@ PSMGW is only available from version 10.2 onwards
 The folder to save the output file in.
 
 .EXAMPLE
-Get-PASPSMConnectionParameter -AccountID $ID -ConnectionComponent PSM-SSH -reason "Fix XYZ"
+New-PASPSMSession -AccountID $ID -ConnectionComponent PSM-SSH -reason "Fix XYZ"
 
 Outputs RDP file for Direct Connection via PSM using account with ID in $ID
 
@@ -61,9 +61,10 @@ PSMGW connections require 10.2
 Ad-Hoc connections require 10.5
 
 .LINK
-https://pspas.pspete.dev/commands/Get-PASPSMConnectionParameter
+https://pspas.pspete.dev/commands/New-PASPSMSession
 #>
 	[CmdletBinding()]
+	[Alias("Get-PASPSMConnectionParameter")]
 	param(
 		[parameter(
 			Mandatory = $true,

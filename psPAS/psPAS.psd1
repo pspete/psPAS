@@ -13,7 +13,7 @@
 	Author            = 'Pete Maan'
 
 	# Company or vendor of this module
-	CompanyName = 'PSPETE LTD'
+	CompanyName       = 'PSPETE LTD'
 
 	# Copyright statement for this module
 	Copyright         = '(c) 2020 PSPETE LTD. All rights reserved.'
@@ -135,7 +135,7 @@
 		'Deny-PASRequest',
 		'Get-PASRequest',
 		'Get-PASRequestDetail',
-		'Get-PASPSMConnectionParameter',
+		'New-PASPSMSession',
 		'Get-PASPSMRecording',
 		'Get-PASPSMSession',
 		'Stop-PASPSMSession',
@@ -190,7 +190,9 @@
 		'Remove-PASGroup'
 	)
 
-	# AliasesToExport   = @( )
+	AliasesToExport   = @(
+		'Get-PASPSMConnectionParameter'
+	)
 
 	# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 	PrivateData       = @{
@@ -198,16 +200,16 @@
 		PSData = @{
 
 			# Tags applied to this module. These help with module discovery in online galleries.
-			Tags       = @('CyberArk', 'REST', 'API', 'Security')
+			Tags         = @('CyberArk', 'REST', 'API', 'Security')
 
 			# A URL to the license for this module.
-			LicenseUri = 'https://github.com/pspete/psPAS/blob/master/LICENSE.md'
+			LicenseUri   = 'https://github.com/pspete/psPAS/blob/master/LICENSE.md'
 
 			# A URL to the main website for this project.
-			ProjectUri = 'https://pspas.pspete.dev/'
+			ProjectUri   = 'https://pspas.pspete.dev/'
 
 			# A URL to an icon representing this module.
-			IconUri    = 'https://pspas.pspete.dev/assets/images/symbol.png'
+			IconUri      = 'https://pspas.pspete.dev/assets/images/symbol.png'
 
 			# ReleaseNotes of this module
 			ReleaseNotes = 'https://github.com/pspete/psPAS/blob/master/CHANGELOG.md'

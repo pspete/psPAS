@@ -95,8 +95,8 @@ commands:
 
   - title: "Connections"
     children:
-      - title: "Get-PASPSMConnectionParameter"
-        url: /commands/Get-PASPSMConnectionParameter
+      - title: "New-PASPSMSession"
+        url: /commands/New-PASPSMSession
       - title: "Import-PASConnectionComponent"
         url: /commands/Import-PASConnectionComponent
 

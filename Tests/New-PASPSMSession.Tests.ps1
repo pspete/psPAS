@@ -44,7 +44,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 				param($Parameter)
 
-				(Get-Command Get-PASPSMConnectionParameter).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should -Be $true
+				(Get-Command New-PASPSMSession).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should -Be $true
 
 			}
 
@@ -81,12 +81,12 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "throws if path is invalid" {
-				{ $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP -path A:\test.txt } | Should -Throw
+				{ $InputObj | New-PASPSMSession -ConnectionMethod RDP -path A:\test.txt } | Should -Throw
 			}
 
 			It "sends request" {
 
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+				$InputObj | New-PASPSMSession -ConnectionMethod RDP
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
@@ -94,7 +94,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "sends request to expected endpoint for PSMConnect" {
 
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+				$InputObj | New-PASPSMSession -ConnectionMethod RDP
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -106,7 +106,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "uses expected method" {
 
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+				$InputObj | New-PASPSMSession -ConnectionMethod RDP
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
@@ -114,7 +114,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "sends request with expected body" {
 
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+				$InputObj | New-PASPSMSession -ConnectionMethod RDP
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -128,7 +128,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "has a request body with expected number of properties" {
 
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+				$InputObj | New-PASPSMSession -ConnectionMethod RDP
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
@@ -136,7 +136,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "has expected Accept key in header" {
 
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+				$InputObj | New-PASPSMSession -ConnectionMethod RDP
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -146,7 +146,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "specifies expected Accept key in header for PSMGW requests" {
 
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW
+				$InputObj | New-PASPSMSession -ConnectionMethod PSMGW
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -156,20 +156,20 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "throws error if version requirement not met for RDP connection method" {
 				$Script:ExternalVersion = "9.8"
-				{ $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP } | Should -Throw
+				{ $InputObj | New-PASPSMSession -ConnectionMethod RDP } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
 			It "throws error if version requirement not met for PSMGW connection method" {
 
 				$Script:ExternalVersion = "9.10"
-				{ $InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW } | Should -Throw
+				{ $InputObj | New-PASPSMSession -ConnectionMethod PSMGW } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
 			It "sends request to expected endpoint for AdHocConnect" {
 
-				$AdHocObj | Get-PASPSMConnectionParameter -ConnectionMethod RDP
+				$AdHocObj | New-PASPSMSession -ConnectionMethod RDP
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($Script:BaseURI)/API/Accounts/AdHocConnect"
@@ -180,7 +180,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "throws error if version requirement not met for AdHocConnect" {
 				$Script:ExternalVersion = "10.4"
-				{ $AdHocObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW } | Should -Throw
+				{ $AdHocObj | New-PASPSMSession -ConnectionMethod PSMGW } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
@@ -209,7 +209,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "outputs PSMGW connection information" {
-				$InputObj | Get-PASPSMConnectionParameter -ConnectionMethod PSMGW | Should -Not -Be Null
+				$InputObj | New-PASPSMSession -ConnectionMethod PSMGW | Should -Not -Be Null
 			}
 
 		}
