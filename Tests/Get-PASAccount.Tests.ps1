@@ -81,6 +81,43 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
+			It "sends expected filter - v10ByFilter parameterset" {
+
+				Get-PASAccount -safeName SomeSafe
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/api/Accounts?filter=safeName%20eq%20SomeSafe"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends expected unix time - v10ByFilter parameterset" {
+
+				Get-PASAccount -modificationTime $(Get-Date -Month 07 -Day 01 -Year 2020 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/api/Accounts?filter=modificationTime%20gte%201593561600"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends expected filters - v10ByFilter parameterset" {
+
+				Get-PASAccount -modificationTime $(Get-Date -Month 07 -Day 01 -Year 2020 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) -safeName SomeSafe
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($URI -eq "$($Script:BaseURI)/api/Accounts?filter=modificationTime%20gte%201593561600%20AND%20safeName%20eq%20SomeSafe") -or
+					($URI -eq "$($Script:BaseURI)/api/Accounts?filter=safeName%20eq%20SomeSafe%20AND%20modificationTime%20gte%201593561600")
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It "sends request to expected endpoint - v10ByID parameterset" {
 
 				Get-PASAccount -ID "SomeID"

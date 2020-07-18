@@ -57,7 +57,7 @@ ID  UserName    Source UserType ComponentUser Location
 - Return Account data:
 
 ````powershell
-Get-PASAccount -filter "SafeName eq 3_TestSafe_028_XYJ" -search sbwudlov
+Get-PASAccount -SafeName "3_TestSafe_028_XYJ" -search sbwudlov
 
 AccountID                 : 286_4
 Safe                      : 3_TestSafe_028_XYJ
@@ -94,7 +94,7 @@ InternalProperties : @{CreationMethod = PVWA }
 - More results can be returned by specifying alternative parameters and avoiding the Classic API:
 
 ````powershell
-PS>Get-PASAccount -filter "SafeName eq 3_TestSafe_028_XYJ"
+PS>Get-PASAccount -SafeName "3_TestSafe_028_XYJ"
 
 AccountID                 : 286_3
 Safe                      : 3_TestSafe_028_XYJ
