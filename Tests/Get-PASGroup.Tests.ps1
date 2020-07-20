@@ -59,11 +59,21 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request with expected query" {
+			It "sends request with expected query - filter ParameterSet" {
 				Get-PASGroup -filter "groupType eq Directory" -search "Search Term"
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					($URI -eq "$($Script:BaseURI)/API/UserGroups?search=Search%20Term&filter=groupType%20eq%20Directory") -or ($URI -eq "$($Script:BaseURI)/API/UserGroups?filter=groupType%20eq%20Directory&search=Search%20Term")
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request with expected query - groupType ParameterSet" {
+				Get-PASGroup -groupType Vault -search "Search Term"
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($URI -eq "$($Script:BaseURI)/API/UserGroups?search=Search%20Term&filter=groupType%20eq%20Vault") -or ($URI -eq "$($Script:BaseURI)/API/UserGroups?filter=groupType%20eq%20Vault&search=Search%20Term")
 
 				} -Times 1 -Exactly -Scope It
 

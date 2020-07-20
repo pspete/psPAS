@@ -4,40 +4,33 @@ title: Get-PASGroup
 
 ## SYNOPSIS
 
-List groups from the vault
+    List groups from the vault
 
 ## SYNTAX
 
-    Get-PASGroup [[-filter] <String>] [[-search] <String>] [<CommonParameters>]
+    Get-PASGroup [-groupType <String>] [-search <String>] [<CommonParameters>]
+
+    Get-PASGroup [-filter <String>] [-search <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 
-Returns a list of all existing user groups.
+    Returns a list of all existing user groups.
 
-The user performing this task:
-
-- Must have Audit users permissions in the Vault.
-- Can see groups either only on the same level, or lower in the Vault hierarchy.
+    The user performing this task:
+    - Must have Audit users permissions in the Vault.
+    - Can see groups either only on the same level, or lower in the Vault hierarchy.
 
 ## PARAMETERS
 
+    -groupType <String>
+        Search for groups which are from a configured Directory or from the Vault.
+
     -filter <String>
         Filter according to REST standard.
-
-        Required?                    false
-        Position?                    1
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
+        *depreciated parameter in psPAS - filter value will automatically be set with if groupType specified.
 
     -search <String>
         Search will match when ALL search terms appear in the group name.
-
-        Required?                    false
-        Position?                    2
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
 
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
@@ -58,7 +51,7 @@ The user performing this task:
 
     -------------------------- EXAMPLE 2 --------------------------
 
-    PS C:\>Get-PASGroup -filter 'groupType eq Directory'
+    PS C:\>Get-PASGroup -groupType Directory
 
     Returns all existing Directory groups
 
@@ -67,7 +60,7 @@ The user performing this task:
 
     -------------------------- EXAMPLE 3 --------------------------
 
-    PS C:\>Get-PASGroup -filter 'groupType eq Vault'
+    PS C:\>Get-PASGroup -groupType Vault
 
     Returns all existing Vault groups
 
@@ -76,6 +69,15 @@ The user performing this task:
 
     -------------------------- EXAMPLE 4 --------------------------
 
+    PS C:\>Get-PASGroup -filter 'groupType eq Directory'
+
+    Returns all existing Directory groups
+
+
+
+
+    -------------------------- EXAMPLE 5 --------------------------
+
     PS C:\>Get-PASGroup -search "Vault Admins"
 
     Returns all groups matching all search terms
@@ -83,8 +85,8 @@ The user performing this task:
 
 
 
-    -------------------------- EXAMPLE 5 --------------------------
+    -------------------------- EXAMPLE 6 --------------------------
 
-    PS C:\>Get-PASGroup -search "Vault Admins" -filter 'groupType eq Directory'
+    PS C:\>Get-PASGroup -search "Vault Admins" -groupType Directory
 
     Returns all existing Directory groups matching all search terms
