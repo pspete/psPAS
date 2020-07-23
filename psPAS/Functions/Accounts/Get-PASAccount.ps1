@@ -294,7 +294,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 					#convert to unix time
 					#add result to FilterList
-					$null = $FilterList.Add("modificationTime gte $(Get-Date $PSBoundParameters["modificationTime"] -UFormat %s)")
+					$null = $FilterList.Add("modificationTime gte $([math]::Round($(Get-Date $PSBoundParameters["modificationTime"] -UFormat %s)))")
 				}
 
 				( { $PSItem.ContainsKey("searchType") }) {
