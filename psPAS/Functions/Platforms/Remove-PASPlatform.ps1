@@ -1,5 +1,5 @@
 Function Remove-PASPlatform {
-<#
+	<#
 .SYNOPSIS
 Deletes a platform.
 
@@ -43,6 +43,9 @@ Deletes Rotational Group Platform with ID of 59
 
 .NOTES
 PAS 11.4 minimum
+
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASPlatform
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

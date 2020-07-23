@@ -1,5 +1,5 @@
 Function Enable-PASPlatform {
-<#
+	<#
 .SYNOPSIS
 Activates a platform.
 
@@ -35,6 +35,9 @@ Enables Rotational Group Platform with ID of 65
 
 .NOTES
 PAS 11.4 minimum
+
+.LINK
+https://pspas.pspete.dev/commands/Enable-PASPlatform
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

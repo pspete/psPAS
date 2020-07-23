@@ -35,6 +35,10 @@ Disables Rotational Group Platform with ID of 65
 
 .NOTES
 PAS 11.4 minimum
+
+.LINK
+https://pspas.pspete.dev/commands/Disable-PASPlatform
+
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

@@ -54,7 +54,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Remove-PASApplication`][Remove-PASApplication]                                         |**9.1**                                             |Deletes an application
 [`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**                                             |Delete auth method from an application
 [`Import-PASConnectionComponent`][Import-PASConnectionComponent]                         |**10.3**                                            |Imports a Connection Component
-[`Get-PASPSMConnectionParameter`][Get-PASPSMConnectionParameter]                         |**9.10** ([Notes](#get-paspsmConnectionparameter))  |Get required parameters to connect through PSM
+[`New-PASPSMSession`][New-PASPSMSession]                         |**9.10** ([Notes](#New-PASPSMSession))  |Get required parameters to connect through PSM
 [`Get-PASPSMRecording`][Get-PASPSMRecording]                                             |**9.10** ([Notes](#get-paspsmrecording))            |Get details of PSM Recording
 [`Get-PASPSMSession`][Get-PASPSMSession]                                                 |**9.10** ([Notes](#get-paspsmsession))              |Get details of PSM Sessions
 [`Resume-PASPSMSession`][Resume-PASPSMSession]                                           |**10.2**                                            |Resumes a Suspended PSM Session.
@@ -165,7 +165,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [Remove-PASApplication]:/commands/Remove-PASApplication
 [Remove-PASApplicationAuthenticationMethod]:/commands/Remove-PASApplicationAuthenticationMethod
 [Import-PASConnectionComponent]:/commands/Import-PASConnectionComponent
-[Get-PASPSMConnectionParameter]:/commands/Get-PASPSMConnectionParameter
+[New-PASPSMSession]:/commands/New-PASPSMSession
 [Get-PASPSMRecording]:/commands/Get-PASPSMRecording
 [Get-PASPSMSession]:/commands/Get-PASPSMSession
 [Resume-PASPSMSession]:/commands/Resume-PASPSMSession
@@ -325,7 +325,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
   - Using the `-ImmediateChangeByCPM` parameter.
   - Specifying the `-UseClassicAPI` parameter.
 
-### Get-PASPSMConnectionParameter
+### New-PASPSMSession
 
 - Version 10.2 introduced a new API endpoint.
   - Supports:
