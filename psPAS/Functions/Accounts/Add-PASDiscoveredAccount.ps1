@@ -412,7 +412,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 			if ($PSBoundParameters.ContainsKey($DateTime)) {
 
 				#convert to unix time
-				$boundParameters["$DateTime"] = Get-Date $PSBoundParameters["$DateTime"] -UFormat %s
+				$boundParameters["$DateTime"] = [math]::Round((Get-Date $PSBoundParameters["$DateTime"] -UFormat %s))
 
 			}
 
