@@ -114,7 +114,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "sends request with expected body" {
 
-				$InputObj | New-PASPSMSession -ConnectionMethod RDP
+				$InputObj | New-PASPSMSession -ConnectionMethod RDP -PSMRemoteMachine "SomeMachine"
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -128,9 +128,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "has a request body with expected number of properties" {
 
-				$InputObj | New-PASPSMSession -ConnectionMethod RDP
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 1
+			}
+
+			It "has a request body with expected ConnectionParams" {
+
+				$Script:RequestBody.ConnectionParams.PSMRemoteMachine.Value | Should -Be "SomeMachine"
 
 			}
 
@@ -169,11 +173,31 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "sends request to expected endpoint for AdHocConnect" {
 
-				$AdHocObj | New-PASPSMSession -ConnectionMethod RDP
+				$AdHocObj | New-PASPSMSession -ConnectionMethod RDP -PSMRemoteMachine "SomeServer"
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($Script:BaseURI)/API/Accounts/AdHocConnect"
 
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request with expected PSMConnectPrerequisites ConnectionComponent for AdHocConnect" {
+
+				$AdHocObj | New-PASPSMSession -ConnectionMethod RDP -PSMRemoteMachine "SomeServer"
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+					$RequestBody = $Body | ConvertFrom-Json
+					$RequestBody.PSMConnectPrerequisites.ConnectionComponent -eq "SomeConnectionComponent"
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request with expected PSMConnectPrerequisites ConnectionParams for AdHocConnect" {
+
+				$AdHocObj | New-PASPSMSession -ConnectionMethod RDP -PSMRemoteMachine "SomeServer"
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+					$RequestBody = $Body | ConvertFrom-Json
+					$RequestBody.PSMConnectPrerequisites.ConnectionParams.PSMRemoteMachine.value -eq "SomeServer"
 				} -Times 1 -Exactly -Scope It
 
 			}

@@ -39,8 +39,23 @@ The TicketId to use with the Ticketing System
 .PARAMETER ConnectionComponent
 The name of the connection component to connect with as defined in the configuration
 
-.PARAMETER ConnectionParams
-List of params
+.PARAMETER AllowMappingLocalDrives
+Whether or not to redirect their local hard drives to the remote server.
+
+.PARAMETER AllowConnectToConsole
+Whether or not to connect to the administrative console of the remote machine.
+
+.PARAMETER RedirectSmartCards
+Whether or not to redirect Smart Card so that the certificate stored on the card can be accessed on the target
+
+.PARAMETER PSMRemoteMachine
+Address of the remote machine to connect to.
+
+.PARAMETER LogonDomain
+The netbios domain name of the account being used.
+
+.PARAMETER AllowSelectHTML5
+Specify which connection method, HTML5-based or RDP-file, to use when connecting to the remote server
 
 .PARAMETER ConnectionMethod
 The expected parameters to be returned, either RDP or PSMGW.
@@ -56,12 +71,7 @@ New-PASPSMSession -AccountID $ID -ConnectionComponent PSM-SSH -reason "Fix XYZ"
 Outputs RDP file for Direct Connection via PSM using account with ID in $ID
 
 .EXAMPLE
-[Hashtable]$connectionParams = @{
-"AllowMappingLocalDrives" = @{"value"="No";"ShouldSave"=$false}
-"PSMRemoteMachine" = @{"value"="ServerName";"ShouldSave"=$false}
-}
-
-New-PASPSMSession -AccountID $id -ConnectionParams $connectionParams -ConnectionComponent PSM-RDP
+New-PASPSMSession -AccountID $id -ConnectionComponent PSM-RDP -AllowMappingLocalDrives No -PSMRemoteMachine ServerName
 
 Provide connection parameters for the new PSM connection
 
@@ -73,6 +83,8 @@ Ad-Hoc connections require 10.5
 .LINK
 https://pspas.pspete.dev/commands/New-PASPSMSession
 #>
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'ConnectionParams', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'PSMConnectPrerequisites', Justification = "False Positive")]
 	[CmdletBinding()]
 	[Alias("Get-PASPSMConnectionParameter")]
 	param(
@@ -177,7 +189,71 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "AdHocConnect"
 		)]
-		[hashtable]$ConnectionParams,
+		[ValidateSet("Yes", "No")]
+		[string]$AllowMappingLocalDrives,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
+		)]
+		[ValidateSet("Yes", "No")]
+		[string]$AllowConnectToConsole,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
+		)]
+		[ValidateSet("Yes", "No")]
+		[string]$RedirectSmartCards,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
+		)]
+		[string]$PSMRemoteMachine,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
+		)]
+		[string]$LogonDomain,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "PSMConnect"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "AdHocConnect"
+		)]
+		[ValidateSet("Yes", "No")]
+		[string]$AllowSelectHTML5,
 
 		[parameter(
 			Mandatory = $false,
@@ -205,49 +281,82 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 		$RequiredVersion = [System.Version]"10.2"
 		$AdHocVersion = [System.Version]"10.5"
 
-		$AdHocParameters = @("ConnectionComponent", "reason", "ticketingSystemName", "ticketId")
+		$AdHocParameters = @("ConnectionComponent", "reason", "ticketingSystemName", "ticketId", "ConnectionParams")
+		$ConnectionParameters = @("AllowMappingLocalDrives", "AllowConnectToConsole", "RedirectSmartCards", "PSMRemoteMachine", "LogonDomain", "AllowSelectHTML5")
 
 
 	}#begin
 
 	PROCESS {
 
-		if ($PSCmdlet.ParameterSetName -eq "PSMConnect") {
+		#Get all parameters that will be sent in the request
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod, Path
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+		#ConnectionParameters are included under the ConnectionParams property of the JSON body
+		$boundParameters.keys | Where-Object { $ConnectionParameters -contains $PSItem } | ForEach-Object { $ConnectionParams = @{ } } {
 
-			#Create URL for Request
-			$URI = "$Script:BaseURI/API/Accounts/$($AccountID)/PSMConnect"
+			#For Each ConnectionParams Parameter
+			#add key=value to hashtable
+			$ConnectionParams.Add($PSItem, @{"value" = $boundParameters[$PSItem] })
 
-			#Create body of request
-			$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod | ConvertTo-Json
+		} {
+			if ($ConnectionParams.keys.count -gt 0) {
 
+				#if ConnectionParameters have been specified
+				#Add ConnectionParams to boundParameters
+				$boundParameters["ConnectionParams"] = $ConnectionParams
+
+				#Remove individual ConnectionParameters from boundParameters
+				$boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove $ConnectionParameters
+
+			}
 		}
-		elseif ($PSCmdlet.ParameterSetName -eq "AdHocConnect") {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $AdHocVersion
+		switch ($PSCmdlet.ParameterSetName) {
 
-			#Create URL for Request
-			$URI = "$Script:BaseURI/API/Accounts/AdHocConnect"
+			"PSMConnect" {
+				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
-			#Get all parameters that will be sent in the request
-			$boundParameters = $PSBoundParameters | Get-PASParameter
+				#Create URL for Request
+				$URI = "$Script:BaseURI/API/Accounts/$($AccountID)/PSMConnect"
 
-			#Include decoded password in request
-			$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
+				#Create body of request
+				$body = $boundParameters | ConvertTo-Json
 
-			$PSMConnectPrerequisites = @{ }
-
-			$boundParameters.keys | Where-Object { $AdHocParameters -contains $_ } | ForEach-Object {
-
-				#add key=value to hashtable
-				$PSMConnectPrerequisites[$_] = $boundParameters[$_]
+				break
 
 			}
 
-			$boundParameters["PSMConnectPrerequisites"] = $PSMConnectPrerequisites
+			"AdHocConnect" {
+				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $AdHocVersion
 
-			$body = $boundParameters | Get-PASParameter -ParametersToRemove $AdHocParameters | ConvertTo-Json -Depth 4
+				#Create URL for Request
+				$URI = "$Script:BaseURI/API/Accounts/AdHocConnect"
+
+				#Include decoded password in request
+				$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
+
+				#Connection parameters are included under the PSMConnectPrerequisites property of the JSON body, for each one specified
+				$boundParameters.keys | Where-Object { $AdHocParameters -contains $PSItem } | ForEach-Object { $PSMConnectPrerequisites = @{ } } {
+
+					#add key=value to hashtable
+					$PSMConnectPrerequisites.Add($PSItem, $boundParameters[$PSItem] )
+
+				} {
+					if ($PSMConnectPrerequisites.keys.count -gt 0) {
+
+						#If PSMConnectPrerequisites have been specified, add PSMConnectPrerequisites to boundParameters
+						$boundParameters["PSMConnectPrerequisites"] = $PSMConnectPrerequisites
+
+					}
+				}
+
+				#Create body of request
+				$body = $boundParameters | Get-PASParameter -ParametersToRemove $AdHocParameters | ConvertTo-Json -Depth 4
+
+				break
+
+			}
 
 		}
 
