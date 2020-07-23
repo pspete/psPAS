@@ -187,7 +187,8 @@
 		'Disable-PASPlatform',
 		'Enable-PASPlatform',
 		'Remove-PASPlatform',
-		'Remove-PASGroup'
+		'Remove-PASGroup',
+		'Get-PASAllowedReferrer'
 	)
 
 	AliasesToExport   = @(
