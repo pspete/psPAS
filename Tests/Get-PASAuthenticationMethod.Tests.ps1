@@ -50,11 +50,23 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint" {
+			It "sends request to expected endpoint - get all methods" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Configuration/AuthenticationMethods"
+					$URI -eq "$($Script:BaseURI)/api/Configuration/AuthenticationMethods/"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It "sends request to expected endpoint - get specifc method" {
+
+				Get-PASAuthenticationMethod -ID SomeMethod
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/api/Configuration/AuthenticationMethods/SomeMethod"
 
 				} -Times 1 -Exactly -Scope It
 
