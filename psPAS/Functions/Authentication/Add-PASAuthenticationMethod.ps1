@@ -40,7 +40,9 @@ Defines the label of the password field for this authentication method.
 Relevant only for CyberArk, RADIUS, and LDAP authentication methods.
 
 .EXAMPLE
-An example
+Add-PASAuthenticationMethod -id SomeID -displayName SomeAuth -enabled $true
+
+Creates new authentication method.
 
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = "passwordFieldLabel not related to password value")]
