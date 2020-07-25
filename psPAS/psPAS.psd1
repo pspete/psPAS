@@ -193,7 +193,8 @@
 		'Get-PASAccountSSHKey',
 		'Get-PASAuthenticationMethod',
 		'Add-PASAuthenticationMethod',
-		'Set-PASAuthenticationMethod'
+		'Set-PASAuthenticationMethod',
+		'Get-PASConnectionComponent'
 	)
 
 	AliasesToExport   = @(
