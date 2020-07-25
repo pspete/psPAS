@@ -295,8 +295,9 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 
 			#11.1+ returns result under "platforms" property
 			If ($result.Platforms) {
-				$Global:Object = $result
+
 				$result = $result | Select-Object -ExpandProperty Platforms
+
 				switch ($PSCmdlet.ParameterSetName) {
 
 					"11_1" {
