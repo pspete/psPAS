@@ -191,7 +191,8 @@
 		'Get-PASAllowedReferrer',
 		'Add-PASAllowedReferrer',
 		'Get-PASAccountSSHKey',
-		'Get-PASAuthenticationMethod'
+		'Get-PASAuthenticationMethod',
+		'Add-PASAuthenticationMethod'
 	)
 
 	AliasesToExport   = @(
