@@ -190,7 +190,8 @@
 		'Remove-PASGroup',
 		'Get-PASAllowedReferrer',
 		'Add-PASAllowedReferrer',
-		'Get-PASAccountSSHKey'
+		'Get-PASAccountSSHKey',
+		'Get-PASAuthenticationMethod'
 	)
 
 	AliasesToExport   = @(
