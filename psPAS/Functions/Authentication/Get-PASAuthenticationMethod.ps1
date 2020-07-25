@@ -22,6 +22,7 @@ Returns list of all authentication methods.
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
+		[ValidateLength(0, 50)]
 		[string]$ID
 
 	)
