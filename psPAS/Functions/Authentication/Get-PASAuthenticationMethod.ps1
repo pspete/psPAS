@@ -13,7 +13,15 @@ Get-PASAuthenticationMethod
 Returns list of all authentication methods.
 #>
 	[CmdletBinding()]
-	param(	)
+	param(
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$ID
+
+	)
 
 	BEGIN {
 
@@ -23,16 +31,22 @@ Returns list of all authentication methods.
 
 	PROCESS {
 
-
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/AuthenticationMethods"
+		$URI = "$Script:BaseURI/api/Configuration/AuthenticationMethods/$($ID | Get-EscapedString)"
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result.Methods) {
 
-			$result.Methods
+		If ($result) {
+
+			if ($result.Methods) {
+
+				$result = $result | Select-Object -ExpandProperty Methods
+
+			}
+
+			$result
 
 		}
 
