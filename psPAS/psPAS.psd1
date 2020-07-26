@@ -196,7 +196,8 @@
 		'Set-PASAuthenticationMethod',
 		'Get-PASConnectionComponent',
 		'Get-PASPSMServer',
-		'Get-PASPlatformPSMConfig'
+		'Get-PASPlatformPSMConfig',
+		'Set-PASPlatformPSMConfig'
 	)
 
 	AliasesToExport   = @(
