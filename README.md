@@ -1,7 +1,7 @@
 [![psPAS][]][Docs]
 
 [psPAS]:/docs/assets/images/header_photo.png
-[Logo]:docs/assets/images/shop_banner_symbol.png
+[Logo]:/docs/assets/images/shop_banner_symbol.png
 [Docs]:https://pspas.pspete.dev
 
 # **psPAS: PowerShell Module for the CyberArk API**
@@ -56,7 +56,7 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ## Usage
 
-![Logo][]
+![Logo][Logo]
 
 ### Authenticate
 
@@ -161,7 +161,7 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 
 ### Basic Operations
 
-![Logo][]
+![Logo][Logo]
 
 #### Search
 
@@ -279,7 +279,7 @@ secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=
 createdTime               : 06/06/2019 23:37:02
 ````
 
-![Logo][]
+![Logo][Logo]
 
 #### Administration
 
@@ -360,7 +360,7 @@ secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=
 createdTime               : 06/06/2019 23:37:02
 ````
 
-![Logo][]
+![Logo][Logo]
 
 ##### CPM Operations
 
@@ -423,7 +423,7 @@ Import-PASPlatform -ImportFile C:\Temp\Platform.zip
 Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp
 ````
 
-![Logo][]
+![Logo][Logo]
 
 #### Pipeline Operations
 
@@ -473,7 +473,7 @@ xReq                 ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=
 
 ### Advanced Examples
 
-![Logo][]
+![Logo][Logo]
 
 #### Bulk Operations
 
@@ -548,7 +548,7 @@ $users | foreach{
 Close-PASSession
 ````
 
-![Logo][]
+![Logo][Logo]
 
 #### Safe Permissions
 
@@ -599,7 +599,7 @@ MemberName SearchIn SafeName Permissions
 SafeAdmin1 Vault    NewSafe  @{Add=True; AddRenameFolder=True; BackupSafe=True...}
 ````
 
-![Logo][]
+![Logo][Logo]
 
 #### PSM Sessions
 
@@ -615,7 +615,7 @@ Get-PASPSMSession | Where-Object{
   -and ($_.IsLive) -and ($_.CanTerminate)} | Stop-PASPSMSession
 ````
 
-![Logo][]
+![Logo][Logo]
 
 #### Updating Multiple Properties of an Account
 
@@ -639,7 +639,7 @@ secretManagement : @{automaticManagementEnabled=True; lastModifiedTime=155986422
 createdTime      : 06/06/2019 23:37:02
 ````
 
-![Logo][]
+![Logo][Logo]
 
 #### Using Methods
 
@@ -658,7 +658,7 @@ Get-PASSafe | Where-Object{ ($_.safemembers() | Select-Object -ExpandProperty Us
 (Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToSecureString()
 ```
 
-![Logo][]
+![Logo][Logo]
 
 #### API Sessions
 
@@ -730,7 +730,7 @@ SafeAdmin Internal EPVUser      False     False   False    False
 Close-PASSession
 ````
 
-![Logo][]
+![Logo][Logo]
 
 ## psPAS Functions
 
@@ -1001,7 +1001,7 @@ Click the below dropdown to view the current lis of psPAS functions and their mi
 
 ## Installation
 
-![Logo][]
+![Logo][Logo]
 
 ### Prerequisites
 
@@ -1091,7 +1091,7 @@ Get-Help New-PASUser -Full
 
 ```
 
-![Logo][]
+![Logo][Logo]
 
 ## Changelog
 
@@ -1127,4 +1127,4 @@ for the unofficial API documentation.
 
 Chapeau!
 
-![Logo][]
+![Logo][Logo]
