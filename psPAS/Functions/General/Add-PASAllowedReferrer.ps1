@@ -46,7 +46,6 @@ Adds URL that only allows access from a specific page
 
 	PROCESS {
 
-
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/AccessRestriction/AllowedReferrers"
 

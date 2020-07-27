@@ -11,7 +11,6 @@ Vault admins group membership required
 Get-PASAllowedReferrer
 
 Returns referrer list
-
 #>
 	[CmdletBinding()]
 	param(	)
@@ -23,7 +22,6 @@ Returns referrer list
 	}#begin
 
 	PROCESS {
-
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/AccessRestriction/AllowedReferrers"
