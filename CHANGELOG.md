@@ -4,28 +4,70 @@
 
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v5.0...
-- **4.2.xx** (July xx 2020)
-  - **Behaviour Changes**
-  - New Functions
-    - `Get-PASAllowedReferrer`
-    - `Add-PASAllowedReferrer`
-    - `Get-PASAccountSSHKey`
-    - `Get-PASAuthenticationMethod`
-    - `Add-PASAuthenticationMethod`
-    - `Set-PASAuthenticationMethod`
-    - `Get-PASConnectionComponent`
-    - `Get-PASPSMServer`
-    - `Get-PASPlatformPSMConfig`
-    - `Set-PASPlatformPSMConfig`
-    - `New-PASPSMSession`
-  - Updated Functions
-    - `New-PASPSMSession`
-    - `Get-PASAccount`
-    - `Get-PASGroup`
-  - Other Fixes & Updates
-    - `New-PASRequest`
-    - `Get-PASAccount`
-    - `Add-PASDiscoveredAccount`
+
+**4.2.xx** (July xx 2020)
+
+### Module update to cover all CyberArk 11.5 API features
+
+- **Behaviour Changes**
+  - Renamed `Get-PASPSMConnectionParameter` to `New-PASPSMSession`
+- New Functions
+  - `Get-PASAllowedReferrer`
+    - Lists configured allowed referrers.
+    - Requires PAS 11.5
+  - `Add-PASAllowedReferrer`
+    - Adds a new allowed referrer
+    - Requires PAS 11.5
+  - `Get-PASAccountSSHKey`
+    - Retrieves Private SSH Key of Account
+    - Requires PAS 11.5
+  - `Get-PASAuthenticationMethod`
+    - Lists Authentication method details
+    - Requires PAS 11.5
+  - `Add-PASAuthenticationMethod`
+    - Adds new authentication method
+    - Requires PAS 11.5
+  - `Set-PASAuthenticationMethod`
+    - Updates authentication method
+    - Requires PAS 11.5
+  - `Get-PASConnectionComponent`
+    - Lists all connection components
+    - Requires PAS 11.5
+  - `Get-PASPSMServer`
+    - Lists all configured PSM Servers
+    - Requires PAS 11.5
+  - `Get-PASPlatformPSMConfig`
+    - Returns PSM configuration of Platform
+    - Requires PAS 11.5
+  - `Set-PASPlatformPSMConfig`
+    - Updates PSM configuration of platform
+    - Requires PAS 11.5
+- Updated Functions
+  - `New-PASPSMSession`
+    - Removed Parameter: `connectionParams`
+    - Added Parameters:
+      - `AllowMappingLocalDrives`
+      - `AllowConnectToConsole`
+      - `RedirectSmartCards`
+      - `PSMRemoteMachine`
+      - `LogonDomain`
+      - `AllowSelectHTML5`
+    - These are the documented properties expected to be sent as connectionParams.
+    - This update removes the need for a module user to specify these as a hashtable.
+  - `Get-PASAccount`
+    - Added parameters `safeName` & `modificationTime`.
+      - Can be used instead of specifying a correctly formated value for `filter`.
+      - `modificationTime` is documented as a valid filter option since 11.4
+  - `Get-PASGroup`
+    - Adds parameter `groupType`
+      - Can be used instead of specifying a correctly formated value for `filter`.
+- Other Fixes & Updates
+  - `New-PASRequest`
+    - Fixed potential for date values converted into UNIXTimeStamp.
+  - `Get-PASAccount`
+    - Fixed potential for date values converted into UNIXTimeStamp.
+  - `Add-PASDiscoveredAccount`
+    - Fixed potential for date values converted into UNIXTimeStamp.
 
 ## **4.1.11** (July 14th 2020)
 
