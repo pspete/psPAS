@@ -1,5 +1,5 @@
 Function Remove-PASGroup {
-<#
+	<#
 .SYNOPSIS
 Deletes a user group
 
@@ -17,6 +17,9 @@ The unique ID of the group to delete.
 Delete-PASGroup -GroupID 3
 
 Deletes Group with ID of 3
+
+.LINK
+https://pspas.pspete.dev/commands/Remove-PASGroup
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(

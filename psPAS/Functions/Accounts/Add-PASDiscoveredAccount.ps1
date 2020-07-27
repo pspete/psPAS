@@ -9,7 +9,7 @@ as a pending account to the Accounts Feed.
 Users can identify privileged accounts and determine which are on-boarded to the vault.
 
 .PARAMETER userName
-The name�of the account user.
+The name of the account user.
 
 .PARAMETER address
 The name or address of the machine where the account is located.
@@ -412,7 +412,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 			if ($PSBoundParameters.ContainsKey($DateTime)) {
 
 				#convert to unix time
-				$boundParameters["$DateTime"] = Get-Date $PSBoundParameters["$DateTime"] -UFormat %s
+				$boundParameters["$DateTime"] = [math]::Round((Get-Date $PSBoundParameters["$DateTime"] -UFormat %s))
 
 			}
 

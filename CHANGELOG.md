@@ -3,8 +3,71 @@
 ## Planned Updates
 
 - Continued development to encompass any new documented features of the CyberArk API.
-- Rename `Get-PASPSMConnectionParameter` to `New-PASPSMSession`.
 - psPAS v5.0...
+
+## **4.2.26** (July 27th 2020)
+
+### Module update to cover all CyberArk 11.5 API features
+
+- **Behaviour Changes**
+  - Renamed `Get-PASPSMConnectionParameter` to `New-PASPSMSession`
+- New Functions
+  - `Get-PASAllowedReferrer`
+    - Lists configured allowed referrers.
+    - Requires PAS 11.5
+  - `Add-PASAllowedReferrer`
+    - Adds a new allowed referrer
+    - Requires PAS 11.5
+  - `Get-PASAccountSSHKey`
+    - Retrieves Private SSH Key of Account
+    - Requires PAS 11.5
+  - `Get-PASAuthenticationMethod`
+    - Lists Authentication method details
+    - Requires PAS 11.5
+  - `Add-PASAuthenticationMethod`
+    - Adds new authentication method
+    - Requires PAS 11.5
+  - `Set-PASAuthenticationMethod`
+    - Updates authentication method
+    - Requires PAS 11.5
+  - `Get-PASConnectionComponent`
+    - Lists all connection components
+    - Requires PAS 11.5
+  - `Get-PASPSMServer`
+    - Lists all configured PSM Servers
+    - Requires PAS 11.5
+  - `Get-PASPlatformPSMConfig`
+    - Returns PSM configuration of Platform
+    - Requires PAS 11.5
+  - `Set-PASPlatformPSMConfig`
+    - Updates PSM configuration of platform
+    - Requires PAS 11.5
+- Updated Functions
+  - `New-PASPSMSession`
+    - Removed Parameter: `connectionParams`
+    - Added Parameters:
+      - `AllowMappingLocalDrives`
+      - `AllowConnectToConsole`
+      - `RedirectSmartCards`
+      - `PSMRemoteMachine`
+      - `LogonDomain`
+      - `AllowSelectHTML5`
+    - These are the documented properties expected to be sent as connectionParams.
+    - This update removes the need for a module user to specify these as a hashtable.
+  - `Get-PASAccount`
+    - Added parameters `safeName` & `modificationTime`.
+      - Can be used instead of specifying a correctly formated value for `filter`.
+      - `modificationTime` is documented as a valid filter option since 11.4
+  - `Get-PASGroup`
+    - Adds parameter `groupType`
+      - Can be used instead of specifying a correctly formated value for `filter`.
+- Other Fixes & Updates
+  - `New-PASRequest`
+    - Fixed potential for date values converted into UNIXTimeStamp.
+  - `Get-PASAccount`
+    - Fixed potential for date values converted into UNIXTimeStamp.
+  - `Add-PASDiscoveredAccount`
+    - Fixed potential for date values converted into UNIXTimeStamp.
 
 ## **4.1.11** (July 14th 2020)
 
@@ -141,8 +204,8 @@
     - Include expiry & last logon date in friendly format.
     - New table format for displaying user information returned from API requests.
   - Performance related updates to internal module mechanics.
-  - All functions help text updated to include link to function documentation on https://pspas.pspete.dev
-  - Corrections & updates to documentation on https://pspas.pspete.dev
+  - All functions help text updated to include link to function documentation on <https://pspas.pspete.dev>
+  - Corrections & updates to documentation on <https://pspas.pspete.dev>
 
 ## 3.3.88 (December 13th 2019)
 
@@ -185,9 +248,9 @@
 
 - Fixes & Other Updates
   - `Get-PASAccountPassword`
-    - Fixed incorrectly escaped value for passwords begining with "\"
+    - Fixed incorrectly escaped value for passwords beginning with "\"
   - `New-PASRequest`
-    - Fixed incorrect parameter name which prevented requests specifying mulitple access as required being created.
+    - Fixed incorrect parameter name which prevented requests specifying multiple access as required being created.
   - Error Reporting
     - Added more verbose error messages.
 
@@ -447,7 +510,7 @@ _2 years since first commit Anniversary Edition_
   - `Export-PASPSMRecording`
     - Allows saving of PSM Session Recording to a file.
   - `Request-PASAdHocAccess`
-    - Enablex request of temporary administrative access to a server.
+    - Enables request of temporary administrative access to a server.
 - Updated Functions
   - `Get-PASPSMRecording`
     - Now able to query PSM recordings by ID.

@@ -10,7 +10,7 @@ last_modified_at: 2020-06-28T01:33:52-00:00
 ````powershell
 #Find directory groups assigned to safes
 Get-PASSafe -query JXW | Get-PASSafeMember |
-Where-Object { Get-PASGroup -search $_.UserName -filter 'groupType eq Directory' }
+Where-Object { Get-PASGroup -search $_.UserName -groupType Directory }
 
 UserName                     SafeName           Permissions
 --------                     --------           ---------- -

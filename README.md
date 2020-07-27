@@ -1,6 +1,7 @@
 [![psPAS][]][Docs]
 
 [psPAS]:/docs/assets/images/header_photo.png
+[Logo]:/docs/assets/images/shop_banner_symbol.png
 [Docs]:https://pspas.pspete.dev
 
 # **psPAS: PowerShell Module for the CyberArk API**
@@ -55,7 +56,7 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ## Usage
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 ### Authenticate
 
@@ -116,7 +117,7 @@ User: DuoUser
 Password for user DuoUser: **********
 
 
-New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type RADIUS -OTP 123456 -OTPMode Challenge
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type RADIUS -OTP 123456
 
 Get-PASLoggedOnUser
 
@@ -160,7 +161,7 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 
 ### Basic Operations
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 #### Search
 
@@ -278,7 +279,7 @@ secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=
 createdTime               : 06/06/2019 23:37:02
 ````
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 #### Administration
 
@@ -359,7 +360,7 @@ secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=
 createdTime               : 06/06/2019 23:37:02
 ````
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 ##### CPM Operations
 
@@ -422,7 +423,7 @@ Import-PASPlatform -ImportFile C:\Temp\Platform.zip
 Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp
 ````
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 #### Pipeline Operations
 
@@ -472,7 +473,7 @@ xReq                 ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=
 
 ### Advanced Examples
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 #### Bulk Operations
 
@@ -547,7 +548,7 @@ $users | foreach{
 Close-PASSession
 ````
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 #### Safe Permissions
 
@@ -598,7 +599,7 @@ MemberName SearchIn SafeName Permissions
 SafeAdmin1 Vault    NewSafe  @{Add=True; AddRenameFolder=True; BackupSafe=True...}
 ````
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 #### PSM Sessions
 
@@ -614,7 +615,7 @@ Get-PASPSMSession | Where-Object{
   -and ($_.IsLive) -and ($_.CanTerminate)} | Stop-PASPSMSession
 ````
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 #### Updating Multiple Properties of an Account
 
@@ -638,7 +639,7 @@ secretManagement : @{automaticManagementEnabled=True; lastModifiedTime=155986422
 createdTime      : 06/06/2019 23:37:02
 ````
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 #### Using Methods
 
@@ -656,7 +657,8 @@ Get-PASSafe | Where-Object{ ($_.safemembers() | Select-Object -ExpandProperty Us
 ```powershell
 (Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToSecureString()
 ```
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+
+![Logo][Logo]
 
 #### API Sessions
 
@@ -728,7 +730,7 @@ SafeAdmin Internal EPVUser      False     False   False    False
 Close-PASSession
 ````
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 ## psPAS Functions
 
@@ -745,6 +747,10 @@ version requirement (if you are using version 9.7+, and the function being invok
 requires version 9.8+).
 
 Check the output of `Get-Help` for the `psPAS` functions for further details of available parameters and version requirements.
+
+Click the below dropdown to view the current lis of psPAS functions and their minimum version requirements:
+<details>
+  <Summary> List of Functions </summary>
 
 **Function Name**                                                                        |**CyberArk Version**|**Description**
 -----------------------------------------------------------------------------------------|--------------------|:----------------
@@ -779,7 +785,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Remove-PASApplication`][Remove-PASApplication]                                         |**9.1**             |Deletes an application
 [`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**             |Delete auth method from an application
 [`Import-PASConnectionComponent`][Import-PASConnectionComponent]                         |**10.3**            |Imports a Connection Component
-[`Get-PASPSMConnectionParameter`][Get-PASPSMConnectionParameter]                         |**9.10**            |Get required parameters to connect through PSM
+[`New-PASPSMSession`][New-PASPSMSession]                                                 |**9.10**            |Get required parameters to connect through PSM
 [`Get-PASPSMRecording`][Get-PASPSMRecording]                                             |**9.10**            |Get details of PSM Recording
 [`Get-PASPSMSession`][Get-PASPSMSession]                                                 |**9.10**            |Get details of PSM Sessions
 [`Resume-PASPSMSession`][Resume-PASPSMSession]                                           |**10.2**            |Resumes a Suspended PSM Session.
@@ -859,7 +865,27 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [`Disable-PASPlatform`][Disable-PASPlatform]                                             |**11.4**            |Disable a platform
 [`Remove-PASPlatform`][Remove-PASPlatform]                                               |**11.4**            |Delete a platform
 [`Remove-PASGroup`][Remove-PASGroup]                                                     |**11.5**            |Delete a user group
+[`Get-PASAllowedReferrer`][Get-PASAllowedReferrer]                                       |**11.5**            |List PVWA Allowed Referrer
+[`Add-PASAllowedReferrer`][Add-PASAllowedReferrer]                                       |**11.5**            |Add PVWA Allowed Referrer
+[`Get-PASAccountSSHKey`][Get-PASAccountSSHKey]                                           |**11.5**            |Get Private SSH Key value of Account
+[`Get-PASAuthenticationMethod`][Get-PASAuthenticationMethod]                             |**11.5**            |List authentication methods
+[`Add-PASAuthenticationMethod`][Add-PASAuthenticationMethod]                             |**11.5**            |Add authentication method
+[`Set-PASAuthenticationMethod`][Set-PASAuthenticationMethod]                             |**11.5**            |Update authentication method
+[`Get-PASConnectionComponent`][Get-PASConnectionComponent]                               |**11.5**            |List configured connection components
+[`Get-PASPSMServer`][Get-PASPSMServer]                                                   |**11.5**            |List configured PSM Servers
+[`Get-PASPlatformPSMConfig`][Get-PASPlatformPSMConfig]                                   |**11.5**            |List Platform PSM configuration
+[`Set-PASPlatformPSMConfig`][Set-PASPlatformPSMConfig]                                   |**11.5**            |Update Platform PSM configuration
 
+[Get-PASAllowedReferrer]:/psPAS/Functions/General/Get-PASAllowedReferrer.ps1
+[Add-PASAllowedReferrer]:/psPAS/Functions/General/Add-PASAllowedReferrer.ps1
+[Get-PASAccountSSHKey]:/psPAS/Functions/Accounts/Get-PASAccountSSHKey.ps1
+[Get-PASAuthenticationMethod]:/psPAS/Functions/Authentication/Get-PASAuthenticationMethod.ps1
+[Add-PASAuthenticationMethod]:/psPAS/Functions/Authentication/Add-PASAuthenticationMethod.ps1
+[Set-PASAuthenticationMethod]:/psPAS/Functions/Authentication/Set-PASAuthenticationMethod.ps1
+[Get-PASConnectionComponent]:/psPAS/Functions/Connections/Get-PASConnectionComponent.ps1
+[Get-PASPSMServer]:/psPAS/Functions/Connections/Get-PASPSMServer.ps1
+[Get-PASPlatformPSMConfig]:/psPAS/Functions/Platforms/Get-PASPlatformPSMConfig.ps1
+[Set-PASPlatformPSMConfig]:/psPAS/Functions/Platforms/Set-PASPlatformPSMConfig.ps1
 [New-PASSession]:/psPAS/Functions/Authentication/New-PASSession.ps1
 [Close-PASSession]:/psPAS/Functions/Authentication/Close-PASSession.ps1
 [Get-PASSession]:/psPAS/Functions/Authentication/Get-PASSession.ps1
@@ -890,7 +916,7 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Remove-PASApplication]:/psPAS/Functions/Applications/Remove-PASApplication.ps1
 [Remove-PASApplicationAuthenticationMethod]:/psPAS/Functions/Applications/Remove-PASApplicationAuthenticationMethod.ps1
 [Import-PASConnectionComponent]:/psPAS/Functions/Connections/Import-PASConnectionComponent.ps1
-[Get-PASPSMConnectionParameter]:/psPAS/Functions/Connections/Get-PASPSMConnectionParameter.ps1
+[New-PASPSMSession]:/psPAS/Functions/Connections/New-PASPSMSession.ps1
 [Get-PASPSMRecording]:/psPAS/Functions/Monitoring/Get-PASPSMRecording.ps1
 [Get-PASPSMSession]:/psPAS/Functions/Monitoring/Get-PASPSMSession.ps1
 [Resume-PASPSMSession]:/psPAS/Functions/Monitoring/Resume-PASPSMSession.ps1
@@ -971,10 +997,11 @@ Check the output of `Get-Help` for the `psPAS` functions for further details of 
 [Enable-PASPlatform]:psPAS/Functions/Platforms/Enable-PASPlatform.ps1
 [Remove-PASPlatform]:psPAS/Functions/Platforms/Remove-PASPlatform.ps1
 [Remove-PASGroup]:psPAS/Functions/User/Remove-PASGroup.ps1
+</details>
 
 ## Installation
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 ### Prerequisites
 
@@ -1064,7 +1091,7 @@ Get-Help New-PASUser -Full
 
 ```
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]
 
 ## Changelog
 
@@ -1100,4 +1127,4 @@ for the unofficial API documentation.
 
 Chapeau!
 
-![psPAS](docs/assets/images/shop_banner_symbol.png)
+![Logo][Logo]

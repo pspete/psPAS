@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2020-07-12zT01:33:52-00:00
+last_modified_at: 2020-07-27zT01:33:52-00:00
 toc: false
 ---
 
@@ -54,7 +54,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Remove-PASApplication`][Remove-PASApplication]                                         |**9.1**                                             |Deletes an application
 [`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**                                             |Delete auth method from an application
 [`Import-PASConnectionComponent`][Import-PASConnectionComponent]                         |**10.3**                                            |Imports a Connection Component
-[`Get-PASPSMConnectionParameter`][Get-PASPSMConnectionParameter]                         |**9.10** ([Notes](#get-paspsmConnectionparameter))  |Get required parameters to connect through PSM
+[`New-PASPSMSession`][New-PASPSMSession]                         |**9.10** ([Notes](#New-PASPSMSession))  |Get required parameters to connect through PSM
 [`Get-PASPSMRecording`][Get-PASPSMRecording]                                             |**9.10** ([Notes](#get-paspsmrecording))            |Get details of PSM Recording
 [`Get-PASPSMSession`][Get-PASPSMSession]                                                 |**9.10** ([Notes](#get-paspsmsession))              |Get details of PSM Sessions
 [`Resume-PASPSMSession`][Resume-PASPSMSession]                                           |**10.2**                                            |Resumes a Suspended PSM Session.
@@ -134,7 +134,27 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Disable-PASPlatform`][Disable-PASPlatform]                                             |**11.4**                                            |Disable a platform
 [`Remove-PASPlatform`][Remove-PASPlatform]                                               |**11.4**                                            |Delete a platform
 [`Remove-PASGroup`][Remove-PASGroup]                                                     |**11.5**                                            |Delete a user group
+[`Get-PASAllowedReferrer`][Get-PASAllowedReferrer]                                       |**11.5**                                            |List PVWA Allowed Referrer
+[`Add-PASAllowedReferrer`][Add-PASAllowedReferrer]                                       |**11.5**                                            |Add PVWA Allowed Referrer
+[`Get-PASAccountSSHKey`][Get-PASAccountSSHKey]                                           |**11.5**                                            |Get Private SSH Key value of Account
+[`Get-PASAuthenticationMethod`][Get-PASAuthenticationMethod]                             |**11.5**                                            |List authentication methods
+[`Add-PASAuthenticationMethod`][Add-PASAuthenticationMethod]                             |**11.5**                                            |Add authentication method
+[`Set-PASAuthenticationMethod`][Set-PASAuthenticationMethod]                             |**11.5**                                            |Update authentication method
+[`Get-PASConnectionComponent`][Get-PASConnectionComponent]                               |**11.5**                                            |List configured connection components
+[`Get-PASPSMServer`][Get-PASPSMServer]                                                   |**11.5**                                            |List configured PSM Servers
+[`Get-PASPlatformPSMConfig`][Get-PASPlatformPSMConfig]                                   |**11.5**                                            |List Platform PSM configuration
+[`Set-PASPlatformPSMConfig`][Set-PASPlatformPSMConfig]                                   |**11.5**                                            |Update Platform PSM configuration
 
+[Get-PASAllowedReferrer]:/commands/Get-PASAllowedReferrer
+[Add-PASAllowedReferrer]:/commands/Add-PASAllowedReferrer
+[Get-PASAccountSSHKey]:/commands/Get-PASAccountSSHKey
+[Get-PASAuthenticationMethod]:/commands/Get-PASAuthenticationMethod
+[Add-PASAuthenticationMethod]:/commands/Add-PASAuthenticationMethod
+[Set-PASAuthenticationMethod]:/commands/Set-PASAuthenticationMethod
+[Get-PASConnectionComponent]:/commands/Get-PASConnectionComponent
+[Get-PASPSMServer]:/commands/Get-PASPSMServer
+[Get-PASPlatformPSMConfig]:/commands/Get-PASPlatformPSMConfig
+[Set-PASPlatformPSMConfig]:/commands/Set-PASPlatformPSMConfig
 [New-PASSession]:/commands/New-PASSession
 [Close-PASSession]:/commands/Close-PASSession
 [Get-PASSession]:/commands/Get-PASSession
@@ -165,7 +185,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [Remove-PASApplication]:/commands/Remove-PASApplication
 [Remove-PASApplicationAuthenticationMethod]:/commands/Remove-PASApplicationAuthenticationMethod
 [Import-PASConnectionComponent]:/commands/Import-PASConnectionComponent
-[Get-PASPSMConnectionParameter]:/commands/Get-PASPSMConnectionParameter
+[New-PASPSMSession]:/commands/New-PASPSMSession
 [Get-PASPSMRecording]:/commands/Get-PASPSMRecording
 [Get-PASPSMSession]:/commands/Get-PASPSMSession
 [Resume-PASPSMSession]:/commands/Resume-PASPSMSession
@@ -235,17 +255,17 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [Invoke-PASCPMOperation]:/commands/Invoke-PASCPMOperation
 [Set-PASDirectoryMappingOrder]:/commands/Set-PASDirectoryMappingOrder
 [Set-PASUserPassword]:/commands/Set-PASUserPassword
-[Disable-PASCPMAutoManagement]:/commands/Disable-PASCPMAutoManagement.ps1
-[Enable-PASCPMAutoManagement]:/commands/Enable-PASCPMAutoManagement.ps1
-[Remove-PASDirectoryMapping]:/commands/Remove-PASDirectoryMapping.ps1
-[Get-PASPlatformSafe]:/commands/Get-PASPlatformSafe.ps1
-[New-PASGroup]:/commands/New-PASGroup.ps1
-[Test-PASPSMRecording]:/commands/Test-PASPSMRecording.ps1
-[Copy-PASPlatform]:/commands/Copy-PASPlatform.ps1
-[Disable-PASPlatform]:/commands/Disable-PASPlatform.ps1
-[Enable-PASPlatform]:/commands/Enable-PASPlatform.ps1
-[Remove-PASPlatform]:/commands/Remove-PASPlatform.ps1
-[Remove-PASGroup]:/commands/Remove-PASGroup.ps1
+[Disable-PASCPMAutoManagement]:/commands/Disable-PASCPMAutoManagement
+[Enable-PASCPMAutoManagement]:/commands/Enable-PASCPMAutoManagement
+[Remove-PASDirectoryMapping]:/commands/Remove-PASDirectoryMapping
+[Get-PASPlatformSafe]:/commands/Get-PASPlatformSafe
+[New-PASGroup]:/commands/New-PASGroup
+[Test-PASPSMRecording]:/commands/Test-PASPSMRecording
+[Copy-PASPlatform]:/commands/Copy-PASPlatform
+[Disable-PASPlatform]:/commands/Disable-PASPlatform
+[Enable-PASPlatform]:/commands/Enable-PASPlatform
+[Remove-PASPlatform]:/commands/Remove-PASPlatform
+[Remove-PASGroup]:/commands/Remove-PASGroup
 
 ## Notes
 
@@ -280,6 +300,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 
 ### Get-PASAccount
 
+- 11.4 introduced ability to filter by modificationTime
 - Version 10.4 introduced a new API endpoint.
   - Supports:
     - Get details of all matching accounts.
@@ -325,7 +346,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
   - Using the `-ImmediateChangeByCPM` parameter.
   - Specifying the `-UseClassicAPI` parameter.
 
-### Get-PASPSMConnectionParameter
+### New-PASPSMSession
 
 - Version 10.2 introduced a new API endpoint.
   - Supports:
@@ -425,7 +446,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 
 - Version 10.8 introduced a new API endpoint.
   - Supports:
-    - Account Dependancy & AWS specific parameters
+    - Account Dependency & AWS specific parameters
 
 ### Get-PASPlatform
 

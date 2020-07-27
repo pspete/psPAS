@@ -30,6 +30,13 @@ The search term or keywords.
 .PARAMETER searchType
 Get accounts that either contain or start with the value specified in the Search parameter.
 
+.PARAMETER safeName
+The name of the safe to return accounts from.
+
+.PARAMETER modificationTime
+Specify to only return details of accounts modified after this date/time
+Documented as an option since 11.4
+
 .PARAMETER sort
 Property or properties by which to sort returned accounts,
 followed by asc (default) or desc to control sort direction.
@@ -37,15 +44,18 @@ Separate multiple properties with commas, up to a maximum of three properties.
 
 .PARAMETER offset
 An offset for the search results (to discard the first x results for instance).
+*depreciated parameter in psPAS - nextLink functionality will fetch all results automatically
 
 .PARAMETER limit
 Maximum number of returned accounts. If not specified, the default value is 50.
 The maximum number that can be specified is 1000. When used together with the Offset parameter,
 this value determines the number of accounts to return, starting from the first account that is returned.
+*depreciated parameter in psPAS - nextLink functionality will fetch all results automatically
 
 .PARAMETER filter
 A filter for the search.
 Requires format: "SafeName eq 'YourSafe'"
+*depreciated parameter in psPAS - safeName & modifiedTime will automatically be set as filter values
 
 .PARAMETER Keywords
 Keyword to search for.
@@ -54,8 +64,7 @@ Separate keywords with a space.
 Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER Safe
-The name of a Safe to search. The search will be carried out only in the Safes in the Vault
-that the authenticated used is authorized to access.
+The name of a Safe to search that the authenticated user is authorized to access.
 Relevant for CyberArk versions earlier than 10.4
 
 .PARAMETER TimeoutSec
@@ -69,19 +78,24 @@ Returns  all accounts on safes where your user has "List accounts" rights.
 This will only work from version 10.4 onwards.
 
 .EXAMPLE
-Get-PASAccount -search root -sort name -offset 100 -limit 5
-
-Returns all accounts matching "root", sorted by AccountName, Search results offset by 100 and limited to 5.
-
-.EXAMPLE
 Get-PASAccount -search XUser -searchType startswith
 
 Returns all accounts starting with "XUser".
 
 .EXAMPLE
+Get-PASAccount -safeName TargetSafe
+
+Returns all accounts from TargetSafe
+
+.EXAMPLE
+Get-PASAccount -safeName TargetSafe -modificationTime (Get-Date 03/06/2020) -search some
+
+Returns all accounts from TargetSafe modified after 03/06/2020
+
+.EXAMPLE
 Get-PASAccount -filter "SafeName eq TargetSafe"
 
-Returns all accounts found in TargetSafe
+Specify a filter value to return all accounts found in "TargetSafe"
 
 .EXAMPLE
 Get-PASAccount -filter "SafeName eq 'TargetSafe'" -sort "userName desc"
@@ -120,6 +134,12 @@ PlatformID : Cyberark
 DeviceType : Application
 Address    : 10.10.10.20
 
+.EXAMPLE
+Get-PASAccount -search root -sort name -offset 100 -limit 5
+
+Returns all accounts matching "root", sorted by AccountName, Search results offset by 100 and limited to 5.
+*depreciated parameter in psPAS - nextLink functionality will fetch all results automatically
+
 .INPUTS
 All parameters can be piped by property name
 Should accept pipeline objects from other *-PASAccount functions
@@ -156,10 +176,20 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByFilter"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v10ByQuery"
 		)]
 		[string]$search,
 
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByFilter"
+		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
@@ -173,19 +203,38 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v10ByQuery"
 		)]
-		[string[]]$sort,
+		[string]$safeName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "v10ByQuery"
 		)]
+		[datetime]$modificationTime,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByFilter"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByQuery"
+		)]
+		[string[]]$sort,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "v10ByFilter"
+		)]
 		[int]$offset,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10ByQuery"
+			ParameterSetName = "v10ByFilter"
 		)]
 		[ValidateRange(1, 1000)]
 		[int]$limit,
@@ -193,7 +242,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10ByQuery"
+			ParameterSetName = "v10ByFilter"
 		)]
 		[string]$filter,
 
@@ -224,30 +273,48 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 	BEGIN {
 		$MinimumVersion = [System.Version]"10.4"
 		$RequiredVersion = [System.Version]"11.2"
+		$Version114 = [System.Version]"11.4"
 	}#begin
 
 	PROCESS {
 
 		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter
-
-		#Create Query String, escaped for inclusion in request URL
-		$queryString = $boundParameters | ConvertTo-QueryString
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove TimeoutSec, modificationTime, SafeName
 
 		#Version 10.4 process
 		If ($PSCmdlet.ParameterSetName -match "v10") {
 
-			#check version
-			if ($PSBoundParameters.ContainsKey("searchType")) {
+			$FilterList = [Collections.Generic.List[Object]]@()
 
-				#check required version
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+			switch ($PSBoundParameters) {
 
-			}
-			Else {
+				( { $PSItem.ContainsKey("modificationTime") }) {
+					#check required version
+					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $Version114
 
-				#check minimum version
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+					#convert to unix time
+					#add result to FilterList
+					$null = $FilterList.Add("modificationTime gte $([math]::Round($(Get-Date $PSBoundParameters["modificationTime"] -UFormat %s)))")
+				}
+
+				( { $PSItem.ContainsKey("searchType") }) {
+					#check required version
+					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+				}
+
+				( { $PSItem.ContainsKey("safeName") }) {
+					#check required version
+					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+
+					#add result to FilterList
+					$null = $FilterList.Add("safeName eq $safeName")
+
+				}
+
+				default {
+					#check minimum version
+					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+				}
 
 			}
 
@@ -256,22 +323,6 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 			#define base URL
 			$URI = "$Script:BaseURI/api/Accounts"
-
-			If ($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
-				if ($queryString) {
-
-					#Build URL from base URL
-					$URI = "$URI`?$queryString"
-
-				}
-			}
-
-			If ($PSCmdlet.ParameterSetName -eq "v10ByID") {
-
-				#define "by ID" URL
-				$URI = "$URI/$id"
-
-			}
 
 		}
 
@@ -284,7 +335,26 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 			#Create request URL
 			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts"
 
-			if ($queryString) {
+		}
+
+		If ($PSCmdlet.ParameterSetName -eq "v10ByID") {
+
+			#define "by ID" URL
+			$URI = "$URI/$id"
+
+		}
+		Else {
+
+			If ($FilterList.count -gt 0) {
+
+				$boundParameters["filter"] = $FilterList -join " AND "
+
+			}
+
+			#Create Query String, escaped for inclusion in request URL
+			$queryString = $boundParameters | ConvertTo-QueryString
+
+			If ($queryString) {
 
 				#Build URL from base URL
 				$URI = "$URI`?$queryString"
@@ -296,7 +366,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 
-		if ($result) {
+		If ($result) {
 
 			#Get count of accounts found
 			$count = $($result.count)

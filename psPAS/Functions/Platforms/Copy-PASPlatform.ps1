@@ -1,5 +1,5 @@
-Function Copy-PASPlatform{
-<#
+Function Copy-PASPlatform {
+	<#
 .SYNOPSIS
 Duplicates a platform
 
@@ -48,7 +48,10 @@ Copy-PASPlatform -RotationalGroup -ID 59 -name SomeNewPlatform -description "Som
 Duplicates Rotational Group Platform with ID of 59 to SomeNewPlatform
 
 .NOTES
-General notes
+Minimum version 11.4
+
+.LINK
+https://pspas.pspete.dev/commands/Copy-PASPlatform
 #>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -105,7 +108,7 @@ General notes
 
 	}#begin
 
-	Process{
+	Process {
 
 		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
@@ -133,6 +136,6 @@ General notes
 
 	}
 
-	End{}
+	End { }
 
 }
