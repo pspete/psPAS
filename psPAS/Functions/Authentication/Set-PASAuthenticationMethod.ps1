@@ -31,7 +31,6 @@ Defines the sign-in text for this authentication method.
 Relevant only for CyberArk, RADIUS and LDAP authentication methods.
 
 .PARAMETER usernameFieldLabel
-
 Defines the label of the username field for this authentication method.
 Relevant only for CyberArk, RADIUS, and LDAP authentication methods.
 
@@ -52,7 +51,7 @@ Disable authentication method "SomeID"
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateLength(0, 50)]
+		[ValidateLength(1, 50)]
 		[string]$ID,
 
 		[parameter(
