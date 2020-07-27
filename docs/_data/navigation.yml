@@ -26,6 +26,12 @@ commands:
         url: /commands/Get-PASPublicSSHKey
       - title: "Remove-PASPublicSSHKey"
         url: /commands/Remove-PASPublicSSHKey
+      - title: "Get-PASAuthenticationMethod"
+        url: /commands/Get-PASAuthenticationMethod
+      - title: "Add-PASAuthenticationMethod"
+        url: /commands/Add-PASAuthenticationMethod
+      - title: "Set-PASAuthenticationMethod"
+        url: /commands/Set-PASAuthenticationMethod
 
   - title: "Account ACL"
     children:
@@ -77,6 +83,8 @@ commands:
         url: /commands/Enable-PASCPMAutoManagement
       - title: "Disable-PASCPMAutoManagement"
         url: /commands/Disable-PASCPMAutoManagement
+      - title: "Get-PASAccountSSHKey"
+        url: /commands/Get-PASAccountSSHKey
 
   - title: "Applications"
     children:
@@ -99,6 +107,10 @@ commands:
         url: /commands/New-PASPSMSession
       - title: "Import-PASConnectionComponent"
         url: /commands/Import-PASConnectionComponent
+      - title: "Get-PASConnectionComponent"
+        url: /commands/Get-PASConnectionComponent
+      - title: "Get-PASPSMServer"
+        url: /commands/Get-PASPSMServer
 
   - title: "Event Security"
     children:
@@ -116,6 +128,13 @@ commands:
         url: /commands/Get-PASPTARemediation
       - title: "Set-PASPTARemediation"
         url: /commands/Set-PASPTARemediation
+
+  - title: "General"
+    children:
+      - title: "Get-PASAllowedReferrer"
+        url: /commands/Get-PASAllowedReferrer
+      - title: "Set-PASAllowedReferrer"
+        url: /commands/Set-PASAllowedReferrer
 
   - title: "LDAP Directories"
     children:
@@ -192,6 +211,10 @@ commands:
         url: /commands/Disable-PASPlatform
       - title: "Remove-PASPlatform"
         url: /commands/Remove-PASPlatform
+      - title: "Get-PASPlatformPSMConfig"
+        url: /commands/Get-PASPlatformPSMConfig
+      - title: "Set-PASPlatformPSMConfig"
+        url: /commands/Set-PASPlatformPSMConfig
 
   - title: "Policy ACL"
     children:

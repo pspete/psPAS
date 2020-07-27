@@ -9,7 +9,7 @@ as a pending account to the Accounts Feed.
 Users can identify privileged accounts and determine which are on-boarded to the vault.
 
 .PARAMETER userName
-The name�of the account user.
+The name of the account user.
 
 .PARAMETER address
 The name or address of the machine where the account is located.

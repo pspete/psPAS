@@ -187,7 +187,17 @@
 		'Disable-PASPlatform',
 		'Enable-PASPlatform',
 		'Remove-PASPlatform',
-		'Remove-PASGroup'
+		'Remove-PASGroup',
+		'Get-PASAllowedReferrer',
+		'Add-PASAllowedReferrer',
+		'Get-PASAccountSSHKey',
+		'Get-PASAuthenticationMethod',
+		'Add-PASAuthenticationMethod',
+		'Set-PASAuthenticationMethod',
+		'Get-PASConnectionComponent',
+		'Get-PASPSMServer',
+		'Get-PASPlatformPSMConfig',
+		'Set-PASPlatformPSMConfig'
 	)
 
 	AliasesToExport   = @(

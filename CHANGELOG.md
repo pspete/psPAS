@@ -3,8 +3,29 @@
 ## Planned Updates
 
 - Continued development to encompass any new documented features of the CyberArk API.
-- Rename `Get-PASPSMConnectionParameter` to `New-PASPSMSession`.
 - psPAS v5.0...
+- **4.2.xx** (July xx 2020)
+  - **Behaviour Changes**
+  - New Functions
+    - `Get-PASAllowedReferrer`
+    - `Add-PASAllowedReferrer`
+    - `Get-PASAccountSSHKey`
+    - `Get-PASAuthenticationMethod`
+    - `Add-PASAuthenticationMethod`
+    - `Set-PASAuthenticationMethod`
+    - `Get-PASConnectionComponent`
+    - `Get-PASPSMServer`
+    - `Get-PASPlatformPSMConfig`
+    - `Set-PASPlatformPSMConfig`
+    - `New-PASPSMSession`
+  - Updated Functions
+    - `New-PASPSMSession`
+    - `Get-PASAccount`
+    - `Get-PASGroup`
+  - Other Fixes & Updates
+    - `New-PASRequest`
+    - `Get-PASAccount`
+    - `Add-PASDiscoveredAccount`
 
 ## **4.1.11** (July 14th 2020)
 
@@ -141,8 +162,8 @@
     - Include expiry & last logon date in friendly format.
     - New table format for displaying user information returned from API requests.
   - Performance related updates to internal module mechanics.
-  - All functions help text updated to include link to function documentation on https://pspas.pspete.dev
-  - Corrections & updates to documentation on https://pspas.pspete.dev
+  - All functions help text updated to include link to function documentation on <https://pspas.pspete.dev>
+  - Corrections & updates to documentation on <https://pspas.pspete.dev>
 
 ## 3.3.88 (December 13th 2019)
 
@@ -185,9 +206,9 @@
 
 - Fixes & Other Updates
   - `Get-PASAccountPassword`
-    - Fixed incorrectly escaped value for passwords begining with "\"
+    - Fixed incorrectly escaped value for passwords beginning with "\"
   - `New-PASRequest`
-    - Fixed incorrect parameter name which prevented requests specifying mulitple access as required being created.
+    - Fixed incorrect parameter name which prevented requests specifying multiple access as required being created.
   - Error Reporting
     - Added more verbose error messages.
 
@@ -447,7 +468,7 @@ _2 years since first commit Anniversary Edition_
   - `Export-PASPSMRecording`
     - Allows saving of PSM Session Recording to a file.
   - `Request-PASAdHocAccess`
-    - Enablex request of temporary administrative access to a server.
+    - Enables request of temporary administrative access to a server.
 - Updated Functions
   - `Get-PASPSMRecording`
     - Now able to query PSM recordings by ID.
