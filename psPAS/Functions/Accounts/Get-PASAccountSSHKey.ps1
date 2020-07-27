@@ -75,7 +75,7 @@ Returns Private SSH Key associated with account 12_3
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("download")]
+		[ValidateSet("retrieve")]
 		[string]$ActionType,
 
 		[parameter(
