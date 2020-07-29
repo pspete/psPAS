@@ -35,14 +35,14 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
+		BeforeEach {
 			Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{
-				"MyRequests"       = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2" }
-				"IncomingRequests" = [PSCustomObject]@{"PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC" }
+				[PSCustomObject]@{
+					"MyRequests"       = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2" }
+					"IncomingRequests" = [PSCustomObject]@{"PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC" }
+				}
 			}
 		}
-}
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'RequestType' },
@@ -61,9 +61,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		Context "Input - MyRequests" {
 
-			BeforeEach{
-			Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true
-}
+			BeforeEach {
+				Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true
+			}
 			It "sends request" {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
@@ -74,7 +74,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/MyRequests?onlywaiting=true&expired=true"
+					$URI -match ("$($Script:BaseURI)/API/MyRequests?OnlyWaiting=True&Expired=True" -or
+						"$($Script:BaseURI)/API/MyRequests?Expired=True&OnlyWaiting=True")
 
 				} -Times 1 -Exactly -Scope It
 
@@ -93,17 +94,17 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true  } | Should -Throw
-$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = "1.0"
+				{ Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true } | Should -Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}
 
 		Context "Input - IncomingRequests" {
-BeforeEach{
-			Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $true
-}
+			BeforeEach {
+				Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $true
+			}
 			It "sends request" {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
@@ -114,7 +115,8 @@ BeforeEach{
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/IncomingRequests?onlywaiting=true&expired=true"
+					$URI -match ("$($Script:BaseURI)/API/IncomingRequests?OnlyWaiting=True&Expired=True" -or
+						"$($Script:BaseURI)/API/IncomingRequests?Expired=True&OnlyWaiting=True")
 
 				} -Times 1 -Exactly -Scope It
 
@@ -135,9 +137,9 @@ BeforeEach{
 		}
 
 		Context "Output - MyRequests" {
-BeforeEach{
-			$response = Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $false
-}
+			BeforeEach {
+				$response = Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $false
+			}
 			it "provides output" {
 
 				$response | Should -Not -BeNullOrEmpty
@@ -161,9 +163,9 @@ BeforeEach{
 		}
 
 		Context "Output - IncomingRequests" {
-BeforeEach{
-			$response = Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $false
-}
+			BeforeEach {
+				$response = Get-PASRequest -RequestType IncomingRequests -OnlyWaiting $true -Expired $false
+			}
 			it "provides output" {
 
 				$response | Should -Not -BeNullOrEmpty

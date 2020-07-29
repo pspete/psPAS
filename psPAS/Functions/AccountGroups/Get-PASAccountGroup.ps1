@@ -65,7 +65,7 @@ https://pspas.pspete.dev/commands/Get-PASAccountGroup
 			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			#Create URL for Request
-			$URI = "$Script:BaseURI/API/AccountGroups?Safe=$($Safe | Get-EscapedString)"
+			$URI = "$Script:BaseURI/API/AccountGroups?$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
 
 		}
 
