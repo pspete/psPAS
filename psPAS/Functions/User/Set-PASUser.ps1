@@ -634,11 +634,8 @@ https://pspas.pspete.dev/commands/Set-PASUser
 
 			If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
 
-				#Convert ExpiryDate to string in Required format
-				$Date = $([math]::Round($(New-TimeSpan -Start $(Get-Date 1/1/1970) -End $ExpiryDate | Select-Object -ExpandProperty TotalSeconds))).ToString()
-
-				#Include date string in request
-				$boundParameters["ExpiryDate"] = $Date
+				#Include date string in required format
+				$boundParameters["ExpiryDate"] = $ExpiryDate | ConvertTo-UnixTime
 
 			}
 
@@ -721,9 +718,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 			}
 
 			#Create URL for request
-			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
-
-            Get-EscapedString)"
+			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 
 			$TypeName = "psPAS.CyberArk.Vault.User"
 
