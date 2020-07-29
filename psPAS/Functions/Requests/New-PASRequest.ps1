@@ -140,14 +140,14 @@ https://pspas.pspete.dev/commands/New-PASRequest
 		if ($PSBoundParameters.ContainsKey("FromDate")) {
 
 			#convert to unix time
-			$PSBoundParameters["FromDate"] = [math]::Round((Get-Date $FromDate -UFormat %s))
+			$PSBoundParameters["FromDate"] = $FromDate | ConvertTo-UnixTime
 
 		}
 
 		if ($PSBoundParameters.ContainsKey("ToDate")) {
 
 			#convert to unix time
-			$PSBoundParameters["ToDate"] = [math]::Round((Get-Date $ToDate -UFormat %s))
+			$PSBoundParameters["ToDate"] = $ToDate | ConvertTo-UnixTime
 
 		}
 

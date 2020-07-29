@@ -412,7 +412,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 			if ($PSBoundParameters.ContainsKey($DateTime)) {
 
 				#convert to unix time
-				$boundParameters["$DateTime"] = [math]::Round((Get-Date $PSBoundParameters["$DateTime"] -UFormat %s))
+				$boundParameters["$DateTime"] = $PSBoundParameters["$DateTime"] | ConvertTo-UnixTime
 
 			}
 
@@ -432,9 +432,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 
 		}
 
-		$body = $boundParameters |
-		Get-PASParameter -ParametersToRemove $AccountProperties |
-		ConvertTo-Json
+		$Body = $boundParameters | Get-PASParameter -ParametersToRemove $AccountProperties | ConvertTo-Json
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession

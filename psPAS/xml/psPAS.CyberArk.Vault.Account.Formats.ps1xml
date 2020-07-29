@@ -61,6 +61,10 @@
 								<Label>createdTime</Label>
 								<ScriptBlock>(get-date 1/1/1970).addseconds($_.createdTime)</ScriptBlock>
 							</ListItem>
+							<ListItem>
+								<Label>categoryModificationTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.categoryModificationTime)</ScriptBlock>
+							</ListItem>
 						</ListItems>
 					</ListEntry>
 				</ListEntries>

@@ -107,7 +107,7 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 		if ($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
 
 			#add Unix Time Stamp of lastUpdatedEventDate to header as key=value pair
-			$boundParameters["lastUpdatedEventDate"] = [math]::Round(($(Get-Date $(Get-Date $lastUpdatedEventDate) -UFormat %s)))
+			$boundParameters["lastUpdatedEventDate"] = $lastUpdatedEventDate | ConvertTo-UnixTime
 
 		}
 
