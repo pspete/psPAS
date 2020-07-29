@@ -66,10 +66,17 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
+			It "returns expected unescaped string" {
+				$InputObj = @{
+					Property1 = "Value,Value,Value,Value"
+				}
+				$InputObj | ConvertTo-QueryString -NoEscape | Should -Match "Property1=Value,Value,Value,Value"
+			}
+
 			It "converts hashtable to expected filter string" {
 
 				$InputObj | ConvertTo-QueryString -Format Filter | Should -Match "%20AND%20"
-				$InputObj | ConvertTo-QueryString -Format Filter  | Should -Match "Property1%20eq%20Value"
+				$InputObj | ConvertTo-QueryString -Format Filter | Should -Match "Property1%20eq%20Value"
 				$InputObj | ConvertTo-QueryString -Format Filter | Should -Match "Property2%20eq%20Another%20Value"
 
 			}

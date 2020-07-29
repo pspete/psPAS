@@ -12,6 +12,9 @@ Hashtable containing parameter names and values to include in output string
 .PARAMETER Format
 Provide value of "Filter" to output string as REST filter
 
+.PARAMETER NoEscape
+Specify to perform no escaping on the returned string.
+
 .EXAMPLE
 $input | ConvertTo-QueryString
 
@@ -41,7 +44,13 @@ Formats input as: "Key%20eq%20Value%20AND%20Key%20eq%20Value"
 			ValueFromPipeline = $false
 		)]
 		[ValidateSet("Filter")]
-		[string]$Format
+		[string]$Format,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[switch]$NoEscape
 	)
 
 	Begin { }
@@ -66,8 +75,18 @@ Formats input as: "Key%20eq%20Value%20AND%20Key%20eq%20Value"
 
 					($Parameters.Keys | ForEach-Object {
 
-							"$PSItem=$($Parameters[$PSItem] | Get-EscapedString)"
+							If ($NoEscape) {
 
+								#Return Key=Value string, unescaped.
+								"$PSItem=$($Parameters[$PSItem])"
+
+							}
+							Else {
+
+								#Return Key=Value string, escaped.
+								"$PSItem=$($Parameters[$PSItem] | Get-EscapedString)"
+
+							}
 						}) -join '&'
 
 				}

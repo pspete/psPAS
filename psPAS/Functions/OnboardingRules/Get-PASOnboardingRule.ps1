@@ -62,11 +62,8 @@ https://pspas.pspete.dev/commands/Get-PASOnboardingRule
 			$boundParameters = $PSBoundParameters | Get-PASParameter
 
 			#Create Query String, escaped for inclusion in request URL
-			$queryString = ($boundParameters.keys | ForEach-Object {
-
-					"$_=$($boundParameters[$_])"
-
-				})
+			#!This must be unescaped - send a comma separated string for the value of `Names`
+			$queryString = $boundParameters | ConvertTo-QueryString -NoEscape
 
 			#Build URL from base URL
 			$URI = "$URI`?$queryString"
