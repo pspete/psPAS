@@ -65,8 +65,12 @@ https://pspas.pspete.dev/commands/Get-PASOnboardingRule
 			#!This must be unescaped - send a comma separated string for the value of `Names`
 			$queryString = $boundParameters | ConvertTo-QueryString -NoEscape
 
-			#Build URL from base URL
-			$URI = "$URI`?$queryString"
+			if ($null -ne $queryString) {
+
+				#Build URL from base URL
+				$URI = "$URI`?$queryString"
+
+			}
 
 		}
 

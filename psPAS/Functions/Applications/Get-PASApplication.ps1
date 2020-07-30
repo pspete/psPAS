@@ -125,7 +125,7 @@ https://pspas.pspete.dev/commands/Get-PASApplication
 			#Create query string
 			$queryString = $boundParameters | ConvertTo-QueryString
 
-			if ($queryString) {
+			if ($null -ne $queryString) {
 
 				#Build URL from base URL
 				$URI = "$URI`?$queryString"
