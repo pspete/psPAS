@@ -32,7 +32,7 @@ $PSBoundParameters object
 Hashtable/$PSBoundParameters object, with defined parameters removed.
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilteredParameters', Justification = "False Positive")]
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "Remove")]
 	[OutputType('System.Collections.Hashtable')]
 	param(
 		[parameter(
@@ -42,8 +42,16 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 		[Hashtable]$Parameters,
 
 		[parameter(
-			Mandatory = $false)]
-		[array]$ParametersToRemove = @()
+			Mandatory = $false,
+			ParameterSetName = "Remove"
+		)]
+		[array]$ParametersToRemove = @(),
+
+		[parameter(
+			Mandatory = $false,
+			ParameterSetName = "Keep"
+		)]
+		[array]$ParametersToKeep = @()
 
 	)
 
@@ -67,10 +75,23 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 		} {
 
-			if (($BaseParameters + $ParametersToRemove) -notcontains $PSItem) {
+			if ($PSCmdlet.ParameterSetName -eq "Keep") {
 
-				$FilteredParameters.Add($PSItem, $Parameters[$PSItem])
+				if ($ParametersToKeep -contains $PSItem) {
 
+					$FilteredParameters.Add($PSItem, $Parameters[$PSItem])
+
+				}
+
+			}
+
+			Else {
+
+				if (($BaseParameters + $ParametersToRemove) -notcontains $PSItem) {
+
+					$FilteredParameters.Add($PSItem, $Parameters[$PSItem])
+
+				}
 			}
 
 		} { $FilteredParameters }

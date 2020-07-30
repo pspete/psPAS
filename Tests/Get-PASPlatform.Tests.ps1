@@ -84,7 +84,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "1.0"
-				{$InputObj | Get-PASPlatform } | Should -Throw
+				{ $InputObj | Get-PASPlatform } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
@@ -104,8 +104,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"Search" = "SomeName"
-					"Active" = $true
+					"Search"       = "SomeName"
+					"Active"       = $true
 					"PlatformType" = "Regular"
 				}
 
