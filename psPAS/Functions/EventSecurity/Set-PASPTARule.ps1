@@ -108,7 +108,6 @@ https://pspas.pspete.dev/commands/Set-PASPTARule
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/pta/API/Settings/RiskyActivity/"
 
-
 		#Create body of request
 		$body = $boundParameters | ConvertTo-Json
 

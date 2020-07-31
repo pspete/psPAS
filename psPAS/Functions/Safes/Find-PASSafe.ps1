@@ -73,7 +73,7 @@ https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes
 
 		If ( -Not [string]::IsNullOrEmpty($search) ) {
 
-			$SearchQuery = "&search=$($search | Get-EscapedString)"
+			$SearchQuery = "&$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
 
 		}
 

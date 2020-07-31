@@ -302,9 +302,7 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 		#Create URL for request
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
 
-            Get-EscapedString)/Members/$($MemberName |
-
-                Get-EscapedString)"
+            Get-EscapedString)/Members/$($MemberName | Get-EscapedString)"
 
 		#Get passed parameters to include in request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -320,10 +318,10 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 		}
 
 		#For each Member Permission parameter
-		$OrderedPermisions.keys | ForEach-Object{
+		$OrderedPermisions.keys | ForEach-Object {
 
 			#include permission in request
-			If($boundParameters.ContainsKey($PSItem)){
+			If ($boundParameters.ContainsKey($PSItem)) {
 
 				#Add to hash table in key/value pair
 				$Permissions.Add($PSItem, $boundParameters[$PSItem])
@@ -341,9 +339,7 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 		#Create JSON for body of request
 		$body = @{
 
-			"member" = $boundParameters |
-
-			Get-PASParameter -ParametersToRemove $keysToRemove
+			"member" = $boundParameters | Get-PASParameter -ParametersToRemove $keysToRemove
 
 			#Ensure all levels of object are output
 		} | ConvertTo-Json -Depth 3
@@ -353,7 +349,7 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 			#Send request to webservice
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-			if ($result) {
+			If ($null -ne $result) {
 
 				$MemberPermissions = [PSCustomObject]@{ }
 

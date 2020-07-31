@@ -1,7 +1,7 @@
 Function ConvertTo-QueryString {
 	<#
 .SYNOPSIS
-Converts Hastable to a string for use as a url query string
+Converts Hashtable to a string for use as a url query string
 
 .DESCRIPTION
 When given a hashtable as input, converts key value pairs to query string
@@ -9,8 +9,8 @@ When given a hashtable as input, converts key value pairs to query string
 .PARAMETER Parameters
 Hashtable containing parameter names and values to include in output string
 
-.PARAMETER Format
-Provide value of "Filter" to output string as REST filter
+.PARAMETER NoEscape
+Specify to perform no escaping on the returned string.
 
 .EXAMPLE
 $input | ConvertTo-QueryString
@@ -19,14 +19,8 @@ Joins Key & Value with "="
 Joins Multiple Key Value pairs with '&'
 Formats input as: "Key=Value&Key=Value"
 
-.EXAMPLE
-$input | ConvertTo-QueryString -Format Filter
-
-Joins Key & Value with "eq"
-Joins Multiple Key Value pairs with ' AND '
-Formats input as: "Key%20eq%20Value%20AND%20Key%20eq%20Value"
 #>
-
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilterList', Justification = "False Positive")]
 	[CmdletBinding()]
 	[OutputType('System.String')]
 	param(
@@ -40,8 +34,7 @@ Formats input as: "Key%20eq%20Value%20AND%20Key%20eq%20Value"
 			Mandatory = $false,
 			ValueFromPipeline = $false
 		)]
-		[ValidateSet("Filter")]
-		[string]$Format
+		[switch]$NoEscape
 	)
 
 	Begin { }
@@ -50,28 +43,34 @@ Formats input as: "Key%20eq%20Value%20AND%20Key%20eq%20Value"
 
 		If ($Parameters) {
 
-			Switch ($Format) {
+			$Parameters.Keys | ForEach-Object {
 
-				"Filter" {
+				$FilterList = [Collections.Generic.List[Object]]@()
 
-					($Parameters.Keys | ForEach-Object {
+			} {
 
-							"$PSItem eq $($Parameters[$PSItem])"
+				If ($NoEscape) {
 
-						}) -join ' AND ' | Get-EscapedString
+					#Return Key=Value string, unescaped.
+					$Value = "$PSItem=$($Parameters[$PSItem])"
+
+				}
+				Else {
+
+					#Return Key=Value string, escaped.
+					$Value = "$PSItem=$($Parameters[$PSItem] | Get-EscapedString)"
 
 				}
 
-				default {
+				$null = $FilterList.Add($Value)
 
-					($Parameters.Keys | ForEach-Object {
+			} {
 
-							"$PSItem=$($Parameters[$PSItem] | Get-EscapedString)"
+				If ($FilterList.count -gt 0) {
 
-						}) -join '&'
+					$FilterList -join "&"
 
 				}
-
 			}
 
 		}

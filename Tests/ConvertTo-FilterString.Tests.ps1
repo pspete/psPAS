@@ -40,37 +40,34 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			BeforeEach {
 
 				$InputObj = @{
-					Property1 = "Value"
-					Property2 = "Another Value"
+					Property1        = "Value"
+					Property2        = "Another Value"
+					modificationTime = $(Get-Date 1/1/2020)
 				}
 
 			}
 
 			It "does not throw" {
 
-				{ ConvertTo-QueryString } | Should -Not -Throw
+				{ ConvertTo-FilterString } | Should -Not -Throw
 
 			}
 
 			It "produces no output if given no input" {
 
-				ConvertTo-QueryString | Should -BeNullOrEmpty
+				ConvertTo-FilterString | Should -BeNullOrEmpty
 
 			}
 
-			It "converts hashtable to expected query string" {
+			It "converts hashtable to expected filter string" {
 
-				$InputObj | ConvertTo-QueryString | Should -Match "Value&Property"
-				$InputObj | ConvertTo-QueryString | Should -Match "Property1=Value"
-				$InputObj | ConvertTo-QueryString | Should -Match "Property2=Another%20Value"
+				$Value = $InputObj | ConvertTo-FilterString
 
-			}
+				$Value["filter"] | Should -Match " AND "
+				$Value["filter"] | Should -Match "Property1 eq Value"
+				$Value["filter"] | Should -Match "Property2 eq Another Value"
+				$Value["filter"] | Should -Match "modificationTime gte 1577836800"
 
-			It "returns expected unescaped string" {
-				$InputObj = @{
-					Property1 = "Value,Value,Value,Value"
-				}
-				$InputObj | ConvertTo-QueryString -NoEscape | Should -Match "Property1=Value,Value,Value,Value"
 			}
 
 		}

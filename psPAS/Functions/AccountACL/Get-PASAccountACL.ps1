@@ -13,7 +13,7 @@ The PolicyID associated with account.
 The address of the account whose privileged commands will be listed.
 
 .PARAMETER AccountUserName
-The name of the account�s user.
+The name of the account's user.
 
 .EXAMPLE
 Get-PASAccount root | Get-PASAccountACL
@@ -80,7 +80,7 @@ https://pspas.pspete.dev/commands/Get-PASAccountACL
 		#Send request to Web Service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession #DevSkim: ignore DS104456
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result.ListAccountPrivilegedCommandsResult |
 

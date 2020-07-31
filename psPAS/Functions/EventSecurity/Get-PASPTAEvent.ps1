@@ -118,7 +118,7 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 			#Create Query String, escaped for inclusion in request URL
 			$queryString = $boundParameters | ConvertTo-QueryString
 
-			if ($queryString) {
+			if ($null -ne $queryString) {
 
 				#Build URL from base URL
 				$URI = "$URI`?$queryString"
@@ -140,12 +140,10 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $ThisSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
 
 		}
 

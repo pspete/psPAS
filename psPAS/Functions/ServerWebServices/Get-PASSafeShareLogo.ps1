@@ -43,7 +43,7 @@ https://pspas.pspete.dev/commands/Get-PASSafeShareLogo
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result
 

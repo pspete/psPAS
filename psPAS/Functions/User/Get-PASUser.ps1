@@ -118,7 +118,7 @@ https://pspas.pspete.dev/commands/Get-PASUser
 			#Create Query String, escaped for inclusion in request URL
 			$queryString = $boundParameters | ConvertTo-QueryString
 
-			if ($queryString) {
+			if ($null -ne $queryString) {
 
 				#Build URL from base URL
 				$URI = "$URI`?$queryString"
@@ -142,7 +142,7 @@ https://pspas.pspete.dev/commands/Get-PASUser
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		#Handle return
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Handle V10 list return
 			If ($result.Users) {

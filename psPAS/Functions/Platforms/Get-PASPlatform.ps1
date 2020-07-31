@@ -234,6 +234,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 		switch ($PSCmdlet.ParameterSetName) {
 
 			"11_1" {
+
 				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
 				#Create request URL
@@ -245,7 +246,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 				#Create Query String, escaped for inclusion in request URL
 				$queryString = $boundParameters | ConvertTo-QueryString
 
-				If ($queryString) {
+				If ($null -ne $queryString) {
 					#Build URL from base URL
 					$URI = "$URI`?$queryString"
 				}
@@ -255,14 +256,18 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 			}
 
 			"legacy" {
+
 				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 				#Create request URL
 				$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)"
+
 				break
+
 			}
 
 			"targets" {
+
 				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $Version114
 
 				$URI = "$Script:BaseURI/API/Platforms/$($PSCmdlet.ParameterSetName)"
@@ -270,20 +275,26 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 				#Get Parameters to include in request
 				$boundParameters = $PSBoundParameters | Get-PASParameter
 
-				$queryString = $boundParameters | ConvertTo-QueryString -Format Filter
+				$queryString = $boundParameters | ConvertTo-FilterString | ConvertTo-QueryString
 
-				If ($queryString) {
-					$URI = "$URI`?filter=$queryString"
+				If ($null -ne $queryString) {
+
+					$URI = "$URI`?$queryString"
+
 				}
 
 				break
+
 			}
 
 			default {
+
 				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $Version114
 
 				$URI = "$Script:BaseURI/API/Platforms/$($PSCmdlet.ParameterSetName)"
+
 				break
+
 			}
 
 		}
@@ -291,7 +302,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#11.1+ returns result under "platforms" property
 			If ($result.Platforms) {

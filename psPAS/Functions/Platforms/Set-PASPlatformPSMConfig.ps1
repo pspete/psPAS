@@ -78,7 +78,7 @@ Clears all configured Connection Components from platform with id of 42
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result
 

@@ -126,7 +126,7 @@ Creates new authentication method.
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			$result
 

@@ -37,9 +37,7 @@ https://pspas.pspete.dev/commands/Remove-PASApplication
 	PROCESS {
 
 		#Request URL
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID |
-
-            Get-EscapedString)/"
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID | Get-EscapedString)/"
 
 		if ($PSCmdlet.ShouldProcess($AppID, "Delete Application")) {
 

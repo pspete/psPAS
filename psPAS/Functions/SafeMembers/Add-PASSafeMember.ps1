@@ -418,16 +418,16 @@ https://pspas.pspete.dev/commands/Add-PASSafeMember
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$MemberPermissions = [PSCustomObject]@{ }
 
 			$result.member.Permissions | ForEach-Object {
 
 				$MemberPermissions |
-					Add-Member -MemberType NoteProperty -Name $($PSItem |
-						Select-Object -ExpandProperty key) -Value $($PSItem |
-							Select-Object -ExpandProperty value)
+				Add-Member -MemberType NoteProperty -Name $($PSItem |
+					Select-Object -ExpandProperty key) -Value $($PSItem |
+					Select-Object -ExpandProperty value)
 
 			}
 

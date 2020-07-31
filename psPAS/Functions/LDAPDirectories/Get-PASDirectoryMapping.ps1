@@ -77,12 +77,10 @@ https://pspas.pspete.dev/commands/Get-PASDirectoryMapping
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
 
 		}
 

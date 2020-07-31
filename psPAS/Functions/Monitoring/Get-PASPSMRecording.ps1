@@ -170,7 +170,7 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecording
 			#Create Query String, escaped for inclusion in request URL
 			$queryString = $boundParameters | ConvertTo-QueryString
 
-			if ($queryString) {
+			if ($null -ne $queryString) {
 
 				#Build URL from base URL
 				$URI = "$URI`?$queryString"
@@ -182,12 +182,10 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecording
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result.Recordings |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording
+			$result.Recordings | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording
 
 		} #process
 

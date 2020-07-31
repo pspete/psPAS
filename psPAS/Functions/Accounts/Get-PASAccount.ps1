@@ -279,22 +279,18 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 	PROCESS {
 
 		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove TimeoutSec, modificationTime, SafeName
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove modificationTime, SafeName
+		$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep modificationTime, SafeName
+		$FilterString = $filterParameters | ConvertTo-FilterString
 
 		#Version 10.4 process
 		If ($PSCmdlet.ParameterSetName -match "v10") {
-
-			$FilterList = [Collections.Generic.List[Object]]@()
 
 			switch ($PSBoundParameters) {
 
 				( { $PSItem.ContainsKey("modificationTime") }) {
 					#check required version
 					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $Version114
-
-					#convert to unix time
-					#add result to FilterList
-					$null = $FilterList.Add("modificationTime gte $($PSBoundParameters["modificationTime"] | ConvertTo-UnixTime)")
 				}
 
 				( { $PSItem.ContainsKey("searchType") }) {
@@ -305,10 +301,6 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 				( { $PSItem.ContainsKey("safeName") }) {
 					#check required version
 					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-
-					#add result to FilterList
-					$null = $FilterList.Add("safeName eq $safeName")
-
 				}
 
 				default {
@@ -345,16 +337,16 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 		}
 		Else {
 
-			If ($FilterList.count -gt 0) {
+			If ($null -ne $FilterString) {
 
-				$boundParameters["filter"] = $FilterList -join " AND "
+				$boundParameters = $boundParameters + $FilterString
 
 			}
 
 			#Create Query String, escaped for inclusion in request URL
 			$queryString = $boundParameters | ConvertTo-QueryString
 
-			If ($queryString) {
+			If ($null -ne $queryString) {
 
 				#Build URL from base URL
 				$URI = "$URI`?$queryString"
@@ -366,7 +358,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Get count of accounts found
 			$count = $($result.count)
@@ -464,7 +456,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 		}
 
-		if ($return) {
+		if ($null -ne $return) {
 
 			#Return Results
 			$return | Add-ObjectDetail -typename $typeName

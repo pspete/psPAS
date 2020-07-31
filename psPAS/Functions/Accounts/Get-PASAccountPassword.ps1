@@ -213,7 +213,7 @@ https://pspas.pspete.dev/commands/Get-PASAccountPassword
 		#splat request to web service
 		$result = Invoke-PASRestMethod @Request
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			If ($PSCmdlet.ParameterSetName -eq "ClassicAPI") {
 

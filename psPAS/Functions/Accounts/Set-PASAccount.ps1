@@ -312,7 +312,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 			If (($InputObject) -and (($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account")) {
 
 				#If InputObject is psPAS.CyberArk.Vault.Account
-				#i.e. receiving pipeline from Get-PASAccount
+				#*i.e. receiving pipeline from Get-PASAccount
 
 				#Get all existing properties as defined by input object:
 				#Process Pipeline input object properties
@@ -340,9 +340,9 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 
 						#Add to Properties node of request data
 						[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object { $_ }
-						#any existing properties of an account not sent in a "set" request will be cleared on the account.
-						#This ensures correctly formatted request with all existing account properties included
-						#when function is sent data via the pipeline.
+						#*any existing properties of an account not sent in a "set" request will be cleared on the account.
+						#*This ensures correctly formatted request with all existing account properties included
+						#*when function is sent data via the pipeline.
 
 					}
 
@@ -365,7 +365,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 			#send request to PAS web service
 			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body -WebSession $Script:WebSession
 
-			If ($Result) {
+			If ($null -ne $result) {
 
 				if ($PSCmdlet.ParameterSetName -eq "V9") {
 

@@ -30,7 +30,7 @@ Manage Safe Members							ManageSafeMembers
 Validate Safe Content						ValidateSafeContent
 Backup Safe								    BackupSafe
 Access Safe without confirmation			<NOT RETURNED>
-Authorize account requests�(level1, level2)	<NOT RETURNED>
+Authorize account requests (level1, level2)	<NOT RETURNED>
 
 If a Safe Member Name is provided, the full permissions of the member on the Safe will be returned:
 
@@ -143,18 +143,18 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 		#Send request to webservice
 		$result = Invoke-PASRestMethod @Request
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			if ($PSCmdlet.ParameterSetName -eq "MemberPermissions") {
 
-				$MemberPermissions = [PSCustomObject]@{}
+				$MemberPermissions = [PSCustomObject]@{ }
 
 				$result.member.Permissions | ForEach-Object {
 
 					$MemberPermissions |
-						Add-Member -MemberType NoteProperty -Name $($PSItem |
-							Select-Object -ExpandProperty key) -Value $($PSItem |
-								Select-Object -ExpandProperty value)
+					Add-Member -MemberType NoteProperty -Name $($PSItem |
+						Select-Object -ExpandProperty key) -Value $($PSItem |
+						Select-Object -ExpandProperty value)
 
 				}
 
