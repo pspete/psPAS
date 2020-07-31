@@ -51,7 +51,7 @@ https://pspas.pspete.dev/commands/Get-PASPublicSSHKey
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result.GetUserAuthorizedKeysResult |
 

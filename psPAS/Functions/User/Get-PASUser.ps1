@@ -142,7 +142,7 @@ https://pspas.pspete.dev/commands/Get-PASUser
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		#Handle return
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Handle V10 list return
 			If ($result.Users) {

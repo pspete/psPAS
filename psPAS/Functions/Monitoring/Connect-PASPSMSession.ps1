@@ -83,7 +83,7 @@ https://pspas.pspete.dev/commands/Connect-PASPSMSession
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $ThisSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			$result
 

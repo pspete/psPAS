@@ -734,7 +734,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-			if ($result) {
+			If ($null -ne $result) {
 
 				$result | Add-ObjectDetail -typename $TypeName
 

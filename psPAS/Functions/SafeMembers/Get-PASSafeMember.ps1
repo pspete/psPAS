@@ -143,7 +143,7 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 		#Send request to webservice
 		$result = Invoke-PASRestMethod @Request
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			if ($PSCmdlet.ParameterSetName -eq "MemberPermissions") {
 

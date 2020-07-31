@@ -349,7 +349,7 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 			#Send request to webservice
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-			if ($result) {
+			If ($null -ne $result) {
 
 				$MemberPermissions = [PSCustomObject]@{ }
 

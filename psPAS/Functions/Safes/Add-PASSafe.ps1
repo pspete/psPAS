@@ -122,7 +122,7 @@ https://pspas.pspete.dev/commands/Add-PASSafe
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result.AddSafeResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe
 

@@ -68,7 +68,7 @@ https://pspas.pspete.dev/commands/Add-PASPublicSSHKey
 		#send request to webservice
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result.AddUserAuthorizedKeyResult |
 

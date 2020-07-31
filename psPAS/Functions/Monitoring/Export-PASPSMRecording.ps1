@@ -55,7 +55,7 @@ https://pspas.pspete.dev/commands/Export-PASPSMRecording
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
 		#if we get a byte array
-		if ($result) {
+		If ($null -ne $result) {
 
 			Out-PASFile -InputObject $result -Path $path
 

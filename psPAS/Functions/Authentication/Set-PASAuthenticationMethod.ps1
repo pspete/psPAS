@@ -126,7 +126,7 @@ Disable authentication method "SomeID"
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			$result
 

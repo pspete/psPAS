@@ -42,7 +42,7 @@ Returns list of all authentication methods.
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			if ($result.Methods) {
 

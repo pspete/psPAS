@@ -186,7 +186,7 @@ https://pspas.pspete.dev/commands/New-PASDirectoryMapping
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-			If ($result) {
+			If ($null -ne $result) {
 
 				#Return Results
 				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping

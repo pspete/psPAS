@@ -80,7 +80,7 @@ https://pspas.pspete.dev/commands/Get-PASAccountACL
 		#Send request to Web Service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession #DevSkim: ignore DS104456
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result.ListAccountPrivilegedCommandsResult |
 

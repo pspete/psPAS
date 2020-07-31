@@ -57,7 +57,7 @@ https://pspas.pspete.dev/commands/Export-PASPlatform
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession -Debug:$false
 
 			#if we get a platform byte array
-			if ($result) {
+			If ($null -ne $result) {
 
 				Out-PASFile -InputObject $result -Path $path
 

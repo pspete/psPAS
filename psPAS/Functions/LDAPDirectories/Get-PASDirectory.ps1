@@ -65,7 +65,7 @@ https://pspas.pspete.dev/commands/Get-PASDirectory
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -typename $type

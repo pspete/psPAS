@@ -365,7 +365,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 			#send request to PAS web service
 			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body -WebSession $Script:WebSession
 
-			If ($Result) {
+			If ($null -ne $result) {
 
 				if ($PSCmdlet.ParameterSetName -eq "V9") {
 

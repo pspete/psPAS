@@ -83,7 +83,7 @@ https://pspas.pspete.dev/commands/New-PASGroup
 
 		}
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Group
 

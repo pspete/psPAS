@@ -85,7 +85,7 @@ https://pspas.pspete.dev/commands/Unblock-PASUser
 		#send request to web service
 		$result = Invoke-PASRestMethod @Request
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User
 

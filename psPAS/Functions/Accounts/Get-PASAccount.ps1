@@ -358,7 +358,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Get count of accounts found
 			$count = $($result.count)
@@ -456,7 +456,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 		}
 
-		if ($return) {
+		if ($null -ne $return) {
 
 			#Return Results
 			$return | Add-ObjectDetail -typename $typeName

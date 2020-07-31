@@ -302,7 +302,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#11.1+ returns result under "platforms" property
 			If ($result.Platforms) {

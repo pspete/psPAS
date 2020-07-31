@@ -437,7 +437,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -DefaultProperties id, status

@@ -389,7 +389,7 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $ThisSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			If (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains "PSMGWRequest") {
 

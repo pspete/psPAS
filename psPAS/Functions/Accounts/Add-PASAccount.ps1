@@ -484,7 +484,7 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 
 		if ($PSCmdlet.ParameterSetName -eq "V10") {
 
-			if ($result) {
+			If ($null -ne $result) {
 
 				#Return Results
 				$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Account.V10"

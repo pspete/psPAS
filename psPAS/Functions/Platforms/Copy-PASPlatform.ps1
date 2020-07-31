@@ -126,7 +126,7 @@ https://pspas.pspete.dev/commands/Copy-PASPlatform
 			#send request
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $Script:WebSession
 
-			if ($result) {
+			If ($null -ne $result) {
 
 				$result
 

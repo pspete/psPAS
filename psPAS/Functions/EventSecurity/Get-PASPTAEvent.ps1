@@ -140,7 +140,7 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $ThisSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event

@@ -62,7 +62,7 @@ https://pspas.pspete.dev/commands/Get-PASComponentDetail
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			#output returned data
 			$result | Select-Object -ExpandProperty ComponentsDetails

@@ -30,7 +30,7 @@ Lists all connection components configred in the environment
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result.PSMConnectors) {
+		if ($null -ne $result.PSMConnectors) {
 
 			$result | Select-Object -ExpandProperty PSMConnectors
 

@@ -46,7 +46,7 @@ https://pspas.pspete.dev/commands/Get-PASApplicationAuthenticationMethod
 
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result.authentication | Add-ObjectDetail -typename psPAS.CyberArk.Vault.ApplicationAuth
 

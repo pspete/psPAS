@@ -78,7 +78,7 @@ https://pspas.pspete.dev/commands/Get-PASRequest
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
 			$result.$RequestType | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Details
