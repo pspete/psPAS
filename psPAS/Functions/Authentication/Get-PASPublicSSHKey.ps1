@@ -4,14 +4,14 @@
 Retrieves a user's SSH Keys.
 
 .DESCRIPTION
-Retrieves all public SSH�keys that are authorized for a specific user.
+Retrieves all public SSH keys that are authorized for a specific user.
 The "Reset User Passwords" Vault permission is required to query public SSH Keys.
 The authenticated user who runs the function must be in the same Vault
 Location or higher as the user whose public SSH keys are retrieved.
-A user cannot manage their own public SSH�keys.
+A user cannot manage their own public SSH keys.
 
 .PARAMETER UserName
-The username of the Vault user whose public SSH�keys will be added
+The username of the Vault user whose public SSH keys will be added
 A username cannot contain te follwing characters: "%", "&", "+" or ".".
 
 .EXAMPLE

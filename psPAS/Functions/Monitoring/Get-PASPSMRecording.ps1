@@ -185,9 +185,7 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecording
 		If ($result) {
 
 			#Return Results
-			$result.Recordings |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording
+			$result.Recordings | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording
 
 		} #process
 

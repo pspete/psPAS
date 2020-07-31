@@ -143,9 +143,7 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 		If ($result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
 
 		}
 

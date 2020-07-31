@@ -54,9 +54,7 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecordingProperty
 		If ($result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Property
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Property
 
 		} #process
 

@@ -54,9 +54,7 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecordingActivity
 		If ($result) {
 
 			#Return Results
-			$result.Activities |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Activity
+			$result.Activities | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Activity
 
 		} #process
 

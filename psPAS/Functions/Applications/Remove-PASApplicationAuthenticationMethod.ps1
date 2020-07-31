@@ -54,9 +54,7 @@ https://pspas.pspete.dev/commands/Remove-PASApplicationAuthenticationMethod
 		#request URL
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID |
 
-            Get-EscapedString)/Authentications/$($AuthID |
-
-                Get-EscapedString)"
+            Get-EscapedString)/Authentications/$($AuthID | Get-EscapedString)"
 
 		if ($PSCmdlet.ShouldProcess($AppID, "Delete Authentication Method '$AuthID'")) {
 

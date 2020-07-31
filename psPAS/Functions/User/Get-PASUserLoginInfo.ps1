@@ -40,9 +40,7 @@ https://pspas.pspete.dev/commands/Get-PASUserLoginInfo
 		If ($result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Login
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Login
 
 		}
 

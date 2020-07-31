@@ -68,9 +68,7 @@ https://pspas.pspete.dev/commands/Get-PASDirectory
 		If ($result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename $type
+			$result | Add-ObjectDetail -typename $type
 
 		}
 

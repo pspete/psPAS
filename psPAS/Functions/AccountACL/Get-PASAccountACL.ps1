@@ -13,7 +13,7 @@ The PolicyID associated with account.
 The address of the account whose privileged commands will be listed.
 
 .PARAMETER AccountUserName
-The name of the account�s user.
+The name of the account's user.
 
 .EXAMPLE
 Get-PASAccount root | Get-PASAccountACL

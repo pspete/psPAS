@@ -9,7 +9,7 @@ Adds a new privileged account to the Vault.
 Parameters are processed to create request object from passed parameters in the required format.
 
 .PARAMETER name
-The name�of the account.
+The name of the account.
 A version 10.4 onward specific parameter
 
 .PARAMETER secretType

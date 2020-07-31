@@ -90,7 +90,7 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Before running:
-Create the Safe and the reconcile account according to the rule�s definition.
+Create the Safe and the reconcile account according to the rule's definition.
 Associate the reconcile account with the platform that is defined in the rule.
 Make sure that the user whose credentials will be used for this session is a member of
 the Safe specified in the TargetSafeName parameter with the Add accounts permission.

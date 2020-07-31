@@ -37,9 +37,7 @@ https://pspas.pspete.dev/commands/Get-PASPTARule
 		If ($result) {
 
 			#Return Results
-			$result.riskyActivities |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Rule
+			$result.riskyActivities | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Rule
 
 		}
 

@@ -45,16 +45,16 @@ Requires CyberArk version 10.9+
 The user permissions in the vault.
 To grant authorization to a user, the same authorization must be held by the account logged on to the API.
 Valid values:
-� AddSafes
-� AuditUsers
-� AddUpdateUsers
-� ResetUsersPasswords
-� ActivateUsers
-� AddNetworkAreas
-� ManageDirectoryMapping
-� ManageServerFileCategories
-� BackupAllSafes
-� RestoreAllSafes
+-  AddSafes
+-  AuditUsers
+-  AddUpdateUsers
+-  ResetUsersPasswords
+-  ActivateUsers
+-  AddNetworkAreas
+-  ManageDirectoryMapping
+-  ManageServerFileCategories
+-  BackupAllSafes
+-  RestoreAllSafes
 Requires CyberArk version 10.9+
 
 .PARAMETER ChangePassOnNextLogon

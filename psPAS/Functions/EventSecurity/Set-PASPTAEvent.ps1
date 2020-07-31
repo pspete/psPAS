@@ -33,7 +33,7 @@ https://pspas.pspete.dev/commands/Set-PASPTAEvent
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("OPEN","CLOSED")]
+		[ValidateSet("OPEN", "CLOSED")]
 		[string]$mStatus
 
 	)
@@ -59,9 +59,7 @@ https://pspas.pspete.dev/commands/Set-PASPTAEvent
 		If ($result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
 
 		}
 

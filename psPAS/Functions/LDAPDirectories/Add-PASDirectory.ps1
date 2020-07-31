@@ -160,9 +160,7 @@ https://pspas.pspete.dev/commands/Add-PASDirectory
 		If ($result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Extended
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Extended
 
 		}
 

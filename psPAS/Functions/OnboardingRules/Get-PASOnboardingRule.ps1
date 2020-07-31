@@ -79,9 +79,7 @@ https://pspas.pspete.dev/commands/Get-PASOnboardingRule
 
 		if ($result) {
 
-			$result.AutomaticOnboardingRules |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
+			$result.AutomaticOnboardingRules | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
 
 		}
 

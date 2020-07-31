@@ -71,9 +71,7 @@ https://pspas.pspete.dev/commands/Get-PASRequestDetail
 		If ($result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Extended
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Extended
 
 		}
 

@@ -54,9 +54,7 @@ https://pspas.pspete.dev/commands/Get-PASPSMSessionProperty
 		If ($result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Session.Property
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Session.Property
 
 		} #process
 

@@ -37,9 +37,7 @@ https://pspas.pspete.dev/commands/Get-PASPTARemediation
 		If ($result) {
 
 			#Return Results
-			$result.automaticRemediation |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Remediation
+			$result.automaticRemediation | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Remediation
 
 		}
 

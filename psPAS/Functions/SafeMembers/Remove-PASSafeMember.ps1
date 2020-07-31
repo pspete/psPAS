@@ -50,9 +50,7 @@ https://pspas.pspete.dev/commands/Remove-PASSafeMember
 		#Create URL for request
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
 
-            Get-EscapedString)/Members/$($MemberName |
-
-                Get-EscapedString)"
+            Get-EscapedString)/Members/$($MemberName | Get-EscapedString)"
 
 		if ($PSCmdlet.ShouldProcess($SafeName, "Remove Safe Member '$MemberName'")) {
 

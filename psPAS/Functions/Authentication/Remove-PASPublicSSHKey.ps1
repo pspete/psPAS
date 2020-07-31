@@ -10,10 +10,10 @@ using a corresponding private SSH key.
 "Reset Users Passwords" Vault permission is required.
 The authenticated user who runs this function must be in the same Vault
 Location or higher as the user whose public SSH keys are deleted.
-A user cannot manage their own public SSH�keys.
+A user cannot manage their own public SSH keys.
 
 .PARAMETER UserName
-The username of the Vault user whose public SSH�keys will be added
+The username of the Vault user whose public SSH keys will be added
 A username cannot contain te follwing characters: "%", "&", "+" or ".".
 
 .PARAMETER KeyID

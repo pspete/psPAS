@@ -191,9 +191,7 @@ https://pspas.pspete.dev/commands/Get-PASPSMSession
 		If ($result) {
 
 			#Return Results
-			$result.LiveSessions |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Session
+			$result.LiveSessions | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Session
 
 		} #process
 

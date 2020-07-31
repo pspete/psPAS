@@ -80,9 +80,7 @@ https://pspas.pspete.dev/commands/Get-PASDirectoryMapping
 		If ($result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
 
 		}
 
