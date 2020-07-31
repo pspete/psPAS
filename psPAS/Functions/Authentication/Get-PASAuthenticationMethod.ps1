@@ -44,7 +44,7 @@ Returns list of all authentication methods.
 
 		If ($null -ne $result) {
 
-			if ($result.Methods) {
+			if ($null -ne $result.Methods) {
 
 				$result = $result | Select-Object -ExpandProperty Methods
 
