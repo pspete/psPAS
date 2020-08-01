@@ -83,7 +83,6 @@ Ad-Hoc connections require 10.5
 .LINK
 https://pspas.pspete.dev/commands/New-PASPSMSession
 #>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'ConnectionParams', Justification = "False Positive")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'PSMConnectPrerequisites', Justification = "False Positive")]
 	[CmdletBinding()]
 	[Alias("Get-PASPSMConnectionParameter")]
@@ -282,8 +281,6 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 		$AdHocVersion = [System.Version]"10.5"
 
 		$AdHocParameters = @("ConnectionComponent", "reason", "ticketingSystemName", "ticketId", "ConnectionParams")
-		$ConnectionParameters = @("AllowMappingLocalDrives", "AllowConnectToConsole", "RedirectSmartCards", "PSMRemoteMachine", "LogonDomain", "AllowSelectHTML5")
-
 
 	}#begin
 
@@ -292,25 +289,9 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod, Path
 
-		#ConnectionParameters are included under the ConnectionParams property of the JSON body
-		$boundParameters.keys | Where-Object { $ConnectionParameters -contains $PSItem } | ForEach-Object { $ConnectionParams = @{ } } {
-
-			#For Each ConnectionParams Parameter
-			#add key=value to hashtable
-			$ConnectionParams.Add($PSItem, @{"value" = $boundParameters[$PSItem] })
-
-		} {
-			if ($ConnectionParams.keys.count -gt 0) {
-
-				#if ConnectionParameters have been specified
-				#Add ConnectionParams to boundParameters
-				$boundParameters["ConnectionParams"] = $ConnectionParams
-
-				#Remove individual ConnectionParameters from boundParameters
-				$boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove $ConnectionParameters
-
-			}
-		}
+		#Nest parameters "AllowMappingLocalDrives", "AllowConnectToConsole","RedirectSmartCards",
+		#"PSMRemoteMachine", "LogonDomain" & "AllowSelectHTML5" under ConnectionParams Property
+		$boundParameters = $boundParameters | ConvertTo-ConnectionParam
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -337,7 +318,11 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 				$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
 
 				#Connection parameters are included under the PSMConnectPrerequisites property of the JSON body, for each one specified
-				$boundParameters.keys | Where-Object { $AdHocParameters -contains $PSItem } | ForEach-Object { $PSMConnectPrerequisites = @{ } } {
+				$boundParameters.keys | Where-Object { $AdHocParameters -contains $PSItem } | ForEach-Object {
+
+					$PSMConnectPrerequisites = @{ }
+
+				} {
 
 					#add key=value to hashtable
 					$PSMConnectPrerequisites.Add($PSItem, $boundParameters[$PSItem] )

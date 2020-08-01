@@ -74,7 +74,6 @@ Minimum CyberArk Version 9.10
 .LINK
 https://pspas.pspete.dev/commands/New-PASRequest
 #>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'ConnectionParams', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "ConnectionParams")]
 	param(
 		[parameter(
@@ -190,7 +189,6 @@ https://pspas.pspete.dev/commands/New-PASRequest
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"9.10"
-		$ConnectionParameters = @("AllowMappingLocalDrives", "AllowConnectToConsole", "RedirectSmartCards", "PSMRemoteMachine", "LogonDomain", "AllowSelectHTML5")
 	}#begin
 
 	PROCESS {
@@ -216,29 +214,9 @@ https://pspas.pspete.dev/commands/New-PASRequest
 
 		}
 
-		#ConnectionParameters are included under the ConnectionParams property of the JSON body
-		$boundParameters.keys | Where-Object { $ConnectionParameters -contains $PSItem } | ForEach-Object {
-
-			$ConnectionParams = @{ }
-
-		} {
-
-			#For Each ConnectionParams Parameter
-			#add key=value to hashtable
-			$ConnectionParams.Add($PSItem, @{"value" = $boundParameters[$PSItem] })
-
-		} {
-			if ($ConnectionParams.keys.count -gt 0) {
-
-				#if ConnectionParameters have been specified
-				#Add ConnectionParams to boundParameters
-				$boundParameters["ConnectionParams"] = $ConnectionParams
-
-				#Remove individual ConnectionParameters from boundParameters
-				$boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove $ConnectionParameters
-
-			}
-		}
+		#Nest parameters "AllowMappingLocalDrives", "AllowConnectToConsole","RedirectSmartCards",
+		#"PSMRemoteMachine", "LogonDomain" & "AllowSelectHTML5" under ConnectionParams Property
+		$boundParameters = $boundParameters | ConvertTo-ConnectionParam
 
 		#Create body of request
 		$body = $boundParameters | ConvertTo-Json
