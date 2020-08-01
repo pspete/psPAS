@@ -4,6 +4,20 @@
 
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v5.0...
+- **vNext**
+  - Updated Functions
+    - `New-PASRequest`
+      - Added Parameters:
+        - `AllowMappingLocalDrives`
+        - `AllowConnectToConsole`
+        - `RedirectSmartCards`
+        - `PSMRemoteMachine`
+        - `LogonDomain`
+        - `AllowSelectHTML5`
+    - `Get-PASAccount`
+      - `categoryModificationTime` added to list output
+  - Other Fixes & Updates
+    - Fixed issue where json displayed in debug output may not have been valid
 
 ## **4.2.26** (July 27th 2020)
 
@@ -63,11 +77,11 @@
       - Can be used instead of specifying a correctly formated value for `filter`.
 - Other Fixes & Updates
   - `New-PASRequest`
-    - Fixed potential for date values converted into UNIXTimeStamp.
+    - Fixed potential issue with date values converted into UNIXTimeStamp.
   - `Get-PASAccount`
-    - Fixed potential for date values converted into UNIXTimeStamp.
+    - Fixed potential issue with date values converted into UNIXTimeStamp.
   - `Add-PASDiscoveredAccount`
-    - Fixed potential for date values converted into UNIXTimeStamp.
+    - Fixed potential issue with date values converted into UNIXTimeStamp.
 
 ## **4.1.11** (July 14th 2020)
 
