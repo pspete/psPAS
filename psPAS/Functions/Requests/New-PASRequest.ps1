@@ -142,21 +142,24 @@ https://pspas.pspete.dev/commands/New-PASRequest
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "ConnectionParams"
 		)]
-		[boolean]$AllowMappingLocalDrives,
+		[ValidateSet("Yes", "No")]
+		[string]$AllowMappingLocalDrives,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "ConnectionParams"
 		)]
-		[boolean]$AllowConnectToConsole,
+		[ValidateSet("Yes", "No")]
+		[string]$AllowConnectToConsole,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "ConnectionParams"
 		)]
-		[boolean]$RedirectSmartCards,
+		[ValidateSet("Yes", "No")]
+		[string]$RedirectSmartCards,
 
 		[parameter(
 			Mandatory = $false,
@@ -177,7 +180,8 @@ https://pspas.pspete.dev/commands/New-PASRequest
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "ConnectionParams"
 		)]
-		[boolean]$AllowSelectHTML5,
+		[ValidateSet("Yes", "No")]
+		[string]$AllowSelectHTML5,
 
 		[parameter(
 			Mandatory = $false,

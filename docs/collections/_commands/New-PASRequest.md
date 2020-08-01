@@ -8,16 +8,12 @@ title: New-PASRequest
 
 ## SYNTAX
 
-    New-PASRequest -AccountId <String> [-Reason <String>] [-TicketingSystemName <String>] [-TicketID <String>]
-    [-MultipleAccessRequired <Boolean>] [-FromDate <DateTime>] [-ToDate <DateTime>] [-AdditionalInfo <Hashtable>]
-    [-UseConnect <Boolean>] [-ConnectionComponent <String>] [-AllowMappingLocalDrives <Boolean>]
-    [-AllowConnectToConsole <Boolean>] [-RedirectSmartCards <Boolean>] [-PSMRemoteMachine <String>] [-LogonDomain
-    <String>] [-AllowSelectHTML5 <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    New-PASRequest -AccountId <String> [-Reason <String>] [-TicketingSystemName <String>] [-TicketID <String>] [-MultipleAccessRequired <Boolean>] [-FromDate <DateTime>] [-ToDate <DateTime>]
+    [-AdditionalInfo <Hashtable>] [-UseConnect <Boolean>] [-ConnectionComponent <String>] [-AllowMappingLocalDrives <String>] [-AllowConnectToConsole <String>] [-RedirectSmartCards <String>]
+    [-PSMRemoteMachine <String>] [-LogonDomain <String>] [-AllowSelectHTML5 <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 
-    New-PASRequest -AccountId <String> [-Reason <String>] [-TicketingSystemName <String>] [-TicketID <String>]
-    [-MultipleAccessRequired <Boolean>] [-FromDate <DateTime>] [-ToDate <DateTime>] [-AdditionalInfo <Hashtable>]
-    [-UseConnect <Boolean>] [-ConnectionComponent <String>] [-ConnectionParams <Hashtable>] [-WhatIf] [-Confirm]
-    [<CommonParameters>]
+    New-PASRequest -AccountId <String> [-Reason <String>] [-TicketingSystemName <String>] [-TicketID <String>] [-MultipleAccessRequired <Boolean>] [-FromDate <DateTime>] [-ToDate <DateTime>]
+    [-AdditionalInfo <Hashtable>] [-UseConnect <Boolean>] [-ConnectionComponent <String>] [-ConnectionParams <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 
 ## DESCRIPTION
 
@@ -58,13 +54,13 @@ title: New-PASRequest
         If the connection is through PSM, the name of the connection component to connect with,
         as defined in the configuration.
 
-    -AllowMappingLocalDrives <Boolean>
+    -AllowMappingLocalDrives <String>
         Whether or not to redirect their local hard drives to the remote server.
 
-    -AllowConnectToConsole <Boolean>
+    -AllowConnectToConsole <String>
         Whether or not to connect to the administrative console of the remote machine.
 
-    -RedirectSmartCards <Boolean>
+    -RedirectSmartCards <String>
         Whether or not to redirect Smart Card so that the certificate stored on the card can be accessed on the target
 
     -PSMRemoteMachine <String>
@@ -73,7 +69,7 @@ title: New-PASRequest
     -LogonDomain <String>
         The netbios domain name of the account being used.
 
-    -AllowSelectHTML5 <Boolean>
+    -AllowSelectHTML5 <String>
         Specify which connection method, HTML5-based or RDP-file, to use when connecting to the remote server
 
     -ConnectionParams <Hashtable>
@@ -82,12 +78,6 @@ title: New-PASRequest
     -WhatIf [<SwitchParameter>]
 
     -Confirm [<SwitchParameter>]
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
