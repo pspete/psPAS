@@ -42,6 +42,24 @@ Whether or not the request is for connection through the PSM.
 .PARAMETER ConnectionComponent
 If the connection is through PSM, the name of the connection component to connect with, as defined in the configuration
 
+.PARAMETER AllowMappingLocalDrives
+Whether or not to redirect their local hard drives to the remote server.
+
+.PARAMETER AllowConnectToConsole
+Whether or not to connect to the administrative console of the remote machine.
+
+.PARAMETER RedirectSmartCards
+Whether or not to redirect Smart Card so that the certificate stored on the card can be accessed on the target
+
+.PARAMETER PSMRemoteMachine
+Address of the remote machine to connect to.
+
+.PARAMETER LogonDomain
+The netbios domain name of the account being used.
+
+.PARAMETER AllowSelectHTML5
+Specify which connection method, HTML5-based or RDP-file, to use when connecting to the remote server
+
 .PARAMETER ConnectionParams
 A list of parameters required to perform the connection, as defined in each connection component configuration
 
@@ -56,7 +74,8 @@ Minimum CyberArk Version 9.10
 .LINK
 https://pspas.pspete.dev/commands/New-PASRequest
 #>
-	[CmdletBinding(SupportsShouldProcess)]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'ConnectionParams', Justification = "False Positive")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "ConnectionParams")]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -121,13 +140,57 @@ https://pspas.pspete.dev/commands/New-PASRequest
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[boolean]$AllowMappingLocalDrives,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[boolean]$AllowConnectToConsole,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[boolean]$RedirectSmartCards,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[string]$PSMRemoteMachine,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[string]$LogonDomain,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[boolean]$AllowSelectHTML5,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ManualParams"
 		)]
 		[hashtable]$ConnectionParams
 	)
 
 	BEGIN {
 		$MinimumVersion = [System.Version]"9.10"
+		$ConnectionParameters = @("AllowMappingLocalDrives", "AllowConnectToConsole", "RedirectSmartCards", "PSMRemoteMachine", "LogonDomain", "AllowSelectHTML5")
 	}#begin
 
 	PROCESS {
@@ -137,22 +200,48 @@ https://pspas.pspete.dev/commands/New-PASRequest
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/MyRequests"
 
-		if ($PSBoundParameters.ContainsKey("FromDate")) {
+		$boundParameters = $PSBoundParameters | Get-PASParameter
+
+		if ($boundParameters.ContainsKey("FromDate")) {
 
 			#convert to unix time
-			$PSBoundParameters["FromDate"] = $FromDate | ConvertTo-UnixTime
+			$boundParameters["FromDate"] = $FromDate | ConvertTo-UnixTime
 
 		}
 
-		if ($PSBoundParameters.ContainsKey("ToDate")) {
+		if ($boundParameters.ContainsKey("ToDate")) {
 
 			#convert to unix time
-			$PSBoundParameters["ToDate"] = $ToDate | ConvertTo-UnixTime
+			$boundParameters["ToDate"] = $ToDate | ConvertTo-UnixTime
 
+		}
+
+		#ConnectionParameters are included under the ConnectionParams property of the JSON body
+		$boundParameters.keys | Where-Object { $ConnectionParameters -contains $PSItem } | ForEach-Object {
+
+			$ConnectionParams = @{ }
+
+		} {
+
+			#For Each ConnectionParams Parameter
+			#add key=value to hashtable
+			$ConnectionParams.Add($PSItem, @{"value" = $boundParameters[$PSItem] })
+
+		} {
+			if ($ConnectionParams.keys.count -gt 0) {
+
+				#if ConnectionParameters have been specified
+				#Add ConnectionParams to boundParameters
+				$boundParameters["ConnectionParams"] = $ConnectionParams
+
+				#Remove individual ConnectionParameters from boundParameters
+				$boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove $ConnectionParameters
+
+			}
 		}
 
 		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
+		$body = $boundParameters | ConvertTo-Json
 
 		if ($PSCmdlet.ShouldProcess($AccountId, "Create Request for Account Access")) {
 
