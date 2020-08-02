@@ -99,42 +99,49 @@ https://pspas.pspete.dev/commands/Get-PASUser
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Users"
 
-		If ($PSCmdlet.ParameterSetName -eq "10_10") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+			"10_10" {
 
-			$URI = "$URI/$id"
+				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
 
-			$TypeName = "psPAS.CyberArk.Vault.User.Extended"
+				#Create URL for request
+				$URI = "$URI/$id"
 
-		}
-		ElseIf ($PSCmdlet.ParameterSetName -eq "10_9") {
+				break;
+			}
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			"10_9" {
 
-			#Get Parameters to include in request
-			$boundParameters = $PSBoundParameters | Get-PASParameter
+				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
-			#Create Query String, escaped for inclusion in request URL
-			$queryString = $boundParameters | ConvertTo-QueryString
+				#Get Parameters to include in request
+				$boundParameters = $PSBoundParameters | Get-PASParameter
 
-			if ($null -ne $queryString) {
+				#Create Query String, escaped for inclusion in request URL
+				$queryString = $boundParameters | ConvertTo-QueryString
 
-				#Build URL from base URL
-				$URI = "$URI`?$queryString"
+				if ($null -ne $queryString) {
+
+					#Build URL from base URL
+					$URI = "$URI`?$queryString"
+
+				}
+
+				break;
 
 			}
 
-			$TypeName = "psPAS.CyberArk.Vault.User.Extended"
+			"legacy" {
 
-		}
+				#Create URL for request
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 
-		ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
+				$TypeName = "psPAS.CyberArk.Vault.User"
 
-			#Create URL for request
-			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
+				break;
 
-			$TypeName = "psPAS.CyberArk.Vault.User"
+			}
 
 		}
 
@@ -142,14 +149,28 @@ https://pspas.pspete.dev/commands/Get-PASUser
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		#Handle return
-		If ($null -ne $result) {
+		if ($PSCmdlet.ParameterSetName -match "^10_") {
 
-			#Handle V10 list return
-			If ($result.Users) {
+			#All "V10" operations have the same output type
+			$TypeName = "psPAS.CyberArk.Vault.User.Extended"
 
+			#User search will return an object with a Total property
+			If ($result.Total -ge 1) {
+
+				#Return only users property if Total indicates results
 				$result = $result.Users
 
 			}
+			ElseIf ($result.Total -eq 0) {
+
+				#Total indicates no results, return null
+				$result = $null
+
+			}
+
+		}
+
+		If ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename $TypeName
 
