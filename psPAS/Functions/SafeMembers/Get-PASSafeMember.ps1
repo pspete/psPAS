@@ -147,29 +147,14 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 
 			if ($PSCmdlet.ParameterSetName -eq "MemberPermissions") {
 
-				$MemberPermissions = [PSCustomObject]@{ }
-
-				$result.member.Permissions | ForEach-Object {
-
-					$MemberPermissions |
-					Add-Member -MemberType NoteProperty -Name $($PSItem |
-						Select-Object -ExpandProperty key) -Value $($PSItem |
-						Select-Object -ExpandProperty value)
-
-				}
-
 				#format output
 				$Output = $result.member | Select-Object MembershipExpirationDate,
 
-				@{Name = "UserName"; "Expression" = {
-
-						$MemberName }
-
-				},
+				@{Name = "UserName"; "Expression" = { $MemberName } },
 
 				@{Name = "Permissions"; "Expression" = {
 
-						$MemberPermissions }
+						$result.member.permissions | ConvertFrom-KeyValuePair }
 
 				}
 
