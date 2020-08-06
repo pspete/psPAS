@@ -359,8 +359,8 @@ https://pspas.pspete.dev/commands/Add-PASSafeMember
 
 		}
 
-		#Add permissions to request in correct order
-		$boundParameters["Permissions"] = $boundParameters | ConvertTo-SortedPermission
+		#Add permissions array to request in correct order
+		[array]$boundParameters["Permissions"] = $boundParameters | ConvertTo-SortedPermission
 
 		#Create required request object
 		$body = @{

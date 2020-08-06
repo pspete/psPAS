@@ -78,8 +78,8 @@ function ConvertTo-SortedPermission {
 
 			} {
 
-				#return array of permissions, in order
-				@($Permissions.getenumerator() | ForEach-Object { $PSItem })
+				#return permissions, in order
+				$Permissions.getenumerator() | ForEach-Object { $PSItem }
 
 			}
 		}
