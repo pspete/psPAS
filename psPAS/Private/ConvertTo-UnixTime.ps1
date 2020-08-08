@@ -20,9 +20,20 @@ Get-Date | ConvertTo-UnixTime
 			Mandatory = $true,
 			ValueFromPipeline = $true
 		)]
-		[DateTime]$Date
+		[DateTime]$Date,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[switch]$Milliseconds
 	)
 
-	[math]::Round($(Get-Date $Date -UFormat %s))
+	$UnixTime = [math]::Round($(Get-Date $Date -UFormat %s))
 
+	If ($Milliseconds) {
+		$UnixTime = $UnixTime * 1000
+	}
+
+	$UnixTime
 }

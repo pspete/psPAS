@@ -57,6 +57,12 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
+			It "converts date to expected unixtime in milliseconds" {
+
+				ConvertTo-UnixTime -Date $(Get-Date 1/1/2020) -Milliseconds | Should -Be 1577836800000
+
+			}
+
 		}
 
 	}

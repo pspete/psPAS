@@ -471,7 +471,10 @@ If you are using version 9.7+, and the function being invoked requires version 9
 
 ### Get-PASPTAEvent
 
-- Version 11.4 introduced new parameters for filtering events
+- Version 11.3 introduced new parameters for filtering events
   - Supports:
     - status
+    - fromUpdateDate
+- Version 11.4 introduced new parameters for filtering events
+  - Supports:
     - accountID
