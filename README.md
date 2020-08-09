@@ -16,10 +16,10 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ## Module Status
 
-| Master Branch            | Latest Build            | CodeFactor                | Coverage                    |  PowerShell Gallery       |  License                   |
-|--------------------------|-------------------------|---------------------------|-----------------------------|---------------------------|----------------------------|
-|[![appveyor][]][av-site]  |[![tests][]][tests-site] | [![codefactor][]][cf-site]| [![codecov][]][codecov-link]| [![psgallery][]][ps-site] |[![license][]][license-link]|
-|                          |                         |                           | [![coveralls][]][cv-site]   | [![downloads][]][ps-site] |                            |
+| Master Branch             | Latest Build             | CodeFactor                | Coverage                    |  PowerShell Gallery       |  License                   |
+|---------------------------|--------------------------|---------------------------|-----------------------------|---------------------------|----------------------------|
+|[![appveyor][]][av-site]   |[![tests][]][tests-site]  | [![codefactor][]][cf-site]| [![codecov][]][codecov-link]| [![psgallery][]][ps-site] |[![license][]][license-link]|
+|[![release][]][github-site]|[![github][]][github-site]|                           | [![coveralls][]][cv-site]   | [![downloads][]][ps-site] |                            |
 
 [appveyor]:https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true
 [av-site]:https://ci.appveyor.com/project/pspete/pspas/branch/master
@@ -36,7 +36,9 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 [codefactor]:https://www.codefactor.io/repository/github/pspete/pspas/badge
 [codecov]:https://codecov.io/gh/pspete/psPAS/branch/master/graph/badge.svg
 [codecov-link]:https://codecov.io/gh/pspete/psPAS
-
+[github]:https://img.shields.io/github/downloads/pspete/psPAS/total?color=brightgreen
+[github-site]:https://github.com/pspete/psPAS/releases
+[release]:https://img.shields.io/github/v/release/pspete/psPAS?color=brightgreen
 ----------
 
 - [Usage](#usage)
@@ -48,6 +50,7 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
   - [Prerequisites](#prerequisites)
   - [Install Options](#install-options)
   - [Verification](#verification)
+- [Sponsorship](#sponsorship)
 - [Changelog](#changelog)
 - [Author](#author)
 - [License](#license)
@@ -1092,6 +1095,10 @@ Get-Help New-PASUser -Full
 ```
 
 ![Logo][Logo]
+
+## Sponsorship
+
+Please support continued psPAS development; consider sponsoring <a href="https://github.com/sponsors/pspete"> @pspete on GitHub Sponsors</a>
 
 ## Changelog
 
