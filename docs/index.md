@@ -10,6 +10,8 @@ header:
       url: "https://github.com/pspete/psPAS"
     - label: "PowerShell Gallery"
       url: "https://www.powershellgallery.com/packages/psPAS/"
+    - label: "GitHub Sponsors"
+      url: "https://github.com/sponsors/pspete"
 feature_row:
   - image_path: /assets/images/install.png
     title: "Install Options"
