@@ -46,6 +46,7 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
   - [Authenticate](#authenticate)
   - [Basic Operations](#basic-operations)
   - [Advanced Examples](#advanced-examples)
+  - [Sample Scripts](#sample-scripts)
 - [psPAS Functions](#pspas-functions)
 - [Installation](#installation)
   - [Prerequisites](#prerequisites)
@@ -733,6 +734,10 @@ SafeAdmin Internal EPVUser      False     False   False    False
 #End second session
 Close-PASSession
 ````
+
+### Sample Scripts
+
+A selection of psPAS sample scripts can be found in the [psPAS-Examples](https://github.com/pspete/psPAS-Examples) repository.
 
 ![Logo][Logo]
 
