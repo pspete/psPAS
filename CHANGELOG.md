@@ -4,25 +4,31 @@
 
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v5.0...
-- **vNext**
-  - Updated Functions
-    - `New-PASRequest`
-      - Added Parameters:
-        - `AllowMappingLocalDrives`
-        - `AllowConnectToConsole`
-        - `RedirectSmartCards`
-        - `PSMRemoteMachine`
-        - `LogonDomain`
-        - `AllowSelectHTML5`
-      - These are the documented properties expected to be sent as connectionParams.
-      - Removes the need for a module user to specify these as a hashtable.
-    - `Get-PASAccount`
-      - `categoryModificationTime` added to list output
-    - `Get-PASUser`
-      - Fixed issue where an object with no property values would be returned if no user was found.
-  - Other Fixes & Updates
-    - Fixed issue where json displayed in debug output may not have been valid.
-    - Updates to codebase and refactored functions to remove repeated code.
+
+## **4.3.##** (August ## 2020)
+
+- Updated Functions
+  - `New-PASRequest`
+    - Added Parameters:
+      - `AllowMappingLocalDrives`
+      - `AllowConnectToConsole`
+      - `RedirectSmartCards`
+      - `PSMRemoteMachine`
+      - `LogonDomain`
+      - `AllowSelectHTML5`
+    - These are the documented properties expected to be sent as connectionParams.
+    - Removes the need for a module user to specify these as a hashtable.
+  - `Get-PASAccount`
+    - `categoryModificationTime` added to list output
+  - `Get-PASUser`
+    - Fixed issue where an object with no property values would be returned if no user was found.
+  - `Get-PASPTAEvent`
+    - Adds parameter `fromUpdateDate`.
+    - Removes parameter `UseLegacyMethod`.
+    - Lowers required version from 11.4 to 11.3 when using certain parameter combinations.
+- Other Fixes & Updates
+  - Fixed issue where json displayed in debug output may not have been valid.
+  - Updates to codebase and refactored functions to remove repeated code.
 
 ## **4.2.26** (July 27th 2020)
 
