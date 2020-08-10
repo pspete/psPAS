@@ -29,13 +29,13 @@ All parameters can be piped by property name
 .LINK
 https://pspas.pspete.dev/commands/Remove-PASUser
 #>
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "11.1")]
 	param(
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_1"
+			ParameterSetName = "11.1"
 		)]
 		[int]$id,
 
@@ -48,25 +48,35 @@ https://pspas.pspete.dev/commands/Remove-PASUser
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"11.1"
+
+		If ($PSCmdlet.ParameterSetName -ne "legacy") {
+
+			Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
+
+		}
+
 	}#begin
 
 	PROCESS {
 
-		If ($PSCmdlet.ParameterSetName -eq "11_1") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			"11.1" {
 
-			$URI = "$Script:BaseURI/api/Users/$id"
+				$URI = "$Script:BaseURI/api/Users/$id"
 
-		}
+				break
 
-		Else {
+			}
 
-			#Create URL for request
-			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
+			default {
 
-				Get-EscapedString)"
+				#Create URL for request
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
+
+				break
+
+			}
 
 		}
 

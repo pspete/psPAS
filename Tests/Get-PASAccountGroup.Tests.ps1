@@ -35,7 +35,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
+		BeforeEach {
 
 			Mock Invoke-PASRestMethod -MockWith {
 				[pscustomobject]@{"Prop1" = "Val1" }
@@ -48,22 +48,6 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			$response = $InputObj | Get-PASAccountGroup -UseClassicAPI -verbose
 
 		}
-
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'Safe' }
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Get-PASAccountGroup).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
-
-			}
-
-		}
-
-
 
 		Context "Input" {
 
@@ -103,7 +87,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "sends request to expected endpoint - V10 ParameterSet" {
 
-				Get-PASAccountGroup -safe "SomeSafe" -verbose
+				$InputObj | Get-PASAccountGroup
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 

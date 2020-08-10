@@ -39,14 +39,14 @@ https://pspas.pspete.dev/commands/Get-PASOnboardingRule
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_2"
+			ParameterSetName = "10.2"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$Names
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.2"
+
 	}#begin
 
 	PROCESS {
@@ -56,7 +56,7 @@ https://pspas.pspete.dev/commands/Get-PASOnboardingRule
 
 		If ($PSBoundParameters.ContainsKey("Names")) {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter

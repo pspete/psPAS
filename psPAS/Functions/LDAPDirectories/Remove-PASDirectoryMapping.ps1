@@ -43,12 +43,10 @@ https://pspas.pspete.dev/commands/Remove-PASDirectoryMapping
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"11.1"
+		Assert-VersionRequirement -RequiredVersion 11.1
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID"

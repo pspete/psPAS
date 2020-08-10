@@ -91,12 +91,10 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 	)
 
 	BEGIN {
-
+		Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $PSCmdlet.ParameterSetName
 
 		#Create request URL
 		$URI = "$Script:BaseURI/API/pta/API/Events/"
@@ -106,34 +104,43 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 
 		$ThisSession = $Script:WebSession
 
-		if ($PSCmdlet.ParameterSetName -eq "10.3") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			if ($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
+			"10.3" {
 
-				#add Unix Time Stamp of lastUpdatedEventDate to header as key=value pair
-				$boundParameters["lastUpdatedEventDate"] = $lastUpdatedEventDate | ConvertTo-UnixTime
+				if ($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
 
-				$ThisSession.Headers["lastUpdatedEventDate"] = $boundParameters["lastUpdatedEventDate"]
+					#add Unix Time Stamp of lastUpdatedEventDate to header as key=value pair
+					$boundParameters["lastUpdatedEventDate"] = $lastUpdatedEventDate | ConvertTo-UnixTime
 
-			}
+					$ThisSession.Headers["lastUpdatedEventDate"] = $boundParameters["lastUpdatedEventDate"]
 
-		}
-		Else {
+				}
 
-			if ($PSBoundParameters.ContainsKey("fromUpdateDate")) {
-
-				#Include time as unixtimestamp in milliseconds
-				$boundParameters["fromUpdateDate"] = $fromUpdateDate | ConvertTo-UnixTime -Milliseconds
+				break
 
 			}
 
-			#Create Query String, escaped for inclusion in request URL
-			$queryString = $boundParameters | ConvertTo-QueryString
+			default {
 
-			if ($null -ne $queryString) {
+				if ($PSBoundParameters.ContainsKey("fromUpdateDate")) {
 
-				#Build URL from base URL
-				$URI = "$URI`?$queryString"
+					#Include time as unixtimestamp in milliseconds
+					$boundParameters["fromUpdateDate"] = $fromUpdateDate | ConvertTo-UnixTime -Milliseconds
+
+				}
+
+				#Create Query String, escaped for inclusion in request URL
+				$queryString = $boundParameters | ConvertTo-QueryString
+
+				if ($null -ne $queryString) {
+
+					#Build URL from base URL
+					$URI = "$URI`?$queryString"
+
+				}
+
+				break
 
 			}
 

@@ -378,8 +378,25 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.5"
-		$RequiredVersion = [System.Version]"10.8"
+
+		switch ($PSCmdlet.ParameterSetName) {
+
+			{ $PSItem -match "^108_" } {
+
+				#v10.8 required for AWS & Dependancies
+				Assert-VersionRequirement -RequiredVersion 10.8
+
+			}
+
+			Default {
+
+				#v10.5 Minimum version required
+				Assert-VersionRequirement -RequiredVersion 10.5
+
+			}
+
+		}
+
 		$AccountProperties = @("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption", "awsAccountID", "awsAccessKeyID")
 
 		$DateTimes = @("discoveryDate", "lastLogonDateTime", "lastPasswordSetDateTime", "passwordExpirationDateTime")
@@ -387,19 +404,6 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 	}#begin
 
 	PROCESS {
-
-		if ($PSCmdlet.ParameterSetName -match "^108_") {
-
-			#v10.8 required for AWS & Dependancies
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
-
-		}
-		Else {
-
-			#v10.5 Minimum version required
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-
-		}
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/api/DiscoveredAccounts"
@@ -418,17 +422,22 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 
 		}
 
-		$platformTypeAccountProperties = @{ }
 		$boundParameters.keys | Where-Object { $AccountProperties -contains $_ } | ForEach-Object {
+
+			$platformTypeAccountProperties = @{ }
+
+		} {
 
 			#add key=value to hashtable
 			$platformTypeAccountProperties[$_] = $boundParameters[$_]
 
-		}
+		} {
 
-		If ($platformTypeAccountProperties.Count -gt 0) {
+			If ($platformTypeAccountProperties.Count -gt 0) {
 
-			$boundParameters["platformTypeAccountProperties"] = $platformTypeAccountProperties
+				$boundParameters["platformTypeAccountProperties"] = $platformTypeAccountProperties
+
+			}
 
 		}
 

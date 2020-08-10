@@ -214,9 +214,6 @@ https://pspas.pspete.dev/commands/Invoke-PASCPMOperation
 		$ThisRequest = @{ }
 		$ThisRequest["WebSession"] = $Script:WebSession
 		$ThisRequest["Method"] = "PUT"
-		#Version Requirements
-		$MinimumVersion = [System.Version]"9.10"
-		$RequiredVersion = [System.Version]"10.1"
 
 	}#Begin
 
@@ -255,7 +252,7 @@ https://pspas.pspete.dev/commands/Invoke-PASCPMOperation
 
 				#Not using classic API
 				#At least version 9.10 required to verify/change/reconcile
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+				Assert-VersionRequirement -RequiredVersion 9.10
 
 				#Use ParameterSet name for required URI
 				$ThisRequest["URI"] = "$Script:BaseURI/API/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
@@ -267,7 +264,7 @@ https://pspas.pspete.dev/commands/Invoke-PASCPMOperation
 				If ($PSBoundParameters.ContainsKey("NewCredentials")) {
 
 					#Specifying next password value, or changing in the vault requires 10.1 or above
-					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+					Assert-VersionRequirement -RequiredVersion 10.1
 
 					#Include decoded password in request
 					$boundParameters["NewCredentials"] = $(ConvertTo-InsecureString -SecureString $NewCredentials)

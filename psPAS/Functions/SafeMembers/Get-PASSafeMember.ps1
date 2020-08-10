@@ -89,7 +89,7 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 https://pspas.pspete.dev/commands/Get-PASSafeMember
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "SafePermissions")]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -100,7 +100,7 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 
 		[Alias("UserName")]
 		[parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "MemberPermissions"
 		)]
@@ -110,28 +110,31 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 
 	BEGIN {
 
-		$Method = "GET"
 		$Request = @{ }
+		$Method = "GET"
 
 	}#begin
 
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName | Get-EscapedString)/Members"
 
-            Get-EscapedString)/Members"
+		switch ($PSCmdlet.ParameterSetName) {
 
-		#Get full permissions for specific user on safe
-		if ($PSCmdlet.ParameterSetName -eq "MemberPermissions") {
+			"MemberPermissions" {
 
-			#Create URL for member specific request
-			$URI = "$URI/$($MemberName | Get-EscapedString)"
-			#Send a PUT Request instead of GET
-			$Method = "PUT"
-			#Send an empty body
-			#Add to Request parameters for PUT Request
-			$Request["Body"] = @{"member" = @{ } } | ConvertTo-Json
+				#Create URL for member specific request
+				$URI = "$URI/$($MemberName | Get-EscapedString)"
+				#Send a PUT Request instead of GET
+				$Method = "PUT"
+				#Send an empty body
+				#Add to Request parameters for PUT Request
+				$Request["Body"] = @{"member" = @{ } } | ConvertTo-Json
+
+				break
+
+			}
 
 		}
 
@@ -145,25 +148,31 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 
 		If ($null -ne $result) {
 
-			if ($PSCmdlet.ParameterSetName -eq "MemberPermissions") {
+			switch ($PSCmdlet.ParameterSetName) {
 
-				#format output
-				$Output = $result.member | Select-Object MembershipExpirationDate,
+				"MemberPermissions" {
 
-				@{Name = "UserName"; "Expression" = { $MemberName } },
+					#format output
+					$Output = $result.member | Select-Object MembershipExpirationDate,
 
-				@{Name = "Permissions"; "Expression" = {
+					@{Name = "UserName"; "Expression" = { $MemberName } },
 
-						$result.member.permissions | ConvertFrom-KeyValuePair }
+					@{Name = "Permissions"; "Expression" = {
+
+							$result.member.permissions | ConvertFrom-KeyValuePair }
+
+					}
+
+					break
 
 				}
 
-			}
+				default {
 
-			Else {
+					#output
+					$Output = $result.members | Select-Object UserName, Permissions
 
-				#output
-				$Output = $result.members | Select-Object UserName, Permissions
+				}
 
 			}
 

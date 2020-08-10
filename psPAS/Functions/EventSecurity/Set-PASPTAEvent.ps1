@@ -39,13 +39,10 @@ https://pspas.pspete.dev/commands/Set-PASPTAEvent
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"11.3"
-
+		Assert-VersionRequirement -RequiredVersion 11.3
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
 		$URI = "$Script:BaseURI/API/pta/API/Events/$EventID"

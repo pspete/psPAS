@@ -86,13 +86,11 @@ https://pspas.pspete.dev/commands/Remove-PASPlatform
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"11.4"
+		Assert-VersionRequirement -RequiredVersion 11.4
 
 	}#begin
 
 	Process {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/Platforms/$($PSCmdLet.ParameterSetName)/$ID"

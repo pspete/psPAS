@@ -92,7 +92,7 @@ Returns Private SSH Key associated with account 12_3
 	)
 
 	BEGIN {
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion 11.5
+		Assert-VersionRequirement -RequiredVersion 11.5
 	}
 
 	PROCESS {

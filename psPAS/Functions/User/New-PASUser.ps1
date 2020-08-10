@@ -218,12 +218,12 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 https://pspas.pspete.dev/commands/New-PASUser
 #>
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "10_9")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "10.9")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[parameter(
 			Mandatory = $true,
@@ -236,7 +236,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[parameter(
 			Mandatory = $true,
@@ -248,14 +248,14 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[string]$userType,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateSet("PIMSU", "PSM", "PSMP", "PVWA", "WINCLIENT", "PTA", "PACLI", "NAPI", "XAPI", "HTTPGW",
 			"EVD", "PIMSu", "AIMApp", "CPM", "PVWAApp", "PSMApp", "AppPrv", "AIMApp", "PSMPApp")]
@@ -264,14 +264,14 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[boolean]$enableUser,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateSet("AuthTypePass", "AuthTypeLDAP", "AuthTypeRADIUS")]
 		[string[]]$authenticationMethod,
@@ -286,7 +286,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[boolean]$ChangePassOnNextLogon,
 
@@ -300,21 +300,21 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[boolean]$passwordNeverExpires,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[string]$distinguishedName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateSet("AddSafes", "AuditUsers", "AddUpdateUsers", "ResetUsersPasswords", "ActivateUsers",
 			"AddNetworkAreas", "ManageDirectoryMapping", "ManageServerFileCategories", "BackupAllSafes",
@@ -324,7 +324,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[parameter(
 			Mandatory = $false,
@@ -350,7 +350,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[parameter(
 			Mandatory = $false,
@@ -362,7 +362,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$workStreet,
@@ -370,7 +370,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workCity,
@@ -378,7 +378,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workState,
@@ -386,7 +386,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workZip,
@@ -394,7 +394,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workCountry,
@@ -402,7 +402,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$homePage,
@@ -410,7 +410,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$homeEmail,
@@ -419,7 +419,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$businessEmail,
@@ -427,7 +427,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$otherEmail,
@@ -435,7 +435,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$homeNumber,
@@ -443,7 +443,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$businessNumber,
@@ -451,7 +451,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$cellularNumber,
@@ -459,7 +459,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$faxNumber,
@@ -467,7 +467,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$pagerNumber,
@@ -475,7 +475,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 99)]
 		[string]$description,
@@ -484,7 +484,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[parameter(
 			Mandatory = $false,
@@ -497,7 +497,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$MiddleName,
@@ -506,7 +506,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[parameter(
 			Mandatory = $false,
@@ -519,7 +519,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$street,
@@ -527,7 +527,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$city,
@@ -535,7 +535,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$state,
@@ -543,7 +543,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$zip,
@@ -551,7 +551,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$country,
@@ -559,7 +559,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$title,
@@ -567,7 +567,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$organization,
@@ -575,7 +575,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$department,
@@ -583,7 +583,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$profession,
@@ -597,12 +597,13 @@ https://pspas.pspete.dev/commands/New-PASUser
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.9"
+
 		$businessAddressParams = @("workStreet", "workCity", "workState", "workZip", "workCountry")
 		$internetParams = @("homePage", "homeEmail", "businessEmail", "otherEmail")
 		$phonesParams = @("homeNumber", "businessNumber", "cellularNumber", "faxNumber", "pagerNumber")
 		$personalDetailsParams = @("street", "city", "state", "zip", "country", "title", "organization",
 			"department", "profession", "FirstName", "middleName", "LastName")
+
 	}#begin
 
 	PROCESS {
@@ -617,90 +618,97 @@ https://pspas.pspete.dev/commands/New-PASUser
 
 		}
 
-		If ($PSCmdlet.ParameterSetName -eq "10_9") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			"10.9" {
 
-			#Create URL for request
-			$URI = "$Script:BaseURI/api/Users"
+				Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 
-			If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
+				#Create URL for request
+				$URI = "$Script:BaseURI/api/Users"
 
-				#Include date string in required format
-				$boundParameters["ExpiryDate"] = $ExpiryDate | ConvertTo-UnixTime
+				If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
+
+					#Include date string in required format
+					$boundParameters["ExpiryDate"] = $ExpiryDate | ConvertTo-UnixTime
+
+				}
+
+				$businessAddress = @{ }
+				$internet = @{ }
+				$phones = @{ }
+				$personalDetails = @{ }
+
+				$boundParameters.keys | Where-Object { $businessAddressParams -contains $_ } | ForEach-Object {
+
+					#add key=value to hashtable
+					$businessAddress[$_] = $boundParameters[$_]
+
+
+				}
+
+				$boundParameters.keys | Where-Object { $internetParams -contains $_ } | ForEach-Object {
+
+					#add key=value to hashtable
+					$internet[$_] = $boundParameters[$_]
+
+				}
+
+				$boundParameters.keys | Where-Object { $phonesParams -contains $_ } | ForEach-Object {
+
+					#add key=value to hashtable
+					$phones[$_] = $boundParameters[$_]
+
+
+				}
+
+				$boundParameters.keys | Where-Object { $personalDetailsParams -contains $_ } | ForEach-Object {
+
+					#add key=value to hashtable
+					$personalDetails[$_] = $boundParameters[$_]
+
+				}
+
+				$boundParameters["businessAddress"] = $businessAddress
+				$boundParameters["internet"] = $internet
+				$boundParameters["phones"] = $phones
+				$boundParameters["personalDetails"] = $personalDetails
+
+				#Prepare Request Body
+				$boundParameters = $boundParameters |
+				Get-PASParameter -ParametersToRemove @($businessAddressParams + $internetParams + $phonesParams + $personalDetailsParams)
+
+				$TypeName = "psPAS.CyberArk.Vault.User.Extended"
+
+				break
 
 			}
 
-			$businessAddress = @{ }
-			$internet = @{ }
-			$phones = @{ }
-			$personalDetails = @{ }
+			"legacy" {
 
-			$boundParameters.keys | Where-Object { $businessAddressParams -contains $_ } | ForEach-Object {
+				#Create URL for request
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users"
 
-				#add key=value to hashtable
-				$businessAddress[$_] = $boundParameters[$_]
+				If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
 
+					#Convert ExpiryDate to string in Required format
+					$Date = (Get-Date $ExpiryDate -Format MM/dd/yyyy).ToString()
 
-			}
+					#Include date string in request
+					$boundParameters["ExpiryDate"] = $Date
 
-			$boundParameters.keys | Where-Object { $internetParams -contains $_ } | ForEach-Object {
+				}
 
-				#add key=value to hashtable
-				$internet[$_] = $boundParameters[$_]
+				$TypeName = "psPAS.CyberArk.Vault.User"
 
-			}
-
-			$boundParameters.keys | Where-Object { $phonesParams -contains $_ } | ForEach-Object {
-
-				#add key=value to hashtable
-				$phones[$_] = $boundParameters[$_]
-
+				break
 
 			}
-
-			$boundParameters.keys | Where-Object { $personalDetailsParams -contains $_ } | ForEach-Object {
-
-				#add key=value to hashtable
-				$personalDetails[$_] = $boundParameters[$_]
-
-			}
-
-			$boundParameters["businessAddress"] = $businessAddress
-			$boundParameters["internet"] = $internet
-			$boundParameters["phones"] = $phones
-			$boundParameters["personalDetails"] = $personalDetails
-
-			#Construct Request Body
-			$body = $boundParameters |
-			Get-PASParameter -ParametersToRemove @($businessAddressParams + $internetParams + $phonesParams + $personalDetailsParams) |
-			ConvertTo-Json -depth 4
-
-			$TypeName = "psPAS.CyberArk.Vault.User.Extended"
 
 		}
 
-		ElseIf ($PSCmdlet.ParameterSetName -eq "legacy") {
-
-			#Create URL for request
-			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users"
-
-			If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
-
-				#Convert ExpiryDate to string in Required format
-				$Date = (Get-Date $ExpiryDate -Format MM/dd/yyyy).ToString()
-
-				#Include date string in request
-				$boundParameters["ExpiryDate"] = $Date
-
-			}
-
-			#Construct Request Body
-			$body = $boundParameters | ConvertTo-Json
-
-			$TypeName = "psPAS.CyberArk.Vault.User"
-
-		}
+		#Construct Request Body
+		$body = $boundParameters | ConvertTo-Json -depth 4
 
 		if ($PSCmdlet.ShouldProcess($UserName, "Create User")) {
 

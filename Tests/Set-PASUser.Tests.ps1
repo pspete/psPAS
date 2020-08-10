@@ -43,9 +43,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "specifies parameter UserName as mandatory for ParameterSet 11_1" {
+			It "specifies parameter UserName as mandatory for ParameterSet 11.1" {
 
-				(Get-Command Set-PASUser).Parameters["UserName"].ParameterSets["11_1"].IsMandatory | Should -Be $true
+				(Get-Command Set-PASUser).Parameters["UserName"].ParameterSets["11.1"].IsMandatory | Should -Be $true
 
 			}
 
@@ -105,15 +105,15 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"id"			  = 1234
-					"UserName"        = "SomeUser"
-					"NewPassword"     = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
-					"FirstName"       = "Some"
-					"LastName"        = "User"
-					"ExpiryDate"      = "10/31/2018"
-					"workStreet"      = "SomeStreet"
-					"homePage"        = "www.geocities.com"
-					"faxNumber"       = "1979"
+					"id"          = 1234
+					"UserName"    = "SomeUser"
+					"NewPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+					"FirstName"   = "Some"
+					"LastName"    = "User"
+					"ExpiryDate"  = "10/31/2018"
+					"workStreet"  = "SomeStreet"
+					"homePage"    = "www.geocities.com"
+					"faxNumber"   = "1979"
 
 				}
 

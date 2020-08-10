@@ -34,12 +34,10 @@ https://pspas.pspete.dev/commands/Import-PASConnectionComponent
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.2"
+		Assert-VersionRequirement -RequiredVersion 10.2
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/ConnectionComponents/Import"

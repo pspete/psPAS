@@ -276,9 +276,6 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
-		$RequiredVersion = [System.Version]"10.2"
-		$AdHocVersion = [System.Version]"10.5"
 
 		$AdHocParameters = @("ConnectionComponent", "reason", "ticketingSystemName", "ticketId", "ConnectionParams")
 
@@ -296,7 +293,7 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 		switch ($PSCmdlet.ParameterSetName) {
 
 			"PSMConnect" {
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+				Assert-VersionRequirement -RequiredVersion 9.10
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/API/Accounts/$($AccountID)/PSMConnect"
@@ -309,7 +306,7 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 			}
 
 			"AdHocConnect" {
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $AdHocVersion
+				Assert-VersionRequirement -RequiredVersion 10.5
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/API/Accounts/AdHocConnect"
@@ -359,7 +356,7 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 			}
 			elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
 
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+				Assert-VersionRequirement -RequiredVersion 10.2
 
 				#PSMGW accept * / * response
 				$Accept = "* / *"

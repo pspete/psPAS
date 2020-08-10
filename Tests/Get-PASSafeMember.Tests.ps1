@@ -35,20 +35,6 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'SafeName' }
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Get-PASSafeMember).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
-
-			}
-
-		}
-
 		Context "Input" {
 
 			BeforeEach {
@@ -56,11 +42,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
-					"SafeName"     = "SomeSafe"
+					"SafeName" = "SomeSafe"
 
 				}
 
-				$response = $InputObj | Get-PASSafeMember
+				$response = Get-PASSafeMember -SafeName SomeSafe
 
 			}
 
@@ -100,7 +86,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "uses expected PUT method" {
 
-				$response = $InputObj | Get-PASSafeMember -MemberName SomeMember
+				$response = Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
@@ -128,7 +114,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 								"FalseKey"        = $false
 								"AnotherKey"      = $true
 								"AnotherFalseKey" = $false
-								"IntegerKey" 	  = 1
+								"IntegerKey"      = 1
 							}
 						}
 					}
@@ -136,7 +122,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				}
 
 				$InputObj = [pscustomobject]@{
-					"SafeName"     = "SomeSafe"
+					"SafeName" = "SomeSafe"
 
 				}
 
@@ -156,13 +142,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has expected number of nested permission properties"{
+			It "has expected number of nested permission properties" {
 
 				($response.permissions | Get-Member -MemberType NoteProperty).count | Should -Be 6
 
 			}
 
-			It "has expected boolean false property value"{
+			It "has expected boolean false property value" {
 
 				$response.permissions.FalseKey | Should -Be $False
 

@@ -17,7 +17,7 @@ Lists all connection components configred in the environment
 
 	BEGIN {
 
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion 11.5
+		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 

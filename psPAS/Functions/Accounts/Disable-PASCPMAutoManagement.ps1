@@ -49,7 +49,7 @@ https://pspas.pspete.dev/commands/Disable-PASCPMAutoManagement
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"10.4"
+		Assert-VersionRequirement -RequiredVersion 10.4
 
 		$ops = [Collections.Generic.List[Object]]@(
 			@{
@@ -62,8 +62,6 @@ https://pspas.pspete.dev/commands/Disable-PASCPMAutoManagement
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		if ($PSCmdlet.ParameterSetName -eq "manualManagementReason") {
 

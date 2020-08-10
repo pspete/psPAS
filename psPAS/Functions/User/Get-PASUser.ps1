@@ -48,20 +48,20 @@ Displays information on Target_User
 .LINK
 https://pspas.pspete.dev/commands/Get-PASUser
 #>
-	[CmdletBinding(DefaultParameterSetName = "10_9")]
+	[CmdletBinding(DefaultParameterSetName = "10.9")]
 	param(
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_10"
+			ParameterSetName = "10.10"
 		)]
 		[int]$id,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[string]$Search,
 
@@ -69,7 +69,7 @@ https://pspas.pspete.dev/commands/Get-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[string]$UserType,
 
@@ -77,7 +77,7 @@ https://pspas.pspete.dev/commands/Get-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_9"
+			ParameterSetName = "10.9"
 		)]
 		[boolean]$ComponentUser,
 
@@ -90,8 +90,9 @@ https://pspas.pspete.dev/commands/Get-PASUser
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.9"
-		$RequiredVersion = [System.Version]"10.10"
+		If ($PSCmdlet.ParameterSetName -ne "legacy") {
+			Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
+		}
 	}#begin
 
 	PROCESS {
@@ -101,19 +102,16 @@ https://pspas.pspete.dev/commands/Get-PASUser
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"10_10" {
-
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+			"10.10" {
 
 				#Create URL for request
 				$URI = "$URI/$id"
 
 				break;
+
 			}
 
-			"10_9" {
-
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			"10.9" {
 
 				#Get Parameters to include in request
 				$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -149,7 +147,7 @@ https://pspas.pspete.dev/commands/Get-PASUser
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		#Handle return
-		if ($PSCmdlet.ParameterSetName -match "^10_") {
+		if ($PSCmdlet.ParameterSetName -match "^10\.") {
 
 			#All "V10" operations have the same output type
 			$TypeName = "psPAS.CyberArk.Vault.User.Extended"

@@ -224,9 +224,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
-		$RequiredVersion = [System.Version]"11.1"
-		$Version114 = [System.Version]"11.4"
+
 	}#begin
 
 	PROCESS {
@@ -235,7 +233,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 
 			"11_1" {
 
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+				Assert-VersionRequirement -RequiredVersion 11.1
 
 				#Create request URL
 				$URI = "$Script:BaseURI/API/Platforms"
@@ -257,7 +255,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 
 			"legacy" {
 
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+				Assert-VersionRequirement -RequiredVersion 9.10
 
 				#Create request URL
 				$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)"
@@ -268,7 +266,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 
 			"targets" {
 
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $Version114
+				Assert-VersionRequirement -RequiredVersion 11.4
 
 				$URI = "$Script:BaseURI/API/Platforms/$($PSCmdlet.ParameterSetName)"
 
@@ -289,7 +287,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 
 			default {
 
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $Version114
+				Assert-VersionRequirement -RequiredVersion 11.4
 
 				$URI = "$Script:BaseURI/API/Platforms/$($PSCmdlet.ParameterSetName)"
 
