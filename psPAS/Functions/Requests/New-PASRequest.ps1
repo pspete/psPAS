@@ -192,12 +192,10 @@ https://pspas.pspete.dev/commands/New-PASRequest
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
+		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/MyRequests"

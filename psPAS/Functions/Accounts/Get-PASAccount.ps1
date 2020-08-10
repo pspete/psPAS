@@ -271,9 +271,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.4"
-		$RequiredVersion = [System.Version]"11.2"
-		$Version114 = [System.Version]"11.4"
+
 	}#begin
 
 	PROCESS {
@@ -283,73 +281,77 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 		$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep modificationTime, SafeName
 		$FilterString = $filterParameters | ConvertTo-FilterString
 
-		#Version 10.4 process
-		If ($PSCmdlet.ParameterSetName -match "v10") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			switch ($PSBoundParameters) {
+			{ $PSItem -match "v10" } {
 
-				( { $PSItem.ContainsKey("modificationTime") }) {
-					#check required version
-					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $Version114
+				switch ($PSBoundParameters) {
+
+					( { $PSItem.ContainsKey("modificationTime") }) {
+						#check required version
+						Assert-VersionRequirement -RequiredVersion 11.4
+
+					}
+
+					( { $PSItem.ContainsKey("searchType") }) {
+						#check required version
+						Assert-VersionRequirement -RequiredVersion 11.2
+
+					}
+
+					default {
+						#check minimum version
+						Assert-VersionRequirement -RequiredVersion 10.4
+					}
+
 				}
 
-				( { $PSItem.ContainsKey("searchType") }) {
-					#check required version
-					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
-				}
+				#assign new type name
+				$typeName = "psPAS.CyberArk.Vault.Account.V10"
 
-				( { $PSItem.ContainsKey("safeName") }) {
-					#check required version
-					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-				}
-
-				default {
-					#check minimum version
-					Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-				}
+				#define base URL
+				$URI = "$Script:BaseURI/api/Accounts"
 
 			}
 
-			#assign new type name
-			$typeName = "psPAS.CyberArk.Vault.Account.V10"
+			"v9" {
 
-			#define base URL
-			$URI = "$Script:BaseURI/api/Accounts"
+				#assign type name
+				$typeName = "psPAS.CyberArk.Vault.Account"
 
-		}
-
-		#legacy process
-		If ($PSCmdlet.ParameterSetName -eq "v9") {
-
-			#assign type name
-			$typeName = "psPAS.CyberArk.Vault.Account"
-
-			#Create request URL
-			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts"
-
-		}
-
-		If ($PSCmdlet.ParameterSetName -eq "v10ByID") {
-
-			#define "by ID" URL
-			$URI = "$URI/$id"
-
-		}
-		Else {
-
-			If ($null -ne $FilterString) {
-
-				$boundParameters = $boundParameters + $FilterString
+				#Create request URL
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts"
 
 			}
 
-			#Create Query String, escaped for inclusion in request URL
-			$queryString = $boundParameters | ConvertTo-QueryString
+			"v10ByID" {
 
-			If ($null -ne $queryString) {
+				#define "by ID" URL
+				$URI = "$URI/$id"
 
-				#Build URL from base URL
-				$URI = "$URI`?$queryString"
+				break
+
+			}
+
+			{ $PSItem -ne "v10ByID" } {
+
+				If ($null -ne $FilterString) {
+
+					$boundParameters = $boundParameters + $FilterString
+
+				}
+
+				#Create Query String, escaped for inclusion in request URL
+				$queryString = $boundParameters | ConvertTo-QueryString
+
+				If ($null -ne $queryString) {
+
+					#Build URL from base URL
+					$URI = "$URI`?$queryString"
+
+				}
+
+				break
 
 			}
 
@@ -363,103 +365,108 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 			#Get count of accounts found
 			$count = $($result.count)
 
-			#Version 10.4 individual account process
-			If ($PSCmdlet.ParameterSetName -eq "v10ByID") {
-
-				#return expected single result
-				$return = $result
-
-			}
-
 			#If accounts found
 			if ($count -gt 0) {
 
-				#Version 10.4 query process
-				If ($PSCmdlet.ParameterSetName -eq "v10ByQuery") {
+				switch ($PSCmdlet.ParameterSetName) {
 
-					#to store list of query results
-					$AccountList = [Collections.Generic.List[Object]]@()
+					"v10ByID" {
 
-					#add resultst to list
-					$null = $AccountList.Add($result.value)
+						#return expected single result
+						$return = $result
 
-					#iterate any nextLinks
-					$NextLink = $result.nextLink
-					While ( $null -ne $NextLink ) {
-						$URI = "$Script:BaseURI/$NextLink"
-						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
-						$NextLink = $result.nextLink
-						$null = $AccountList.AddRange(($result.value))
+						break
+
 					}
 
-					#return list
-					$return = $AccountList
+					"v10ByQuery" {
+
+						#to store list of query results
+						$AccountList = [Collections.Generic.List[Object]]@()
+
+						#add resultst to list
+						$null = $AccountList.Add($result.value)
+
+						#iterate any nextLinks
+						$NextLink = $result.nextLink
+						While ( $null -ne $NextLink ) {
+							$URI = "$Script:BaseURI/$NextLink"
+							$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
+							$NextLink = $result.nextLink
+							$null = $AccountList.AddRange(($result.value))
+						}
+
+						#return list
+						$return = $AccountList
+
+						break
+
+					}
+
+					"v9" {
+
+						#If multiple accounts found
+						if ($count -gt 1) {
+
+							#Alert that web service only displays information on first result
+							Write-Warning "$count matching accounts found. Only the first result will be returned"
+
+						}
+
+						#Get account details from search result
+						$account = ($result | Select-Object accounts).accounts
+
+						#Get account properties from found account
+						$properties = ($account | Select-Object -ExpandProperty properties)
+
+						#Get internal properties from found account
+						$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
+
+						$InternalProps = New-Object -TypeName psobject
+
+						#For every account property
+						For ($int = 0; $int -lt $InternalProperties.length; $int++) {
+
+							$InternalProps |
+
+							#Add each property name and value as object property of $InternalProps
+							Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+
+						}
+
+						#Create output object
+						$return = New-object -TypeName psobject -Property @{
+
+							#Internal Unique ID of Account
+							"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)
+
+							#InternalProperties object
+							"InternalProperties" = $InternalProps
+
+						}
+
+						#For every account property
+						For ($int = 0; $int -lt $properties.length; $int++) {
+
+							#Add each property name and value to results
+							$return | Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
+
+						}
+
+						break
+
+					}
 
 				}
 
-				#legacy process
-				If ($PSCmdlet.ParameterSetName -eq "v9") {
+				if ($null -ne $return) {
 
-					#If multiple accounts found
-					if ($count -gt 1) {
-
-						#Alert that web service only displays information on first result
-						Write-Warning "$count matching accounts found. Only the first result will be returned"
-
-					}
-
-					#Get account details from search result
-					$account = ($result | Select-Object accounts).accounts
-
-					#Get account properties from found account
-					$properties = ($account | Select-Object -ExpandProperty properties)
-
-					#Get internal properties from found account
-					$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
-
-					$InternalProps = New-Object -TypeName psobject
-
-					#For every account property
-					For ($int = 0; $int -lt $InternalProperties.length; $int++) {
-
-						$InternalProps |
-
-						#Add each property name and value as object property of $InternalProps
-						Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
-
-					}
-
-					#Create output object
-					$return = New-object -TypeName psobject -Property @{
-
-						#Internal Unique ID of Account
-						"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)
-
-						#InternalProperties object
-						"InternalProperties" = $InternalProps
-
-					}
-
-					#For every account property
-					For ($int = 0; $int -lt $properties.length; $int++) {
-
-						$return |
-
-						#Add each property name and value to results
-						Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
-
-					}
+					#Return Results
+					$return | Add-ObjectDetail -typename $typeName
 
 				}
 
 			}
-
-		}
-
-		if ($null -ne $return) {
-
-			#Return Results
-			$return | Add-ObjectDetail -typename $typeName
 
 		}
 

@@ -59,36 +59,60 @@ LDAP Directory Details
 https://pspas.pspete.dev/commands/Add-PASDirectory
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlaintextForPassword', '', Justification = "It's a path to password object")]
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "10.4")]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.4"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.7"
 		)]
 		[string]$DirectoryType,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10_4"
+			ParameterSetName = "10.4"
 		)]
 		[string[]]$HostAddresses,
 
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.4"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.7"
 		)]
 		[string]$BindUsername,
 
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.4"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.7"
 		)]
 		[securestring]$BindPassword,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.4"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.7"
 		)]
 		[ValidateRange(1, 65535)]
 		[int]$Port,
@@ -96,47 +120,55 @@ https://pspas.pspete.dev/commands/Add-PASDirectory
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10_7"
+			ParameterSetName = "10.7"
 		)]
 		[hashtable[]]$DCList,
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.4"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.7"
 		)]
 		[string]$DomainName,
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.4"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.7"
 		)]
 		[string]$DomainBaseContext,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.4"
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.7"
 		)]
 		[boolean]$SSLConnect
 
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.4"
-		$RequiredVersion = [System.Version]"10.7"
+
+		Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
+
 	}#begin
 
 	PROCESS {
-
-		if ($PSCmdlet.ParameterSetName -eq "v10_7") {
-
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
-
-		}
-		Elseif ($PSCmdlet.ParameterSetName -eq "v10_4") {
-
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-
-		}
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories"

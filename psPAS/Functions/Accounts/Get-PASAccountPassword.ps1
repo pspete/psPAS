@@ -92,7 +92,7 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 .LINK
 https://pspas.pspete.dev/commands/Get-PASAccountPassword
 #>
-	[CmdletBinding(DefaultParameterSetName = "v10")]
+	[CmdletBinding(DefaultParameterSetName = "10.1")]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -102,7 +102,7 @@ https://pspas.pspete.dev/commands/Get-PASAccountPassword
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10"
+			ParameterSetName = "10.1"
 		)]
 		[Alias("id")]
 		[string]$AccountID,
@@ -117,35 +117,35 @@ https://pspas.pspete.dev/commands/Get-PASAccountPassword
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v10"
+			ParameterSetName = "10.1"
 		)]
 		[string]$Reason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v10"
+			ParameterSetName = "10.1"
 		)]
 		[string]$TicketingSystem,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v10"
+			ParameterSetName = "10.1"
 		)]
 		[string]$TicketId,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v10"
+			ParameterSetName = "10.1"
 		)]
 		[int]$Version,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v10"
+			ParameterSetName = "10.1"
 		)]
 		[ValidateSet("show", "copy", "connect")]
 		[string]$ActionType,
@@ -153,55 +153,61 @@ https://pspas.pspete.dev/commands/Get-PASAccountPassword
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v10"
+			ParameterSetName = "10.1"
 		)]
 		[boolean]$isUse,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v10"
+			ParameterSetName = "10.1"
 		)]
 		[switch]$Machine
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.1"
+
 	}#begin
 
 	PROCESS {
 
 		#Build Request
-		if ($($PSCmdlet.ParameterSetName) -eq "v10") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			"10.1" {
 
-			#For Version 10.1+
-			$Request = @{
+				Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 
-				"URI"    = "$Script:BaseURI/api/Accounts/$($AccountID |
+				#For Version 10.1+
+				$Request = @{
+
+					"URI"    = "$Script:BaseURI/api/Accounts/$($AccountID |
 
             	Get-EscapedString)/Password/Retrieve"
 
-				"Method" = "POST"
+					"Method" = "POST"
 
-				#Get all parameters that will be sent in the request
-				"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
+					#Get all parameters that will be sent in the request
+					"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
+
+				}
+
+				break
 
 			}
 
-		}
+			"ClassicAPI" {
 
-		ElseIf ($($PSCmdlet.ParameterSetName) -eq "ClassicAPI") {
+				#For Version 9.7+
+				$Request = @{
 
-			#For Version 9.7+
-			$Request = @{
+					"URI"    = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$($AccountID | Get-EscapedString)/Credentials"
 
-				"URI"    = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$($AccountID |
+					"Method" = "GET"
 
-				Get-EscapedString)/Credentials"
+				}
 
-				"Method" = "GET"
+				break
 
 			}
 
@@ -215,18 +221,26 @@ https://pspas.pspete.dev/commands/Get-PASAccountPassword
 
 		If ($null -ne $result) {
 
-			If ($PSCmdlet.ParameterSetName -eq "ClassicAPI") {
+			switch ($PSCmdlet.ParameterSetName) {
 
-				$result = [System.Text.Encoding]::ASCII.GetString([PSCustomObject]$result.Content)
+				"ClassicAPI" {
+
+					$result = [System.Text.Encoding]::ASCII.GetString([PSCustomObject]$result.Content)
+
+					break
+
+				}
+
+				"10.1" {
+
+					#Unescape returned string and remove enclosing quotes.
+					$result = $([System.Text.RegularExpressions.Regex]::Unescape($result) -replace '^"|"$', '')
+
+					break
+
+				}
 
 			}
-			elseif ($PSCmdlet.ParameterSetName -eq "v10") {
-
-				#Unescape returned string and remove enclosing quotes.
-				$result = $([System.Text.RegularExpressions.Regex]::Unescape($result) -replace '^"|"$', '')
-
-			}
-
 
 			[PSCustomObject] @{"Password" = $result } |
 

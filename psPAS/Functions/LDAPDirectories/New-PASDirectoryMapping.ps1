@@ -129,10 +129,6 @@ https://pspas.pspete.dev/commands/New-PASDirectoryMapping
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"10.4"
-		$RequiredVersion = [System.Version]"10.7"
-		$NeededVersion = [System.Version]"10.10"
-
 	}#begin
 
 	PROCESS {
@@ -154,7 +150,7 @@ https://pspas.pspete.dev/commands/New-PASDirectoryMapping
 			'UserActivityLogPeriod' {
 
 				#v10.10
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $NeededVersion
+				Assert-VersionRequirement -RequiredVersion 10.10
 				Continue
 
 			}
@@ -162,7 +158,7 @@ https://pspas.pspete.dev/commands/New-PASDirectoryMapping
 			{ $_ -match "VaultGroups|Location|LDAPQuery" } {
 
 				#v10.7
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+				Assert-VersionRequirement -RequiredVersion 10.7
 				Continue
 
 			}
@@ -170,7 +166,7 @@ https://pspas.pspete.dev/commands/New-PASDirectoryMapping
 			Default {
 
 				#v10.4
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+				Assert-VersionRequirement -RequiredVersion 10.4
 
 			}
 

@@ -163,12 +163,10 @@ https://pspas.pspete.dev/commands/Set-PASOnboardingRule
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.5"
+		Assert-VersionRequirement -RequiredVersion 10.5
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules/$Id"

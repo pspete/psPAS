@@ -31,12 +31,10 @@ https://pspas.pspete.dev/commands/Test-PASPSMRecording
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"11.2"
+		Assert-VersionRequirement -RequiredVersion 11.2
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/Recordings/$SessionID/valid"

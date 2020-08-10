@@ -134,8 +134,8 @@ https://pspas.pspete.dev/commands/Set-PASDirectoryMapping
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"10.7"
-		$RequiredVersion = [System.Version]"10.10"
+		#10.7 functionality
+		Assert-VersionRequirement -RequiredVersion 10.7
 
 	}#begin
 
@@ -158,15 +158,8 @@ https://pspas.pspete.dev/commands/Set-PASDirectoryMapping
 			'UserActivityLogPeriod' {
 
 				#v10.10
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+				Assert-VersionRequirement -RequiredVersion 10.10
 				Continue
-
-			}
-
-			Default {
-
-				#10.7 functionality
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 			}
 

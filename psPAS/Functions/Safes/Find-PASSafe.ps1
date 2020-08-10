@@ -58,7 +58,7 @@ https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"10.1"
+		Assert-VersionRequirement -RequiredVersion 10.1
 
 		#Create base URL for request
 		$URI = "$Script:BaseURI/api/Safes"
@@ -68,8 +68,6 @@ https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		If ( -Not [string]::IsNullOrEmpty($search) ) {
 

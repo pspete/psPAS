@@ -46,12 +46,10 @@ https://pspas.pspete.dev/commands/Connect-PASPSMSession
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.5"
+		Assert-VersionRequirement -RequiredVersion 10.5
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
 		$URI = "$($Script:BaseURI)/API/LiveSessions/$($SessionId | Get-EscapedString)/monitor"

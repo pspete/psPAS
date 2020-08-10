@@ -29,12 +29,10 @@ https://pspas.pspete.dev/commands/Get-PASPlatformSafe
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"11.1"
+		Assert-VersionRequirement -RequiredVersion 11.1
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
 		$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)/Safes"

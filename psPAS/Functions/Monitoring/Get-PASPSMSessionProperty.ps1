@@ -38,12 +38,10 @@ https://pspas.pspete.dev/commands/Get-PASPSMSessionProperty
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.6"
+		Assert-VersionRequirement -RequiredVersion 10.6
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/LiveSessions/$($liveSessionId | Get-EscapedString)/properties"

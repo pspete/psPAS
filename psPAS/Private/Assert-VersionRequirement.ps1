@@ -29,11 +29,11 @@ General notes
 	Param(
 		# The Current Software Version
 		[Parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $true
 		)]
 		[System.Version]
-		$ExternalVersion,
+		$ExternalVersion = $Script:ExternalVersion,
 
 		# The Required Software Version
 		[Parameter(
@@ -53,7 +53,7 @@ General notes
 
 	Process {
 
-		If(-not (Compare-MinimumVersion -Version $ExternalVersion -MinimumVersion $RequiredVersion)) {
+		If (-not (Compare-MinimumVersion -Version $ExternalVersion -MinimumVersion $RequiredVersion)) {
 
 			Throw "CyberArk $ExternalVersion does not meet the minimum version requirement of $RequiredVersion for $ParentFunction (using ParameterSet: $UsedParameterSet)"
 
@@ -61,6 +61,6 @@ General notes
 
 	}
 
-	End {}
+	End { }
 
 }

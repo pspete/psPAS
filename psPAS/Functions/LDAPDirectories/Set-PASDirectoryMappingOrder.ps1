@@ -41,13 +41,11 @@ https://pspas.pspete.dev/commands/Set-PASDirectoryMappingOrder
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"10.10"
+		Assert-VersionRequirement -RequiredVersion 10.10
 
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/Reorder"

@@ -40,7 +40,7 @@ https://pspas.pspete.dev/commands/Enable-PASCPMAutoManagement
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"10.4"
+		Assert-VersionRequirement -RequiredVersion 10.4
 
 		$ops = [Collections.Generic.List[Object]]@(
 			@{
@@ -58,8 +58,6 @@ https://pspas.pspete.dev/commands/Enable-PASCPMAutoManagement
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		Set-PASAccount -AccountID $AccountID -operations $ops
 

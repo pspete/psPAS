@@ -37,8 +37,7 @@ https://pspas.pspete.dev/commands/Set-PASUserPassword
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.10"
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+		Assert-VersionRequirement -RequiredVersion 10.10
 	}#begin
 
 	PROCESS {

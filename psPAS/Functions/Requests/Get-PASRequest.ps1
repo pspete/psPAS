@@ -63,12 +63,10 @@ https://pspas.pspete.dev/commands/Get-PASRequest
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
+		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		$QueryString = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestType | ConvertTo-QueryString
 

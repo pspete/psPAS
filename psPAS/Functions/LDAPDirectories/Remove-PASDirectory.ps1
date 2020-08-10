@@ -36,12 +36,10 @@ https://pspas.pspete.dev/commands/Remove-PASDirectory
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.7"
+		Assert-VersionRequirement -RequiredVersion 10.7
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$id"

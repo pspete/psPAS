@@ -59,7 +59,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			It "sends request to expected endpoint" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					Write-verbose $URI -Verbose
+
 					$URI -eq "$($Script:BaseURI)/api/AutomaticOnboardingRules?Names=SomeRule,SomeRule2"
 
 				} -Times 1 -Exactly -Scope It
