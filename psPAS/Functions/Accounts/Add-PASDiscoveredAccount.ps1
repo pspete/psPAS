@@ -158,6 +158,7 @@ All parameters can be piped by property name
 https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'platformTypeAccountProperties', Justification = "False Positive")]
 	[CmdletBinding(DefaultParameterSetName = "Windows")]
 	param(
 		[parameter(
