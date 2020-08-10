@@ -375,8 +375,11 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 				"v10ByQuery" {
 
-					#add results to list
-					$AccountList = [Collections.Generic.List[Object]]::New(($result.value))
+					#to store list of query results
+					$AccountList = [Collections.Generic.List[Object]]@()
+
+					#add resultst to list
+					$null = $AccountList.Add($result.value)
 
 					#iterate any nextLinks
 					$NextLink = $result.nextLink
@@ -465,7 +468,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 			}
 
-			if ($null -ne $return) {
+			if ($return) {
 
 				#Return Results
 				$return | Add-ObjectDetail -typename $typeName
