@@ -702,7 +702,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 
 				$TypeName = "psPAS.CyberArk.Vault.User.Extended"
 
-				continue
+				break
 			}
 
 			"legacy" {
@@ -725,21 +725,17 @@ https://pspas.pspete.dev/commands/Set-PASUser
 				#Prepare Request Body
 				$boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove UserName
 
-				continue
+				break
 
 			}
 
-			default {
+		}
 
-				#deal with newPassword SecureString
-				If ($PSBoundParameters.ContainsKey("NewPassword")) {
+		#deal with newPassword SecureString
+		If ($PSBoundParameters.ContainsKey("NewPassword")) {
 
-					#Include decoded password in request
-					$boundParameters["NewPassword"] = $(ConvertTo-InsecureString -SecureString $NewPassword)
-
-				}
-
-			}
+			#Include decoded password in request
+			$boundParameters["NewPassword"] = $(ConvertTo-InsecureString -SecureString $NewPassword)
 
 		}
 
