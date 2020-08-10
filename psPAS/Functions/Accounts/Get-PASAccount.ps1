@@ -362,109 +362,103 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 		If ($null -ne $result) {
 
-			#Get count of accounts found
-			$count = $($result.count)
+			switch ($PSCmdlet.ParameterSetName) {
 
-			#If accounts found
-			if ($count -gt 0) {
+				"v10ByID" {
 
-				switch ($PSCmdlet.ParameterSetName) {
+					#return expected single result
+					$return = $result
 
-					"v10ByID" {
+					break
 
-						#return expected single result
-						$return = $result
+				}
 
-						break
+				"v10ByQuery" {
 
-					}
+					#to store list of query results
+					$AccountList = [Collections.Generic.List[Object]]@()
 
-					"v10ByQuery" {
+					#add resultst to list
+					$null = $AccountList.Add($result.value)
 
-						#to store list of query results
-						$AccountList = [Collections.Generic.List[Object]]@()
-
-						#add resultst to list
-						$null = $AccountList.Add($result.value)
-
-						#iterate any nextLinks
+					#iterate any nextLinks
+					$NextLink = $result.nextLink
+					While ( $null -ne $NextLink ) {
+						$URI = "$Script:BaseURI/$NextLink"
+						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 						$NextLink = $result.nextLink
-						While ( $null -ne $NextLink ) {
-							$URI = "$Script:BaseURI/$NextLink"
-							$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
-							$NextLink = $result.nextLink
-							$null = $AccountList.AddRange(($result.value))
-						}
-
-						#return list
-						$return = $AccountList
-
-						break
-
+						$null = $AccountList.AddRange(($result.value))
 					}
 
-					"v9" {
+					#return list
+					$return = $AccountList
 
-						#If multiple accounts found
-						if ($count -gt 1) {
-
-							#Alert that web service only displays information on first result
-							Write-Warning "$count matching accounts found. Only the first result will be returned"
-
-						}
-
-						#Get account details from search result
-						$account = ($result | Select-Object accounts).accounts
-
-						#Get account properties from found account
-						$properties = ($account | Select-Object -ExpandProperty properties)
-
-						#Get internal properties from found account
-						$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
-
-						$InternalProps = New-Object -TypeName psobject
-
-						#For every account property
-						For ($int = 0; $int -lt $InternalProperties.length; $int++) {
-
-							$InternalProps |
-
-							#Add each property name and value as object property of $InternalProps
-							Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
-
-						}
-
-						#Create output object
-						$return = New-object -TypeName psobject -Property @{
-
-							#Internal Unique ID of Account
-							"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)
-
-							#InternalProperties object
-							"InternalProperties" = $InternalProps
-
-						}
-
-						#For every account property
-						For ($int = 0; $int -lt $properties.length; $int++) {
-
-							#Add each property name and value to results
-							$return | Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
-
-						}
-
-						break
-
-					}
+					break
 
 				}
 
-				if ($null -ne $return) {
+				"v9" {
 
-					#Return Results
-					$return | Add-ObjectDetail -typename $typeName
+					$count = $($result.count)
+
+					#If multiple accounts found
+					if ($count -gt 1) {
+
+						#Alert that web service only displays information on first result
+						Write-Warning "$count matching accounts found. Only the first result will be returned"
+
+					}
+
+					#Get account details from search result
+					$account = ($result | Select-Object accounts).accounts
+
+					#Get account properties from found account
+					$properties = ($account | Select-Object -ExpandProperty properties)
+
+					#Get internal properties from found account
+					$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
+
+					$InternalProps = New-Object -TypeName psobject
+
+					#For every account property
+					For ($int = 0; $int -lt $InternalProperties.length; $int++) {
+
+						$InternalProps |
+
+						#Add each property name and value as object property of $InternalProps
+						Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+
+					}
+
+					#Create output object
+					$return = New-object -TypeName psobject -Property @{
+
+						#Internal Unique ID of Account
+						"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)
+
+						#InternalProperties object
+						"InternalProperties" = $InternalProps
+
+					}
+
+					#For every account property
+					For ($int = 0; $int -lt $properties.length; $int++) {
+
+						#Add each property name and value to results
+						$return | Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
+
+					}
+
+					break
 
 				}
+
+			}
+
+			if ($null -ne $return) {
+
+				#Return Results
+				$return | Add-ObjectDetail -typename $typeName
 
 			}
 
