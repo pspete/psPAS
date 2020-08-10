@@ -283,7 +283,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			{ $PSItem -match "v10" } {
+			( { $PSItem -match "v10" } ) {
 
 				switch ($PSBoundParameters) {
 
@@ -333,7 +333,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 			}
 
-			{ $PSItem -ne "v10ByID" } {
+			( { $PSItem -ne "v10ByID" } ) {
 
 				If ($null -ne $FilterString) {
 
@@ -375,11 +375,8 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 				"v10ByQuery" {
 
-					#to store list of query results
-					$AccountList = [Collections.Generic.List[Object]]@()
-
-					#add resultst to list
-					$null = $AccountList.Add($result.value)
+					#add results to list
+					$AccountList = [Collections.Generic.List[Object]]::New(($result.value))
 
 					#iterate any nextLinks
 					$NextLink = $result.nextLink
@@ -401,51 +398,64 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 					$count = $($result.count)
 
-					#If multiple accounts found
-					if ($count -gt 1) {
+					switch ($count) {
 
-						#Alert that web service only displays information on first result
-						Write-Warning "$count matching accounts found. Only the first result will be returned"
+						{ $count -gt 1 } {
 
-					}
+							#Alert that web service only displays information on first result
+							Write-Warning "$count matching accounts found. Only the first result will be returned"
 
-					#Get account details from search result
-					$account = ($result | Select-Object accounts).accounts
+						}
 
-					#Get account properties from found account
-					$properties = ($account | Select-Object -ExpandProperty properties)
+						{ $count -gt 0 } {
 
-					#Get internal properties from found account
-					$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
+							#Get account details from search result
+							$account = ($result | Select-Object accounts).accounts
 
-					$InternalProps = New-Object -TypeName psobject
+							#Get account properties from found account
+							$properties = ($account | Select-Object -ExpandProperty properties)
 
-					#For every account property
-					For ($int = 0; $int -lt $InternalProperties.length; $int++) {
+							If ($null -ne $account.InternalProperties) {
 
-						$InternalProps |
+								#Get internal properties from found account
+								$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
 
-						#Add each property name and value as object property of $InternalProps
-						Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+								$InternalProps = New-Object -TypeName psobject
 
-					}
+								#For every account property
+								For ($int = 0; $int -lt $InternalProperties.length; $int++) {
 
-					#Create output object
-					$return = New-object -TypeName psobject -Property @{
+									$InternalProps |
 
-						#Internal Unique ID of Account
-						"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)
+									#Add each property name and value as object property of $InternalProps
+									Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
 
-						#InternalProperties object
-						"InternalProperties" = $InternalProps
+								}
 
-					}
+							}
 
-					#For every account property
-					For ($int = 0; $int -lt $properties.length; $int++) {
+							#Create output object
+							$return = New-object -TypeName psobject -Property @{
 
-						#Add each property name and value to results
-						$return | Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
+								#Internal Unique ID of Account
+								"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)
+
+								#InternalProperties object
+								"InternalProperties" = $InternalProps
+
+							}
+
+							#For every account property
+							For ($int = 0; $int -lt $properties.length; $int++) {
+
+								#Add each property name and value to results
+								$return | Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
+
+							}
+
+						}
+
+						default { break }
 
 					}
 
