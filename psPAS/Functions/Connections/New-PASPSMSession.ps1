@@ -84,7 +84,7 @@ Ad-Hoc connections require 10.5
 https://pspas.pspete.dev/commands/New-PASPSMSession
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'PSMConnectPrerequisites', Justification = "False Positive")]
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	[Alias("Get-PASPSMConnectionParameter")]
 	param(
 		[parameter(
@@ -301,6 +301,8 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 				#Create body of request
 				$body = $boundParameters | ConvertTo-Json
 
+				$ShouldProcess = $AccountID
+
 				break
 
 			}
@@ -336,6 +338,8 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 				#Create body of request
 				$body = $boundParameters | Get-PASParameter -ParametersToRemove $AdHocParameters | ConvertTo-Json -Depth 4
 
+				$ShouldProcess = $userName
+
 				break
 
 			}
@@ -368,8 +372,12 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 
 		}
 
-		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $ThisSession
+		if ($PSCmdlet.ShouldProcess($ShouldProcess, "New PSM Session")) {
+
+			#send request to PAS web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $ThisSession
+
+		}
 
 		If ($null -ne $result) {
 

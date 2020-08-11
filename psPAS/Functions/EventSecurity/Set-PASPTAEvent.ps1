@@ -21,7 +21,7 @@ Minimum Version CyberArk 11.3
 .LINK
 https://pspas.pspete.dev/commands/Set-PASPTAEvent
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -50,8 +50,12 @@ https://pspas.pspete.dev/commands/Set-PASPTAEvent
 		#Get Parameters to include in request
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove EventID | ConvertTo-Json
 
-		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $body
+		if ($PSCmdlet.ShouldProcess($EventID, "Update Event Status")) {
+
+			#Send request to web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $body
+
+		}
 
 		If ($null -ne $result) {
 

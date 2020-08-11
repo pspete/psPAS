@@ -40,7 +40,7 @@ Set-PASPlatformPSMConfig -id 42 -PSMServerID PSM-LoadBalancer-EMEA
 
 Clears all configured Connection Components from platform with id of 42
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -75,8 +75,12 @@ Clears all configured Connection Components from platform with id of 42
 		#Request body
 		$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove ID | ConvertTo-Json
 
-		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+		if ($PSCmdlet.ShouldProcess($ID, "Update Platform PSM Config")) {
+
+			#send request to web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+
+		}
 
 		If ($null -ne $result) {
 
