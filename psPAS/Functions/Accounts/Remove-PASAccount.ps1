@@ -27,6 +27,7 @@ All parameters can be piped by propertyname
 .LINK
 https://pspas.pspete.dev/commands/Remove-PASAccount
 #>
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseClassicAPI', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

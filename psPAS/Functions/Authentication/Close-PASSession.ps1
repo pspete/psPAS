@@ -39,6 +39,9 @@ Logs off from the session related to the authorisation token using the Classic A
 .LINK
 https://pspas.pspete.dev/commands/Close-PASSession
 #>
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseClassicAPI', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SharedAuthentication', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SAMLAuthentication', Justification = "False Positive")]
 	[CmdletBinding(DefaultParameterSetName = "V10")]
 	param(
 

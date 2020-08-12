@@ -1,5 +1,5 @@
 Function Get-PASSAMLResponse {
-<#
+	<#
 .SYNOPSIS
 Get SAML Token for PAS SAML Auth
 
@@ -25,19 +25,20 @@ https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
 		$URL
 	)
 
-	Try {
+	Process {
+		Try {
 
-		$WebResponse = Invoke-WebRequest -Uri "$URL/auth/saml/" -MaximumRedirection 0 -ErrorAction SilentlyContinue -UseBasicParsing
+			$WebResponse = Invoke-WebRequest -Uri "$URL/auth/saml/" -MaximumRedirection 0 -ErrorAction SilentlyContinue -UseBasicParsing
 
-		$SAMLResponse = Invoke-WebRequest -Uri ($WebResponse.links.href) -MaximumRedirection 1 -UseDefaultCredentials -UseBasicParsing
+			$SAMLResponse = Invoke-WebRequest -Uri ($WebResponse.links.href) -MaximumRedirection 1 -UseDefaultCredentials -UseBasicParsing
 
-		If ($SAMLResponse.InputFields[0].name -eq "SAMLResponse") {
-			$SAMLResponse.InputFields[0].value
+			If ($SAMLResponse.InputFields[0].name -eq "SAMLResponse") {
+				$SAMLResponse.InputFields[0].value
+			}
+			Else { Throw }
+
 		}
-		Else { Throw }
 
+		Catch { Throw "Failed to get SAMLResponse" }
 	}
-
-	Catch { Throw "Failed to get SAMLResponse" }
-
 }

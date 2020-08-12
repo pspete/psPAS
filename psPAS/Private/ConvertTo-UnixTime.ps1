@@ -29,11 +29,13 @@ Get-Date | ConvertTo-UnixTime
 		[switch]$Milliseconds
 	)
 
-	$UnixTime = [math]::Round($(Get-Date $Date -UFormat %s))
+	Process {
+		$UnixTime = [math]::Round($(Get-Date $Date.ToUniversalTime() -UFormat %s))
 
-	If ($Milliseconds) {
-		$UnixTime = $UnixTime * 1000
+		If ($Milliseconds) {
+			$UnixTime = $UnixTime * 1000
+		}
+
+		$UnixTime
 	}
-
-	$UnixTime
 }
