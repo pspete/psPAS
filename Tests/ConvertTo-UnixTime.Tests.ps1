@@ -51,6 +51,10 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		Context "General" {
 
+			It "Converts date from pipeline" {
+				$(Get-Date -Month 07 -Day 01 -Year 2020 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) | ConvertTo-UnixTime | Should -Be 1593558000
+			}
+
 			It "converts date to expected unixtime" {
 
 				ConvertTo-UnixTime -Date $(Get-Date 1/1/2020) | Should -Be 1577836800
