@@ -95,11 +95,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "sends expected unix time - v10ByFilter parameterset" {
 
-				Get-PASAccount -modificationTime $(Get-Date -Month 07 -Day 01 -Year 2020 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
+				Get-PASAccount -modificationTime $(Get-Date -Month 01 -Day 01 -Year 2020 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Accounts?filter=modificationTime%20gte%201593558000"
+					$URI -eq "$($Script:BaseURI)/api/Accounts?filter=modificationTime%20gte%201577836800"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -107,12 +107,12 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "sends expected filters - v10ByFilter parameterset" {
 
-				Get-PASAccount -modificationTime $(Get-Date -Month 07 -Day 01 -Year 2020 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) -safeName SomeSafe
+				Get-PASAccount -modificationTime $(Get-Date -Month 01 -Day 01 -Year 2020 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) -safeName SomeSafe
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($URI -eq "$($Script:BaseURI)/api/Accounts?filter=modificationTime%20gte%201593558000%20AND%20safeName%20eq%20SomeSafe") -or
-					($URI -eq "$($Script:BaseURI)/api/Accounts?filter=safeName%20eq%20SomeSafe%20AND%20modificationTime%20gte%201593558000")
+					($URI -eq "$($Script:BaseURI)/api/Accounts?filter=modificationTime%20gte%201577836800%20AND%20safeName%20eq%20SomeSafe") -or
+					($URI -eq "$($Script:BaseURI)/api/Accounts?filter=safeName%20eq%20SomeSafe%20AND%20modificationTime%20gte%201577836800")
 
 				} -Times 1 -Exactly -Scope It
 

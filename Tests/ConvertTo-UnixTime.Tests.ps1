@@ -52,12 +52,12 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		Context "General" {
 
 			It "Converts date from pipeline" {
-				$(Get-Date -Year 2020 -Month 07 -Day 01 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) | ConvertTo-UnixTime | Should -Be 1593558000
+				$(Get-Date -Year 2020 -Month 01 -Day 01 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) | ConvertTo-UnixTime | Should -Be 1577836800
 			}
 
 			It "Converts date" {
-				$date = $(Get-Date -Year 2020 -Month 07 -Day 01 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
-				ConvertTo-UnixTime -Date $date | Should -Be 1593558000
+				$date = $(Get-Date -Year 2020 -Month 01 -Day 01 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
+				ConvertTo-UnixTime -Date $date | Should -Be 1577836800
 			}
 
 			It "converts date to expected unixtime" {
