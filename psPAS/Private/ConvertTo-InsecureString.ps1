@@ -23,17 +23,18 @@ Function ConvertTo-InsecureString {
 		[System.Security.SecureString]$SecureString
 	)
 
-	Try {
+	Process {
+		Try {
 
-		$ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToGlobalAllocUnicode($SecureString)
-		[System.Runtime.InteropServices.Marshal]::PtrToStringUni($ptr)
+			$ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToGlobalAllocUnicode($SecureString)
+			[System.Runtime.InteropServices.Marshal]::PtrToStringUni($ptr)
 
+		}
+
+		Finally {
+
+			[System.Runtime.InteropServices.Marshal]::ZeroFreeGlobalAllocUnicode($ptr)
+
+		}
 	}
-
-	Finally {
-
-		[System.Runtime.InteropServices.Marshal]::ZeroFreeGlobalAllocUnicode($ptr)
-
-	}
-
 }
