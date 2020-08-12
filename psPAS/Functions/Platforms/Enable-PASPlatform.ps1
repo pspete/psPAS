@@ -39,6 +39,9 @@ PAS 11.4 minimum
 .LINK
 https://pspas.pspete.dev/commands/Enable-PASPlatform
 #>
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'TargetPlatform', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'GroupPlatform', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'RotationalGroup', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
