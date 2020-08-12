@@ -30,7 +30,7 @@ Get-Date | ConvertTo-UnixTime
 	)
 
 	Process {
-		$UnixTime = [math]::Round($(Get-Date $Date.ToUniversalTime() -UFormat %s))
+		$UnixTime = [math]::Round($(Get-Date $Date.ToLocalTime() -UFormat %s))
 
 		If ($Milliseconds) {
 			$UnixTime = $UnixTime * 1000
