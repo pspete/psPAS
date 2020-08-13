@@ -1,5 +1,5 @@
 # version format
-version: 4.2.{build}
+version: 4.3.{build}
 
 environment:
   #GIT_TRACE: 1
@@ -57,5 +57,5 @@ test_script:
   - pwsh.exe -File .\build\deploy-github.ps1
   - pwsh.exe -File .\build\deploy-psgallery.ps1
 
-on_failure:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_failure:
+  #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
