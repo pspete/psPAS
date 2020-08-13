@@ -39,14 +39,14 @@ https://pspas.pspete.dev/commands/Get-PASOnboardingRule
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_2"
+			ParameterSetName = "10.2"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$Names
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.2"
+
 	}#begin
 
 	PROCESS {
@@ -56,31 +56,30 @@ https://pspas.pspete.dev/commands/Get-PASOnboardingRule
 
 		If ($PSBoundParameters.ContainsKey("Names")) {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter
 
 			#Create Query String, escaped for inclusion in request URL
-			$queryString = ($boundParameters.keys | ForEach-Object {
+			#!This must be unescaped - send a comma separated string for the value of `Names`
+			$queryString = $boundParameters | ConvertTo-QueryString -NoEscape
 
-					"$_=$($boundParameters[$_])"
+			if ($null -ne $queryString) {
 
-				})
+				#Build URL from base URL
+				$URI = "$URI`?$queryString"
 
-			#Build URL from base URL
-			$URI = "$URI`?$queryString"
+			}
 
 		}
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
-			$result.AutomaticOnboardingRules |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
+			$result.AutomaticOnboardingRules | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
 
 		}
 

@@ -109,7 +109,6 @@ Updates TargetUser's permissions as safe member on TargetSafe to include "Add Ac
 .LINK
 https://pspas.pspete.dev/commands/Set-PASSafeMember
 #>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'keysToRemove', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -265,35 +264,10 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 
 	BEGIN {
 
-		#create hashtable to hold safe member permission information
-		$Permissions = [ordered]@{ }
-
-		#Create array of keys to remove from top level of required JSON structure.
-		$keysToRemove = [Collections.Generic.List[String]]@('SafeName', 'MemberName')
-
-		$OrderedPermisions = [ordered]@{
-			UseAccounts                            = $false
-			RetrieveAccounts                       = $false
-			ListAccounts                           = $false
-			AddAccounts                            = $false
-			UpdateAccountContent                   = $false
-			UpdateAccountProperties                = $false
-			InitiateCPMAccountManagementOperations = $false
-			SpecifyNextAccountContent              = $false
-			RenameAccounts                         = $false
-			DeleteAccounts                         = $false
-			UnlockAccounts                         = $false
-			ManageSafe                             = $false
-			ManageSafeMembers                      = $false
-			BackupSafe                             = $false
-			ViewAuditLog                           = $false
-			ViewSafeMembers                        = $false
-			RequestsAuthorizationLevel             = 0
-			AccessWithoutConfirmation              = $false
-			CreateFolders                          = $false
-			DeleteFolders                          = $false
-			MoveAccountsAndFolders                 = $false
-		}
+		#array for parameter names which appear in the top-tier of the JSON object
+		$keysToKeep = [Collections.Generic.List[String]]@(
+			'MembershipExpirationDate', 'Permissions'
+		)
 
 	}#begin
 
@@ -302,9 +276,7 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 		#Create URL for request
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
 
-            Get-EscapedString)/Members/$($MemberName |
-
-                Get-EscapedString)"
+            Get-EscapedString)/Members/$($MemberName | Get-EscapedString)"
 
 		#Get passed parameters to include in request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -319,31 +291,13 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 
 		}
 
-		#For each Member Permission parameter
-		$OrderedPermisions.keys | ForEach-Object{
-
-			#include permission in request
-			If($boundParameters.ContainsKey($PSItem)){
-
-				#Add to hash table in key/value pair
-				$Permissions.Add($PSItem, $boundParameters[$PSItem])
-
-				#permission parameter name
-				$null = $keysToRemove.Add($PSItem)
-
-			}
-
-		}
-
-		#Add Permission parameters as value of "Permissions" property
-		$boundParameters["Permissions"] = @($Permissions.getenumerator() | ForEach-Object { $PSItem })
+		#Add permissions array to request in correct order
+		[array]$boundParameters["Permissions"] = $boundParameters | ConvertTo-SortedPermission
 
 		#Create JSON for body of request
 		$body = @{
 
-			"member" = $boundParameters |
-
-			Get-PASParameter -ParametersToRemove $keysToRemove
+			"member" = $boundParameters | Get-PASParameter -ParametersToKeep $keysToKeep
 
 			#Ensure all levels of object are output
 		} | ConvertTo-Json -Depth 3
@@ -353,25 +307,14 @@ https://pspas.pspete.dev/commands/Set-PASSafeMember
 			#Send request to webservice
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-			if ($result) {
-
-				$MemberPermissions = [PSCustomObject]@{ }
-
-				$result.member.Permissions | ForEach-Object {
-
-					$MemberPermissions |
-					Add-Member -MemberType NoteProperty -Name $($PSItem |
-						Select-Object -ExpandProperty key) -Value $($PSItem |
-						Select-Object -ExpandProperty value)
-
-				}
+			If ($null -ne $result) {
 
 				#format output
 				$result.member | Select-Object MembershipExpirationDate,
 
 				@{Name = "Permissions"; "Expression" = {
 
-						$MemberPermissions }
+						$result.member.permissions | ConvertFrom-KeyValuePair }
 
 				} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
 

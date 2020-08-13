@@ -4,13 +4,15 @@ title: Get-PASPTAEvent
 
 ## SYNOPSIS
 
-Returns PTA security events
+    Returns PTA security events
 
 ## SYNTAX
 
-    Get-PASPTAEvent [-lastUpdatedEventDate <DateTime>] [-status <String>] [-accountID <String>] [<CommonParameters>]
+    Get-PASPTAEvent [-fromUpdateDate <DateTime>] [-status <String>] [<CommonParameters>]
 
-    Get-PASPTAEvent [-lastUpdatedEventDate <DateTime>] [-UseLegacyMethod] [<CommonParameters>]
+    Get-PASPTAEvent [-fromUpdateDate <DateTime>] [-status <String>] [-accountID <String>] [<CommonParameters>]
+
+    Get-PASPTAEvent [-lastUpdatedEventDate <DateTime>] [<CommonParameters>]
 
 ## DESCRIPTION
 
@@ -18,44 +20,26 @@ Returns PTA security events
 
 ## PARAMETERS
 
-    -lastUpdatedEventDate <DateTime>
+    -fromUpdateDate <DateTime>
         Starting date from which to get security events.
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
+        Requires 11.3
 
     -status <String>
         The status of the security event (open or closed).
-        Requires 11.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
+        Requires 11.3
 
     -accountID <String>
         The unique account identifier of the account relating to the Security Event.
         Requires 11.4
 
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
+    -lastUpdatedEventDate <DateTime>
+        Starting date from which to get security events.
 
-    -UseLegacyMethod [<SwitchParameter>]
-        Specify to send lastUpdatedEventDate using legacy method
-        Requires 11.4
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see
+        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
@@ -70,7 +54,7 @@ Returns PTA security events
 
     -------------------------- EXAMPLE 2 --------------------------
 
-    PS C:\>Get-PASPTAEvent -lastUpdatedEventDate $date
+    PS C:\>Get-PASPTAEvent -fromUpdateDate $date
 
     Returns all PTA security events since $date
 
@@ -88,6 +72,6 @@ Returns PTA security events
 
     -------------------------- EXAMPLE 4 --------------------------
 
-    PS C:\>Get-PASPTAEvent -lastUpdatedEventDate $date -UseLegacyMethod
+    PS C:\>Get-PASPTAEvent -lastUpdatedEventDate $date
 
     Returns all PTA security events since $date

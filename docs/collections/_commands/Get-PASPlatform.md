@@ -24,16 +24,18 @@ Retrieves details of Vault platforms.
 
 Request platform configuration information from the Vault.
 
-    11.4+ can return detials of target, dependent, group & rotational group platforms,
-    with additional filters available for target group queries.
-    11.1+ can return details of all target platforms.
-    Limited filters can be used to retrieve a subset of the platforms
+11.4+ can return detials of target, dependent, group & rotational group platforms,
+with additional filters available for target group queries.
+11.1+ can return details of all target platforms.
+Limited filters can be used to retrieve a subset of the platforms
+For 9.10+, the "PlatformID" parameter is used to retrieve details of a single
+specified platform from the Vault.
 
-    For 9.10+, the "PlatformID" parameter must be used to retrieve details of a single
-    specified platform from the Vault.
-
-    The output contained under the "Details" property differs depending
-    on which method (9.10+,11.1+ or 11.4) is used, and which platform type is queried.
+The output contained under the "Details" property differs depending
+on which method (9.10+,11.1+ or 11.4+) is used, and which platform type is queried.
+_**Note: When specifying PlatformID:**_
+ _**if the platform properties contain a semicolon (';'), the API may not return the complete value.**_
+ _**noted for ChangeCommand, ReconcileCommand & ConnectionCommand properties**_
 
 ## PARAMETERS
 

@@ -27,6 +27,7 @@ All parameters can be piped by propertyname
 .LINK
 https://pspas.pspete.dev/commands/Remove-PASAccount
 #>
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseClassicAPI', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -46,25 +47,28 @@ https://pspas.pspete.dev/commands/Remove-PASAccount
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.4"
+		#check minimum version
+		Assert-VersionRequirement -RequiredVersion 10.4
 	}#begin
 
 	PROCESS {
 
-		If ($PSCmdlet.ParameterSetName -eq "V9") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			#Create URL for request (earlier than 10.4)
-			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
+			"V9" {
 
-		}
+				#Create URL for request (earlier than 10.4)
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
+				break
 
-		Else {
+			}
 
-			#check minimum version
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			default {
 
-			#Create URL for request (Version 10.4 onwards)
-			$URI = "$Script:BaseURI/api/Accounts/$AccountID"
+				#Create URL for request (Version 10.4 onwards)
+				$URI = "$Script:BaseURI/api/Accounts/$AccountID"
+
+			}
 
 		}
 

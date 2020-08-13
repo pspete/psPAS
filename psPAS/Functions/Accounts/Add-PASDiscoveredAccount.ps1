@@ -158,6 +158,7 @@ All parameters can be piped by property name
 https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'platformTypeAccountProperties', Justification = "False Positive")]
 	[CmdletBinding(DefaultParameterSetName = "Windows")]
 	param(
 		[parameter(
@@ -378,8 +379,25 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.5"
-		$RequiredVersion = [System.Version]"10.8"
+
+		switch ($PSCmdlet.ParameterSetName) {
+
+			{ $PSItem -match "^108_" } {
+
+				#v10.8 required for AWS & Dependancies
+				Assert-VersionRequirement -RequiredVersion 10.8
+
+			}
+
+			Default {
+
+				#v10.5 Minimum version required
+				Assert-VersionRequirement -RequiredVersion 10.5
+
+			}
+
+		}
+
 		$AccountProperties = @("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption", "awsAccountID", "awsAccessKeyID")
 
 		$DateTimes = @("discoveryDate", "lastLogonDateTime", "lastPasswordSetDateTime", "passwordExpirationDateTime")
@@ -387,19 +405,6 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 	}#begin
 
 	PROCESS {
-
-		if ($PSCmdlet.ParameterSetName -match "^108_") {
-
-			#v10.8 required for AWS & Dependancies
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
-
-		}
-		Else {
-
-			#v10.5 Minimum version required
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-
-		}
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/api/DiscoveredAccounts"
@@ -412,34 +417,37 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 			if ($PSBoundParameters.ContainsKey($DateTime)) {
 
 				#convert to unix time
-				$boundParameters["$DateTime"] = [math]::Round((Get-Date $PSBoundParameters["$DateTime"] -UFormat %s))
+				$boundParameters["$DateTime"] = $PSBoundParameters["$DateTime"] | ConvertTo-UnixTime
 
 			}
 
 		}
 
-		$platformTypeAccountProperties = @{ }
 		$boundParameters.keys | Where-Object { $AccountProperties -contains $_ } | ForEach-Object {
+
+			$platformTypeAccountProperties = @{ }
+
+		} {
 
 			#add key=value to hashtable
 			$platformTypeAccountProperties[$_] = $boundParameters[$_]
 
+		} {
+
+			If ($platformTypeAccountProperties.Count -gt 0) {
+
+				$boundParameters["platformTypeAccountProperties"] = $platformTypeAccountProperties
+
+			}
+
 		}
 
-		If ($platformTypeAccountProperties.Count -gt 0) {
-
-			$boundParameters["platformTypeAccountProperties"] = $platformTypeAccountProperties
-
-		}
-
-		$body = $boundParameters |
-		Get-PASParameter -ParametersToRemove $AccountProperties |
-		ConvertTo-Json
+		$Body = $boundParameters | Get-PASParameter -ParametersToRemove $AccountProperties | ConvertTo-Json
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -DefaultProperties id, status

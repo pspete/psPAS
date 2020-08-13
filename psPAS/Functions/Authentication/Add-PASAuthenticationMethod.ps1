@@ -45,6 +45,7 @@ Creates new authentication method.
 
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = "passwordFieldLabel not related to password value")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUsernameAndPasswordParams', '', Justification = "usernameFieldLabel & passwordFieldLabel not related to password value")]
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -110,7 +111,7 @@ Creates new authentication method.
 
 	BEGIN {
 
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion 11.5
+		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
@@ -126,7 +127,7 @@ Creates new authentication method.
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			$result
 

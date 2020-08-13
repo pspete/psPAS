@@ -41,12 +41,10 @@ https://pspas.pspete.dev/commands/Export-PASPSMRecording
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.6"
+		Assert-VersionRequirement -RequiredVersion 10.6
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/Recordings/$($RecordingID | Get-EscapedString)/Play"
@@ -55,7 +53,7 @@ https://pspas.pspete.dev/commands/Export-PASPSMRecording
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
 
 		#if we get a byte array
-		if ($result) {
+		If ($null -ne $result) {
 
 			Out-PASFile -InputObject $result -Path $path
 

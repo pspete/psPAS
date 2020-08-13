@@ -35,12 +35,10 @@ https://pspas.pspete.dev/commands/Stop-PASPSMSession
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.1"
+		Assert-VersionRequirement -RequiredVersion 10.1
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Terminate"

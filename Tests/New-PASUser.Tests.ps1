@@ -43,9 +43,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "specifies parameter UserName as mandatory for ParameterSet 10_9" {
+			It "specifies parameter UserName as mandatory for ParameterSet 10.9" {
 
-				(Get-Command New-PASUser).Parameters["UserName"].ParameterSets["10_9"].IsMandatory | Should -Be $true
+				(Get-Command New-PASUser).Parameters["UserName"].ParameterSets["10.9"].IsMandatory | Should -Be $true
 
 			}
 

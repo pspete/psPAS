@@ -35,23 +35,6 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'DirectoryType' },
-			@{Parameter = 'HostAddresses' },
-			@{Parameter = 'DomainName' },
-			@{Parameter = 'DomainBaseContext' }
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Add-PASDirectory).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
-
-			}
-
-		}
-
 		Context "Input" {
 
 			BeforeEach {
@@ -69,7 +52,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 				}
 
-				$response = $InputObj | Add-PASDirectory -BindPassword $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
+				$response = $InputObj | Add-PASDirectory
 
 			}
 
@@ -114,7 +97,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
+				$Script:ExternalVersion = "1.0"
 				$Script:ExternalVersion = "1.0"
 				{ $InputObj | Add-PASDirectory } | Should -Throw
 				$Script:ExternalVersion = "0.0"
@@ -131,7 +114,6 @@ $Script:ExternalVersion = "1.0"
 
 				$InputObj = [pscustomobject]@{
 					"DirectoryType"     = "SomeType.ini"
-					"DCList"            = @{"Name" = "SomeName"; }
 					"DomainName"        = "SomeDomain"
 					"DomainBaseContext" = "DC=Some,DC=Domain"
 					"BindPassword"      = $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
@@ -139,7 +121,7 @@ $Script:ExternalVersion = "1.0"
 
 				}
 
-				$response = $InputObj | Add-PASDirectory -BindPassword $(ConvertTo-SecureString "SomeNewPassword" -AsPlainText -Force)
+				$response = $InputObj | Add-PASDirectory -DCList @{"Name" = "SomeName"; }
 
 			}
 

@@ -42,6 +42,24 @@ Whether or not the request is for connection through the PSM.
 .PARAMETER ConnectionComponent
 If the connection is through PSM, the name of the connection component to connect with, as defined in the configuration
 
+.PARAMETER AllowMappingLocalDrives
+Whether or not to redirect their local hard drives to the remote server.
+
+.PARAMETER AllowConnectToConsole
+Whether or not to connect to the administrative console of the remote machine.
+
+.PARAMETER RedirectSmartCards
+Whether or not to redirect Smart Card so that the certificate stored on the card can be accessed on the target
+
+.PARAMETER PSMRemoteMachine
+Address of the remote machine to connect to.
+
+.PARAMETER LogonDomain
+The netbios domain name of the account being used.
+
+.PARAMETER AllowSelectHTML5
+Specify which connection method, HTML5-based or RDP-file, to use when connecting to the remote server
+
 .PARAMETER ConnectionParams
 A list of parameters required to perform the connection, as defined in each connection component configuration
 
@@ -56,7 +74,7 @@ Minimum CyberArk Version 9.10
 .LINK
 https://pspas.pspete.dev/commands/New-PASRequest
 #>
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "ConnectionParams")]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -121,45 +139,96 @@ https://pspas.pspete.dev/commands/New-PASRequest
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[ValidateSet("Yes", "No")]
+		[string]$AllowMappingLocalDrives,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[ValidateSet("Yes", "No")]
+		[string]$AllowConnectToConsole,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[ValidateSet("Yes", "No")]
+		[string]$RedirectSmartCards,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[string]$PSMRemoteMachine,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[string]$LogonDomain,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ConnectionParams"
+		)]
+		[ValidateSet("Yes", "No")]
+		[string]$AllowSelectHTML5,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "ManualParams"
 		)]
 		[hashtable]$ConnectionParams
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
+		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/MyRequests"
 
-		if ($PSBoundParameters.ContainsKey("FromDate")) {
+		$boundParameters = $PSBoundParameters | Get-PASParameter
+
+		if ($boundParameters.ContainsKey("FromDate")) {
 
 			#convert to unix time
-			$PSBoundParameters["FromDate"] = [math]::Round((Get-Date $FromDate -UFormat %s))
+			$boundParameters["FromDate"] = $FromDate | ConvertTo-UnixTime
 
 		}
 
-		if ($PSBoundParameters.ContainsKey("ToDate")) {
+		if ($boundParameters.ContainsKey("ToDate")) {
 
 			#convert to unix time
-			$PSBoundParameters["ToDate"] = [math]::Round((Get-Date $ToDate -UFormat %s))
+			$boundParameters["ToDate"] = $ToDate | ConvertTo-UnixTime
 
 		}
+
+		#Nest parameters "AllowMappingLocalDrives", "AllowConnectToConsole","RedirectSmartCards",
+		#"PSMRemoteMachine", "LogonDomain" & "AllowSelectHTML5" under ConnectionParams Property
+		$boundParameters = $boundParameters | ConvertTo-ConnectionParam
 
 		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
+		$body = $boundParameters | ConvertTo-Json
 
 		if ($PSCmdlet.ShouldProcess($AccountId, "Create Request for Account Access")) {
 
 			#send request to PAS web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-			if ($result) {
+			If ($null -ne $result) {
 
 				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request
 

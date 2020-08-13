@@ -35,19 +35,19 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"AutomaticOnboardingRules" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
+		BeforeEach {
+			Mock Invoke-PASRestMethod -MockWith {
+				[PSCustomObject]@{"AutomaticOnboardingRules" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
+			}
+
+			$InputObj = [pscustomobject]@{
+				"AccountID" = "99_9"
+				"Names"     = "SomeRule,SomeRule2"
+
+			}
+
+			$response = $InputObj | Get-PASOnboardingRule
 		}
-
-		$InputObj = [pscustomobject]@{
-			"AccountID" = "99_9"
-			"Names"     = "SomeRule,SomeRule2"
-
-		}
-
-		$response = $InputObj | Get-PASOnboardingRule
-}
 		Context "Input" {
 
 			It "sends request" {
@@ -79,9 +79,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ $InputObj | Get-PASOnboardingRule  } | Should -Throw
-$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | Get-PASOnboardingRule } | Should -Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

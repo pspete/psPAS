@@ -29,12 +29,12 @@ Activates suspended vault user with id 666, using the API from 10.10+
 .LINK
 https://pspas.pspete.dev/commands/Unblock-PASUser
 #>
-	[CmdletBinding(DefaultParameterSetName = "10_10")]
+	[CmdletBinding(DefaultParameterSetName = "10.10")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_10"
+			ParameterSetName = "10.10"
 		)]
 		[int]$id,
 
@@ -55,7 +55,6 @@ https://pspas.pspete.dev/commands/Unblock-PASUser
 	)
 
 	BEGIN {
-		$MinimumVersion = "10.10"
 
 		$Request = @{"WebSession" = $Script:WebSession }
 
@@ -63,29 +62,36 @@ https://pspas.pspete.dev/commands/Unblock-PASUser
 
 	PROCESS {
 
+		switch ($PSCmdlet.ParameterSetName) {
 
-		If ($PSCmdlet.ParameterSetName -eq "10_10") {
+			"10.10" {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+				Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 
-			#Create request
-			$Request["URI"] = "$Script:BaseURI/api/Users/$id/Activate"
-			$Request["Method"] = "POST"
+				#Create request
+				$Request["URI"] = "$Script:BaseURI/api/Users/$id/Activate"
+				$Request["Method"] = "POST"
 
-		}
-		ElseIf ($PSCmdlet.ParameterSetName -eq "ClassicAPI") {
+				break
 
-			#Create request
-			$Request["URI"] = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
-			$Request["Method"] = "PUT"
-			$Request["Body"] = $PSBoundParameters | Get-PASParameter -ParametersToRemove UserName | ConvertTo-Json
+			}
 
+			"ClassicAPI" {
+
+				#Create request
+				$Request["URI"] = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
+				$Request["Method"] = "PUT"
+				$Request["Body"] = $PSBoundParameters | Get-PASParameter -ParametersToRemove UserName | ConvertTo-Json
+
+				break
+
+			}
 		}
 
 		#send request to web service
 		$result = Invoke-PASRestMethod @Request
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User
 

@@ -124,7 +124,7 @@ https://pspas.pspete.dev/commands/Add-PASAccountACL
 		#Send Request
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result.AddAccountPrivilegedCommandResult |
 

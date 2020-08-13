@@ -87,7 +87,7 @@ https://pspas.pspete.dev/commands/Get-PASSafe
 			#Create Query String, escaped for inclusion in request URL
 			$queryString = $boundParameters | ConvertTo-QueryString
 
-			if ($queryString) {
+			if ($null -ne $queryString) {
 
 				#Build URL from base URL
 				$URI = "$URI`?$queryString"
@@ -105,7 +105,7 @@ https://pspas.pspete.dev/commands/Get-PASSafe
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			$result.$returnProperty | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe
 

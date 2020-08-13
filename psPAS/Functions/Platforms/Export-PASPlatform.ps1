@@ -41,12 +41,10 @@ https://pspas.pspete.dev/commands/Export-PASPlatform
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.4"
+		Assert-VersionRequirement -RequiredVersion 10.4
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
@@ -57,7 +55,7 @@ https://pspas.pspete.dev/commands/Export-PASPlatform
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession -Debug:$false
 
 			#if we get a platform byte array
-			if ($result) {
+			If ($null -ne $result) {
 
 				Out-PASFile -InputObject $result -Path $path
 

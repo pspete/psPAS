@@ -163,12 +163,10 @@ https://pspas.pspete.dev/commands/Set-PASOnboardingRule
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.5"
+		Assert-VersionRequirement -RequiredVersion 10.5
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules/$Id"
@@ -181,7 +179,7 @@ https://pspas.pspete.dev/commands/Set-PASOnboardingRule
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-			if ($result) {
+			If ($null -ne $result) {
 
 				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
 

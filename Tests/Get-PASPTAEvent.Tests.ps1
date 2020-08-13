@@ -50,13 +50,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "sends request" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
+				Get-PASPTAEvent -fromUpdateDate 1-1-1979
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request to expected endpoint" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
+				Get-PASPTAEvent -fromUpdateDate 1-1-1979
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -match "$($Script:BaseURI)/API/pta/API/Events/"
@@ -66,13 +66,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "uses expected method" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
+				Get-PASPTAEvent -fromUpdateDate 1-1-1979
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "sends request with expected header" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 -UseLegacyMethod
+				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$($Websession.headers["lastUpdatedEventDate"]) -eq "283996800"
@@ -82,7 +82,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It "sends request with no body" {
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979
+				Get-PASPTAEvent -fromUpdateDate 1-1-1979
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Body -eq $null
@@ -93,7 +93,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "1.0"
-				{ Get-PASPTAEvent  } | Should -Throw
+				{ Get-PASPTAEvent } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 
@@ -113,19 +113,19 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 			it "provides output" {
 
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | Should -Not -BeNullOrEmpty
+				Get-PASPTAEvent -fromUpdateDate 1-1-1979 | Should -Not -BeNullOrEmpty
 
 			}
 
 			It "has output with expected number of properties" {
 
-				(Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | Get-Member -MemberType NoteProperty).length | Should -Be 1
+				(Get-PASPTAEvent -fromUpdateDate 1-1-1979 | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
 			}
 
 			it "outputs object with expected typename" {
 
-				Get-PASPTAEvent -lastUpdatedEventDate 1-1-1979 | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Event
+				Get-PASPTAEvent -fromUpdateDate 1-1-1979 | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Event
 
 			}
 

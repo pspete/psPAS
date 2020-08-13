@@ -16,7 +16,7 @@ Lists all configured PSM Servers
 
 	BEGIN {
 
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion 11.5
+		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
@@ -29,7 +29,7 @@ Lists all configured PSM Servers
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result.PSMServers) {
+		if ($null -ne $result.PSMServers) {
 
 			$result | Select-Object -ExpandProperty PSMServers
 

@@ -92,7 +92,7 @@ Returns Private SSH Key associated with account 12_3
 	)
 
 	BEGIN {
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion 11.5
+		Assert-VersionRequirement -RequiredVersion 11.5
 	}
 
 	PROCESS {
@@ -106,7 +106,7 @@ Returns Private SSH Key associated with account 12_3
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result
 

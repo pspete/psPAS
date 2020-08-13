@@ -88,29 +88,29 @@ https://pspas.pspete.dev/commands/Get-PASGroup
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.5"
+		Assert-VersionRequirement -RequiredVersion 10.5
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/UserGroups"
 
 		#Get Parameters to include in request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove groupType
+		$filterProperties = $PSBoundParameters | Get-PASParameter -ParametersToKeep groupType
+		$FilterString = $filterProperties | ConvertTo-FilterString
 
-		If ($groupType) {
+		If ($null -ne $FilterString) {
 
-			$boundParameters["filter"] = "groupType eq $($groupType)"
+			$boundParameters = $boundParameters + $FilterString
 
 		}
 
 		#Create Query String, escaped for inclusion in request URL
 		$queryString = $boundParameters | ConvertTo-QueryString
 
-		if ($queryString) {
+		if ($null -ne $queryString) {
 
 			#Build URL from base URL
 			$URI = "$URI`?$queryString"
@@ -120,7 +120,7 @@ https://pspas.pspete.dev/commands/Get-PASGroup
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result.value | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Group
 

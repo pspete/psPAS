@@ -57,12 +57,10 @@ https://pspas.pspete.dev/commands/Get-PASDirectoryMapping
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.7"
+		Assert-VersionRequirement -RequiredVersion 10.7
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
@@ -77,12 +75,10 @@ https://pspas.pspete.dev/commands/Get-PASDirectoryMapping
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
 
 		}
 

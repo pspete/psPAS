@@ -37,51 +37,59 @@ Minimum CyberArk version 9.10
 .LINK
 https://pspas.pspete.dev/commands/Get-PASAccountGroup
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "10.5")]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.5"
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "9.10"
 		)]
 		[string]$Safe,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v9"
+			ParameterSetName = "9.10"
 		)]
 		[switch]$UseClassicAPI
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
-		$RequiredVersion = [System.Version]"10.5"
+		Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 	}#begin
 
 	PROCESS {
 
-		If ($PSCmdlet.ParameterSetName -eq "v9") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			"9.10" {
 
-			#Create URL for Request
-			$URI = "$Script:BaseURI/API/AccountGroups?Safe=$($Safe | Get-EscapedString)"
+				#Create URL for Request
+				$URI = "$Script:BaseURI/API/AccountGroups?$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
+
+				break
+
+			}
+
+			default {
+
+				#Create URL for Request
+				$URI = "$Script:BaseURI/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
+
+			}
 
 		}
 
-		Else {
-
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
-
-			#Create URL for Request
-			$URI = "$Script:BaseURI/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
-
-		}
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Group
 

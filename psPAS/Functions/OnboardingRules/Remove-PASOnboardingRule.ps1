@@ -36,9 +36,7 @@ https://pspas.pspete.dev/commands/Remove-PASOnboardingRule
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules/$($RuleID |
-
-            Get-EscapedString)"
+		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules/$($RuleID | Get-EscapedString)"
 
 		if ($PSCmdlet.ShouldProcess($RuleID, "Delete On-boarding Rule")) {
 

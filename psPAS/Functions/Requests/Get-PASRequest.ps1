@@ -63,25 +63,23 @@ https://pspas.pspete.dev/commands/Get-PASRequest
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
+		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+		$QueryString = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestType | ConvertTo-QueryString
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/$($RequestType)?onlywaiting=$OnlyWaiting&expired=$Expired"
+		$URI = "$Script:BaseURI/API/$($RequestType)?$QueryString"
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result.$RequestType |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Details
+			$result.$RequestType | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Details
 
 		}
 

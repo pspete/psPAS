@@ -21,7 +21,7 @@ Minimum Version CyberArk 11.3
 .LINK
 https://pspas.pspete.dev/commands/Set-PASPTAEvent
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -33,19 +33,16 @@ https://pspas.pspete.dev/commands/Set-PASPTAEvent
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("OPEN","CLOSED")]
+		[ValidateSet("OPEN", "CLOSED")]
 		[string]$mStatus
 
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"11.3"
-
+		Assert-VersionRequirement -RequiredVersion 11.3
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
 		$URI = "$Script:BaseURI/API/pta/API/Events/$EventID"
@@ -53,15 +50,17 @@ https://pspas.pspete.dev/commands/Set-PASPTAEvent
 		#Get Parameters to include in request
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove EventID | ConvertTo-Json
 
-		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $body
+		if ($PSCmdlet.ShouldProcess($EventID, "Update Event Status")) {
 
-		If ($result) {
+			#Send request to web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $body
+
+		}
+
+		If ($null -ne $result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
 
 		}
 

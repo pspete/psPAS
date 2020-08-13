@@ -32,13 +32,11 @@ https://pspas.pspete.dev/commands/Remove-PASGroup
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"11.5"
+		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
 	Process {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/UserGroups/$GroupID"

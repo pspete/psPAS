@@ -59,12 +59,12 @@ https://pspas.pspete.dev/commands/Get-PASServerWebService
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Verify"
+		$URI = "$BaseURI/$PVWAAppName/WebServices/PIMServices.svc/Verify"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			#return results
 			$result | Select-Object ServerName, ServerId, ApplicationName , AuthenticationMethods

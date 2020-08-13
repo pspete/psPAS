@@ -90,7 +90,7 @@ To force all output to be shown, pipe to Select-Object *
 
 .NOTES
 Before running:
-Create the Safe and the reconcile account according to the rule�s definition.
+Create the Safe and the reconcile account according to the rule's definition.
 Associate the reconcile account with the platform that is defined in the rule.
 Make sure that the user whose credentials will be used for this session is a member of
 the Safe specified in the TargetSafeName parameter with the Add accounts permission.
@@ -98,12 +98,12 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 .LINK
 https://pspas.pspete.dev/commands/New-PASOnboardingRule
 #>
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "post_V10_2")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "10.2")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "pre_V10_2"
+			ParameterSetName = "9.8"
 		)]
 		[ValidateLength(1, 99)]
 		[string]$DecisionPlatformId,
@@ -111,7 +111,7 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_V10_2"
+			ParameterSetName = "10.2"
 		)]
 		[ValidateLength(1, 99)]
 		[string]$TargetPlatformId,
@@ -119,7 +119,7 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "pre_V10_2"
+			ParameterSetName = "9.8"
 		)]
 		[ValidateLength(1, 28)]
 		[string]$DecisionSafeName,
@@ -127,7 +127,7 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_V10_2"
+			ParameterSetName = "10.2"
 		)]
 		[ValidateLength(1, 28)]
 		[string]$TargetSafeName,
@@ -135,7 +135,7 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "pre_V10_2"
+			ParameterSetName = "9.8"
 		)]
 		[ValidateSet("Yes", "No")]
 		[String]$IsAdminUIDFilter,
@@ -143,7 +143,7 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_V10_2"
+			ParameterSetName = "10.2"
 		)]
 		[boolean]$IsAdminIDFilter,
 
@@ -171,7 +171,7 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_V10_2"
+			ParameterSetName = "10.2"
 		)]
 		[ValidateSet("Equals", "Begins", "Ends")]
 		[string]$UserNameMethod,
@@ -186,7 +186,7 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_V10_2"
+			ParameterSetName = "10.2"
 		)]
 		[ValidateSet("Equals", "Begins", "Ends")]
 		[string]$AddressMethod,
@@ -194,7 +194,7 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_V10_2"
+			ParameterSetName = "10.2"
 		)]
 		[ValidateSet("Any", "Privileged", "NonPrivileged")]
 		[string]$AccountCategoryFilter,
@@ -215,8 +215,7 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.8"
-		$RequiredVersion = [System.Version]"10.2"
+		Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 	}#begin
 
 	PROCESS {
@@ -228,22 +227,19 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
 		#Get Values for ShouldProcess Message
-		If ($PSCmdlet.ParameterSetName -eq "post_V10_2") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+			"10.2" {
+				#version 10.2 parameters
+				$SafeName = $TargetSafeName
+				$PlatformID = $TargetPlatformId
+			}
 
-			#version 10.2 parameters
-			$SafeName = $TargetSafeName
-			$PlatformID = $TargetPlatformId
-
-		}
-		ElseIf ($PSCmdlet.ParameterSetName -eq "pre_V10_2") {
-
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-
-			#pre 10.2 parameters
-			$SafeName = $DecisionSafeName
-			$PlatformID = $DecisionPlatformId
+			"9.8" {
+				#pre 10.2 parameters
+				$SafeName = $DecisionSafeName
+				$PlatformID = $DecisionPlatformId
+			}
 
 		}
 
@@ -252,7 +248,7 @@ https://pspas.pspete.dev/commands/New-PASOnboardingRule
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-			if ($result) {
+			If ($null -ne $result) {
 
 				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
 

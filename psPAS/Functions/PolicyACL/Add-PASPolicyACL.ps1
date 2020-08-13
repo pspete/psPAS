@@ -104,7 +104,7 @@ https://pspas.pspete.dev/commands/Add-PASPolicyACL
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result.AddPolicyPrivilegedCommandResult |
 

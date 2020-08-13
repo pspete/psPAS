@@ -34,13 +34,11 @@ https://pspas.pspete.dev/commands/Request-PASAdHocAccess
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.6"
+		#check minimum version
+		Assert-VersionRequirement -RequiredVersion 10.6
 	}#begin
 
 	PROCESS {
-
-		#check minimum version
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request (Version 10.4 onwards)
 		$URI = "$Script:BaseURI/api/Accounts/$AccountID/grantAdministrativeAccess"

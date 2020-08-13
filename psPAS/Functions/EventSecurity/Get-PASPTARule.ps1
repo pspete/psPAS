@@ -21,12 +21,10 @@ https://pspas.pspete.dev/commands/Get-PASPTARule
 	param(	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.4"
+		Assert-VersionRequirement -RequiredVersion 10.4
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
 		$URI = "$Script:BaseURI/API/pta/API/Settings"
@@ -34,12 +32,10 @@ https://pspas.pspete.dev/commands/Get-PASPTARule
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result.riskyActivities |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Rule
+			$result.riskyActivities | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Rule
 
 		}
 

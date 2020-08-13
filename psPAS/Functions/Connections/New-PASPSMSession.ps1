@@ -83,9 +83,8 @@ Ad-Hoc connections require 10.5
 .LINK
 https://pspas.pspete.dev/commands/New-PASPSMSession
 #>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'ConnectionParams', Justification = "False Positive")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'PSMConnectPrerequisites', Justification = "False Positive")]
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	[Alias("Get-PASPSMConnectionParameter")]
 	param(
 		[parameter(
@@ -277,13 +276,8 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
-		$RequiredVersion = [System.Version]"10.2"
-		$AdHocVersion = [System.Version]"10.5"
 
 		$AdHocParameters = @("ConnectionComponent", "reason", "ticketingSystemName", "ticketId", "ConnectionParams")
-		$ConnectionParameters = @("AllowMappingLocalDrives", "AllowConnectToConsole", "RedirectSmartCards", "PSMRemoteMachine", "LogonDomain", "AllowSelectHTML5")
-
 
 	}#begin
 
@@ -292,30 +286,14 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod, Path
 
-		#ConnectionParameters are included under the ConnectionParams property of the JSON body
-		$boundParameters.keys | Where-Object { $ConnectionParameters -contains $PSItem } | ForEach-Object { $ConnectionParams = @{ } } {
-
-			#For Each ConnectionParams Parameter
-			#add key=value to hashtable
-			$ConnectionParams.Add($PSItem, @{"value" = $boundParameters[$PSItem] })
-
-		} {
-			if ($ConnectionParams.keys.count -gt 0) {
-
-				#if ConnectionParameters have been specified
-				#Add ConnectionParams to boundParameters
-				$boundParameters["ConnectionParams"] = $ConnectionParams
-
-				#Remove individual ConnectionParameters from boundParameters
-				$boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove $ConnectionParameters
-
-			}
-		}
+		#Nest parameters "AllowMappingLocalDrives", "AllowConnectToConsole","RedirectSmartCards",
+		#"PSMRemoteMachine", "LogonDomain" & "AllowSelectHTML5" under ConnectionParams Property
+		$boundParameters = $boundParameters | ConvertTo-ConnectionParam
 
 		switch ($PSCmdlet.ParameterSetName) {
 
 			"PSMConnect" {
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+				Assert-VersionRequirement -RequiredVersion 9.10
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/API/Accounts/$($AccountID)/PSMConnect"
@@ -323,12 +301,14 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 				#Create body of request
 				$body = $boundParameters | ConvertTo-Json
 
+				$ShouldProcess = $AccountID
+
 				break
 
 			}
 
 			"AdHocConnect" {
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $AdHocVersion
+				Assert-VersionRequirement -RequiredVersion 10.5
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/API/Accounts/AdHocConnect"
@@ -337,7 +317,11 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 				$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
 
 				#Connection parameters are included under the PSMConnectPrerequisites property of the JSON body, for each one specified
-				$boundParameters.keys | Where-Object { $AdHocParameters -contains $PSItem } | ForEach-Object { $PSMConnectPrerequisites = @{ } } {
+				$boundParameters.keys | Where-Object { $AdHocParameters -contains $PSItem } | ForEach-Object {
+
+					$PSMConnectPrerequisites = @{ }
+
+				} {
 
 					#add key=value to hashtable
 					$PSMConnectPrerequisites.Add($PSItem, $boundParameters[$PSItem] )
@@ -353,6 +337,8 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 
 				#Create body of request
 				$body = $boundParameters | Get-PASParameter -ParametersToRemove $AdHocParameters | ConvertTo-Json -Depth 4
+
+				$ShouldProcess = $userName
 
 				break
 
@@ -374,7 +360,7 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 			}
 			elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
 
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+				Assert-VersionRequirement -RequiredVersion 10.2
 
 				#PSMGW accept * / * response
 				$Accept = "* / *"
@@ -386,10 +372,14 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 
 		}
 
-		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $ThisSession
+		if ($PSCmdlet.ShouldProcess($ShouldProcess, "New PSM Session")) {
 
-		If ($result) {
+			#send request to PAS web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $ThisSession
+
+		}
+
+		If ($null -ne $result) {
 
 			If (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains "PSMGWRequest") {
 

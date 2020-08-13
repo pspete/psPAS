@@ -30,7 +30,7 @@ Manage Safe Members							ManageSafeMembers
 Validate Safe Content						ValidateSafeContent
 Backup Safe								    BackupSafe
 Access Safe without confirmation			<NOT RETURNED>
-Authorize account requests�(level1, level2)	<NOT RETURNED>
+Authorize account requests (level1, level2)	<NOT RETURNED>
 
 If a Safe Member Name is provided, the full permissions of the member on the Safe will be returned:
 
@@ -89,7 +89,7 @@ To force all output to be shown, pipe to Select-Object *
 .LINK
 https://pspas.pspete.dev/commands/Get-PASSafeMember
 #>
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = "SafePermissions")]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -100,7 +100,7 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 
 		[Alias("UserName")]
 		[parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "MemberPermissions"
 		)]
@@ -110,28 +110,31 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 
 	BEGIN {
 
-		$Method = "GET"
 		$Request = @{ }
+		$Method = "GET"
 
 	}#begin
 
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
+		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName | Get-EscapedString)/Members"
 
-            Get-EscapedString)/Members"
+		switch ($PSCmdlet.ParameterSetName) {
 
-		#Get full permissions for specific user on safe
-		if ($PSCmdlet.ParameterSetName -eq "MemberPermissions") {
+			"MemberPermissions" {
 
-			#Create URL for member specific request
-			$URI = "$URI/$($MemberName | Get-EscapedString)"
-			#Send a PUT Request instead of GET
-			$Method = "PUT"
-			#Send an empty body
-			#Add to Request parameters for PUT Request
-			$Request["Body"] = @{"member" = @{ } } | ConvertTo-Json
+				#Create URL for member specific request
+				$URI = "$URI/$($MemberName | Get-EscapedString)"
+				#Send a PUT Request instead of GET
+				$Method = "PUT"
+				#Send an empty body
+				#Add to Request parameters for PUT Request
+				$Request["Body"] = @{"member" = @{ } } | ConvertTo-Json
+
+				break
+
+			}
 
 		}
 
@@ -143,42 +146,33 @@ https://pspas.pspete.dev/commands/Get-PASSafeMember
 		#Send request to webservice
 		$result = Invoke-PASRestMethod @Request
 
-		if ($result) {
+		If ($null -ne $result) {
 
-			if ($PSCmdlet.ParameterSetName -eq "MemberPermissions") {
+			switch ($PSCmdlet.ParameterSetName) {
 
-				$MemberPermissions = [PSCustomObject]@{}
+				"MemberPermissions" {
 
-				$result.member.Permissions | ForEach-Object {
+					#format output
+					$Output = $result.member | Select-Object MembershipExpirationDate,
 
-					$MemberPermissions |
-						Add-Member -MemberType NoteProperty -Name $($PSItem |
-							Select-Object -ExpandProperty key) -Value $($PSItem |
-								Select-Object -ExpandProperty value)
+					@{Name = "UserName"; "Expression" = { $MemberName } },
 
-				}
+					@{Name = "Permissions"; "Expression" = {
 
-				#format output
-				$Output = $result.member | Select-Object MembershipExpirationDate,
+							$result.member.permissions | ConvertFrom-KeyValuePair }
 
-				@{Name = "UserName"; "Expression" = {
+					}
 
-						$MemberName }
-
-				},
-
-				@{Name = "Permissions"; "Expression" = {
-
-						$MemberPermissions }
+					break
 
 				}
 
-			}
+				default {
 
-			Else {
+					#output
+					$Output = $result.members | Select-Object UserName, Permissions
 
-				#output
-				$Output = $result.members | Select-Object UserName, Permissions
+				}
 
 			}
 

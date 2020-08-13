@@ -38,12 +38,10 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecordingProperty
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.6"
+		Assert-VersionRequirement -RequiredVersion 10.6
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/Recordings/$($RecordingID | Get-EscapedString)/properties"
@@ -51,12 +49,10 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecordingProperty
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Property
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Property
 
 		} #process
 

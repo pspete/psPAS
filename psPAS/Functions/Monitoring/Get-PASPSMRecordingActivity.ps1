@@ -38,12 +38,10 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecordingActivity
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.6"
+		Assert-VersionRequirement -RequiredVersion 10.6
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/Recordings/$($RecordingID | Get-EscapedString)/activities"
@@ -51,12 +49,10 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecordingActivity
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result.Activities |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Activity
+			$result.Activities | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Activity
 
 		} #process
 

@@ -31,7 +31,7 @@ https://pspas.pspete.dev/commands/Get-PASDirectory
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10_5"
+			ParameterSetName = "10.5"
 		)]
 		[Alias("DomainName")]
 		[string]$id
@@ -39,38 +39,48 @@ https://pspas.pspete.dev/commands/Get-PASDirectory
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.4"
-		$RequiredVersion = [System.Version]"10.5"
+
+		Assert-VersionRequirement -RequiredVersion 10.4
+
 	}#begin
 
 	PROCESS {
 
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
-
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories"
 
-		if ($PSCmdlet.ParameterSetName -eq "v10_5") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+			"10.5" {
 
-			#Update URL for request
-			$URI = "$URI/$id/"
+				Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 
-			$type = "psPAS.CyberArk.Vault.Directory.Extended"
+				#Update URL for request
+				$URI = "$URI/$id/"
+
+				$type = "psPAS.CyberArk.Vault.Directory.Extended"
+
+				break
+
+			}
+
+			default {
+
+				$type = "psPAS.CyberArk.Vault.Directory"
+
+				break
+
+			}
 
 		}
-		Else { $type = "psPAS.CyberArk.Vault.Directory" }
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename $type
+			$result | Add-ObjectDetail -typename $type
 
 		}
 

@@ -63,12 +63,10 @@ https://pspas.pspete.dev/commands/New-PASGroup
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"11.1"
+		Assert-VersionRequirement -RequiredVersion 11.1
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/UserGroups"
@@ -83,7 +81,7 @@ https://pspas.pspete.dev/commands/New-PASGroup
 
 		}
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Group
 

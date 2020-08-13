@@ -92,39 +92,42 @@ https://pspas.pspete.dev/commands/Add-PASGroupMember
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.6"
+
 	}#begin
 
 	PROCESS {
 
-		If ($PSCmdlet.ParameterSetName -eq "pre_10_6") {
-			#Create URL for request
-			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Groups/$($GroupName |
+		switch ($PSCmdlet.ParameterSetName) {
 
-            Get-EscapedString)/Users"
+			"pre_10_6" {
 
-		}
+				#Create URL for request
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Groups/$($GroupName | Get-EscapedString)/Users"
 
-		ElseIf ($PSCmdlet.ParameterSetName -eq "post_10_6") {
+				break
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			}
 
-			#Create URL for request
-			$URI = "$Script:BaseURI/API/UserGroups/$groupId/Members"
+			"post_10_6" {
+
+				Assert-VersionRequirement -RequiredVersion 10.6
+
+				#Create URL for request
+				$URI = "$Script:BaseURI/API/UserGroups/$groupId/Members"
+
+				break
+
+			}
 
 		}
 
 		#create request body
-		$Body = $PSBoundParameters |
-
-		Get-PASParameter -ParametersToRemove GroupName, groupId |
-
-		ConvertTo-Json
+		$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove GroupName, groupId | ConvertTo-Json
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result
 

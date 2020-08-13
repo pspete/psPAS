@@ -23,6 +23,11 @@ Using a shared set of commands for interacting with the CyberArk API provides ma
 - Easily collaborate on shared problems.
   - Fosters an opportunity for developers to support others in the CyberArk community seeking to make improvements through automation.
 
+## Project Sponsorship
+
+If you are already using psPAS, please consider <a href="https://github.com/sponsors/pspete">sponsoring @pspete on GitHub:</a>
+<iframe src="https://github.com/sponsors/pspete/card" title="Sponsor pspete" height="225" width="600" style="border: 0;"></iframe>
+
 ## Community Contributions
 
 psPAS would not be what it is without contributions received from the community.

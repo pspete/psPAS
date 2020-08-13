@@ -17,7 +17,7 @@ Returns referrer list
 
 	BEGIN {
 
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion 11.5
+		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
@@ -29,7 +29,7 @@ Returns referrer list
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result
 

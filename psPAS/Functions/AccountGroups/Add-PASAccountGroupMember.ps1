@@ -52,12 +52,10 @@ https://pspas.pspete.dev/commands/Add-PASAccountGroupMember
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.9.5"
+		Assert-VersionRequirement -RequiredVersion 9.9.5
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/AccountGroups/$($GroupID |

@@ -33,12 +33,10 @@ https://pspas.pspete.dev/commands/Import-PASPlatform
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.2"
+		Assert-VersionRequirement -RequiredVersion 10.2
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/Platforms/Import"

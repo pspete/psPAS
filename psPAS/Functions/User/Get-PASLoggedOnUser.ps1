@@ -29,7 +29,7 @@ https://pspas.pspete.dev/commands/Get-PASLoggedOnUser
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User
 

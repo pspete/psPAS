@@ -65,7 +65,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			It "throws if version requirement not met" {
 				$Script:ExternalVersion = 1.1
 
-				{ $InputObject | Get-PASAccountPassword } | Should -Throw -ExpectedMessage "CyberArk 1.1 does not meet the minimum version requirement of 10.1 for Get-PASAccountPassword (using ParameterSet: v10)"
+				{ $InputObject | Get-PASAccountPassword } | Should -Throw -ExpectedMessage "CyberArk 1.1 does not meet the minimum version requirement of 10.1 for Get-PASAccountPassword (using ParameterSet: 10.1)"
 
 
 			}

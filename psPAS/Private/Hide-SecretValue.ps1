@@ -85,7 +85,7 @@
 
 		ForEach-Object {
 
-			$OutputValue = $OutputValue -replace "(`"$_`":).+", "`$1  `"******`","
+			$OutputValue = $OutputValue -replace "(`"$_`":).+(`",?)", "`$1  `"******`$2"
 
 		}
 

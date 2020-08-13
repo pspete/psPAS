@@ -456,6 +456,9 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 11.4 introduced new API endpoints
   - Parameters added to enable more filtering options for querying target platforms
   - Parameters addded to request details of dependent, group & rotational group platforms.
+- Version 9.10+  When specifying PlatformID
+  - if the platform properties contain a semicolon (';'), the API may not return the complete value.
+    - noted for ChangeCommand, ReconcileCommand & ConnectionCommand properties
 
 ### Remove-PASUser
 
@@ -471,7 +474,10 @@ If you are using version 9.7+, and the function being invoked requires version 9
 
 ### Get-PASPTAEvent
 
-- Version 11.4 introduced new parameters for filtering events
+- Version 11.3 introduced new parameters for filtering events
   - Supports:
     - status
+    - fromUpdateDate
+- Version 11.4 introduced new parameters for filtering events
+  - Supports:
     - accountID

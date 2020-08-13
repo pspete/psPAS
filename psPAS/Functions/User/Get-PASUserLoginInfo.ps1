@@ -24,12 +24,10 @@ https://pspas.pspete.dev/commands/Get-PASUserLoginInfo
 	param(	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.4"
+		Assert-VersionRequirement -RequiredVersion 10.4
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/LoginsInfo"
@@ -37,12 +35,10 @@ https://pspas.pspete.dev/commands/Get-PASUserLoginInfo
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Login
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Login
 
 		}
 

@@ -34,24 +34,25 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 	}
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
-BeforeEach{
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2"; "PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC" }
+		BeforeEach {
+			Mock Invoke-PASRestMethod -MockWith {
+				[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "val2"; "PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC" }
+			}
+
+			$InputObj = [pscustomobject]@{
+				"AccountID"              = "SomeID"
+				"Reason"                 =	"Some Important Reason"
+				"TicketingSystemName"    = "SomeName"
+				"TicketID"               = "TicketID123"
+				"MultipleAccessRequired" = $true
+				"FromDate"               = (Get-Date 1-1-2018)
+				"ToDate"                 = (Get-Date 12-12-2018)
+				"PSMRemoteMachine"       = "SomeMachine"
+			}
+
+			$response = $InputObj | New-PASRequest
+
 		}
-
-		$InputObj = [pscustomobject]@{
-			"AccountID"           = "SomeID"
-			"Reason"              =	"Some Important Reason"
-			"TicketingSystemName" = "SomeName"
-			"TicketID"            = "TicketID123"
-			"MultipleAccessRequired"      = $true
-			"FromDate"            = (Get-Date 1-1-2018)
-			"ToDate"              = (Get-Date 12-12-2018)
-		}
-
-		$response = $InputObj | New-PASRequest
-
-}
 		Context "Mandatory Parameters" {
 
 			$Parameters = @{Parameter = 'AccountID' }
@@ -106,7 +107,7 @@ BeforeEach{
 
 			It "has a request body with expected number of properties" {
 
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 7
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 8
 
 			}
 
@@ -122,10 +123,16 @@ BeforeEach{
 
 			}
 
+			It "has a request body with expected ConnectionParams" {
+
+				$Script:RequestBody.ConnectionParams.PSMRemoteMachine.Value | Should -Be "SomeMachine"
+
+			}
+
 			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ $InputObj | New-PASRequest  } | Should -Throw
-$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = "1.0"
+				{ $InputObj | New-PASRequest } | Should -Throw
+				$Script:ExternalVersion = "0.0"
 			}
 
 		}

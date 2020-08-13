@@ -40,6 +40,9 @@ PAS 11.4 minimum
 https://pspas.pspete.dev/commands/Disable-PASPlatform
 
 #>
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'TargetPlatform', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'GroupPlatform', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'RotationalGroup', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -72,13 +75,11 @@ https://pspas.pspete.dev/commands/Disable-PASPlatform
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"11.4"
+		Assert-VersionRequirement -RequiredVersion 11.4
 
 	}#begin
 
 	Process {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/platforms/$($PSCmdLet.ParameterSetName)/$ID/deactivate"

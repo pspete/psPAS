@@ -143,8 +143,7 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecording
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
-		$RequiredVersion = [System.Version]"10.6"
+		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
 	PROCESS {
@@ -152,28 +151,32 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecording
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/Recordings"
 
-		If ($PSCmdlet.ParameterSetName -eq "byRecordingID") {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+			"byRecordingID" {
+				Assert-VersionRequirement -RequiredVersion 10.6
 
-			$URI = "$URI/$RecordingID"
+				$URI = "$URI/$RecordingID"
 
-		}
+				break
 
-		ElseIf ($PSCmdlet.ParameterSetName -eq "byQuery") {
+			}
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+			"byQuery" {
+				#Get Parameters to include in request
+				$boundParameters = $PSBoundParameters | Get-PASParameter
 
-			#Get Parameters to include in request
-			$boundParameters = $PSBoundParameters | Get-PASParameter
+				#Create Query String, escaped for inclusion in request URL
+				$queryString = $boundParameters | ConvertTo-QueryString
 
-			#Create Query String, escaped for inclusion in request URL
-			$queryString = $boundParameters | ConvertTo-QueryString
+				if ($null -ne $queryString) {
 
-			if ($queryString) {
+					#Build URL from base URL
+					$URI = "$URI`?$queryString"
 
-				#Build URL from base URL
-				$URI = "$URI`?$queryString"
+				}
+
+				break
 
 			}
 
@@ -182,12 +185,10 @@ https://pspas.pspete.dev/commands/Get-PASPSMRecording
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result.Recordings |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording
+			$result.Recordings | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording
 
 		} #process
 

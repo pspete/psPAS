@@ -63,13 +63,11 @@ https://pspas.pspete.dev/commands/Set-PASPTARemediation
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"10.4"
+		Assert-VersionRequirement -RequiredVersion 10.4
 
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -86,7 +84,7 @@ https://pspas.pspete.dev/commands/Set-PASPTARemediation
 			#send request to PAS web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $Script:WebSession
 
-			if ($result) {
+			If ($null -ne $result) {
 
 				#Return Results
 				$result.automaticRemediation | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.PTA.Remediation"

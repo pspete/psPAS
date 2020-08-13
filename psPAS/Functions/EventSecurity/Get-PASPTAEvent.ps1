@@ -6,20 +6,20 @@ Returns PTA security events
 .DESCRIPTION
 Returns PTA security events
 
-.PARAMETER lastUpdatedEventDate
+.PARAMETER fromUpdateDate
 Starting date from which to get security events.
+Requires 11.3
 
 .PARAMETER status
 The status of the security event (open or closed).
-Requires 11.4
+Requires 11.3
 
 .PARAMETER accountID
 The unique account identifier of the account relating to the Security Event.
 Requires 11.4
 
-.PARAMETER UseLegacyMethod
-Specify to send lastUpdatedEventDate using legacy method
-Requires 11.4
+.PARAMETER lastUpdatedEventDate
+Starting date from which to get security events.
 
 .EXAMPLE
 Get-PASPTAEvent
@@ -27,7 +27,7 @@ Get-PASPTAEvent
 Returns all PTA security events
 
 .EXAMPLE
-Get-PASPTAEvent -lastUpdatedEventDate $date
+Get-PASPTAEvent -fromUpdateDate $date
 
 Returns all PTA security events since $date
 
@@ -37,7 +37,7 @@ Get-PASPTAEvent -status OPEN
 Returns all PTA security events with an Open status.
 
 .EXAMPLE
-Get-PASPTAEvent -lastUpdatedEventDate $date -UseLegacyMethod
+Get-PASPTAEvent -lastUpdatedEventDate $date
 
 Returns all PTA security events since $date
 
@@ -47,25 +47,29 @@ Minimum Version CyberArk 10.3
 .LINK
 https://pspas.pspete.dev/commands/Get-PASPTAEvent
 #>
-	[CmdletBinding(DefaultParameterSetName = "11_4")]
+	[CmdletBinding(DefaultParameterSetName = "11.3")]
 	param(
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_4"
+			ParameterSetName = "11.4"
 		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "11.3"
+		)]
+		[datetime]$fromUpdateDate,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10_3"
+			ParameterSetName = "11.3"
 		)]
-		[datetime]$lastUpdatedEventDate,
-
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_4"
+			ParameterSetName = "11.4"
 		)]
 		[ValidateSet("OPEN", "CLOSED")]
 		[string]$status,
@@ -73,28 +77,24 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_4"
+			ParameterSetName = "11.4"
 		)]
 		[string]$accountID,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "10_3"
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "10.3"
 		)]
-		[switch]$UseLegacyMethod
+		[datetime]$lastUpdatedEventDate
 
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.3"
-		$RequiredVersion = [System.Version]"11.4"
-
+		Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create request URL
 		$URI = "$Script:BaseURI/API/pta/API/Events/"
@@ -104,34 +104,43 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 
 		$ThisSession = $Script:WebSession
 
-		if ($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			#add Unix Time Stamp of lastUpdatedEventDate to header as key=value pair
-			$boundParameters["lastUpdatedEventDate"] = [math]::Round(($(Get-Date $(Get-Date $lastUpdatedEventDate) -UFormat %s)))
+			"10.3" {
 
-		}
+				if ($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
 
-		if ($PSCmdlet.ParameterSetName -eq "11_4") {
+					#add Unix Time Stamp of lastUpdatedEventDate to header as key=value pair
+					$boundParameters["lastUpdatedEventDate"] = $lastUpdatedEventDate | ConvertTo-UnixTime
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+					$ThisSession.Headers["lastUpdatedEventDate"] = $boundParameters["lastUpdatedEventDate"]
 
-			#Create Query String, escaped for inclusion in request URL
-			$queryString = $boundParameters | ConvertTo-QueryString
+				}
 
-			if ($queryString) {
-
-				#Build URL from base URL
-				$URI = "$URI`?$queryString"
+				break
 
 			}
 
-		}
-		Else {
+			default {
 
-			if ($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
+				if ($PSBoundParameters.ContainsKey("fromUpdateDate")) {
 
-				#add Unix Time Stamp of lastUpdatedEventDate to header as key=value pair
-				$ThisSession.Headers["lastUpdatedEventDate"] = $boundParameters["lastUpdatedEventDate"]
+					#Include time as unixtimestamp in milliseconds
+					$boundParameters["fromUpdateDate"] = $fromUpdateDate | ConvertTo-UnixTime -Milliseconds
+
+				}
+
+				#Create Query String, escaped for inclusion in request URL
+				$queryString = $boundParameters | ConvertTo-QueryString
+
+				if ($null -ne $queryString) {
+
+					#Build URL from base URL
+					$URI = "$URI`?$queryString"
+
+				}
+
+				break
 
 			}
 
@@ -140,12 +149,10 @@ https://pspas.pspete.dev/commands/Get-PASPTAEvent
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $ThisSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#Return Results
-			$result |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
 
 		}
 

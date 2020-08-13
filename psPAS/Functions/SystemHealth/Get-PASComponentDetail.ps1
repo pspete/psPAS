@@ -49,12 +49,10 @@ https://pspas.pspete.dev/commands/Get-PASComponentDetail
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"10.1"
+		Assert-VersionRequirement -RequiredVersion 10.1
 	}#begin
 
 	PROCESS {
-
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/ComponentsMonitoringDetails/$ComponentID"
@@ -62,7 +60,7 @@ https://pspas.pspete.dev/commands/Get-PASComponentDetail
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		if ($result) {
+		If ($null -ne $result) {
 
 			#output returned data
 			$result | Select-Object -ExpandProperty ComponentsDetails

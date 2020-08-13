@@ -45,7 +45,8 @@ Disable authentication method "SomeID"
 
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = "passwordFieldLabel not related to password value")]
-	[CmdletBinding()]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUsernameAndPasswordParams', '', Justification = "usernameFieldLabel & passwordFieldLabel not related to password value")]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -110,7 +111,7 @@ Disable authentication method "SomeID"
 
 	BEGIN {
 
-		Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion 11.5
+		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
@@ -122,11 +123,15 @@ Disable authentication method "SomeID"
 		#Request body
 		$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove ID | ConvertTo-Json
 
-		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+		if ($PSCmdlet.ShouldProcess($ID, "Update Authentication Method")) {
+
+			#send request to web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+
+		}
 
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			$result
 

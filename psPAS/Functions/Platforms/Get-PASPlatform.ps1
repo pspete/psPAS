@@ -10,12 +10,14 @@ Request platform configuration information from the Vault.
 with additional filters available for target group queries.
 11.1+ can return details of all target platforms.
 Limited filters can be used to retrieve a subset of the platforms
-
-For 9.10+, the "PlatformID" parameter must be used to retrieve details of a single
+For 9.10+, the "PlatformID" parameter is used to retrieve details of a single
 specified platform from the Vault.
 
 The output contained under the "Details" property differs depending
-on which method (9.10+,11.1+ or 11.4) is used, and which platform type is queried.
+on which method (9.10+,11.1+ or 11.4+) is used, and which platform type is queried.
+!Note: When specifying PlatformID:
+! if the platform properties contain a semicolon (';'), the API may not return the complete value.
+! noted for ChangeCommand, ReconcileCommand & ConnectionCommand properties
 
 .PARAMETER Active
 Filter active/inactive platforms
@@ -224,9 +226,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 	)
 
 	BEGIN {
-		$MinimumVersion = [System.Version]"9.10"
-		$RequiredVersion = [System.Version]"11.1"
-		$Version114 = [System.Version]"11.4"
+
 	}#begin
 
 	PROCESS {
@@ -234,7 +234,8 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 		switch ($PSCmdlet.ParameterSetName) {
 
 			"11_1" {
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $RequiredVersion
+
+				Assert-VersionRequirement -RequiredVersion 11.1
 
 				#Create request URL
 				$URI = "$Script:BaseURI/API/Platforms"
@@ -245,7 +246,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 				#Create Query String, escaped for inclusion in request URL
 				$queryString = $boundParameters | ConvertTo-QueryString
 
-				If ($queryString) {
+				If ($null -ne $queryString) {
 					#Build URL from base URL
 					$URI = "$URI`?$queryString"
 				}
@@ -255,35 +256,45 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 			}
 
 			"legacy" {
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+
+				Assert-VersionRequirement -RequiredVersion 9.10
 
 				#Create request URL
 				$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)"
+
 				break
+
 			}
 
 			"targets" {
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $Version114
+
+				Assert-VersionRequirement -RequiredVersion 11.4
 
 				$URI = "$Script:BaseURI/API/Platforms/$($PSCmdlet.ParameterSetName)"
 
 				#Get Parameters to include in request
 				$boundParameters = $PSBoundParameters | Get-PASParameter
 
-				$queryString = $boundParameters | ConvertTo-QueryString -Format Filter
+				$queryString = $boundParameters | ConvertTo-FilterString | ConvertTo-QueryString
 
-				If ($queryString) {
-					$URI = "$URI`?filter=$queryString"
+				If ($null -ne $queryString) {
+
+					$URI = "$URI`?$queryString"
+
 				}
 
 				break
+
 			}
 
 			default {
-				Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $Version114
+
+				Assert-VersionRequirement -RequiredVersion 11.4
 
 				$URI = "$Script:BaseURI/API/Platforms/$($PSCmdlet.ParameterSetName)"
+
 				break
+
 			}
 
 		}
@@ -291,7 +302,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
-		If ($result) {
+		If ($null -ne $result) {
 
 			#11.1+ returns result under "platforms" property
 			If ($result.Platforms) {

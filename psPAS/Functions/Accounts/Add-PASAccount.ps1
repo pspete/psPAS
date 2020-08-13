@@ -9,7 +9,7 @@ Adds a new privileged account to the Vault.
 Parameters are processed to create request object from passed parameters in the required format.
 
 .PARAMETER name
-The name�of the account.
+The name of the account.
 A version 10.4 onward specific parameter
 
 .PARAMETER secretType
@@ -350,8 +350,6 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 
 	BEGIN {
 
-		$MinimumVersion = [System.Version]"10.4"
-
 		#The (version 9 API) Add Account JSON object requires specific formatting.
 		#Different parameters are contained within the JSON at different depths.
 		#Programmatic processing is required to format the JSON as required.
@@ -371,111 +369,119 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		#declare empty array to hold keys to remove from bound parameters
-		[array]$keysToRemove = @()
+		switch ($PSCmdlet.ParameterSetName) {
 
-		if ($PSCmdlet.ParameterSetName -eq "V10") {
+			"V10" {
 
-			Assert-VersionRequirement -ExternalVersion $Script:ExternalVersion -RequiredVersion $MinimumVersion
+				Assert-VersionRequirement -RequiredVersion 10.4
 
-			#Create URL for Request
-			$URI = "$Script:BaseURI/api/Accounts"
+				#Create URL for Request
+				$URI = "$Script:BaseURI/api/Accounts"
 
-			#deal with "secret" SecureString
-			If ($PSBoundParameters.ContainsKey("secret")) {
+				#deal with "secret" SecureString
+				If ($PSBoundParameters.ContainsKey("secret")) {
 
-				#Include decoded password in request
-				$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
-
-			}
-
-			$remoteMachinesAccess = @{ }
-			$boundParameters.keys | Where-Object { $remoteMachine -contains $_ } | ForEach-Object {
-
-				#add key=value to hashtable
-				$remoteMachinesAccess[$_] = $boundParameters[$_]
-
-
-			}
-
-			$secretManagement = @{ }
-			$boundParameters.keys | Where-Object { $SecretMgmt -contains $_ } | ForEach-Object {
-
-				#add key=value to hashtable
-				$secretManagement[$_] = $boundParameters[$_]
-
-			}
-
-			$boundParameters["remoteMachinesAccess"] = $remoteMachinesAccess
-			$boundParameters["secretManagement"] = $secretManagement
-
-			$body = $boundParameters |
-			Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt) |
-			ConvertTo-Json -depth 4
-
-		}
-
-		if ($PSCmdlet.ParameterSetName -eq "V9") {
-
-			#Create URL for Request
-			$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account"
-
-			#deal with Password SecureString
-			If ($PSBoundParameters.ContainsKey("password")) {
-
-				#Include decoded password in request
-				$boundParameters["password"] = $(ConvertTo-InsecureString -SecureString $password)
-
-			}
-
-			#Process for required formatting - fix V10 specific parameter names
-			$boundParameters.remove("SafeName")
-			$boundParameters.remove("userName")
-			$boundParameters["safe"] = $SafeName
-			$boundParameters["username"] = $userName
-
-			#declare empty hashtable to hold "non-base" parameters
-			$properties = @{ }
-
-			#Get "non-base" parameters
-			$boundParameters.keys | Where-Object { $baseParameters -notcontains $_ } | ForEach-Object {
-
-				#For all "non-base" parameters except "DynamicProperties"
-				if ($_ -ne "DynamicProperties") {
-
-					#Add key/Value to "properties" hashtable
-					$properties[$_] = $boundParameters[$_]
+					#Include decoded password in request
+					$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
 
 				}
 
-				Else {
-					#for DynamicProperties key=value pairs
+				$remoteMachinesAccess = @{ }
+				$boundParameters.keys | Where-Object { $remoteMachine -contains $_ } | ForEach-Object {
 
-					#Enumerate DynamicProperties object
-					$boundParameters[$_].getenumerator() | ForEach-Object {
+					#add key=value to hashtable
+					$remoteMachinesAccess[$_] = $boundParameters[$_]
 
-						#add key=value to "properties" hashtable
-						$properties[$_.name] = $_.value
+
+				}
+
+				$secretManagement = @{ }
+				$boundParameters.keys | Where-Object { $SecretMgmt -contains $_ } | ForEach-Object {
+
+					#add key=value to hashtable
+					$secretManagement[$_] = $boundParameters[$_]
+
+				}
+
+				$boundParameters["remoteMachinesAccess"] = $remoteMachinesAccess
+				$boundParameters["secretManagement"] = $secretManagement
+
+				$body = $boundParameters |
+				Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt) |
+				ConvertTo-Json -depth 4
+
+				break
+
+			}
+
+			"V9" {
+
+				#Create URL for Request
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account"
+
+				#deal with Password SecureString
+				If ($PSBoundParameters.ContainsKey("password")) {
+
+					#Include decoded password in request
+					$boundParameters["password"] = $(ConvertTo-InsecureString -SecureString $password)
+
+				}
+
+				#Process for required formatting - fix V10 specific parameter names
+				$boundParameters.remove("SafeName")
+				$boundParameters.remove("userName")
+				$boundParameters["safe"] = $SafeName
+				$boundParameters["username"] = $userName
+
+				#declare empty hashtable to hold "non-base" parameters
+				$properties = @{ }
+
+				#declare empty array to hold keys to remove from bound parameters
+				[array]$keysToRemove = @()
+
+				#Get "non-base" parameters
+				$boundParameters.keys | Where-Object { $baseParameters -notcontains $_ } | ForEach-Object {
+
+					#For all "non-base" parameters except "DynamicProperties"
+					if ($_ -ne "DynamicProperties") {
+
+						#Add key/Value to "properties" hashtable
+						$properties[$_] = $boundParameters[$_]
 
 					}
+
+					Else {
+						#for DynamicProperties key=value pairs
+
+						#Enumerate DynamicProperties object
+						$boundParameters[$_].getenumerator() | ForEach-Object {
+
+							#add key=value to "properties" hashtable
+							$properties[$_.name] = $_.value
+
+						}
+					}
+
+					#add the "non-base" parameter key to array
+					$keysToRemove = $keysToRemove + $_
+
 				}
 
-				#add the "non-base" parameter key to array
-				$keysToRemove = $keysToRemove + $_
+				#Add "non-base" parameter hashtable as value of "properties" on boundparameters object
+				$boundParameters["properties"] = @($properties.getenumerator() | ForEach-Object { $_ })
+
+				#Create body of request
+				$body = @{
+
+					#account node does not contain non-base parameters
+					"account" = $boundParameters | Get-PASParameter -ParametersToRemove $keysToRemove
+
+					#ensure nodes at all required depths are included in the JSON object
+				} | ConvertTo-Json -Depth 4
+
+				break
 
 			}
-
-			#Add "non-base" parameter hashtable as value of "properties" on boundparameters object
-			$boundParameters["properties"] = @($properties.getenumerator() | ForEach-Object { $_ })
-
-			#Create body of request
-			$body = @{
-
-				#account node does not contain non-base parameters
-				"account" = $boundParameters | Get-PASParameter -ParametersToRemove $keysToRemove
-
-				#ensure nodes at all required depths are included in the JSON object
-			} | ConvertTo-Json -Depth 4
 
 		}
 
@@ -484,7 +490,7 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 
 		if ($PSCmdlet.ParameterSetName -eq "V10") {
 
-			if ($result) {
+			If ($null -ne $result) {
 
 				#Return Results
 				$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Account.V10"
