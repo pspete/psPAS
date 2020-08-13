@@ -5,7 +5,7 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v5.0...
 
-## **4.3.##** (August ## 2020)
+## **4.3.62** (August 14th 2020)
 
 - Updated Functions
   - `New-PASRequest`
