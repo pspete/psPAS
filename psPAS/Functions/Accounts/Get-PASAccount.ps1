@@ -373,30 +373,6 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 				}
 
-				"v10ByQuery" {
-
-					#to store list of query results
-					$AccountList = [Collections.Generic.List[Object]]@()
-
-					#add resultst to list
-					$null = $AccountList.Add($result.value)
-
-					#iterate any nextLinks
-					$NextLink = $result.nextLink
-					While ( $null -ne $NextLink ) {
-						$URI = "$Script:BaseURI/$NextLink"
-						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
-						$NextLink = $result.nextLink
-						$null = $AccountList.AddRange(($result.value))
-					}
-
-					#return list
-					$return = $AccountList
-
-					break
-
-				}
-
 				"v9" {
 
 					$count = $($result.count)
@@ -461,6 +437,30 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 						default { break }
 
 					}
+
+					break
+
+				}
+
+				default {
+
+					#to store list of query results
+					$AccountList = [Collections.Generic.List[Object]]@()
+
+					#add resultst to list
+					$null = $AccountList.Add($result.value)
+
+					#iterate any nextLinks
+					$NextLink = $result.nextLink
+					While ( $null -ne $NextLink ) {
+						$URI = "$Script:BaseURI/$NextLink"
+						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
+						$NextLink = $result.nextLink
+						$null = $AccountList.AddRange(($result.value))
+					}
+
+					#return list
+					$return = $AccountList
 
 					break
 

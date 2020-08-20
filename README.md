@@ -39,7 +39,7 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 [github]:https://img.shields.io/github/downloads/pspete/psPAS/total?color=brightgreen
 [github-site]:https://github.com/pspete/psPAS/releases/latest
 [release]:https://img.shields.io/github/v/release/pspete/psPAS?color=brightgreen
-[installlink]:https://github.com/pspete/psPAS/tree/required_version#install-options
+[installlink]:https://github.com/pspete/psPAS#install-options
 
 ----------
 
