@@ -113,6 +113,15 @@
 							<ListItem>
 								<PropertyName>Comment</PropertyName>
 							</ListItem>
+							<ListItem>
+								<PropertyName>Subject</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Issuer</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>SubjectAlternativeName</PropertyName>
+							</ListItem>
 						</ListItems>
 					</ListEntry>
 				</ListEntries>
