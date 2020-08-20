@@ -5,6 +5,14 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v5.0...
 
+## **4.3.65** (August 20th 2020)
+
+- Fixes
+  - `Get-PASAccount`
+    - Fixes issue where no output would be shown if `filter` parameter was used.
+  - `Get-PASApplicationAuthenticationMethod`
+    - Adds properties `Subject`, `Issuer` & `SubjectAlternativeName` to output view.
+
 ## **4.3.62** (August 14th 2020)
 
 - Updated Functions
