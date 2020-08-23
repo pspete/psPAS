@@ -28,8 +28,6 @@ Returns bulk account upload id or status.
 ### EXAMPLE 1
 ```
 $Accounts = @(
-```
-
 New-PASAccountObject -uploadIndex 1 -userName SomeAccount1 -address domain.com -platformID WinDomain -SafeName SomeSafe
 	New-PASAccountObject -uploadIndex 2 -userName SomeAccount2 -address domain.com -platformID WinDomain -SafeName SomeSafe
 	New-PASAccountObject -uploadIndex 3 -userName SomeAccount3 -address domain.com -platformID WinDomain -SafeName SomeSafe
@@ -37,7 +35,7 @@ New-PASAccountObject -uploadIndex 1 -userName SomeAccount1 -address domain.com -
 )
 
 Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts
-
+```
 Create & send list of accounts to be added as a bulk operation.
 
 ## PARAMETERS
