@@ -5,6 +5,25 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v5.0...
 
+## **4.4.##** (August ## 2020)
+
+### Module update to cover all CyberArk 11.6 API features
+
+- New Functions
+  - `Start-PASAccountImportJob`
+    - Add multiple accounts to existing safes
+  - `Get-PASAccountImportJob`
+    - Get status of bulk account import jobs
+  - `New-PASAccountObject`
+    - Formats an object to include in the list of accounts to be added using `Start-PASAccountImportJob`.
+  - `Get-PASDiscoveredAccount`
+    - Search for and list discovered accounts.
+- Updated Functions
+  - `Get-PASAccount`
+    - Updated for code reuse
+  - `Add-PASAccount`
+    - Updated to use `New-PASAccountObject` to create required request object.
+
 ## **4.3.65** (August 20th 2020)
 
 - Fixes

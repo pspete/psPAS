@@ -85,6 +85,14 @@ commands:
         url: /commands/Disable-PASCPMAutoManagement
       - title: "Get-PASAccountSSHKey"
         url: /commands/Get-PASAccountSSHKey
+      - title: "Start-PASAccountImportJob"
+        url: /commands/Start-PASAccountImportJob
+      - title: "Get-PASAccountImportJob"
+        url: /commands/Get-PASAccountImportJob
+      - title: "New-PASAccountObject"
+        url: /commands/New-PASAccountObject
+      - title: "Get-PASDiscoveredAccount"
+        url: /commands/Get-PASDiscoveredAccount
 
   - title: "Applications"
     children:

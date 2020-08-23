@@ -197,7 +197,11 @@
 		'Get-PASConnectionComponent',
 		'Get-PASPSMServer',
 		'Get-PASPlatformPSMConfig',
-		'Set-PASPlatformPSMConfig'
+		'Set-PASPlatformPSMConfig',
+		'New-PASAccountObject',
+		'Start-PASAccountImportJob',
+		'Get-PASAccountImportJob',
+		'Get-PASDiscoveredAccount'
 	)
 
 	AliasesToExport   = @(

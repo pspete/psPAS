@@ -350,17 +350,9 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 
 	BEGIN {
 
-		#The (version 9 API) Add Account JSON object requires specific formatting.
-		#Different parameters are contained within the JSON at different depths.
-		#Programmatic processing is required to format the JSON as required.
-
 		#V9 baseparameters are contained in JSON object at the same depth
-		$baseParameters = @("Safe", "PlatformID", "Address", "AccountName", "Password", "Username",
+		$baseParameters = [Collections.Generic.List[String]]@("Safe", "PlatformID", "Address", "AccountName", "Password", "Username",
 			"DisableAutoMgmt", "DisableAutoMgmtReason", "GroupName", "GroupPlatformID")
-
-		#V10 parameters are nested under JSON object properties
-		$remoteMachine = @("remoteMachines", "accessRestrictedToRemoteMachines")
-		$SecretMgmt = @("automaticManagementEnabled", "manualManagementReason")
 
 	}#begin
 
@@ -378,37 +370,9 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 				#Create URL for Request
 				$URI = "$Script:BaseURI/api/Accounts"
 
-				#deal with "secret" SecureString
-				If ($PSBoundParameters.ContainsKey("secret")) {
+				$Account = New-PASAccountObject @boundParameters
 
-					#Include decoded password in request
-					$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
-
-				}
-
-				$remoteMachinesAccess = @{ }
-				$boundParameters.keys | Where-Object { $remoteMachine -contains $_ } | ForEach-Object {
-
-					#add key=value to hashtable
-					$remoteMachinesAccess[$_] = $boundParameters[$_]
-
-
-				}
-
-				$secretManagement = @{ }
-				$boundParameters.keys | Where-Object { $SecretMgmt -contains $_ } | ForEach-Object {
-
-					#add key=value to hashtable
-					$secretManagement[$_] = $boundParameters[$_]
-
-				}
-
-				$boundParameters["remoteMachinesAccess"] = $remoteMachinesAccess
-				$boundParameters["secretManagement"] = $secretManagement
-
-				$body = $boundParameters |
-				Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt) |
-				ConvertTo-Json -depth 4
+				$body = $Account | ConvertTo-Json
 
 				break
 
@@ -437,7 +401,7 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 				$properties = @{ }
 
 				#declare empty array to hold keys to remove from bound parameters
-				[array]$keysToRemove = @()
+				$keysToRemove = [Collections.Generic.List[String]]@()
 
 				#Get "non-base" parameters
 				$boundParameters.keys | Where-Object { $baseParameters -notcontains $_ } | ForEach-Object {
@@ -463,12 +427,12 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 					}
 
 					#add the "non-base" parameter key to array
-					$keysToRemove = $keysToRemove + $_
+					$null = $keysToRemove.Add($_)
 
 				}
 
 				#Add "non-base" parameter hashtable as value of "properties" on boundparameters object
-				$boundParameters["properties"] = @($properties.getenumerator() | ForEach-Object { $_ })
+				$boundParameters["properties"] = [Collections.Generic.List[String]]@($properties.getenumerator() | ForEach-Object { $_ })
 
 				#Create body of request
 				$body = @{

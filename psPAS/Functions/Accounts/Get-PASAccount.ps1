@@ -44,13 +44,11 @@ Separate multiple properties with commas, up to a maximum of three properties.
 
 .PARAMETER offset
 An offset for the search results (to discard the first x results for instance).
-*depreciated parameter in psPAS - nextLink functionality will fetch all results automatically
 
 .PARAMETER limit
 Maximum number of returned accounts. If not specified, the default value is 50.
 The maximum number that can be specified is 1000. When used together with the Offset parameter,
 this value determines the number of accounts to return, starting from the first account that is returned.
-*depreciated parameter in psPAS - nextLink functionality will fetch all results automatically
 
 .PARAMETER filter
 A filter for the search.
@@ -138,7 +136,6 @@ Address    : 10.10.10.20
 Get-PASAccount -search root -sort name -offset 100 -limit 5
 
 Returns all accounts matching "root", sorted by AccountName, Search results offset by 100 and limited to 5.
-*depreciated parameter in psPAS - nextLink functionality will fetch all results automatically
 
 .INPUTS
 All parameters can be piped by property name
@@ -444,23 +441,8 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 
 				default {
 
-					#to store list of query results
-					$AccountList = [Collections.Generic.List[Object]]@()
-
-					#add resultst to list
-					$null = $AccountList.Add($result.value)
-
-					#iterate any nextLinks
-					$NextLink = $result.nextLink
-					While ( $null -ne $NextLink ) {
-						$URI = "$Script:BaseURI/$NextLink"
-						$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
-						$NextLink = $result.nextLink
-						$null = $AccountList.AddRange(($result.value))
-					}
-
 					#return list
-					$return = $AccountList
+					$return = $Result | Get-NextLink -TimeoutSec $TimeoutSec
 
 					break
 
