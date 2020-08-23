@@ -16,7 +16,7 @@ Specify if ID relates to Group platform
 Specify if ID relates to Rotational Group platform
 
 .PARAMETER ID
-The unique ID number of the platofrm to disable.
+The unique ID number of the platform to disable.
 
 .EXAMPLE
 Disable-PASPlatform -TargetPlatform -ID 53

@@ -67,54 +67,54 @@ The organizational unit where the account is defined.
 
 .PARAMETER SID
 Security ID. This parameter is relevant only for Windows accounts.
-Relevent when platformType is set to Windows
+Relevant when platformType is set to Windows
 
 .PARAMETER uid
 The unique user ID. This parameter is relevant only for Unix accounts.
-Relevent when platformType is set to "Unix" or "Unix SSH Key"
+Relevant when platformType is set to "Unix" or "Unix SSH Key"
 
 .PARAMETER gid
 The unique group ID. This parameter is relevant only for Unix accounts.
-Relevent when platformType is set to "Unix" or "Unix SSH Key"
+Relevant when platformType is set to "Unix" or "Unix SSH Key"
 
 .PARAMETER fingerprint
 The fingerprint of the discovered SSH key. The public and private keys of the same trust have the same fingerprint. This is relevant for SSH keys only.
-Relevent when platformType is set to "Unix SSH Key"
+Relevant when platformType is set to "Unix SSH Key"
 
 .PARAMETER size
 The size in bits of the generated key.
-Relevent when platformType is set to "Unix SSH Key"
+Relevant when platformType is set to "Unix SSH Key"
 
 .PARAMETER path
 The path of the public key on the target machine.
-Relevent when platformType is set to "Unix SSH Key"
+Relevant when platformType is set to "Unix SSH Key"
 
 .PARAMETER format
 The format of the private SSH key.
-Relevent when platformType is set to "Unix SSH Key"
+Relevant when platformType is set to "Unix SSH Key"
 
 .PARAMETER comment
 Any text added when the key was created.
-Relevent when platformType is set to "Unix SSH Key"
+Relevant when platformType is set to "Unix SSH Key"
 
 .PARAMETER encryption
 The type of encryption used to generate the SSH key.
-Relevent when platformType is set to "Unix SSH Key"
+Relevant when platformType is set to "Unix SSH Key"
 
 .PARAMETER awsAccountID
 The AWS Account ID, in the format of a 12-digit number.
-Relevent when platformType is set to AWS or AWS Access Keys
+Relevant when platformType is set to AWS or AWS Access Keys
 Requires 10.8+
 
 .PARAMETER awsAccessKeyID
 The AWS Access Key ID string
-Relevent when platformType is set to AWS or AWS Access Keys
+Relevant when platformType is set to AWS or AWS Access Keys
 Requires 10.8+
 
 .PARAMETER Dependencies
 Accepts hashtable representing key/value pairs for:
-- name: the Name of the dependancy
-- address (mandatory): IP address or DNS hostname of the dependancy
+- name: the Name of the dependency
+- address (mandatory): IP address or DNS hostname of the dependency
 - type (mandatory): The dependency type from the following list:
   - COM+ Application
   - IIS Anonymous Authentication
@@ -135,21 +135,21 @@ Add-PASDiscoveredAccount -UserName AWSUser -Address aws.com -discoveryDate (Get-
 Adds matching account to pending/discovered account list.
 
 .EXAMPLE
-$dependancy = @()
-$dependancy += @{
-"name"="SomeDependancy"
+$dependency = @()
+$dependency += @{
+"name"="SomeDependency"
 "address"="1.2.3.4"
 "type"="Windows Service"
 }
-$dependancy += @{
+$dependency += @{
 "name"="Some"
 "address"="1.2.3.4"
 "type"="Windows Scheduled Task"
 "taskFolder"="\Some\Folder"
 }
-Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (Get-Date 25/3/2013) -AccountEnabled $true -platformType 'Windows Server Local' -Dependencies $dependancy
+Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (Get-Date 25/3/2013) -AccountEnabled $true -platformType 'Windows Server Local' -Dependencies $dependency
 
-Adds or updates matching pending account with defined dependancies.
+Adds or updates matching pending account with defined dependencies.
 
 .INPUTS
 All parameters can be piped by property name
@@ -373,7 +373,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "108_Dependancy"
+			ParameterSetName = "108_Dependency"
 		)]
 		[hashtable[]]$Dependencies
 	)
@@ -384,7 +384,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 
 			{ $PSItem -match "^108_" } {
 
-				#v10.8 required for AWS & Dependancies
+				#v10.8 required for AWS & Dependencies
 				Assert-VersionRequirement -RequiredVersion 10.8
 
 			}

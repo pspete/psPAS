@@ -52,7 +52,7 @@ Whether or not to redirect Smart Card so that the certificate stored on the card
 Address of the remote machine to connect to.
 
 .PARAMETER LogonDomain
-The netbios domain name of the account being used.
+The NetBIOS domain name of the account being used.
 
 .PARAMETER AllowSelectHTML5
 Specify which connection method, HTML5-based or RDP-file, to use when connecting to the remote server

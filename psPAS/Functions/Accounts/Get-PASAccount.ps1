@@ -396,7 +396,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 								#Get internal properties from found account
 								$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
 
-								$InternalProps = New-Object -TypeName psobject
+								$InternalProps = New-Object -TypeName PSObject
 
 								#For every account property
 								For ($int = 0; $int -lt $InternalProperties.length; $int++) {
@@ -411,7 +411,7 @@ https://pspas.pspete.dev/commands/Get-PASAccount
 							}
 
 							#Create output object
-							$return = New-object -TypeName psobject -Property @{
+							$return = New-object -TypeName PSObject -Property @{
 
 								#Internal Unique ID of Account
 								"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)

@@ -16,7 +16,7 @@ Specify if ID relates to Group platform
 Specify if ID relates to Rotational Group platform
 
 .PARAMETER ID
-The unique ID number of the platofrm to enable.
+The unique ID number of the platform to enable.
 
 .EXAMPLE
 Enable-PASPlatform -TargetPlatform -ID 53

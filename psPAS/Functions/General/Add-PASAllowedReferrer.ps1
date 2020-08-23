@@ -1,7 +1,7 @@
 Function Add-PASAllowedReferrer {
 	<#
 .SYNOPSIS
-Adds an entry to the allowed refferer list.
+Adds an entry to the allowed referrer list.
 
 .DESCRIPTION
 Adds a new web application URL to the allowed referrer list.

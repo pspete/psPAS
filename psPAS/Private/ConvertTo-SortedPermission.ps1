@@ -30,7 +30,7 @@ function ConvertTo-SortedPermission {
 
 	begin {
 
-		$OrderedPermisions = [ordered]@{
+		$OrderedPermissions = [ordered]@{
 			UseAccounts                            = $false
 			RetrieveAccounts                       = $false
 			ListAccounts                           = $false
@@ -62,7 +62,7 @@ function ConvertTo-SortedPermission {
 		If ($null -ne $Parameters.Keys) {
 
 			#For each Ordered Safe Member Permission
-			$OrderedPermisions.keys | ForEach-Object {
+			$OrderedPermissions.keys | ForEach-Object {
 
 				$Permissions = [ordered]@{ }
 

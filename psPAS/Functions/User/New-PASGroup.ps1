@@ -18,7 +18,7 @@ A description for the group
 
 .PARAMETER location
 The vault location to create the group in.
-Preceeded by "\"
+Preceded by "\"
 
 .EXAMPLE
 New-PASGroup -groupName SomeNewGroup -description "Some Description" -location \PSP\CyberArk\Groups
