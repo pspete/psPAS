@@ -271,5 +271,84 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Account.Job</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Account.Job</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>CreationTime</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Id</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Source</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.CreationTime)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Status</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Account.Job</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Account.Job</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>Id</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Source</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>CreationTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.CreationTime)</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Status</PropertyName>
+							</ListItem>
+							<ListItem>
+								<ItemSelectionCondition>
+									<ScriptBlock>$_.Result</ScriptBlock>
+								</ItemSelectionCondition>
+								<PropertyName>Result</PropertyName>
+							</ListItem>
+							<ListItem>
+								<ItemSelectionCondition>
+									<ScriptBlock>$_.SucceededItems</ScriptBlock>
+								</ItemSelectionCondition>
+								<PropertyName>SucceededItems</PropertyName>
+							</ListItem>
+							<ListItem>
+								<ItemSelectionCondition>
+									<ScriptBlock>$_.FailedItems</ScriptBlock>
+								</ItemSelectionCondition>
+								<PropertyName>FailedItems</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

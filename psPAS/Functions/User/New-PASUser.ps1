@@ -596,15 +596,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 		[switch]$UseClassicAPI
 	)
 
-	BEGIN {
-
-		$businessAddressParams = @("workStreet", "workCity", "workState", "workZip", "workCountry")
-		$internetParams = @("homePage", "homeEmail", "businessEmail", "otherEmail")
-		$phonesParams = @("homeNumber", "businessNumber", "cellularNumber", "faxNumber", "pagerNumber")
-		$personalDetailsParams = @("street", "city", "state", "zip", "country", "title", "organization",
-			"department", "profession", "FirstName", "middleName", "LastName")
-
-	}#begin
+	BEGIN {	}#begin
 
 	PROCESS {
 
@@ -627,56 +619,7 @@ https://pspas.pspete.dev/commands/New-PASUser
 				#Create URL for request
 				$URI = "$Script:BaseURI/api/Users"
 
-				If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
-
-					#Include date string in required format
-					$boundParameters["ExpiryDate"] = $ExpiryDate | ConvertTo-UnixTime
-
-				}
-
-				$businessAddress = @{ }
-				$internet = @{ }
-				$phones = @{ }
-				$personalDetails = @{ }
-
-				$boundParameters.keys | Where-Object { $businessAddressParams -contains $_ } | ForEach-Object {
-
-					#add key=value to hashtable
-					$businessAddress[$_] = $boundParameters[$_]
-
-
-				}
-
-				$boundParameters.keys | Where-Object { $internetParams -contains $_ } | ForEach-Object {
-
-					#add key=value to hashtable
-					$internet[$_] = $boundParameters[$_]
-
-				}
-
-				$boundParameters.keys | Where-Object { $phonesParams -contains $_ } | ForEach-Object {
-
-					#add key=value to hashtable
-					$phones[$_] = $boundParameters[$_]
-
-
-				}
-
-				$boundParameters.keys | Where-Object { $personalDetailsParams -contains $_ } | ForEach-Object {
-
-					#add key=value to hashtable
-					$personalDetails[$_] = $boundParameters[$_]
-
-				}
-
-				$boundParameters["businessAddress"] = $businessAddress
-				$boundParameters["internet"] = $internet
-				$boundParameters["phones"] = $phones
-				$boundParameters["personalDetails"] = $personalDetails
-
-				#Prepare Request Body
-				$boundParameters = $boundParameters |
-				Get-PASParameter -ParametersToRemove @($businessAddressParams + $internetParams + $phonesParams + $personalDetailsParams)
+				$boundParameters = $boundParameters | Format-PASUserObject
 
 				$TypeName = "psPAS.CyberArk.Vault.User.Extended"
 
@@ -716,7 +659,6 @@ https://pspas.pspete.dev/commands/New-PASUser
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 			If ($null -ne $result) {
-
 
 				$result | Add-ObjectDetail -typename $typeName
 

@@ -19,7 +19,7 @@ Specify if ID relates to Group platform
 Specify if ID relates to Rotational Group platform
 
 .PARAMETER ID
-The unique ID number of the platofrm to delete.
+The unique ID number of the platform to delete.
 
 .EXAMPLE
 Remove-PASPlatform -TargetPlatform -ID 9

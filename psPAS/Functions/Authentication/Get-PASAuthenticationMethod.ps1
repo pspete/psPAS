@@ -5,7 +5,7 @@ List authentication methods
 
 .DESCRIPTION
 Returns a list of all existing authentication methods.
-Membership of ault admins group required
+Membership of Vault admins group required
 
 .PARAMETER ID
 The ID of a specific authentication method to return details of

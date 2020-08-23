@@ -8,7 +8,7 @@ Disables an account for CPM management by setting automaticManagementEnabled to 
 and optionally sets a value for manualManagementReason.
 
 .PARAMETER AccountID
-The ID of the account to disable automaic CPM management.
+The ID of the account to disable automatic CPM management.
 
 .PARAMETER Reason
 The value to set for manualManagementReason

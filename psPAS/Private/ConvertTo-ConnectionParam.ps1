@@ -38,7 +38,7 @@ $output["SomeProperty"] = SomeValue
 	)
 
 	Begin {
-		$ConnectionParameters = @("AllowMappingLocalDrives", "AllowConnectToConsole",
+		$ConnectionParameters = [Collections.Generic.List[String]]@("AllowMappingLocalDrives", "AllowConnectToConsole",
 			"RedirectSmartCards", "PSMRemoteMachine", "LogonDomain", "AllowSelectHTML5")
 	}
 

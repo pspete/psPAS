@@ -6,7 +6,7 @@ Retrieves details of Vault platforms.
 .DESCRIPTION
 Request platform configuration information from the Vault.
 
-11.4+ can return detials of target, dependent, group & rotational group platforms,
+11.4+ can return details of target, dependent, group & rotational group platforms,
 with additional filters available for target group queries.
 11.1+ can return details of all target platforms.
 Limited filters can be used to retrieve a subset of the platforms
@@ -84,7 +84,7 @@ Get details of specific platform CyberArk
 .EXAMPLE
 Get-PASPlatform -GroupPlatform
 
-Get details of all group platfoms
+Get details of all group platforms
 
 .EXAMPLE
 Get-PASPlatform -RotationalGroup
@@ -108,7 +108,7 @@ Get details of all active Unix platforms configured for automatic reconciliation
 
 .NOTES
 Minimum CyberArk version 9.10
-CyberArk version 11.1 required for Active, PlatformType & Search paramters.
+CyberArk version 11.1 required for Active, PlatformType & Search parameters.
 CyberArk version 11.4 required for extended filters for target platforms,
 and requests for  dependent, group & rotational group platforms
 

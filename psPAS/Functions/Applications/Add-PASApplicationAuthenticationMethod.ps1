@@ -206,23 +206,23 @@ https://pspas.pspete.dev/commands/Add-PASApplicationAuthenticationMethod
 
         $URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID | Get-EscapedString)/Authentications"
 
-        $boundParamters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AppID
+        $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AppID
 
         #Accepted authtype names match parameterset names
-        $boundParamters.Add("AuthType", $($PSCmdlet.ParameterSetName))
+        $boundParameters.Add("AuthType", $($PSCmdlet.ParameterSetName))
 
         #When parameterset name matches parametername
-        If ($boundParamters.ContainsKey($PSCmdlet.ParameterSetName)) {
+        If ($boundParameters.ContainsKey($PSCmdlet.ParameterSetName)) {
 
             #Rename hashtable key to "AuthValue"
-            $boundParamters.Add("AuthValue", $boundParamters.$($PSCmdlet.ParameterSetName))
-            $boundParamters.Remove($($PSCmdlet.ParameterSetName))
+            $boundParameters.Add("AuthValue", $boundParameters.$($PSCmdlet.ParameterSetName))
+            $boundParameters.Remove($($PSCmdlet.ParameterSetName))
 
         }
 
         $Body = @{
 
-            "authentication" = $boundParamters
+            "authentication" = $boundParameters
 
         } | ConvertTo-Json
 

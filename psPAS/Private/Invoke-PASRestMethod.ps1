@@ -94,7 +94,7 @@
 		[switch]$UseDefaultCredentials,
 
 		[Parameter(Mandatory = $false)]
-		[pscredential]$Credential,
+		[PSCredential]$Credential,
 
 		[Parameter(Mandatory = $false)]
 		[int]$TimeoutSec,

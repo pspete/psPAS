@@ -8,7 +8,7 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v11.5.
+Contains all published methods of the API up to CyberArk v11.6.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -885,7 +885,15 @@ Click the below dropdown to view the current lis of psPAS functions and their mi
 [`Get-PASPSMServer`][Get-PASPSMServer]                                                   |**11.5**            |List configured PSM Servers
 [`Get-PASPlatformPSMConfig`][Get-PASPlatformPSMConfig]                                   |**11.5**            |List Platform PSM configuration
 [`Set-PASPlatformPSMConfig`][Set-PASPlatformPSMConfig]                                   |**11.5**            |Update Platform PSM configuration
+[`Start-PASAccountImportJob`][Start-PASAccountImportJob]                                 |**11.6**            |Add multiple accounts to existing Safes.
+[`Get-PASAccountImportJob`][Get-PASAccountImportJob]                                     |**11.6**            |Get status of account import
+[`New-PASAccountObject`][New-PASAccountObject]                                           |**---**             |Format an object to include in an import list
+[`Get-PASDiscoveredAccount`][Get-PASDiscoveredAccount]                                   |**11.6**            |List discovered accounts
 
+[Get-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Get-PASDiscoveredAccount.ps1
+[Start-PASAccountImportJob]:/psPAS/Functions/Accounts/Start-PASAccountImportJob.ps1
+[Get-PASAccountImportJob]:/psPAS/Functions/Accounts/Get-PASAccountImportJob.ps1
+[New-PASAccountObject]:/psPAS/Functions/Accounts/New-PASAccountObject.ps1
 [Get-PASAllowedReferrer]:/psPAS/Functions/General/Get-PASAllowedReferrer.ps1
 [Add-PASAllowedReferrer]:/psPAS/Functions/General/Add-PASAllowedReferrer.ps1
 [Get-PASAccountSSHKey]:/psPAS/Functions/Accounts/Get-PASAccountSSHKey.ps1

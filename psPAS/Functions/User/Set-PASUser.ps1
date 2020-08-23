@@ -610,18 +610,12 @@ https://pspas.pspete.dev/commands/Set-PASUser
 
 		}
 
-		$businessAddressParams = @("workStreet", "workCity", "workState", "workZip", "workCountry")
-		$internetParams = @("homePage", "homeEmail", "businessEmail", "otherEmail")
-		$phonesParams = @("homeNumber", "businessNumber", "cellularNumber", "faxNumber", "pagerNumber")
-		$personalDetailsParams = @("street", "city", "state", "zip", "country", "title", "organization",
-			"department", "profession", "FirstName", "middleName", "LastName")
-
 	}#begin
 
 	PROCESS {
 
 		#Get request parameters
-		$boundParameters = $PSBoundParameters | Get-PASParameter
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove id
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -630,79 +624,12 @@ https://pspas.pspete.dev/commands/Set-PASUser
 				#Create URL for request
 				$URI = "$Script:BaseURI/api/Users/$id"
 
-				If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
-
-					#Include date string in required format
-					$boundParameters["ExpiryDate"] = $ExpiryDate | ConvertTo-UnixTime
-
-				}
-
-				$businessAddress = @{ }
-				$internet = @{ }
-				$phones = @{ }
-				$personalDetails = @{ }
-
-				$boundParameters.keys | Where-Object { $businessAddressParams -contains $_ } | ForEach-Object {
-
-					#add key=value to hashtable
-					$businessAddress[$_] = $boundParameters[$_]
-
-
-				}
-
-				If ($businessAddress.keys -gt 0) {
-
-					$boundParameters["businessAddress"] = $businessAddress
-
-				}
-
-				$boundParameters.keys | Where-Object { $internetParams -contains $_ } | ForEach-Object {
-
-					#add key=value to hashtable
-					$internet[$_] = $boundParameters[$_]
-
-				}
-
-				If ($internet.keys -gt 0) {
-
-					$boundParameters["internet"] = $internet
-
-				}
-
-				$boundParameters.keys | Where-Object { $phonesParams -contains $_ } | ForEach-Object {
-
-					#add key=value to hashtable
-					$phones[$_] = $boundParameters[$_]
-
-
-				}
-
-				If ($phones.keys -gt 0) {
-
-					$boundParameters["phones"] = $phones
-
-				}
-
-				$boundParameters.keys | Where-Object { $personalDetailsParams -contains $_ } | ForEach-Object {
-
-					#add key=value to hashtable
-					$personalDetails[$_] = $boundParameters[$_]
-
-				}
-
-				If ($personalDetails.keys -gt 0) {
-
-					$boundParameters["personalDetails"] = $personalDetails
-
-				}
-
-				#Prepare Request Body
-				$boundParameters = $boundParameters |
-				Get-PASParameter -ParametersToRemove @("id", $businessAddressParams + $internetParams + $phonesParams + $personalDetailsParams)
+				$boundParameters = $boundParameters | Format-PASUserObject
 
 				$TypeName = "psPAS.CyberArk.Vault.User.Extended"
 
 				break
+
 			}
 
 			"legacy" {

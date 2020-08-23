@@ -94,13 +94,13 @@ Set-PASAccount -AccountID 27_4 -operations $actions
 Performs the update operations contained in the $actions array against the account
 
 .EXAMPLE
-Get-PASAccount dbuser | Set-PASAccount -Properties @{"DSN"="myDSN"}
+Get-PASAccount DBUser | Set-PASAccount -Properties @{"DSN"="myDSN"}
 
 Sets DSN value on matched account dbUser
 
 .EXAMPLE
  Set-PASAccount -AccountID 21_3 -Folder Root -AccountName NewName `
- -DeviceType Database -PlatformID Oracle -Address dbServer.domain.com -UserName dbuser
+ -DeviceType Database -PlatformID Oracle -Address dbServer.domain.com -UserName DBUser
 
  Will set the AccountName of account with AccountID of 21_3 to "NewName".
  **Any/All additional properties of the account which are not specified via parameters will be cleared**
@@ -251,7 +251,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 			ValueFromPipeline = $true,
 			ParameterSetName = "V9"
 		)]
-		[psobject]$InputObject
+		[PSObject]$InputObject
 	)
 
 	BEGIN {
@@ -305,7 +305,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 
 					#Format "Properties" parameter value.
 					#Array of key=value pairs required for JSON convertion
-					$boundParameters["Properties"] = @($boundParameters["Properties"].getenumerator() |
+					$boundParameters["Properties"] = [Collections.Generic.List[String]]@($boundParameters["Properties"].getenumerator() |
 
 						ForEach-Object { $_ })
 

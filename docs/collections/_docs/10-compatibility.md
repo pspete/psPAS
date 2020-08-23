@@ -144,7 +144,15 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASPSMServer`][Get-PASPSMServer]                                                   |**11.5**                                            |List configured PSM Servers
 [`Get-PASPlatformPSMConfig`][Get-PASPlatformPSMConfig]                                   |**11.5**                                            |List Platform PSM configuration
 [`Set-PASPlatformPSMConfig`][Set-PASPlatformPSMConfig]                                   |**11.5**                                            |Update Platform PSM configuration
+[`Start-PASAccountImportJob`][Start-PASAccountImportJob]                                 |**11.6**                                            |Add multiple accounts to existing Safes.
+[`Get-PASAccountImportJob`][Get-PASAccountImportJob]                                     |**11.6**                                            |Get status of account import
+[`New-PASAccountObject`][New-PASAccountObject]                                           |**---**                                             |Format an object to include in an import list
+[`Get-PASDiscoveredAccount`][Get-PASDiscoveredAccount]                                   |**11.6**                                            |List discovered accounts
 
+[Get-PASDiscoveredAccount]:/commands/Get-PASDiscoveredAccount
+[Start-PASAccountImportJob]:/commands/Start-PASAccountImportJob
+[Get-PASAccountImportJob]:/commands/Get-PASAccountImportJob
+[New-PASAccountObject]:/commands/New-PASAccountObject
 [Get-PASAllowedReferrer]:/commands/Get-PASAllowedReferrer
 [Add-PASAllowedReferrer]:/commands/Add-PASAllowedReferrer
 [Get-PASAccountSSHKey]:/commands/Get-PASAccountSSHKey

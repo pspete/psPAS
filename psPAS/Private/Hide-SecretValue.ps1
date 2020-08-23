@@ -23,7 +23,7 @@
     $String = [pscustomobject]@{
         "Property"="Value"
         "Password"="SecretValue"
-        "Secret"="DontShareThis"
+        "Secret"="DoNotShareThis"
         "NewCredentials"="S3cr3t"
         "NewPassword"="Password123!"
         "BindPassword"="ABCDE123!"
