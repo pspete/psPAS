@@ -305,7 +305,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 
 					#Format "Properties" parameter value.
 					#Array of key=value pairs required for JSON convertion
-					$boundParameters["Properties"] = @($boundParameters["Properties"].getenumerator() |
+					$boundParameters["Properties"] = [Collections.Generic.List[String]]@($boundParameters["Properties"].getenumerator() |
 
 						ForEach-Object { $_ })
 

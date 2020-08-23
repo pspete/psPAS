@@ -610,10 +610,10 @@ https://pspas.pspete.dev/commands/Set-PASUser
 
 		}
 
-		$businessAddressParams = @("workStreet", "workCity", "workState", "workZip", "workCountry")
-		$internetParams = @("homePage", "homeEmail", "businessEmail", "otherEmail")
-		$phonesParams = @("homeNumber", "businessNumber", "cellularNumber", "faxNumber", "pagerNumber")
-		$personalDetailsParams = @("street", "city", "state", "zip", "country", "title", "organization",
+		$businessAddressParams = [Collections.Generic.List[String]]@("workStreet", "workCity", "workState", "workZip", "workCountry")
+		$internetParams = [Collections.Generic.List[String]]@("homePage", "homeEmail", "businessEmail", "otherEmail")
+		$phonesParams = [Collections.Generic.List[String]]@("homeNumber", "businessNumber", "cellularNumber", "faxNumber", "pagerNumber")
+		$personalDetailsParams = [Collections.Generic.List[String]]@("street", "city", "state", "zip", "country", "title", "organization",
 			"department", "profession", "FirstName", "middleName", "LastName")
 
 	}#begin

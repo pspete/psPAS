@@ -277,7 +277,7 @@ https://pspas.pspete.dev/commands/New-PASPSMSession
 
 	BEGIN {
 
-		$AdHocParameters = @("ConnectionComponent", "reason", "ticketingSystemName", "ticketId", "ConnectionParams")
+		$AdHocParameters = [Collections.Generic.List[String]]@("ConnectionComponent", "reason", "ticketingSystemName", "ticketId", "ConnectionParams")
 
 	}#begin
 

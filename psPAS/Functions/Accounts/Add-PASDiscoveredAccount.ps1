@@ -398,9 +398,9 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 
 		}
 
-		$AccountProperties = @("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption", "awsAccountID", "awsAccessKeyID")
+		$AccountProperties = [Collections.Generic.List[String]]@("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption", "awsAccountID", "awsAccessKeyID")
 
-		$DateTimes = @("discoveryDate", "lastLogonDateTime", "lastPasswordSetDateTime", "passwordExpirationDateTime")
+		$DateTimes = [Collections.Generic.List[String]]@("discoveryDate", "lastLogonDateTime", "lastPasswordSetDateTime", "passwordExpirationDateTime")
 
 	}#begin
 
@@ -450,7 +450,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 		If ($null -ne $result) {
 
 			#Return Results
-			$result | Add-ObjectDetail -DefaultProperties id, status
+			$result
 
 		}
 
