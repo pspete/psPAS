@@ -3,7 +3,7 @@ main:
   - title: "Docs"
     url: /docs/authentication/
   - title: "Commands"
-    url: commands/New-PASSession
+    url: commands/
   - title: "Install"
     url: /docs/install/
   - title: "About"
