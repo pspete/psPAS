@@ -1,25 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Import-PASPlatform {
-	<#
-.SYNOPSIS
-Import a new platform
-
-.DESCRIPTION
-Import a new CPM platform.
-
-.PARAMETER ImportFile
-The zip file that contains the platform.
-
-.EXAMPLE
-Import-PASPlatform -ImportFile CustomApp.zip
-
-Imports CustomApp.zip Platform package
-
-.NOTES
-Minimum CyberArk version 10.2
-
-.LINK
-https://pspas.pspete.dev/commands/Import-PASPlatform
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

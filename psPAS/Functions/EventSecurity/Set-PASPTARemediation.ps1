@@ -1,38 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Set-PASPTARemediation {
-	<#
-.SYNOPSIS
-Updates automatic remediation settings in PTA
-
-.DESCRIPTION
-Updates automatic remediation settings configured in PTA
-
-.PARAMETER changePassword_SuspectedCredentialsTheft
-Indicate if Change Password on Suspected Credential Theft the command is active
-
-.PARAMETER changePassword_OverPassTheHash
-Indicate if the Change Password on Over Pass The Hash command is active
-
-.PARAMETER reconcilePassword_SuspectedPasswordChange
-Indicate if the Reconcile Password on Suspected Password Change command is active
-
-.PARAMETER pendAccount_UnmanagedPrivilegedAccount
-Indicate if the Add Unmanaged Accounts to Pending Accounts command is active
-
-.EXAMPLE
-Set-PASPTARemediation -changePassword_SuspectedCredentialsTheft $true
-
-Enables the "Change password on Suspected Credentials Theft" rule.
-.EXAMPLE
-Set-PASPTARemediation -reconcilePassword_SuspectedPasswordChange $false
-
-Disables the "reconcile on suspected password change" rule.
-
-.NOTES
-Minimum Version CyberArk 10.4
-
-.LINK
-https://pspas.pspete.dev/commands/Set-PASPTARemediation
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

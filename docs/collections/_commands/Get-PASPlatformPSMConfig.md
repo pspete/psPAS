@@ -1,34 +1,59 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version:
+schema: 2.0.0
 title: Get-PASPlatformPSMConfig
 ---
 
-## SYNOPSIS
+# Get-PASPlatformPSMConfig
 
-    Lists PSM Policy Section of a target platform.
+## SYNOPSIS
+Lists PSM Policy Section of a target platform.
 
 ## SYNTAX
 
-    Get-PASPlatformPSMConfig [-ID] <Int32> [<CommonParameters>]
+```
+Get-PASPlatformPSMConfig [-ID] <Int32> [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
-    Allows Vault admins to retrieve the PSM Policy Section of a target platform.
-
-## PARAMETERS
-
-    -ID <Int32>
-        The numeric ID of the target platform to list PSM Policy of.
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
+Allows Vault admins to retrieve the PSM Policy Section of a target platform.
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASPlatformPSMConfig -ID 42
+```
 
-    PS C:\>Get-PASPlatformPSMConfig -ID 42
+Lists PSM Policy Section of target platform with ID of 42.
 
-    Lists PSM Policy Section of target platform with ID of 42.
+## PARAMETERS
+
+### -ID
+The numeric ID of the target platform to list PSM Policy of.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS

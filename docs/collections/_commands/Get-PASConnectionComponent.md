@@ -1,31 +1,44 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version:
+schema: 2.0.0
 title: Get-PASConnectionComponent
 ---
 
-## SYNOPSIS
+# Get-PASConnectionComponent
 
-    Returns configured connection components
+## SYNOPSIS
+Returns configured connection components
 
 ## SYNTAX
 
-    Get-PASConnectionComponent [<CommonParameters>]
+```
+Get-PASConnectionComponent [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
-    Allows Vault admins to get the list of all connection components of an entire environment.
-
-## PARAMETERS
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
+Allows Vault admins to get the list of all connection components of an entire environment.
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASConnectionComponent
+```
 
-    PS C:\>Get-PASConnectionComponent
+Lists all connection components configred in the environment
 
-    Lists all connection components configred in the environment
+## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS

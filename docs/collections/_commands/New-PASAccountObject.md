@@ -1,7 +1,8 @@
 ---
+category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version:
+online version: https://pspas.pspete.dev/commands/New-PASAccountObject
 schema: 2.0.0
 title: New-PASAccountObject
 ---
@@ -9,7 +10,7 @@ title: New-PASAccountObject
 # New-PASAccountObject
 
 ## SYNOPSIS
-Creates hashtable strucured to be used as input for add account operations
+Creates hashtable structured to be used as input for add account operations
 
 ## SYNTAX
 
@@ -22,7 +23,7 @@ New-PASAccountObject [-uploadIndex <Int32>] [-userName <String>] [-name <String>
 ```
 
 ## DESCRIPTION
-Provide paameter values to return hashtable strucured to be used as input for add account operations.
+Provide parameter values to return hashtable structured to be used as input for add account operations.
 
 ## EXAMPLES
 
@@ -31,7 +32,7 @@ Provide paameter values to return hashtable strucured to be used as input for ad
 New-PASAccountObject -userName SomeAccount1 -address domain.com -platformID WinDomain -SafeName SomeSafe
 ```
 
-Returns hashtable strucured to be used as input for add account operations
+Returns hashtable structured to be used as input for add account operations
 
 ## PARAMETERS
 
@@ -287,3 +288,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/New-PASAccountObject](https://pspas.pspete.dev/commands/New-PASAccountObject)
+

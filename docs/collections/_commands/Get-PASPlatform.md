@@ -1,30 +1,55 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASPlatform
+schema: 2.0.0
 title: Get-PASPlatform
 ---
 
-## SYNOPSIS
+# Get-PASPlatform
 
+## SYNOPSIS
 Retrieves details of Vault platforms.
 
 ## SYNTAX
 
-    Get-PASPlatform [-Active <Boolean>] [-SystemType <String>] [-PeriodicVerify <Boolean>] [-ManualVerify <Boolean>] [-PeriodicChange <Boolean>] [-ManualChange <Boolean>] [-AutomaticReconcile <Boolean>] [-ManualReconcile <Boolean>] [<CommonParameters>]
+### targets (Default)
+```
+Get-PASPlatform [-Active <Boolean>] [-SystemType <String>] [-PeriodicVerify <Boolean>]
+ [-ManualVerify <Boolean>] [-PeriodicChange <Boolean>] [-ManualChange <Boolean>]
+ [-AutomaticReconcile <Boolean>] [-ManualReconcile <Boolean>] [<CommonParameters>]
+```
 
-    Get-PASPlatform [-Active <Boolean>] [-PlatformType <String>] [-Search <String>] [<CommonParameters>]
+### 11_1
+```
+Get-PASPlatform [-Active <Boolean>] [-PlatformType <String>] [-Search <String>] [<CommonParameters>]
+```
 
-    Get-PASPlatform -PlatformID <String> [<CommonParameters>]
+### legacy
+```
+Get-PASPlatform -PlatformID <String> [<CommonParameters>]
+```
 
-    Get-PASPlatform [-DependentPlatform] [<CommonParameters>]
+### dependents
+```
+Get-PASPlatform [-DependentPlatform] [<CommonParameters>]
+```
 
-    Get-PASPlatform [-GroupPlatform] [<CommonParameters>]
+### groups
+```
+Get-PASPlatform [-GroupPlatform] [<CommonParameters>]
+```
 
-    Get-PASPlatform [-RotationalGroup] [<CommonParameters>]
+### rotationalGroups
+```
+Get-PASPlatform [-RotationalGroup] [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Request platform configuration information from the Vault.
 
-11.4+ can return detials of target, dependent, group & rotational group platforms,
+11.4+ can return details of target, dependent, group & rotational group platforms,
 with additional filters available for target group queries.
 11.1+ can return details of all target platforms.
 Limited filters can be used to retrieve a subset of the platforms
@@ -33,227 +58,303 @@ specified platform from the Vault.
 
 The output contained under the "Details" property differs depending
 on which method (9.10+,11.1+ or 11.4+) is used, and which platform type is queried.
-_**Note: When specifying PlatformID:**_
- _**if the platform properties contain a semicolon (';'), the API may not return the complete value.**_
- _**noted for ChangeCommand, ReconcileCommand & ConnectionCommand properties**_
-
-## PARAMETERS
-
-    -Active <Boolean>
-        Filter active/inactive platforms
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -PlatformType <String>
-        Filter regular/group platforms
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -Search <String>
-        Filter platform by search pattern
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -PlatformID <String>
-        The unique ID/Name of the platform.
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -DependentPlatform [<SwitchParameter>]
-        Specify to return details of dependent platforms
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -GroupPlatform [<SwitchParameter>]
-        Specify to return details of group platforms
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -RotationalGroup [<SwitchParameter>]
-        Specify to return details of rotational group platforms
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -SystemType <String>
-        Filter target platforms for specific system type
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -PeriodicVerify <Boolean>
-        Filter target platforms by periodic verification configuration
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ManualVerify <Boolean>
-        Filter target platforms by manual verification configuration
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -PeriodicChange <Boolean>
-        Filter target platforms by periodic change configuration
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ManualChange <Boolean>
-        Filter target platforms by manual change configuration
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -AutomaticReconcile <Boolean>
-        Filter target platforms by automatic reconciliation configuration
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ManualReconcile <Boolean>
-        Filter target platforms by manual reconciliation configuration
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https://go.microsoft.com/fwlink/?LinkID=113216).
-
-## NOTES
-
-        Minimum CyberArk version 9.10
-        CyberArk version 11.1 required for Active, PlatformType & Search paramters.
-        CyberArk version 11.4 required for extended filters for target platforms,
-        and requests for  dependent, group & rotational group platforms
+!Note: When specifying PlatformID:
+!
+if the platform properties contain a semicolon (';'), the API may not return the complete value.
+!
+noted for ChangeCommand, ReconcileCommand & ConnectionCommand properties
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASPlatform
+```
 
-    PS > Get-PASPlatform
+Return details of all platforms
 
-    Return details of all platforms
+### EXAMPLE 2
+```
+Get-PASPlatform -Active $true
+```
 
+Get all active platforms
 
+### EXAMPLE 3
+```
+Get-PASPlatform -Active $true -Search "WIN_"
+```
 
+Get active platforms matching search string "WIN_"
 
-    -------------------------- EXAMPLE 2 --------------------------
+### EXAMPLE 4
+```
+Get-PASPlatform -PlatformID "CyberArk"
+```
 
-    PS > Get-PASPlatform -Active $true
+Get details of specific platform CyberArk
 
-    Get all active platforms
+### EXAMPLE 5
+```
+Get-PASPlatform -GroupPlatform
+```
 
+Get details of all group platforms
 
+### EXAMPLE 6
+```
+Get-PASPlatform -RotationalGroup
+```
 
+Get details of all rotational group platforms
 
-    -------------------------- EXAMPLE 3 --------------------------
+### EXAMPLE 7
+```
+Get-PASPlatform -DependentPlatform
+```
 
-    PS > Get-PASPlatform -Active $true -Search "WIN_"
+Get details of all dependent platforms
 
-    Get active platforms matching search string "WIN_"
+### EXAMPLE 8
+```
+Get-PASPlatform -Active $false -SystemType Windows
+```
 
+Get details of all deactivated Windows platforms
 
+### EXAMPLE 9
+```
+Get-PASPlatform -Active $true -SystemType '*NIX' -AutomaticReconcile $true
+```
 
+Get details of all active Unix platforms configured for automatic reconciliation.
 
-    -------------------------- EXAMPLE 4 --------------------------
+## PARAMETERS
 
-    PS > Get-PASPlatform -PlatformID "CyberArk"
+### -Active
+Filter active/inactive platforms
 
-    Get details of specific platform CyberArk
+```yaml
+Type: Boolean
+Parameter Sets: targets, 11_1
+Aliases:
 
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -PlatformType
+Filter regular/group platforms
 
+```yaml
+Type: String
+Parameter Sets: 11_1
+Aliases:
 
-    -------------------------- EXAMPLE 5 --------------------------
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    PS > Get-PASPlatform -GroupPlatform
+### -Search
+Filter platform by search pattern
 
-    Get details of all group platfoms
+```yaml
+Type: String
+Parameter Sets: 11_1
+Aliases:
 
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -PlatformID
+The unique ID/Name of the platform.
 
+```yaml
+Type: String
+Parameter Sets: legacy
+Aliases: Name
 
-    -------------------------- EXAMPLE 6 --------------------------
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    PS > Get-PASPlatform -RotationalGroup
+### -DependentPlatform
+Specify to return details of dependent platforms
 
-    Get details of all rotational group platforms
+```yaml
+Type: SwitchParameter
+Parameter Sets: dependents
+Aliases:
 
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -GroupPlatform
+Specify to return details of group platforms
 
+```yaml
+Type: SwitchParameter
+Parameter Sets: groups
+Aliases:
 
-    -------------------------- EXAMPLE 7 --------------------------
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    PS > Get-PASPlatform -DependentPlatform
+### -RotationalGroup
+Specify to return details of rotational group platforms
 
-    Get details of all dependent platforms
+```yaml
+Type: SwitchParameter
+Parameter Sets: rotationalGroups
+Aliases:
 
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -SystemType
+Filter target platforms for specific system type
 
+```yaml
+Type: String
+Parameter Sets: targets
+Aliases:
 
-    -------------------------- EXAMPLE 8 --------------------------
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    PS > Get-PASPlatform -Active $false -SystemType Windows
+### -PeriodicVerify
+Filter target platforms by periodic verification configuration
 
-    Get details of all deactivated Windows platforms
+```yaml
+Type: Boolean
+Parameter Sets: targets
+Aliases:
 
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -ManualVerify
+Filter target platforms by manual verification configuration
 
+```yaml
+Type: Boolean
+Parameter Sets: targets
+Aliases:
 
-    -------------------------- EXAMPLE 9 --------------------------
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    PS > Get-PASPlatform -Active $true -SystemType '*NIX' -AutomaticReconcile $true
+### -PeriodicChange
+Filter target platforms by periodic change configuration
 
-    Get details of all active Unix platforms configured for automatic reconciliation.
+```yaml
+Type: Boolean
+Parameter Sets: targets
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ManualChange
+Filter target platforms by manual change configuration
+
+```yaml
+Type: Boolean
+Parameter Sets: targets
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -AutomaticReconcile
+Filter target platforms by automatic reconciliation configuration
+
+```yaml
+Type: Boolean
+Parameter Sets: targets
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ManualReconcile
+Filter target platforms by manual reconciliation configuration
+
+```yaml
+Type: Boolean
+Parameter Sets: targets
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+Minimum CyberArk version 9.10
+CyberArk version 11.1 required for Active, PlatformType & Search parameters.
+CyberArk version 11.4 required for extended filters for target platforms,
+and requests for  dependent, group & rotational group platforms
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASPlatform](https://pspas.pspete.dev/commands/Get-PASPlatform)
+

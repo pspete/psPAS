@@ -1,19 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Get-PASPlatformPSMConfig {
-	<#
-.SYNOPSIS
-Lists PSM Policy Section of a target platform.
-
-.DESCRIPTION
-Allows Vault admins to retrieve the PSM Policy Section of a target platform.
-
-.PARAMETER ID
-The numeric ID of the target platform to list PSM Policy of.
-
-.EXAMPLE
-Get-PASPlatformPSMConfig -ID 42
-
-Lists PSM Policy Section of target platform with ID of 42.
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

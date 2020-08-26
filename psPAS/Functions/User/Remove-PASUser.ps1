@@ -1,34 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Remove-PASUser {
-	<#
-.SYNOPSIS
-Deletes a vault user
-
-.DESCRIPTION
-Deletes an existing user from the vault
-
-.PARAMETER id
-The numeric id of the user to delete.
-Requires CyberArk version 11.1+
-
-.PARAMETER UserName
-The name of the user to delete from the vault
-
-.EXAMPLE
-Remove-PASUser -id 1234
-
-Deletes vault user with id 1234
-
-.EXAMPLE
-Remove-PASUser -UserName This_User
-
-Deletes vault user "This_User"
-
-.INPUTS
-All parameters can be piped by property name
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASUser
-#>
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "11.1")]
 	param(
 

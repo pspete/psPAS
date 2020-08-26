@@ -1,32 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASPSMSessionActivity {
-	<#
-.SYNOPSIS
-Get activity details of Live PSM Sessions
-
-.DESCRIPTION
-Returns activity details of active PSM sessions.
-
-.PARAMETER liveSessionId
-The ID of an active session to get activities from.
-
-.EXAMPLE
-Get-PASPSMSessionActivity -liveSessionId 123_45
-
-Returns details of activities in active PSM Session with Id 123_45
-
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-Minimum CyberArk Version 10.6
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASPSMSessionActivity
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

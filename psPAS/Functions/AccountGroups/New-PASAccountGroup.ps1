@@ -1,43 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function New-PASAccountGroup {
-	<#
-.SYNOPSIS
-Adds a new account group to the Vault
-
-.DESCRIPTION
-Defines a new account group in the vault.
-The following permissions are required on the safe where the account group will be created:
- - Add Accounts
- - Update Account Content
- - Update Account Properties
-  -Create Folders
-
-.PARAMETER GroupName
-The name of the group to create
-
-.PARAMETER GroupPlatformID
-The name of the platform for the group.
-The associated platform must be set to "PolicyType=Group"
-
-.PARAMETER Safe
-The Safe where the group will be created
-
-.EXAMPLE
-New-PASAccountGroup -GroupName UATGroup -GroupPlatform UnixGroup-NonProd -Safe UAT-Team
-
-Creates new account group named UATGroup and assigns to platform in the UAT-Team Safe.
-
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-None
-
-.NOTES
-Minimum version 9.9.5
-
-.LINK
-https://pspas.pspete.dev/commands/New-PASAccountGroup
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

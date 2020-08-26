@@ -1,22 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Get-PASPTARemediation {
-	<#
-.SYNOPSIS
-Returns automatic remediation settings from PTA
-
-.DESCRIPTION
-Returns automatic remediation settings configured in PTA
-
-.EXAMPLE
-Get-PASPTARemediation
-
-Returns all automatic remediation settings from PTA
-
-.NOTES
-Minimum Version CyberArk 10.4
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASPTARemediation
-#>
 	[CmdletBinding()]
 	param(	)
 

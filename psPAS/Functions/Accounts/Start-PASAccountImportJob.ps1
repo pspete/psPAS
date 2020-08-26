@@ -1,37 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Start-PASAccountImportJob {
-	<#
-	.SYNOPSIS
-	Add multiple accounts to existing Safes.
-
-	.DESCRIPTION
-	Sends a list of accounts to be added to existing safes.
-	Must be authenticated with a user who has Add accounts, Update account content, and Update account properties authorization in at least one Safe.
-	Returns bulk account upload id or status.
-
-	.PARAMETER source
-	Free text that describes the source of the bulk account upload.
-
-	.PARAMETER accountsList
-	List of account objects.
-	Each account object contains the parameters for that account.
-	New-PASAccountObject creates Account Objects with the expected properties.
-
-	.EXAMPLE
-	$Accounts = @(
-		New-PASAccountObject -uploadIndex 1 -userName SomeAccount1 -address domain.com -platformID WinDomain -SafeName SomeSafe
-		New-PASAccountObject -uploadIndex 2 -userName SomeAccount2 -address domain.com -platformID WinDomain -SafeName SomeSafe
-		New-PASAccountObject -uploadIndex 3 -userName SomeAccount3 -address domain.com -platformID WinDomain -SafeName SomeSafe
-		New-PASAccountObject -uploadIndex 4 -userName SomeAccount4 -address domain.com -platformID WinDomain -SafeName SomeSafe
-	)
-
-	Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts
-
-	Create & send list of accounts to be added as a bulk operation.
-
-	.LINK
-	https://pspas.pspete.dev/commands/Start-PASAccountImportJob
-
-	#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

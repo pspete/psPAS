@@ -1,17 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Get-PASConnectionComponent {
-	<#
-.SYNOPSIS
-Returns configured connection components
-
-.DESCRIPTION
-Allows Vault admins to get the list of all connection components of an entire environment.
-
-.EXAMPLE
-Get-PASConnectionComponent
-
-Lists all connection components configred in the environment
-
-#>
 	[CmdletBinding()]
 	param(	)
 

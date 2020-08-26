@@ -1,31 +1,47 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASLoggedOnUser
+schema: 2.0.0
 title: Get-PASLoggedOnUser
 ---
 
-## SYNOPSIS
+# Get-PASLoggedOnUser
 
+## SYNOPSIS
 Returns details of the logged on user
 
 ## SYNTAX
 
-    Get-PASLoggedOnUser [<CommonParameters>]
+```
+Get-PASLoggedOnUser [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Returns information on the user who is logged in.
-
-## PARAMETERS
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASLoggedOnUser
+```
 
-    PS C:\>Get-PASLoggedOnUser
+Returns information on the currently authenticated user.
 
-    Returns information on the currently authenticated user.
+## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASLoggedOnUser](https://pspas.pspete.dev/commands/Get-PASLoggedOnUser)
+

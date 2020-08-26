@@ -1,54 +1,75 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Use-PASSession
+schema: 2.0.0
 title: Use-PASSession
 ---
 
-## SYNOPSIS
+# Use-PASSession
 
+## SYNOPSIS
 Sets module scope variables allowing saved session information to be used for future requests.
 
 ## SYNTAX
 
-    Use-PASSession [-Session] <Object> [<CommonParameters>]
+```
+Use-PASSession [-Session] <Object> [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Use session data (BaseURI, ExternalVersion, WebSession (containing Authorization Header)) for future requests.
-
 psPAS uses variables in the Module scope to provide required values to all module functions, use this function to
-set the required values in the module scope, using session information returned from `Get-PASSession`.
-
-## PARAMETERS
-
-    -Session <Object>
-        An object containing psPAS session data, as returned from Get-PASSession
-
-        Required?                    true
-        Position?                    1
-        Default value
-        Accept pipeline input?       true (ByValue)
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
+set the required values in the module scope, using session information returned from \`Get-PASSession\`.
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Use Saved Session Data for future requests
+```
 
-    PS C:\> Use-PASSession -Session $Session
+Use-PASSession -Session $Session
 
-    Use Saved Session Data for future requests
+### EXAMPLE 2
+```
+Save current session, switch to using different session details, switch back to original session.
+```
 
+$CurrentSession = Get-PASSession
 
-    -------------------------- EXAMPLE 2 --------------------------
+Use-PASSession -Session $OtherSession
+...
+Use-PASSession -Session $CurrentSession
 
-    PS C:\> $CurrentSession = Get-PASSession
+## PARAMETERS
 
-    PS C:\> Use-PASSession -Session $OtherSession
-    ...
-    PS C:\> Use-PASSession -Session $CurrentSession
+### -Session
+An object containing psPAS session data, as returned from Get-PASSession
 
-    Save current session, switch to using different session details, switch back to original session.
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Use-PASSession](https://pspas.pspete.dev/commands/Use-PASSession)
+

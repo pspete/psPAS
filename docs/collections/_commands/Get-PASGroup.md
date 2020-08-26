@@ -1,92 +1,139 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASGroup
+schema: 2.0.0
 title: Get-PASGroup
 ---
 
-## SYNOPSIS
+# Get-PASGroup
 
-    List groups from the vault
+## SYNOPSIS
+List groups from the vault
 
 ## SYNTAX
 
-    Get-PASGroup [-groupType <String>] [-search <String>] [<CommonParameters>]
+### groupType (Default)
+```
+Get-PASGroup [-groupType <String>] [-search <String>] [<CommonParameters>]
+```
 
-    Get-PASGroup [-filter <String>] [-search <String>] [<CommonParameters>]
+### filter
+```
+Get-PASGroup [-filter <String>] [-search <String>] [<CommonParameters>]
+```
 
 ## DESCRIPTION
+Returns a list of all existing user groups.
 
-    Returns a list of all existing user groups.
-
-    The user performing this task:
-    - Must have Audit users permissions in the Vault.
-    - Can see groups either only on the same level, or lower in the Vault hierarchy.
-
-## PARAMETERS
-
-    -groupType <String>
-        Search for groups which are from a configured Directory or from the Vault.
-
-    -filter <String>
-        Filter according to REST standard.
-        *depreciated parameter in psPAS - filter value will automatically be set with if groupType specified.
-
-    -search <String>
-        Search will match when ALL search terms appear in the group name.
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
+The user performing this task:
+- Must have Audit users permissions in the Vault.
+- Can see groups either only on the same level, or lower in the Vault hierarchy.
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASGroup
+```
 
-    PS C:\>Get-PASGroup
+Returns all existing groups
 
-    Returns all existing groups
+### EXAMPLE 2
+```
+Get-PASGroup -groupType Directory
+```
 
+Returns all existing Directory groups
 
+### EXAMPLE 3
+```
+Get-PASGroup -groupType Vault
+```
 
+Returns all existing Vault groups
 
-    -------------------------- EXAMPLE 2 --------------------------
+### EXAMPLE 4
+```
+Get-PASGroup -filter 'groupType eq Directory'
+```
 
-    PS C:\>Get-PASGroup -groupType Directory
+Returns all existing Directory groups
 
-    Returns all existing Directory groups
+### EXAMPLE 5
+```
+Get-PASGroup -search "Vault Admins"
+```
 
+Returns all groups matching all search terms
 
+### EXAMPLE 6
+```
+Get-PASGroup -search "Vault Admins" -groupType Directory
+```
 
+Returns all existing Directory groups matching all search terms
 
-    -------------------------- EXAMPLE 3 --------------------------
+## PARAMETERS
 
-    PS C:\>Get-PASGroup -groupType Vault
+### -groupType
+Search for groups which are from a configured Directory or from the Vault.
 
-    Returns all existing Vault groups
+```yaml
+Type: String
+Parameter Sets: groupType
+Aliases:
 
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -filter
+Filter according to REST standard.
+*depreciated parameter in psPAS - filter value will automatically be set with if groupType specified.
 
+```yaml
+Type: String
+Parameter Sets: filter
+Aliases:
 
-    -------------------------- EXAMPLE 4 --------------------------
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    PS C:\>Get-PASGroup -filter 'groupType eq Directory'
+### -search
+Search will match when ALL search terms appear in the group name.
 
-    Returns all existing Directory groups
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
+## INPUTS
 
-    -------------------------- EXAMPLE 5 --------------------------
+## OUTPUTS
 
-    PS C:\>Get-PASGroup -search "Vault Admins"
+## NOTES
+Minimum Version 10.5
 
-    Returns all groups matching all search terms
+## RELATED LINKS
 
+[https://pspas.pspete.dev/commands/Get-PASGroup](https://pspas.pspete.dev/commands/Get-PASGroup)
 
-
-
-    -------------------------- EXAMPLE 6 --------------------------
-
-    PS C:\>Get-PASGroup -search "Vault Admins" -groupType Directory
-
-    Returns all existing Directory groups matching all search terms

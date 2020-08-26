@@ -1,43 +1,5 @@
-﻿function Get-PASAccountACL {
-	<#
-.SYNOPSIS
-Lists privileged commands rule for an account
-
-.DESCRIPTION
-Gets list of all privileged commands associated with an account
-
-.PARAMETER AccountPolicyId
-The PolicyID associated with account.
-
-.PARAMETER AccountAddress
-The address of the account whose privileged commands will be listed.
-
-.PARAMETER AccountUserName
-The name of the account's user.
-
-.EXAMPLE
-Get-PASAccount root | Get-PASAccountACL
-
-Returns Privileged Account Rules for the account root found by Get-PASAccount:
-
-PolicyId Command                       PermissionType UserName Type    IsGroup
--------- -------                       -------------- -------- ----    -------
-UNIXSSH  ifconfig                      Allow          TestUser Account False
-UNIXSSH  for /l %a in (0,0,0) do start Deny           TestUser Account False
-UNIXSSH  for /l %a in (0,0,0) do xyz   Allow          TestUser Account False
-
-.INPUTS
-All parameters can be piped by property name
-Should accept pipeline objects from other *-PASAccount functions
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.ACL
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASAccountACL
-#>
+﻿# .ExternalHelp psPAS-help.xml
+function Get-PASAccountACL {
 	[CmdletBinding()]
 	param(
 		[parameter(

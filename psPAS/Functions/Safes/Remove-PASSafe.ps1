@@ -1,27 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Remove-PASSafe {
-	<#
-.SYNOPSIS
-Deletes a safe from the Vault
-
-
-.DESCRIPTION
-Deletes a safe from the Vault.
-The "Manage" Safe vault permission is required.
-
-.PARAMETER SafeName
-The name of the safe to delete.
-
-.EXAMPLE
-Remove-PASSafe -SafeName OLD_Safe
-
-Deletes "OLD_Safe"
-
-.INPUTS
-All parameters can be piped by property name
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASSafe
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

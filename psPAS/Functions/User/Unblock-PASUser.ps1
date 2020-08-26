@@ -1,34 +1,6 @@
+# .ExternalHelp psPAS-help.xml
 function Unblock-PASUser {
-	<#
-.SYNOPSIS
-Activates a suspended user
 
-.DESCRIPTION
-Activates an existing vault user who was suspended due to password failures.
-
-.PARAMETER id
- The user's unique ID
-Requires CyberArk version 10.10+
-
-.PARAMETER UserName
-The user's name
-
-.PARAMETER Suspended
-Suspension status
-
-.EXAMPLE
-Unblock-PASUser -UserName MrFatFingers -Suspended $false
-
-Activates suspended vault user MrFatFingers using the Classic API
-
-.EXAMPLE
-Unblock-PASUser -id 666
-
-Activates suspended vault user with id 666, using the API from 10.10+
-
-.LINK
-https://pspas.pspete.dev/commands/Unblock-PASUser
-#>
 	[CmdletBinding(DefaultParameterSetName = "10.10")]
 	param(
 		[parameter(

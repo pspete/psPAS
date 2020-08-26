@@ -1,7 +1,8 @@
 ---
+category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version:
+online version: https://pspas.pspete.dev/commands/Get-PASDiscoveredAccount
 schema: 2.0.0
 title: Get-PASDiscoveredAccount
 ---
@@ -199,3 +200,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASDiscoveredAccount](https://pspas.pspete.dev/commands/Get-PASDiscoveredAccount)
+

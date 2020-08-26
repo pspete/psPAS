@@ -1,16 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Get-PASPSMServer {
-	<#
-.SYNOPSIS
-Lists configured PSM Servers
-
-.DESCRIPTION
-Allows Vault admins to get a list of all PSM servers defined for an environment.
-
-.EXAMPLE
-Get-PASPSMServer
-
-Lists all configured PSM Servers
-#>
 	[CmdletBinding()]
 	param(	)
 

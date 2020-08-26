@@ -1,19 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASLoggedOnUser {
-	<#
-.SYNOPSIS
-Returns details of the logged on user
-
-.DESCRIPTION
-Returns information on the user who is logged in.
-
-.EXAMPLE
-Get-PASLoggedOnUser
-
-Returns information on the currently authenticated user.
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASLoggedOnUser
-#>
 	[CmdletBinding()]
 	param(
 

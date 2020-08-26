@@ -1,27 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Remove-PASApplication {
-	<#
-.SYNOPSIS
-Deletes an application
-
-.DESCRIPTION
-Deletes a specific application.
-"Manage Users" permission is required to be held.
-
-.PARAMETER AppID
-The name of the application to delete.
-
-.EXAMPLE
-Remove-PASApplication -AppID NewApp
-
-Deletes application "NewApp"
-
-.INPUTS
-All parameters can be piped by property name
-Should accept pipeline objects from other *-PASApplication* functions
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASApplication
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

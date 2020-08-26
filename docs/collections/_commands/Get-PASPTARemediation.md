@@ -1,31 +1,48 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASPTARemediation
+schema: 2.0.0
 title: Get-PASPTARemediation
 ---
 
-## SYNOPSIS
+# Get-PASPTARemediation
 
+## SYNOPSIS
 Returns automatic remediation settings from PTA
 
 ## SYNTAX
 
-    Get-PASPTARemediation [<CommonParameters>]
+```
+Get-PASPTARemediation [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Returns automatic remediation settings configured in PTA
-
-## PARAMETERS
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASPTARemediation
+```
 
-    PS C:\>Get-PASPTARemediation
+Returns all automatic remediation settings from PTA
 
-    Returns all automatic remediation settings from PTA
+## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+Minimum Version CyberArk 10.4
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASPTARemediation](https://pspas.pspete.dev/commands/Get-PASPTARemediation)
+

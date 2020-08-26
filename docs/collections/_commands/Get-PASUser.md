@@ -1,111 +1,158 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASUser
+schema: 2.0.0
 title: Get-PASUser
 ---
 
-## SYNOPSIS
+# Get-PASUser
 
+## SYNOPSIS
 Returns details of a user
 
 ## SYNTAX
 
-    Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [<CommonParameters>]
+### 10.9 (Default)
+```
+Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [<CommonParameters>]
+```
 
-    Get-PASUser -id <Int32> [<CommonParameters>]
+### 10.10
+```
+Get-PASUser -id <Int32> [<CommonParameters>]
+```
 
-    Get-PASUser -UserName <String> [<CommonParameters>]
+### legacy
+```
+Get-PASUser -UserName <String> [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Returns information on specific vault user.
-
-## PARAMETERS
-
-    -id <Int32>
-        The numeric id of the user to return details of.
-        Requires CyberArk version 10.10+
-
-        Required?                    true
-        Position?                    named
-        Default value                0
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -Search <String>
-        Search string.
-        Requires CyberArk version 10.9+
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -UserType <String>
-        The type of the user.
-        Requires CyberArk version 10.9+
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ComponentUser <Boolean>
-        Whether the user is a known component or not.
-        Requires CyberArk version 10.9+
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -UserName <String>
-        The user's name
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASUser
+```
 
-    PS C:\>Get-PASUser
+Returns information for all found Users
 
-    Returns information for all found Users
+### EXAMPLE 2
+```
+Get-PASUser -id 123
+```
 
+Returns information on User with id 123
 
+### EXAMPLE 3
+```
+Get-PASUser -search SearchTerm -ComponentUser $False
+```
 
+Returns information for all matching Users
 
-    -------------------------- EXAMPLE 2 --------------------------
+### EXAMPLE 4
+```
+Get-PASUser -UserName Target_User
+```
 
-    PS C:\>Get-PASUser -id 123
+Displays information on Target_User
 
-    Returns information on User with id 123
+## PARAMETERS
 
+### -id
+The numeric id of the user to return details of.
+Requires CyberArk version 10.10+
 
+```yaml
+Type: Int32
+Parameter Sets: 10.10
+Aliases:
 
+Required: True
+Position: Named
+Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    -------------------------- EXAMPLE 3 --------------------------
+### -Search
+Search string.
+Requires CyberArk version 10.9+
 
-    PS C:\>Get-PASUser -search SearchTerm -ComponentUser $False
+```yaml
+Type: String
+Parameter Sets: 10.9
+Aliases:
 
-    Returns information for all matching Users
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -UserType
+The type of the user.
+Requires CyberArk version 10.9+
 
+```yaml
+Type: String
+Parameter Sets: 10.9
+Aliases:
 
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    -------------------------- EXAMPLE 4 --------------------------
+### -ComponentUser
+Whether the user is a known component or not.
+Requires CyberArk version 10.9+
 
-    PS C:\>Get-PASUser -UserName Target_User
+```yaml
+Type: Boolean
+Parameter Sets: 10.9
+Aliases:
 
-    Displays information on Target_User
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UserName
+The user's name
+
+```yaml
+Type: String
+Parameter Sets: legacy
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASUser](https://pspas.pspete.dev/commands/Get-PASUser)
+

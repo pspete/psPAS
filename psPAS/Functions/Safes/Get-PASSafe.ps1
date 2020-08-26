@@ -1,33 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASSafe {
-	<#
-.SYNOPSIS
-Returns safe details from the vault.
-
-.DESCRIPTION
-Gets safe by SafeName, by search query string, or, by default will return all safes.
-
-.PARAMETER SafeName
-The name of a specific safe to get details of.
-
-.PARAMETER query
-Query String for safe search in the vault
-
-.PARAMETER FindAll
-Specify to find all safes.
-If SafeName or query are not specified, FindAll is the default behaviour.
-
-.PARAMETER TimeoutSec
-See Invoke-WebRequest
-Specify a timeout value in seconds
-
-.EXAMPLE
-Get-PASSafe -SafeName SAFE1
-
-Returns details of "Safe1"
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASSafe
-#>
 	[CmdletBinding(DefaultParameterSetName = "byAll")]
 	param(
 		[parameter(

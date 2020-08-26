@@ -1,34 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Disable-PASCPMAutoManagement {
-	<#
-.SYNOPSIS
-Disables an account for Automatic CPM Management.
-
-.DESCRIPTION
-Disables an account for CPM management by setting automaticManagementEnabled to $false,
-and optionally sets a value for manualManagementReason.
-
-.PARAMETER AccountID
-The ID of the account to disable automatic CPM management.
-
-.PARAMETER Reason
-The value to set for manualManagementReason
-
-.EXAMPLE
-Disables-PASCPMAutoManagement -AccountID 543_2
-
-Sets automaticManagementEnabled to $false on account with ID 543_2
-
-.EXAMPLE
-Disables-PASCPMAutoManagement -AccountID 543_2 -Reason "Some Reason"
-
-Sets automaticManagementEnabled to $false & sets manualManagementReason on account with ID 543_2
-
-.NOTES
-Applicable to and requires 10.4+
-
-.LINK
-https://pspas.pspete.dev/commands/Disable-PASCPMAutoManagement
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

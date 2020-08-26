@@ -1,26 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Remove-PASGroup {
-	<#
-.SYNOPSIS
-Deletes a user group
-
-.DESCRIPTION
-Deletes a user group.
-
-To delete a user group, the following authorizations are required:
-
-- Add/Update Users
-
-.PARAMETER GroupID
-The unique ID of the group to delete.
-
-.EXAMPLE
-Delete-PASGroup -GroupID 3
-
-Deletes Group with ID of 3
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASGroup
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

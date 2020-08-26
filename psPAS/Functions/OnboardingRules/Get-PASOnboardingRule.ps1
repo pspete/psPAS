@@ -1,39 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASOnboardingRule {
-	<#
-.SYNOPSIS
-Gets all automatic on-boarding rules
-
-.DESCRIPTION
-Returns information on defined on-boarding rules.
-Vault Admin membership required.
-
-.PARAMETER Names
-A filter that specifies the rule name.
-Separate a list of rules with commas.
-If not specified, all rules will be returned.
-For version 10.2 onwards (not a supported parameter on earlier versions)
-
-.EXAMPLE
-Get-PASOnboardingRule
-
-List information on all On-boarding rules
-
-.EXAMPLE
-Get-PASOnboardingRule -Names Rule1,Rule2
-
-List information on On-boarding rules "Rule1" & "Rule2"
-
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.OnboardingRule
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASOnboardingRule
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

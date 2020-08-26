@@ -1,45 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Disable-PASPlatform {
-	<#
-.SYNOPSIS
-Deactivates a platform.
-
-.DESCRIPTION
-Disables, target, group or rotational group platform.
-
-.PARAMETER TargetPlatform
-Specify if ID relates to Target platform
-
-.PARAMETER GroupPlatform
-Specify if ID relates to Group platform
-
-.PARAMETER RotationalGroup
-Specify if ID relates to Rotational Group platform
-
-.PARAMETER ID
-The unique ID number of the platform to disable.
-
-.EXAMPLE
-Disable-PASPlatform -TargetPlatform -ID 53
-
-Disables Target Platform with ID of 53
-
-.EXAMPLE
-Disable-PASPlatform -GroupPlatform -id 64
-
-Disables Group Platform with ID of 64
-
-.EXAMPLE
-Disable-PASPlatform -RotationalGroup -id 65
-
-Disables Rotational Group Platform with ID of 65
-
-.NOTES
-PAS 11.4 minimum
-
-.LINK
-https://pspas.pspete.dev/commands/Disable-PASPlatform
-
-#>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'TargetPlatform', Justification = "False Positive")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'GroupPlatform', Justification = "False Positive")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'RotationalGroup', Justification = "False Positive")]

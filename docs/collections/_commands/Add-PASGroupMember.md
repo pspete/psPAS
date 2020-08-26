@@ -1,102 +1,156 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Add-PASGroupMember
+schema: 2.0.0
 title: Add-PASGroupMember
 ---
 
-## SYNOPSIS
+# Add-PASGroupMember
 
+## SYNOPSIS
 Adds a vault user as a group member
 
 ## SYNTAX
 
-    Add-PASGroupMember -groupId <Int32> -memberId <String> [-memberType <String>]
-    [-domainName <String>] [<CommonParameters>]
+### post_10_6 (Default)
+```
+Add-PASGroupMember -groupId <Int32> -memberId <String> [-memberType <String>] [-domainName <String>]
+ [<CommonParameters>]
+```
 
-    Add-PASGroupMember -GroupName <String> -UserName <String> [<CommonParameters>]
+### pre_10_6
+```
+Add-PASGroupMember -GroupName <String> -UserName <String> [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Adds an existing user to an existing group in the vault
-
-## PARAMETERS
-
-    -groupId <Int32>
-        The unique ID of the group to add the member to.
-        Requires CyberArk version 10.6+
-
-        Required?                    true
-        Position?                    named
-        Default value                0
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -memberId <String>
-        The name of the user or group to add as a member.
-        Requires CyberArk version 10.6+
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -memberType <String>
-        The type of user being added to the Vault group.
-        Valid values: domain/vault
-        Requires CyberArk version 10.6+
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -domainName <String>
-        If memberType=domain, dns address of the domain
-        Requires CyberArk version 10.6+
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -GroupName <String>
-        The name of the user
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -UserName <String>
-        The name of the user
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
+```
 
-    PS C:\>Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
+Adds TargetUser to PVWAMonitor group
 
-    Adds TargetUser to PVWAMonitor group
+### EXAMPLE 2
+```
+Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
+```
 
+Adds TargetUser to PVWAMonitor group
 
+## PARAMETERS
 
+### -groupId
+The unique ID of the group to add the member to.
+Requires CyberArk version 10.6+
 
-    -------------------------- EXAMPLE 2 --------------------------
+```yaml
+Type: Int32
+Parameter Sets: post_10_6
+Aliases:
 
-    PS C:\>Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
+Required: True
+Position: Named
+Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    Adds TargetUser to PVWAMonitor group
+### -memberId
+The name of the user or group to add as a member.
+Requires CyberArk version 10.6+
+
+```yaml
+Type: String
+Parameter Sets: post_10_6
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -memberType
+The type of user being added to the Vault group.
+Valid values: domain/vault
+Requires CyberArk version 10.6+
+
+```yaml
+Type: String
+Parameter Sets: post_10_6
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -domainName
+If memberType=domain, dns address of the domain
+Requires CyberArk version 10.6+
+
+```yaml
+Type: String
+Parameter Sets: post_10_6
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -GroupName
+The name of the user
+
+```yaml
+Type: String
+Parameter Sets: pre_10_6
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UserName
+The name of the user
+
+```yaml
+Type: String
+Parameter Sets: pre_10_6
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Add-PASGroupMember](https://pspas.pspete.dev/commands/Add-PASGroupMember)
+

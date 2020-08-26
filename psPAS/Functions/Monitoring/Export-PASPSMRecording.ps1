@@ -1,28 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Export-PASPSMRecording {
-	<#
-.SYNOPSIS
-Saves a PSM Recording
-
-.DESCRIPTION
-Saves a specific recorded session to a file
-
-.PARAMETER RecordingID
-Unique ID of the recorded PSM session
-
-.PARAMETER Path
-The folder to export the PSM recording to.
-
-.EXAMPLE
-Export-PASPSMRecording -RecordingID 123_45 -path C:\PSMRecording.avi
-
-Saves PSM Recording with Id 123_45 to C:\PSMRecording.avi
-
-.NOTES
-Minimum CyberArk Version 10.6
-
-.LINK
-https://pspas.pspete.dev/commands/Export-PASPSMRecording
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

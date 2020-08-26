@@ -1,67 +1,111 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Approve-PASRequest
+schema: 2.0.0
 title: Approve-PASRequest
 ---
 
-## SYNOPSIS
+# Approve-PASRequest
 
+## SYNOPSIS
 Confirm a single request
 
 ## SYNTAX
 
-    Approve-PASRequest [-RequestId] <String> [[-Reason] <String>]
+```
+Approve-PASRequest [-RequestId] <String> [[-Reason] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Enables a request confirmer to confirm a single request, identified by its requestID.
-
-Officially supported from version 9.10. Reports received that function works in 9.9 also.
-
-## PARAMETERS
-
-    -RequestId <String>
-        The ID of the request to confirm
-
-        Required?                    true
-        Position?                    1
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -Reason <String>
-        The reason why the request is approved
-
-        Required?                    false
-        Position?                    2
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -WhatIf [<SwitchParameter>]
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    -Confirm [<SwitchParameter>]
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
+Officially supported from version 9.10.
+Reports received that function works in 9.9 also.
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+- Reason "<Reason>"
+```
 
-    Approve-PASRequest -RequestID <ID>- Reason "<Reason>"
+Confirms request \<ID\>
 
-    Confirms request <ID>
+## PARAMETERS
+
+### -RequestId
+The ID of the request to confirm
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Reason
+The reason why the request is approved
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+Minimum CyberArk Version 9.10
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Approve-PASRequest](https://pspas.pspete.dev/commands/Approve-PASRequest)
+

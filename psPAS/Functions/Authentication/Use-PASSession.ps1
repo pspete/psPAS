@@ -1,33 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Use-PASSession {
-	<#
-.SYNOPSIS
-Sets module scope variables allowing saved session information to be used for future requests.
-
-.DESCRIPTION
-Use session data (BaseURI, ExternalVersion, WebSession (containing Authorization Header)) for future requests.
-psPAS uses variables in the Module scope to provide required values to all module functions, use this function to
-set the required values in the module scope, using session information returned from `Get-PASSession`.
-
-.PARAMETER Session
-An object containing psPAS session data, as returned from Get-PASSession
-
-.EXAMPLE
-Use Saved Session Data for future requests
-
-Use-PASSession -Session $Session
-
-.EXAMPLE
-Save current session, switch to using different session details, switch back to original session.
-
-$CurrentSession = Get-PASSession
-
-Use-PASSession -Session $OtherSession
-...
-Use-PASSession -Session $CurrentSession
-
-.LINK
-https://pspas.pspete.dev/commands/Use-PASSession
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

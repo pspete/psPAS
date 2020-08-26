@@ -1,28 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASSafeShareLogo {
-	<#
-.SYNOPSIS
-Returns details of configured SafeShare Logo
-
-.DESCRIPTION
-Gets configuration details of logo displayed in the SafeShare WebGUI
-
-.PARAMETER ImageType
-The requested logo type: Square or Watermark.
-
-.EXAMPLE
-Get-PASSafeShareLogo -ImageType Square
-
-Retrieves Safe Share Logo
-
-.INPUTS
-WebSession & BaseURI can be piped to the function by propertyname
-
-.NOTES
-SafeShare no longer available from CyberArk
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASSafeShareLogo
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(
