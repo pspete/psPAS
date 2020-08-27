@@ -121,7 +121,7 @@ Marks an account for immediate reconcile
 ## PARAMETERS
 
 ### -AccountID
-The unique ID  of the account.
+The unique ID of the account.
 
 ```yaml
 Type: String

@@ -35,7 +35,7 @@ Deletes the account with AccountID of 19_1
 ## PARAMETERS
 
 ### -AccountID
-The unique ID  of the account to delete.
+The unique ID of the account to delete.
 
 This is retrieved by the Get-PASAccount function.
 

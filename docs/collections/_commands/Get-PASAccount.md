@@ -63,7 +63,7 @@ Requires the following permission in the Safe:
 Get-PASAccount
 ```
 
-Returns  all accounts on safes where your user has "List accounts" rights.
+Returns all accounts on safes where your user has "List accounts" rights.
 
 This will only work from version 10.4 onwards.
 

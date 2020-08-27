@@ -33,7 +33,7 @@ Membership of the Vault Admins group required.
 
 ### EXAMPLE 1
 ```
-Get-PASDirectory |  Get-PASDirectoryMapping
+Get-PASDirectory | Get-PASDirectoryMapping
 ```
 
 Returns LDAP directory mappings configured for each directory.

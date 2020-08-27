@@ -8637,7 +8637,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:para>This API is largely undocumented, but appears to be available since V10</maml:para>
         <maml:para>The documentation mentions no body parameters, but search/offset/limit/sort(NYI)/filter(NYI) seem to work</maml:para>
         <maml:para>It returns results faster than the v9 API (invoked with Get-PASSafe) but has a vastly different return object</maml:para>
-        <maml:para>Recommended Use:  Use this to search for safes many quickly, then use Get-PASSafe to get full details about individual accounts</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -9100,7 +9099,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASAccount</dev:code>
         <dev:remarks>
-          <maml:para>Returns  all accounts on safes where your user has "List accounts" rights.</maml:para>
+          <maml:para>Returns all accounts on safes where your user has "List accounts" rights.</maml:para>
           <maml:para>This will only work from version 10.4 onwards.</maml:para>
         </dev:remarks>
       </command:example>
@@ -10765,7 +10764,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get-PASDirectory |  Get-PASDirectoryMapping</dev:code>
+        <dev:code>Get-PASDirectory | Get-PASDirectoryMapping</dev:code>
         <dev:remarks>
           <maml:para>Returns LDAP directory mappings configured for each directory.</maml:para>
         </dev:remarks>
@@ -11743,7 +11742,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:alert>
         <maml:para>Minimum CyberArk version 9.10</maml:para>
         <maml:para>CyberArk version 11.1 required for Active, PlatformType &amp; Search parameters.</maml:para>
-        <maml:para>CyberArk version 11.4 required for extended filters for target platforms, and requests for  dependent, group &amp; rotational group platforms</maml:para>
+        <maml:para>CyberArk version 11.4 required for extended filters for target platforms, and requests for dependent, group &amp; rotational group platforms</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -14519,7 +14518,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:Description>
-            <maml:para>The unique ID  of the account.</maml:para>
+            <maml:para>The unique ID of the account.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -14567,7 +14566,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:Description>
-            <maml:para>The unique ID  of the account.</maml:para>
+            <maml:para>The unique ID of the account.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -14626,7 +14625,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:Description>
-            <maml:para>The unique ID  of the account.</maml:para>
+            <maml:para>The unique ID of the account.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -14702,7 +14701,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:Description>
-            <maml:para>The unique ID  of the account.</maml:para>
+            <maml:para>The unique ID of the account.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -14766,7 +14765,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:Description>
-            <maml:para>The unique ID  of the account.</maml:para>
+            <maml:para>The unique ID of the account.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -14842,7 +14841,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:Description>
-            <maml:para>The unique ID  of the account.</maml:para>
+            <maml:para>The unique ID of the account.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -14920,7 +14919,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:Description>
-            <maml:para>The unique ID  of the account.</maml:para>
+            <maml:para>The unique ID of the account.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -14969,7 +14968,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
         <maml:name>AccountID</maml:name>
         <maml:Description>
-          <maml:para>The unique ID  of the account.</maml:para>
+          <maml:para>The unique ID of the account.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -16100,14 +16099,14 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map2 -MappingAuthorizations BackupAllSafes, RestoreAllSafes</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new  LDAP directory mapping in the Vault with the following authorizations: BackupAllSafes, RestoreAllSafes</maml:para>
+          <maml:para>Creates a new LDAP directory mapping in the Vault with the following authorizations: BackupAllSafes, RestoreAllSafes</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
         <dev:code>New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map1 -MappingAuthorizations AddUpdateUsers, AddSafes, BackupAllSafes</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new  LDAP directory mapping in the Vault with the following authorizations: AddUpdateUsers, AddSafes, BackupAllSafes</maml:para>
+          <maml:para>Creates a new LDAP directory mapping in the Vault with the following authorizations: AddUpdateUsers, AddSafes, BackupAllSafes</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -21293,7 +21292,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:Description>
-            <maml:para>The unique ID  of the account to delete.</maml:para>
+            <maml:para>The unique ID of the account to delete.</maml:para>
             <maml:para>This is retrieved by the Get-PASAccount function.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -21343,7 +21342,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
         <maml:name>AccountID</maml:name>
         <maml:Description>
-          <maml:para>The unique ID  of the account to delete.</maml:para>
+          <maml:para>The unique ID of the account to delete.</maml:para>
           <maml:para>This is retrieved by the Get-PASAccount function.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -22239,7 +22238,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Remove-PASDirectoryMapping -DirectoryName SomeDir -MappingID 66</dev:code>
         <dev:remarks>
-          <maml:para>Removes the  directory mapping with id 66 for the SomeDir directory</maml:para>
+          <maml:para>Removes the directory mapping with id 66 for the SomeDir directory</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -24866,7 +24865,7 @@ Set-PASAccount -AccountID 27_4 -operations $actions</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Updates a  directory mapping.</maml:para>
+      <maml:para>Updates a directory mapping.</maml:para>
       <maml:para>Membership of the Vault Admins group required.</maml:para>
     </maml:description>
     <command:syntax>
@@ -25247,7 +25246,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
     </command:details>
     <maml:description>
       <maml:para>Updates the order of all a directories mappings.</maml:para>
-      <maml:para>Requires membership of Vault Admins group  &amp; "Audit users", "Add/Update users" &amp; "Manage Directory mappings" authorizations.</maml:para>
+      <maml:para>Requires membership of Vault Admins group &amp; "Audit users", "Add/Update users" &amp; "Manage Directory mappings" authorizations.</maml:para>
       <maml:para>Minimum version 10.10</maml:para>
     </maml:description>
     <command:syntax>
@@ -27759,16 +27758,16 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:Description>
             <maml:para>The user permissions in the vault.</maml:para>
             <maml:para>To grant authorization to a user, the same authorization must be held by the account logged on to the API.</maml:para>
-            <maml:para>Valid values: -  AddSafes</maml:para>
-            <maml:para>-  AuditUsers</maml:para>
-            <maml:para>-  AddUpdateUsers</maml:para>
-            <maml:para>-  ResetUsersPasswords</maml:para>
-            <maml:para>-  ActivateUsers</maml:para>
-            <maml:para>-  AddNetworkAreas</maml:para>
-            <maml:para>-  ManageDirectoryMapping</maml:para>
-            <maml:para>-  ManageServerFileCategories</maml:para>
-            <maml:para>-  BackupAllSafes</maml:para>
-            <maml:para>-  RestoreAllSafes</maml:para>
+            <maml:para>Valid values: - AddSafes</maml:para>
+            <maml:para>- AuditUsers</maml:para>
+            <maml:para>- AddUpdateUsers</maml:para>
+            <maml:para>- ResetUsersPasswords</maml:para>
+            <maml:para>- ActivateUsers</maml:para>
+            <maml:para>- AddNetworkAreas</maml:para>
+            <maml:para>- ManageDirectoryMapping</maml:para>
+            <maml:para>- ManageServerFileCategories</maml:para>
+            <maml:para>- BackupAllSafes</maml:para>
+            <maml:para>- RestoreAllSafes</maml:para>
             <maml:para>Requires CyberArk version 11.1+</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
@@ -28513,16 +28512,16 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <maml:Description>
           <maml:para>The user permissions in the vault.</maml:para>
           <maml:para>To grant authorization to a user, the same authorization must be held by the account logged on to the API.</maml:para>
-          <maml:para>Valid values: -  AddSafes</maml:para>
-          <maml:para>-  AuditUsers</maml:para>
-          <maml:para>-  AddUpdateUsers</maml:para>
-          <maml:para>-  ResetUsersPasswords</maml:para>
-          <maml:para>-  ActivateUsers</maml:para>
-          <maml:para>-  AddNetworkAreas</maml:para>
-          <maml:para>-  ManageDirectoryMapping</maml:para>
-          <maml:para>-  ManageServerFileCategories</maml:para>
-          <maml:para>-  BackupAllSafes</maml:para>
-          <maml:para>-  RestoreAllSafes</maml:para>
+          <maml:para>Valid values: - AddSafes</maml:para>
+          <maml:para>- AuditUsers</maml:para>
+          <maml:para>- AddUpdateUsers</maml:para>
+          <maml:para>- ResetUsersPasswords</maml:para>
+          <maml:para>- ActivateUsers</maml:para>
+          <maml:para>- AddNetworkAreas</maml:para>
+          <maml:para>- ManageDirectoryMapping</maml:para>
+          <maml:para>- ManageServerFileCategories</maml:para>
+          <maml:para>- BackupAllSafes</maml:para>
+          <maml:para>- RestoreAllSafes</maml:para>
           <maml:para>Requires CyberArk version 11.1+</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
@@ -29714,7 +29713,7 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:Description>
-            <maml:para>The unique ID  of the account.</maml:para>
+            <maml:para>The unique ID of the account.</maml:para>
             <maml:para>This is retrieved by the Get-PASAccount function.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -29752,7 +29751,7 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
         <maml:name>AccountID</maml:name>
         <maml:Description>
-          <maml:para>The unique ID  of the account.</maml:para>
+          <maml:para>The unique ID of the account.</maml:para>
           <maml:para>This is retrieved by the Get-PASAccount function.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>

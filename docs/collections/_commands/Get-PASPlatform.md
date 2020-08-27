@@ -355,7 +355,7 @@ Minimum CyberArk version 9.10
 
 CyberArk version 11.1 required for Active, PlatformType & Search parameters.
 
-CyberArk version 11.4 required for extended filters for target platforms, and requests for  dependent, group & rotational group platforms
+CyberArk version 11.4 required for extended filters for target platforms, and requests for dependent, group & rotational group platforms
 
 ## RELATED LINKS
 

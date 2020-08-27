@@ -85,8 +85,6 @@ The documentation mentions no body parameters, but search/offset/limit/sort(NYI)
 
 It returns results faster than the v9 API (invoked with Get-PASSafe) but has a vastly different return object
 
-Recommended Use:  Use this to search for safes many quickly, then use Get-PASSafe to get full details about individual accounts
-
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Find-PASSafe](https://pspas.pspete.dev/commands/Find-PASSafe)

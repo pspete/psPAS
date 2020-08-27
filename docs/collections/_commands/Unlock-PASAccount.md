@@ -48,7 +48,7 @@ Will check-in exclusive access account xAccount
 ## PARAMETERS
 
 ### -AccountID
-The unique ID  of the account.
+The unique ID of the account.
 
 This is retrieved by the Get-PASAccount function.
 

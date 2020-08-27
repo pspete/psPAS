@@ -22,7 +22,7 @@ Set-PASDirectoryMappingOrder [-DirectoryName] <String> [-MappingsOrder] <Int32[]
 ## DESCRIPTION
 Updates the order of all a directories mappings.
 
-Requires membership of Vault Admins group  & "Audit users", "Add/Update users" & "Manage Directory mappings" authorizations.
+Requires membership of Vault Admins group & "Audit users", "Add/Update users" & "Manage Directory mappings" authorizations.
 
 Minimum version 10.10
 

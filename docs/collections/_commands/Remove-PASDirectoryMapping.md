@@ -31,7 +31,7 @@ Membership of the Vault Admins group required.
 Remove-PASDirectoryMapping -DirectoryName SomeDir -MappingID 66
 ```
 
-Removes the  directory mapping with id 66 for the SomeDir directory
+Removes the directory mapping with id 66 for the SomeDir directory
 
 ## PARAMETERS
 

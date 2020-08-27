@@ -22,7 +22,7 @@ Set-PASDirectoryMapping [-DirectoryName] <String> [-MappingID] <String> [-Mappin
 ```
 
 ## DESCRIPTION
-Updates a  directory mapping.
+Updates a directory mapping.
 
 Membership of the Vault Admins group required.
 

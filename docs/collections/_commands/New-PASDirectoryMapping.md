@@ -41,7 +41,7 @@ BackupAllSafes, RestoreAllSafes
 New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map2 -MappingAuthorizations BackupAllSafes, RestoreAllSafes
 ```
 
-Creates a new  LDAP directory mapping in the Vault with the following authorizations:
+Creates a new LDAP directory mapping in the Vault with the following authorizations:
 BackupAllSafes, RestoreAllSafes
 
 ### EXAMPLE 3
@@ -49,7 +49,7 @@ BackupAllSafes, RestoreAllSafes
 New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map1 -MappingAuthorizations AddUpdateUsers, AddSafes, BackupAllSafes
 ```
 
-Creates a new  LDAP directory mapping in the Vault with the following authorizations:
+Creates a new LDAP directory mapping in the Vault with the following authorizations:
 AddUpdateUsers, AddSafes, BackupAllSafes
 
 ## PARAMETERS
