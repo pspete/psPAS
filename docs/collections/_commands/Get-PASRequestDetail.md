@@ -20,7 +20,9 @@ Get-PASRequestDetail [-RequestType] <String> [-RequestID] <String> [<CommonParam
 
 ## DESCRIPTION
 Gets Requests
+
 Officially supported from version 9.10.
+
 Reports received that function works in 9.9 also.
 
 ## EXAMPLES

@@ -22,9 +22,12 @@ Remove-PASPublicSSHKey [-UserName] <String> [-KeyID] <String> [-WhatIf] [-Confir
 Deletes an authorized public SSH key for a specific user in the
 Vault, preventing them from authenticating to the Vault through PSMP
 using a corresponding private SSH key.
+
 "Reset Users Passwords" Vault permission is required.
+
 The authenticated user who runs this function must be in the same Vault
 Location or higher as the user whose public SSH keys are deleted.
+
 A user cannot manage their own public SSH keys.
 
 ## EXAMPLES
@@ -40,6 +43,7 @@ Deletes specified ssh key from vault user "Splitter"
 
 ### -UserName
 The username of the Vault user whose public SSH keys will be added
+
 A username cannot contain te follwing characters: "%", "&", "+" or ".".
 
 ```yaml

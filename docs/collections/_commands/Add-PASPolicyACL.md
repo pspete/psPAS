@@ -110,6 +110,7 @@ Accept wildcard characters: False
 
 ### -UserName
 The user this rule applies to.
+
 Specify "*" for all users
 
 ```yaml

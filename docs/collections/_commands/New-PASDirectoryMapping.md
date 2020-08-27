@@ -23,6 +23,7 @@ New-PASDirectoryMapping [-DirectoryName] <String> [-MappingName] <String> [-LDAP
 
 ## DESCRIPTION
 Adds a directory mapping.
+
 Membership of the Vault Admins group required.
 
 ## EXAMPLES
@@ -32,7 +33,7 @@ Membership of the Vault Admins group required.
 New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map3 -MappingAuthorizations RestoreAllSafes, BackupAllSafes
 ```
 
-Creates a new  LDAP directory mapping in the Vault with the following authorizations:
+Creates a new LDAP directory mapping in the Vault with the following authorizations:
 BackupAllSafes, RestoreAllSafes
 
 ### EXAMPLE 2
@@ -115,6 +116,7 @@ Accept wildcard characters: False
 
 ### -VaultGroups
 A list of Vault groups that a mapped user will be added to.
+
 Requires CyberArk version 10.7+
 
 ```yaml
@@ -131,7 +133,9 @@ Accept wildcard characters: False
 
 ### -Location
 The path of the Vault location that mapped users are added under.
+
 This value cannot be updated.
+
 Requires CyberArk version 10.7+
 
 ```yaml
@@ -148,6 +152,7 @@ Accept wildcard characters: False
 
 ### -LDAPQuery
 Match LDAP query results to mapping
+
 Requires CyberArk version 10.7+
 
 ```yaml
@@ -183,6 +188,7 @@ Accept wildcard characters: False
 
 ### -UserActivityLogPeriod
 Retention period in days for user activity logs
+
 Requires CyberArk version 10.10+
 
 ```yaml

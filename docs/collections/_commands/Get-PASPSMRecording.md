@@ -41,6 +41,7 @@ Lists the first 10 recordings from the PSMRecordings safe, sorted by decending f
 
 ### -RecordingID
 Unique ID of the recorded PSM session
+
 Requires CyberArk version 10.6+
 
 ```yaml
@@ -87,6 +88,7 @@ The sort can be done by each property on the recording file:
  - PSMStartTime
  - TicketID
 The sort can be in ascending or descending order.
+
 To sort in descending order, specify "-" before the recording property by which to sort.
 
 ```yaml
@@ -103,8 +105,8 @@ Accept wildcard characters: False
 
 ### -Offset
 Determines which recording results will be returned, according to a specific place in the returned list.
-This value
-defines the recording's place in the list and how many results will be skipped.
+
+This value defines the recording's place in the list and how many results will be skipped.
 
 ```yaml
 Type: Int32

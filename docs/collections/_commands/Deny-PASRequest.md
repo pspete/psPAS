@@ -20,14 +20,16 @@ Deny-PASRequest [-RequestId] <String> [[-Reason] <String>] [-WhatIf] [-Confirm] 
 
 ## DESCRIPTION
 Enables a request confirmer to reject a single request, identified by its requestID.
+
 Officially supported from version 9.10.
+
 Reports received that function works in 9.9 also.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-- Reason "<Reason>"
+Deny-PASRequest -RequestID <ID> -Reason "<Reason>"
 ```
 
 Denies request \<ID\>

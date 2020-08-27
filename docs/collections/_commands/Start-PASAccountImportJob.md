@@ -21,7 +21,9 @@ Start-PASAccountImportJob [[-source] <String>] [-accountsList] <Object[]> [-What
 
 ## DESCRIPTION
 Sends a list of accounts to be added to existing safes.
+
 Must be authenticated with a user who has Add accounts, Update account content, and Update account properties authorization in at least one Safe.
+
 Returns bulk account upload id or status.
 
 ## EXAMPLES

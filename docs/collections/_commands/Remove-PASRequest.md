@@ -20,8 +20,11 @@ Remove-PASRequest [-RequestID] <String> [-WhatIf] [-Confirm] [<CommonParameters>
 
 ## DESCRIPTION
 Deletes a request from the Vault.
+
 The "Manage" Safe vault permission is required.
+
 Officially supported from version 9.10.
+
 Reports received that function works in 9.9 also.
 
 ## EXAMPLES
@@ -36,7 +39,7 @@ Deletes Request \<ID\>
 ## PARAMETERS
 
 ### -RequestID
-The ID (composed of the Safe Name and internal RequestID.) of the request to delete.
+The ID (composed of the Safe Name and internal RequestID) of the request to delete.
 
 ```yaml
 Type: String

@@ -294,6 +294,7 @@ Accept wildcard characters: False
 
 ### -privilegedCriteria
 The criteria that determines whether or not the discovered account is privileged.
+
 For example, the user or group name.
 
 ```yaml
@@ -400,7 +401,9 @@ Accept wildcard characters: False
 
 ### -SID
 Security ID.
+
 This parameter is relevant only for Windows accounts.
+
 Relevant when platformType is set to Windows
 
 ```yaml
@@ -417,7 +420,9 @@ Accept wildcard characters: False
 
 ### -uid
 The unique user ID.
+
 This parameter is relevant only for Unix accounts.
+
 Relevant when platformType is set to "Unix" or "Unix SSH Key"
 
 ```yaml
@@ -434,7 +439,9 @@ Accept wildcard characters: False
 
 ### -gid
 The unique group ID.
+
 This parameter is relevant only for Unix accounts.
+
 Relevant when platformType is set to "Unix" or "Unix SSH Key"
 
 ```yaml
@@ -451,8 +458,11 @@ Accept wildcard characters: False
 
 ### -fingerprint
 The fingerprint of the discovered SSH key.
+
 The public and private keys of the same trust have the same fingerprint.
+
 This is relevant for SSH keys only.
+
 Relevant when platformType is set to "Unix SSH Key"
 
 ```yaml
@@ -469,6 +479,7 @@ Accept wildcard characters: False
 
 ### -size
 The size in bits of the generated key.
+
 Relevant when platformType is set to "Unix SSH Key"
 
 ```yaml
@@ -485,6 +496,7 @@ Accept wildcard characters: False
 
 ### -path
 The path of the public key on the target machine.
+
 Relevant when platformType is set to "Unix SSH Key"
 
 ```yaml
@@ -501,6 +513,7 @@ Accept wildcard characters: False
 
 ### -format
 The format of the private SSH key.
+
 Relevant when platformType is set to "Unix SSH Key"
 
 ```yaml
@@ -517,6 +530,7 @@ Accept wildcard characters: False
 
 ### -comment
 Any text added when the key was created.
+
 Relevant when platformType is set to "Unix SSH Key"
 
 ```yaml
@@ -533,6 +547,7 @@ Accept wildcard characters: False
 
 ### -encryption
 The type of encryption used to generate the SSH key.
+
 Relevant when platformType is set to "Unix SSH Key"
 
 ```yaml
@@ -549,7 +564,9 @@ Accept wildcard characters: False
 
 ### -awsAccountID
 The AWS Account ID, in the format of a 12-digit number.
+
 Relevant when platformType is set to AWS or AWS Access Keys
+
 Requires 10.8+
 
 ```yaml
@@ -566,7 +583,9 @@ Accept wildcard characters: False
 
 ### -awsAccessKeyID
 The AWS Access Key ID string
+
 Relevant when platformType is set to AWS or AWS Access Keys
+
 Requires 10.8+
 
 ```yaml
@@ -592,6 +611,7 @@ Accepts hashtable representing key/value pairs for:
   - Windows Scheduled Task
   - Windows Service
 - taskFolder: The dependency task folder, relevant for Windows Scheduled Tasks.
+
 Requires 10.8+
 
 ```yaml

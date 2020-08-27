@@ -28,9 +28,8 @@ Adds a new privileged command rule to an account.
 ### EXAMPLE 1
 ```
 Add-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerA.domain.com -AccountUserName root `
-```
-
 -Command 'for /l %a in (0,0,0) do xyz' -CommandGroup $false -PermissionType Deny -UserName TestUser
+```
 
 This will add a new Privileged Command Rule to root for user TestUser
 

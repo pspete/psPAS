@@ -20,7 +20,9 @@ Get-PASAccountImportJob [-id <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 Returns the result of all bulk account upload jobs, or an individual job identified by it's ID.
+
 Once the upload has finished, the API returns the result.
+
 The result contains a list of all the accounts that succeeded or failed to upload.
 
 ## EXAMPLES

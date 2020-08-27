@@ -20,6 +20,7 @@ Use-PASSession [-Session] <Object> [<CommonParameters>]
 
 ## DESCRIPTION
 Use session data (BaseURI, ExternalVersion, WebSession (containing Authorization Header)) for future requests.
+
 psPAS uses variables in the Module scope to provide required values to all module functions, use this function to
 set the required values in the module scope, using session information returned from \`Get-PASSession\`.
 

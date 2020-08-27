@@ -27,6 +27,7 @@ Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpiration
 
 ## DESCRIPTION
 Updates an existing Safe Member's permissions on a safe.
+
 Manage Safe Members permission is required.
 
 ## EXAMPLES
@@ -136,6 +137,7 @@ Accept wildcard characters: False
 ### -AddAccounts
 Boolean value defining if permission will be granted to safe member
 on safe.
+
 Includes UpdateAccountProperties (when adding or removing permission).
 
 ```yaml
@@ -344,6 +346,7 @@ Accept wildcard characters: False
 
 ### -RequestsAuthorizationLevel
 Integer value defining level assigned to RequestsAuthorizationLevel for safe member.
+
 Valid Values: 0, 1 or 2
 
 ```yaml

@@ -29,13 +29,7 @@ Gets list of all privileged commands associated with an account
 Get-PASAccount root | Get-PASAccountACL
 ```
 
-Returns Privileged Account Rules for the account root found by Get-PASAccount:
-
-PolicyId Command                       PermissionType UserName Type    IsGroup
--------- -------                       -------------- -------- ----    -------
-UNIXSSH  ifconfig                      Allow          TestUser Account False
-UNIXSSH  for /l %a in (0,0,0) do start Deny           TestUser Account False
-UNIXSSH  for /l %a in (0,0,0) do xyz   Allow          TestUser Account False
+Returns Privileged Account Rules for the account root found by Get-PASAccount
 
 ## PARAMETERS
 

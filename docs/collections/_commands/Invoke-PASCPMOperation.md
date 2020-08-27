@@ -55,17 +55,15 @@ Invoke-PASCPMOperation -AccountID <String> [-ReconcileTask] [-WhatIf] [-Confirm]
 ```
 
 ## DESCRIPTION
-Accounts Can be flagged for immediate verification, change or reconcile
-Flags a managed account credentials for an immediate CPM password verification.
+Accounts Can be flagged for immediate verification, change or reconcile.
+
 CPM Change Options:
-Flags a managed account credentials for an immediate CPM password change.
-	- The "Initiate CPM password management operations" permission is required.
-
-Sets a password to use for an account's next CPM change.
-	- The "Initiate CPM password management operations" & "Specify next password value" permission is required.
-
-Updates the account's password only in the Vault (without affecting the credentials on the target device).
-	- The "Update password value" permission is required.
+- Flags a managed account credentials for an immediate CPM password change.
+  - The "Initiate CPM password management operations" permission is required.
+- Sets a password to use for an account's next CPM change.
+  - The "Initiate CPM password management operations" & "Specify next password value" permission is required.
+- Updates the account's password only in the Vault (without affecting the credentials on the target device).
+  - The "Update password value" permission is required.
 
 Verify & Reconcile both require "Initiate CPM password management operations"
 
@@ -169,6 +167,7 @@ Accept wildcard characters: False
 
 ### -ReconcileTask
 Initiates a reconcile task
+
 Requires CyberArk version 9.10+
 
 ```yaml
@@ -185,7 +184,9 @@ Accept wildcard characters: False
 
 ### -ChangeImmediately
 Whether or not the password will be changed immediately in the Vault.
+
 Only relevant when specifying a password value for the next CPM change.
+
 Requires CyberArk version 10.1+
 
 ```yaml
@@ -202,7 +203,9 @@ Accept wildcard characters: False
 
 ### -NewCredentials
 Secure String value of the new account password that will be allocated to the account in the Vault.
+
 Only relevant when specifying a password value for the next CPM change, or updating the password only in the vault.
+
 Requires CyberArk version 10.1+
 
 ```yaml
@@ -219,9 +222,13 @@ Accept wildcard characters: False
 
 ### -ChangeEntireGroup
 Boolean value, dictating if all accounts that belong to the same group should have their passwords changed.
+
 This is only relevant for accounts that belong to an account group.
+
 Parameter will be ignored if account does not belong to a group.
+
 Applicable to immediate change via CPM, and password change in the vault only.
+
 Requires CyberArk version 10.1+
 
 ```yaml
@@ -250,6 +257,7 @@ Accept wildcard characters: False
 
 ### -ImmediateChangeByCPM
 Yes/No value, dictating if the account will be scheduled for immediate change.
+
 Specify Yes to initiate a password change by CPM - Relevant for Classic API only.
 
 ```yaml
@@ -267,8 +275,11 @@ Accept wildcard characters: False
 ### -ChangeCredsForGroup
 Yes/No value, dictating if all accounts that belong to the same group should
 have their passwords changed.
+
 This is only relevant for accounts that belong to an account group.
+
 Parameter will be ignored if account does not belong to a group.
+
 Relevant for Classic API only.
 
 ```yaml

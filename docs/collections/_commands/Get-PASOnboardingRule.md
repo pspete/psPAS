@@ -20,6 +20,7 @@ Get-PASOnboardingRule [-Names <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 Returns information on defined on-boarding rules.
+
 Vault Admin membership required.
 
 ## EXAMPLES
@@ -42,8 +43,11 @@ List information on On-boarding rules "Rule1" & "Rule2"
 
 ### -Names
 A filter that specifies the rule name.
+
 Separate a list of rules with commas.
+
 If not specified, all rules will be returned.
+
 For version 10.2 onwards (not a supported parameter on earlier versions)
 
 ```yaml

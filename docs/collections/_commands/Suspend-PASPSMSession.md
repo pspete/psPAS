@@ -20,7 +20,7 @@ Suspend-PASPSMSession [-LiveSessionId] <String> [-WhatIf] [-Confirm] [<CommonPar
 
 ## DESCRIPTION
 Suspends a Live PSM session, identified by the unique ID of the PSM Session,
-preventing further  interaction in the session until it is resumed by Resume-PASPSMSession.
+preventing further interaction in the session until it is resumed by Resume-PASPSMSession.
 
 ## EXAMPLES
 

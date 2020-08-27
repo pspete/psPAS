@@ -66,6 +66,7 @@ Displays information on Target_User
 
 ### -id
 The numeric id of the user to return details of.
+
 Requires CyberArk version 10.10+
 
 ```yaml
@@ -82,6 +83,7 @@ Accept wildcard characters: False
 
 ### -Search
 Search string.
+
 Requires CyberArk version 10.9+
 
 ```yaml
@@ -98,6 +100,7 @@ Accept wildcard characters: False
 
 ### -UserType
 The type of the user.
+
 Requires CyberArk version 10.9+
 
 ```yaml
@@ -114,6 +117,7 @@ Accept wildcard characters: False
 
 ### -ComponentUser
 Whether the user is a known component or not.
+
 Requires CyberArk version 10.9+
 
 ```yaml

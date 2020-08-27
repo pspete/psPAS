@@ -20,6 +20,7 @@ Remove-PASDirectory [-id] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 
 ## DESCRIPTION
 Removes an LDAP directory configuration from the vault.
+
 Membership of the Vault Admins group required.
 
 ## EXAMPLES

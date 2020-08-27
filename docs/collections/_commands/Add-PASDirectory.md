@@ -44,9 +44,9 @@ Adds the Domain.Com directory to the vault
 ### EXAMPLE 2
 ```
 Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "BindUser@domain.com" -BindPassword $($Creds.Password) -DomainName DOMAIN `
-```
 
 -DomainBaseContext "DC=domain,DC=com" -DCList @{"Name"="DC.domain.com";"Port"=636;"SSLConnect"=$true} -SSLConnect $true -Port 636
+```
 
 (For 10.7+) - Adds the Domain.Com directory to the vault, configured for LDAPS.
 
@@ -69,6 +69,7 @@ Accept wildcard characters: False
 
 ### -HostAddresses
 List of IP addresses of the host servers where the External Directories exist.
+
 If the Vault will use an SSL connection to connect to the External Directory, this name must match the subject
 that appears in the Directory certificate
 
@@ -116,6 +117,7 @@ Accept wildcard characters: False
 
 ### -Port
 The port that will be used to access the specified server.
+
 The standard port for SSL LDAP connections is 636, and for non-SSL LDAP connections is 389
 
 ```yaml
@@ -131,8 +133,7 @@ Accept wildcard characters: False
 ```
 
 ### -DCList
-Applies to 10.7+; an array of hashtables containing
-LDAPDomainController information.
+Applies to 10.7+; an array of hashtables containing LDAPDomainController information.
 
 ```yaml
 Type: Hashtable[]

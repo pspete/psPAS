@@ -31,7 +31,8 @@ Adds an existing user as a Safe member.
 "Manage Safe Members" permission is required by the authenticated user account sending request.
 
 Unless otherwise specified, the default permissions applied to a safe member will include:
-ListAccounts, RetrieveAccounts, UseAccounts, ViewAuditLog & ViewSafeMembers.
+- ListAccounts, RetrieveAccounts, UseAccounts, ViewAuditLog & ViewSafeMembers.
+
 If these permissions should not be granted to the safe member, they must be explicitly set to $false in the request.
 
 ## EXAMPLES
@@ -39,26 +40,25 @@ If these permissions should not be granted to the safe member, they must be expl
 ### EXAMPLE 1
 ```
 Add-PASSafeMember -SafeName Windows_Safe -MemberName winUser -SearchIn Vault -UseAccounts $true `
-```
 
 -RetrieveAccounts $true -ListAccounts $true
+```
 
 Adds winUser to Windows_Safe with Use, Retrieve & List permissions
 
 ### EXAMPLE 2
 ```
 $Role = [PSCustomObject]@{
-```
 
-UseAccounts                            = $true
-  ListAccounts                           = $true
+  UseAccounts                  = $true
+  ListAccounts                 = $true
   RetrieveAccounts						 = $true
-  ViewAuditLog                           = $false
-  ViewSafeMembers                        = $false
+  ViewAuditLog                 = $false
+  ViewSafeMembers              = $false
 }
 
-PS \> $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Vault
-
+PS > $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Vault
+```
 Grant User23 UseAccounts, RetrieveAccounts & ListAccounts only
 
 ## PARAMETERS
@@ -80,6 +80,7 @@ Accept wildcard characters: False
 
 ### -MemberName
 Vault or Domain User, or Group, to add as member.
+
 Must not contain '&' (ampersand).
 
 ```yaml
@@ -96,6 +97,7 @@ Accept wildcard characters: False
 
 ### -SearchIn
 The Vault or Domain, defined in the vault,
+
 in which to search for the member to add to the safe.
 
 ```yaml
@@ -128,6 +130,7 @@ Accept wildcard characters: False
 ### -UseAccounts
 Boolean value defining if UseAccounts permission will be granted to
 safe member on safe.
+
 Get-PASSafeMember returns the name of this permission as: RestrictedRetrieve
 
 ```yaml
@@ -145,6 +148,7 @@ Accept wildcard characters: False
 ### -RetrieveAccounts
 Boolean value defining if RetrieveAccounts permission will be granted
 to safe member on safe.
+
 Get-PASSafeMember returns the name of this permission as: Retrieve
 
 ```yaml
@@ -162,6 +166,7 @@ Accept wildcard characters: False
 ### -ListAccounts
 Boolean value defining if ListAccounts permission will be granted to
 safe member on safe.
+
 Get-PASSafeMember returns the name of this permission as: ListContent
 
 ```yaml
@@ -179,7 +184,9 @@ Accept wildcard characters: False
 ### -AddAccounts
 Boolean value defining if permission will be granted to safe member
 on safe.
+
 Includes UpdateAccountProperties (when adding or removing permission).
+
 Get-PASSafeMember returns the name of this permission as: Add
 
 ```yaml
@@ -197,6 +204,7 @@ Accept wildcard characters: False
 ### -UpdateAccountContent
 Boolean value defining if AddAccounts permission will be granted to safe
 member on safe.
+
 Get-PASSafeMember returns the name of this permission as: Update
 
 ```yaml
@@ -214,6 +222,7 @@ Accept wildcard characters: False
 ### -UpdateAccountProperties
 Boolean value defining if UpdateAccountProperties permission will be granted
 to safe member on safe.
+
 Get-PASSafeMember returns the name of this permission as: UpdateMetadata
 
 ```yaml
@@ -231,6 +240,7 @@ Accept wildcard characters: False
 ### -InitiateCPMAccountManagementOperations
 Boolean value defining if InitiateCPMAccountManagementOperations permission
 will be granted to safe member on safe.
+
 Get-PASSafeMember may not return details of this permission
 
 ```yaml
@@ -248,6 +258,7 @@ Accept wildcard characters: False
 ### -SpecifyNextAccountContent
 Boolean value defining if SpecifyNextAccountContent permission will be granted
 to safe member on safe.
+
 Get-PASSafeMember may not return details of this permission
 
 ```yaml
@@ -265,6 +276,7 @@ Accept wildcard characters: False
 ### -RenameAccounts
 Boolean value defining if RenameAccounts permission will be granted to safe
 member on safe.
+
 Get-PASSafeMember returns the name of this permission as: Rename
 
 ```yaml
@@ -282,6 +294,7 @@ Accept wildcard characters: False
 ### -DeleteAccounts
 Boolean value defining if DeleteAccounts permission will be granted to safe
 member on safe.
+
 Get-PASSafeMember returns the name of this permission as: Delete
 
 ```yaml
@@ -299,6 +312,7 @@ Accept wildcard characters: False
 ### -UnlockAccounts
 Boolean value defining if UnlockAccounts permission will be granted to safe
 member on safe.
+
 Get-PASSafeMember returns the name of this permission as: Unlock
 
 ```yaml
@@ -364,6 +378,7 @@ Accept wildcard characters: False
 ### -ViewAuditLog
 Boolean value defining if ViewAuditLog permission will be granted to safe member
 on safe.
+
 Get-PASSafeMember returns the name of this permission as: ViewAudit
 
 ```yaml
@@ -381,6 +396,7 @@ Accept wildcard characters: False
 ### -ViewSafeMembers
 Boolean value defining if ViewSafeMembers permission will be granted to safe member
 on safe.
+
 Get-PASSafeMember returns the name of this permission as: ViewMembers
 
 ```yaml
@@ -398,6 +414,7 @@ Accept wildcard characters: False
 ### -RequestsAuthorizationLevel
 Integer value defining level assigned to RequestsAuthorizationLevel for safe member.
 Valid Values: 0, 1 or 2
+
 Get-PASSafeMember may not return details of this permission
 
 ```yaml
@@ -415,6 +432,7 @@ Accept wildcard characters: False
 ### -AccessWithoutConfirmation
 Boolean value defining if AccessWithoutConfirmation permission will be granted to
 safe member on safe.
+
 Get-PASSafeMember may not return details of this permission
 
 ```yaml
@@ -432,6 +450,7 @@ Accept wildcard characters: False
 ### -CreateFolders
 Boolean value defining if CreateFolders permission will be granted to safe member
 on safe.
+
 Get-PASSafeMember returns the name of this permission as: AddRenameFolder
 
 ```yaml
@@ -465,6 +484,7 @@ Accept wildcard characters: False
 ### -MoveAccountsAndFolders
 Boolean value defining if MoveAccountsAndFolders permission will be granted to safe
 member on safe.
+
 Get-PASSafeMember returns the name of this permission as: MoveFilesAndFolders
 
 ```yaml

@@ -93,6 +93,7 @@ Accept wildcard characters: False
 
 ### -Reason
 The reason that is required to be specified to retrieve the password/SSH key.
+
 Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
@@ -109,6 +110,7 @@ Accept wildcard characters: False
 
 ### -TicketingSystem
 The name of the Ticketing System.
+
 Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
@@ -125,6 +127,7 @@ Accept wildcard characters: False
 
 ### -TicketId
 The ticket ID of the ticketing system.
+
 Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
@@ -141,7 +144,9 @@ Accept wildcard characters: False
 
 ### -Version
 The version number of the required password.
+
 If there are no previous versions, the current password/key version is returned.
+
 Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
@@ -158,6 +163,7 @@ Accept wildcard characters: False
 
 ### -ActionType
 The action this password will be used for.
+
 Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
@@ -174,6 +180,7 @@ Accept wildcard characters: False
 
 ### -isUse
 Internal parameter (for PSMP only).
+
 Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
@@ -190,6 +197,7 @@ Accept wildcard characters: False
 
 ### -Machine
 The address of the remote machine to connect to.
+
 Use of parameter requires version 10.1 at a minimum.
 
 ```yaml

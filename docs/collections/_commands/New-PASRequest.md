@@ -33,8 +33,11 @@ New-PASRequest -AccountId <String> [-Reason <String>] [-TicketingSystemName <Str
 
 ## DESCRIPTION
 Creates an access request for a specific account.
+
 This account may be either a password account or an SSH Key account.
+
 Officially supported from version 9.10.
+
 Reports received that function works in 9.9 also.
 
 ## EXAMPLES

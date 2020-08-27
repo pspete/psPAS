@@ -21,6 +21,7 @@ Remove-PASDirectoryMapping [-DirectoryName] <String> [-MappingID] <String> [-Wha
 
 ## DESCRIPTION
 Removes a directory mapping configuration from the vault.
+
 Membership of the Vault Admins group required.
 
 ## EXAMPLES

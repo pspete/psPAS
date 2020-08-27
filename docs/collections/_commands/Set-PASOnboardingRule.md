@@ -84,6 +84,7 @@ Accept wildcard characters: False
 ### -IsAdminIDFilter
 Whether or not UNIX accounts with UID=0 or Windows accounts with SID ending in 500 will be onboarded automatically
 using this rule.
+
 If set to false, all accounts matching the rule will be onboarded.
 
 ```yaml
@@ -100,6 +101,7 @@ Accept wildcard characters: False
 
 ### -MachineTypeFilter
 The Machine Type by which to filter.
+
 Leave blank for "Any"
 
 ```yaml
@@ -146,6 +148,7 @@ Accept wildcard characters: False
 
 ### -UserNameMethod
 The method to use when applying the user name filter (Equals / Begins with/ Ends with).
+
 This parameter is ignored if UserNameFilter is not specified.
 
 ```yaml
@@ -177,6 +180,7 @@ Accept wildcard characters: False
 
 ### -AddressMethod
 The method to use when applying the address filter (Equals / Begins with/ Ends with).
+
 This parameter is ignored if AddressFilter is not specified.
 
 ```yaml
@@ -208,6 +212,7 @@ Accept wildcard characters: False
 
 ### -RuleName
 Name of the rule
+
 If left blank, a name will be generated automatically.
 
 ```yaml

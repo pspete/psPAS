@@ -20,7 +20,9 @@ Get-PASAccountGroupMember [-GroupID] <String> [<CommonParameters>]
 
 ## DESCRIPTION
 Returns all the members of a specific account group.
+
 These accounts can be either password accounts or SSH Key accounts.
+
 The following permissions are required on the safe:
  - Add Accounts
  - Update Account Content

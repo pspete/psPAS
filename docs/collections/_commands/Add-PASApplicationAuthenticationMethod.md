@@ -219,6 +219,7 @@ Accept wildcard characters: False
 
 ### -SubjectAlternativeName
 The content of the subject alternative name attribute
+
 Accepts attributes "DNS Name", "IP Address", "URI", "RFC822"
 
 ```yaml

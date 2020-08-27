@@ -22,7 +22,6 @@ Remove-PASGroup [-GroupID] <Int32> [-WhatIf] [-Confirm] [<CommonParameters>]
 Deletes a user group.
 
 To delete a user group, the following authorizations are required:
-
 - Add/Update Users
 
 ## EXAMPLES

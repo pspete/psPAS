@@ -20,6 +20,7 @@ Remove-PASSafe [-SafeName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 
 ## DESCRIPTION
 Deletes a safe from the Vault.
+
 The "Manage" Safe vault permission is required.
 
 ## EXAMPLES

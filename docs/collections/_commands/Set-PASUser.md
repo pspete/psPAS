@@ -38,8 +38,10 @@ Set-PASUser -username <String> [-NewPassword <SecureString>] [-Email <String>]
 ```
 
 ## DESCRIPTION
-Updates an existing user in the vault
+Updates an existing user in the vault.
+
 Appears to require all properties set on a user to be passed with the request.
+
 Not passing a value to an already set property will result in it being cleared.
 
 ## EXAMPLES
@@ -55,6 +57,7 @@ Disables vault user Bill
 
 ### -id
 The numeric id of the user to update.
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -86,6 +89,7 @@ Accept wildcard characters: False
 
 ### -NewPassword
 A new password to set on the account, as a Secure String
+
 Must meet the password complexity requirements
 
 ```yaml
@@ -102,6 +106,7 @@ Accept wildcard characters: False
 
 ### -userType
 The user type
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -118,6 +123,7 @@ Accept wildcard characters: False
 
 ### -suspended
 The user suspension status
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -134,6 +140,7 @@ Accept wildcard characters: False
 
 ### -unAuthorizedInterfaces
 The CyberArk interfaces that this user is not authorized to use.
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -150,6 +157,7 @@ Accept wildcard characters: False
 
 ### -enableUser
 Whether the user will be enabled upon creation.
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -166,10 +174,11 @@ Accept wildcard characters: False
 
 ### -authenticationMethod
 The authentication method that the user will use to log on.
+
 Valid Values:
-"AuthTypePass", for CyberArk Authentication (default)
-"AuthTypeLDAP", for LDAP authentication
-"AuthTypeRADIUS", for RADIUS authentication
+- "AuthTypePass", for CyberArk Authentication (default)
+- "AuthTypeLDAP", for LDAP authentication
+- "AuthTypeRADIUS", for RADIUS authentication
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -201,6 +210,7 @@ Accept wildcard characters: False
 
 ### -ChangePassOnNextLogon
 Whether or not user will be forced to change password on first logon
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -232,6 +242,7 @@ Accept wildcard characters: False
 
 ### -passwordNeverExpires
 Whether or not the user's password will expire
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -248,6 +259,7 @@ Accept wildcard characters: False
 
 ### -distinguishedName
 The distinguished name of the user.
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -264,7 +276,9 @@ Accept wildcard characters: False
 
 ### -vaultAuthorization
 The user permissions in the vault.
+
 To grant authorization to a user, the same authorization must be held by the account logged on to the API.
+
 Valid values:
 -  AddSafes
 -  AuditUsers
@@ -292,6 +306,7 @@ Accept wildcard characters: False
 
 ### -ExpiryDate
 Expiry Date to set on account.
+
 Default is Never
 
 ```yaml
@@ -308,6 +323,7 @@ Accept wildcard characters: False
 
 ### -UserTypeName
 The Type of User to create.
+
 EPVUser type will be created by default.
 
 ```yaml
@@ -324,6 +340,7 @@ Accept wildcard characters: False
 
 ### -Disabled
 Whether or not the user will be created as a disabled user
+
 Default is Enabled
 
 ```yaml
@@ -340,6 +357,7 @@ Accept wildcard characters: False
 
 ### -Location
 The Vault Location where the user will be created
+
 Default location is "Root"
 
 ```yaml
@@ -356,6 +374,7 @@ Accept wildcard characters: False
 
 ### -workStreet
 Business Address detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -372,6 +391,7 @@ Accept wildcard characters: False
 
 ### -workCity
 Business Address detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -388,6 +408,7 @@ Accept wildcard characters: False
 
 ### -workState
 Business Address detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -404,6 +425,7 @@ Accept wildcard characters: False
 
 ### -workZip
 Business Address detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -420,6 +442,7 @@ Accept wildcard characters: False
 
 ### -workCountry
 Business Address detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -436,6 +459,7 @@ Accept wildcard characters: False
 
 ### -homePage
 The user's email address
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -452,6 +476,7 @@ Accept wildcard characters: False
 
 ### -homeEmail
 The user's email address
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -468,6 +493,7 @@ Accept wildcard characters: False
 
 ### -businessEmail
 The user's email address
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -484,6 +510,7 @@ Accept wildcard characters: False
 
 ### -otherEmail
 The user's email address
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -500,6 +527,7 @@ Accept wildcard characters: False
 
 ### -homeNumber
 The user's phone number
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -516,6 +544,7 @@ Accept wildcard characters: False
 
 ### -businessNumber
 The user's phone number
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -532,6 +561,7 @@ Accept wildcard characters: False
 
 ### -cellularNumber
 The user's phone number
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -548,6 +578,7 @@ Accept wildcard characters: False
 
 ### -faxNumber
 The user's phone number
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -564,6 +595,7 @@ Accept wildcard characters: False
 
 ### -pagerNumber
 The user's phone number
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -580,6 +612,7 @@ Accept wildcard characters: False
 
 ### -description
 Description Text
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -611,6 +644,7 @@ Accept wildcard characters: False
 
 ### -MiddleName
 The User's Middle Name
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -642,6 +676,7 @@ Accept wildcard characters: False
 
 ### -street
 Address detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -658,6 +693,7 @@ Accept wildcard characters: False
 
 ### -city
 Address detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -674,6 +710,7 @@ Accept wildcard characters: False
 
 ### -state
 Address detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -690,6 +727,7 @@ Accept wildcard characters: False
 
 ### -zip
 Address detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -706,6 +744,7 @@ Accept wildcard characters: False
 
 ### -country
 Address detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -722,6 +761,7 @@ Accept wildcard characters: False
 
 ### -title
 Personal detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -738,6 +778,7 @@ Accept wildcard characters: False
 
 ### -organization
 Personal detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -754,6 +795,7 @@ Accept wildcard characters: False
 
 ### -department
 Personal detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml
@@ -770,6 +812,7 @@ Accept wildcard characters: False
 
 ### -profession
 Personal detail for the user
+
 Requires CyberArk version 11.1+
 
 ```yaml

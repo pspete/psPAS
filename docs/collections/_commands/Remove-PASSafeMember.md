@@ -20,8 +20,8 @@ Remove-PASSafeMember [-SafeName] <String> [-MemberName] <String> [-WhatIf] [-Con
 
 ## DESCRIPTION
 Removes a specific member from a Safe.
-The user who runs this function requires the ManageSafeMembers
-permission.
+
+The user who runs this function requires the ManageSafeMembers permission.
 
 ## EXAMPLES
 

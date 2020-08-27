@@ -20,12 +20,15 @@ Add-PASAccountGroupMember [-GroupID] <String> [-AccountID] <String> [<CommonPara
 
 ## DESCRIPTION
 Adds an account as a member of an account group.
+
 The account can contain either password or SSH key.
+
 The account must be stored in the same safe as the account group.
+
 The following permissions are required on the safe where the account group will be created:
- - Add Accounts
- - Update Account Content
- - Update Account Properties
+- Add Accounts
+- Update Account Content
+- Update Account Properties
 
 ## EXAMPLES
 

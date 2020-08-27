@@ -26,6 +26,7 @@ Get-PASDirectoryMapping -DirectoryName <String> -MappingID <String> [<CommonPara
 
 ## DESCRIPTION
 Returns a list of existing directory mappings in the Vault.
+
 Membership of the Vault Admins group required.
 
 ## EXAMPLES

@@ -23,6 +23,7 @@ Set-PASDirectoryMapping [-DirectoryName] <String> [-MappingID] <String> [-Mappin
 
 ## DESCRIPTION
 Updates a  directory mapping.
+
 Membership of the Vault Admins group required.
 
 ## EXAMPLES
@@ -30,19 +31,17 @@ Membership of the Vault Admins group required.
 ### EXAMPLE 1
 ```
 Get-PASDirectoryMapping -DirectoryName $Directory -MappingID $ID |
-```
 
 Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpdateUsers, AuditUsers
+```
 
 Configures the AddUpdateUsers & AuditUsers authorisations on the mapping.
 
 ### EXAMPLE 2
 ```
 Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch `
-```
-
 -MappingAuthorizations AddUpdateUsers, ActivateUsers & ResetUsersPasswords
-
+```
 Sets AddUpdateUsers, ActivateUsers & ResetUsersPasswords authorisations on the directory mapping
 
 ### EXAMPLE 3
@@ -148,6 +147,7 @@ Accept wildcard characters: False
 
 ### -Location
 The path of the Vault location that mapped users are added under.
+
 This value cannot be updated.
 
 ```yaml
@@ -179,9 +179,18 @@ Accept wildcard characters: False
 
 ### -MappingAuthorizations
 Specify authorizations that will be applied when an LDAP User Account is created in the Vault.
+
 To apply specific authorizations to a mapping, the user must have the same authorizations.
-Possible authorizations: AddSafes, AuditUsers, AddUpdateUsers, ResetUsersPasswords, ActivateUsers,
-AddNetworkAreas, ManageServerFileCategories, BackupAllSafes, RestoreAllSafes.
+
+Possible authorizations:
+- AddSafes
+- AuditUsers
+- AddUpdateUsers
+- ResetUsersPasswords
+- ActivateUsers
+- ManageServerFileCategories
+- BackupAllSafes
+- RestoreAllSafes
 
 ```yaml
 Type: Authorizations
@@ -198,6 +207,7 @@ Accept wildcard characters: False
 
 ### -UserActivityLogPeriod
 Retention period in days for user activity logs
+
 Requires CyberArk version 10.10+
 
 ```yaml

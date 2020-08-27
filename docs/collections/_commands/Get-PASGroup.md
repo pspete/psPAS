@@ -94,6 +94,7 @@ Accept wildcard characters: False
 
 ### -filter
 Filter according to REST standard.
+
 *depreciated parameter in psPAS - filter value will automatically be set with if groupType specified.
 
 ```yaml

@@ -31,27 +31,26 @@ The session information can be saved a variable accessible outside of the module
 
 ### EXAMPLE 1
 ```
-Show current session related information
+Get-PASSession
 ```
 
-Get-PASSession
+Show current session related information
 
 ### EXAMPLE 2
 ```
-Save current session related information
+$session = Get-PASSession
 ```
 
-$session = Get-PASSession
+Save current session related information
 
 ### EXAMPLE 3
 ```
-Use session information for Invoke-RestMethod command
-```
-
 $session = Get-PASSession
 
-Invoke-RestMethod
 Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $session.WebSession
+```
+
+Use session information for Invoke-RestMethod command
 
 ## PARAMETERS
 

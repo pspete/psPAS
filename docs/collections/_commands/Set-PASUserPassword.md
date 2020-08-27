@@ -49,6 +49,7 @@ Accept wildcard characters: False
 
 ### -NewPassword
 The password to set on the account.
+
 Must meet the password complexity requirements
 
 ```yaml

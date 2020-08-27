@@ -20,6 +20,7 @@ Get-PASAuthenticationMethod [[-ID] <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 Returns a list of all existing authentication methods.
+
 Membership of Vault admins group required
 
 ## EXAMPLES

@@ -158,6 +158,7 @@ Accept wildcard characters: False
 
 ### -platformAccountProperties
 key-value pairs to associate with the account, as defined by the account platform.
+
 These properties are validated against the mandatory and optional properties of the specified platform's definition.
 
 ```yaml

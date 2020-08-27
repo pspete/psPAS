@@ -20,7 +20,9 @@ Get-PASServer [<CommonParameters>]
 
 ## DESCRIPTION
 Returns information on Server.
+
 Returns the name of the Vault configured in the ServerDisplayName configuration parameter
+
 Appears to need Vault administrator rights
 
 ## EXAMPLES

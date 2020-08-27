@@ -23,8 +23,10 @@ Adding an authorised public SSH key to a vault user allows the user
 to authenticate to the Vault through PSMP using a corresponding private SSH key.
 
 The "Reset User Passwords" Permission is required in the vault to manage public SSH keys.
+
 The user account used to add the key MUST be in the same Vault Location or higher
 then the user whose public SSH keys are added.
+
 A user cannot manage their own public SSH keys.
 
 ## EXAMPLES
@@ -40,6 +42,7 @@ Adds SSH Key to vault user keyUser
 
 ### -UserName
 The username of the Vault user whose public SSH keys will be added
+
 A username cannot contain te follwing characters: "%", "&", "+" or ".".
 
 ```yaml
@@ -56,9 +59,12 @@ Accept wildcard characters: False
 
 ### -PublicSSHKey
 The content of the public SSH key as it appears in the authorized_keys file.
+
 The key must not include new lines ('\n').
+
 Do not include options such as "command", as they are not supported when
 authenticating through PSMP.
+
 This key can only include comments in English.
 
 ```yaml

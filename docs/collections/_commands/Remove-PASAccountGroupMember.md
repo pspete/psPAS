@@ -21,7 +21,9 @@ Remove-PASAccountGroupMember [-AccountID] <String> [-GroupID] <String> [-WhatIf]
 
 ## DESCRIPTION
 Removes an account member from an account group.
+
 This account can be either a password account or an SSH Key account.
+
 The following permissions are required on the safe:
  - Add Accounts
  - Update Account Content

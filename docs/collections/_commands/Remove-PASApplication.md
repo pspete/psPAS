@@ -20,6 +20,7 @@ Remove-PASApplication [-AppID] <String> [-WhatIf] [-Confirm] [<CommonParameters>
 
 ## DESCRIPTION
 Deletes a specific application.
+
 "Manage Users" permission is required to be held.
 
 ## EXAMPLES

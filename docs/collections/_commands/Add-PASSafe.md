@@ -28,6 +28,7 @@ Add-PASSafe -SafeName <String> [-Description <String>] [-OLACEnabled <Boolean>] 
 
 ## DESCRIPTION
 Adds a new safe to the Vault.
+
 The "Add Safes" permission is required in the vault.
 
 ## EXAMPLES
@@ -50,8 +51,11 @@ Creates a new safe named Dev_Team, assigned to CPM DEV_CPM, with a 7 day retenti
 
 ### -SafeName
 The name of the safe to create.
+
 Max Length 28 characters.
+
 Cannot start with a space.
+
 Cannot contain: '\','/',':','*','\<','\>','"','.' or '|'
 
 ```yaml
@@ -68,6 +72,7 @@ Accept wildcard characters: False
 
 ### -Description
 Description of the new safe.
+
 Max 100 characters.
 
 ```yaml
@@ -99,6 +104,7 @@ Accept wildcard characters: False
 
 ### -ManagingCPM
 The Name of the CPM user to manage the safe.
+
 Specify "" to prevent CPM management.
 
 ```yaml
@@ -115,7 +121,9 @@ Accept wildcard characters: False
 
 ### -NumberOfVersionsRetention
 The number of retained versions of every password that is stored in the Safe.
+
 Max value = 999
+
 Specify either this parameter or NumberOfDaysRetention.
 
 ```yaml
@@ -132,8 +140,11 @@ Accept wildcard characters: False
 
 ### -NumberOfDaysRetention
 The number of days for which password versions are saved in the Safe.
+
 Minimum Value: 1
+
 Maximum Value 3650
+
 Specify either this parameter or NumberOfVersionsRetention
 
 ```yaml

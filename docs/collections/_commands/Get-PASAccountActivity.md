@@ -28,16 +28,7 @@ Returns activities for a specific account identified by its AccountID.
 Get-PASAccount -Keywords root -Safe UNIXSafe | Get-PASAccountActivity
 ```
 
-Will return the account activity for the account output by Get-PASAccount:
-
-Time                Activity                  UserName      AccountName
-----                --------                  --------      -----------
-08/07/2017 13:05:46 Delete Privileged Command Administrator root
-08/07/2017 13:02:54 Delete Privileged Command Administrator root
-07/30/2017 10:49:32 Add Privileged Command    Administrator root
-...
-...
-...
+Will return the account activity for the account output by Get-PASAccount
 
 ## PARAMETERS
 

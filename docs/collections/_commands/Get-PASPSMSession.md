@@ -48,6 +48,7 @@ Returns details of active PSM Session with Id 123_45
 
 ### -liveSessionId
 The ID of an active session to get details of.
+
 Requires CyberArk version 10.6+
 
 ```yaml
@@ -94,6 +95,7 @@ The sort can be done by each property on the recording file:
  - PSMStartTime
  - TicketID
 The sort can be in ascending or descending order.
+
 To sort in descending order, specify "-" before the recording property by which to sort.
 
 ```yaml
@@ -110,8 +112,8 @@ Accept wildcard characters: False
 
 ### -Offset
 Determines which recording results will be returned, according to a specific place in the returned list.
-This value
-defines the recording's place in the list and how many results will be skipped.
+
+This value defines the recording's place in the list and how many results will be skipped.
 
 ```yaml
 Type: Int32
@@ -209,6 +211,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 Minimum CyberArk Version 9.10
+
 For querying sessions by ID, Required CyberArk Version is 10.6
 
 ## RELATED LINKS

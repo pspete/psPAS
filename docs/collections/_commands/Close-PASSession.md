@@ -71,6 +71,7 @@ Logs off from the session related to the authorisation token using the Classic A
 
 ### -UseClassicAPI
 Specify the UseClassicAPI switch to send the logoff request via the Classic (v9) API endpoint.
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml

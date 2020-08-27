@@ -49,9 +49,9 @@ Updates description and version retention on SAFE
 
 ### -SafeName
 The name of the safe to update.
-Max Length 28 characters.
-Cannot start with a space.
-Cannot contain: '\','/',':','*','\<','\>','"','.' or '|'
+- Max Length 28 characters.
+- Cannot start with a space.
+- Cannot contain: '\','/',':','*','\<','\>','"','.' or '|'
 
 ```yaml
 Type: String
@@ -67,9 +67,9 @@ Accept wildcard characters: False
 
 ### -NewSafeName
 A name to rename the safe to
-Max Length 28 characters.
-Cannot start with a space.
-Cannot contain: '\','/',':','*','\<','\>','"','.' or '|'
+- Max Length 28 characters.
+- Cannot start with a space.
+- Cannot contain: '\','/',':','*','\<','\>','"','.' or '|'
 
 ```yaml
 Type: String
@@ -85,6 +85,7 @@ Accept wildcard characters: False
 
 ### -Description
 Updated Description for safe.
+
 Max 100 characters.
 
 ```yaml
@@ -116,6 +117,7 @@ Accept wildcard characters: False
 
 ### -ManagingCPM
 The Name of the CPM user to manage the safe.
+
 Specify "" to prevent CPM management.
 
 ```yaml
@@ -132,7 +134,7 @@ Accept wildcard characters: False
 
 ### -NumberOfVersionsRetention
 The number of retained versions of every password that is stored in the Safe.
-Max value = 999
+- Max value = 999
 Specify either this parameter or NumberOfDaysRetention.
 
 ```yaml
@@ -149,8 +151,9 @@ Accept wildcard characters: False
 
 ### -NumberOfDaysRetention
 The number of days for which password versions are saved in the Safe.
-Minimum Value: 1
-Maximum Value 3650
+
+- Minimum Value: 1
+- Maximum Value: 3650
 Specify either this parameter or NumberOfVersionsRetention
 
 ```yaml

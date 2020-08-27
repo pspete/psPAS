@@ -76,6 +76,7 @@ Accept wildcard characters: False
 
 ### -location
 The vault location to create the group in.
+
 Preceded by "\"
 
 ```yaml

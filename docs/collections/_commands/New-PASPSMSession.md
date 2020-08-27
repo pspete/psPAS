@@ -35,7 +35,9 @@ New-PASPSMSession -userName <String> -secret <SecureString> -address <String> -p
 
 ## DESCRIPTION
 This method enables you to connect to an account through PSM (PSMConnect).
+
 The function returns either an RDP file or URL for PSM connections.
+
 It requires the PVWA and PSM to be configured for either transparent connections through PSM with RDP files
 or the HTML5 Gateway.
 

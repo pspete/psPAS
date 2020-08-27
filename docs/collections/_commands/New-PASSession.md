@@ -77,16 +77,22 @@ New-PASSession [-UseDefaultCredentials] [-concurrentSession <Boolean>] -BaseURI 
 ## DESCRIPTION
 Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object
 which are used in subsequent calls to the API.
+
 In addition, this method allows you to set a new password.
+
 Will attempt authentication against the V10 API by default.
+
 For older CyberArk versions, specify the -UseClassicAPI switch parameter to force use of the V9 API endpoint.
+
 Windows authentication is only supported (from CyberArk 10.4+).
-Authenticate using CyberArk, LDAP, RADIUS, SAML or Shared authentication (From CyberArk version 9.7+),
+
+Authenticate using CyberArk, LDAP, RADIUS, SAML or Shared authentication (From CyberArk version 9.7+).
+
 For CyberArk version older than 9.7:
-	Only CyberArk Authentication method is supported.
-	newPassword Parameter is not supported.
-	useRadiusAuthentication Parameter is not supported.
-	connectionNumber Parameter is not supported.
+- Only CyberArk Authentication method is supported.
+- newPassword Parameter is not supported.
+- useRadiusAuthentication Parameter is not supported.
+- connectionNumber Parameter is not supported.
 
 ## EXAMPLES
 
@@ -263,6 +269,7 @@ Accept wildcard characters: False
 
 ### -UseClassicAPI
 Specify the UseClassicAPI to send the authentication request via the Classic (v9) API endpoint.
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -291,6 +298,7 @@ Accept wildcard characters: False
 
 ### -newPassword
 Optional parameter, enables you to change a CyberArk users password.
+
 Must be supplied as a SecureString (Not Plain Text).
 
 ```yaml
@@ -307,6 +315,7 @@ Accept wildcard characters: False
 
 ### -SAMLAuth
 Supported from 11.4
+
 Specify to authenticate after retrieval of saml token.
 
 ```yaml
@@ -368,8 +377,13 @@ Accept wildcard characters: False
 
 ### -type
 When using the version 10 API endpoint, specify the type of authentication to use.
-Valid values are CyberArk, LDAP, Windows or RADIUS
-Windows is only a valid option for version 10.4 onward.
+
+Valid values are:
+- CyberArk
+- LDAP
+- Windows
+  - only a valid option for version 10.4 onward.
+- RADIUS
 
 ```yaml
 Type: String
@@ -415,6 +429,7 @@ Accept wildcard characters: False
 
 ### -OTPDelimiter
 The character to use as a delimiter when appending the OTP to the password.
+
 Defaults to comma ",".
 
 ```yaml
@@ -431,7 +446,9 @@ Accept wildcard characters: False
 
 ### -RadiusChallenge
 Specify if Radius challenge is satisfied by 'OTP' or 'Password'.
+
 If "OTP" (Default), Password will be sent first, with OTP as the challenge response.
+
 If "Password", then OTP value will be sent first, and Password will be sent as the challenge response.
 
 ```yaml
@@ -448,6 +465,7 @@ Accept wildcard characters: False
 
 ### -UseDefaultCredentials
 See Invoke-WebRequest
+
 Uses the credentials of the current user to send the web request
 
 ```yaml
@@ -464,6 +482,7 @@ Accept wildcard characters: False
 
 ### -concurrentSession
 Enables multiple simultaneous connection sessions as the same user.
+
 Requires 11.3+
 
 ```yaml
@@ -481,6 +500,7 @@ Accept wildcard characters: False
 ### -connectionNumber
 In order to allow more than one connection for the same user simultaneously, each request
 should be sent with different 'connectionNumber'.
+
 Valid values: 1-100
 
 ```yaml
@@ -497,7 +517,9 @@ Accept wildcard characters: False
 
 ### -BaseURI
 A string containing the base web address to send te request to.
+
 Pass the portion the PVWA HTTP address.
+
 Do not include "/PasswordVault/"
 
 ```yaml
@@ -514,6 +536,7 @@ Accept wildcard characters: False
 
 ### -PVWAAppName
 The name of the CyberArk PVWA Virtual Directory.
+
 Defaults to PasswordVault
 
 ```yaml
@@ -531,6 +554,7 @@ Accept wildcard characters: False
 ### -SkipVersionCheck
 If the SkipVersionCheck switch is specified, Get-PASServer will not be called after
 successfully authenticating.
+
 Get-PASServer is not supported before version 9.7.
 
 ```yaml
@@ -547,7 +571,9 @@ Accept wildcard characters: False
 
 ### -Certificate
 See Invoke-WebRequest
+
 Specifies the client certificate that is used for a secure web request.
+
 Enter a variable that contains a certificate or a command or expression that gets the certificate.
 
 ```yaml
@@ -564,6 +590,7 @@ Accept wildcard characters: False
 
 ### -CertificateThumbprint
 See Invoke-WebRequest
+
 The thumbprint of the certificate to use for client certificate authentication.
 
 ```yaml
@@ -580,8 +607,11 @@ Accept wildcard characters: False
 
 ### -SkipCertificateCheck
 Skips certificate validation checks.
+
 Using this parameter is not secure and is not recommended.
+
 This switch is only intended to be used against known hosts using a self-signed certificate for testing purposes.
+
 Use at your own risk.
 
 ```yaml

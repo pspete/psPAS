@@ -20,6 +20,7 @@ Remove-PASAccount -AccountID <String> [-UseClassicAPI] [-WhatIf] [-Confirm] [<Co
 
 ## DESCRIPTION
 Deletes a specific account in the Vault.
+
 The user who runs this web service requires the "Delete Accounts" permission.
 
 ## EXAMPLES
@@ -35,6 +36,7 @@ Deletes the account with AccountID of 19_1
 
 ### -AccountID
 The unique ID  of the account to delete.
+
 This is retrieved by the Get-PASAccount function.
 
 ```yaml
@@ -51,6 +53,7 @@ Accept wildcard characters: False
 
 ### -UseClassicAPI
 Specify the UseClassicAPI to force usage the Classic API endpoint.
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml

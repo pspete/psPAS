@@ -21,6 +21,7 @@ Remove-PASApplicationAuthenticationMethod [-AppID] <String> [-AuthID] <String> [
 
 ## DESCRIPTION
 Deletes a specific authentication method from a defined application.
+
 "Manage Users" permission is required.
 
 ## EXAMPLES

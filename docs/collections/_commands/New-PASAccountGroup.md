@@ -21,6 +21,7 @@ New-PASAccountGroup [-GroupName] <String> [-GroupPlatformID] <String> [-Safe] <S
 
 ## DESCRIPTION
 Defines a new account group in the vault.
+
 The following permissions are required on the safe where the account group will be created:
  - Add Accounts
  - Update Account Content
@@ -55,6 +56,7 @@ Accept wildcard characters: False
 
 ### -GroupPlatformID
 The name of the platform for the group.
+
 The associated platform must be set to "PolicyType=Group"
 
 ```yaml

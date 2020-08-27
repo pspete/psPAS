@@ -10,10 +10,8 @@ title: Get-PASAccount
 # Get-PASAccount
 
 ## SYNOPSIS
-Returns details of matching accounts.
-(Version 10.4 onwards)
-Returns information about a single account.
-(Version 9.3 - 10.3)
+Returns details of matching accounts. (Version 10.4 onwards)
+Returns information about a single account. (Version 9.3 - 10.3)
 
 ## SYNTAX
 
@@ -41,21 +39,22 @@ Get-PASAccount [-Keywords <String>] [-Safe <String>] [-TimeoutSec <Int32>] [<Com
 
 ## DESCRIPTION
 Version 10.4+:
-This method returns a list of either a specific, or all the accounts in the Vault.
-Requires the following permission in the Safe: List accounts.
+- This method returns a list of either a specific, or all the accounts in the Vault.
 
 Version 9.3 - 10.3:
-Returns information about an account.
-If more than one account meets the search criteria,
+- Returns information about an account.
+- If more than one account meets the search criteria,
 only the first account will be returned (the Count output parameter will display the number
 of accounts that were found).
-Only the following users can access this account:
-    - Users who are members of the Safe where the account is stored
-    - Users who have access to this specific account.
-    - The user who runs this web service requires the following permission in the Safe:
-    - Retrieve account
-This method does not display the actual password.
-If ten or more accounts are found, the Count Output parameter will show 10.
+- Only the following users can access this account:
+  - Users who are members of the Safe where the account is stored.
+  - Users who have access to this specific account.
+  - The user who runs this web service requires the following permission in the Safe:
+  - Retrieve account
+- If ten or more accounts are found, the Count Output parameter will show 10.
+
+Requires the following permission in the Safe:
+- List accounts.
 
 ## EXAMPLES
 
@@ -65,6 +64,7 @@ Get-PASAccount
 ```
 
 Returns  all accounts on safes where your user has "List accounts" rights.
+
 This will only work from version 10.4 onwards.
 
 ### EXAMPLE 2
@@ -107,16 +107,7 @@ Returns all accounts found in TargetSafe, sort by username in descending order.
 Get-PASAccount -Keywords root -Safe UNIX
 ```
 
-Finds account(s) matching keywords in UNIX safe:
-
-AccountID  : 19_6
-Safe       : UNIX
-Folder     : Root
-Name       : UNIXSSH-machine-root
-UserName   : root
-PlatformID : UNIXSSH
-DeviceType : Operating System
-Address    : machine
+Finds account(s) matching keywords in UNIX safe
 
 ### EXAMPLE 8
 ```
@@ -124,20 +115,10 @@ Get-PASAccount -Keywords xtest
 ```
 
 Finds accounts matching the specified keyword.
+
 Only the first matching account will be returned.
-If multiple accounts are found, a warning will be displayed before the result:
 
-WARNING: 3 matching accounts found.
-Only the first result will be returned
-
-AccountID  : 19_9
-Safe       : TestSafe
-Folder     : Root
-Name       : Application-Cyberark-10.10.10.20-xTest3
-UserName   : xTest3
-PlatformID : Cyberark
-DeviceType : Application
-Address    : 10.10.10.20
+If multiple accounts are found, a warning will be displayed before the result
 
 ### EXAMPLE 9
 ```
@@ -210,6 +191,7 @@ Accept wildcard characters: False
 
 ### -modificationTime
 Specify to only return details of accounts modified after this date/time
+
 Documented as an option since 11.4
 
 ```yaml
@@ -227,6 +209,7 @@ Accept wildcard characters: False
 ### -sort
 Property or properties by which to sort returned accounts,
 followed by asc (default) or desc to control sort direction.
+
 Separate multiple properties with commas, up to a maximum of three properties.
 
 ```yaml
@@ -258,8 +241,11 @@ Accept wildcard characters: False
 
 ### -limit
 Maximum number of returned accounts.
+
 If not specified, the default value is 50.
+
 The maximum number that can be specified is 1000.
+
 When used together with the Offset parameter,
 this value determines the number of accounts to return, starting from the first account that is returned.
 
@@ -277,7 +263,9 @@ Accept wildcard characters: False
 
 ### -filter
 A filter for the search.
+
 Requires format: "SafeName eq 'YourSafe'"
+
 *depreciated parameter in psPAS - safeName & modifiedTime will automatically be set as filter values
 
 ```yaml
@@ -294,8 +282,11 @@ Accept wildcard characters: False
 
 ### -Keywords
 Keyword to search for.
+
 If multiple keywords are specified, the search will include all the keywords.
+
 Separate keywords with a space.
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -312,6 +303,7 @@ Accept wildcard characters: False
 
 ### -Safe
 The name of a Safe to search that the authenticated user is authorized to access.
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -328,6 +320,7 @@ Accept wildcard characters: False
 
 ### -TimeoutSec
 See Invoke-WebRequest
+
 Specify a timeout value in seconds
 
 ```yaml
@@ -351,6 +344,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 New functionality added in version 10.4, limited functionality before this version.
+
 As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged - nextLink functionality was added
 
 ## RELATED LINKS

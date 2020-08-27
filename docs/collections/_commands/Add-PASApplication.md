@@ -23,6 +23,7 @@ Add-PASApplication [-AppID] <String> [[-Description] <String>] [-Location] <Stri
 
 ## DESCRIPTION
 Adds a new application to the Vault.
+
 Manage Users permission is required.
 
 ## EXAMPLES
@@ -40,10 +41,12 @@ Will add a new application called "NewApp", in the root location, accessible fro
 
 ### -AppID
 The application name.
+
 Must be fewer than 128 characters.
+
 Cannot include ampersand ("&") character.
-Can include "@" character, but any searches for applications cannot include
-this character.
+
+Can include "@" character, but any searches for applications cannot include this character.
 
 ```yaml
 Type: String
@@ -74,6 +77,7 @@ Accept wildcard characters: False
 
 ### -Location
 The location of the application in the vault hierarchy.
+
 Note: to insert a backslash in the location path, use a double backslash.
 
 ```yaml
@@ -90,6 +94,7 @@ Accept wildcard characters: False
 
 ### -AccessPermittedFrom
 The start hour that access is permitted to the application.
+
 Valid values are 0-23.
 
 ```yaml
@@ -106,6 +111,7 @@ Accept wildcard characters: False
 
 ### -AccessPermittedTo
 The end hour that access to the application is permitted.
+
 Valid values are 0-23.
 
 ```yaml
@@ -152,6 +158,7 @@ Accept wildcard characters: False
 
 ### -BusinessOwnerFName
 The first name of the business owner.
+
 Specify up to 29 characters.
 
 ```yaml
@@ -198,6 +205,7 @@ Accept wildcard characters: False
 
 ### -BusinessOwnerPhone
 The phone number of the business owner.
+
 Specify up to 24 characters.
 
 ```yaml

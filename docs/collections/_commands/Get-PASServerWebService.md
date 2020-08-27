@@ -21,6 +21,7 @@ Get-PASServerWebService [[-WebSession] <WebRequestSession>] [-BaseURI] <String> 
 
 ## DESCRIPTION
 Returns information on Server web service.
+
 Returns the name of the Vault configured in the ServerDisplayName configuration parameter
 
 ## EXAMPLES
@@ -51,6 +52,7 @@ Accept wildcard characters: False
 
 ### -BaseURI
 PVWA Web Address
+
 Do not include "/PasswordVault/"
 
 ```yaml
@@ -67,6 +69,7 @@ Accept wildcard characters: False
 
 ### -PVWAAppName
 The name of the CyberArk PVWA Virtual Directory.
+
 Defaults to PasswordVault
 
 ```yaml

@@ -20,6 +20,7 @@ Add-PASAllowedReferrer [-referrerURL] <String> [[-regularExpression] <Boolean>] 
 
 ## DESCRIPTION
 Adds a new web application URL to the allowed referrer list.
+
 Vault admins group membership required.
 
 ## EXAMPLES

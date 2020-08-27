@@ -51,18 +51,20 @@ Request platform configuration information from the Vault.
 
 11.4+ can return details of target, dependent, group & rotational group platforms,
 with additional filters available for target group queries.
+
 11.1+ can return details of all target platforms.
+
 Limited filters can be used to retrieve a subset of the platforms
 For 9.10+, the "PlatformID" parameter is used to retrieve details of a single
 specified platform from the Vault.
 
 The output contained under the "Details" property differs depending
 on which method (9.10+,11.1+ or 11.4+) is used, and which platform type is queried.
-!Note: When specifying PlatformID:
-!
-if the platform properties contain a semicolon (';'), the API may not return the complete value.
-!
-noted for ChangeCommand, ReconcileCommand & ConnectionCommand properties
+
+**Note:** When specifying PlatformID:
+
+- if the platform properties contain a semicolon (';'), the API may not return the complete value.
+- noted for ChangeCommand, ReconcileCommand & ConnectionCommand properties
 
 ## EXAMPLES
 
@@ -350,9 +352,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 Minimum CyberArk version 9.10
+
 CyberArk version 11.1 required for Active, PlatformType & Search parameters.
-CyberArk version 11.4 required for extended filters for target platforms,
-and requests for  dependent, group & rotational group platforms
+
+CyberArk version 11.4 required for extended filters for target platforms, and requests for  dependent, group & rotational group platforms
 
 ## RELATED LINKS
 

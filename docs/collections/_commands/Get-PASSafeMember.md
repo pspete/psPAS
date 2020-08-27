@@ -26,57 +26,61 @@ Get-PASSafeMember -SafeName <String> -MemberName <String> [<CommonParameters>]
 
 ## DESCRIPTION
 Lists the members of a Safe.
+
 View Safe Members permission is required.
 
 When querying all members of a safe, the permissions are reported as per the following table:
-
-List accounts							    ListContent
-Retrieve accounts							Retrieve
-Add accounts (includes update properties)	Add
-Update account content						Update
-Update account properties					UpdateMetadata
-Rename accounts							    Rename
-Delete accounts							    Delete
-View Audit log							    ViewAudit
-View Safe Members							ViewMembers
-Use accounts								RestrictedRetrieve
-Initiate CPM account management operations	\<NOT RETURNED\>
-Specify next account content			    \<NOT RETURNED\>
-Create folders							    AddRenameFolder
-Delete folders							    DeleteFolder
-Unlock accounts							    Unlock
-Move accounts/folders						MoveFilesAndFolders
-Manage Safe								    ManageSafe
-Manage Safe Members							ManageSafeMembers
-Validate Safe Content						ValidateSafeContent
-Backup Safe								    BackupSafe
-Access Safe without confirmation			\<NOT RETURNED\>
-Authorize account requests (level1, level2)	\<NOT RETURNED\>
+Permission                                 |Property Name|
+|:-----------------------------------------|:------------|
+List accounts							   |  ListContent
+Retrieve accounts						   |  Retrieve
+Add accounts (includes update properties)  |  Add
+Update account content					   |  Update
+Update account properties				   |  UpdateMetadata
+Rename accounts							   |  Rename
+Delete accounts							   |  Delete
+View Audit log							   |  ViewAudit
+View Safe Members					       |  ViewMembers
+Use accounts							   |  RestrictedRetrieve
+Initiate CPM account management operations |  \<NOT RETURNED\>
+Specify next account content			   |  \<NOT RETURNED\>
+Create folders							   |  AddRenameFolder
+Delete folders							   |  DeleteFolder
+Unlock accounts							   |  Unlock
+Move accounts/folders					   |  MoveFilesAndFolders
+Manage Safe								   |  ManageSafe
+Manage Safe Members						   |  ManageSafeMembers
+Validate Safe Content					   |  ValidateSafeContent
+Backup Safe								   |  BackupSafe
+Access Safe without confirmation		   |  \<NOT RETURNED\>
+Authorize account requests (level1, level2)|  \<NOT RETURNED\>
 
 If a Safe Member Name is provided, the full permissions of the member on the Safe will be returned:
 
-List accounts							    ListAccounts
-Retrieve accounts							RetrieveAccounts
-Add accounts (includes update properties)	AddAccounts
-Update account content						UpdateAccountContent
-Update account properties					UpdateAccountProperties
-Rename accounts							    RenameAccounts
-Delete accounts							    DeleteAccounts
-View Audit log							    ViewAuditLog
-View Safe Members							ViewSafeMembers
-Use accounts							    UseAccounts
-Initiate CPM account management operations	InitiateCPMAccountManagementOperations
-Specify next account content				SpecifyNextAccountContent
-Create folders							    CreateFolders
-Delete folders							    DeleteFolder
-Unlock accounts							    UnlockAccounts
-Move accounts/folders						MoveAccountsAndFolders
-Manage Safe								    ManageSafe
-Manage Safe Members							ManageSafeMembers
-Validate Safe Content						\<NOT RETURNED\>
-Backup Safe								    BackupSafe
-Access Safe without confirmation			AccessWithoutConfirmation
-Authorize account requests (level1, level2)	RequestsAuthorizationLevel
+Permission                                  |Property Name|
+|:------------------------------------------|:------------|
+List accounts							    |ListAccounts
+Retrieve accounts							|RetrieveAccounts
+Add accounts (includes update properties)	|AddAccounts
+Update account content						|UpdateAccountContent
+Update account properties					|UpdateAccountProperties
+Rename accounts							    |RenameAccounts
+Delete accounts							    |DeleteAccounts
+View Audit log							    |ViewAuditLog
+View Safe Members							|ViewSafeMembers
+Use accounts							    |UseAccounts
+Initiate CPM account management operations	|InitiateCPMAccountManagementOperations
+Specify next account content				|SpecifyNextAccountContent
+Create folders							    |CreateFolders
+Delete folders							    |DeleteFolder
+Unlock accounts							    |UnlockAccounts
+Move accounts/folders						|MoveAccountsAndFolders
+Manage Safe								    |ManageSafe
+Manage Safe Members							|ManageSafeMembers
+Validate Safe Content						|\<NOT RETURNED\>
+Backup Safe								    |BackupSafe
+Access Safe without confirmation			|AccessWithoutConfirmation
+Authorize account requests (level1, level2)	|RequestsAuthorizationLevel
 
 ## EXAMPLES
 
@@ -113,6 +117,7 @@ Accept wildcard characters: False
 
 ### -MemberName
 Specify the name of a safe member to return their safe permissions in full.
+
 An empty PUT request (update) is sent to retrieve full safe permissions for a user, as such:
 - You cannot report on the permissions of the user authenticated to the API.
 - Reporting on the permissions of the Quota Owner is expected to fail.

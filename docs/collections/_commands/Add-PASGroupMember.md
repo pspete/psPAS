@@ -48,6 +48,7 @@ Adds TargetUser to PVWAMonitor group
 
 ### -groupId
 The unique ID of the group to add the member to.
+
 Requires CyberArk version 10.6+
 
 ```yaml
@@ -64,6 +65,7 @@ Accept wildcard characters: False
 
 ### -memberId
 The name of the user or group to add as a member.
+
 Requires CyberArk version 10.6+
 
 ```yaml
@@ -80,7 +82,9 @@ Accept wildcard characters: False
 
 ### -memberType
 The type of user being added to the Vault group.
+
 Valid values: domain/vault
+
 Requires CyberArk version 10.6+
 
 ```yaml
@@ -97,6 +101,7 @@ Accept wildcard characters: False
 
 ### -domainName
 If memberType=domain, dns address of the domain
+
 Requires CyberArk version 10.6+
 
 ```yaml

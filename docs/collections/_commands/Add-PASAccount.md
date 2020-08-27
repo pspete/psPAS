@@ -11,6 +11,7 @@ title: Add-PASAccount
 
 ## SYNOPSIS
 Adds a new privileged account to the Vault
+
 Uses either the API present from 10.4 onwards, or the version 9 API endpoint.
 
 ## SYNTAX
@@ -34,6 +35,7 @@ Add-PASAccount [-address <String>] -userName <String> -platformID <String> -Safe
 
 ## DESCRIPTION
 Adds a new privileged account to the Vault.
+
 Parameters are processed to create request object from passed parameters in the required format.
 
 ## EXAMPLES
@@ -51,12 +53,14 @@ Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com -Pass
 ```
 
 Using the "version 9" API, adds account domain.com\domainuser to the Prod_Access Safe using the WINDOMAIN platform.
+
 The contents of $secureString will be set as the password value.
 
 ## PARAMETERS
 
 ### -name
 The name of the account.
+
 A version 10.4 onward specific parameter
 
 ```yaml
@@ -145,6 +149,7 @@ Accept wildcard characters: False
 
 ### -secretType
 The type of password.
+
 A version 10.4 onward specific parameter
 
 ```yaml
@@ -161,6 +166,7 @@ Accept wildcard characters: False
 
 ### -secret
 The password value
+
 A version 10.4 onward specific parameter
 
 ```yaml
@@ -177,7 +183,9 @@ Accept wildcard characters: False
 
 ### -platformAccountProperties
 key-value pairs to associate with the account, as defined by the account platform.
+
 These properties are validated against the mandatory and optional properties of the specified platform's definition.
+
 A version 10.4 onward specific parameter
 
 ```yaml
@@ -194,6 +202,7 @@ Accept wildcard characters: False
 
 ### -automaticManagementEnabled
 Whether CPM Password Management should be enabled
+
 A version 10.4 onward specific parameter
 
 ```yaml
@@ -210,6 +219,7 @@ Accept wildcard characters: False
 
 ### -manualManagementReason
 A reason for disabling CPM Password Management
+
 A version 10.4 onward specific parameter
 
 ```yaml
@@ -226,6 +236,7 @@ Accept wildcard characters: False
 
 ### -remoteMachines
 For supported platforms, a list of remote machines the account can connect to.
+
 A version 10.4 onward specific parameter
 
 ```yaml
@@ -242,6 +253,7 @@ Accept wildcard characters: False
 
 ### -accessRestrictedToRemoteMachines
 Whether access is restricted to the defined remote machines.
+
 A version 10.4 onward specific parameter
 
 ```yaml
@@ -258,6 +270,7 @@ Accept wildcard characters: False
 
 ### -accountName
 The name of the account
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -274,6 +287,7 @@ Accept wildcard characters: False
 
 ### -password
 The password value as a secure string
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -290,6 +304,7 @@ Accept wildcard characters: False
 
 ### -disableAutoMgmt
 Whether or not automatic management wll be disabled for the account
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -306,6 +321,7 @@ Accept wildcard characters: False
 
 ### -disableAutoMgmtReason
 The reason why automatic management wll be disabled for the account
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -322,6 +338,7 @@ Accept wildcard characters: False
 
 ### -groupName
 A groupname with which the account will be associated
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -338,6 +355,7 @@ Accept wildcard characters: False
 
 ### -groupPlatformID
 Group platform to base created group ID on, if ID doesn't exist
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -354,6 +372,7 @@ Accept wildcard characters: False
 
 ### -Port
 Port number over which the account will be used
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -370,6 +389,7 @@ Accept wildcard characters: False
 
 ### -ExtraPass1Name
 Logon account name
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -386,6 +406,7 @@ Accept wildcard characters: False
 
 ### -ExtraPass1Folder
 Folder where logon account is stored
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -402,6 +423,7 @@ Accept wildcard characters: False
 
 ### -ExtraPass1Safe
 Safe where logon account is stored
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -418,6 +440,7 @@ Accept wildcard characters: False
 
 ### -ExtraPass3Name
 Reconcile account name
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -434,6 +457,7 @@ Accept wildcard characters: False
 
 ### -ExtraPass3Folder
 Folder where reconcile account is stored
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -450,6 +474,7 @@ Accept wildcard characters: False
 
 ### -ExtraPass3Safe
 Safe where reconcile account is stored
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
@@ -466,6 +491,7 @@ Accept wildcard characters: False
 
 ### -DynamicProperties
 Hashtable of name=value pairs
+
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml

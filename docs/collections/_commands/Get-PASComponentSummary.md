@@ -20,6 +20,7 @@ Get-PASComponentSummary [<CommonParameters>]
 
 ## DESCRIPTION
 Returns consolidated information about the Vault, PVWA, CPM, PSM/PSMP and AIM.
+
 Includes all clients that are relevant to each specific component.
 
 ## EXAMPLES

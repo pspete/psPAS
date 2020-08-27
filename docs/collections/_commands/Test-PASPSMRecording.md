@@ -20,6 +20,7 @@ Test-PASPSMRecording [-SessionID] <String> [<CommonParameters>]
 
 ## DESCRIPTION
 Determines if a provided PSM Session / Recording is valid.
+
 Returns $True if valid.
 
 ## EXAMPLES

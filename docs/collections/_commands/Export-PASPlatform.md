@@ -20,6 +20,7 @@ Export-PASPlatform [-PlatformID] <String> [-path] <String> [-WhatIf] [-Confirm] 
 
 ## DESCRIPTION
 Export a platform to a zip file in order to import it to a different Vault environment.
+
 Vault Admin group membership required.
 
 ## EXAMPLES

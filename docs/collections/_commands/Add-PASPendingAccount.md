@@ -27,16 +27,16 @@ Add-PASPendingAccount [-UserName] <String> [-Address] <String> [-AccountDiscover
 ## DESCRIPTION
 Enables an account or SSH key that is discovered by an external scanner to be added
 as a pending account to the Accounts Feed.
+
 Users can identify privileged accounts and determine which are on-boarded to the vault.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Add-PASPendingAccount -UserName Administrator -Address ServerA.domain.com -AccountDiscoveryDate 2017-01-01T00:00:00Z `
-```
+Add-PASPendingAccount -UserName Administrator -Address ServerA.domain.com -AccountDiscoveryDate 2017-01-01T00:00:00Z -AccountEnabled enabled
 
--AccountEnabled enabled
+```
 
 Adds matching discovered account as pending account.
 
@@ -270,7 +270,9 @@ Accept wildcard characters: False
 
 ### -AccountCategoryCriteria
 Criteria that determines whether or not the discovered account is privileged.
+
 For example, the user or groupname, etc.
+
 Separate multiple strings with ";".
 
 ```yaml
@@ -302,6 +304,7 @@ Accept wildcard characters: False
 
 ### -AccountDescription
 A description of the user, as defined in the discovery source.
+
 This will be saved as an account after it is added to the pending accounts.
 
 ```yaml

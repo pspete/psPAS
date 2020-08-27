@@ -66,6 +66,7 @@ Returns all PTA security events since $date
 
 ### -fromUpdateDate
 Starting date from which to get security events.
+
 Requires 11.3
 
 ```yaml
@@ -82,6 +83,7 @@ Accept wildcard characters: False
 
 ### -status
 The status of the security event (open or closed).
+
 Requires 11.3
 
 ```yaml
@@ -98,6 +100,7 @@ Accept wildcard characters: False
 
 ### -accountID
 The unique account identifier of the account relating to the Security Event.
+
 Requires 11.4
 
 ```yaml

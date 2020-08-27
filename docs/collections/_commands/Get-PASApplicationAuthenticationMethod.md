@@ -20,6 +20,7 @@ Get-PASApplicationAuthenticationMethod [-AppID] <String> [<CommonParameters>]
 
 ## DESCRIPTION
 Returns information about all of the authentication methods of a specific application.
+
 The user authenticated to the vault running the command must have the "Audit Users" permission.
 
 ## EXAMPLES

@@ -20,9 +20,13 @@ Unlock-PASAccount [-AccountID] <String> [-WhatIf] [-Confirm] [<CommonParameters>
 
 ## DESCRIPTION
 Checks in an account, locked due to an exclusive account policy, to the Vault.
+
 If the account is managed automatically by the CPM, after it is checked in,the password is changed immediately.
+
 If the account is managed manually, a notification is sent to a user who is authorised to change the password.
+
 The account is checked in automatically after it has been changed.
+
 Requires Initiate CPM password management operations on the Safe where the account is stored.
 
 ## EXAMPLES
@@ -45,6 +49,7 @@ Will check-in exclusive access account xAccount
 
 ### -AccountID
 The unique ID  of the account.
+
 This is retrieved by the Get-PASAccount function.
 
 ```yaml

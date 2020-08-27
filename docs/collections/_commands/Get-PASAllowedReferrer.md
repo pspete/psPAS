@@ -20,6 +20,7 @@ Get-PASAllowedReferrer [<CommonParameters>]
 
 ## DESCRIPTION
 Returns details of all configured entries from the allowed referrer list.
+
 Vault admins group membership required
 
 ## EXAMPLES

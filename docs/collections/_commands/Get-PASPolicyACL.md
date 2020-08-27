@@ -19,8 +19,7 @@ Get-PASPolicyACL [-PolicyID] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Gets a list of the privileged commands (OPM Rules)
-associated with this policy
+Gets a list of the privileged commands (OPM Rules) associated with this policy
 
 ## EXAMPLES
 

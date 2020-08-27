@@ -22,6 +22,7 @@ Add-PASAuthenticationMethod [-id] <String> [[-displayName] <String>] [[-enabled]
 
 ## DESCRIPTION
 Adds a new authentication method.
+
 Membership of Vault admins group required.
 
 ## EXAMPLES
@@ -112,6 +113,7 @@ Accept wildcard characters: False
 
 ### -secondFactorAuth
 Defines which second factor authentication to use when connecting to the Vault.
+
 An empty value will disable the second factor authentication.
 
 ```yaml
@@ -128,6 +130,7 @@ Accept wildcard characters: False
 
 ### -signInLabel
 Defines the sign-in text for this authentication method.
+
 Relevant only for CyberArk, RADIUS and LDAP authentication methods.
 
 ```yaml
@@ -144,6 +147,7 @@ Accept wildcard characters: False
 
 ### -usernameFieldLabel
 Defines the label of the username field for this authentication method.
+
 Relevant only for CyberArk, RADIUS, and LDAP authentication methods.
 
 ```yaml
@@ -160,6 +164,7 @@ Accept wildcard characters: False
 
 ### -passwordFieldLabel
 Defines the label of the password field for this authentication method.
+
 Relevant only for CyberArk, RADIUS, and LDAP authentication methods.
 
 ```yaml

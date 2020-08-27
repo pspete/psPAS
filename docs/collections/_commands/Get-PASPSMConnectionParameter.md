@@ -16,7 +16,9 @@ Get required parameters to connect through PSM
 
 ## DESCRIPTION
 This method enables you to connect to an account through PSM (PSMConnect).
+
 The function returns either an RDP file or URL for PSM connections.
+
 It requires the PVWA and PSM to be configured for either transparent connections through PSM with RDP files
 or the HTML5 Gateway.
 
@@ -47,7 +49,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 Minimum CyberArk Version 9.10
+
 PSMGW connections require 10.2
+
 Ad-Hoc connections require 10.5
 
 ## RELATED LINKS

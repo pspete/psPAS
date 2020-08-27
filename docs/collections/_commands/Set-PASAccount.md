@@ -38,14 +38,15 @@ Set-PASAccount -AccountID <String> -Folder <String> -AccountName <String> [-Devi
 Updates an existing accounts details.
 
 For CyberArk version prior to 10.4:
-All of the account's property details MUST be passed to the function.
-Any current properties of the account not sent as part of the request will be removed
+
+- All of the account's property details MUST be passed to the function.
+- Any current properties of the account not sent as part of the request will be removed
 from the account.
-To change a property value not exposed via a named parameter,
+- To change a property value not exposed via a named parameter,
 pass the property name and updated value to the function via the Properties parameter.
-If changing the name or folder of a service account that has multiple dependencies (usages),
+- If changing the name or folder of a service account that has multiple dependencies (usages),
 the connection between it and its dependencies will be automatically maintained.
-If changing the name or folder of an account that is linked to another account (whether logon,
+- If changing the name or folder of an account that is linked to another account (whether logon,
 reconciliation or verification), the links will be automatically updated.
 
 ## EXAMPLES
@@ -67,12 +68,11 @@ Removes UserDN property set on account
 ### EXAMPLE 3
 ```
 $actions += @{"op"="Add";"path"="/platformAccountProperties/UserDN";"value"="SomeDN"}
-```
 
 $actions += @{"op"="Replace";"path"="/Name";"value"="SomeName"}
 
 Set-PASAccount -AccountID 27_4 -operations $actions
-
+```
 Performs the update operations contained in the $actions array against the account
 
 ### EXAMPLE 4
@@ -85,17 +85,17 @@ Sets DSN value on matched account dbUser
 ### EXAMPLE 5
 ```
 Set-PASAccount -AccountID 21_3 -Folder Root -AccountName NewName `
-```
-
 -DeviceType Database -PlatformID Oracle -Address dbServer.domain.com -UserName DBUser
-
+```
 Will set the AccountName of account with AccountID of 21_3 to "NewName".
+
 **Any/All additional properties of the account which are not specified via parameters will be cleared**
 
 ## PARAMETERS
 
 ### -AccountID
 The unique ID of the account to update.
+
 Retrieved by Get-PASAccount
 
 ```yaml
@@ -112,6 +112,7 @@ Accept wildcard characters: False
 
 ### -op
 The operation to perform (add, remove, replace).
+
 Requires CyberArk version 10.4+
 
 ```yaml
@@ -128,6 +129,7 @@ Accept wildcard characters: False
 
 ### -path
 The path of the property to update, for instance /address or /name.
+
 Requires CyberArk version 10.4+
 
 ```yaml
@@ -144,6 +146,7 @@ Accept wildcard characters: False
 
 ### -value
 The new property value for add or replace operations.
+
 Requires CyberArk version 10.4+
 
 ```yaml
@@ -160,6 +163,7 @@ Accept wildcard characters: False
 
 ### -operations
 A collection of update actions to perform, must include op, path & value (except where action is remove).
+
 Requires CyberArk version 10.4+
 
 ```yaml
@@ -206,7 +210,9 @@ Accept wildcard characters: False
 
 ### -DeviceType
 The devicetype assigned to the account.
+
 Ensure all required parameters are specified.
+
 Different device types require different parameters
 
 ```yaml
@@ -223,7 +229,9 @@ Accept wildcard characters: False
 
 ### -PlatformID
 The CyberArk platform assigned to the account
+
 Ensure all required parameters are specified.
+
 Different platforms require different parameters
 
 ```yaml
@@ -270,9 +278,12 @@ Accept wildcard characters: False
 
 ### -GroupName
 A groupname with which the account will be associated
+
 The name of the group with which the account is associated.
+
 To create a new group, specify the group platform ID in the GroupPlatformID property,
 then specify the group name.
+
 The group will then be created automatically.
 
 ```yaml
@@ -304,6 +315,7 @@ Accept wildcard characters: False
 
 ### -Properties
 Hashtable of name=value pairs.
+
 Specify properties to update.
 
 ```yaml

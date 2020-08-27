@@ -20,14 +20,16 @@ Approve-PASRequest [-RequestId] <String> [[-Reason] <String>] [-WhatIf] [-Confir
 
 ## DESCRIPTION
 Enables a request confirmer to confirm a single request, identified by its requestID.
+
 Officially supported from version 9.10.
+
 Reports received that function works in 9.9 also.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-- Reason "<Reason>"
+Approve-PASRequest -RequestID <ID> -Reason "<Reason>"
 ```
 
 Confirms request \<ID\>

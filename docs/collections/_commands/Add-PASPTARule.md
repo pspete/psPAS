@@ -35,6 +35,7 @@ Adds a new rule to PTA
 
 ### -category
 The Category of the risky activity
+
 Valid values: SSH, WINDOWS, SCP, KEYSTROKES or SQL
 
 ```yaml
@@ -51,6 +52,7 @@ Accept wildcard characters: False
 
 ### -regex
 Risky activity in regex form.
+
 Must support all characters (including "/" and escaping characters)
 
 ```yaml
@@ -67,6 +69,7 @@ Accept wildcard characters: False
 
 ### -score
 Activity score.
+
 Number must be between 1 and 100
 
 ```yaml
@@ -83,6 +86,7 @@ Accept wildcard characters: False
 
 ### -description
 Activity description.
+
 The field is mandatory but can be empty
 
 ```yaml
@@ -99,6 +103,7 @@ Accept wildcard characters: False
 
 ### -response
 Automatic response to be executed
+
 Valid Values: NONE, TERMINATE or SUSPEND
 
 ```yaml

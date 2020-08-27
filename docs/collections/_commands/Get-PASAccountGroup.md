@@ -26,6 +26,7 @@ Get-PASAccountGroup -Safe <String> [-UseClassicAPI] [<CommonParameters>]
 
 ## DESCRIPTION
 Returns all the account groups in a specific Safe.
+
 The following permissions are required on the safe where the account group will be created:
  - Add Accounts
  - Update Account Content
@@ -60,6 +61,7 @@ Accept wildcard characters: False
 
 ### -UseClassicAPI
 Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
+
 Relevant for CyberArk versions earlier than 10.5
 
 ```yaml
