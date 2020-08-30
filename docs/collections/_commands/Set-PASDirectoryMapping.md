@@ -42,6 +42,7 @@ Configures the AddUpdateUsers & AuditUsers authorisations on the mapping.
 Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch `
 -MappingAuthorizations AddUpdateUsers, ActivateUsers & ResetUsersPasswords
 ```
+
 Sets AddUpdateUsers, ActivateUsers & ResetUsersPasswords authorisations on the directory mapping
 
 ### EXAMPLE 3

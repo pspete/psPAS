@@ -59,6 +59,7 @@ $Role = [PSCustomObject]@{
 
 PS > $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Vault
 ```
+
 Grant User23 UseAccounts, RetrieveAccounts & ListAccounts only
 
 ## PARAMETERS

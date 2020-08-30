@@ -294,21 +294,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -UseGen1API
-Specify to force verification via Gen1 API.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: VerifyCredentials
-Aliases: UseClassicAPI
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
@@ -337,6 +322,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Specify to force verification via Gen1 API.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: VerifyCredentials
+Aliases: UseClassicAPI
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

@@ -35,7 +35,6 @@ Users can identify privileged accounts and determine which are on-boarded to the
 ### EXAMPLE 1
 ```
 Add-PASPendingAccount -UserName Administrator -Address ServerA.domain.com -AccountDiscoveryDate 2017-01-01T00:00:00Z -AccountEnabled enabled
-
 ```
 
 Adds matching discovered account as pending account.

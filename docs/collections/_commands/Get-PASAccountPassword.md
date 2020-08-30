@@ -76,21 +76,6 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -UseGen1API
-Specify to force usage the Gen1 API endpoint.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Gen1
-Aliases: UseClassicAPI
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Reason
 The reason that is required to be specified to retrieve the password/SSH key.
 
@@ -208,6 +193,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Specify to force usage the Gen1 API endpoint.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1
+Aliases: UseClassicAPI
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

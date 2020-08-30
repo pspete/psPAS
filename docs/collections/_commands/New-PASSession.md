@@ -267,35 +267,6 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### -UseGen1API
-Specify to send the authentication request via the Gen1 API endpoint.
-
-Relevant for CyberArk versions earlier than 10.4
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Gen1Radius
-Aliases: UseClassicAPI
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Gen1
-Aliases: UseClassicAPI
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -newPassword
 Optional parameter, enables you to change a CyberArk users password.
 
@@ -654,6 +625,35 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Specify to send the authentication request via the Gen1 API endpoint.
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1Radius
+Aliases: UseClassicAPI
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1
+Aliases: UseClassicAPI
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

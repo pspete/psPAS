@@ -827,20 +827,6 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -UseGen1API
-Specify to force usage the Gen1 API endpoint.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: legacy
-Aliases: UseClassicAPI
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
@@ -864,6 +850,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Specify to force usage the Gen1 API endpoint.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: legacy
+Aliases: UseClassicAPI
 
 Required: False
 Position: Named

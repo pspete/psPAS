@@ -6815,21 +6815,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Close-PASSession</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>UseClassicAPI</maml:name>
-          <maml:Description>
-            <maml:para>Specify the UseClassicAPI switch to send the logoff request via the Classic (v9) API endpoint.</maml:para>
-            <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Close-PASSession</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>SharedAuthentication</maml:name>
           <maml:Description>
@@ -6856,21 +6841,23 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Close-PASSession</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:Description>
+            <maml:para>Specify  to send the logoff request via the Gen1 API endpoint.</maml:para>
+            <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>UseClassicAPI</maml:name>
-        <maml:Description>
-          <maml:para>Specify the UseClassicAPI switch to send the logoff request via the Classic (v9) API endpoint.</maml:para>
-          <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>SharedAuthentication</maml:name>
         <maml:Description>
@@ -6887,6 +6874,19 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:name>SAMLAuthentication</maml:name>
         <maml:Description>
           <maml:para>Specify the SAMLAuthentication switch to logoff from a session authenticated to with SAML</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+        <maml:name>UseGen1API</maml:name>
+        <maml:Description>
+          <maml:para>Specify  to send the logoff request via the Gen1 API endpoint.</maml:para>
+          <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -6929,7 +6929,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
         <dev:code>Close-PASSession -UseClassicAPI</dev:code>
         <dev:remarks>
-          <maml:para>Logs off from the session related to the authorisation token using the Classic API endpoint.</maml:para>
+          <maml:para>Logs off from the session related to the authorisation token using the 1st gen API endpoint.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -9377,10 +9377,10 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>UseClassicAPI</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
           <maml:Description>
-            <maml:para>Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.</maml:para>
+            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
             <maml:para>Relevant for CyberArk versions earlier than 10.5</maml:para>
           </maml:Description>
           <dev:type>
@@ -9404,10 +9404,10 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>UseClassicAPI</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+        <maml:name>UseGen1API</maml:name>
         <maml:Description>
-          <maml:para>Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.</maml:para>
+          <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
           <maml:para>Relevant for CyberArk versions earlier than 10.5</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -9614,32 +9614,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>UseClassicAPI</maml:name>
-          <maml:Description>
-            <maml:para>Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PASAccountPassword</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
-          <maml:name>AccountID</maml:name>
-          <maml:Description>
-            <maml:para>The ID of the account whose password will be retrieved.</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Reason</maml:name>
           <maml:Description>
             <maml:para>The reason that is required to be specified to retrieve the password/SSH key.</maml:para>
@@ -9731,6 +9705,32 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-PASAccountPassword</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
+          <maml:name>AccountID</maml:name>
+          <maml:Description>
+            <maml:para>The ID of the account whose password will be retrieved.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:Description>
+            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
@@ -9744,18 +9744,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>UseClassicAPI</maml:name>
-        <maml:Description>
-          <maml:para>Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Reason</maml:name>
@@ -9841,6 +9829,18 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:Description>
           <maml:para>The address of the remote machine to connect to.</maml:para>
           <maml:para>Use of parameter requires version 10.1 at a minimum.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+        <maml:name>UseGen1API</maml:name>
+        <maml:Description>
+          <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -14586,17 +14586,6 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>UseClassicAPI</maml:name>
-          <maml:Description>
-            <maml:para>Specify to force verification via Classic API.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
           <maml:Description>
@@ -14612,6 +14601,17 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>Confirm</maml:name>
           <maml:Description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:Description>
+            <maml:para>Specify to force verification via Gen1 API.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -14649,7 +14649,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>ImmediateChangeByCPM</maml:name>
           <maml:Description>
             <maml:para>Yes/No value, dictating if the account will be scheduled for immediate change.</maml:para>
-            <maml:para>Specify Yes to initiate a password change by CPM - Relevant for Classic API only.</maml:para>
+            <maml:para>Specify Yes to initiate a password change by CPM - Relevant for 1st gen API only.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -14664,7 +14664,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
             <maml:para>Yes/No value, dictating if all accounts that belong to the same group should have their passwords changed.</maml:para>
             <maml:para>This is only relevant for accounts that belong to an account group.</maml:para>
             <maml:para>Parameter will be ignored if account does not belong to a group.</maml:para>
-            <maml:para>Relevant for Classic API only.</maml:para>
+            <maml:para>Relevant for 1st gen API only.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -15062,7 +15062,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:name>ImmediateChangeByCPM</maml:name>
         <maml:Description>
           <maml:para>Yes/No value, dictating if the account will be scheduled for immediate change.</maml:para>
-          <maml:para>Specify Yes to initiate a password change by CPM - Relevant for Classic API only.</maml:para>
+          <maml:para>Specify Yes to initiate a password change by CPM - Relevant for 1st gen API only.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -15077,7 +15077,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:para>Yes/No value, dictating if all accounts that belong to the same group should have their passwords changed.</maml:para>
           <maml:para>This is only relevant for accounts that belong to an account group.</maml:para>
           <maml:para>Parameter will be ignored if account does not belong to a group.</maml:para>
-          <maml:para>Relevant for Classic API only.</maml:para>
+          <maml:para>Relevant for 1st gen API only.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -15085,18 +15085,6 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>UseClassicAPI</maml:name>
-        <maml:Description>
-          <maml:para>Specify to force verification via Classic API.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
         <maml:name>WhatIf</maml:name>
@@ -15114,6 +15102,18 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:name>Confirm</maml:name>
         <maml:Description>
           <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UseClassicAPI">
+        <maml:name>UseGen1API</maml:name>
+        <maml:Description>
+          <maml:para>Specify to force verification via Gen1 API.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -15142,14 +15142,14 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>Invoke-PASCPMOperation -AccountID $ID -VerifyTask -UseClassicAPI</dev:code>
         <dev:remarks>
-          <maml:para>Marks an account for verification using the Classic API</maml:para>
+          <maml:para>Marks an account for verification using the 1st gen API</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
         <dev:code>Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ImmediateChangeByCPM Yes</dev:code>
         <dev:remarks>
-          <maml:para>Marks an account for immediate change using the Classic API</maml:para>
+          <maml:para>Marks an account for immediate change using the 1st gen API</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -18615,18 +18615,6 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
-          <maml:name>UseClassicAPI</maml:name>
-          <maml:Description>
-            <maml:para>Specify the UseClassicAPI to send the authentication request via the Classic (v9) API endpoint.</maml:para>
-            <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>useRadiusAuthentication</maml:name>
           <maml:Description>
@@ -18805,6 +18793,18 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:Description>
+            <maml:para>Specify to send the authentication request via the Gen1 API endpoint.</maml:para>
+            <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>New-PASSession</maml:name>
@@ -18819,18 +18819,6 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
-          <maml:name>UseClassicAPI</maml:name>
-          <maml:Description>
-            <maml:para>Specify the UseClassicAPI to send the authentication request via the Classic (v9) API endpoint.</maml:para>
-            <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>newPassword</maml:name>
@@ -18953,6 +18941,18 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>Confirm</maml:name>
           <maml:Description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:Description>
+            <maml:para>Specify to send the authentication request via the Gen1 API endpoint.</maml:para>
+            <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -19468,19 +19468,6 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
-        <maml:name>UseClassicAPI</maml:name>
-        <maml:Description>
-          <maml:para>Specify the UseClassicAPI to send the authentication request via the Classic (v9) API endpoint.</maml:para>
-          <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>newPassword</maml:name>
         <maml:Description>
@@ -19755,6 +19742,19 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="UseClassicAPI">
+        <maml:name>UseGen1API</maml:name>
+        <maml:Description>
+          <maml:para>Specify to send the authentication request via the Gen1 API endpoint.</maml:para>
+          <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -19831,7 +19831,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:title>-------------------------- EXAMPLE 10 --------------------------</maml:title>
         <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True</dev:code>
         <dev:remarks>
-          <maml:para>Logon using RADIUS via the Classic API</maml:para>
+          <maml:para>Logon using RADIUS via the 1st gen API</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -19845,7 +19845,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:title>-------------------------- EXAMPLE 12 --------------------------</maml:title>
         <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI -useRadiusAuthentication $True -OTP 123456 -OTPMode Append</dev:code>
         <dev:remarks>
-          <maml:para>Logon using RADIUS &amp; OTP (Append Mode) via the Classic API</maml:para>
+          <maml:para>Logon using RADIUS &amp; OTP (Append Mode) via the 1st gen API</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -20595,17 +20595,6 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>UseClassicAPI</maml:name>
-          <maml:Description>
-            <maml:para>Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
           <maml:Description>
@@ -20621,6 +20610,17 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>Confirm</maml:name>
           <maml:Description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:Description>
+            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -21199,18 +21199,6 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>UseClassicAPI</maml:name>
-        <maml:Description>
-          <maml:para>Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
         <maml:name>WhatIf</maml:name>
         <maml:Description>
@@ -21227,6 +21215,18 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:name>Confirm</maml:name>
         <maml:Description>
           <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+        <maml:name>UseGen1API</maml:name>
+        <maml:Description>
+          <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -21302,18 +21302,6 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>UseClassicAPI</maml:name>
-          <maml:Description>
-            <maml:para>Specify the UseClassicAPI to force usage the Classic API endpoint.</maml:para>
-            <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
           <maml:Description>
@@ -21329,6 +21317,18 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>Confirm</maml:name>
           <maml:Description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:Description>
+            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+            <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -21352,19 +21352,6 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>UseClassicAPI</maml:name>
-        <maml:Description>
-          <maml:para>Specify the UseClassicAPI to force usage the Classic API endpoint.</maml:para>
-          <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
         <maml:name>WhatIf</maml:name>
         <maml:Description>
@@ -21381,6 +21368,19 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:name>Confirm</maml:name>
         <maml:Description>
           <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+        <maml:name>UseGen1API</maml:name>
+        <maml:Description>
+          <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+          <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -28302,17 +28302,6 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>UseClassicAPI</maml:name>
-          <maml:Description>
-            <maml:para>Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
           <maml:Description>
@@ -28328,6 +28317,17 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:name>Confirm</maml:name>
           <maml:Description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:Description>
+            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -28932,18 +28932,6 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>UseClassicAPI</maml:name>
-        <maml:Description>
-          <maml:para>Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
         <maml:name>WhatIf</maml:name>
         <maml:Description>
@@ -28960,6 +28948,18 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <maml:name>Confirm</maml:name>
         <maml:Description>
           <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+        <maml:name>UseGen1API</maml:name>
+        <maml:Description>
+          <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -29673,7 +29673,7 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Unblock-PASUser -UserName MrFatFingers -Suspended $false</dev:code>
         <dev:remarks>
-          <maml:para>Activates suspended vault user MrFatFingers using the Classic API</maml:para>
+          <maml:para>Activates suspended vault user MrFatFingers using the 1st gen API</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>

@@ -69,23 +69,6 @@ Logs off from the session related to the authorisation token using the 1st gen A
 
 ## PARAMETERS
 
-### -UseGen1API
-Specify  to send the logoff request via the Gen1 API endpoint.
-
-Relevant for CyberArk versions earlier than 10.4
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Gen1
-Aliases: UseClassicAPI
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -SharedAuthentication
 Specify the SharedAuthentication switch to logoff from a shared authentication session
 
@@ -113,6 +96,23 @@ Required: False
 Position: Named
 Default value: False
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Specify  to send the logoff request via the Gen1 API endpoint.
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1
+Aliases: UseClassicAPI
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
