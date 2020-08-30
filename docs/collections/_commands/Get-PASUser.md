@@ -14,17 +14,17 @@ Returns details of a user
 
 ## SYNTAX
 
-### 10.9 (Default)
+### Gen2 (Default)
 ```
 Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [<CommonParameters>]
 ```
 
-### 10.10
+### Gen2ID
 ```
 Get-PASUser -id <Int32> [<CommonParameters>]
 ```
 
-### legacy
+### Gen1
 ```
 Get-PASUser -UserName <String> [<CommonParameters>]
 ```
@@ -71,7 +71,7 @@ Requires CyberArk version 10.10+
 
 ```yaml
 Type: Int32
-Parameter Sets: 10.10
+Parameter Sets: Gen2ID
 Aliases:
 
 Required: True
@@ -88,7 +88,7 @@ Requires CyberArk version 10.9+
 
 ```yaml
 Type: String
-Parameter Sets: 10.9
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -105,7 +105,7 @@ Requires CyberArk version 10.9+
 
 ```yaml
 Type: String
-Parameter Sets: 10.9
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -122,7 +122,7 @@ Requires CyberArk version 10.9+
 
 ```yaml
 Type: Boolean
-Parameter Sets: 10.9
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -137,7 +137,7 @@ The user's name
 
 ```yaml
 Type: String
-Parameter Sets: legacy
+Parameter Sets: Gen1
 Aliases:
 
 Required: True

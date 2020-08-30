@@ -1,26 +1,26 @@
 # .ExternalHelp psPAS-help.xml
 function Unblock-PASUser {
 
-	[CmdletBinding(DefaultParameterSetName = "10.10")]
+	[CmdletBinding(DefaultParameterSetName = "Gen2")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.10"
+			ParameterSetName = "Gen2"
 		)]
 		[int]$id,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ClassicAPI"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$UserName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "ClassicAPI"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateSet($false)]
 		[boolean]$Suspended
@@ -36,9 +36,9 @@ function Unblock-PASUser {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"10.10" {
+			"Gen2" {
 
-				Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
+				Assert-VersionRequirement -RequiredVersion 10.10
 
 				#Create request
 				$Request["URI"] = "$Script:BaseURI/api/Users/$id/Activate"
@@ -48,7 +48,7 @@ function Unblock-PASUser {
 
 			}
 
-			"ClassicAPI" {
+			"Gen1" {
 
 				#Create request
 				$Request["URI"] = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"

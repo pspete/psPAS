@@ -1,24 +1,24 @@
 ﻿# .ExternalHelp psPAS-help.xml
 function Set-PASUser {
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "11.1")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "Gen2")]
 	param(
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[int]$id,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateLength(0, 128)]
 		[string]$username,
@@ -26,33 +26,33 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[securestring]$NewPassword,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$userType,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$suspended,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("PIMSU", "PSM", "PSMP", "PVWA", "WINCLIENT", "PTA", "PACLI", "NAPI", "XAPI", "HTTPGW",
 			"EVD", "PIMSu", "AIMApp", "CPM", "PVWAApp", "PSMApp", "AppPrv", "AIMApp", "PSMPApp")]
@@ -61,14 +61,14 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$enableUser,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("AuthTypePass", "AuthTypeLDAP", "AuthTypeRADIUS")]
 		[string[]]$authenticationMethod,
@@ -76,42 +76,42 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$Email,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$ChangePassOnNextLogon,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[boolean]$ChangePasswordOnTheNextLogon,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$passwordNeverExpires,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$distinguishedName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("AddSafes", "AuditUsers", "AddUpdateUsers", "ResetUsersPasswords", "ActivateUsers",
 			"AddNetworkAreas", "ManageDirectoryMapping", "ManageServerFileCategories", "BackupAllSafes",
@@ -121,45 +121,45 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[datetime]$ExpiryDate,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$UserTypeName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[boolean]$Disabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$Location,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$workStreet,
@@ -167,7 +167,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workCity,
@@ -175,7 +175,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workState,
@@ -183,7 +183,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workZip,
@@ -191,7 +191,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workCountry,
@@ -199,7 +199,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$homePage,
@@ -207,7 +207,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$homeEmail,
@@ -216,7 +216,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$businessEmail,
@@ -224,7 +224,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$otherEmail,
@@ -232,7 +232,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$homeNumber,
@@ -240,7 +240,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$businessNumber,
@@ -248,7 +248,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$cellularNumber,
@@ -256,7 +256,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$faxNumber,
@@ -264,7 +264,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$pagerNumber,
@@ -272,7 +272,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 99)]
 		[string]$description,
@@ -281,12 +281,12 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$FirstName,
@@ -294,7 +294,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$MiddleName,
@@ -302,12 +302,12 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$LastName,
@@ -315,7 +315,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$street,
@@ -323,7 +323,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$city,
@@ -331,7 +331,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$state,
@@ -339,7 +339,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$zip,
@@ -347,7 +347,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$country,
@@ -355,7 +355,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$title,
@@ -363,7 +363,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$organization,
@@ -371,7 +371,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$department,
@@ -379,7 +379,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$profession,
@@ -387,7 +387,7 @@ function Set-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[Alias("UseClassicAPI")]
 		[switch]$UseGen1API
@@ -395,9 +395,9 @@ function Set-PASUser {
 
 	BEGIN {
 
-		If ($PSCmdlet.ParameterSetName -ne "legacy") {
+		If ($PSCmdlet.ParameterSetName -eq "Gen2") {
 
-			Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
+			Assert-VersionRequirement -RequiredVersion 11.1
 
 		}
 
@@ -410,7 +410,7 @@ function Set-PASUser {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"11.1" {
+			"Gen2" {
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/api/Users/$id"
@@ -423,7 +423,7 @@ function Set-PASUser {
 
 			}
 
-			"legacy" {
+			"Gen1" {
 
 				If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
 

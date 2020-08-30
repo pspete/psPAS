@@ -14,12 +14,12 @@ Deletes a vault user
 
 ## SYNTAX
 
-### 11.1 (Default)
+### Gen2 (Default)
 ```
 Remove-PASUser -id <Int32> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### legacy
+### Gen1
 ```
 Remove-PASUser -UserName <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -51,7 +51,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: Int32
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: True
@@ -66,7 +66,7 @@ The name of the user to delete from the vault
 
 ```yaml
 Type: String
-Parameter Sets: legacy
+Parameter Sets: Gen1
 Aliases:
 
 Required: True

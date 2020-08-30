@@ -1,25 +1,25 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASGroupMember {
-	[CmdletBinding(DefaultParameterSetName = "post_10_6")]
+	[CmdletBinding(DefaultParameterSetName = "Gen2")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_10_6"
+			ParameterSetName = "Gen2"
 		)]
 		[int]$groupId,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_10_6"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$memberId,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_10_6"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("domain", "vault")]
 		[string]$memberType,
@@ -27,21 +27,21 @@ function Add-PASGroupMember {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_10_6"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$domainName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "pre_10_6"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$GroupName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "pre_10_6"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$UserName
 	)
@@ -54,7 +54,7 @@ function Add-PASGroupMember {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"pre_10_6" {
+			"Gen1" {
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Groups/$($GroupName | Get-EscapedString)/Users"
@@ -63,7 +63,7 @@ function Add-PASGroupMember {
 
 			}
 
-			"post_10_6" {
+			"Gen2" {
 
 				Assert-VersionRequirement -RequiredVersion 10.6
 

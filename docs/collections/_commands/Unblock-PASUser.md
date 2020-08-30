@@ -14,12 +14,12 @@ Activates a suspended user
 
 ## SYNTAX
 
-### 10.10 (Default)
+### Gen2 (Default)
 ```
 Unblock-PASUser -id <Int32> [<CommonParameters>]
 ```
 
-### ClassicAPI
+### Gen1
 ```
 Unblock-PASUser -UserName <String> -Suspended <Boolean> [<CommonParameters>]
 ```
@@ -51,7 +51,7 @@ Requires CyberArk version 10.10+
 
 ```yaml
 Type: Int32
-Parameter Sets: 10.10
+Parameter Sets: Gen2
 Aliases:
 
 Required: True
@@ -66,7 +66,7 @@ The user's name
 
 ```yaml
 Type: String
-Parameter Sets: ClassicAPI
+Parameter Sets: Gen1
 Aliases:
 
 Required: True
@@ -81,7 +81,7 @@ Suspension status
 
 ```yaml
 Type: Boolean
-Parameter Sets: ClassicAPI
+Parameter Sets: Gen1
 Aliases:
 
 Required: True

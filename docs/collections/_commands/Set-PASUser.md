@@ -14,7 +14,7 @@ Updates a vault user
 
 ## SYNTAX
 
-### 11.1 (Default)
+### Gen2 (Default)
 ```
 Set-PASUser -id <Int32> -username <String> [-NewPassword <SecureString>] [-userType <String>]
  [-suspended <Boolean>] [-unAuthorizedInterfaces <String[]>] [-enableUser <Boolean>]
@@ -29,7 +29,7 @@ Set-PASUser -id <Int32> -username <String> [-NewPassword <SecureString>] [-userT
  [<CommonParameters>]
 ```
 
-### legacy
+### Gen1
 ```
 Set-PASUser -username <String> [-NewPassword <SecureString>] [-Email <String>]
  [-ChangePasswordOnTheNextLogon <Boolean>] [-ExpiryDate <DateTime>] [-UserTypeName <String>]
@@ -62,7 +62,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: Int32
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: True
@@ -111,7 +111,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -128,7 +128,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: Boolean
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -145,7 +145,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String[]
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -162,7 +162,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: Boolean
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -183,7 +183,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String[]
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -198,7 +198,7 @@ The user's email address
 
 ```yaml
 Type: String
-Parameter Sets: legacy
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -215,7 +215,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: Boolean
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -230,7 +230,7 @@ Whether or not user will be forced to change password on first logon
 
 ```yaml
 Type: Boolean
-Parameter Sets: legacy
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -247,7 +247,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: Boolean
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -264,7 +264,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -294,7 +294,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String[]
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -328,7 +328,7 @@ EPVUser type will be created by default.
 
 ```yaml
 Type: String
-Parameter Sets: legacy
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -345,7 +345,7 @@ Default is Enabled
 
 ```yaml
 Type: Boolean
-Parameter Sets: legacy
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -379,7 +379,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -396,7 +396,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -413,7 +413,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -430,7 +430,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -447,7 +447,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -464,7 +464,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -481,7 +481,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -498,7 +498,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -515,7 +515,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -532,7 +532,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -549,7 +549,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -566,7 +566,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -583,7 +583,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -600,7 +600,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -617,7 +617,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -649,7 +649,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -681,7 +681,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -698,7 +698,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -715,7 +715,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -732,7 +732,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -749,7 +749,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -766,7 +766,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -783,7 +783,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -800,7 +800,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -817,7 +817,7 @@ Requires CyberArk version 11.1+
 
 ```yaml
 Type: String
-Parameter Sets: 11.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -863,7 +863,7 @@ Specify to force usage the Gen1 API endpoint.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: legacy
+Parameter Sets: Gen1
 Aliases: UseClassicAPI
 
 Required: False

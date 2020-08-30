@@ -37,27 +37,27 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		Context "Mandatory Parameters" {
 
-			It "specifies parameter UserName as mandatory for ParameterSet legacy" {
+			It "specifies parameter UserName as mandatory for ParameterSet Gen1" {
 
-				(Get-Command New-PASUser).Parameters["UserName"].ParameterSets["legacy"].IsMandatory | Should -Be $true
-
-			}
-
-			It "specifies parameter UserName as mandatory for ParameterSet 10.9" {
-
-				(Get-Command New-PASUser).Parameters["UserName"].ParameterSets["10.9"].IsMandatory | Should -Be $true
+				(Get-Command New-PASUser).Parameters["UserName"].ParameterSets["Gen1"].IsMandatory | Should -Be $true
 
 			}
 
-			It "specifies parameter InitialPassword as mandatory for ParameterSet legacy" {
+			It "specifies parameter UserName as mandatory for ParameterSet Gen2" {
 
-				(Get-Command New-PASUser).Parameters["InitialPassword"].ParameterSets["legacy"].IsMandatory | Should -Be $true
+				(Get-Command New-PASUser).Parameters["UserName"].ParameterSets["Gen2"].IsMandatory | Should -Be $true
+
+			}
+
+			It "specifies parameter InitialPassword as mandatory for ParameterSet Gen1" {
+
+				(Get-Command New-PASUser).Parameters["InitialPassword"].ParameterSets["Gen1"].IsMandatory | Should -Be $true
 
 			}
 
 		}
 
-		Context "Input - legacy" {
+		Context "Input - Gen1" {
 
 			BeforeEach {
 
@@ -120,7 +120,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input - V10" {
+		Context "Input - Gen2" {
 
 			BeforeEach {
 
@@ -216,7 +216,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			it "provides output" {
+			It "provides output" {
 
 				$response | Should -Not -BeNullOrEmpty
 
@@ -228,15 +228,15 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			it "outputs object with expected typename" {
+			It "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User
 
 			}
 
-			it "outputs object with expected typename - V10" {
+			It "outputs object with expected typename - Gen2" {
 				$response = $InputObj | New-PASUser
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User.Extended
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User.Extended
 
 			}
 

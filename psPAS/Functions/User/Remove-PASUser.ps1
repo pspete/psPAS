@@ -1,28 +1,28 @@
 # .ExternalHelp psPAS-help.xml
 function Remove-PASUser {
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "11.1")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "Gen2")]
 	param(
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[int]$id,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$UserName
 	)
 
 	BEGIN {
 
-		If ($PSCmdlet.ParameterSetName -ne "legacy") {
+		If ($PSCmdlet.ParameterSetName -eq "Gen2") {
 
-			Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
+			Assert-VersionRequirement -RequiredVersion 11.1
 
 		}
 
@@ -32,7 +32,7 @@ function Remove-PASUser {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"11.1" {
+			"Gen2" {
 
 				$URI = "$Script:BaseURI/api/Users/$id"
 

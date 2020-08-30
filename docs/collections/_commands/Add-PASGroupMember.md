@@ -14,13 +14,13 @@ Adds a vault user as a group member
 
 ## SYNTAX
 
-### post_10_6 (Default)
+### Gen2 (Default)
 ```
 Add-PASGroupMember -groupId <Int32> -memberId <String> [-memberType <String>] [-domainName <String>]
  [<CommonParameters>]
 ```
 
-### pre_10_6
+### Gen1
 ```
 Add-PASGroupMember -GroupName <String> -UserName <String> [<CommonParameters>]
 ```
@@ -53,7 +53,7 @@ Requires CyberArk version 10.6+
 
 ```yaml
 Type: Int32
-Parameter Sets: post_10_6
+Parameter Sets: Gen2
 Aliases:
 
 Required: True
@@ -70,7 +70,7 @@ Requires CyberArk version 10.6+
 
 ```yaml
 Type: String
-Parameter Sets: post_10_6
+Parameter Sets: Gen2
 Aliases:
 
 Required: True
@@ -89,7 +89,7 @@ Requires CyberArk version 10.6+
 
 ```yaml
 Type: String
-Parameter Sets: post_10_6
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -106,7 +106,7 @@ Requires CyberArk version 10.6+
 
 ```yaml
 Type: String
-Parameter Sets: post_10_6
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -121,7 +121,7 @@ The name of the user
 
 ```yaml
 Type: String
-Parameter Sets: pre_10_6
+Parameter Sets: Gen1
 Aliases:
 
 Required: True
@@ -136,7 +136,7 @@ The name of the user
 
 ```yaml
 Type: String
-Parameter Sets: pre_10_6
+Parameter Sets: Gen1
 Aliases:
 
 Required: True

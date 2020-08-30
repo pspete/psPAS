@@ -88,7 +88,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint -V10" {
+			It "sends request to expected endpoint - Gen2" {
 
 				$InputObjV10 | Get-PASUser
 
@@ -101,7 +101,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint -V10.10" {
+			It "sends request to expected endpoint - Gen2ID" {
 
 				Get-PASUser -id 123
 
@@ -165,7 +165,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				$response = $InputObj | Get-PASUser
 
 			}
-			it "provides output" {
+			It "provides output" {
 
 				$response | Should -Not -BeNullOrEmpty
 
@@ -177,13 +177,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			it "outputs object with expected typename" {
+			It "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User
 
 			}
 
-			it "outputs object with expected typename - V10" {
+			It "outputs object with expected typename - Gen2" {
 
 				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{"Users" =
 						[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
@@ -191,7 +191,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				}
 
 				$response = $InputObjV10 | Get-PASUser
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User.Extended
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User.Extended
 
 			}
 
