@@ -15,7 +15,7 @@ Deletes an account
 ## SYNTAX
 
 ```
-Remove-PASAccount -AccountID <String> [-UseClassicAPI] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-PASAccount -AccountID <String> [-UseGen1API] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -51,23 +51,22 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -UseClassicAPI
-Specify the UseClassicAPI to force usage the Classic API endpoint.
+### -UseGen1API
+Specify to force usage the Gen1 API endpoint.
 
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: UseClassicAPI
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
-
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.

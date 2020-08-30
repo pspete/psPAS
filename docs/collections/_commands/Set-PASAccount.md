@@ -14,19 +14,19 @@ Updates an existing accounts details.
 
 ## SYNTAX
 
-### V10SingleOp (Default)
+### Gen2SingleOp (Default)
 ```
 Set-PASAccount -AccountID <String> -op <String> -path <String> [-value <String>] [-InputObject <PSObject>]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### V10MultiOp
+### Gen2MultiOp
 ```
 Set-PASAccount -AccountID <String> -operations <Hashtable[]> [-InputObject <PSObject>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
-### V9
+### Gen1
 ```
 Set-PASAccount -AccountID <String> -Folder <String> -AccountName <String> [-DeviceType <String>]
  [-PlatformID <String>] [-Address <String>] [-UserName <String>] [-GroupName <String>]
@@ -73,6 +73,7 @@ $actions += @{"op"="Replace";"path"="/Name";"value"="SomeName"}
 
 Set-PASAccount -AccountID 27_4 -operations $actions
 ```
+
 Performs the update operations contained in the $actions array against the account
 
 ### EXAMPLE 4
@@ -87,6 +88,7 @@ Sets DSN value on matched account dbUser
 Set-PASAccount -AccountID 21_3 -Folder Root -AccountName NewName `
 -DeviceType Database -PlatformID Oracle -Address dbServer.domain.com -UserName DBUser
 ```
+
 Will set the AccountName of account with AccountID of 21_3 to "NewName".
 
 **Any/All additional properties of the account which are not specified via parameters will be cleared**
@@ -117,7 +119,7 @@ Requires CyberArk version 10.4+
 
 ```yaml
 Type: String
-Parameter Sets: V10SingleOp
+Parameter Sets: Gen2SingleOp
 Aliases: Operation
 
 Required: True
@@ -134,7 +136,7 @@ Requires CyberArk version 10.4+
 
 ```yaml
 Type: String
-Parameter Sets: V10SingleOp
+Parameter Sets: Gen2SingleOp
 Aliases:
 
 Required: True
@@ -151,7 +153,7 @@ Requires CyberArk version 10.4+
 
 ```yaml
 Type: String
-Parameter Sets: V10SingleOp
+Parameter Sets: Gen2SingleOp
 Aliases:
 
 Required: False
@@ -168,7 +170,7 @@ Requires CyberArk version 10.4+
 
 ```yaml
 Type: Hashtable[]
-Parameter Sets: V10MultiOp
+Parameter Sets: Gen2MultiOp
 Aliases:
 
 Required: True
@@ -183,7 +185,7 @@ The folder where the account is stored.
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: True
@@ -198,7 +200,7 @@ The name of the account
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases: Name
 
 Required: True
@@ -217,7 +219,7 @@ Different device types require different parameters
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -236,7 +238,7 @@ Different platforms require different parameters
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases: PolicyID
 
 Required: False
@@ -251,7 +253,7 @@ The Name or Address of the machine where the account will be used
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -266,7 +268,7 @@ The Username on the target machine
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -288,7 +290,7 @@ The group will then be created automatically.
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -303,7 +305,7 @@ GroupPlatformID is required if account is to be moved to a new group.
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -320,7 +322,7 @@ Specify properties to update.
 
 ```yaml
 Type: Hashtable
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -335,7 +337,7 @@ Receives object from pipeline.
 
 ```yaml
 Type: PSObject
-Parameter Sets: V10SingleOp, V10MultiOp
+Parameter Sets: Gen2SingleOp, Gen2MultiOp
 Aliases:
 
 Required: False
@@ -347,7 +349,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: PSObject
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False

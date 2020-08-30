@@ -14,15 +14,15 @@ Returns password for an account.
 
 ## SYNTAX
 
-### 10.1 (Default)
+### Gen2 (Default)
 ```
 Get-PASAccountPassword -AccountID <String> [-Reason <String>] [-TicketingSystem <String>] [-TicketId <String>]
  [-Version <Int32>] [-ActionType <String>] [-isUse <Boolean>] [-Machine] [<CommonParameters>]
 ```
 
-### ClassicAPI
+### Gen1
 ```
-Get-PASAccountPassword -AccountID <String> [-UseClassicAPI] [<CommonParameters>]
+Get-PASAccountPassword -AccountID <String> [-UseGen1API] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -76,17 +76,17 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -UseClassicAPI
-Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
+### -UseGen1API
+Specify to force usage the Gen1 API endpoint.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: ClassicAPI
-Aliases:
+Parameter Sets: Gen1
+Aliases: UseClassicAPI
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -98,7 +98,7 @@ Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
 Type: String
-Parameter Sets: 10.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -115,7 +115,7 @@ Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
 Type: String
-Parameter Sets: 10.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -132,7 +132,7 @@ Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
 Type: String
-Parameter Sets: 10.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -151,7 +151,7 @@ Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
 Type: Int32
-Parameter Sets: 10.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -168,7 +168,7 @@ Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
 Type: String
-Parameter Sets: 10.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -185,7 +185,7 @@ Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
 Type: Boolean
-Parameter Sets: 10.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -202,7 +202,7 @@ Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: 10.1
+Parameter Sets: Gen2
 Aliases:
 
 Required: False

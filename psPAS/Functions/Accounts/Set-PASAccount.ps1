@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Set-PASAccount {
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "V10SingleOp")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "Gen2SingleOp")]
 	param(
 
 		[parameter(
@@ -14,7 +14,7 @@ function Set-PASAccount {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10SingleOp"
+			ParameterSetName = "Gen2SingleOp"
 		)]
 		[ValidateSet("add", "replace", "remove")]
 		[Alias("Operation")]
@@ -23,35 +23,35 @@ function Set-PASAccount {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10SingleOp"
+			ParameterSetName = "Gen2SingleOp"
 		)]
 		[string]$path,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10SingleOp"
+			ParameterSetName = "Gen2SingleOp"
 		)]
 		[string]$value,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10MultiOp"
+			ParameterSetName = "Gen2MultiOp"
 		)]
 		[hashtable[]]$operations,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$Folder,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[Alias("Name")]
 		[string]$AccountName,
@@ -59,7 +59,7 @@ function Set-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$DeviceType,
 
@@ -67,59 +67,59 @@ function Set-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$PlatformID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$Address,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$UserName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$GroupName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$GroupPlatformID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[hashtable]$Properties = @{ },
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
-			ParameterSetName = "V10SingleOp"
+			ParameterSetName = "Gen2SingleOp"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
-			ParameterSetName = "V10MultiOp"
+			ParameterSetName = "Gen2MultiOp"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[PSObject]$InputObject
 	)
@@ -135,7 +135,7 @@ function Set-PASAccount {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			{ $PSItem -match "V10" } {
+			{ $PSItem -match "Gen2" } {
 
 				Assert-VersionRequirement -RequiredVersion 10.4
 
@@ -156,11 +156,11 @@ function Set-PASAccount {
 
 				#Do Not Pipe into ConvertTo-JSON.
 				#Correct JSON Format is only achieved when the array is not sent along the pipe
-				$body = ConvertTo-JSON @($boundParameters)
+				$body = ConvertTo-Json @($boundParameters)
 
 			}
 
-			"V9" {
+			"Gen1" {
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
@@ -177,7 +177,7 @@ function Set-PASAccount {
 					#Array of key=value pairs required for JSON convertion
 					$boundParameters["Properties"] = [Collections.Generic.List[String]]@($boundParameters["Properties"].getenumerator() |
 
-						ForEach-Object { $_ })
+							ForEach-Object { $_ })
 
 				}
 
@@ -190,35 +190,35 @@ function Set-PASAccount {
 					#Process Pipeline input object properties
 					$InputObject |
 
-					#exclude properties output by get-pasaccount not applicable to set-pasaccount request
-					Select-Object -Property * -ExcludeProperty Name, PolicyID, Safe |
+						#exclude properties output by get-pasaccount not applicable to set-pasaccount request
+						Select-Object -Property * -ExcludeProperty Name, PolicyID, Safe |
 
-					#get all remaining noteproperties
-					Get-Member -MemberType "NoteProperty" |
+							#get all remaining noteproperties
+							Get-Member -MemberType "NoteProperty" |
 
-					#For each property
-					ForEach-Object {
+								#For each property
+								ForEach-Object {
 
-						#Initialise hashtable
-						$ExistingProperty = @{ }
+									#Initialise hashtable
+									$ExistingProperty = @{ }
 
-						#if property is not bound to function parameter by name,
-						if (!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
+									#if property is not bound to function parameter by name,
+									if (!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
 
-									#if not being explicitly updated.
-									$($Properties).ContainsKey($($_.Name))))) {
+												#if not being explicitly updated.
+												$($Properties).ContainsKey($($_.Name))))) {
 
-							[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
+										[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
 
-							#Add to Properties node of request data
-							[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object { $_ }
-							#*any existing properties of an account not sent in a "set" request will be cleared on the account.
-							#*This ensures correctly formatted request with all existing account properties included
-							#*when function is sent data via the pipeline.
+										#Add to Properties node of request data
+										[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object { $_ }
+										#*any existing properties of an account not sent in a "set" request will be cleared on the account.
+										#*This ensures correctly formatted request with all existing account properties included
+										#*when function is sent data via the pipeline.
 
-						}
+									}
 
-					}
+								}
 
 				}
 
@@ -244,7 +244,7 @@ function Set-PASAccount {
 
 				switch ($PSCmdlet.ParameterSetName) {
 
-					"V9" { $Return = $Result.UpdateAccountResult ; break }
+					"Gen1" { $Return = $Result.UpdateAccountResult ; break }
 
 					default { $Return = $Result }
 

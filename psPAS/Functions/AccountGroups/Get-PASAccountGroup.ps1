@@ -19,7 +19,8 @@ function Get-PASAccountGroup {
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "9.10"
 		)]
-		[switch]$UseClassicAPI
+		[Alias("UseClassicAPI")]
+		[switch]$UseGen1API
 	)
 
 	BEGIN {

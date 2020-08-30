@@ -33,8 +33,8 @@ Set-PASUser -id <Int32> -username <String> [-NewPassword <SecureString>] [-userT
 ```
 Set-PASUser -username <String> [-NewPassword <SecureString>] [-Email <String>]
  [-ChangePasswordOnTheNextLogon <Boolean>] [-ExpiryDate <DateTime>] [-UserTypeName <String>]
- [-Disabled <Boolean>] [-Location <String>] [-FirstName <String>] [-LastName <String>] [-UseClassicAPI]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Disabled <Boolean>] [-Location <String>] [-FirstName <String>] [-LastName <String>] [-UseGen1API] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -827,21 +827,20 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -UseClassicAPI
-Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
+### -UseGen1API
+Specify to force usage the Gen1 API endpoint.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: legacy
-Aliases:
+Aliases: UseClassicAPI
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
-
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.

@@ -34,7 +34,7 @@ Activates an existing vault user who was suspended due to password failures.
 Unblock-PASUser -UserName MrFatFingers -Suspended $false
 ```
 
-Activates suspended vault user MrFatFingers using the Classic API
+Activates suspended vault user MrFatFingers using the 1st gen API
 
 ### EXAMPLE 2
 ```

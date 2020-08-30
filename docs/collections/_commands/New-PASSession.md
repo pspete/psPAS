@@ -14,7 +14,7 @@ Authenticates a user to CyberArk Vault/API.
 
 ## SYNTAX
 
-### v10 (Default)
+### Gen2 (Default)
 ```
 New-PASSession -Credential <PSCredential> [-newPassword <SecureString>] [-type <String>]
  [-concurrentSession <Boolean>] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
@@ -22,23 +22,23 @@ New-PASSession -Credential <PSCredential> [-newPassword <SecureString>] [-type <
  [-Confirm] [<CommonParameters>]
 ```
 
-### v9Radius
+### Gen1Radius
 ```
-New-PASSession -Credential <PSCredential> [-UseClassicAPI] -useRadiusAuthentication <Boolean> [-OTP <String>]
+New-PASSession -Credential <PSCredential> [-UseGen1API] -useRadiusAuthentication <Boolean> [-OTP <String>]
  [-OTPMode <String>] [-OTPDelimiter <String>] [-RadiusChallenge <String>] [-connectionNumber <Int32>]
  -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
  [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### v9
+### Gen1
 ```
-New-PASSession -Credential <PSCredential> [-UseClassicAPI] [-newPassword <SecureString>]
+New-PASSession -Credential <PSCredential> [-UseGen1API] [-newPassword <SecureString>]
  [-connectionNumber <Int32>] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
  [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
 
-### v10Radius
+### Gen2Radius
 ```
 New-PASSession -Credential <PSCredential> [-type <String>] [-OTP <String>] [-OTPMode <String>]
  [-OTPDelimiter <String>] [-RadiusChallenge <String>] [-concurrentSession <Boolean>] -BaseURI <String>
@@ -46,14 +46,14 @@ New-PASSession -Credential <PSCredential> [-type <String>] [-OTP <String>] [-OTP
  [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### 11_3_saml
+### Gen2SAML
 ```
 New-PASSession [-SAMLAuth] [-concurrentSession <Boolean>] -BaseURI <String> [-PVWAAppName <String>]
  [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### saml
+### Gen1SAML
 ```
 New-PASSession -SAMLToken <String> -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
  [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
@@ -166,7 +166,7 @@ Logon to Version 10 using RADIUS
 New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True
 ```
 
-Logon using RADIUS via the Classic API
+Logon using RADIUS via the 1st gen API
 
 ### EXAMPLE 11
 ```
@@ -180,7 +180,7 @@ Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
 New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
 ```
 
-Logon using RADIUS & OTP (Append Mode) via the Classic API
+Logon using RADIUS & OTP (Append Mode) via the 1st gen API
 
 ### EXAMPLE 13
 ```
@@ -245,7 +245,7 @@ A Valid PSCredential object.
 
 ```yaml
 Type: PSCredential
-Parameter Sets: v10, v10Radius
+Parameter Sets: Gen2, Gen2Radius
 Aliases:
 
 Required: True
@@ -257,7 +257,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: PSCredential
-Parameter Sets: v9Radius, v9
+Parameter Sets: Gen1Radius, Gen1
 Aliases:
 
 Required: True
@@ -267,31 +267,31 @@ Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### -UseClassicAPI
-Specify the UseClassicAPI to send the authentication request via the Classic (v9) API endpoint.
+### -UseGen1API
+Specify to send the authentication request via the Gen1 API endpoint.
 
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: v9Radius
-Aliases:
+Parameter Sets: Gen1Radius
+Aliases: UseClassicAPI
 
 Required: True
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: v9
-Aliases:
+Parameter Sets: Gen1
+Aliases: UseClassicAPI
 
 Required: True
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
@@ -303,7 +303,7 @@ Must be supplied as a SecureString (Not Plain Text).
 
 ```yaml
 Type: SecureString
-Parameter Sets: v10, v9
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -320,7 +320,7 @@ Specify to authenticate after retrieval of saml token.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: 11_3_saml
+Parameter Sets: Gen2SAML
 Aliases:
 
 Required: True
@@ -335,7 +335,7 @@ SAML token that identifies the session, encoded in BASE 64.
 
 ```yaml
 Type: String
-Parameter Sets: saml
+Parameter Sets: Gen1SAML
 Aliases:
 
 Required: True
@@ -365,7 +365,7 @@ Whether or not users will be authenticated via a RADIUS server.
 
 ```yaml
 Type: Boolean
-Parameter Sets: v9Radius
+Parameter Sets: Gen1Radius
 Aliases:
 
 Required: True
@@ -387,7 +387,7 @@ Valid values are:
 
 ```yaml
 Type: String
-Parameter Sets: v10, v10Radius
+Parameter Sets: Gen2, Gen2Radius
 Aliases:
 
 Required: False
@@ -402,7 +402,7 @@ One Time Passcode, if known, for RADIUS authentication.
 
 ```yaml
 Type: String
-Parameter Sets: v9Radius, v10Radius
+Parameter Sets: Gen1Radius, Gen2Radius
 Aliases:
 
 Required: False
@@ -417,7 +417,7 @@ Specify if OTP is to be sent in 'Append' (appended to the password) or 'Challeng
 
 ```yaml
 Type: String
-Parameter Sets: v9Radius, v10Radius
+Parameter Sets: Gen1Radius, Gen2Radius
 Aliases:
 
 Required: False
@@ -434,7 +434,7 @@ Defaults to comma ",".
 
 ```yaml
 Type: String
-Parameter Sets: v9Radius, v10Radius
+Parameter Sets: Gen1Radius, Gen2Radius
 Aliases:
 
 Required: False
@@ -453,7 +453,7 @@ If "Password", then OTP value will be sent first, and Password will be sent as t
 
 ```yaml
 Type: String
-Parameter Sets: v9Radius, v10Radius
+Parameter Sets: Gen1Radius, Gen2Radius
 Aliases:
 
 Required: False
@@ -487,7 +487,7 @@ Requires 11.3+
 
 ```yaml
 Type: Boolean
-Parameter Sets: v10, v10Radius, 11_3_saml, integrated
+Parameter Sets: Gen2, Gen2Radius, Gen2SAML, integrated
 Aliases:
 
 Required: False
@@ -505,7 +505,7 @@ Valid values: 1-100
 
 ```yaml
 Type: Int32
-Parameter Sets: v9Radius, v9
+Parameter Sets: Gen1Radius, Gen1
 Aliases:
 
 Required: False

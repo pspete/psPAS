@@ -2,41 +2,41 @@
 Function New-PASAccountObject {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'remoteMachinesAccess', Justification = "False Positive")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'secretManagement', Justification = "False Positive")]
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "V10")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "AccountObject")]
 	param(
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[int]$uploadIndex,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[string]$userName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[string]$name,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[string]$address,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[Alias("PolicyID")]
 		[string]$platformID,
@@ -44,7 +44,7 @@ Function New-PASAccountObject {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[Alias("safe")]
@@ -53,7 +53,7 @@ Function New-PASAccountObject {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[ValidateSet("Password", "Key")]
 		[string]$secretType,
@@ -61,49 +61,49 @@ Function New-PASAccountObject {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[securestring]$secret,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[hashtable]$platformAccountProperties,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[boolean]$automaticManagementEnabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[string]$manualManagementReason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[string]$remoteMachines,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[boolean]$accessRestrictedToRemoteMachines,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "AccountObject"
 		)]
 		[string]$groupName
 
@@ -124,7 +124,7 @@ Function New-PASAccountObject {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"V10" {
+			"AccountObject" {
 
 				#deal with "secret" SecureString
 				If ($PSBoundParameters.ContainsKey("secret")) {

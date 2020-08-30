@@ -19,13 +19,13 @@ Marks accounts for CPM Verify, Change or Reconcile operations
 Invoke-PASCPMOperation -AccountID <String> [-VerifyTask] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### VerifyClassic
+### VerifyCredentials
 ```
-Invoke-PASCPMOperation -AccountID <String> [-VerifyTask] [-UseClassicAPI] [-WhatIf] [-Confirm]
+Invoke-PASCPMOperation -AccountID <String> [-VerifyTask] [-UseGen1API] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
-### ChangeClassic
+### ChangeCredentials
 ```
 Invoke-PASCPMOperation -AccountID <String> [-ChangeTask] -ImmediateChangeByCPM <String>
  [-ChangeCredsForGroup <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -81,14 +81,14 @@ Marks an account for verification
 Invoke-PASCPMOperation -AccountID $ID -VerifyTask -UseClassicAPI
 ```
 
-Marks an account for verification using the Classic API
+Marks an account for verification using the 1st gen API
 
 ### EXAMPLE 3
 ```
 Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ImmediateChangeByCPM Yes
 ```
 
-Marks an account for immediate change using the Classic API
+Marks an account for immediate change using the 1st gen API
 
 ### EXAMPLE 4
 ```
@@ -140,7 +140,7 @@ Initiates a verify task
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Verify, VerifyClassic
+Parameter Sets: Verify, VerifyCredentials
 Aliases:
 
 Required: True
@@ -155,7 +155,7 @@ Initiates a change task
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: ChangeClassic, Change, SetNextPassword, Password/Update
+Parameter Sets: ChangeCredentials, Change, SetNextPassword, Password/Update
 Aliases:
 
 Required: True
@@ -258,11 +258,11 @@ Accept wildcard characters: False
 ### -ImmediateChangeByCPM
 Yes/No value, dictating if the account will be scheduled for immediate change.
 
-Specify Yes to initiate a password change by CPM - Relevant for Classic API only.
+Specify Yes to initiate a password change by CPM - Relevant for 1st gen API only.
 
 ```yaml
 Type: String
-Parameter Sets: ChangeClassic
+Parameter Sets: ChangeCredentials
 Aliases:
 
 Required: True
@@ -280,11 +280,11 @@ This is only relevant for accounts that belong to an account group.
 
 Parameter will be ignored if account does not belong to a group.
 
-Relevant for Classic API only.
+Relevant for 1st gen API only.
 
 ```yaml
 Type: String
-Parameter Sets: ChangeClassic
+Parameter Sets: ChangeCredentials
 Aliases:
 
 Required: False
@@ -294,17 +294,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -UseClassicAPI
-Specify to force verification via Classic API.
+### -UseGen1API
+Specify to force verification via Gen1 API.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: VerifyClassic
-Aliases:
+Parameter Sets: VerifyCredentials
+Aliases: UseClassicAPI
 
 Required: True
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```

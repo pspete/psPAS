@@ -14,14 +14,14 @@ Logoff from CyberArk Vault.
 
 ## SYNTAX
 
-### V10 (Default)
+### Gen2 (Default)
 ```
 Close-PASSession [<CommonParameters>]
 ```
 
-### v9
+### Gen1
 ```
-Close-PASSession [-UseClassicAPI] [<CommonParameters>]
+Close-PASSession [-UseGen1API] [<CommonParameters>]
 ```
 
 ### shared
@@ -65,23 +65,23 @@ Logs off from the session related to the authorisation token using the Shared Au
 Close-PASSession -UseClassicAPI
 ```
 
-Logs off from the session related to the authorisation token using the Classic API endpoint.
+Logs off from the session related to the authorisation token using the 1st gen API endpoint.
 
 ## PARAMETERS
 
-### -UseClassicAPI
-Specify the UseClassicAPI switch to send the logoff request via the Classic (v9) API endpoint.
+### -UseGen1API
+Specify  to send the logoff request via the Gen1 API endpoint.
 
 Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: v9
-Aliases:
+Parameter Sets: Gen1
+Aliases: UseClassicAPI
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

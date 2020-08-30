@@ -1,16 +1,16 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASAccountPassword {
-	[CmdletBinding(DefaultParameterSetName = "10.1")]
+	[CmdletBinding(DefaultParameterSetName = "Gen2")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ClassicAPI"
+			ParameterSetName = "Gen1"
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.1"
+			ParameterSetName = "Gen2"
 		)]
 		[Alias("id")]
 		[string]$AccountID,
@@ -18,42 +18,43 @@ function Get-PASAccountPassword {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "ClassicAPI"
+			ParameterSetName = "Gen1"
 		)]
-		[switch]$UseClassicAPI,
+		[Alias("UseClassicAPI")]
+		[switch]$UseGen1API,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "10.1"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$Reason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "10.1"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$TicketingSystem,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "10.1"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$TicketId,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "10.1"
+			ParameterSetName = "Gen2"
 		)]
 		[int]$Version,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "10.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("show", "copy", "connect")]
 		[string]$ActionType,
@@ -61,14 +62,14 @@ function Get-PASAccountPassword {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "10.1"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$isUse,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "10.1"
+			ParameterSetName = "Gen2"
 		)]
 		[switch]$Machine
 	)
@@ -82,16 +83,14 @@ function Get-PASAccountPassword {
 		#Build Request
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"10.1" {
+			"Gen2" {
 
-				Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
+				Assert-VersionRequirement -RequiredVersion 10.1
 
 				#For Version 10.1+
 				$Request = @{
 
-					"URI"    = "$Script:BaseURI/api/Accounts/$($AccountID |
-
-            	Get-EscapedString)/Password/Retrieve"
+					"URI"    = "$Script:BaseURI/api/Accounts/$($AccountID | Get-EscapedString)/Password/Retrieve"
 
 					"Method" = "POST"
 
@@ -104,7 +103,7 @@ function Get-PASAccountPassword {
 
 			}
 
-			"ClassicAPI" {
+			"Gen1" {
 
 				#For Version 9.7+
 				$Request = @{
@@ -131,7 +130,7 @@ function Get-PASAccountPassword {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
-				"ClassicAPI" {
+				"Gen1" {
 
 					$result = [System.Text.Encoding]::ASCII.GetString([PSCustomObject]$result.Content)
 
@@ -139,7 +138,7 @@ function Get-PASAccountPassword {
 
 				}
 
-				"10.1" {
+				"Gen2" {
 
 					#Unescape returned string and remove enclosing quotes.
 					$result = $([System.Text.RegularExpressions.Regex]::Unescape($result) -replace '^"|"$', '')
@@ -150,9 +149,7 @@ function Get-PASAccountPassword {
 
 			}
 
-			[PSCustomObject] @{"Password" = $result } |
-
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
+			[PSCustomObject] @{"Password" = $result } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
 
 		}
 

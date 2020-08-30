@@ -1,28 +1,28 @@
 # .ExternalHelp psPAS-help.xml
 function New-PASSession {
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "v10")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "Gen2")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10Radius"
+			ParameterSetName = "Gen2Radius"
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $true,
-			ParameterSetName = "v9"
+			ParameterSetName = "Gen1"
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $true,
-			ParameterSetName = "v9Radius"
+			ParameterSetName = "Gen1Radius"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,
@@ -30,26 +30,27 @@ function New-PASSession {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9"
+			ParameterSetName = "Gen1"
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $true,
-			ParameterSetName = "v9Radius"
+			ParameterSetName = "Gen1Radius"
 		)]
-		[switch]$UseClassicAPI,
+		[Alias("UseClassicAPI")]
+		[switch]$UseGen1API,
 
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10"
+			ParameterSetName = "Gen2"
 		)]
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9"
+			ParameterSetName = "Gen1"
 		)]
 		[SecureString]$newPassword,
 
@@ -57,7 +58,7 @@ function New-PASSession {
 			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_3_saml"
+			ParameterSetName = "Gen2SAML"
 		)]
 		[switch]$SAMLAuth,
 
@@ -65,7 +66,7 @@ function New-PASSession {
 			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "saml"
+			ParameterSetName = "Gen1SAML"
 		)]
 		[String]$SAMLToken,
 
@@ -81,7 +82,7 @@ function New-PASSession {
 			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9Radius"
+			ParameterSetName = "Gen1Radius"
 		)]
 		[bool]$useRadiusAuthentication,
 
@@ -89,13 +90,13 @@ function New-PASSession {
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10"
+			ParameterSetName = "Gen2"
 		)]
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10Radius"
+			ParameterSetName = "Gen2Radius"
 		)]
 		[ValidateSet("CyberArk", "LDAP", "Windows", "RADIUS")]
 		[string]$type = "CyberArk",
@@ -104,13 +105,13 @@ function New-PASSession {
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10Radius"
+			ParameterSetName = "Gen2Radius"
 		)]
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9Radius"
+			ParameterSetName = "Gen1Radius"
 		)]
 		[string]$OTP,
 
@@ -118,13 +119,13 @@ function New-PASSession {
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10Radius"
+			ParameterSetName = "Gen2Radius"
 		)]
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9Radius"
+			ParameterSetName = "Gen1Radius"
 		)]
 		[ValidateSet("Append", "Challenge")]
 		[string]$OTPMode,
@@ -133,13 +134,13 @@ function New-PASSession {
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10Radius"
+			ParameterSetName = "Gen2Radius"
 		)]
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9Radius"
+			ParameterSetName = "Gen1Radius"
 		)]
 		[ValidateLength(1, 1)]
 		[string]$OTPDelimiter,
@@ -148,13 +149,13 @@ function New-PASSession {
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10Radius"
+			ParameterSetName = "Gen2Radius"
 		)]
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9Radius"
+			ParameterSetName = "Gen1Radius"
 		)]
 		[ValidateSet("Password", "OTP")]
 		[string]$RadiusChallenge,
@@ -171,13 +172,13 @@ function New-PASSession {
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v10Radius"
+			ParameterSetName = "Gen2Radius"
 		)]
 		[parameter(
 			Mandatory = $false,
@@ -189,7 +190,7 @@ function New-PASSession {
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_3_saml"
+			ParameterSetName = "Gen2SAML"
 		)]
 		[Boolean]$concurrentSession,
 
@@ -197,13 +198,13 @@ function New-PASSession {
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9"
+			ParameterSetName = "Gen1"
 		)]
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "v9Radius"
+			ParameterSetName = "Gen1Radius"
 		)]
 		[ValidateRange(1, 100)]
 		[int]$connectionNumber,
@@ -281,39 +282,15 @@ function New-PASSession {
 
 		}
 
-		Switch -Wildcard ($PSCmdlet.ParameterSetName) {
+	}#begin
 
-			"v10*" {
+	PROCESS {
 
-				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
-				break
+		Switch ($PSCmdlet.ParameterSetName) {
 
-			}
-
-			"11_3_saml" {
-
-				$URI = "$baseURI/$PVWAAppName/api/Auth/SAML/Logon"
-				break
-
-			}
-
-			"integrated*" {
+			"integrated" {
 
 				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
-				break
-
-			}
-
-			"v9*" {
-
-				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
-				break
-
-			}
-
-			"saml" {
-
-				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
 				break
 
 			}
@@ -325,78 +302,99 @@ function New-PASSession {
 
 			}
 
-		}
+			"Gen1SAML" {
 
-	}#begin
+				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
 
-	PROCESS {
-
-		If (($PSCmdlet.ParameterSetName -match "^v9*") -or ($PSCmdlet.ParameterSetName -match "^v10*") ) {
-
-			#Get request parameters
-			$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, SkipCertificateCheck,
-			UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge, Certificate
-
-			#Add user name from credential object
-			$boundParameters["username"] = $($Credential.UserName)
-			#Add decoded password value from credential object
-			$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
-
-			#RADIUS Auth
-			If ($PSCmdlet.ParameterSetName -match "Radius$") {
-
-				#OTP in Append Mode
-				If (($PSBoundParameters.ContainsKey("OTP")) -and ($PSBoundParameters["OTPMode"] -eq "Append")) {
-
-					If ($PSBoundParameters.ContainsKey("OTPDelimiter")) {
-
-						#Use specified delimiter to append OTP
-						$Delimiter = $OTPDelimiter
-
-					}
-					Else {
-
-						#delimit with comma by default
-						$Delimiter = ","
-
-					}
-
-					#Append OTP to password
-					$boundParameters["password"] = "$($boundParameters["password"])$Delimiter$OTP"
-
-				}
-
-				#RADIUS Challenge Mode
-				ElseIf (($PSBoundParameters.ContainsKey("OTP")) -and ($PSBoundParameters["OTPMode"] -eq "Challenge")) {
-
-					If ($RadiusChallenge -eq "Password") {
-
-						#Send OTP first + then Password
-						$boundParameters["password"] = $OTP
-						$OTP = $($Credential.GetNetworkCredential().Password)
-
-					}
-
-				}
+				#add token to header
+				$LogonRequest["Headers"] = @{"Authorization" = $SAMLToken }
+				break
 
 			}
 
-			#deal with newPassword SecureString
-			If ($PSBoundParameters.ContainsKey("newPassword")) {
+			"Gen2SAML" {
 
-				#Include decoded password in request
-				$boundParameters["newPassword"] = $(ConvertTo-InsecureString -SecureString $newPassword)
+				$URI = "$baseURI/$PVWAAppName/api/Auth/SAML/Logon"
+				break
 
 			}
 
-			#Construct Request Body
-			$LogonRequest["Body"] = $boundParameters | ConvertTo-Json
+			( { $PSItem -match "^Gen2" } ) {
 
-		}
-		Elseif ($PSCmdlet.ParameterSetName -eq "saml") {
+				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
 
-			#add token to header
-			$LogonRequest["Headers"] = @{"Authorization" = $SAMLToken }
+			}
+
+			( { $PSItem -match "^Gen1" } ) {
+
+				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
+
+			}
+
+			( { $PSItem -match "^Gen" } ) {
+
+
+				#Get request parameters
+				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, SkipCertificateCheck,
+				UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge, Certificate
+
+				#Add user name from credential object
+				$boundParameters["username"] = $($Credential.UserName)
+				#Add decoded password value from credential object
+				$boundParameters["password"] = $($Credential.GetNetworkCredential().Password)
+
+				#RADIUS Auth
+				If ($PSCmdlet.ParameterSetName -match "Radius$") {
+
+					#OTP in Append Mode
+					If (($PSBoundParameters.ContainsKey("OTP")) -and ($PSBoundParameters["OTPMode"] -eq "Append")) {
+
+						If ($PSBoundParameters.ContainsKey("OTPDelimiter")) {
+
+							#Use specified delimiter to append OTP
+							$Delimiter = $OTPDelimiter
+
+						} Else {
+
+							#delimit with comma by default
+							$Delimiter = ","
+
+						}
+
+						#Append OTP to password
+						$boundParameters["password"] = "$($boundParameters["password"])$Delimiter$OTP"
+
+					}
+
+					#RADIUS Challenge Mode
+					ElseIf (($PSBoundParameters.ContainsKey("OTP")) -and ($PSBoundParameters["OTPMode"] -eq "Challenge")) {
+
+						If ($RadiusChallenge -eq "Password") {
+
+							#Send OTP first + then Password
+							$boundParameters["password"] = $OTP
+							$OTP = $($Credential.GetNetworkCredential().Password)
+
+						}
+
+					}
+
+				}
+
+				#deal with newPassword SecureString
+				If ($PSBoundParameters.ContainsKey("newPassword")) {
+
+					#Include decoded password in request
+					$boundParameters["newPassword"] = $(ConvertTo-InsecureString -SecureString $newPassword)
+
+				}
+
+				#Construct Request Body
+				$LogonRequest["Body"] = $boundParameters | ConvertTo-Json
+
+				break
+
+			}
 
 		}
 
@@ -404,7 +402,7 @@ function New-PASSession {
 
 			try {
 
-				If ($PSCmdlet.ParameterSetName -eq "11_3_saml") {
+				If ($PSCmdlet.ParameterSetName -eq "Gen2SAML") {
 
 					#The only expected parameter should be concurrentSessions
 					$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SAMLAuth,
@@ -458,16 +456,14 @@ function New-PASSession {
 
 				}
 
-			}
-			catch {
+			} catch {
 
 				if ($PSItem.FullyQualifiedErrorId -notmatch "ITATS542I") {
 
 					#Throw all errors not related to ITATS542I
 					throw $PSItem
 
-				}
-				Else {
+				} Else {
 
 					#ITATS542I is expected for RADIUS Challenge
 
@@ -482,8 +478,7 @@ function New-PASSession {
 
 							$Prompt = $($PSItem.Exception.Message)
 
-						}
-						Else {
+						} Else {
 
 							#Default value for the Read-Host prompt.
 							$Prompt = "Enter OTP"
@@ -511,8 +506,7 @@ function New-PASSession {
 
 				}
 
-			}
-			finally {
+			} finally {
 
 				#If Logon Result
 				If ($PASSession) {
@@ -565,10 +559,9 @@ function New-PASSession {
 
 							#Get CyberArk ExternalVersion number.
 							[System.Version]$Version = Get-PASServer -ErrorAction Stop |
-							Select-Object -ExpandProperty ExternalVersion
+								Select-Object -ExpandProperty ExternalVersion
 
-						}
-						Catch { [System.Version]$Version = "0.0" }
+						} Catch { [System.Version]$Version = "0.0" }
 
 					}
 

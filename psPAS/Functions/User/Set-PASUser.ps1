@@ -389,7 +389,8 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "legacy"
 		)]
-		[switch]$UseClassicAPI
+		[Alias("UseClassicAPI")]
+		[switch]$UseGen1API
 	)
 
 	BEGIN {
@@ -457,7 +458,7 @@ function Set-PASUser {
 		}
 
 		#Construct Request Body
-		$body = $boundParameters | ConvertTo-Json -depth 4
+		$body = $boundParameters | ConvertTo-Json -Depth 4
 
 		if ($PSCmdlet.ShouldProcess($UserName, "Update User Properties")) {
 			#send request to web service

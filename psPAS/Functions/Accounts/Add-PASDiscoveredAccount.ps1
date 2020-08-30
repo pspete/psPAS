@@ -201,7 +201,7 @@ function Add-PASDiscoveredAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "108_AWS"
+			ParameterSetName = "AWS"
 		)]
 		[ValidateLength(12, 12)]
 		[string]$awsAccountID,
@@ -209,14 +209,14 @@ function Add-PASDiscoveredAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "108_AWS"
+			ParameterSetName = "AWS"
 		)]
 		[string]$awsAccessKeyID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "108_Dependency"
+			ParameterSetName = "Dependency"
 		)]
 		[hashtable[]]$Dependencies
 	)
@@ -225,7 +225,7 @@ function Add-PASDiscoveredAccount {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			{ $PSItem -match "^108_" } {
+			{ $PSItem -match "AWS|Dependency" } {
 
 				#v10.8 required for AWS & Dependencies
 				Assert-VersionRequirement -RequiredVersion 10.8

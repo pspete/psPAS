@@ -1,17 +1,18 @@
 # .ExternalHelp psPAS-help.xml
 function Close-PASSession {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseClassicAPI', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = "False Positive")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SharedAuthentication', Justification = "False Positive")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SAMLAuthentication', Justification = "False Positive")]
-	[CmdletBinding(DefaultParameterSetName = "V10")]
+	[CmdletBinding(DefaultParameterSetName = "Gen2")]
 	param(
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v9"
+			ParameterSetName = "Gen1"
 		)]
-		[switch]$UseClassicAPI,
+		[Alias("UseClassicAPI")]
+		[switch]$UseGen1API,
 
 		[Parameter(
 			Mandatory = $false,
@@ -35,7 +36,7 @@ function Close-PASSession {
 
 		Switch ($PSCmdlet.ParameterSetName) {
 
-			"v9" {
+			"Gen1" {
 
 				$URI = "$Script:BaseURI/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
 				break
@@ -56,7 +57,7 @@ function Close-PASSession {
 
 			}
 
-			"V10" {
+			"Gen2" {
 
 				$URI = "$Script:BaseURI/API/Auth/Logoff"
 				break

@@ -1,7 +1,7 @@
 # .ExternalHelp psPAS-help.xml
 function Invoke-PASCPMOperation {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'ChangeCredsForGroup', Justification = "Parameter does not hold password")]
-	[CmdletBinding(SupportsShouldProcess)] # DefaultParameterSetName = "VerifyStandard"
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -14,7 +14,7 @@ function Invoke-PASCPMOperation {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "VerifyClassic"
+			ParameterSetName = "VerifyCredentials"
 		)]
 		[parameter(
 			Mandatory = $true,
@@ -41,7 +41,7 @@ function Invoke-PASCPMOperation {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ChangeClassic"
+			ParameterSetName = "ChangeCredentials"
 		)]
 		[switch]$ChangeTask,
 
@@ -86,7 +86,7 @@ function Invoke-PASCPMOperation {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "ChangeClassic"
+			ParameterSetName = "ChangeCredentials"
 		)]
 		[ValidateSet('Yes', 'No')]
 		[string]$ImmediateChangeByCPM,
@@ -94,7 +94,7 @@ function Invoke-PASCPMOperation {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "ChangeClassic"
+			ParameterSetName = "ChangeCredentials"
 		)]
 		[ValidateSet('Yes', 'No')]
 		[string]$ChangeCredsForGroup,
@@ -102,9 +102,10 @@ function Invoke-PASCPMOperation {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "VerifyClassic"
+			ParameterSetName = "VerifyCredentials"
 		)]
-		[switch]$UseClassicAPI
+		[Alias("UseClassicAPI")]
+		[switch]$UseGen1API
 	)
 
 	Begin {
@@ -120,14 +121,11 @@ function Invoke-PASCPMOperation {
 
 		#Get parameters to include in request body
 		$boundParameters = $PSBoundParameters |
-		Get-PASParameter -ParametersToRemove ImmediateChangeByCPM, AccountID, VerifyTask, ChangeTask, ReconcileTask
+			Get-PASParameter -ParametersToRemove ImmediateChangeByCPM, AccountID, VerifyTask, ChangeTask, ReconcileTask
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"ChangeClassic" {
-
-				#Classic API CPM Change URI
-				$ThisRequest["URI"] = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID/ChangeCredentials"
+			"ChangeCredentials" {
 
 				#add ImmediateChangeByCPM to header as key=value pair
 				$ThisRequest["WebSession"].Headers["ImmediateChangeByCPM"] = $ImmediateChangeByCPM
@@ -137,13 +135,17 @@ function Invoke-PASCPMOperation {
 
 			}
 
-			"VerifyClassic" {
-
-				#Classic API CPM Verify URI
-				$ThisRequest["URI"] = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID/VerifyCredentials"
+			"VerifyCredentials" {
 
 				#Empty Body
 				$ThisRequest["Body"] = @{ } | ConvertTo-Json
+
+			}
+
+			{ $PSItem -match "Credentials$" } {
+
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc"
+				break
 
 			}
 
@@ -153,8 +155,7 @@ function Invoke-PASCPMOperation {
 				#At least version 9.10 required to verify/change/reconcile
 				Assert-VersionRequirement -RequiredVersion 9.10
 
-				#Use ParameterSet name for required URI
-				$ThisRequest["URI"] = "$Script:BaseURI/API/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
+				$URI = "$Script:BaseURI/API"
 
 				#verify/change/reconcile method
 				$ThisRequest["Method"] = "POST"
@@ -176,6 +177,9 @@ function Invoke-PASCPMOperation {
 			}
 
 		}
+
+		#Use AccountID + ParameterSet name for required URI
+		$ThisRequest["URI"] = "$URI/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
 
 		if ($PSCmdlet.ShouldProcess($AccountID, "Initiate CPM $($PSBoundParameters.Keys | Where-Object{$_ -like '*Task'})")) {
 

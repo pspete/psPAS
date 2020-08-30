@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Remove-PASAccount {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseClassicAPI', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = "False Positive")]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -14,9 +14,10 @@ function Remove-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v9"
+			ParameterSetName = "Gen1"
 		)]
-		[switch]$UseClassicAPI
+		[Alias("UseClassicAPI")]
+		[switch]$UseGen1API
 	)
 
 	BEGIN {
@@ -28,7 +29,7 @@ function Remove-PASAccount {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"V9" {
+			"Gen1" {
 
 				#Create URL for request (earlier than 10.4)
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"

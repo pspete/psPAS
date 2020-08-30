@@ -47,7 +47,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [<CommonParameters>]
 ```
 
-### 108_AWS
+### AWS
 ```
 Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime>
  -AccountEnabled <Boolean> [-osGroups <String>] [-platformType <String>] [-Domain <String>]
@@ -58,7 +58,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-awsAccessKeyID <String>] [<CommonParameters>]
 ```
 
-### 108_Dependency
+### Dependency
 ```
 Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime>
  -AccountEnabled <Boolean> [-osGroups <String>] [-platformType <String>] [-Domain <String>]
@@ -571,7 +571,7 @@ Requires 10.8+
 
 ```yaml
 Type: String
-Parameter Sets: 108_AWS
+Parameter Sets: AWS
 Aliases:
 
 Required: False
@@ -590,7 +590,7 @@ Requires 10.8+
 
 ```yaml
 Type: String
-Parameter Sets: 108_AWS
+Parameter Sets: AWS
 Aliases:
 
 Required: False
@@ -616,7 +616,7 @@ Requires 10.8+
 
 ```yaml
 Type: Hashtable[]
-Parameter Sets: 108_Dependency
+Parameter Sets: Dependency
 Aliases:
 
 Required: False

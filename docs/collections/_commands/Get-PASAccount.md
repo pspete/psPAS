@@ -15,24 +15,24 @@ Returns information about a single account. (Version 9.3 - 10.3)
 
 ## SYNTAX
 
-### v10ByQuery (Default)
+### Gen2Query (Default)
 ```
 Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] [-modificationTime <DateTime>]
  [-sort <String[]>] [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
-### v10ByID
+### Gen2ID
 ```
 Get-PASAccount -id <String> [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
-### v10ByFilter
+### Gen2Filter
 ```
 Get-PASAccount [-search <String>] [-searchType <String>] [-sort <String[]>] [-offset <Int32>] [-limit <Int32>]
  [-filter <String>] [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
-### v9
+### Gen1
 ```
 Get-PASAccount [-Keywords <String>] [-Safe <String>] [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
@@ -134,7 +134,7 @@ A specific account ID to return details for.
 
 ```yaml
 Type: String
-Parameter Sets: v10ByID
+Parameter Sets: Gen2ID
 Aliases: AccountID
 
 Required: True
@@ -149,7 +149,7 @@ The search term or keywords.
 
 ```yaml
 Type: String
-Parameter Sets: v10ByQuery, v10ByFilter
+Parameter Sets: Gen2Query, Gen2Filter
 Aliases:
 
 Required: False
@@ -164,7 +164,7 @@ Get accounts that either contain or start with the value specified in the Search
 
 ```yaml
 Type: String
-Parameter Sets: v10ByQuery, v10ByFilter
+Parameter Sets: Gen2Query, Gen2Filter
 Aliases:
 
 Required: False
@@ -179,7 +179,7 @@ The name of the safe to return accounts from.
 
 ```yaml
 Type: String
-Parameter Sets: v10ByQuery
+Parameter Sets: Gen2Query
 Aliases:
 
 Required: False
@@ -196,7 +196,7 @@ Documented as an option since 11.4
 
 ```yaml
 Type: DateTime
-Parameter Sets: v10ByQuery
+Parameter Sets: Gen2Query
 Aliases:
 
 Required: False
@@ -214,7 +214,7 @@ Separate multiple properties with commas, up to a maximum of three properties.
 
 ```yaml
 Type: String[]
-Parameter Sets: v10ByQuery, v10ByFilter
+Parameter Sets: Gen2Query, Gen2Filter
 Aliases:
 
 Required: False
@@ -229,7 +229,7 @@ An offset for the search results (to discard the first x results for instance).
 
 ```yaml
 Type: Int32
-Parameter Sets: v10ByFilter
+Parameter Sets: Gen2Filter
 Aliases:
 
 Required: False
@@ -251,7 +251,7 @@ this value determines the number of accounts to return, starting from the first 
 
 ```yaml
 Type: Int32
-Parameter Sets: v10ByFilter
+Parameter Sets: Gen2Filter
 Aliases:
 
 Required: False
@@ -270,7 +270,7 @@ Requires format: "SafeName eq 'YourSafe'"
 
 ```yaml
 Type: String
-Parameter Sets: v10ByFilter
+Parameter Sets: Gen2Filter
 Aliases:
 
 Required: False
@@ -291,7 +291,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: v9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -308,7 +308,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: v9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False

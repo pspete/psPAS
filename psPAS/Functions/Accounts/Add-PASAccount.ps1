@@ -6,46 +6,46 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$name,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$address,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$userName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[Alias("PolicyID")]
 		[string]$platformID,
@@ -53,13 +53,13 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[Alias("safe")]
@@ -68,7 +68,7 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("Password", "Key")]
 		[string]$secretType,
@@ -76,98 +76,98 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[securestring]$secret,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[hashtable]$platformAccountProperties,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$automaticManagementEnabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$manualManagementReason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$remoteMachines,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$accessRestrictedToRemoteMachines,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$accountName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[securestring]$password,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[boolean]$disableAutoMgmt,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$disableAutoMgmtReason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$groupName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$groupPlatformID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[int]$Port,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass1Name,
@@ -175,14 +175,14 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$ExtraPass1Folder,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass1Safe,
@@ -190,7 +190,7 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass3Name,
@@ -198,14 +198,14 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$ExtraPass3Folder,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass3Safe,
@@ -213,7 +213,7 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[hashtable]$DynamicProperties
 	)
@@ -233,7 +233,7 @@ function Add-PASAccount {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"V10" {
+			"Gen2" {
 
 				Assert-VersionRequirement -RequiredVersion 10.4
 
@@ -248,7 +248,7 @@ function Add-PASAccount {
 
 			}
 
-			"V9" {
+			"Gen1" {
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account"
@@ -322,7 +322,7 @@ function Add-PASAccount {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if ($PSCmdlet.ParameterSetName -eq "V10") {
+		if ($PSCmdlet.ParameterSetName -eq "Gen2") {
 
 			If ($null -ne $result) {
 

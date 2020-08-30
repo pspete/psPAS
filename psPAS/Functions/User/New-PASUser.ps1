@@ -375,7 +375,8 @@ function New-PASUser {
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "legacy"
 		)]
-		[switch]$UseClassicAPI
+		[Alias("UseClassicAPI")]
+		[switch]$UseGen1API
 	)
 
 	BEGIN {	}#begin
@@ -433,7 +434,7 @@ function New-PASUser {
 		}
 
 		#Construct Request Body
-		$body = $boundParameters | ConvertTo-Json -depth 4
+		$body = $boundParameters | ConvertTo-Json -Depth 4
 
 		if ($PSCmdlet.ShouldProcess($UserName, "Create User")) {
 

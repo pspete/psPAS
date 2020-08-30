@@ -16,7 +16,7 @@ Uses either the API present from 10.4 onwards, or the version 9 API endpoint.
 
 ## SYNTAX
 
-### V10
+### Gen2
 ```
 Add-PASAccount [-name <String>] [-address <String>] [-userName <String>] -platformID <String>
  -SafeName <String> [-secretType <String>] [-secret <SecureString>] [-platformAccountProperties <Hashtable>]
@@ -24,7 +24,7 @@ Add-PASAccount [-name <String>] [-address <String>] [-userName <String>] -platfo
  [-accessRestrictedToRemoteMachines <Boolean>] [<CommonParameters>]
 ```
 
-### V9
+### Gen1
 ```
 Add-PASAccount [-address <String>] -userName <String> -platformID <String> -SafeName <String>
  [-accountName <String>] -password <SecureString> [-disableAutoMgmt <Boolean>]
@@ -65,7 +65,7 @@ A version 10.4 onward specific parameter
 
 ```yaml
 Type: String
-Parameter Sets: V10
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -95,7 +95,7 @@ Username on the target machine
 
 ```yaml
 Type: String
-Parameter Sets: V10
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -107,7 +107,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: True
@@ -154,7 +154,7 @@ A version 10.4 onward specific parameter
 
 ```yaml
 Type: String
-Parameter Sets: V10
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -171,7 +171,7 @@ A version 10.4 onward specific parameter
 
 ```yaml
 Type: SecureString
-Parameter Sets: V10
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -190,7 +190,7 @@ A version 10.4 onward specific parameter
 
 ```yaml
 Type: Hashtable
-Parameter Sets: V10
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -207,7 +207,7 @@ A version 10.4 onward specific parameter
 
 ```yaml
 Type: Boolean
-Parameter Sets: V10
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -224,7 +224,7 @@ A version 10.4 onward specific parameter
 
 ```yaml
 Type: String
-Parameter Sets: V10
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -241,7 +241,7 @@ A version 10.4 onward specific parameter
 
 ```yaml
 Type: String
-Parameter Sets: V10
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -258,7 +258,7 @@ A version 10.4 onward specific parameter
 
 ```yaml
 Type: Boolean
-Parameter Sets: V10
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -275,7 +275,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -292,7 +292,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: SecureString
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: True
@@ -309,7 +309,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: Boolean
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -326,7 +326,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -343,7 +343,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -360,7 +360,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -377,7 +377,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: Int32
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -394,7 +394,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -411,7 +411,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -428,7 +428,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -445,7 +445,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -462,7 +462,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -479,7 +479,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: String
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -496,7 +496,7 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: Hashtable
-Parameter Sets: V9
+Parameter Sets: Gen1
 Aliases:
 
 Required: False

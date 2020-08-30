@@ -21,7 +21,7 @@ Get-PASAccountGroup -Safe <String> [<CommonParameters>]
 
 ### 9.10
 ```
-Get-PASAccountGroup -Safe <String> [-UseClassicAPI] [<CommonParameters>]
+Get-PASAccountGroup -Safe <String> [-UseGen1API] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -59,19 +59,19 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -UseClassicAPI
-Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
+### -UseGen1API
+Specify to force usage the Gen1 API endpoint.
 
 Relevant for CyberArk versions earlier than 10.5
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: 9.10
-Aliases:
+Aliases: UseClassicAPI
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
