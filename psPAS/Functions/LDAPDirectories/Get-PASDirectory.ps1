@@ -5,7 +5,7 @@ function Get-PASDirectory {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.5"
+			ParameterSetName = "id"
 		)]
 		[Alias("DomainName")]
 		[string]$id
@@ -25,9 +25,9 @@ function Get-PASDirectory {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"10.5" {
+			"id" {
 
-				Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
+				Assert-VersionRequirement -RequiredVersion 10.5
 
 				#Update URL for request
 				$URI = "$URI/$id/"

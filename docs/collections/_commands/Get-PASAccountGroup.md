@@ -14,12 +14,12 @@ Returns all the account groups in a specific Safe.
 
 ## SYNTAX
 
-### 10.5 (Default)
+### Gen2 (Default)
 ```
 Get-PASAccountGroup -Safe <String> [<CommonParameters>]
 ```
 
-### 9.10
+### Gen1
 ```
 Get-PASAccountGroup -Safe <String> [-UseGen1API] [<CommonParameters>]
 ```
@@ -66,7 +66,7 @@ Relevant for CyberArk versions earlier than 10.5
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: 9.10
+Parameter Sets: Gen1
 Aliases: UseClassicAPI
 
 Required: False

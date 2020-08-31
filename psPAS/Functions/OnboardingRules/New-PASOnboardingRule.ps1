@@ -1,11 +1,11 @@
 ﻿# .ExternalHelp psPAS-help.xml
 function New-PASOnboardingRule {
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "10.2")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "Gen2")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "9.8"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateLength(1, 99)]
 		[string]$DecisionPlatformId,
@@ -13,7 +13,7 @@ function New-PASOnboardingRule {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.2"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(1, 99)]
 		[string]$TargetPlatformId,
@@ -21,7 +21,7 @@ function New-PASOnboardingRule {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "9.8"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateLength(1, 28)]
 		[string]$DecisionSafeName,
@@ -29,7 +29,7 @@ function New-PASOnboardingRule {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.2"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(1, 28)]
 		[string]$TargetSafeName,
@@ -37,7 +37,7 @@ function New-PASOnboardingRule {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "9.8"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateSet("Yes", "No")]
 		[String]$IsAdminUIDFilter,
@@ -45,7 +45,7 @@ function New-PASOnboardingRule {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.2"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$IsAdminIDFilter,
 
@@ -73,7 +73,7 @@ function New-PASOnboardingRule {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.2"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("Equals", "Begins", "Ends")]
 		[string]$UserNameMethod,
@@ -88,7 +88,7 @@ function New-PASOnboardingRule {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.2"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("Equals", "Begins", "Ends")]
 		[string]$AddressMethod,
@@ -96,7 +96,7 @@ function New-PASOnboardingRule {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.2"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("Any", "Privileged", "NonPrivileged")]
 		[string]$AccountCategoryFilter,
@@ -116,9 +116,7 @@ function New-PASOnboardingRule {
 		[string]$RuleDescription
 	)
 
-	BEGIN {
-		Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
-	}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -131,13 +129,15 @@ function New-PASOnboardingRule {
 		#Get Values for ShouldProcess Message
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"10.2" {
+			"Gen2" {
+				Assert-VersionRequirement -RequiredVersion 10.2
 				#version 10.2 parameters
 				$SafeName = $TargetSafeName
 				$PlatformID = $TargetPlatformId
 			}
 
-			"9.8" {
+			"Gen1" {
+				Assert-VersionRequirement -RequiredVersion 9.8
 				#pre 10.2 parameters
 				$SafeName = $DecisionSafeName
 				$PlatformID = $DecisionPlatformId

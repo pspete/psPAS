@@ -5,7 +5,7 @@ function Get-PASOnboardingRule {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.2"
+			ParameterSetName = "Names"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$Names
@@ -22,7 +22,7 @@ function Get-PASOnboardingRule {
 
 		If ($PSBoundParameters.ContainsKey("Names")) {
 
-			Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
+			Assert-VersionRequirement -RequiredVersion 10.2
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter

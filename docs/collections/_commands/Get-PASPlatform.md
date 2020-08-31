@@ -21,12 +21,12 @@ Get-PASPlatform [-Active <Boolean>] [-SystemType <String>] [-PeriodicVerify <Boo
  [-AutomaticReconcile <Boolean>] [-ManualReconcile <Boolean>] [<CommonParameters>]
 ```
 
-### 11_1
+### platforms
 ```
 Get-PASPlatform [-Active <Boolean>] [-PlatformType <String>] [-Search <String>] [<CommonParameters>]
 ```
 
-### legacy
+### platform-details
 ```
 Get-PASPlatform -PlatformID <String> [<CommonParameters>]
 ```
@@ -138,7 +138,7 @@ Filter active/inactive platforms
 
 ```yaml
 Type: Boolean
-Parameter Sets: targets, 11_1
+Parameter Sets: targets, platforms
 Aliases:
 
 Required: False
@@ -153,7 +153,7 @@ Filter regular/group platforms
 
 ```yaml
 Type: String
-Parameter Sets: 11_1
+Parameter Sets: platforms
 Aliases:
 
 Required: False
@@ -168,7 +168,7 @@ Filter platform by search pattern
 
 ```yaml
 Type: String
-Parameter Sets: 11_1
+Parameter Sets: platforms
 Aliases:
 
 Required: False
@@ -183,7 +183,7 @@ The unique ID/Name of the platform.
 
 ```yaml
 Type: String
-Parameter Sets: legacy
+Parameter Sets: platform-details
 Aliases: Name
 
 Required: True

@@ -14,7 +14,7 @@ Adds a new on-boarding rule to the Vault
 
 ## SYNTAX
 
-### 10.2 (Default)
+### Gen2 (Default)
 ```
 New-PASOnboardingRule -TargetPlatformId <String> -TargetSafeName <String> [-IsAdminIDFilter <Boolean>]
  [-MachineTypeFilter <String>] -SystemTypeFilter <String> [-UserNameFilter <String>] [-UserNameMethod <String>]
@@ -22,7 +22,7 @@ New-PASOnboardingRule -TargetPlatformId <String> -TargetSafeName <String> [-IsAd
  [-RuleDescription <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### 9.8
+### Gen1
 ```
 New-PASOnboardingRule -DecisionPlatformId <String> -DecisionSafeName <String> [-IsAdminUIDFilter <String>]
  [-MachineTypeFilter <String>] -SystemTypeFilter <String> [-UserNameFilter <String>] [-AddressFilter <String>]
@@ -57,7 +57,7 @@ For Versions 9.8 to 10.1
 
 ```yaml
 Type: String
-Parameter Sets: 9.8
+Parameter Sets: Gen1
 Aliases:
 
 Required: True
@@ -74,7 +74,7 @@ For Version 10.2 onwards
 
 ```yaml
 Type: String
-Parameter Sets: 10.2
+Parameter Sets: Gen2
 Aliases:
 
 Required: True
@@ -91,7 +91,7 @@ For Versions 9.8 to 10.1
 
 ```yaml
 Type: String
-Parameter Sets: 9.8
+Parameter Sets: Gen1
 Aliases:
 
 Required: True
@@ -108,7 +108,7 @@ For Version 10.2 onwards
 
 ```yaml
 Type: String
-Parameter Sets: 10.2
+Parameter Sets: Gen2
 Aliases:
 
 Required: True
@@ -126,7 +126,7 @@ For Versions 9.8 to 10.1
 
 ```yaml
 Type: String
-Parameter Sets: 9.8
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -145,7 +145,7 @@ For Version 10.2 onwards
 
 ```yaml
 Type: Boolean
-Parameter Sets: 10.2
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -211,7 +211,7 @@ For Version 10.2 onwards
 
 ```yaml
 Type: String
-Parameter Sets: 10.2
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -247,7 +247,7 @@ For Version 10.2 onwards
 
 ```yaml
 Type: String
-Parameter Sets: 10.2
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -264,7 +264,7 @@ For Version 10.2 onwards
 
 ```yaml
 Type: String
-Parameter Sets: 10.2
+Parameter Sets: Gen2
 Aliases:
 
 Required: False

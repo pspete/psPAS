@@ -1,38 +1,37 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASAccountGroup {
-	[CmdletBinding(DefaultParameterSetName = "10.5")]
+	[CmdletBinding(DefaultParameterSetName = "Gen2")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.5"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "9.10"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$Safe,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "9.10"
+			ParameterSetName = "Gen1"
 		)]
 		[Alias("UseClassicAPI")]
 		[switch]$UseGen1API
 	)
 
-	BEGIN {
-		Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
-	}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"9.10" {
+			"Gen1" {
 
+				Assert-VersionRequirement -RequiredVersion 9.10
 				#Create URL for Request
 				$URI = "$Script:BaseURI/API/AccountGroups?$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
 
@@ -42,6 +41,7 @@ function Get-PASAccountGroup {
 
 			default {
 
+				Assert-VersionRequirement -RequiredVersion 10.5
 				#Create URL for Request
 				$URI = "$Script:BaseURI/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
 

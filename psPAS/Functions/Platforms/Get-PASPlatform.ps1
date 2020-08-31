@@ -5,7 +5,7 @@ function Get-PASPlatform {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_1"
+			ParameterSetName = "platforms"
 		)]
 		[parameter(
 			Mandatory = $false,
@@ -17,7 +17,7 @@ function Get-PASPlatform {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_1"
+			ParameterSetName = "platforms"
 		)]
 		[ValidateSet("Regular", "Group")]
 		[string]$PlatformType,
@@ -25,14 +25,14 @@ function Get-PASPlatform {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_1"
+			ParameterSetName = "platforms"
 		)]
 		[string]$Search,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "platform-details"
 		)]
 		[Alias("Name")]
 		[string]$PlatformID,
@@ -117,7 +117,7 @@ function Get-PASPlatform {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"11_1" {
+			"platforms" {
 
 				Assert-VersionRequirement -RequiredVersion 11.1
 
@@ -139,7 +139,7 @@ function Get-PASPlatform {
 
 			}
 
-			"legacy" {
+			"platform-details" {
 
 				Assert-VersionRequirement -RequiredVersion 9.10
 
@@ -197,69 +197,69 @@ function Get-PASPlatform {
 
 					"11_1" {
 						$result = $result |
-						Select-Object @{ Name = 'PlatformID'; Expression = { $_.general.id } }, @{ Name = 'Active'; Expression = { $_.general.active } }, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-									"General"                   = $_.general
-									"properties"                = $_.properties
-									"linkedAccounts"            = $_.linkedAccounts
-									"credentialsManagement"     = $_.credentialsManagement
-									"sessionManagement"         = $_.sessionManagement
-									"privilegedAccessWorkflows" = $_.privilegedAccessWorkflows
+							Select-Object @{ Name = 'PlatformID'; Expression = { $_.general.id } }, @{ Name = 'Active'; Expression = { $_.general.active } }, @{ Name = 'Details'; Expression = { [pscustomobject]@{
+										"General"                   = $_.general
+										"properties"                = $_.properties
+										"linkedAccounts"            = $_.linkedAccounts
+										"credentialsManagement"     = $_.credentialsManagement
+										"sessionManagement"         = $_.sessionManagement
+										"privilegedAccessWorkflows" = $_.privilegedAccessWorkflows
+									}
 								}
 							}
-						}
 
 						break
 					}
 
 					"targets" {
 						$result = $result |
-						Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-									"ID"                          = $_.ID
-									"Name"                        = $_.Name
-									"SystemType"                  = $_.SystemType
-									"AllowedSafes"                = $_.AllowedSafes
-									"CredentialsManagementPolicy" = $_.CredentialsManagementPolicy
-									"PrivilegedAccessWorkflows"   = $_.PrivilegedAccessWorkflows
-									"PrivilegedSessionManagement" = $_.PrivilegedSessionManagement
+							Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
+										"ID"                          = $_.ID
+										"Name"                        = $_.Name
+										"SystemType"                  = $_.SystemType
+										"AllowedSafes"                = $_.AllowedSafes
+										"CredentialsManagementPolicy" = $_.CredentialsManagementPolicy
+										"PrivilegedAccessWorkflows"   = $_.PrivilegedAccessWorkflows
+										"PrivilegedSessionManagement" = $_.PrivilegedSessionManagement
+									}
 								}
 							}
-						}
 						break
 					}
 
 					"groups" {
 						$result = $result |
-						Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-									"ID"   = $_.ID
-									"Name" = $_.Name
+							Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
+										"ID"   = $_.ID
+										"Name" = $_.Name
+									}
 								}
 							}
-						}
 						break
 					}
 
 					"dependents" {
 						$result = $result |
-						Select-Object PlatformID, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-									"ID"                            = $_.ID
-									"Name"                          = $_.Name
-									"NumberOfLinkedTargetPlatforms" = $_.NumberOfLinkedTargetPlatforms
-									"CredentialsManagementPolicy"   = $_.CredentialsManagementPolicy
+							Select-Object PlatformID, @{ Name = 'Details'; Expression = { [pscustomobject]@{
+										"ID"                            = $_.ID
+										"Name"                          = $_.Name
+										"NumberOfLinkedTargetPlatforms" = $_.NumberOfLinkedTargetPlatforms
+										"CredentialsManagementPolicy"   = $_.CredentialsManagementPolicy
+									}
 								}
 							}
-						}
 						break
 					}
 
 					"rotationalGroups" {
 						$result = $result |
-						Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-									"ID"          = $_.ID
-									"Name"        = $_.Name
-									"GracePeriod" = $_.GracePeriod
+							Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
+										"ID"          = $_.ID
+										"Name"        = $_.Name
+										"GracePeriod" = $_.GracePeriod
+									}
 								}
 							}
-						}
 						break
 					}
 
@@ -270,7 +270,7 @@ function Get-PASPlatform {
 			#Return Results
 			$result |
 
-			Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Platform"
+				Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Platform"
 
 		}
 
