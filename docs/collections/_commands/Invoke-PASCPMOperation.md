@@ -1,241 +1,355 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Invoke-PASCPMOperation
+schema: 2.0.0
 title: Invoke-PASCPMOperation
 ---
 
-## SYNOPSIS
+# Invoke-PASCPMOperation
 
+## SYNOPSIS
 Marks accounts for CPM Verify, Change or Reconcile operations
 
 ## SYNTAX
 
-    Invoke-PASCPMOperation -AccountID <String> -VerifyTask
+### Verify
+```
+Invoke-PASCPMOperation -AccountID <String> [-VerifyTask] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
 
-    Invoke-PASCPMOperation -AccountID <String> -VerifyTask -UseClassicAPI
+### VerifyCredentials
+```
+Invoke-PASCPMOperation -AccountID <String> [-VerifyTask] [-UseGen1API] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
 
-    Invoke-PASCPMOperation -AccountID <String> -ChangeTask -ImmediateChangeByCPM <String>
-    [-ChangeCredsForGroup <String>]
+### ChangeCredentials
+```
+Invoke-PASCPMOperation -AccountID <String> [-ChangeTask] -ImmediateChangeByCPM <String>
+ [-ChangeCredsForGroup <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
 
-    Invoke-PASCPMOperation -AccountID <String> -ChangeTask [-ChangeEntireGroup <Boolean>] [-WhatIf]
-    [-Confirm] [<CommonParameters>]
+### Change
+```
+Invoke-PASCPMOperation -AccountID <String> [-ChangeTask] [-ChangeEntireGroup <Boolean>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
 
-    Invoke-PASCPMOperation -AccountID <String> -ChangeTask -ChangeImmediately <Boolean>
-    -NewCredentials <SecureString>
+### SetNextPassword
+```
+Invoke-PASCPMOperation -AccountID <String> [-ChangeTask] -ChangeImmediately <Boolean>
+ -NewCredentials <SecureString> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
 
+### Password/Update
+```
+Invoke-PASCPMOperation -AccountID <String> [-ChangeTask] -NewCredentials <SecureString>
+ [-ChangeEntireGroup <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
 
-    Invoke-PASCPMOperation -AccountID <String> -ChangeTask -NewCredentials <SecureString>
-    [-ChangeEntireGroup <Boolean>]
-
-    Invoke-PASCPMOperation -AccountID <String> -ReconcileTask
+### Reconcile
+```
+Invoke-PASCPMOperation -AccountID <String> [-ReconcileTask] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
-Accounts Can be flagged for immediate verification, change or reconcile
-Flags a managed account credentials for an immediate CPM password verification.
+Accounts Can be flagged for immediate verification, change or reconcile.
 
 CPM Change Options:
-Flags a managed account credentials for an immediate CPM password change.
-
-- The "Initiate CPM password management operations" permission is required.
-
-Sets a password to use for an account's next CPM change.
-
-- The "Initiate CPM password management operations" & "Specify next password value" permission is required.
-
-Updates the account's password only in the Vault (without affecting the credentials on the target device).
-
-- The "Update password value" permission is required.
+- Flags a managed account credentials for an immediate CPM password change.
+  - The "Initiate CPM password management operations" permission is required.
+- Sets a password to use for an account's next CPM change.
+  - The "Initiate CPM password management operations" & "Specify next password value" permission is required.
+- Updates the account's password only in the Vault (without affecting the credentials on the target device).
+  - The "Update password value" permission is required.
 
 Verify & Reconcile both require "Initiate CPM password management operations"
 
-## PARAMETERS
-
-    -AccountID <String>
-        The unique ID  of the account.
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -VerifyTask [<SwitchParameter>]
-        Initiates a verify task
-
-        Required?                    true
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ChangeTask [<SwitchParameter>]
-        Initiates a change task
-
-        Required?                    true
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ReconcileTask [<SwitchParameter>]
-        Initiates a reconcile task
-        Requires CyberArk version 9.10+
-
-        Required?                    true
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ChangeImmediately <Boolean>
-        Whether or not the password will be changed immediately in the Vault.
-        Only relevant when specifying a password value for the next CPM change.
-        Requires CyberArk version 10.1+
-
-        Required?                    true
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -NewCredentials <SecureString>
-        Secure String value of the new account password that will be allocated to the account in
-        the Vault.
-        Only relevant when specifying a password value for the next CPM change, or updating the
-        password only in the vault.
-        Requires CyberArk version 10.1+
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ChangeEntireGroup <Boolean>
-        Boolean value, dictating if all accounts that belong to the same group should have their
-        passwords changed.
-        This is only relevant for accounts that belong to an account group.
-        Parameter will be ignored if account does not belong to a group.
-        Applicable to immediate change via CPM, and password change in the vault only.
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    -ImmediateChangeByCPM <String>
-        Yes/No value, dictating if the account will be scheduled for immediate change.
-        Specify Yes to initiate a password change by CPM - Relevant for Classic API only.
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    -ChangeCredsForGroup <String>
-        Yes/No value, dictating if all accounts that belong to the same group should
-        have their passwords changed.
-        This is only relevant for accounts that belong to an account group.
-        Parameter will be ignored if account does not belong to a group.
-        Relevant for Classic API only.
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    -UseClassicAPI [<SwitchParameter>]
-        Specify to force verification via Classic API.
-
-        Required?                    true
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -WhatIf [<SwitchParameter>]
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    -Confirm [<SwitchParameter>]
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
-
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Invoke-PASCPMOperation -AccountID $ID -VerifyTask
+```
 
-    PS C:\>Invoke-PASCPMOperation -AccountID $ID -VerifyTask
+Marks an account for verification
 
-    Marks an account for verification
+### EXAMPLE 2
+```
+Invoke-PASCPMOperation -AccountID $ID -VerifyTask -UseClassicAPI
+```
 
+Marks an account for verification using the 1st gen API
 
+### EXAMPLE 3
+```
+Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ImmediateChangeByCPM Yes
+```
 
+Marks an account for immediate change using the 1st gen API
 
-    -------------------------- EXAMPLE 2 --------------------------
+### EXAMPLE 4
+```
+Invoke-PASCPMOperation -AccountID $ID -ChangeTask
+```
 
-    PS C:\>Invoke-PASCPMOperation -AccountID $ID -VerifyTask -UseClassicAPI
+Marks an account for immediate change
 
-    Marks an account for verification using the Classic API
+### EXAMPLE 5
+```
+Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ChangeImmediately $true -NewCredentials $SecureString
+```
 
+Marks an account for immediate change to the specified password value
 
+### EXAMPLE 6
+```
+Invoke-PASCPMOperation -AccountID $ID -ChangeTask -NewCredentials $SecureString
+```
 
+Changes the password for the account in the Vault
 
-    -------------------------- EXAMPLE 3 --------------------------
+### EXAMPLE 7
+```
+Invoke-PASCPMOperation -AccountID $ID -ReconcileTask
+```
 
-    PS C:\>Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ImmediateChangeByCPM Yes
+Marks an account for immediate reconcile
 
-    Marks an account for immediate change using the Classic API
+## PARAMETERS
 
+### -AccountID
+The unique ID of the account.
 
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: id
 
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    -------------------------- EXAMPLE 4 --------------------------
+### -VerifyTask
+Initiates a verify task
 
-    PS C:\>Invoke-PASCPMOperation -AccountID $ID -ChangeTask
+```yaml
+Type: SwitchParameter
+Parameter Sets: Verify, VerifyCredentials
+Aliases:
 
-    Marks an account for immediate change
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -ChangeTask
+Initiates a change task
 
+```yaml
+Type: SwitchParameter
+Parameter Sets: ChangeCredentials, Change, SetNextPassword, Password/Update
+Aliases:
 
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    -------------------------- EXAMPLE 5 --------------------------
+### -ReconcileTask
+Initiates a reconcile task
 
-    PS C:\>Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ChangeImmediately $true
-    -NewCredentials $SecureString
+Requires CyberArk version 9.10+
 
-    Marks an account for immediate change to the specified password value
+```yaml
+Type: SwitchParameter
+Parameter Sets: Reconcile
+Aliases:
 
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -ChangeImmediately
+Whether or not the password will be changed immediately in the Vault.
 
+Only relevant when specifying a password value for the next CPM change.
 
-    -------------------------- EXAMPLE 6 --------------------------
+Requires CyberArk version 10.1+
 
-    PS C:\>Invoke-PASCPMOperation -AccountID $ID -ChangeTask -NewCredentials $SecureString
+```yaml
+Type: Boolean
+Parameter Sets: SetNextPassword
+Aliases:
 
-    Changes the password for the account in the Vault
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -NewCredentials
+Secure String value of the new account password that will be allocated to the account in the Vault.
 
+Only relevant when specifying a password value for the next CPM change, or updating the password only in the vault.
 
+Requires CyberArk version 10.1+
 
-    -------------------------- EXAMPLE 7 --------------------------
+```yaml
+Type: SecureString
+Parameter Sets: SetNextPassword, Password/Update
+Aliases:
 
-    PS C:\>Invoke-PASCPMOperation -AccountID $ID -ReconcileTask
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    Marks an account for immediate reconcile
+### -ChangeEntireGroup
+Boolean value, dictating if all accounts that belong to the same group should have their passwords changed.
+
+This is only relevant for accounts that belong to an account group.
+
+Parameter will be ignored if account does not belong to a group.
+
+Applicable to immediate change via CPM, and password change in the vault only.
+
+Requires CyberArk version 10.1+
+
+```yaml
+Type: Boolean
+Parameter Sets: Change
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: Boolean
+Parameter Sets: Password/Update
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ImmediateChangeByCPM
+Yes/No value, dictating if the account will be scheduled for immediate change.
+
+Specify Yes to initiate a password change by CPM - Relevant for 1st gen API only.
+
+```yaml
+Type: String
+Parameter Sets: ChangeCredentials
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ChangeCredsForGroup
+Yes/No value, dictating if all accounts that belong to the same group should
+have their passwords changed.
+
+This is only relevant for accounts that belong to an account group.
+
+Parameter will be ignored if account does not belong to a group.
+
+Relevant for 1st gen API only.
+
+```yaml
+Type: String
+Parameter Sets: ChangeCredentials
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Specify to force verification via Gen1 API.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: VerifyCredentials
+Aliases: UseClassicAPI
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Invoke-PASCPMOperation](https://pspas.pspete.dev/commands/Invoke-PASCPMOperation)
+

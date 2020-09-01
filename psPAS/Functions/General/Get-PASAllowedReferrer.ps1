@@ -1,17 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Get-PASAllowedReferrer {
-	<#
-.SYNOPSIS
-Gets the allowed referrer list
-
-.DESCRIPTION
-Returns details of all configured entries from the allowed referrer list.
-Vault admins group membership required
-
-.EXAMPLE
-Get-PASAllowedReferrer
-
-Returns referrer list
-#>
 	[CmdletBinding()]
 	param(	)
 

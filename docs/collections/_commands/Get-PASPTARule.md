@@ -1,31 +1,48 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASPTARule
+schema: 2.0.0
 title: Get-PASPTARule
 ---
 
-## SYNOPSIS
+# Get-PASPTARule
 
+## SYNOPSIS
 Returns risky activities rules from PTA
 
 ## SYNTAX
 
-    Get-PASPTARule [<CommonParameters>]
+```
+Get-PASPTARule [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Returns risky activities rules configured in PTA
-
-## PARAMETERS
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASPTARule
+```
 
-    PS C:\>Get-PASPTARule
+Returns all risky activities rules from PTA
 
-    Returns all risky activities rules from PTA
+## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+Minimum Version CyberArk 10.4
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASPTARule](https://pspas.pspete.dev/commands/Get-PASPTARule)
+

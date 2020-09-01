@@ -1,75 +1,26 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASUser {
-	<#
-.SYNOPSIS
-Returns details of a user
-
-.DESCRIPTION
-Returns information on specific vault user.
-
-.PARAMETER id
-The numeric id of the user to return details of.
-Requires CyberArk version 10.10+
-
-.PARAMETER Search
-Search string.
-Requires CyberArk version 10.9+
-
-.PARAMETER UserType
-The type of the user.
-Requires CyberArk version 10.9+
-
-.PARAMETER ComponentUser
-Whether the user is a known component or not.
-Requires CyberArk version 10.9+
-
-.PARAMETER UserName
-The user's name
-
-.EXAMPLE
-Get-PASUser
-
-Returns information for all found Users
-
-.EXAMPLE
-Get-PASUser -id 123
-
-Returns information on User with id 123
-
-.EXAMPLE
-Get-PASUser -search SearchTerm -ComponentUser $False
-
-Returns information for all matching Users
-
-.EXAMPLE
-Get-PASUser -UserName Target_User
-
-Displays information on Target_User
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASUser
-#>
-	[CmdletBinding(DefaultParameterSetName = "10.9")]
+	[CmdletBinding(DefaultParameterSetName = "Gen2")]
 	param(
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.10"
+			ParameterSetName = "Gen2ID"
 		)]
 		[int]$id,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.9"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$Search,
-
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.9"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$UserType,
 
@@ -77,23 +28,19 @@ https://pspas.pspete.dev/commands/Get-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.9"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$ComponentUser,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$UserName
 	)
 
-	BEGIN {
-		If ($PSCmdlet.ParameterSetName -ne "legacy") {
-			Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
-		}
-	}#begin
+	BEGIN { }#begin
 
 	PROCESS {
 
@@ -102,8 +49,9 @@ https://pspas.pspete.dev/commands/Get-PASUser
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"10.10" {
+			"Gen2ID" {
 
+				Assert-VersionRequirement -RequiredVersion 10.10
 				#Create URL for request
 				$URI = "$URI/$id"
 
@@ -111,8 +59,9 @@ https://pspas.pspete.dev/commands/Get-PASUser
 
 			}
 
-			"10.9" {
+			"Gen2" {
 
+				Assert-VersionRequirement -RequiredVersion 10.9
 				#Get Parameters to include in request
 				$boundParameters = $PSBoundParameters | Get-PASParameter
 
@@ -130,7 +79,7 @@ https://pspas.pspete.dev/commands/Get-PASUser
 
 			}
 
-			"legacy" {
+			"Gen1" {
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
@@ -147,7 +96,7 @@ https://pspas.pspete.dev/commands/Get-PASUser
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		#Handle return
-		if ($PSCmdlet.ParameterSetName -match "^10\.") {
+		if ($PSCmdlet.ParameterSetName -match "Gen2") {
 
 			#All "V10" operations have the same output type
 			$TypeName = "psPAS.CyberArk.Vault.User.Extended"
@@ -158,8 +107,7 @@ https://pspas.pspete.dev/commands/Get-PASUser
 				#Return only users property if Total indicates results
 				$result = $result.Users
 
-			}
-			ElseIf ($result.Total -eq 0) {
+			} ElseIf ($result.Total -eq 0) {
 
 				#Total indicates no results, return null
 				$result = $null

@@ -1,70 +1,106 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Unblock-PASUser
+schema: 2.0.0
 title: Unblock-PASUser
 ---
 
-## SYNOPSIS
+# Unblock-PASUser
 
+## SYNOPSIS
 Activates a suspended user
 
 ## SYNTAX
 
-    Unblock-PASUser -id <Int32> [<CommonParameters>]
+### Gen2 (Default)
+```
+Unblock-PASUser -id <Int32> [<CommonParameters>]
+```
 
-    Unblock-PASUser -UserName <String> -Suspended <Boolean> [<CommonParameters>]
+### Gen1
+```
+Unblock-PASUser -UserName <String> -Suspended <Boolean> [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Activates an existing vault user who was suspended due to password failures.
-
-## PARAMETERS
-
-    -id <Int32>
-        The user's unique ID
-        Requires CyberArk version 10.10+
-
-        Required?                    true
-        Position?                    named
-        Default value                0
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -UserName <String>
-        The user's name
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -Suspended <Boolean>
-        Suspension status
-
-        Required?                    true
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Unblock-PASUser -UserName MrFatFingers -Suspended $false
+```
 
-    PS C:\>Unblock-PASUser -UserName MrFatFingers -Suspended $false
+Activates suspended vault user MrFatFingers using the 1st gen API
 
-    Activates suspended vault user MrFatFingers using the Classic API
+### EXAMPLE 2
+```
+Unblock-PASUser -id 666
+```
 
+Activates suspended vault user with id 666, using the API from 10.10+
 
+## PARAMETERS
 
+### -id
+The user's unique ID
+Requires CyberArk version 10.10+
 
-    -------------------------- EXAMPLE 2 --------------------------
+```yaml
+Type: Int32
+Parameter Sets: Gen2
+Aliases:
 
-    PS C:\>Unblock-PASUser -id 666
+Required: True
+Position: Named
+Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    Activates suspended vault user with id 666, using the API from 10.10+
+### -UserName
+The user's name
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Suspended
+Suspension status
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen1
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Unblock-PASUser](https://pspas.pspete.dev/commands/Unblock-PASUser)
+

@@ -1,7 +1,8 @@
 ---
+category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version:
+online version: https://pspas.pspete.dev/commands/Get-PASDiscoveredAccount
 schema: 2.0.0
 title: Get-PASDiscoveredAccount
 ---
@@ -26,8 +27,11 @@ Get-PASDiscoveredAccount [-id <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 Returns discovered accounts from the Pending Accounts list.
+
 Filters can be specified to limit the results.
+
 ID can be specified to focus in single account.
+
 Membership of Vault admins group required.
 
 ## EXAMPLES
@@ -72,6 +76,7 @@ Accept wildcard characters: False
 
 ### -platformType
 Whether to return only the accounts of a specific platform
+
 Valid Values:
 - Windows Server Local
 - Windows Desktop Local
@@ -125,6 +130,7 @@ Accept wildcard characters: False
 
 ### -search
 A term to search for.
+
 Search is supported for userName and address.
 
 ```yaml
@@ -141,8 +147,10 @@ Accept wildcard characters: False
 
 ### -searchType
 The type of search to perform.
+
 The keyword can either be contained within the account property values,
 or at the beginning of the value specified in the Search parameter.
+
 When using a keyword at the beginning of a value, performance is enhanced.
 
 ```yaml
@@ -174,7 +182,9 @@ Accept wildcard characters: False
 
 ### -limit
 The maximum number of returned accounts.
+
 If not specified, the server limits the results to 100.
+
 The maximum number that can be specified is 1000.
 
 ```yaml
@@ -199,3 +209,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASDiscoveredAccount](https://pspas.pspete.dev/commands/Get-PASDiscoveredAccount)
+

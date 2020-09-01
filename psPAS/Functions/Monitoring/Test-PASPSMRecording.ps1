@@ -1,26 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Test-PASPSMRecording {
-	<#
-.SYNOPSIS
-Determine if a PSM Session / Recording is valid
-
-.DESCRIPTION
-Determines if a provided PSM Session / Recording is valid.
-Returns $True if valid.
-
-.PARAMETER SessionID
-Unique ID of the recorded PSM session
-
-.EXAMPLE
-Test-PASPSMRecording -SessionID 334_3
-
-Tests validity of recorded PSM Session File
-
-.NOTES
-Minimum CyberArk Version 11.2
-
-.LINK
-https://pspas.pspete.dev/commands/Test-PASPSMRecording
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

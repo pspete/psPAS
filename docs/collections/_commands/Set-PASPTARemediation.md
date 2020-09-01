@@ -1,95 +1,148 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Set-PASPTARemediation
+schema: 2.0.0
 title: Set-PASPTARemediation
 ---
 
-## SYNOPSIS
+# Set-PASPTARemediation
 
+## SYNOPSIS
 Updates automatic remediation settings in PTA
 
 ## SYNTAX
 
-    Set-PASPTARemediation [[-changePassword_SuspectedCredentialsTheft] <Boolean>]
-    [[-changePassword_OverPassTheHash] <Boolean>]
-    [[-reconcilePassword_SuspectedPasswordChange] <Boolean>]
-    [[-pendAccount_UnmanagedPrivilegedAccount] <Boolean>]
+```
+Set-PASPTARemediation [[-changePassword_SuspectedCredentialsTheft] <Boolean>]
+ [[-changePassword_OverPassTheHash] <Boolean>] [[-reconcilePassword_SuspectedPasswordChange] <Boolean>]
+ [[-pendAccount_UnmanagedPrivilegedAccount] <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Updates automatic remediation settings configured in PTA
-
-## PARAMETERS
-
-    -changePassword_SuspectedCredentialsTheft <Boolean>
-        Indicate if Change Password on Suspected Credential Theft the command is active
-
-        Required?                    false
-        Position?                    1
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -changePassword_OverPassTheHash <Boolean>
-        Indicate if the Change Password on Over Pass The Hash command is active
-
-        Required?                    false
-        Position?                    2
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -reconcilePassword_SuspectedPasswordChange <Boolean>
-        Indicate if the Reconcile Password on Suspected Password Change command is active
-
-        Required?                    false
-        Position?                    3
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -pendAccount_UnmanagedPrivilegedAccount <Boolean>
-        Indicate if the Add Unmanaged Accounts to Pending Accounts command is active
-
-        Required?                    false
-        Position?                    4
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -WhatIf [<SwitchParameter>]
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    -Confirm [<SwitchParameter>]
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Set-PASPTARemediation -changePassword_SuspectedCredentialsTheft $true
+```
 
-    PS C:\>Set-PASPTARemediation -changePassword_SuspectedCredentialsTheft $true
+Enables the "Change password on Suspected Credentials Theft" rule.
 
-    Enables the "Change password on Suspected Credentials Theft" rule.
+### EXAMPLE 2
+```
+Set-PASPTARemediation -reconcilePassword_SuspectedPasswordChange $false
+```
 
+Disables the "reconcile on suspected password change" rule.
 
+## PARAMETERS
 
+### -changePassword_SuspectedCredentialsTheft
+Indicate if Change Password on Suspected Credential Theft the command is active
 
-    -------------------------- EXAMPLE 2 --------------------------
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
 
-    PS C:\>Set-PASPTARemediation -reconcilePassword_SuspectedPasswordChange $false
+Required: False
+Position: 1
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    Disables the "reconcile on suspected password change" rule.
+### -changePassword_OverPassTheHash
+Indicate if the Change Password on Over Pass The Hash command is active
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -reconcilePassword_SuspectedPasswordChange
+Indicate if the Reconcile Password on Suspected Password Change command is active
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -pendAccount_UnmanagedPrivilegedAccount
+Indicate if the Add Unmanaged Accounts to Pending Accounts command is active
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+Minimum Version CyberArk 10.4
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Set-PASPTARemediation](https://pspas.pspete.dev/commands/Set-PASPTARemediation)
+

@@ -4,6 +4,12 @@ permalink: /commands/
 excerpt: "Command Reference"
 last_modified_at: 2020-08-25zT01:33:52-00:00
 toc: false
+layout: single-mod
+classes: wide
+author_profile: false
+share: false
+sidebar:
+  nav: "commands"
 ---
 
 The table below lists links to the official documentation for the API commands, against links to the psPAS function where the API command is exposed within the module.

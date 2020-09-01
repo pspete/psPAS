@@ -37,21 +37,21 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		Context "Mandatory Parameters" {
 
-			It "specifies parameter UserName as mandatory for ParameterSet legacy" {
+			It "specifies parameter UserName as mandatory for ParameterSet Gen1" {
 
-				(Get-Command Set-PASUser).Parameters["UserName"].ParameterSets["legacy"].IsMandatory | Should -Be $true
+				(Get-Command Set-PASUser).Parameters["UserName"].ParameterSets["Gen1"].IsMandatory | Should -Be $true
 
 			}
 
-			It "specifies parameter UserName as mandatory for ParameterSet 11.1" {
+			It "specifies parameter UserName as mandatory for ParameterSet Gen2" {
 
-				(Get-Command Set-PASUser).Parameters["UserName"].ParameterSets["11.1"].IsMandatory | Should -Be $true
+				(Get-Command Set-PASUser).Parameters["UserName"].ParameterSets["Gen2"].IsMandatory | Should -Be $true
 
 			}
 
 		}
 
-		Context "Input - legacy" {
+		Context "Input - Gen1" {
 
 			BeforeEach {
 
@@ -96,7 +96,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input - V11" {
+		Context "Input - Gen2" {
 
 			BeforeEach {
 
@@ -187,7 +187,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			it "provides output" {
+			It "provides output" {
 
 				$response | Should -Not -BeNullOrEmpty
 
@@ -199,9 +199,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			it "outputs object with expected typename" {
+			It "outputs object with expected typename" {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User
 
 			}
 

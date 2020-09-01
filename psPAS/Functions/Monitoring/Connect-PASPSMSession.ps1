@@ -1,33 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Connect-PASPSMSession {
-	<#
-.SYNOPSIS
-Connect to Live PSM Sessions
-
-.DESCRIPTION
-Returns connection data necessary to monitor an active PSM session.
-
-.PARAMETER SessionId
-The unique ID of the PSM Live Session.
-
-.PARAMETER ConnectionMethod
-The expected parameters to be returned, either RDP or PSMGW.
-
-.EXAMPLE
-Connect-PASPSMSession -LiveSessionId $SessionUUID -ConnectionMethod RDP
-
-Returns parameters to connect to Live PSM Session via RDP.
-
-.EXAMPLE
-Connect-PASPSMSession -LiveSessionId $SessionUUID -ConnectionMethod PSMGW
-
-Returns parameters to connect to Live PSM Session via HTML5 GW.
-
-.NOTES
-Minimum CyberArk Version 10.5
-
-.LINK
-https://pspas.pspete.dev/commands/Connect-PASPSMSession
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

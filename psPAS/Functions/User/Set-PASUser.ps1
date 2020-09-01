@@ -1,234 +1,24 @@
-﻿function Set-PASUser {
-	<#
-.SYNOPSIS
-Updates a vault user
-
-.DESCRIPTION
-Updates an existing user in the vault
-Appears to require all properties set on a user to be passed with the request.
-Not passing a value to an already set property will result in it being cleared.
-
-.PARAMETER id
-The numeric id of the user to update.
-Requires CyberArk version 11.1+
-
-.PARAMETER UserName
-The name of the user to create in the vault
-
-.PARAMETER NewPassword
-A new password to set on the account, as a Secure String
-Must meet the password complexity requirements
-
-.PARAMETER userType
-The user type
-Requires CyberArk version 11.1+
-
-.PARAMETER suspended
-The user suspension status
-Requires CyberArk version 11.1+
-
-.PARAMETER unAuthorizedInterfaces
-The CyberArk interfaces that this user is not authorized to use.
-Requires CyberArk version 11.1+
-
-.PARAMETER enableUser
-Whether the user will be enabled upon creation.
-Requires CyberArk version 11.1+
-
-.PARAMETER authenticationMethod
-The authentication method that the user will use to log on.
-Valid Values:
-"AuthTypePass", for CyberArk Authentication (default)
-"AuthTypeLDAP", for LDAP authentication
-"AuthTypeRADIUS", for RADIUS authentication
-Requires CyberArk version 11.1+
-
-.PARAMETER passwordNeverExpires
-Whether or not the user's password will expire
-Requires CyberArk version 11.1+
-
-.PARAMETER distinguishedName
-The distinguished name of the user.
-Requires CyberArk version 11.1+
-
-.PARAMETER vaultAuthorization
-The user permissions in the vault.
-To grant authorization to a user, the same authorization must be held by the account logged on to the API.
-Valid values:
--  AddSafes
--  AuditUsers
--  AddUpdateUsers
--  ResetUsersPasswords
--  ActivateUsers
--  AddNetworkAreas
--  ManageDirectoryMapping
--  ManageServerFileCategories
--  BackupAllSafes
--  RestoreAllSafes
-Requires CyberArk version 11.1+
-
-.PARAMETER ChangePassOnNextLogon
-Whether or not user will be forced to change password on first logon
-Requires CyberArk version 11.1+
-
-.PARAMETER workStreet
-Business Address detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER workCity
-Business Address detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER workState
-Business Address detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER workZip
-Business Address detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER workCountry
-Business Address detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER homePage
-The user's email address
-Requires CyberArk version 11.1+
-
-.PARAMETER homeEmail
-The user's email address
-Requires CyberArk version 11.1+
-
-.PARAMETER businessEmail
-The user's email address
-Requires CyberArk version 11.1+
-
-.PARAMETER otherEmail
-The user's email address
-Requires CyberArk version 11.1+
-
-.PARAMETER homeNumber
-The user's phone number
-Requires CyberArk version 11.1+
-
-.PARAMETER businessNumber
-The user's phone number
-Requires CyberArk version 11.1+
-
-.PARAMETER cellularNumber
-The user's phone number
-Requires CyberArk version 11.1+
-
-.PARAMETER faxNumber
-The user's phone number
-Requires CyberArk version 11.1+
-
-.PARAMETER pagerNumber
-The user's phone number
-Requires CyberArk version 11.1+
-
-.PARAMETER description
-Description Text
-Requires CyberArk version 11.1+
-
-.PARAMETER MiddleName
-The User's Middle Name
-Requires CyberArk version 11.1+
-
-.PARAMETER street
-Address detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER city
-Address detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER state
-Address detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER zip
-Address detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER country
-Address detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER title
-Personal detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER organization
-Personal detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER department
-Personal detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER profession
-Personal detail for the user
-Requires CyberArk version 11.1+
-
-.PARAMETER Email
-The user's email address
-
-.PARAMETER FirstName
-The user's first name
-
-.PARAMETER LastName
-The user's last name
-
-.PARAMETER ChangePasswordOnTheNextLogon
-Whether or not user will be forced to change password on first logon
-
-.PARAMETER ExpiryDate
-Expiry Date to set on account.
-Default is Never
-
-.PARAMETER UserTypeName
-The Type of User to create.
-EPVUser type will be created by default.
-
-.PARAMETER Disabled
-Whether or not the user will be created as a disabled user
-Default is Enabled
-
-.PARAMETER Location
-The Vault Location where the user will be created
-Default location is "Root"
-
-.PARAMETER UseClassicAPI
-Specify the UseClassicAPI to force usage the Classic (v9) API endpoint.
-
-.EXAMPLE
-set-pasuser -UserName Bill -Disabled $true
-
-Disables vault user Bill
-
-.LINK
-https://pspas.pspete.dev/commands/Set-PASUser
-#>
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "11.1")]
+﻿# .ExternalHelp psPAS-help.xml
+function Set-PASUser {
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "Gen2")]
 	param(
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[int]$id,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateLength(0, 128)]
 		[string]$username,
@@ -236,33 +26,33 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[securestring]$NewPassword,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$userType,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$suspended,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("PIMSU", "PSM", "PSMP", "PVWA", "WINCLIENT", "PTA", "PACLI", "NAPI", "XAPI", "HTTPGW",
 			"EVD", "PIMSu", "AIMApp", "CPM", "PVWAApp", "PSMApp", "AppPrv", "AIMApp", "PSMPApp")]
@@ -271,14 +61,14 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$enableUser,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("AuthTypePass", "AuthTypeLDAP", "AuthTypeRADIUS")]
 		[string[]]$authenticationMethod,
@@ -286,42 +76,42 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$Email,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$ChangePassOnNextLogon,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[boolean]$ChangePasswordOnTheNextLogon,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$passwordNeverExpires,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$distinguishedName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("AddSafes", "AuditUsers", "AddUpdateUsers", "ResetUsersPasswords", "ActivateUsers",
 			"AddNetworkAreas", "ManageDirectoryMapping", "ManageServerFileCategories", "BackupAllSafes",
@@ -331,45 +121,45 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[datetime]$ExpiryDate,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$UserTypeName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[boolean]$Disabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$Location,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$workStreet,
@@ -377,7 +167,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workCity,
@@ -385,7 +175,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workState,
@@ -393,7 +183,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workZip,
@@ -401,7 +191,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workCountry,
@@ -409,7 +199,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$homePage,
@@ -417,7 +207,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$homeEmail,
@@ -426,7 +216,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$businessEmail,
@@ -434,7 +224,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 319)]
 		[string]$otherEmail,
@@ -442,7 +232,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$homeNumber,
@@ -450,7 +240,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$businessNumber,
@@ -458,7 +248,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$cellularNumber,
@@ -466,7 +256,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$faxNumber,
@@ -474,7 +264,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 24)]
 		[string]$pagerNumber,
@@ -482,7 +272,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 99)]
 		[string]$description,
@@ -491,12 +281,12 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$FirstName,
@@ -504,7 +294,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$MiddleName,
@@ -512,12 +302,12 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$LastName,
@@ -525,7 +315,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 29)]
 		[string]$street,
@@ -533,7 +323,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$city,
@@ -541,7 +331,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$state,
@@ -549,7 +339,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$zip,
@@ -557,7 +347,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 19)]
 		[string]$country,
@@ -565,7 +355,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$title,
@@ -573,7 +363,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$organization,
@@ -581,7 +371,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$department,
@@ -589,7 +379,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.1"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateLength(0, 49)]
 		[string]$profession,
@@ -597,16 +387,17 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "legacy"
+			ParameterSetName = "Gen1"
 		)]
-		[switch]$UseClassicAPI
+		[Alias("UseClassicAPI")]
+		[switch]$UseGen1API
 	)
 
 	BEGIN {
 
-		If ($PSCmdlet.ParameterSetName -ne "legacy") {
+		If ($PSCmdlet.ParameterSetName -eq "Gen2") {
 
-			Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
+			Assert-VersionRequirement -RequiredVersion 11.1
 
 		}
 
@@ -619,7 +410,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"11.1" {
+			"Gen2" {
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/api/Users/$id"
@@ -632,7 +423,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 
 			}
 
-			"legacy" {
+			"Gen1" {
 
 				If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
 
@@ -667,7 +458,7 @@ https://pspas.pspete.dev/commands/Set-PASUser
 		}
 
 		#Construct Request Body
-		$body = $boundParameters | ConvertTo-Json -depth 4
+		$body = $boundParameters | ConvertTo-Json -Depth 4
 
 		if ($PSCmdlet.ShouldProcess($UserName, "Update User Properties")) {
 			#send request to web service

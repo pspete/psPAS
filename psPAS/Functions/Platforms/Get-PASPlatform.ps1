@@ -1,127 +1,11 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASPlatform {
-	<#
-.SYNOPSIS
-Retrieves details of Vault platforms.
-
-.DESCRIPTION
-Request platform configuration information from the Vault.
-
-11.4+ can return details of target, dependent, group & rotational group platforms,
-with additional filters available for target group queries.
-11.1+ can return details of all target platforms.
-Limited filters can be used to retrieve a subset of the platforms
-For 9.10+, the "PlatformID" parameter is used to retrieve details of a single
-specified platform from the Vault.
-
-The output contained under the "Details" property differs depending
-on which method (9.10+,11.1+ or 11.4+) is used, and which platform type is queried.
-!Note: When specifying PlatformID:
-! if the platform properties contain a semicolon (';'), the API may not return the complete value.
-! noted for ChangeCommand, ReconcileCommand & ConnectionCommand properties
-
-.PARAMETER Active
-Filter active/inactive platforms
-
-.PARAMETER PlatformType
-Filter regular/group platforms
-
-.PARAMETER Search
-Filter platform by search pattern
-
-.PARAMETER PlatformID
-The unique ID/Name of the platform.
-
-.PARAMETER DependentPlatform
-Specify to return details of dependent platforms
-
-.PARAMETER GroupPlatform
-Specify to return details of group platforms
-
-.PARAMETER RotationalGroup
-Specify to return details of rotational group platforms
-
-.PARAMETER SystemType
-Filter target platforms for specific system type
-
-.PARAMETER PeriodicVerify
-Filter target platforms by periodic verification configuration
-
-.PARAMETER ManualVerify
-Filter target platforms by manual verification configuration
-
-.PARAMETER PeriodicChange
-Filter target platforms by periodic change configuration
-
-.PARAMETER ManualChange
-Filter target platforms by manual change configuration
-
-.PARAMETER AutomaticReconcile
-Filter target platforms by automatic reconciliation configuration
-
-.PARAMETER ManualReconcile
-Filter target platforms by manual reconciliation configuration
-
-.EXAMPLE
-Get-PASPlatform
-
-Return details of all platforms
-
-.EXAMPLE
-Get-PASPlatform -Active $true
-
-Get all active platforms
-
-.EXAMPLE
-Get-PASPlatform -Active $true -Search "WIN_"
-
-Get active platforms matching search string "WIN_"
-
-.EXAMPLE
-Get-PASPlatform -PlatformID "CyberArk"
-
-Get details of specific platform CyberArk
-
-.EXAMPLE
-Get-PASPlatform -GroupPlatform
-
-Get details of all group platforms
-
-.EXAMPLE
-Get-PASPlatform -RotationalGroup
-
-Get details of all rotational group platforms
-
-.EXAMPLE
-Get-PASPlatform -DependentPlatform
-
-Get details of all dependent platforms
-
-.EXAMPLE
-Get-PASPlatform -Active $false -SystemType Windows
-
-Get details of all deactivated Windows platforms
-
-.EXAMPLE
-Get-PASPlatform -Active $true -SystemType '*NIX' -AutomaticReconcile $true
-
-Get details of all active Unix platforms configured for automatic reconciliation.
-
-.NOTES
-Minimum CyberArk version 9.10
-CyberArk version 11.1 required for Active, PlatformType & Search parameters.
-CyberArk version 11.4 required for extended filters for target platforms,
-and requests for  dependent, group & rotational group platforms
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASPlatform
-#>
-
 	[CmdletBinding(DefaultParameterSetName = "targets")]
 	param(
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_1"
+			ParameterSetName = "platforms"
 		)]
 		[parameter(
 			Mandatory = $false,
@@ -133,7 +17,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_1"
+			ParameterSetName = "platforms"
 		)]
 		[ValidateSet("Regular", "Group")]
 		[string]$PlatformType,
@@ -141,14 +25,14 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11_1"
+			ParameterSetName = "platforms"
 		)]
 		[string]$Search,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "legacy"
+			ParameterSetName = "platform-details"
 		)]
 		[Alias("Name")]
 		[string]$PlatformID,
@@ -233,7 +117,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"11_1" {
+			"platforms" {
 
 				Assert-VersionRequirement -RequiredVersion 11.1
 
@@ -255,7 +139,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 
 			}
 
-			"legacy" {
+			"platform-details" {
 
 				Assert-VersionRequirement -RequiredVersion 9.10
 
@@ -313,69 +197,69 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 
 					"11_1" {
 						$result = $result |
-						Select-Object @{ Name = 'PlatformID'; Expression = { $_.general.id } }, @{ Name = 'Active'; Expression = { $_.general.active } }, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-									"General"                   = $_.general
-									"properties"                = $_.properties
-									"linkedAccounts"            = $_.linkedAccounts
-									"credentialsManagement"     = $_.credentialsManagement
-									"sessionManagement"         = $_.sessionManagement
-									"privilegedAccessWorkflows" = $_.privilegedAccessWorkflows
+							Select-Object @{ Name = 'PlatformID'; Expression = { $_.general.id } }, @{ Name = 'Active'; Expression = { $_.general.active } }, @{ Name = 'Details'; Expression = { [pscustomobject]@{
+										"General"                   = $_.general
+										"properties"                = $_.properties
+										"linkedAccounts"            = $_.linkedAccounts
+										"credentialsManagement"     = $_.credentialsManagement
+										"sessionManagement"         = $_.sessionManagement
+										"privilegedAccessWorkflows" = $_.privilegedAccessWorkflows
+									}
 								}
 							}
-						}
 
 						break
 					}
 
 					"targets" {
 						$result = $result |
-						Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-									"ID"                          = $_.ID
-									"Name"                        = $_.Name
-									"SystemType"                  = $_.SystemType
-									"AllowedSafes"                = $_.AllowedSafes
-									"CredentialsManagementPolicy" = $_.CredentialsManagementPolicy
-									"PrivilegedAccessWorkflows"   = $_.PrivilegedAccessWorkflows
-									"PrivilegedSessionManagement" = $_.PrivilegedSessionManagement
+							Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
+										"ID"                          = $_.ID
+										"Name"                        = $_.Name
+										"SystemType"                  = $_.SystemType
+										"AllowedSafes"                = $_.AllowedSafes
+										"CredentialsManagementPolicy" = $_.CredentialsManagementPolicy
+										"PrivilegedAccessWorkflows"   = $_.PrivilegedAccessWorkflows
+										"PrivilegedSessionManagement" = $_.PrivilegedSessionManagement
+									}
 								}
 							}
-						}
 						break
 					}
 
 					"groups" {
 						$result = $result |
-						Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-									"ID"   = $_.ID
-									"Name" = $_.Name
+							Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
+										"ID"   = $_.ID
+										"Name" = $_.Name
+									}
 								}
 							}
-						}
 						break
 					}
 
 					"dependents" {
 						$result = $result |
-						Select-Object PlatformID, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-									"ID"                            = $_.ID
-									"Name"                          = $_.Name
-									"NumberOfLinkedTargetPlatforms" = $_.NumberOfLinkedTargetPlatforms
-									"CredentialsManagementPolicy"   = $_.CredentialsManagementPolicy
+							Select-Object PlatformID, @{ Name = 'Details'; Expression = { [pscustomobject]@{
+										"ID"                            = $_.ID
+										"Name"                          = $_.Name
+										"NumberOfLinkedTargetPlatforms" = $_.NumberOfLinkedTargetPlatforms
+										"CredentialsManagementPolicy"   = $_.CredentialsManagementPolicy
+									}
 								}
 							}
-						}
 						break
 					}
 
 					"rotationalGroups" {
 						$result = $result |
-						Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-									"ID"          = $_.ID
-									"Name"        = $_.Name
-									"GracePeriod" = $_.GracePeriod
+							Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
+										"ID"          = $_.ID
+										"Name"        = $_.Name
+										"GracePeriod" = $_.GracePeriod
+									}
 								}
 							}
-						}
 						break
 					}
 
@@ -386,7 +270,7 @@ https://pspas.pspete.dev/commands/Get-PASPlatform
 			#Return Results
 			$result |
 
-			Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Platform"
+				Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Platform"
 
 		}
 

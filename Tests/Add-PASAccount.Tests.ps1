@@ -47,29 +47,29 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "specifies parameter userName as mandatory for ParameterSet V9" {
+			It "specifies parameter userName as mandatory for ParameterSet Gen1" {
 
-				(Get-Command Add-PASAccount).Parameters["UserName"].ParameterSets["V9"].IsMandatory | Should -Be $true
-
-			}
-			It "specifies parameter SafeName as mandatory for ParameterSet V9" {
-
-				(Get-Command Add-PASAccount).Parameters["SafeName"].ParameterSets["V9"].IsMandatory | Should -Be $true
+				(Get-Command Add-PASAccount).Parameters["UserName"].ParameterSets["Gen1"].IsMandatory | Should -Be $true
 
 			}
-			It "specifies parameter SafeName as mandatory for ParameterSet V10" {
+			It "specifies parameter SafeName as mandatory for ParameterSet Gen1" {
 
-				(Get-Command Add-PASAccount).Parameters["SafeName"].ParameterSets["V10"].IsMandatory | Should -Be $true
-
-			}
-			It "specifies parameter platformID as mandatory for ParameterSet V9" {
-
-				(Get-Command Add-PASAccount).Parameters["platformID"].ParameterSets["V9"].IsMandatory | Should -Be $true
+				(Get-Command Add-PASAccount).Parameters["SafeName"].ParameterSets["Gen1"].IsMandatory | Should -Be $true
 
 			}
-			It "specifies parameter platformID as mandatory for ParameterSet V10" {
+			It "specifies parameter SafeName as mandatory for ParameterSet Gen2" {
 
-				(Get-Command Add-PASAccount).Parameters["platformID"].ParameterSets["V10"].IsMandatory | Should -Be $true
+				(Get-Command Add-PASAccount).Parameters["SafeName"].ParameterSets["Gen2"].IsMandatory | Should -Be $true
+
+			}
+			It "specifies parameter platformID as mandatory for ParameterSet Gen1" {
+
+				(Get-Command Add-PASAccount).Parameters["platformID"].ParameterSets["Gen1"].IsMandatory | Should -Be $true
+
+			}
+			It "specifies parameter platformID as mandatory for ParameterSet Gen2" {
+
+				(Get-Command Add-PASAccount).Parameters["platformID"].ParameterSets["Gen2"].IsMandatory | Should -Be $true
 
 			}
 
@@ -273,7 +273,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			it "provides no output - V9 ParameterSet" {
+			It "provides no output - V9 ParameterSet" {
 
 				$InputObj = [pscustomobject]@{
 					"safeName"              = "P_Safe"
@@ -300,13 +300,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			it "provides output - V10 ParameterSet" {
+			It "provides output - V10 ParameterSet" {
 				$response = $InputObj | Add-PASAccount
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			it "outputs object with expected typename - v10 parameterset" {
+			It "outputs object with expected typename - v10 parameterset" {
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
 						"Count" = 30
@@ -314,14 +314,14 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 					}
 				}
 				$response = $InputObj | Add-PASAccount
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.V10
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.V10
 
 			}
 
 
 
 		}
-#>
+		#>
 	}
 
 

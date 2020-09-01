@@ -1,35 +1,51 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASServer
+schema: 2.0.0
 title: Get-PASServer
 ---
 
-## SYNOPSIS
+# Get-PASServer
 
+## SYNOPSIS
 Returns details of the Web Service Server
 
 ## SYNTAX
 
-    Get-PASServer [<CommonParameters>]
+```
+Get-PASServer [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Returns information on Server.
 
-Returns the name of the Vault configured in the ServerDisplayName configuration parameter.
+Returns the name of the Vault configured in the ServerDisplayName configuration parameter
 
 Appears to need Vault administrator rights
 
-## PARAMETERS
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
-
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASServer
+```
 
-    PS C:\>Get-PASServer
+Displays CyberArk Server information
 
-    Displays CyberArk Server information
+## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASServer](https://pspas.pspete.dev/commands/Get-PASServer)
+

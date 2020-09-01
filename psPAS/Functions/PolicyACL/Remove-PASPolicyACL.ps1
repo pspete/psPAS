@@ -1,28 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Remove-PASPolicyACL {
-	<#
-.SYNOPSIS
-Delete all privileged commands on policy
-
-.DESCRIPTION
-Deletes all privileged command rules associated with the policy
-
-.PARAMETER PolicyID
-String value of Policy ID
-
-.PARAMETER Id
-The Rule Id that will be deleted
-
-.EXAMPLE
-Remove-PASPolicyACL -PolicyID UNIXSSH -Id 13
-
-Deletes Rule with ID of 13 from UNIXSSH platform.
-
-.INPUTS
-All parameters can be piped by property name
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASPolicyACL
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

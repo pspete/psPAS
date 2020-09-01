@@ -141,8 +141,8 @@ commands:
     children:
       - title: "Get-PASAllowedReferrer"
         url: /commands/Get-PASAllowedReferrer
-      - title: "Set-PASAllowedReferrer"
-        url: /commands/Set-PASAllowedReferrer
+      - title: "Add-PASAllowedReferrer"
+        url: /commands/Add-PASAllowedReferrer
 
   - title: "LDAP Directories"
     children:

@@ -1,24 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASPlatformSafe {
-	<#
-.SYNOPSIS
-Get safes by platform id
-
-.DESCRIPTION
-Returns all safes for a given platform ID
-
-.PARAMETER PlatformID
-The unique ID/Name of the platform.
-
-.EXAMPLE
-Get-PASPlatformSafe -PlatformID WINDOMAIN
-
-.NOTES
-Minimum CyberArk version 11.1
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASPlatformSafe
-#>
-
 	[CmdletBinding()]
 	param(
 		[parameter(

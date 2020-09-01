@@ -1,31 +1,47 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASUserLoginInfo
+schema: 2.0.0
 title: Get-PASUserLoginInfo
 ---
 
-## SYNOPSIS
+# Get-PASUserLoginInfo
 
+## SYNOPSIS
 Get Login information for the current user
 
 ## SYNTAX
 
-    Get-PASUserLoginInfo [<CommonParameters>]
+```
+Get-PASUserLoginInfo [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Returns data about the User that is currently logged into the system
-
-## PARAMETERS
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASUserLoginInfo
+```
 
-    PS C:\>Get-PASUserLoginInfo
+Returns Login Info for the current user
 
-    Returns Login Info for the current user
+## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASUserLoginInfo](https://pspas.pspete.dev/commands/Get-PASUserLoginInfo)
+

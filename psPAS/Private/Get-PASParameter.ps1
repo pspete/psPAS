@@ -64,6 +64,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 			[System.Management.Automation.PSCmdlet]::OptionalCommonParameters +
 			"SessionVariable" +
 			"UseClassicAPI" +
+			"UseGen1API" +
 			"TimeoutSec"
 		)
 

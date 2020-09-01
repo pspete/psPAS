@@ -1,181 +1,51 @@
-﻿function Add-PASAccount {
-	<#
-.SYNOPSIS
-Adds a new privileged account to the Vault
-Uses either the API present from 10.4 onwards, or the version 9 API endpoint.
-
-.DESCRIPTION
-Adds a new privileged account to the Vault.
-Parameters are processed to create request object from passed parameters in the required format.
-
-.PARAMETER name
-The name of the account.
-A version 10.4 onward specific parameter
-
-.PARAMETER secretType
-The type of password.
-A version 10.4 onward specific parameter
-
-.PARAMETER secret
-The password value
-A version 10.4 onward specific parameter
-
-.PARAMETER platformAccountProperties
-key-value pairs to associate with the account, as defined by the account platform.
-These properties are validated against the mandatory and optional properties of the specified platform's definition.
-A version 10.4 onward specific parameter
-
-.PARAMETER automaticManagementEnabled
-Whether CPM Password Management should be enabled
-A version 10.4 onward specific parameter
-
-.PARAMETER manualManagementReason
-A reason for disabling CPM Password Management
-A version 10.4 onward specific parameter
-
-.PARAMETER remoteMachines
-For supported platforms, a list of remote machines the account can connect to.
-A version 10.4 onward specific parameter
-
-.PARAMETER accessRestrictedToRemoteMachines
-Whether access is restricted to the defined remote machines.
-A version 10.4 onward specific parameter
-
-.PARAMETER SafeName
-The safe where the account will be created
-
-.PARAMETER PlatformID
-The CyberArk platform to assign to the account
-
-.PARAMETER Address
-The Address of the machine where the account will be used
-
-.PARAMETER AccountName
-The name of the account
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER Password
-The password value as a secure string
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER Username
-Username on the target machine
-
-.PARAMETER DisableAutoMgmt
-Whether or not automatic management wll be disabled for the account
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER DisableAutoMgmtReason
-The reason why automatic management wll be disabled for the account
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER GroupName
-A groupname with which the account will be associated
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER GroupPlatformID
-Group platform to base created group ID on, if ID doesn't exist
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER Port
-Port number over which the account will be used
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER ExtraPass1Name
-Logon account name
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER ExtraPass1Folder
-Folder where logon account is stored
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER ExtraPass1Safe
-Safe where logon account is stored
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER ExtraPass3Name
-Reconcile account name
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER ExtraPass3Folder
-Folder where reconcile account is stored
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER ExtraPass3Safe
-Safe where reconcile account is stored
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER DynamicProperties
-Hashtable of name=value pairs
-Relevant for CyberArk versions earlier than 10.4
-
-.EXAMPLE
-Add-PASAccount -address ThisServer -userName ThisUser -platformID UNIXSSH -SafeName UNIXSafe -automaticManagementEnabled $false
-
-Using the version 10 API, adds an account which is disabled for automatic password management
-
-.EXAMPLE
-Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com -Password $secureString -username domainUser
-
-Using the "version 9" API, adds account domain.com\domainuser to the Prod_Access Safe using the WINDOMAIN platform.
-The contents of $secureString will be set as the password value.
-
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-None for v9
-v10.4 outputs the details of the created account.
-
-.LINK
-https://pspas.pspete.dev/commands/Add-PASAccount
-#>
+﻿# .ExternalHelp psPAS-help.xml
+function Add-PASAccount {
 	[CmdletBinding()]
 	param(
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$name,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$address,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$userName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[Alias("PolicyID")]
 		[string]$platformID,
@@ -183,13 +53,13 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[Alias("safe")]
@@ -198,7 +68,7 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("Password", "Key")]
 		[string]$secretType,
@@ -206,98 +76,98 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[securestring]$secret,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[hashtable]$platformAccountProperties,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$automaticManagementEnabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$manualManagementReason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$remoteMachines,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10"
+			ParameterSetName = "Gen2"
 		)]
 		[boolean]$accessRestrictedToRemoteMachines,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$accountName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[securestring]$password,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[boolean]$disableAutoMgmt,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$disableAutoMgmtReason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$groupName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$groupPlatformID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[int]$Port,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass1Name,
@@ -305,14 +175,14 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$ExtraPass1Folder,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass1Safe,
@@ -320,7 +190,7 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass3Name,
@@ -328,14 +198,14 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$ExtraPass3Folder,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass3Safe,
@@ -343,7 +213,7 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[hashtable]$DynamicProperties
 	)
@@ -363,7 +233,7 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"V10" {
+			"Gen2" {
 
 				Assert-VersionRequirement -RequiredVersion 10.4
 
@@ -378,7 +248,7 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 
 			}
 
-			"V9" {
+			"Gen1" {
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account"
@@ -452,7 +322,7 @@ https://pspas.pspete.dev/commands/Add-PASAccount
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if ($PSCmdlet.ParameterSetName -eq "V10") {
+		if ($PSCmdlet.ParameterSetName -eq "Gen2") {
 
 			If ($null -ne $result) {
 

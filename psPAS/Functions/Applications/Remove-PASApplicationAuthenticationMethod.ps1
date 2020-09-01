@@ -1,35 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Remove-PASApplicationAuthenticationMethod {
-	<#
-.SYNOPSIS
-Deletes an authentication method from an application
-
-.DESCRIPTION
-Deletes a specific authentication method from a defined application.
-"Manage Users" permission is required.
-
-.PARAMETER AppID
-The ID of the application in which the authentication will be deleted.
-
-.PARAMETER AuthID
-The unique ID of the specific authentication.
-
-.EXAMPLE
-Remove-PASApplicationAuthenticationMethod -AppID NewApp -AuthID 1
-
-Deletes authentication method with ID of 1 from "NewApp"
-
-.EXAMPLE
-Get-PASApplicationAuthenticationMethod -AppID NewApp | Remove-PASApplicationAuthenticationMethod
-
-Deletes all authentication methods from "NewApp"
-
-.INPUTS
-All parameters can be piped by property name
-Should accept pipeline objects from other *-PASApplication* functions
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASApplicationAuthenticationMethod
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

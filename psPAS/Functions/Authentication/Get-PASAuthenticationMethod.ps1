@@ -1,20 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Get-PASAuthenticationMethod {
-	<#
-.SYNOPSIS
-List authentication methods
-
-.DESCRIPTION
-Returns a list of all existing authentication methods.
-Membership of Vault admins group required
-
-.PARAMETER ID
-The ID of a specific authentication method to return details of
-
-.EXAMPLE
-Get-PASAuthenticationMethod
-
-Returns list of all authentication methods.
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

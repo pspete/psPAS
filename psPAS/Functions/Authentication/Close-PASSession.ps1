@@ -1,56 +1,18 @@
+# .ExternalHelp psPAS-help.xml
 function Close-PASSession {
-	<#
-.SYNOPSIS
-Logoff from CyberArk Vault.
-
-.DESCRIPTION
-Performs Logoff and removes the Vault session.
-
-.PARAMETER UseClassicAPI
-Specify the UseClassicAPI switch to send the logoff request via the Classic (v9) API endpoint.
-Relevant for CyberArk versions earlier than 10.4
-
-.PARAMETER SharedAuthentication
-Specify the SharedAuthentication switch to logoff from a shared authentication session
-
-.PARAMETER SAMLAuthentication
-Specify the SAMLAuthentication switch to logoff from a session authenticated to with SAML
-
-.EXAMPLE
-Close-PASSession
-
-Logs off from the session related to the authorisation token.
-
-.EXAMPLE
-Close-PASSession -SAMLAuthentication
-
-Logs off from the session related to the authorisation token using the SAML Authentication API endpoint.
-
-.EXAMPLE
-Close-PASSession -SharedAuthentication
-
-Logs off from the session related to the authorisation token using the Shared Authentication API endpoint.
-
-.EXAMPLE
-Close-PASSession -UseClassicAPI
-
-Logs off from the session related to the authorisation token using the Classic API endpoint.
-
-.LINK
-https://pspas.pspete.dev/commands/Close-PASSession
-#>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseClassicAPI', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = "False Positive")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SharedAuthentication', Justification = "False Positive")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SAMLAuthentication', Justification = "False Positive")]
-	[CmdletBinding(DefaultParameterSetName = "V10")]
+	[CmdletBinding(DefaultParameterSetName = "Gen2")]
 	param(
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "v9"
+			ParameterSetName = "Gen1"
 		)]
-		[switch]$UseClassicAPI,
+		[Alias("UseClassicAPI")]
+		[switch]$UseGen1API,
 
 		[Parameter(
 			Mandatory = $false,
@@ -74,7 +36,7 @@ https://pspas.pspete.dev/commands/Close-PASSession
 
 		Switch ($PSCmdlet.ParameterSetName) {
 
-			"v9" {
+			"Gen1" {
 
 				$URI = "$Script:BaseURI/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
 				break
@@ -95,7 +57,7 @@ https://pspas.pspete.dev/commands/Close-PASSession
 
 			}
 
-			"V10" {
+			"Gen2" {
 
 				$URI = "$Script:BaseURI/API/Auth/Logoff"
 				break

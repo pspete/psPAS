@@ -1,27 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Remove-PASRequest {
-	<#
-.SYNOPSIS
-Deletes a request from the Vault
-
-.DESCRIPTION
-Deletes a request from the Vault.
-The "Manage" Safe vault permission is required.
-Officially supported from version 9.10. Reports received that function works in 9.9 also.
-
-.PARAMETER RequestID
-The ID (composed of the Safe Name and internal RequestID.) of the request to delete.
-
-.EXAMPLE
-Remove-PASRequest -RequestID "<ID>"
-
-Deletes Request <ID>
-
-.INPUTS
-All parameters can be piped by property name
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASRequest
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

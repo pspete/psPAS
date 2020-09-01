@@ -1,7 +1,8 @@
 ---
+category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version:
+online version: https://pspas.pspete.dev/commands/Get-PASAccountImportJob
 schema: 2.0.0
 title: Get-PASAccountImportJob
 ---
@@ -19,7 +20,9 @@ Get-PASAccountImportJob [-id <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 Returns the result of all bulk account upload jobs, or an individual job identified by it's ID.
+
 Once the upload has finished, the API returns the result.
+
 The result contains a list of all the accounts that succeeded or failed to upload.
 
 ## EXAMPLES
@@ -65,3 +68,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASAccountImportJob](https://pspas.pspete.dev/commands/Get-PASAccountImportJob)
+

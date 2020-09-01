@@ -1,40 +1,63 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASPSMRecordingProperty
+schema: 2.0.0
 title: Get-PASPSMRecordingProperty
 ---
 
-## SYNOPSIS
+# Get-PASPSMRecordingProperty
 
+## SYNOPSIS
 Get property details of PSM Recordings
 
 ## SYNTAX
 
-    Get-PASPSMRecordingProperty [-RecordingID] <String> [<CommonParameters>]
+```
+Get-PASPSMRecordingProperty [-RecordingID] <String> [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Returns the property details of a recorded session.
-
-## PARAMETERS
-
-    -RecordingID <String>
-        Unique ID of the recorded PSM session
-
-        Required?                    true
-        Position?                    1
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASPSMRecordingProperty -RecordingID 123_45
+```
 
-    PS C:\>Get-PASPSMRecordingProperty -RecordingID 123_45
+Returns details of activities in PSM Recording with Id 123_45
 
-    Returns details of activities in PSM Recording with Id 123_45
+## PARAMETERS
+
+### -RecordingID
+Unique ID of the recorded PSM session
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: SessionID
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+Minimum CyberArk Version 10.6
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASPSMRecordingProperty](https://pspas.pspete.dev/commands/Get-PASPSMRecordingProperty)
+

@@ -1,25 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASUserLoginInfo {
-	<#
-.SYNOPSIS
-Get Login information for the current user
-
-.DESCRIPTION
-Returns data about the User that is currently logged into the system
-
-.EXAMPLE
-Get-PASUserLoginInfo
-
-Returns Login Info for the current user
-
-.INPUTS
-WebSession & BaseURI can be piped to the function by propertyname
-
-.OUTPUTS
-Last successful & failed logon times for the current user
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASUserLoginInfo
-#>
 	[CmdletBinding()]
 	param(	)
 

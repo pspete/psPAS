@@ -1,29 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Get-PASAccountImportJob {
-	<#
-	.SYNOPSIS
-	Gets the status of bulk account upload jobs performed by the user.
-
-	.DESCRIPTION
-	Returns the result of all bulk account upload jobs, or an individual job identified by it's ID.
-	Once the upload has finished, the API returns the result.
-	The result contains a list of all the accounts that succeeded or failed to upload.
-
-	.PARAMETER id
-	The identifier for the bulk account upload.
-
-	.EXAMPLE
-	Get-PASAccountImportJob
-
-	Returns status details of user's account upload jobs
-
-	.EXAMPLE
-	Get-PASAccountImportJob -id 4
-
-	Returns status details of user's account upload job with id of 4
-
-	.LINK
-	https://pspas.pspete.dev/commands/Get-PASAccountImportJob
-	#>
 	[CmdletBinding()]
 	param(
 		[parameter(

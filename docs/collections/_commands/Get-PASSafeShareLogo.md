@@ -1,40 +1,63 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASSafeShareLogo
+schema: 2.0.0
 title: Get-PASSafeShareLogo
 ---
 
-## SYNOPSIS
+# Get-PASSafeShareLogo
 
+## SYNOPSIS
 Returns details of configured SafeShare Logo
 
 ## SYNTAX
 
-    Get-PASSafeShareLogo [-ImageType] <String> [<CommonParameters>]
+```
+Get-PASSafeShareLogo [-ImageType] <String> [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Gets configuration details of logo displayed in the SafeShare WebGUI
-
-## PARAMETERS
-
-    -ImageType <String>
-        The requested logo type: Square or Watermark.
-
-        Required?                    true
-        Position?                    1
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASSafeShareLogo -ImageType Square
+```
 
-    PS C:\>Get-PASSafeShareLogo -ImageType Square
+Retrieves Safe Share Logo
 
-    Retrieves Safe Share Logo
+## PARAMETERS
+
+### -ImageType
+The requested logo type: Square or Watermark.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+SafeShare no longer available from CyberArk
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASSafeShareLogo](https://pspas.pspete.dev/commands/Get-PASSafeShareLogo)
+

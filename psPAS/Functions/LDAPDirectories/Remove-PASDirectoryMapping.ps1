@@ -1,32 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Remove-PASDirectoryMapping {
-	<#
-.SYNOPSIS
-Removes a configured directory mapping from the Vault
-
-.DESCRIPTION
-Removes a directory mapping configuration from the vault.
-Membership of the Vault Admins group required.
-
-.PARAMETER DirectoryName
-The Name of the directory containing the mapping.
-
-.PARAMETER MappingID
-The id of the directory mapping to delete.
-
-.EXAMPLE
-Remove-PASDirectoryMapping -DirectoryName SomeDir -MappingID 66
-
-Removes the  directory mapping with id 66 for the SomeDir directory
-
-.INPUTS
-WebSession & BaseURI can be piped to the function by propertyname
-
-.OUTPUTS
-LDAP Directory Details
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASDirectoryMapping
-#>
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param(
 		[parameter(

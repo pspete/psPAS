@@ -1,46 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function New-PASGroup {
-	<#
-.SYNOPSIS
-Creates a vault group.
-
-.DESCRIPTION
-Adds a new Vault group.
-
-Requires the following permissions:
-- Add Users
-- Update Users
-
-.PARAMETER groupName
-The name of the group to create
-
-.PARAMETER description
-A description for the group
-
-.PARAMETER location
-The vault location to create the group in.
-Preceded by "\"
-
-.EXAMPLE
-New-PASGroup -groupName SomeNewGroup -description "Some Description" -location \PSP\CyberArk\Groups
-
-Creates SomeNewGroup in the \PSP\CyberArk\Groups vault location
-
-.EXAMPLE
-New-PASGroup -groupName VaultGroup -description "Some Description" -location \
-
-Creates VaultGroup in the root vault location
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-psPAS.CyberArk.Vault.Group Object
-
-.NOTES
-Minimum Version 11.1
-
-.LINK
-https://pspas.pspete.dev/commands/New-PASGroup
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

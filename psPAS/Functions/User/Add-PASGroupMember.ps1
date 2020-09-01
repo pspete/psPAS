@@ -1,70 +1,25 @@
+# .ExternalHelp psPAS-help.xml
 function Add-PASGroupMember {
-	<#
-.SYNOPSIS
-Adds a vault user as a group member
-
-.DESCRIPTION
-Adds an existing user to an existing group in the vault
-
-.PARAMETER groupId
-The unique ID of the group to add the member to.
-Requires CyberArk version 10.6+
-
-.PARAMETER memberId
-The name of the user or group to add as a member.
-Requires CyberArk version 10.6+
-
-.PARAMETER memberType
-The type of user being added to the Vault group.
-Valid values: domain/vault
-Requires CyberArk version 10.6+
-
-.PARAMETER domainName
-If memberType=domain, dns address of the domain
-Requires CyberArk version 10.6+
-
-.PARAMETER GroupName
-The name of the user
-
-.PARAMETER UserName
-The name of the user
-
-.EXAMPLE
-Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
-
-Adds TargetUser to PVWAMonitor group
-
-.EXAMPLE
-Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
-
-Adds TargetUser to PVWAMonitor group
-
-.INPUTS
-All parameters can be piped by property name
-
-.LINK
-https://pspas.pspete.dev/commands/Add-PASGroupMember
-#>
-	[CmdletBinding(DefaultParameterSetName = "post_10_6")]
+	[CmdletBinding(DefaultParameterSetName = "Gen2")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_10_6"
+			ParameterSetName = "Gen2"
 		)]
 		[int]$groupId,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_10_6"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$memberId,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_10_6"
+			ParameterSetName = "Gen2"
 		)]
 		[ValidateSet("domain", "vault")]
 		[string]$memberType,
@@ -72,21 +27,21 @@ https://pspas.pspete.dev/commands/Add-PASGroupMember
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "post_10_6"
+			ParameterSetName = "Gen2"
 		)]
 		[string]$domainName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "pre_10_6"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$GroupName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "pre_10_6"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$UserName
 	)
@@ -99,7 +54,7 @@ https://pspas.pspete.dev/commands/Add-PASGroupMember
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"pre_10_6" {
+			"Gen1" {
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Groups/$($GroupName | Get-EscapedString)/Users"
@@ -108,7 +63,7 @@ https://pspas.pspete.dev/commands/Add-PASGroupMember
 
 			}
 
-			"post_10_6" {
+			"Gen2" {
 
 				Assert-VersionRequirement -RequiredVersion 10.6
 
