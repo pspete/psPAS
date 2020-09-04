@@ -82,7 +82,7 @@ In addition, this method allows you to set a new password.
 
 Will attempt authentication against the V10 API by default.
 
-For older CyberArk versions, specify the -UseClassicAPI switch parameter to force use of the V9 API endpoint.
+For older CyberArk versions, specify the -UseGen1API switch parameter to force use of the V9 API endpoint.
 
 Windows authentication is only supported (from CyberArk 10.4+).
 
@@ -126,7 +126,7 @@ Logon to Version 10 with Windows Integrated Authentication
 
 ### EXAMPLE 5
 ```
-New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI
+New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API
 ```
 
 Logon to Version 9 with credential
@@ -134,7 +134,7 @@ Request would be sent to PVWA URL https://PVWA/PasswordVault/
 
 ### EXAMPLE 6
 ```
-New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseClassicAPI
+New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseGen1API
 ```
 
 Logon to Version 9 where PVWA Virtual Directory has non-default name
@@ -177,7 +177,7 @@ Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
 
 ### EXAMPLE 12
 ```
-New-PASSession -Credential $cred -BaseURI https://PVWA -UseClassicAPI -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
+New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
 ```
 
 Logon using RADIUS & OTP (Append Mode) via the 1st gen API

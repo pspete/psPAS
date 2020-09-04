@@ -44,7 +44,7 @@ Adds a new user to the vault
 
 ### EXAMPLE 1
 ```
-New-PASUser -UserName NewUser -InitialPassword $securePWD -UseClassicAPI
+New-PASUser -UserName NewUser -InitialPassword $securePWD -UseGen1API
 ```
 
 Creates a Vault user named NewUser, with password set to securestring value from $securePWD, using the v9 (classic) API

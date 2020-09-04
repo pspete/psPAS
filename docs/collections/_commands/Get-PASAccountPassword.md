@@ -47,7 +47,7 @@ Will return the password value of the account found by Get-PASAccount
 
 ### EXAMPLE 2
 ```
-Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -UseClassicAPI
+Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -UseGen1API
 ```
 
 Will retrieve the password value of the account found by Get-PASAccount using the classic (v9) API

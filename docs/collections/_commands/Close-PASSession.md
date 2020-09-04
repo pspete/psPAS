@@ -62,7 +62,7 @@ Logs off from the session related to the authorisation token using the Shared Au
 
 ### EXAMPLE 4
 ```
-Close-PASSession -UseClassicAPI
+Close-PASSession -UseGen1API
 ```
 
 Logs off from the session related to the authorisation token using the 1st gen API endpoint.

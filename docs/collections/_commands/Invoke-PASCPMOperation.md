@@ -78,7 +78,7 @@ Marks an account for verification
 
 ### EXAMPLE 2
 ```
-Invoke-PASCPMOperation -AccountID $ID -VerifyTask -UseClassicAPI
+Invoke-PASCPMOperation -AccountID $ID -VerifyTask -UseGen1API
 ```
 
 Marks an account for verification using the 1st gen API
