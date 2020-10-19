@@ -6,6 +6,8 @@
 - psPAS v5.0...
 - **vNext**
   - Updates
+    - `New-PASSession`
+      - Fix issue where `concurrentSession` body was not sent with request when using integrated authentication.
     - Replaced comment based help with external help.
 
 ## **4.4.71** (August 24th 2020)

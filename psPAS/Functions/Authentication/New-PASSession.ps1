@@ -291,6 +291,11 @@ function New-PASSession {
 			"integrated" {
 
 				$LogonRequest["Uri"] = "$baseURI/$PVWAAppName/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
+
+				#Construct Request Body
+				#The only expected parameter should be concurrentSessions
+				$LogonRequest["Body"] = $PSBoundParameters | Get-PASParameter -ParametersToKeep concurrentSession | ConvertTo-Json
+
 				break
 
 			}
