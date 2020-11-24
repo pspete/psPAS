@@ -44,13 +44,12 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			$InputObject = [PSCustomObject]@{
 
-				id                        = "idValue"
-				authenticationEndpointUrl = "authenticationEndpointUrlValue"
-				issuer                    = "issuerValue"
-				jwkSet                    = "jwkSetValue"
-				clientId                  = "clientIdValue"
-				clientSecret              = "clientSecretValue"
-				clientSecretMethod        = "Post"
+				id                   = "idValue"
+				authenticationFlow   = "Code"
+				discoveryEndpointUrl = "https://SomeValue"
+				clientId             = "00000159875dgjut02f5"
+				clientSecretMethod   = "Post"
+				clientSecret         = "SSSSSSSSSHHHHHHHHHHH"
 			}
 
 			$response = $InputObject | Add-PASOpenIDConnectProvider
