@@ -14,7 +14,7 @@ Function Get-PASDiscoveredAccount {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "byQuery"
 		)]
-		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key", "AWS", "AWS Access Keys")]
+		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key", "AWS", "AWS Access Keys", "Azure Password Management")]
 		[string]$platformType,
 
 		[parameter(
@@ -88,6 +88,12 @@ Function Get-PASDiscoveredAccount {
 			}
 
 			"byQuery" {
+
+				If ($platformType -eq "Azure Password Management") {
+
+					Assert-VersionRequirement -RequiredVersion 11.7
+
+				}
 
 				#Get Parameters to include in request
 				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters

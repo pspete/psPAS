@@ -201,7 +201,12 @@
 		'New-PASAccountObject',
 		'Start-PASAccountImportJob',
 		'Get-PASAccountImportJob',
-		'Get-PASDiscoveredAccount'
+		'Get-PASDiscoveredAccount',
+		'Add-PASOpenIDConnectProvider',
+		'Get-PASOpenIDConnectProvider',
+		'Set-PASOpenIDConnectProvider',
+		'Remove-PASOpenIDConnectProvider',
+		'Remove-PASAuthenticationMethod'
 	)
 
 	AliasesToExport   = @(
