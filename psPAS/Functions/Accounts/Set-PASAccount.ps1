@@ -156,7 +156,7 @@ function Set-PASAccount {
 
 				#Do Not Pipe into ConvertTo-JSON.
 				#Correct JSON Format is only achieved when the array is not sent along the pipe
-				$body = ConvertTo-Json @($boundParameters)
+				$body = ConvertTo-Json @($boundParameters) -Depth 3
 
 			}
 

@@ -22,6 +22,8 @@
     - `Get-PASDiscoveredAccount`
       - Adds support for Azure platform
   - Other Updates & Fixes
+    - `Set-PASAccount`
+      - Fix issue where JSON was truncated when attempting to perform multiple operations.
     - `New-PASSession`
       - Fix issue where `concurrentSession` body was not sent with request when using integrated authentication.
     - Replaced comment based help with external help.
