@@ -36,12 +36,27 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		BeforeEach {
+			$Script:ExternalVersion = "0.0"
+
 			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{"Methods" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
+				[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
 			}
 
-			$response = Get-PASAuthenticationMethod
+			$InputObject = [PSCustomObject]@{
+
+				id                        = "idValue"
+				authenticationEndpointUrl = "authenticationEndpointUrlValue"
+				issuer                    = "issuerValue"
+				jwkSet                    = "jwkSetValue"
+				clientId                  = "clientIdValue"
+				clientSecret              = "clientSecretValue"
+				clientSecretMethod        = "Post"
+			}
+
+			$response = $InputObject | Add-PASOpenIDConnectProvider
+
 		}
+
 		Context "Input" {
 
 			It "sends request" {
@@ -50,23 +65,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - get all method" {
+			It "sends request to expected endpoint" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Configuration/AuthenticationMethods/"
-
-				} -Times 1 -Exactly -Scope It
-
-			}
-
-			It "sends request to expected endpoint - get specific method" {
-
-				Get-PASAuthenticationMethod -ID SomeMethod
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$URI -eq "$($Script:BaseURI)/api/Configuration/AuthenticationMethods/SomeMethod"
+					$URI -eq "$($Script:BaseURI)/api/Configuration/OIDC/Providers"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -74,19 +77,25 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It "sends request with expected body" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+					$($Body | ConvertFrom-Json) -ne $null
+				} -Times 1 -Exactly -Scope It
 
+			}
+
+			It "throws error if userNameClaim contains invalid characters" {
+				{ $InputObject | Add-PASOpenIDConnectProvider -userNameClaim "abc_123-456" } | Should -Throw
 			}
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "1.0"
-				{ Get-PASAuthenticationMethod } | Should -Throw
+				{ $InputObject | Add-PASOpenIDConnectProvider } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 

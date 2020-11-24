@@ -5,7 +5,23 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v5.0...
 - **vNext**
-  - Updates
+  - New Functions
+    - `Add-PASOpenIDConnectProvider`
+      - Adds a new OIDC authentication provider configuration
+    - `Get-PASOpenIDConnectProvider`
+      - Lists configured OIDC authentication providers
+    - `Set-PASOpenIDConnectProvider`
+      - Updates a configured OIDC authentication provider
+    - `Remove-PASOpenIDConnectProvider`
+      - Deletes a configured OIDC authentication provider
+    - `Remove-PASAuthenticationMethod`
+      - Deletes a configured auth method
+  - Updated Functions
+    - `Add-PASDiscoveredAccount`
+      - Adds support for Azure platform
+    - `Get-PASDiscoveredAccount`
+      - Adds support for Azure platform
+  - Other Updates & Fixes
     - `New-PASSession`
       - Fix issue where `concurrentSession` body was not sent with request when using integrated authentication.
     - Replaced comment based help with external help.

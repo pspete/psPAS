@@ -36,12 +36,22 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		BeforeEach {
+			$Script:ExternalVersion = "0.0"
+
 			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{"Methods" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
+				[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
 			}
 
-			$response = Get-PASAuthenticationMethod
+			$InputObject = [PSCustomObject]@{
+
+				id = "idValue"
+
+			}
+
+			$response = $InputObject | Remove-PASAuthenticationMethod
+
 		}
+
 		Context "Input" {
 
 			It "sends request" {
@@ -50,23 +60,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - get all method" {
+			It "sends request to expected endpoint" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Configuration/AuthenticationMethods/"
-
-				} -Times 1 -Exactly -Scope It
-
-			}
-
-			It "sends request to expected endpoint - get specific method" {
-
-				Get-PASAuthenticationMethod -ID SomeMethod
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$URI -eq "$($Script:BaseURI)/api/Configuration/AuthenticationMethods/SomeMethod"
+					$URI -eq "$($Script:BaseURI)/api/Configuration/AuthenticationMethods/idValue"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -74,19 +72,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			It "uses expected method" {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
-
-			}
-
-			It "sends request with no body" {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It "throws error if version requirement not met" {
 				$Script:ExternalVersion = "1.0"
-				{ Get-PASAuthenticationMethod } | Should -Throw
+				{ $InputObject | Remove-PASAuthenticationMethod } | Should -Throw
 				$Script:ExternalVersion = "0.0"
 			}
 

@@ -69,6 +69,17 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [<CommonParameters>]
 ```
 
+### Azure
+```
+Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <DateTime>
+ -AccountEnabled <Boolean> [-osGroups <String>] [-platformType <String>] [-Domain <String>]
+ [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>] [-passwordNeverExpires <Boolean>]
+ [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
+ [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
+ [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-activeDirectoryID <String>]
+ [<CommonParameters>]
+```
+
 ## DESCRIPTION
 Enables an account or SSH key that is discovered by an external scanner to be added
 as a pending account to the Accounts Feed.
@@ -617,6 +628,21 @@ Requires 10.8+
 ```yaml
 Type: Hashtable[]
 Parameter Sets: Dependency
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -activeDirectoryID
+Azure Active Directory tenant ID
+
+```yaml
+Type: String
+Parameter Sets: Azure
 Aliases:
 
 Required: False

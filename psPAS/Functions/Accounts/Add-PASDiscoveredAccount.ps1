@@ -39,7 +39,7 @@ function Add-PASDiscoveredAccount {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key", "AWS", "AWS Access Keys")]
+		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key", "AWS", "AWS Access Keys", "Azure Password Management")]
 		[string]$platformType,
 
 		[parameter(
@@ -218,12 +218,26 @@ function Add-PASDiscoveredAccount {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = "Dependency"
 		)]
-		[hashtable[]]$Dependencies
+		[hashtable[]]$Dependencies,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "Azure"
+		)]
+		[string]$activeDirectoryID
 	)
 
 	BEGIN {
 
 		switch ($PSCmdlet.ParameterSetName) {
+
+			{ $PSItem -match "Azure" } {
+
+				#v11.7 required for Azure
+				Assert-VersionRequirement -RequiredVersion 11.7
+
+			}
 
 			{ $PSItem -match "AWS|Dependency" } {
 
@@ -241,7 +255,7 @@ function Add-PASDiscoveredAccount {
 
 		}
 
-		$AccountProperties = [Collections.Generic.List[String]]@("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption", "awsAccountID", "awsAccessKeyID")
+		$AccountProperties = [Collections.Generic.List[String]]@("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption", "awsAccountID", "awsAccessKeyID", "activeDirectoryID")
 
 		$DateTimes = [Collections.Generic.List[String]]@("discoveryDate", "lastLogonDateTime", "lastPasswordSetDateTime", "passwordExpirationDateTime")
 

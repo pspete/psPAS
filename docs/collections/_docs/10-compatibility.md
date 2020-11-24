@@ -148,7 +148,17 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASAccountImportJob`][Get-PASAccountImportJob]                                     |**11.6**                                            |Get status of account import
 [`New-PASAccountObject`][New-PASAccountObject]                                           |**---**                                             |Format an object to include in an import list
 [`Get-PASDiscoveredAccount`][Get-PASDiscoveredAccount]                                   |**11.6**                                            |List discovered accounts
+[`Add-PASOpenIDConnectProvider`][Add-PASOpenIDConnectProvider]                           |**11.7**                                            |Adds an OIDC Authentication Provider
+[`Get-PASOpenIDConnectProvider`][Get-PASOpenIDConnectProvider]                           |**11.7**                                            |Gets details of configured OIDC Authentication Providers
+[`Remove-PASOpenIDConnectProvider`][Remove-PASOpenIDConnectProvider]                     |**11.7**                                            |Deletes an OIDC Authentication Provider
+[`Set-PASOpenIDConnectProvider`][Set-PASOpenIDConnectProvider]                           |**11.7**                                            |Updates an OIDC Authentication Provider
+[`Remove-PASAuthenticationMethod`][Remove-PASAuthenticationMethod]                       |**11.7**                                            |Delete an authentication method
 
+[Add-PASOpenIDConnectProvider]:/commands/Add-PASOpenIDConnectProvider
+[Get-PASOpenIDConnectProvider]:/commands/Get-PASOpenIDConnectProvider
+[Remove-PASOpenIDConnectProvider]:/commands/Remove-PASOpenIDConnectProvider
+[Set-PASOpenIDConnectProvider]:/commands/Set-PASOpenIDConnectProvider
+[Remove-PASAuthenticationMethod]:/commands/Remove-PASAuthenticationMethod
 [Get-PASDiscoveredAccount]:/commands/Get-PASDiscoveredAccount
 [Start-PASAccountImportJob]:/commands/Start-PASAccountImportJob
 [Get-PASAccountImportJob]:/commands/Get-PASAccountImportJob
@@ -455,6 +465,9 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 10.8 introduced a new API endpoint.
   - Supports:
     - Account Dependency & AWS specific parameters
+- Version 11.7
+  - Supports
+    - Azure specific parameter
 
 ### Get-PASPlatform
 
