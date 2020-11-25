@@ -66,7 +66,8 @@
 			"NewCredentials",
 			"NewPassword",
 			"BindPassword",
-			"InitialPassword"
+			"InitialPassword",
+			"clientSecret"
 		)
 	)
 
@@ -83,11 +84,11 @@
 		#Combine base parameters and any additional parameters to remove
 		($SecretsToRemove + $Secrets) |
 
-		ForEach-Object {
+			ForEach-Object {
 
-			$OutputValue = $OutputValue -replace "(`"$_`":).+(`",?)", "`$1  `"******`$2"
+				$OutputValue = $OutputValue -replace "(`"$_`":).+(`",?)", "`$1  `"******`$2"
 
-		}
+			}
 
 	}#process
 

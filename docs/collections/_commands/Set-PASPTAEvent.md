@@ -1,49 +1,107 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Set-PASPTAEvent
+schema: 2.0.0
 title: Set-PASPTAEvent
 ---
 
-## SYNOPSIS
+# Set-PASPTAEvent
 
+## SYNOPSIS
 Updates the status of a security event
 
 ## SYNTAX
 
-    Set-PASPTAEvent [-EventID] <String> [[-mStatus] <String>] [<CommonParameters>]
+```
+Set-PASPTAEvent [-EventID] <String> [[-mStatus] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
-    Updates the status of a security event to open or closed
-
-## PARAMETERS
-
-    -EventID <String>
-        The event ID.
-
-        Required?                    true
-        Position?                    1
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -mStatus <String>
-        The status to update (open or closed).
-
-        Required?                    false
-        Position?                    2
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
+Updates the status of a security event to open or closed
 
 ## EXAMPLES
 
-        Minimum Version CyberArk 11.3
+### EXAMPLE 1
+```
+Set-PASPTAEvent -EventID $id
+```
 
-    -------------------------- EXAMPLE 1 --------------------------
+## PARAMETERS
 
-    PS C:\>Set-PASPTAEvent -EventID $id
+### -EventID
+The event ID.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -mStatus
+The status to update (open or closed).
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+Minimum Version CyberArk 11.3
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Set-PASPTAEvent](https://pspas.pspete.dev/commands/Set-PASPTAEvent)
+

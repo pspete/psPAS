@@ -8,7 +8,7 @@
 
 Use PowerShell to manage CyberArk via the Web Services REST API.
 
-Contains all published methods of the API up to CyberArk v11.6.
+Contains all published methods of the API up to CyberArk v11.7.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -889,7 +889,17 @@ Click the below dropdown to view the current lis of psPAS functions and their mi
 [`Get-PASAccountImportJob`][Get-PASAccountImportJob]                                     |**11.6**            |Get status of account import
 [`New-PASAccountObject`][New-PASAccountObject]                                           |**---**             |Format an object to include in an import list
 [`Get-PASDiscoveredAccount`][Get-PASDiscoveredAccount]                                   |**11.6**            |List discovered accounts
+[`Add-PASOpenIDConnectProvider`][Add-PASOpenIDConnectProvider]                           |**11.7**            |Adds an OIDC Authentication Provider
+[`Get-PASOpenIDConnectProvider`][Get-PASOpenIDConnectProvider]                           |**11.7**            |Gets details of configured OIDC Authentication Providers
+[`Remove-PASOpenIDConnectProvider`][Remove-PASOpenIDConnectProvider]                     |**11.7**            |Deletes an OIDC Authentication Provider
+[`Set-PASOpenIDConnectProvider`][Set-PASOpenIDConnectProvider]                           |**11.7**            |Updates an OIDC Authentication Provider
+[`Remove-PASAuthenticationMethod`][Remove-PASAuthenticationMethod]                       |**11.7**            |Delete an authentication method
 
+[Add-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider
+[Get-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Get-PASOpenIDConnectProvider
+[Remove-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Remove-PASOpenIDConnectProvider
+[Set-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Set-PASOpenIDConnectProvider
+[Remove-PASAuthenticationMethod]:/psPAS/Functions/Authentication/Remove-PASAuthenticationMethod
 [Get-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Get-PASDiscoveredAccount.ps1
 [Start-PASAccountImportJob]:/psPAS/Functions/Accounts/Start-PASAccountImportJob.ps1
 [Get-PASAccountImportJob]:/psPAS/Functions/Accounts/Get-PASAccountImportJob.ps1

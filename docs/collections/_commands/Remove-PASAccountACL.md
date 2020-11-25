@@ -1,98 +1,146 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Remove-PASAccountACL
+schema: 2.0.0
 title: Remove-PASAccountACL
 ---
 
-## SYNOPSIS
+# Remove-PASAccountACL
 
+## SYNOPSIS
 Deletes privileged commands rule from an account
 
 ## SYNTAX
 
-    Remove-PASAccountACL [-AccountPolicyId] <String> [-AccountAddress] <String>
-    [-AccountUserName] <String> [-Id] <String>
+```
+Remove-PASAccountACL [-AccountPolicyId] <String> [-AccountAddress] <String> [-AccountUserName] <String>
+ [-Id] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Deletes privileged commands rule associated with account
-
-## PARAMETERS
-
-    -AccountPolicyId <String>
-        ID of account from which the commands will be deleted
-
-        Required?                    true
-        Position?                    1
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -AccountAddress <String>
-        The address of the account for which the privileged command will be deleted.
-
-        Required?                    true
-        Position?                    2
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -AccountUserName <String>
-        The name of the account's user.
-
-        Required?                    true
-        Position?                    3
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -Id <String>
-        The ID of the command that will be deleted
-
-        Required?                    true
-        Position?                    4
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -WhatIf [<SwitchParameter>]
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    -Confirm [<SwitchParameter>]
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
-
-
-    Should accept pipeline objects from Get-PASAccountACL functio.
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Remove-PASAccountACL -AccountPolicyId UNIXSSH -AccountAddress machine -AccountUserName root -Id 12
+```
 
-    PS C:\>Remove-PASAccountACL -AccountPolicyId UNIXSSH -AccountAddress machine
-    -AccountUserName root -Id 12
+Removes matching Privileged Account Rule from the account root
 
-    Removes matching Privileged Account Rule from the account root
+### EXAMPLE 2
+```
+Get-PASAccount root | Get-PASAccountACL | Where-Object{$_.Command -eq "ifconfig"} | Remove-PASAccountACL
+```
 
+Removes matching Privileged Account Rule from account.
 
+## PARAMETERS
 
+### -AccountPolicyId
+ID of account from which the commands will be deleted
 
-    -------------------------- EXAMPLE 2 --------------------------
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: PolicyID
 
-    PS C:\>Get-PASAccount root | Get-PASAccountACL | Where-Object{$_.Command -eq "ifconfig"} |
-        Remove-PASAccountACL
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    Removes matching Privileged Account Rule from account.
+### -AccountAddress
+The address of the account for which the privileged command will be deleted.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -AccountUserName
+The name of the account's user.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 3
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Id
+The ID of the command that will be deleted
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 4
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Remove-PASAccountACL](https://pspas.pspete.dev/commands/Remove-PASAccountACL)
+

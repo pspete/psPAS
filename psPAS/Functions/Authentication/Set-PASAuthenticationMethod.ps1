@@ -1,49 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Set-PASAuthenticationMethod {
-	<#
-.SYNOPSIS
-Updates an authentication method
-
-.DESCRIPTION
-Updates authentication method.
-Membership of Vault admins group required.
-
-.PARAMETER id
-The authentication module unique identifier.
-
-.PARAMETER displayName
-The display name of the authentication method.
-
-.PARAMETER enabled
-Whether or not the authentication method is enabled for use.
-
-.PARAMETER mobileEnabled
-Whether or not the authentication method is available from the mobile application.
-
-.PARAMETER logoffUrl
-The logoff page URL of the third-party server.
-
-.PARAMETER secondFactorAuth
-Defines which second factor authentication to use when connecting to the Vault.
-An empty value will disable the second factor authentication.
-
-.PARAMETER signInLabel
-Defines the sign-in text for this authentication method.
-Relevant only for CyberArk, RADIUS and LDAP authentication methods.
-
-.PARAMETER usernameFieldLabel
-Defines the label of the username field for this authentication method.
-Relevant only for CyberArk, RADIUS, and LDAP authentication methods.
-
-.PARAMETER passwordFieldLabel
-Defines the label of the password field for this authentication method.
-Relevant only for CyberArk, RADIUS, and LDAP authentication methods.
-
-.EXAMPLE
-Set-PASAuthenticationMethod -id SomeID -enabled $false
-
-Disable authentication method "SomeID"
-
-#>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = "passwordFieldLabel not related to password value")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUsernameAndPasswordParams', '', Justification = "usernameFieldLabel & passwordFieldLabel not related to password value")]
 	[CmdletBinding(SupportsShouldProcess)]

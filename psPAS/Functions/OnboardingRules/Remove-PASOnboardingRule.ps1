@@ -1,27 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Remove-PASOnboardingRule {
-	<#
-.SYNOPSIS
-Deletes an automatic on-boarding rule
-
-
-.DESCRIPTION
-Deletes an automatic on-boarding rulefrom the Vault.
-Vault Admin membership required.
-
-.PARAMETER RuleID
-The unique ID of the rule to delete.
-
-.EXAMPLE
-Remove-PASOnboardingRule -RuleID 5
-
-Removes specified on-boarding rule.
-
-.INPUTS
-All parameters can be piped by property name
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASOnboardingRule
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

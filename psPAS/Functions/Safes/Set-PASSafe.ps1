@@ -1,54 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Set-PASSafe {
-	<#
-.SYNOPSIS
-Updates a safe in the Vault
-
-.DESCRIPTION
-Updates a single safe in the Vault.
-Manage Safe permission is required.
-
-.PARAMETER SafeName
-The name of the safe to update.
-Max Length 28 characters.
-Cannot start with a space.
-Cannot contain: '\','/',':','*','<','>','"','.' or '|'
-
-.PARAMETER  NewSafeName
-A name to rename the safe to
-Max Length 28 characters.
-Cannot start with a space.
-Cannot contain: '\','/',':','*','<','>','"','.' or '|'
-
-.PARAMETER Description
-Updated Description for safe.
-Max 100 characters.
-
-.PARAMETER OLACEnabled
-Boolean value, dictating whether or not to enable Object Level Access Control on the safe.
-
-.PARAMETER ManagingCPM
-The Name of the CPM user to manage the safe.
-Specify "" to prevent CPM management.
-
-.PARAMETER NumberOfVersionsRetention
-The number of retained versions of every password that is stored in the Safe.
-Max value = 999
-Specify either this parameter or NumberOfDaysRetention.
-
-.PARAMETER NumberOfDaysRetention
-The number of days for which password versions are saved in the Safe.
-Minimum Value: 1
-Maximum Value 3650
-Specify either this parameter or NumberOfVersionsRetention
-
-.EXAMPLE
-Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfVersionsRetention 10
-
-Updates description and version retention on SAFE
-
-.LINK
-https://pspas.pspete.dev/commands/Set-PASSafe
-#>
 	[CmdletBinding(SupportsShouldProcess,
 		DefaultParameterSetName = "Update")]
 	param(

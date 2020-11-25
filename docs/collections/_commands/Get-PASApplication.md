@@ -1,20 +1,30 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASApplication
+schema: 2.0.0
 title: Get-PASApplication
 ---
 
-## SYNOPSIS
+# Get-PASApplication
 
+## SYNOPSIS
 Returns details of applications in the Vault
 
 ## SYNTAX
 
-    Get-PASApplication [-AppID <String>] [-Location <String>] [-IncludeSublocations <Boolean>]
-    [<CommonParameters>]
+### byQuery (Default)
+```
+Get-PASApplication [-AppID <String>] [-Location <String>] [-IncludeSublocations <Boolean>] [<CommonParameters>]
+```
 
-    Get-PASApplication -AppID <String> [-ExactMatch] [<CommonParameters>]
+### byAppID
+```
+Get-PASApplication -AppID <String> [-ExactMatch] [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Returns information on Applications from the Vault.
 
 Results can be filtered by specifying additional parameters.
@@ -23,87 +33,120 @@ Applications can be found by name, or searched for.
 
 Audit Users permission is required.
 
-## PARAMETERS
-
-    -AppID <String>
-        Application Name
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ExactMatch [<SwitchParameter>]
-        By Default, the function will search the vault.
-        All found applications (based on parameters supplied) will be returned.
-        When Specifying this parameter, the function will not search;
-        data for the supplied AppID will be returned.
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    -Location <String>
-        Location of the application in the Vault hierarchy.
-        Default=\
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -IncludeSublocations <Boolean>
-        Will search be carried out in sublocations of specified location?
-        Boolean
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
-
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASApplication
+```
 
-    PS C:\>Get-PASApplication
+Returns information on all defined applications
 
-    Returns information on all defined applications
+### EXAMPLE 2
+```
+Get-PASApplication NewApp -ExactMatch
+```
 
+Gets details of the application "NewApp"
 
+### EXAMPLE 3
+```
+Get-PASApplication NewApp
+```
 
+Gets details of all application matching "NewApp"
 
-    -------------------------- EXAMPLE 2 --------------------------
+## PARAMETERS
 
-    PS C:\>Get-PASApplication NewApp -ExactMatch
+### -AppID
+Application Name
 
-    Gets details of the application "NewApp":
+```yaml
+Type: String
+Parameter Sets: byQuery
+Aliases:
 
-    AppID  Description       Location Disabled
-    -----  -----------       -------- --------
-    NewApp A new application \        False
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+```yaml
+Type: String
+Parameter Sets: byAppID
+Aliases:
 
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -ExactMatch
+By Default, the function will search the vault.
 
-    -------------------------- EXAMPLE 3 --------------------------
+All found applications (based on parameters supplied) will be returned.
 
-    PS C:\>Get-PASApplication NewApp
+When Specifying this parameter, the function will not search;
+data for the supplied AppID will be returned.
 
-    Gets details of all application matching "NewApp":
+```yaml
+Type: SwitchParameter
+Parameter Sets: byAppID
+Aliases:
 
-    AppID   Description       Location Disabled
-    -----   -----------       -------- --------
-    NewApp  A new application \        False
-    NewApp1 A new application \        False
-    NewApp7 A new application \        False
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Location
+Location of the application in the Vault hierarchy.
+
+Default=\
+
+```yaml
+Type: String
+Parameter Sets: byQuery
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -IncludeSublocations
+Will search be carried out in sublocations of specified location?
+
+```yaml
+Type: Boolean
+Parameter Sets: byQuery
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASApplication](https://pspas.pspete.dev/commands/Get-PASApplication)
+

@@ -1,40 +1,63 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Get-PASPSMSessionProperty
+schema: 2.0.0
 title: Get-PASPSMSessionProperty
 ---
 
-## SYNOPSIS
+# Get-PASPSMSessionProperty
 
+## SYNOPSIS
 Get property details of PSM Session
 
 ## SYNTAX
 
-    Get-PASPSMSessionProperty [-liveSessionId] <String> [<CommonParameters>]
+```
+Get-PASPSMSessionProperty [-liveSessionId] <String> [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Returns the property details of an active PSM session.
-
-## PARAMETERS
-
-    -liveSessionId <String>
-        The ID of an active session to get properties of.
-
-        Required?                    true
-        Position?                    1
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Get-PASPSMSessionProperty -liveSessionId 123_45
+```
 
-    PS C:\>Get-PASPSMSessionProperty -liveSessionId 123_45
+Returns details of activities in PSM Recording with Id 123_45
 
-    Returns details of activities in PSM Recording with Id 123_45
+## PARAMETERS
+
+### -liveSessionId
+The ID of an active session to get properties of.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: SessionID
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+Minimum CyberArk Version 10.6
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASPSMSessionProperty](https://pspas.pspete.dev/commands/Get-PASPSMSessionProperty)
+

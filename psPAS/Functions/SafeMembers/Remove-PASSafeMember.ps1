@@ -1,30 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Remove-PASSafeMember {
-	<#
-.SYNOPSIS
-Removes a member from a safe
-
-.DESCRIPTION
-Removes a specific member from a Safe.
-The user who runs this function requires the ManageSafeMembers
-permission.
-
-.PARAMETER SafeName
-The name of the safe from which to remove the member.
-
-.PARAMETER MemberName
-The name of the safe member to remove from the safes list of members.
-
-.EXAMPLE
-Remove-PASSafeMember -SafeName TargetSafe -MemberName TargetUser
-
-Removes TargetUser as safe member from TargetSafe
-
-.INPUTS
-All parameters can be piped by property name
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASSafeMember
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

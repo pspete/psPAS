@@ -1,32 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASPSMRecordingProperty {
-	<#
-.SYNOPSIS
-Get property details of PSM Recordings
-
-.DESCRIPTION
-Returns the property details of a recorded session.
-
-.PARAMETER RecordingID
-Unique ID of the recorded PSM session
-
-.EXAMPLE
-Get-PASPSMRecordingProperty -RecordingID 123_45
-
-Returns details of activities in PSM Recording with Id 123_45
-
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-Minimum CyberArk Version 10.6
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASPSMRecordingProperty
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

@@ -1,52 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Get-PASPTAEvent {
-	<#
-.SYNOPSIS
-Returns PTA security events
-
-.DESCRIPTION
-Returns PTA security events
-
-.PARAMETER fromUpdateDate
-Starting date from which to get security events.
-Requires 11.3
-
-.PARAMETER status
-The status of the security event (open or closed).
-Requires 11.3
-
-.PARAMETER accountID
-The unique account identifier of the account relating to the Security Event.
-Requires 11.4
-
-.PARAMETER lastUpdatedEventDate
-Starting date from which to get security events.
-
-.EXAMPLE
-Get-PASPTAEvent
-
-Returns all PTA security events
-
-.EXAMPLE
-Get-PASPTAEvent -fromUpdateDate $date
-
-Returns all PTA security events since $date
-
-.EXAMPLE
-Get-PASPTAEvent -status OPEN
-
-Returns all PTA security events with an Open status.
-
-.EXAMPLE
-Get-PASPTAEvent -lastUpdatedEventDate $date
-
-Returns all PTA security events since $date
-
-.NOTES
-Minimum Version CyberArk 10.3
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASPTAEvent
-#>
 	[CmdletBinding(DefaultParameterSetName = "11.3")]
 	param(
 		[parameter(

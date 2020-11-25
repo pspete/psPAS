@@ -1,136 +1,6 @@
+# .ExternalHelp psPAS-help.xml
 function Set-PASAccount {
-	<#
-.SYNOPSIS
-Updates an existing accounts details.
-
-.DESCRIPTION
-Updates an existing accounts details.
-
-For CyberArk version prior to 10.4:
-All of the account's property details MUST be passed to the function.
-Any current properties of the account not sent as part of the request will be removed
-from the account.
-To change a property value not exposed via a named parameter,
-pass the property name and updated value to the function via the Properties parameter.
-If changing the name or folder of a service account that has multiple dependencies (usages),
-the connection between it and its dependencies will be automatically maintained.
-If changing the name or folder of an account that is linked to another account (whether logon,
-reconciliation or verification), the links will be automatically updated.
-
-.PARAMETER AccountID
-The unique ID of the account to update.
-Retrieved by Get-PASAccount
-
-.PARAMETER op
-The operation to perform (add, remove, replace).
-Requires CyberArk version 10.4+
-
-.PARAMETER path
-The path of the property to update, for instance /address or /name.
-Requires CyberArk version 10.4+
-
-.PARAMETER value
-The new property value for add or replace operations.
-Requires CyberArk version 10.4+
-
-.PARAMETER operations
-A collection of update actions to perform, must include op, path & value (except where action is remove).
-Requires CyberArk version 10.4+
-
-.PARAMETER Folder
-The folder where the account is stored.
-
-.PARAMETER AccountName
-The name of the account
-
-.PARAMETER DeviceType
-The devicetype assigned to the account.
-Ensure all required parameters are specified.
-Different device types require different parameters
-
-.PARAMETER PlatformID
-The CyberArk platform assigned to the account
-Ensure all required parameters are specified.
-Different platforms require different parameters
-
-.PARAMETER Address
-The Name or Address of the machine where the account will be used
-
-.PARAMETER Username
-The Username on the target machine
-
-.PARAMETER GroupName
-A groupname with which the account will be associated
-The name of the group with which the account is associated.
-To create a new group, specify the group platform ID in the GroupPlatformID property,
-then specify the group name. The group will then be created automatically.
-
-.PARAMETER GroupPlatformID
-GroupPlatformID is required if account is to be moved to a new group.
-
-.PARAMETER Properties
-Hashtable of name=value pairs.
-Specify properties to update.
-
-.PARAMETER InputObject
-Receives object from pipeline.
-
-.EXAMPLE
-Set-PASAccount -AccountID 27_4 -op replace -path "/address" -value "NewAddress"
-
-Replaces the current address value with NewAddress
-
-.EXAMPLE
-Set-PASAccount -AccountID 27_4 -op remove -path "/platformAccountProperties/UserDN"
-
-Removes UserDN property set on account
-
-.EXAMPLE
-$actions += @{"op"="Add";"path"="/platformAccountProperties/UserDN";"value"="SomeDN"}
-$actions += @{"op"="Replace";"path"="/Name";"value"="SomeName"}
-
-Set-PASAccount -AccountID 27_4 -operations $actions
-
-Performs the update operations contained in the $actions array against the account
-
-.EXAMPLE
-Get-PASAccount DBUser | Set-PASAccount -Properties @{"DSN"="myDSN"}
-
-Sets DSN value on matched account dbUser
-
-.EXAMPLE
- Set-PASAccount -AccountID 21_3 -Folder Root -AccountName NewName `
- -DeviceType Database -PlatformID Oracle -Address dbServer.domain.com -UserName DBUser
-
- Will set the AccountName of account with AccountID of 21_3 to "NewName".
- **Any/All additional properties of the account which are not specified via parameters will be cleared**
-
-.INPUTS
-All parameters, except "Properties", can be piped by property name.
-Accepts pipeline object from Get-PASAccount functions.
-When an object is piped into this function, properties which are
-set on the account are automatically included in the request.
-If run without pipeline input, all existing properties of the account
-must be specified in the request, otherwise, any property values not
-specified will be removed from the account.
-
-.OUTPUTS
-Outputs Object of Custom Type psPAS.CyberArk.Vault.Account or psPAS.CyberArk.Vault.Account.V10
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-Dependencies (usages) cannot be updated.
-Accounts that do not have a policy ID cannot be updated.
-
-To update account properties, "Update password properties" permission is required.
-To rename accounts, "Rename accounts" permission is required.
-To move accounts to a different folder, Move accounts/folders permission is required.
-
-.LINK
-https://pspas.pspete.dev/commands/Set-PASAccount
-#>
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "V10SingleOp")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "Gen2SingleOp")]
 	param(
 
 		[parameter(
@@ -144,7 +14,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10SingleOp"
+			ParameterSetName = "Gen2SingleOp"
 		)]
 		[ValidateSet("add", "replace", "remove")]
 		[Alias("Operation")]
@@ -153,35 +23,35 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10SingleOp"
+			ParameterSetName = "Gen2SingleOp"
 		)]
 		[string]$path,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10SingleOp"
+			ParameterSetName = "Gen2SingleOp"
 		)]
 		[string]$value,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V10MultiOp"
+			ParameterSetName = "Gen2MultiOp"
 		)]
 		[hashtable[]]$operations,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$Folder,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[Alias("Name")]
 		[string]$AccountName,
@@ -189,7 +59,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$DeviceType,
 
@@ -197,59 +67,59 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$PlatformID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$Address,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$UserName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$GroupName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[string]$GroupPlatformID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[hashtable]$Properties = @{ },
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
-			ParameterSetName = "V10SingleOp"
+			ParameterSetName = "Gen2SingleOp"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
-			ParameterSetName = "V10MultiOp"
+			ParameterSetName = "Gen2MultiOp"
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $true,
-			ParameterSetName = "V9"
+			ParameterSetName = "Gen1"
 		)]
 		[PSObject]$InputObject
 	)
@@ -265,7 +135,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			{ $PSItem -match "V10" } {
+			{ $PSItem -match "Gen2" } {
 
 				Assert-VersionRequirement -RequiredVersion 10.4
 
@@ -286,11 +156,11 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 
 				#Do Not Pipe into ConvertTo-JSON.
 				#Correct JSON Format is only achieved when the array is not sent along the pipe
-				$body = ConvertTo-JSON @($boundParameters)
+				$body = ConvertTo-Json @($boundParameters) -Depth 3
 
 			}
 
-			"V9" {
+			"Gen1" {
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
@@ -307,7 +177,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 					#Array of key=value pairs required for JSON convertion
 					$boundParameters["Properties"] = [Collections.Generic.List[String]]@($boundParameters["Properties"].getenumerator() |
 
-						ForEach-Object { $_ })
+							ForEach-Object { $_ })
 
 				}
 
@@ -320,35 +190,35 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 					#Process Pipeline input object properties
 					$InputObject |
 
-					#exclude properties output by get-pasaccount not applicable to set-pasaccount request
-					Select-Object -Property * -ExcludeProperty Name, PolicyID, Safe |
+						#exclude properties output by get-pasaccount not applicable to set-pasaccount request
+						Select-Object -Property * -ExcludeProperty Name, PolicyID, Safe |
 
-					#get all remaining noteproperties
-					Get-Member -MemberType "NoteProperty" |
+							#get all remaining noteproperties
+							Get-Member -MemberType "NoteProperty" |
 
-					#For each property
-					ForEach-Object {
+								#For each property
+								ForEach-Object {
 
-						#Initialise hashtable
-						$ExistingProperty = @{ }
+									#Initialise hashtable
+									$ExistingProperty = @{ }
 
-						#if property is not bound to function parameter by name,
-						if (!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
+									#if property is not bound to function parameter by name,
+									if (!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
 
-									#if not being explicitly updated.
-									$($Properties).ContainsKey($($_.Name))))) {
+												#if not being explicitly updated.
+												$($Properties).ContainsKey($($_.Name))))) {
 
-							[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
+										[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
 
-							#Add to Properties node of request data
-							[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object { $_ }
-							#*any existing properties of an account not sent in a "set" request will be cleared on the account.
-							#*This ensures correctly formatted request with all existing account properties included
-							#*when function is sent data via the pipeline.
+										#Add to Properties node of request data
+										[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object { $_ }
+										#*any existing properties of an account not sent in a "set" request will be cleared on the account.
+										#*This ensures correctly formatted request with all existing account properties included
+										#*when function is sent data via the pipeline.
 
-						}
+									}
 
-					}
+								}
 
 				}
 
@@ -374,7 +244,7 @@ https://pspas.pspete.dev/commands/Set-PASAccount
 
 				switch ($PSCmdlet.ParameterSetName) {
 
-					"V9" { $Return = $Result.UpdateAccountResult ; break }
+					"Gen1" { $Return = $Result.UpdateAccountResult ; break }
 
 					default { $Return = $Result }
 

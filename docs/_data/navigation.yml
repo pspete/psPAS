@@ -32,6 +32,16 @@ commands:
         url: /commands/Add-PASAuthenticationMethod
       - title: "Set-PASAuthenticationMethod"
         url: /commands/Set-PASAuthenticationMethod
+      - title: "Remove-PASAuthenticationMethod"
+        url: /commands/Remove-PASAuthenticationMethod
+      - title: "Add-PASOpenIDConnectProvider"
+        url: /commands/Add-PASOpenIDConnectProvider
+      - title: "Get-PASOpenIDConnectProvider"
+        url: /commands/Get-PASOpenIDConnectProvider
+      - title: "Remove-PASOpenIDConnectProvider"
+        url: /commands/Remove-PASOpenIDConnectProvider
+      - title: "Set-PASOpenIDConnectProvider"
+        url: /commands/Set-PASOpenIDConnectProvider
 
   - title: "Account ACL"
     children:
@@ -141,8 +151,8 @@ commands:
     children:
       - title: "Get-PASAllowedReferrer"
         url: /commands/Get-PASAllowedReferrer
-      - title: "Set-PASAllowedReferrer"
-        url: /commands/Set-PASAllowedReferrer
+      - title: "Add-PASAllowedReferrer"
+        url: /commands/Add-PASAllowedReferrer
 
   - title: "LDAP Directories"
     children:

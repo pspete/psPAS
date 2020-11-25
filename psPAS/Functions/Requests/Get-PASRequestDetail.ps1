@@ -1,42 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASRequestDetail {
-	<#
-.SYNOPSIS
-Gets requests
-
-.DESCRIPTION
-Gets Requests
-Officially supported from version 9.10. Reports received that function works in 9.9 also.
-
-.PARAMETER RequestType
-Specify whether outgoing or incoming requests will be searched for
-
-.PARAMETER RequestID
-The request's uniqueID, composed of the Safe Name and internal RequestID.
-
-.PARAMETER OnlyWaiting
-Only requests waiting for approval will be listed
-
-.PARAMETER Expired
-Expired requests will be included in the list
-
-.EXAMPLE
-Get-PASRequestDetail -RequestType IncomingRequests -RequestID $ID
-
-Gets details of request with ID held in $ID
-
-.INPUTS
-All parameters can be piped by property name
-
-.OUTPUTS
-Output format is defined via psPAS.Format.ps1xml.
-To force all output to be shown, pipe to Select-Object *
-
-.NOTES
-Minimum CyberArk Version 9.10
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASRequestDetail
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

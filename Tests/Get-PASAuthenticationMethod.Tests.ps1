@@ -50,7 +50,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - get all methods" {
+			It "sends request to expected endpoint - get all method" {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -60,7 +60,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - get specifc method" {
+			It "sends request to expected endpoint - get specific method" {
 
 				Get-PASAuthenticationMethod -ID SomeMethod
 
@@ -94,7 +94,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		Context "Output" {
 
-			it "provides output" {
+			It "provides output" {
 
 				$response | Should -Not -BeNullOrEmpty
 

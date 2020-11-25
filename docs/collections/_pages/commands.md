@@ -4,6 +4,12 @@ permalink: /commands/
 excerpt: "Command Reference"
 last_modified_at: 2020-08-25zT01:33:52-00:00
 toc: false
+layout: single-mod
+classes: wide
+author_profile: false
+share: false
+sidebar:
+  nav: "commands"
 ---
 
 The table below lists links to the official documentation for the API commands, against links to the psPAS function where the API command is exposed within the module.
@@ -174,6 +180,12 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Delete User][Delete User]                                                                  | [Remove-PASUser][Remove-PASUser]
 [Activate User][Activate User]                                                              | [Unblock-PASUser][Unblock-PASUser]
 [Reset User Password][Reset User Password]                                                  | [Set-PASUserPassword][Set-PASUserPassword]
+[Add OpenID Connect Identity Provider][Add OpenID Connect Identity Provider]                | [Add-PASOpenIDConnectProvider][Add-PASOpenIDConnectProvider]
+[Get specific OpenID Connect Identity Provider][Get specific OpenID Connect Identity Provider] | [Get-PASOpenIDConnectProvider][Get-PASOpenIDConnectProvider]
+[Get all OpenID Connect Identity Providers][Get all OpenID Connect Identity Providers]         | [Get-PASOpenIDConnectProvider][Get-PASOpenIDConnectProvider]
+[Delete OpenID Connect Identity Provider][Delete OpenID Connect Identity Provider]             | [Remove-PASOpenIDConnectProvider][Remove-PASOpenIDConnectProvider]
+[Update OpenID Connect Identity Provider][Update OpenID Connect Identity Provider]             | [Set-PASOpenIDConnectProvider][Set-PASOpenIDConnectProvider]
+[Delete authentication method][Delete authentication method]                                   | [Remove-PASAuthenticationMethod][Remove-PASAuthenticationMethod]
 
 [Get-PASDiscoveredAccount]:/commands/Get-PASDiscoveredAccount
 [Start-PASAccountImportJob]:/commands/Start-PASAccountImportJob
@@ -300,7 +312,18 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Enable-PASPlatform]:/commands/Enable-PASPlatform
 [Remove-PASPlatform]:/commands/Remove-PASPlatform
 [Remove-PASGroup]:/commands/Remove-PASGroup
+[Add-PASOpenIDConnectProvider]:/commands/Add-PASOpenIDConnectProvider
+[Get-PASOpenIDConnectProvider]:/commands/Get-PASOpenIDConnectProvider
+[Remove-PASOpenIDConnectProvider]:/commands/Remove-PASOpenIDConnectProvider
+[Set-PASOpenIDConnectProvider]:/commands/Set-PASOpenIDConnectProvider
+[Remove-PASAuthenticationMethod]:/commands/Remove-PASAuthenticationMethod
 
+[Delete OpenID Connect Identity Provider]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/OIDC-Delete-Provider.htm
+[Add OpenID Connect Identity Provider]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/OIDC-Add-Provider.htm
+[Update OpenID Connect Identity Provider]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/OIDC-Update-Provider.htm
+[Get all OpenID Connect Identity Providers]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/OIDC-Get-All-Providers.htm
+[Get specific OpenID Connect Identity Provider]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/OIDC-Get-Specific-Provider.htm
+[Delete authentication method]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Authentication-Method-Delete.htm
 [CyberArk, LDAP, Radius, Windows Logon]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/CyberArk%20Authentication%20-%20Logon_v10.htm#CyberArkLDAPRadiusWindows
 [SAML Logon]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/SAML_%20Authentication_%20Logon_newgen.htm#SAMLlogon
 [Shared Logon authentication]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Shared%20Logon%20Authentication%20-%20Logon.htm#Sharedlogonauthentication

@@ -1,7 +1,8 @@
 ---
+category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version:
+online version: https://pspas.pspete.dev/commands/Start-PASAccountImportJob
 schema: 2.0.0
 title: Start-PASAccountImportJob
 ---
@@ -20,7 +21,9 @@ Start-PASAccountImportJob [[-source] <String>] [-accountsList] <Object[]> [-What
 
 ## DESCRIPTION
 Sends a list of accounts to be added to existing safes.
+
 Must be authenticated with a user who has Add accounts, Update account content, and Update account properties authorization in at least one Safe.
+
 Returns bulk account upload id or status.
 
 ## EXAMPLES
@@ -28,6 +31,7 @@ Returns bulk account upload id or status.
 ### EXAMPLE 1
 ```
 $Accounts = @(
+
 New-PASAccountObject -uploadIndex 1 -userName SomeAccount1 -address domain.com -platformID WinDomain -SafeName SomeSafe
 	New-PASAccountObject -uploadIndex 2 -userName SomeAccount2 -address domain.com -platformID WinDomain -SafeName SomeSafe
 	New-PASAccountObject -uploadIndex 3 -userName SomeAccount3 -address domain.com -platformID WinDomain -SafeName SomeSafe
@@ -36,6 +40,7 @@ New-PASAccountObject -uploadIndex 1 -userName SomeAccount1 -address domain.com -
 
 Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts
 ```
+
 Create & send list of accounts to be added as a bulk operation.
 
 ## PARAMETERS
@@ -113,3 +118,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Start-PASAccountImportJob](https://pspas.pspete.dev/commands/Start-PASAccountImportJob)
+

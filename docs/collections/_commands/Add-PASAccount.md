@@ -1,319 +1,521 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Add-PASAccount
+schema: 2.0.0
 title: Add-PASAccount
 ---
 
+# Add-PASAccount
+
 ## SYNOPSIS
+Adds a new privileged account to the Vault
 
-Adds a new privileged account to the Vault.
-
-Uses either the API present from 10.4 onwards, or the version 9 (Classic API) endpoint.
+Uses either the API present from 10.4 onwards, or the version 9 API endpoint.
 
 ## SYNTAX
 
-    Add-PASAccount [-name <String>] [-address <String>] [-userName <String>] -platformID <String>
-    -SafeName <String> [-secretType <String>] [-secret <SecureString>]
-    [-platformAccountProperties <Hashtable>] [-automaticManagementEnabled <Boolean>]
-    [-manualManagementReason <String>] [-remoteMachines <String>]
-    [-accessRestrictedToRemoteMachines <Boolean>] [<CommonParameters>]
+### Gen2
+```
+Add-PASAccount [-name <String>] [-address <String>] [-userName <String>] -platformID <String>
+ -SafeName <String> [-secretType <String>] [-secret <SecureString>] [-platformAccountProperties <Hashtable>]
+ [-automaticManagementEnabled <Boolean>] [-manualManagementReason <String>] [-remoteMachines <String>]
+ [-accessRestrictedToRemoteMachines <Boolean>] [<CommonParameters>]
+```
 
-    Add-PASAccount [-address <String>] -userName <String> -platformID <String> -SafeName <String>
-    [-accountName <String>] -password <SecureString> [-disableAutoMgmt <Boolean>]
-    [-disableAutoMgmtReason <String>] [-groupName <String>] [-groupPlatformID <String>] [-Port <Int32>]
-    [-ExtraPass1Name <String>] [-ExtraPass1Folder <String>] [-ExtraPass1Safe <String>]
-    [-ExtraPass3Name <String>] [-ExtraPass3Folder <String>] [-ExtraPass3Safe <String>]
-    [-DynamicProperties <Hashtable>] [<CommonParameters>]
+### Gen1
+```
+Add-PASAccount [-address <String>] -userName <String> -platformID <String> -SafeName <String>
+ [-accountName <String>] -password <SecureString> [-disableAutoMgmt <Boolean>]
+ [-disableAutoMgmtReason <String>] [-groupName <String>] [-groupPlatformID <String>] [-Port <Int32>]
+ [-ExtraPass1Name <String>] [-ExtraPass1Folder <String>] [-ExtraPass1Safe <String>] [-ExtraPass3Name <String>]
+ [-ExtraPass3Folder <String>] [-ExtraPass3Safe <String>] [-DynamicProperties <Hashtable>] [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Adds a new privileged account to the Vault.
 
-Parameters are processed to create request object in the required format.
-
-## PARAMETERS
-
-    -name <String>
-        The name of the account.
-        A version 10.4 onward specific parameter
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -address <String>
-        The Address of the machine where the account will be used
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -userName <String>
-        Username on the target machine
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -platformID <String>
-        The CyberArk platform to assign to the account
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -SafeName <String>
-        The safe where the account will be created
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -secretType <String>
-        The type of password.
-        A version 10.4 onward specific parameter
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -secret <SecureString>
-        The password value
-        A version 10.4 onward specific parameter
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -platformAccountProperties <Hashtable>
-        key-value pairs to associate with the account, as defined by the account platform.
-        These properties are validated against the mandatory and optional properties of
-        the specified platform's definition.
-
-        A version 10.4 onward specific parameter
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -automaticManagementEnabled <Boolean>
-        Whether CPM Password Management should be enabled
-        A version 10.4 onward specific parameter
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -manualManagementReason <String>
-        A reason for disabling CPM Password Management
-        A version 10.4 onward specific parameter
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -remoteMachines <String>
-        For supported platforms, a list of remote machines the account can connect to.
-        A version 10.4 onward specific parameter
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -accessRestrictedToRemoteMachines <Boolean>
-        Whether access is restricted to the defined remote machines.
-        A version 10.4 onward specific parameter
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -accountName <String>
-        The name of the account
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -password <SecureString>
-        The password value as a secure string
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    true
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -disableAutoMgmt <Boolean>
-        Whether or not automatic management wll be disabled for the account
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -disableAutoMgmtReason <String>
-        The reason why automatic management wll be disabled for the account
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -groupName <String>
-        A groupname with which the account will be associated
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -groupPlatformID <String>
-        Group platform to base created group ID on, if ID doesn't exist
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -Port <Int32>
-        Port number over which the account will be used
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value                0
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ExtraPass1Name <String>
-        Logon account name
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ExtraPass1Folder <String>
-        Folder where logon account is stored
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ExtraPass1Safe <String>
-        Safe where logon account is stored
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ExtraPass3Name <String>
-        Reconcile account name
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ExtraPass3Folder <String>
-        Folder where reconcile account is stored
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -ExtraPass3Safe <String>
-        Safe where reconcile account is stored
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -DynamicProperties <Hashtable>
-        Hashtable of name=value pairs
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
+Parameters are processed to create request object from passed parameters in the required format.
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Add-PASAccount -address ThisServer -userName ThisUser -platformID UNIXSSH -SafeName UNIXSafe -automaticManagementEnabled $false
+```
 
-    PS C:\>Add-PASAccount -address ThisServer -userName ThisUser -platformID UNIXSSH
-    -SafeName UNIXSafe -automaticManagementEnabled $false
+Using the version 10 API, adds an account which is disabled for automatic password management
 
-    Using the version 10 API, adds an account which is disabled for automatic password management
+### EXAMPLE 2
+```
+Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com -Password $secureString -username domainUser
+```
 
+Using the "version 9" API, adds account domain.com\domainuser to the Prod_Access Safe using the WINDOMAIN platform.
 
+The contents of $secureString will be set as the password value.
 
+## PARAMETERS
 
-    -------------------------- EXAMPLE 2 --------------------------
+### -name
+The name of the account.
 
-    PS C:\>Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com
-    -Password $secureString -username domainUser
+A version 10.4 onward specific parameter
 
-    Using the "version 9" API, adds account domain.com\domainuser to the Prod_Access Safe using the
-    WINDOMAIN platform.
+```yaml
+Type: String
+Parameter Sets: Gen2
+Aliases:
 
-    The contents of $secureString will be set as the password value.
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -address
+The Address of the machine where the account will be used
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -userName
+Username on the target machine
+
+```yaml
+Type: String
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -platformID
+The CyberArk platform to assign to the account
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: PolicyID
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -SafeName
+The safe where the account will be created
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: safe
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -secretType
+The type of password.
+
+A version 10.4 onward specific parameter
+
+```yaml
+Type: String
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -secret
+The password value
+
+A version 10.4 onward specific parameter
+
+```yaml
+Type: SecureString
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -platformAccountProperties
+key-value pairs to associate with the account, as defined by the account platform.
+
+These properties are validated against the mandatory and optional properties of the specified platform's definition.
+
+A version 10.4 onward specific parameter
+
+```yaml
+Type: Hashtable
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -automaticManagementEnabled
+Whether CPM Password Management should be enabled
+
+A version 10.4 onward specific parameter
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -manualManagementReason
+A reason for disabling CPM Password Management
+
+A version 10.4 onward specific parameter
+
+```yaml
+Type: String
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -remoteMachines
+For supported platforms, a list of remote machines the account can connect to.
+
+A version 10.4 onward specific parameter
+
+```yaml
+Type: String
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -accessRestrictedToRemoteMachines
+Whether access is restricted to the defined remote machines.
+
+A version 10.4 onward specific parameter
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -accountName
+The name of the account
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -password
+The password value as a secure string
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: SecureString
+Parameter Sets: Gen1
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -disableAutoMgmt
+Whether or not automatic management wll be disabled for the account
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -disableAutoMgmtReason
+The reason why automatic management wll be disabled for the account
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -groupName
+A groupname with which the account will be associated
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -groupPlatformID
+Group platform to base created group ID on, if ID doesn't exist
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Port
+Port number over which the account will be used
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: Int32
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ExtraPass1Name
+Logon account name
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ExtraPass1Folder
+Folder where logon account is stored
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ExtraPass1Safe
+Safe where logon account is stored
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ExtraPass3Name
+Reconcile account name
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ExtraPass3Folder
+Folder where reconcile account is stored
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ExtraPass3Safe
+Safe where reconcile account is stored
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: String
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -DynamicProperties
+Hashtable of name=value pairs
+
+Relevant for CyberArk versions earlier than 10.4
+
+```yaml
+Type: Hashtable
+Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Add-PASAccount](https://pspas.pspete.dev/commands/Add-PASAccount)
+

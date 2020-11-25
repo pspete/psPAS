@@ -1,95 +1,131 @@
 ---
+category: PSPAS
+external help file: psPAS-help.xml
+Module Name: psPAS
+online version: https://pspas.pspete.dev/commands/Close-PASSession
+schema: 2.0.0
 title: Close-PASSession
 ---
 
-## SYNOPSIS
+# Close-PASSession
 
+## SYNOPSIS
 Logoff from CyberArk Vault.
 
 ## SYNTAX
 
-    Close-PASSession [<CommonParameters>]
+### Gen2 (Default)
+```
+Close-PASSession [<CommonParameters>]
+```
 
-    Close-PASSession [-UseClassicAPI] [<CommonParameters>]
+### Gen1
+```
+Close-PASSession [-UseGen1API] [<CommonParameters>]
+```
 
-    Close-PASSession [-SharedAuthentication] [<CommonParameters>]
+### shared
+```
+Close-PASSession [-SharedAuthentication] [<CommonParameters>]
+```
 
-    Close-PASSession [-SAMLAuthentication] [<CommonParameters>]
+### saml
+```
+Close-PASSession [-SAMLAuthentication] [<CommonParameters>]
+```
 
 ## DESCRIPTION
-
 Performs Logoff and removes the Vault session.
-
-## PARAMETERS
-
-    -UseClassicAPI [<SwitchParameter>]
-        Specify the UseClassicAPI switch to send the authentication request via the Classic (v9)
-        API endpoint.
-        Relevant for CyberArk versions earlier than 10.4
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    -SharedAuthentication [<SwitchParameter>]
-        Specify the SharedAuthentication switch to logoff from a shared authentication session
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    -SAMLAuthentication [<SwitchParameter>]
-        Specify the SAMLAuthentication switch to logoff from a session authenticated to with SAML
-
-        Required?                    false
-        Position?                    named
-        Default value                False
-        Accept pipeline input?       true (ByPropertyName)
-        Accept wildcard characters?  false
-
-    <CommonParameters>
-        This cmdlet supports the common parameters: Verbose, Debug,
-        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
-        OutBuffer, PipelineVariable, and OutVariable. For more information, see
-        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216).
 
 ## EXAMPLES
 
-    -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
+```
+Close-PASSession
+```
 
-    PS C:\>Close-PASSession
+Logs off from the session related to the authorisation token.
 
-    Logs off from the session related to the authorisation token.
+### EXAMPLE 2
+```
+Close-PASSession -SAMLAuthentication
+```
 
+Logs off from the session related to the authorisation token using the SAML Authentication API endpoint.
 
+### EXAMPLE 3
+```
+Close-PASSession -SharedAuthentication
+```
 
+Logs off from the session related to the authorisation token using the Shared Authentication API endpoint.
 
-    -------------------------- EXAMPLE 2 --------------------------
+### EXAMPLE 4
+```
+Close-PASSession -UseGen1API
+```
 
-    PS C:\>Close-PASSession -SAMLAuthentication
+Logs off from the session related to the authorisation token using the 1st gen API endpoint.
 
-    Logs off from the session related to the authorisation token using the SAML Authentication API
-    endpoint.
+## PARAMETERS
 
+### -SharedAuthentication
+Specify the SharedAuthentication switch to logoff from a shared authentication session
 
+```yaml
+Type: SwitchParameter
+Parameter Sets: shared
+Aliases:
 
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
-    -------------------------- EXAMPLE 3 --------------------------
+### -SAMLAuthentication
+Specify the SAMLAuthentication switch to logoff from a session authenticated to with SAML
 
-    PS C:\>Close-PASSession -SharedAuthentication
+```yaml
+Type: SwitchParameter
+Parameter Sets: saml
+Aliases:
 
-    Logs off from the session related to the authorisation token using the Shared Authentication API
-    endpoint.
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
+### -UseGen1API
+Specify  to send the logoff request via the Gen1 API endpoint.
 
+Relevant for CyberArk versions earlier than 10.4
 
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1
+Aliases: UseClassicAPI
 
-    -------------------------- EXAMPLE 4 --------------------------
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
-    PS C:\>Close-PASSession -UseClassicAPI
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
-    Logs off from the session related to the authorisation token using the Classic API endpoint.
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Close-PASSession](https://pspas.pspete.dev/commands/Close-PASSession)
+

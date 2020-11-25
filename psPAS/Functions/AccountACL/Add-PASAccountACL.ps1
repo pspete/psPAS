@@ -1,44 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Add-PASAccountACL {
-	<#
-.SYNOPSIS
-Adds a new privileged command rule to an account.
-
-.DESCRIPTION
-Adds a new privileged command rule to an account.
-
-.PARAMETER AccountPolicyId
-The PolicyID associated with account.
-
-.PARAMETER AccountAddress
-The address of the account whose privileged commands will be listed.
-
-.PARAMETER AccountUserName
-The name of the account's user.
-
-.PARAMETER Command
-The Command
-
-.PARAMETER CommandGroup
-Boolean for Command Group
-
-.PARAMETER PermissionType
-Allow or Deny permission
-
-.PARAMETER Restrictions
-A restriction string
-
-.PARAMETER UserName
-The user this rule applies to
-
-.EXAMPLE
-Add-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerA.domain.com -AccountUserName root `
-        -Command 'for /l %a in (0,0,0) do xyz' -CommandGroup $false -PermissionType Deny -UserName TestUser
-
-This will add a new Privileged Command Rule to root for user TestUser
-
-.LINK
-https://pspas.pspete.dev/commands/Add-PASAccountACL
-#>
 	[CmdletBinding()]
 	param(
 		[parameter(

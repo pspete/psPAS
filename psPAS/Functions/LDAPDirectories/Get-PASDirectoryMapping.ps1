@@ -1,37 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Get-PASDirectoryMapping {
-	<#
-.SYNOPSIS
-Get directory mappings configured for a directory
-
-.DESCRIPTION
-Returns a list of existing directory mappings in the Vault.
-Membership of the Vault Admins group required.
-
-.PARAMETER DirectoryName
-The ID or Name of the directory to return data on.
-
-.PARAMETER MappingID
-The ID or Name of the directory mapping to return information on.
-
-.EXAMPLE
-Get-PASDirectory |  Get-PASDirectoryMapping
-
-Returns LDAP directory mappings configured for each directory.
-
-.EXAMPLE
-Get-PASDirectoryMapping -DirectoryName SomeDir -MappingID "User_Mapping"
-
-Returns information on the User_Mapping for SomeDir
-
-.INPUTS
-WebSession & BaseURI can be piped to the function by propertyname
-
-.OUTPUTS
-LDAP Directory Mapping Details
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASDirectoryMapping
-#>
 	[CmdletBinding(DefaultParameterSetName = "All")]
 	param(
 		[parameter(

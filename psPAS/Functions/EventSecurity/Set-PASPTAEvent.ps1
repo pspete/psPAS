@@ -1,26 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Set-PASPTAEvent {
-	<#
-.SYNOPSIS
-Updates the status of a security event
-
-.DESCRIPTION
-Updates the status of a security event to open or closed
-
-.PARAMETER EventID
-The event ID.
-
-.PARAMETER mStatus
-The status to update (open or closed).
-
-.EXAMPLE
-Set-PASPTAEvent -EventID $id
-
-.NOTES
-Minimum Version CyberArk 11.3
-
-.LINK
-https://pspas.pspete.dev/commands/Set-PASPTAEvent
-#>
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(

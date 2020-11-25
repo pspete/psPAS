@@ -1,28 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 Function Get-PASComponentSummary {
-	<#
-.SYNOPSIS
-Returns consolidated information about CyberArk Components.
-
-.DESCRIPTION
-Returns consolidated information about the Vault, PVWA, CPM, PSM/PSMP and AIM.
-Includes all clients that are relevant to each specific component.
-
-.EXAMPLE
-Get-PASComponentSummary
-
-Displays CyberArk Component information
-
-.INPUTS
-All parameters can be piped to the function by propertyname
-
-.OUTPUTS
-
-.NOTES
-Requires minimum version of CyberArk 10.1.
-
-.LINK
-https://pspas.pspete.dev/commands/Get-PASComponentSummary
-#>
 	[CmdletBinding()]
 	param(
 

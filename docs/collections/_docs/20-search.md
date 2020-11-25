@@ -71,10 +71,10 @@ secretManagement          : @{automaticManagementEnabled = True; lastModifiedTim
 createdTime               : 06/06/2019 23:37:02
 ````
 
-### Classic API
+### 1st Gen API
 
-- There is a limitation of only returning details of the first found account when using the Classic API.
-- The `keywords` & `safe` parameters of `Get-PASAccount` force use of the Classic API:
+- There is a limitation of only returning details of the first found account when using the 1st gen API.
+- The `keywords` & `safe` parameters of `Get-PASAccount` force use of the 1st gen API:
 
 ````powershell
 Get-PASAccount -Safe 3_TestSafe_028_XYJ
@@ -91,7 +91,7 @@ Address            : SOMEDOMAIN.COM
 InternalProperties : @{CreationMethod = PVWA }
 ````
 
-- More results can be returned by specifying alternative parameters and avoiding the Classic API:
+- More results can be returned by specifying alternative parameters and avoiding the 1st gen API:
 
 ````powershell
 PS>Get-PASAccount -SafeName "3_TestSafe_028_XYJ"

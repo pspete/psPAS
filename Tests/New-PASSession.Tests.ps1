@@ -392,8 +392,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
 					$errorRecord.ErrorDetails = $errorDetails
 				}
-				Mock -CommandName Invoke-WebRequest -ParameterFilter { $SessionVariable -eq "PASSession" } -mockwith { Throw $errorRecord }
-				Mock -CommandName Invoke-WebRequest -ParameterFilter { $WebSession -eq $Script:WebSession } -mockwith { [PSCustomObject]@{"CyberArkLogonResult" = "AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN" } }
+				Mock -CommandName Invoke-WebRequest -ParameterFilter { $SessionVariable -eq "PASSession" } -MockWith { Throw $errorRecord }
+				Mock -CommandName Invoke-WebRequest -ParameterFilter { $WebSession -eq $Script:WebSession } -MockWith { [PSCustomObject]@{"CyberArkLogonResult" = "AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN" } }
 
 				Mock Read-Host -MockWith {
 					return "123456"
@@ -416,8 +416,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				if ($IsCoreCLR) {
 					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP 123456 -OTPMode Challenge
 					Assert-MockCalled Invoke-WebRequest -Times 2 -Exactly -Scope It
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
 			It "sends expected OTP value for Radius Challenge" {
@@ -439,8 +438,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 						$Script:RequestBody.password -eq "987654"
 
 					} -Times 1 -Exactly -Scope It
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
 			It "sends expected password value as radius challenge" {
@@ -462,16 +460,14 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 						$Script:RequestBody.password -eq "SomePassword"
 
 					} -Times 1 -Exactly -Scope It
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
 			It "prompts for OTP value" {
 				if ($IsCoreCLR) {
 					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Challenge
 					Assert-MockCalled Read-Host -Times 1 -Exactly -Scope It
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
 			It "relay RADIUS response as prompt" {
@@ -483,8 +479,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 						$Prompt -eq "[500] Some Radius Message"
 
 					} -Times 1 -Exactly -Scope It
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
 			It "throws if error code does not indicate Radius Challenge" {
@@ -499,19 +494,17 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
 					$errorRecord.ErrorDetails = $errorDetails
 
-					Mock -CommandName Invoke-WebRequest -ParameterFilter { $SessionVariable -eq "PASSession" } -mockwith { Throw $errorRecord }
+					Mock -CommandName Invoke-WebRequest -ParameterFilter { $SessionVariable -eq "PASSession" } -MockWith { Throw $errorRecord }
 
 					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTPMode Append -OTP 123456 } | Should -Throw
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
 			It "prompts for OTP if parameter value for $OTP is 'passcode'" {
 				if ($IsCoreCLR) {
 					$Credentials | New-PASSession -BaseURI "https://P_URI" -type RADIUS -OTP passcode -OTPMode Challenge
 					Assert-MockCalled Read-Host -Times 1 -Exactly -Scope It
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
 		}
@@ -538,8 +531,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 					If ($Script:counter -eq 0) {
 						$Script:counter++
 						Throw $errorRecord
-					}
-					ElseIf ($Script:counter -ge 1) {
+					} ElseIf ($Script:counter -ge 1) {
 
 						return $RandomString
 
@@ -567,8 +559,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			It "throws if no session token is returned after successful IIS authentication" {
 				if ($IsCoreCLR) {
 					{ $Credentials | New-PASSession -BaseURI "https://P_URI" -type Windows } | Should -Throw
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
 			It "sends expected number of requests for Windows Auth + RADIUS" {
@@ -586,8 +577,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 						$URI -eq "https://P_URI/PasswordVault/api/Auth/RADIUS/Logon"
 
 					} -Times 2 -Exactly -Scope It
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
 			It "throws if RADIUS challenge fails" {
@@ -608,8 +598,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 					} -Times 2 -Exactly -Scope It
 
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 
 			}
 

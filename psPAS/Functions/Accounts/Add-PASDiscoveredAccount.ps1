@@ -1,162 +1,5 @@
-﻿function Add-PASDiscoveredAccount {
-	<#
-.SYNOPSIS
-Adds discovered account or SSH key as a pending account in the accounts feed.
-
-.DESCRIPTION
-Enables an account or SSH key that is discovered by an external scanner to be added
-as a pending account to the Accounts Feed.
-Users can identify privileged accounts and determine which are on-boarded to the vault.
-
-.PARAMETER userName
-The name of the account user.
-
-.PARAMETER address
-The name or address of the machine where the account is located.
-
-.PARAMETER discoveryDate
-The date the account was discovered.
-
-.PARAMETER accountEnabled
-The state of the account, defined in the discovery source.
-
-.PARAMETER osGroups
-The name of the group the account belongs to, such as Administrators or Operators.
-
-.PARAMETER platformType
-The platform where the discovered account is located.
-
-.PARAMETER domain
-The domain of the account.
-
-.PARAMETER lastLogonDateTime
-The date this account was last logged into, defined in the discovery source.
-
-.PARAMETER lastPasswordSetDateTime
-The date this password was last set, defined in the discovery source.
-
-.PARAMETER passwordNeverExpires
-Whether or not this password expires, defined in the discovery source.
-
-.PARAMETER osVersion
-The version of the OS where the account was discovered.
-
-.PARAMETER privileged
-Whether the discovered account is privileged or non-privileged.
-
-.PARAMETER privilegedCriteria
-The criteria that determines whether or not the discovered account is privileged. For example, the user or group name.
-
-.PARAMETER userDisplayName
-The user's display name.
-
-.PARAMETER description
-A description of the account, defined in the discovery source.
-
-.PARAMETER passwordExpirationDateTime
-The expiration date of the account, defined in the discovery source.
-
-.PARAMETER osFamily
-The type of machine where the account was discovered.
-
-.PARAMETER additionalProperties
-A hashtable of additional properties added to the account.
-
-.PARAMETER organizationalUnit
-The organizational unit where the account is defined.
-
-.PARAMETER SID
-Security ID. This parameter is relevant only for Windows accounts.
-Relevant when platformType is set to Windows
-
-.PARAMETER uid
-The unique user ID. This parameter is relevant only for Unix accounts.
-Relevant when platformType is set to "Unix" or "Unix SSH Key"
-
-.PARAMETER gid
-The unique group ID. This parameter is relevant only for Unix accounts.
-Relevant when platformType is set to "Unix" or "Unix SSH Key"
-
-.PARAMETER fingerprint
-The fingerprint of the discovered SSH key. The public and private keys of the same trust have the same fingerprint. This is relevant for SSH keys only.
-Relevant when platformType is set to "Unix SSH Key"
-
-.PARAMETER size
-The size in bits of the generated key.
-Relevant when platformType is set to "Unix SSH Key"
-
-.PARAMETER path
-The path of the public key on the target machine.
-Relevant when platformType is set to "Unix SSH Key"
-
-.PARAMETER format
-The format of the private SSH key.
-Relevant when platformType is set to "Unix SSH Key"
-
-.PARAMETER comment
-Any text added when the key was created.
-Relevant when platformType is set to "Unix SSH Key"
-
-.PARAMETER encryption
-The type of encryption used to generate the SSH key.
-Relevant when platformType is set to "Unix SSH Key"
-
-.PARAMETER awsAccountID
-The AWS Account ID, in the format of a 12-digit number.
-Relevant when platformType is set to AWS or AWS Access Keys
-Requires 10.8+
-
-.PARAMETER awsAccessKeyID
-The AWS Access Key ID string
-Relevant when platformType is set to AWS or AWS Access Keys
-Requires 10.8+
-
-.PARAMETER Dependencies
-Accepts hashtable representing key/value pairs for:
-- name: the Name of the dependency
-- address (mandatory): IP address or DNS hostname of the dependency
-- type (mandatory): The dependency type from the following list:
-  - COM+ Application
-  - IIS Anonymous Authentication
-  - IIS Application Pool
-  - Windows Scheduled Task
-  - Windows Service
-- taskFolder: The dependency task folder, relevant for Windows Scheduled Tasks.
-Requires 10.8+
-
-.EXAMPLE
-Add-PASDiscoveredAccount -UserName Discovered23 -Address domain.com -discoveryDate $(Get-Date "29/10/2018") -AccountEnabled $true -platformType "Windows Domain" -SID 12355
-
-Adds matching discovered account as pending account.
-
-.EXAMPLE
-Add-PASDiscoveredAccount -UserName AWSUser -Address aws.com -discoveryDate (Get-Date 1/1/1974) -AccountEnabled $true -platformType AWS -awsAccountID 123456777889 -privileged $false
-
-Adds matching account to pending/discovered account list.
-
-.EXAMPLE
-$dependency = @()
-$dependency += @{
-"name"="SomeDependency"
-"address"="1.2.3.4"
-"type"="Windows Service"
-}
-$dependency += @{
-"name"="Some"
-"address"="1.2.3.4"
-"type"="Windows Scheduled Task"
-"taskFolder"="\Some\Folder"
-}
-Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (Get-Date 25/3/2013) -AccountEnabled $true -platformType 'Windows Server Local' -Dependencies $dependency
-
-Adds or updates matching pending account with defined dependencies.
-
-.INPUTS
-All parameters can be piped by property name
-
-.LINK
-https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
-#>
+﻿# .ExternalHelp psPAS-help.xml
+function Add-PASDiscoveredAccount {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'platformTypeAccountProperties', Justification = "False Positive")]
 	[CmdletBinding(DefaultParameterSetName = "Windows")]
@@ -196,7 +39,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key", "AWS", "AWS Access Keys")]
+		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key", "AWS", "AWS Access Keys", "Azure Password Management")]
 		[string]$platformType,
 
 		[parameter(
@@ -358,7 +201,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "108_AWS"
+			ParameterSetName = "AWS"
 		)]
 		[ValidateLength(12, 12)]
 		[string]$awsAccountID,
@@ -366,23 +209,37 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "108_AWS"
+			ParameterSetName = "AWS"
 		)]
 		[string]$awsAccessKeyID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "108_Dependency"
+			ParameterSetName = "Dependency"
 		)]
-		[hashtable[]]$Dependencies
+		[hashtable[]]$Dependencies,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = "Azure"
+		)]
+		[string]$activeDirectoryID
 	)
 
 	BEGIN {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			{ $PSItem -match "^108_" } {
+			{ $PSItem -match "Azure" } {
+
+				#v11.7 required for Azure
+				Assert-VersionRequirement -RequiredVersion 11.7
+
+			}
+
+			{ $PSItem -match "AWS|Dependency" } {
 
 				#v10.8 required for AWS & Dependencies
 				Assert-VersionRequirement -RequiredVersion 10.8
@@ -398,7 +255,7 @@ https://pspas.pspete.dev/commands/Add-PASDiscoveredAccount
 
 		}
 
-		$AccountProperties = [Collections.Generic.List[String]]@("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption", "awsAccountID", "awsAccessKeyID")
+		$AccountProperties = [Collections.Generic.List[String]]@("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption", "awsAccountID", "awsAccessKeyID", "activeDirectoryID")
 
 		$DateTimes = [Collections.Generic.List[String]]@("discoveryDate", "lastLogonDateTime", "lastPasswordSetDateTime", "passwordExpirationDateTime")
 

@@ -1,29 +1,5 @@
+# .ExternalHelp psPAS-help.xml
 function Remove-PASDirectory {
-	<#
-.SYNOPSIS
-Removes an LDAP directory configured in the Vault
-
-.DESCRIPTION
-Removes an LDAP directory configuration from the vault.
-Membership of the Vault Admins group required.
-
-.PARAMETER id
-The ID or Name of the directory to return information on.
-
-.EXAMPLE
-Remove-PASDirectory -id LDAPDirectory
-
-Removes LDAP directory configured in the Vault
-
-.INPUTS
-WebSession & BaseURI can be piped to the function by propertyname
-
-.OUTPUTS
-LDAP Directory Details
-
-.LINK
-https://pspas.pspete.dev/commands/Remove-PASDirectory
-#>
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param(
 		[parameter(

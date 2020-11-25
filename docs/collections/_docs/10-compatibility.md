@@ -148,7 +148,17 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASAccountImportJob`][Get-PASAccountImportJob]                                     |**11.6**                                            |Get status of account import
 [`New-PASAccountObject`][New-PASAccountObject]                                           |**---**                                             |Format an object to include in an import list
 [`Get-PASDiscoveredAccount`][Get-PASDiscoveredAccount]                                   |**11.6**                                            |List discovered accounts
+[`Add-PASOpenIDConnectProvider`][Add-PASOpenIDConnectProvider]                           |**11.7**                                            |Adds an OIDC Authentication Provider
+[`Get-PASOpenIDConnectProvider`][Get-PASOpenIDConnectProvider]                           |**11.7**                                            |Gets details of configured OIDC Authentication Providers
+[`Remove-PASOpenIDConnectProvider`][Remove-PASOpenIDConnectProvider]                     |**11.7**                                            |Deletes an OIDC Authentication Provider
+[`Set-PASOpenIDConnectProvider`][Set-PASOpenIDConnectProvider]                           |**11.7**                                            |Updates an OIDC Authentication Provider
+[`Remove-PASAuthenticationMethod`][Remove-PASAuthenticationMethod]                       |**11.7**                                            |Delete an authentication method
 
+[Add-PASOpenIDConnectProvider]:/commands/Add-PASOpenIDConnectProvider
+[Get-PASOpenIDConnectProvider]:/commands/Get-PASOpenIDConnectProvider
+[Remove-PASOpenIDConnectProvider]:/commands/Remove-PASOpenIDConnectProvider
+[Set-PASOpenIDConnectProvider]:/commands/Set-PASOpenIDConnectProvider
+[Remove-PASAuthenticationMethod]:/commands/Remove-PASAuthenticationMethod
 [Get-PASDiscoveredAccount]:/commands/Get-PASDiscoveredAccount
 [Start-PASAccountImportJob]:/commands/Start-PASAccountImportJob
 [Get-PASAccountImportJob]:/commands/Get-PASAccountImportJob
@@ -290,21 +300,21 @@ If you are using version 9.7+, and the function being invoked requires version 9
     - Windows
 - Version 11.3 introduced support for concurrent API sessions.
 - Version 11.4 introduced updated support for SAML auth.
-- The Classic API endpoint can be used by specifying the `-UseClassicAPI` parameter.
+- The 1st gen API endpoint can be used by specifying the `-UseGen1API` parameter.
 
 ### Close-PASSession
 
-- The Classic API endpoint can be used by specifying the `-UseClassicAPI` parameter.
+- The 1st gen API endpoint can be used by specifying the `-UseGen1API` parameter.
 
 ### Get-PASAccountGroup
 
 - Version 10.5 introduced a new API endpoint.
-- The Classic API endpoint can be used by specifying the `-UseClassicAPI` parameter.
+- The 1st gen API endpoint can be used by specifying the `-UseGen1API` parameter.
 
 ### Add-PASAccount
 
 - Version 10.4 introduced a new API endpoint.
-- The Classic API endpoint can be used by using the ParameterSet which includes the  `-password` parameter.
+- The 1st gen API endpoint can be used by using the ParameterSet which includes the  `-password` parameter.
 
 ### Get-PASAccount
 
@@ -312,8 +322,8 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 10.4 introduced a new API endpoint.
   - Supports:
     - Get details of all matching accounts.
-- The Classic API endpoint can be used by using the `-Keywords` & `-Safe` parameters.
-  - The Classic API is limited to returning the details of only 1 account.
+- The 1st gen API endpoint can be used by using the `-Keywords` & `-Safe` parameters.
+  - The 1st gen API is limited to returning the details of only 1 account.
 
 ### Get-PASAccountPassword
 
@@ -327,7 +337,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 ### Remove-PASAccount
 
 - Version 10.4 introduced a new API endpoint.
-- The Classic API endpoint can be used by specifying the `-UseClassicAPI` parameter.
+- The 1st gen API endpoint can be used by specifying the `-UseGen1API` parameter.
 
 ### Set-PASAccount
 
@@ -338,7 +348,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
   - Requires Parameters:
     - `op` (for single property update)
     - `operations` (for multiple updates)
-- The Classic API endpoint requires all of the account properties be passed to the function.
+- The 1st gen API endpoint requires all of the account properties be passed to the function.
   - Any current properties of the account not sent as part of the request will result in them being removed from the account.
 
 ### Invoke-PASCPMOperation
@@ -350,9 +360,9 @@ If you are using version 9.7+, and the function being invoked requires version 9
   - Supports:
     - Changing password to specific value.
     - Changing password only in the vault.
-- The Classic API endpoint can be used by:
+- The 1st gen API endpoint can be used by:
   - Using the `-ImmediateChangeByCPM` parameter.
-  - Specifying the `-UseClassicAPI` parameter.
+  - Specifying the `-UseGen1API` parameter.
 
 ### New-PASPSMSession
 
@@ -395,7 +405,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
   - Requires Parameters:
     - `GroupID`
     - `UserID`
-- The Classic API endpoint can be used by using the `GroupName` & `UserName` parameters.
+- The 1st gen API endpoint can be used by using the `GroupName` & `UserName` parameters.
 
 ### Get-PASUser
 
@@ -418,7 +428,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 10.10 introduced a new API endpoint.
   - Requires Parameters:
     - `userID`
-- The Classic API endpoint can be used by using the `userName` parameter.
+- The 1st gen API endpoint can be used by using the `userName` parameter.
 
 ### Get-PASDirectory
 
@@ -455,6 +465,9 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 10.8 introduced a new API endpoint.
   - Supports:
     - Account Dependency & AWS specific parameters
+- Version 11.7
+  - Supports
+    - Azure specific parameter
 
 ### Get-PASPlatform
 
