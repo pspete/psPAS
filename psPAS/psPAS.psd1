@@ -4,7 +4,7 @@
 	RootModule        = 'psPAS.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '4.5.87'
+	ModuleVersion     = '4.5.90'
 
 	# ID used to uniquely identify this module
 	GUID              = '11c880d2-1430-4bd2-b6e8-f324741b460b'
