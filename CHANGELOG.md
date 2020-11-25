@@ -5,7 +5,7 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v5.0...
 
-## **4.5.88** (November 25th 2020)
+## **4.5.87** (November 25th 2020)
 
 ### Module update to cover all CyberArk 11.7 API features
 
