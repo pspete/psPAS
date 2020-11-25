@@ -5,6 +5,12 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v5.0...
 
+## **4.5.90** (November 25th 2020)
+
+- Fixes
+  - `Set-PASAccount`
+    - Fix issue where JSON was not formatted as required when attempting to execute multiple operations in a single request.
+
 ## **4.5.87** (November 25th 2020)
 
 ### Module update to cover all CyberArk 11.7 API features

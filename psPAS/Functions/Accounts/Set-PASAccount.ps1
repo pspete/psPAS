@@ -148,7 +148,7 @@ function Set-PASAccount {
 				#Define type of output object
 				$Type = "psPAS.CyberArk.Vault.Account.V10"
 
-				if ($PSCmdlet.ParameterSetName -match "V10MultiOp") {
+				if ($PSCmdlet.ParameterSetName -match "Gen2MultiOp") {
 
 					$boundParameters = $boundParameters["operations"]
 
@@ -156,7 +156,7 @@ function Set-PASAccount {
 
 				#Do Not Pipe into ConvertTo-JSON.
 				#Correct JSON Format is only achieved when the array is not sent along the pipe
-				$body = ConvertTo-Json @($boundParameters) -Depth 3
+				$body = ConvertTo-Json @($boundParameters)
 
 			}
 
