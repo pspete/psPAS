@@ -67,9 +67,8 @@ Function Set-PASOpenIDConnectProvider {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateLength(1, 200)]
 		[ValidateNotNullOrEmpty()]
-		[string]$clientSecret,
+		[securestring]$clientSecret,
 
 		[parameter(
 			Mandatory = $true,
@@ -102,8 +101,19 @@ Function Set-PASOpenIDConnectProvider {
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/OIDC/Providers/$($id | Get-EscapedString)"
 
+		#Get request parameters
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove id
+
+		#deal with clientSecret SecureString
+		If ($PSBoundParameters.ContainsKey("clientSecret")) {
+
+			#Include decoded clientSecret in request
+			$boundParameters["clientSecret"] = $(ConvertTo-InsecureString -SecureString $clientSecret)
+
+		}
+
 		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove id | ConvertTo-Json
+		$body = $boundParameters | ConvertTo-Json
 
 		if ($PSCmdlet.ShouldProcess($id, "Update OIDC Provider")) {
 

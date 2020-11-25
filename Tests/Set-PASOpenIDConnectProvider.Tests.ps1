@@ -42,6 +42,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
 			}
 
+			$clientSecret = $("SomeClientSecret" | ConvertTo-SecureString -AsPlainText -Force)
+
 			$InputObject = [PSCustomObject]@{
 
 				id                   = "idValue"
@@ -49,7 +51,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				discoveryEndpointUrl = "https://SomeValue"
 				clientId             = "00000159875dgjut02f5"
 				clientSecretMethod   = "Post"
-				clientSecret         = "SSSSSSSSSHHHHHHHHHHH"
+				clientSecret         = $clientSecret
 			}
 
 			$response = $InputObject | Set-PASOpenIDConnectProvider

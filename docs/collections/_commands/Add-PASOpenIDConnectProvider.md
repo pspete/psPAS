@@ -17,7 +17,7 @@ Adds a new OIDC Identity Provider.
 ```
 Add-PASOpenIDConnectProvider -id <String> [-authenticationFlow <String>] [-authenticationEndpointUrl <String>]
  [-issuer <String>] [-description <String>] -discoveryEndpointUrl <String> [-jwkSet <String>]
- -clientId <String> [-clientSecret <String>] -clientSecretMethod <String> [-userNameClaim <String>]
+ -clientId <String> [-clientSecret <SecureString>] -clientSecretMethod <String> [-userNameClaim <String>]
  [<CommonParameters>]
 ```
 
@@ -169,7 +169,7 @@ The client secret is only known to the application and the provider for secure c
 This secret is created by the provider, and assigned to each client application upon registration.
 
 ```yaml
-Type: String
+Type: SecureString
 Parameter Sets: (All)
 Aliases:
 

@@ -67,9 +67,8 @@ Function Add-PASOpenIDConnectProvider {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateLength(1, 200)]
 		[ValidateNotNullOrEmpty()]
-		[string]$clientSecret,
+		[securestring]$clientSecret,
 
 		[parameter(
 			Mandatory = $true,
@@ -102,8 +101,19 @@ Function Add-PASOpenIDConnectProvider {
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/OIDC/Providers"
 
+		#Get request parameters
+		$boundParameters = $PSBoundParameters | Get-PASParameter
+
+		#deal with clientSecret SecureString
+		If ($PSBoundParameters.ContainsKey("clientSecret")) {
+
+			#Include decoded clientSecret in request
+			$boundParameters["clientSecret"] = $(ConvertTo-InsecureString -SecureString $clientSecret)
+
+		}
+
 		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
+		$body = $boundParameters | ConvertTo-Json
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $Script:WebSession
