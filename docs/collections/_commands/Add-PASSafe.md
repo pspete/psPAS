@@ -14,22 +14,37 @@ Adds a new safe to the Vault
 
 ## SYNTAX
 
-### Versions
+### NumberOfVersionsRetention (Default)
 ```
-Add-PASSafe -SafeName <String> [-Description <String>] [-OLACEnabled <Boolean>] [-ManagingCPM <String>]
- -NumberOfVersionsRetention <Int32> [<CommonParameters>]
+Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
+ [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-AutoPurgeEnabled <Boolean>] [<CommonParameters>]
 ```
 
-### Days
+### Gen1-NumberOfVersionsRetention
 ```
-Add-PASSafe -SafeName <String> [-Description <String>] [-OLACEnabled <Boolean>] [-ManagingCPM <String>]
- -NumberOfDaysRetention <Int32> [<CommonParameters>]
+Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
+ [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-UseGen1API] [<CommonParameters>]
+```
+
+### NumberOfDaysRetention
+```
+Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
+ [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-AutoPurgeEnabled <Boolean>] [<CommonParameters>]
+```
+
+### Gen1-NumberOfDaysRetention
+```
+Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
+ [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-UseGen1API] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Adds a new safe to the Vault.
 
 The "Add Safes" permission is required in the vault.
+
+Defaults to the Gen2 API which requires CyberArk version 12.0+.
+For use against earlier versions the `-UseGen1API` switch must be specified to force use of the Gen1 API.
 
 ## EXAMPLES
 
@@ -42,10 +57,24 @@ Creates a new safe named Oracle with a 7 version retention.
 
 ### EXAMPLE 2
 ```
-Add-PASSafe -SafeName Dev_Team -Description "Dev Safe" -ManagingCPM DEV_CPM -NumberOfDaysRetention 7
+Add-PASSafe -SafeName Dev_Team -Description "Dev Safe" -ManagingCPM DEV_CPM -NumberOfDaysRetention 7 -location "\Safes"
 ```
 
-Creates a new safe named Dev_Team, assigned to CPM DEV_CPM, with a 7 day retention period.
+Creates a new safe named Dev_Team, assigned to CPM DEV_CPM, with a 7 day retention period, in the \Safes location.
+
+### EXAMPLE 3
+```
+Add-PASSafe -SafeName Oracle -Description "Oracle Safe" -ManagingCPM PasswordManager -NumberOfVersionsRetention 7 -UseGen1API
+```
+
+Creates a new safe named Oracle with a 7 version retention using the Gen 1 API.
+
+### EXAMPLE 4
+```
+Add-PASSafe -SafeName Dev_Team -Description "Dev Safe" -ManagingCPM DEV_CPM -NumberOfDaysRetention 7 -UseGen1API
+```
+
+Creates a new safe named Dev_Team, assigned to CPM DEV_CPM, with a 7 day retention period using the Gen 1 API.
 
 ## PARAMETERS
 
@@ -105,8 +134,6 @@ Accept wildcard characters: False
 ### -ManagingCPM
 The Name of the CPM user to manage the safe.
 
-Specify "" to prevent CPM management.
-
 ```yaml
 Type: String
 Parameter Sets: (All)
@@ -128,7 +155,7 @@ Specify either this parameter or NumberOfDaysRetention.
 
 ```yaml
 Type: Int32
-Parameter Sets: Versions
+Parameter Sets: NumberOfVersionsRetention, Gen1-NumberOfVersionsRetention
 Aliases:
 
 Required: True
@@ -149,12 +176,57 @@ Specify either this parameter or NumberOfVersionsRetention
 
 ```yaml
 Type: Int32
-Parameter Sets: Days
+Parameter Sets: NumberOfDaysRetention, Gen1-NumberOfDaysRetention
 Aliases:
 
 Required: True
 Position: Named
 Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -AutoPurgeEnabled
+Whether or not to automatically purge files after the end of the Object History Retention Period defined in the Safe properties.
+
+```yaml
+Type: Boolean
+Parameter Sets: NumberOfVersionsRetention, NumberOfDaysRetention
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -location
+The location of the Safe in the Vault.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Force use of Gen1 API for request.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1-NumberOfVersionsRetention, Gen1-NumberOfDaysRetention
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```

@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASSafeMember {
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -9,13 +9,13 @@ function Add-PASSafeMember {
 		[ValidateNotNullOrEmpty()]
 		[string]$SafeName,
 
-		[Alias("UserName")]
+		[Alias('UserName')]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateScript( { $_ -notmatch ".*(\?|\&).*" })]
+		[ValidateScript( { $_ -notmatch '.*(\?|\&).*' })]
 		[string]$MemberName,
 
 		[parameter(
@@ -34,55 +34,65 @@ function Add-PASSafeMember {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("RestrictedRetrieve")]
+		[Alias('RestrictedRetrieve')]
 		[boolean]$UseAccounts,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("Retrieve")]
+		[Alias('Retrieve')]
 		[boolean]$RetrieveAccounts,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("ListContent")]
+		[Alias('ListContent')]
 		[boolean]$ListAccounts,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("Add")]
+		[Alias('Add')]
 		[boolean]$AddAccounts,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("Update")]
+		[Alias('Update')]
 		[boolean]$UpdateAccountContent,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("UpdateMetadata")]
+		[Alias('UpdateMetadata')]
 		[boolean]$UpdateAccountProperties,
 
 		[parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "CPM"
+			ParameterSetName = 'Gen2-CPM'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1-CPM'
 		)]
 		[boolean]$InitiateCPMAccountManagementOperations,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "CPM"
+			ParameterSetName = 'Gen2-CPM'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1-CPM'
 		)]
 		[boolean]$SpecifyNextAccountContent,
 
@@ -90,21 +100,21 @@ function Add-PASSafeMember {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("Rename")]
+		[Alias('Rename')]
 		[boolean]$RenameAccounts,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("Delete")]
+		[Alias('Delete')]
 		[boolean]$DeleteAccounts,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("Unlock")]
+		[Alias('Unlock')]
 		[boolean]$UnlockAccounts,
 
 		[parameter(
@@ -129,22 +139,53 @@ function Add-PASSafeMember {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("ViewAudit")]
+		[Alias('ViewAudit')]
 		[boolean]$ViewAuditLog,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("ViewMembers")]
+		[Alias('ViewMembers')]
 		[boolean]$ViewSafeMembers,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1-CPM'
 		)]
 		[ValidateRange(0, 2)]
 		[int]$RequestsAuthorizationLevel,
+
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-CPM'
+		)]
+		[boolean]$requestsAuthorizationLevel1,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-CPM'
+		)]
+		[boolean]$requestsAuthorizationLevel2,
 
 		[parameter(
 			Mandatory = $false,
@@ -156,7 +197,7 @@ function Add-PASSafeMember {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("AddRenameFolder")]
+		[Alias('AddRenameFolder')]
 		[boolean]$CreateFolders,
 
 		[parameter(
@@ -169,8 +210,20 @@ function Add-PASSafeMember {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("MoveFilesAndFolders")]
-		[boolean]$MoveAccountsAndFolders
+		[Alias('MoveFilesAndFolders')]
+		[boolean]$MoveAccountsAndFolders,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Gen1'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Gen1-CPM'
+		)]
+		[switch]$UseGen1API
 	)
 
 	BEGIN {
@@ -184,51 +237,107 @@ function Add-PASSafeMember {
 
 	PROCESS {
 
-		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
-
-            Get-EscapedString)/Members"
-
 		#Get Parameters for request body
-		$boundParameters = $PSBoundParameters | Get-PASParameter
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName, UseGen1API
 
-		If ($PSBoundParameters.ContainsKey("MembershipExpirationDate")) {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			#Convert MembershipExpirationDate to string in Required format
-			$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yyyy).ToString()
+			( { $PSItem -match '^Gen1' } ) {
 
-			#Include date string in request
-			$boundParameters["MembershipExpirationDate"] = $Date
+				Assert-VersionRequirement -MaximumVersion 12.2
+
+				#Create URL for request
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
+				Get-EscapedString)/Members"
+
+				If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
+
+					#Convert MembershipExpirationDate to string in Required format
+					$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yyyy).ToString()
+
+					#Include date string in request
+					$boundParameters['MembershipExpirationDate'] = $Date
+
+				}
+
+				#Add permissions array to request in correct order
+				[array]$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -Gen1
+
+				#Create required request object
+				$body = @{
+
+					'member' = $boundParameters | Get-PASParameter -ParametersToKeep $keysToKeep
+
+					#Ensure all required JSON levels are output
+				} | ConvertTo-Json -Depth 3
+
+				break
+
+			}
+
+			( { $PSItem -match '^Gen2' } ) {
+
+				Assert-VersionRequirement -RequiredVersion 12.1
+
+				#Create URL for request
+				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)/Members"
+
+				If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
+
+					#Convert MembershipExpirationDate to string in Required format
+					$Date = Get-Date $MembershipExpirationDate | ConvertTo-UnixTime
+
+					#Include date string in request
+					$boundParameters['MembershipExpirationDate'] = $Date
+
+				}
+
+				#Add permissions array to request in correct order
+				$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -Gen2
+
+				#Create required request object
+				$body = $boundParameters | Get-PASParameter -ParametersToKeep $keysToKeep | ConvertTo-Json
+
+				break
+
+			}
 
 		}
-
-		#Add permissions array to request in correct order
-		[array]$boundParameters["Permissions"] = $boundParameters | ConvertTo-SortedPermission
-
-		#Create required request object
-		$body = @{
-
-			"member" = $boundParameters | Get-PASParameter -ParametersToKeep $keysToKeep
-
-			#Ensure all required JSON levels are output
-		} | ConvertTo-Json -Depth 3
 
 		#Send request to Web Service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-
 		If ($null -ne $result) {
 
-			#format output
-			$result.member | Select-Object MemberName, MembershipExpirationDate, SearchIn,
+			switch ($PSCmdlet.ParameterSetName) {
 
-			@{Name = "Permissions"; "Expression" = {
+				( { $PSItem -match '^Gen1' } ) {
+					#format output
+					$result.member | Select-Object MemberName, MembershipExpirationDate, SearchIn,
 
-					$result.member.permissions | ConvertFrom-KeyValuePair }
+					@{Name = 'Permissions'; 'Expression' = {
 
-			} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Extended -PropertyToAdd @{
+							$result.member.permissions | ConvertFrom-KeyValuePair }
 
-				"SafeName" = $SafeName
+					} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Extended -PropertyToAdd @{
+
+						'SafeName' = $SafeName
+
+					}
+
+					break
+
+				}
+
+				( { $PSItem -match '^Gen2' } ) {
+
+					$result |
+						Select-Object *, @{Name = 'UserName'; 'Expression' = { $PSItem.MemberName } } |
+						Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Gen2
+
+					break
+
+				}
 
 			}
 

@@ -1,47 +1,168 @@
 ﻿# .ExternalHelp psPAS-help.xml
 function Get-PASSafeMember {
-	[CmdletBinding(DefaultParameterSetName = "SafePermissions")]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-MemberFilter'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1-SafeMembers'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1-MemberPermissions'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$SafeName,
 
-		[Alias("UserName")]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-MemberFilter'
+		)]
+		[ValidateSet('user', 'group')]
+		[string]$memberType,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-MemberFilter'
+		)]
+		[boolean]$membershipExpired,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-MemberFilter'
+		)]
+		[boolean]$includePredefinedUsers,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-MemberFilter'
+		)]
+		[string]$search,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-MemberFilter'
+		)]
+		[ValidateSet('asc', 'desc')]
+		[string]$sort,
+
+		[Alias('UserName')]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "MemberPermissions"
+			ParameterSetName = 'Gen1-MemberPermissions'
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$MemberName
+		[string]$MemberName,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Gen2-MemberFilter'
+		)]
+		[int]$TimeoutSec,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Gen1-SafeMembers'
+		)]
+		[switch]$UseGen1API
 	)
 
 	BEGIN {
 
 		$Request = @{ }
-		$Method = "GET"
+		$Method = 'GET'
+		$Limit = 25   #default if you call the API with no value
 
 	}#begin
 
 	PROCESS {
 
-		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName | Get-EscapedString)/Members"
-
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"MemberPermissions" {
+			( { $PSItem -match '^Gen1-' } ) {
+
+				#Create URL for Gen1 API requests
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName | Get-EscapedString)/Members"
+
+			}
+
+			( { $PSItem -match '^Gen2' } ) {
+
+				#Create URL for Gen1 API requests
+				Assert-VersionRequirement -RequiredVersion 12.0
+
+				#Create URL for Gen2 API requests
+				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)/Members"
+
+			}
+
+			'Gen1-MemberPermissions' {
+
+				#check required version
+				Assert-VersionRequirement -MaximumVersion 12.2
 
 				#Create URL for member specific request
 				$URI = "$URI/$($MemberName | Get-EscapedString)"
 				#Send a PUT Request instead of GET
-				$Method = "PUT"
+				$Method = 'PUT'
 				#Send an empty body
 				#Add to Request parameters for PUT Request
-				$Request["Body"] = @{"member" = @{ } } | ConvertTo-Json
+				$Request['Body'] = @{'member' = @{ } } | ConvertTo-Json
+
+				break
+
+			}
+
+			'Gen2-MemberFilter' {
+
+				Assert-VersionRequirement -RequiredVersion 12.1
+
+				#Get Parameters to include in request
+				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName, memberType, membershipExpired, includePredefinedUsers, TimeoutSec
+				$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep memberType, membershipExpired, includePredefinedUsers
+				$FilterString = $filterParameters | ConvertTo-FilterString
+
+				If ($null -ne $FilterString) {
+
+					$boundParameters = $boundParameters + $FilterString
+
+				}
+
+				#Create Query String, escaped for inclusion in request URL
+				$queryString = $boundParameters | ConvertTo-QueryString
+
+				If ($null -ne $queryString) {
+
+					#Build URL from base URL
+					$URI = "$URI`?$queryString"
+
+				}
+
+				$Request['TimeoutSec'] = $TimeoutSec
 
 				break
 
@@ -50,9 +171,9 @@ function Get-PASSafeMember {
 		}
 
 		#Build Request Parameters
-		$Request["URI"] = $URI
-		$Request["Method"] = $Method
-		$Request["WebSession"] = $Script:WebSession
+		$Request['URI'] = $URI
+		$Request['Method'] = $Method
+		$Request['WebSession'] = $Script:WebSession
 
 		#Send request to webservice
 		$result = Invoke-PASRestMethod @Request
@@ -61,16 +182,34 @@ function Get-PASSafeMember {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
-				"MemberPermissions" {
+				'Gen1-MemberPermissions' {
 
 					#format output
 					$Output = $result.member | Select-Object MembershipExpirationDate,
 
-					@{Name = "UserName"; "Expression" = { $MemberName } },
+					@{Name = 'UserName'; 'Expression' = { $MemberName } },
 
-					@{Name = "Permissions"; "Expression" = {
+					@{Name = 'Permissions'; 'Expression' = {
 
 							$result.member.permissions | ConvertFrom-KeyValuePair }
+
+					}
+
+				}
+
+				'Gen1-SafeMembers' {
+
+					#output
+					$Output = $result.members | Select-Object UserName, Permissions
+
+				}
+
+				( { $PSItem -match '^Gen1-' } ) {
+
+					#Format and add SafeName to Gen 1 Output
+					$Output = $Output | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
+
+						'SafeName' = $SafeName
 
 					}
 
@@ -78,20 +217,41 @@ function Get-PASSafeMember {
 
 				}
 
-				default {
+				( { $PSItem -match '^Gen2' } ) {
 
-					#output
-					$Output = $result.members | Select-Object UserName, Permissions
+					$Total = $result.Count
+
+					If ($Total -gt 0) {
+
+						$Members = [Collections.Generic.List[Object]]::New(($result.value))
+
+						For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+
+							$Null = $Members.AddRange((Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec).value)
+
+						}
+
+						$Output = $Members
+
+					}
+
+					ElseIf ($null -ne $result) {
+
+						$Output = $result.value
+
+					}
+
+					$Output = $Output |
+						Select-Object *, @{Name = 'UserName'; 'Expression' = { $PSItem.MemberName } } |
+						Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Gen2
+
+					break
 
 				}
 
 			}
 
-			$Output | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
-
-				"SafeName" = $SafeName
-
-			}
+			$Output
 
 		}
 

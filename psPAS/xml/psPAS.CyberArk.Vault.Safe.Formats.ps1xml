@@ -4,7 +4,28 @@
 		<View>
 			<Name>psPAS.CyberArk.Vault.Safe</Name>
 			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Safe.Gen2.Name</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>SafeName</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Safe</Name>
+			<ViewSelectedBy>
 				<TypeName>psPAS.CyberArk.Vault.Safe</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Safe.Gen2</TypeName>
 			</ViewSelectedBy>
 			<TableControl>
 				<TableHeaders>
@@ -36,6 +57,67 @@
 					</TableRowEntry>
 				</TableRowEntries>
 			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Safe.Gen2</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Safe.Gen2</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>SafeNumber</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>SafeName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Description</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Location</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Creator</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>OLACEnabled</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ManagingCPM</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>NumberOfVersionsRetention</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>NumberOfDaysRetention</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AutoPurgeEnabled</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>CreationTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.CreationTime)</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>LastModificationTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).AddMilliseconds($($_.LastModificationTime/1000))</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>isExpiredMember</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>SafeUrlId</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Accounts</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
 		</View>
 		<View>
 			<Name>psPAS.CyberArk.Vault.Safe</Name>
@@ -73,6 +155,7 @@
 			<Name>psPAS.CyberArk.Vault.Safe.Member</Name>
 			<ViewSelectedBy>
 				<TypeName>psPAS.CyberArk.Vault.Safe.Member</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Safe.Member.Gen2</TypeName>
 			</ViewSelectedBy>
 			<TableControl>
 				<TableHeaders>
@@ -96,6 +179,54 @@
 					</TableRowEntry>
 				</TableRowEntries>
 			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Safe.Member.Gen2</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Safe.Member.Gen2</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>safeNumber</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>memberId</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>safeName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>permissions</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>isExpiredMembershipEnable</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>memberName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>safeUrlId</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>membershipExpirationDate</Label>
+								<ScriptBlock>If($_.membershipExpirationDate -gt 0){(get-date 1/1/1970).addseconds($_.membershipExpirationDate)}Else{$null}</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>memberType</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>isPredefinedUser</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
 		</View>
 		<View>
 			<Name>psPAS.CyberArk.Vault.Safe.Member.Extended</Name>

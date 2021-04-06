@@ -1,13 +1,27 @@
 # .ExternalHelp psPAS-help.xml
 function Remove-PASSafe {
-	[CmdletBinding(SupportsShouldProcess)]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = 'False Positive')]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Gen2')]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$SafeName
+		[string]$SafeName,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Gen1'
+		)]
+		[switch]$UseGen1API
 
 	)
 
@@ -15,12 +29,34 @@ function Remove-PASSafe {
 
 	PROCESS {
 
-		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
+		switch ($PSCmdlet.ParameterSetName) {
 
-            Get-EscapedString)"
+			'Gen1' {
 
-		if ($PSCmdlet.ShouldProcess($SafeName, "Delete Safe")) {
+				Assert-VersionRequirement -MaximumVersion 12.2
+
+				#Create URL for request
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
+				Get-EscapedString)"
+
+				break
+
+			}
+
+			default {
+
+				Assert-VersionRequirement -RequiredVersion 12.1
+
+				#Create URL for request
+				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)"
+
+				break
+
+			}
+
+		}
+
+		if ($PSCmdlet.ShouldProcess($SafeName, 'Delete Safe')) {
 
 			#Send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession

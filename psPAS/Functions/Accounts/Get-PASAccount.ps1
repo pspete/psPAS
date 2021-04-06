@@ -1,92 +1,77 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASAccount {
-	[CmdletBinding(DefaultParameterSetName = "Gen2Query")]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2Query')]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2ID"
+			ParameterSetName = 'Gen2ID'
 		)]
-		[Alias("AccountID")]
+		[Alias('AccountID')]
 		[string]$id,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Filter"
+			ParameterSetName = 'Gen2Filter'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Query"
+			ParameterSetName = 'Gen2Query'
 		)]
 		[string]$search,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Filter"
+			ParameterSetName = 'Gen2Filter'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Query"
+			ParameterSetName = 'Gen2Query'
 		)]
-		[ValidateSet("startswith", "contains")]
+		[ValidateSet('startswith', 'contains')]
 		[string]$searchType,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Query"
+			ParameterSetName = 'Gen2Query'
 		)]
 		[string]$safeName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Query"
+			ParameterSetName = 'Gen2Query'
 		)]
 		[datetime]$modificationTime,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Filter"
+			ParameterSetName = 'Gen2Filter'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Query"
+			ParameterSetName = 'Gen2Query'
 		)]
 		[string[]]$sort,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Filter"
-		)]
-		[int]$offset,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Filter"
-		)]
-		[ValidateRange(1, 1000)]
-		[int]$limit,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2Filter"
+			ParameterSetName = 'Gen2Filter'
 		)]
 		[string]$filter,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateLength(0, 500)]
 		[string]$Keywords,
@@ -94,7 +79,7 @@ function Get-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateLength(0, 28)]
 		[string]$Safe,
@@ -120,17 +105,17 @@ function Get-PASAccount {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			( { $PSItem -match "Gen2" } ) {
+			( { $PSItem -match 'Gen2' } ) {
 
 				switch ($PSBoundParameters) {
 
-					( { $PSItem.ContainsKey("modificationTime") }) {
+					( { $PSItem.ContainsKey('modificationTime') }) {
 						#check required version
 						Assert-VersionRequirement -RequiredVersion 11.4
 
 					}
 
-					( { $PSItem.ContainsKey("searchType") }) {
+					( { $PSItem.ContainsKey('searchType') }) {
 						#check required version
 						Assert-VersionRequirement -RequiredVersion 11.2
 
@@ -144,24 +129,24 @@ function Get-PASAccount {
 				}
 
 				#assign new type name
-				$typeName = "psPAS.CyberArk.Vault.Account.V10"
+				$typeName = 'psPAS.CyberArk.Vault.Account.V10'
 
 				#define base URL
 				$URI = "$Script:BaseURI/api/Accounts"
 
 			}
 
-			"Gen1" {
+			'Gen1' {
 
 				#assign type name
-				$typeName = "psPAS.CyberArk.Vault.Account"
+				$typeName = 'psPAS.CyberArk.Vault.Account'
 
 				#Create request URL
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts"
 
 			}
 
-			"Gen2ID" {
+			'Gen2ID' {
 
 				#define "by ID" URL
 				$URI = "$URI/$id"
@@ -170,7 +155,7 @@ function Get-PASAccount {
 
 			}
 
-			( { $PSItem -ne "Gen2ID" } ) {
+			( { $PSItem -ne 'Gen2ID' } ) {
 
 				If ($null -ne $FilterString) {
 
@@ -201,7 +186,7 @@ function Get-PASAccount {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
-				"Gen2ID" {
+				'Gen2ID' {
 
 					#return expected single result
 					$return = $result
@@ -210,7 +195,7 @@ function Get-PASAccount {
 
 				}
 
-				"Gen1" {
+				'Gen1' {
 
 					$count = $($result.count)
 
@@ -254,10 +239,10 @@ function Get-PASAccount {
 							$return = New-Object -TypeName PSObject -Property @{
 
 								#Internal Unique ID of Account
-								"AccountID"          = $($account | Select-Object -ExpandProperty AccountID)
+								'AccountID'          = $($account | Select-Object -ExpandProperty AccountID)
 
 								#InternalProperties object
-								"InternalProperties" = $InternalProps
+								'InternalProperties' = $InternalProps
 
 							}
 

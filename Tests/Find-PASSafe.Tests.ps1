@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,29 +35,29 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Input" {
+		Context 'Input' {
 
-			$Script:BaseURI = "https://SomeURL/SomeApp"
-			$Script:ExternalVersion = "0.0"
+			$Script:BaseURI = 'https://SomeURL/SomeApp'
+			$Script:ExternalVersion = '0.0'
 			$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 				}
 
 				Find-PASSafe
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -67,7 +67,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request with expected query" {
+			It 'sends request with expected query' {
 
 				Find-PASSafe -search SomeQuery
 
@@ -79,35 +79,41 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
 				{ Find-PASSafe } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
-			It "sends expected number of requests" {
+			It 'throws error if version exceeds 11.7' {
+				$Script:ExternalVersion = '11.8'
+				{ Find-PASSafe } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+			}
+
+			It 'sends expected number of requests' {
 
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
-						"Total" = 100
-						"Safes" = @(
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+						'Total' = 100
+						'Safes' = @(
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 						)
 					}
 				}
@@ -122,19 +128,19 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Response Output" {
+		Context 'Response Output' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
-						"Total" = 20
-						"Safes" = @(
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+						'Total' = 20
+						'Safes' = @(
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 						)
 					}
 				}
@@ -143,29 +149,29 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			it "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
 			}
 
-			It "returns expected number of results" {
+			It 'returns expected number of results' {
 
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
-						"Total" = 100
-						"Safes" = @(
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" },
-							[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+						'Total' = 100
+						'Safes' = @(
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
+							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 						)
 					}
 				}
