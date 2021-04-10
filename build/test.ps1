@@ -10,6 +10,10 @@ Import-Module $ManifestPath -Force
 #---------------------------------#
 #$files = Get-ChildItem $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME) -Include *.ps1 -Recurse | Select-Object -ExpandProperty FullName
 $files = Get-Item 'pspas/**/*/*.ps1', 'pspas/**/*.ps1' | Select-Object -ExpandProperty FullName
+$paths = @(
+	'.\psPAS\Functions\*\*.ps1',
+	'.\psPAS\Private\*.ps1'
+)
 
 # get default from static property
 $configuration = [PesterConfiguration]::Default
@@ -17,7 +21,10 @@ $configuration = [PesterConfiguration]::Default
 $configuration.Run.Path = '.\Tests'
 $configuration.Run.PassThru = $true
 $configuration.CodeCoverage.Enabled = $true
-$configuration.CodeCoverage.Path = $files
+$configuration.CodeCoverage.Path = $paths
+$configuration.CodeCoverage.OutputEncoding = 'ascii'
+$configuration.CodeCoverage.OutputFormat = 'JaCoCo'
+$configuration.CodeCoverage.OutputPath = '.\JaCoCo_coverage.xml'
 $configuration.TestResult.Enabled = $true
 $configuration.TestResult.OutputFormat = 'NUnitXml'
 $configuration.TestResult.OutputPath = '.\TestResults.xml'
@@ -45,9 +52,9 @@ if ($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq 'Pete Maan') {
 
 	$null = Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
 
-	$null = bash codecov.sh -f coverage.xml
+	$null = bash codecov.sh -f .\JaCoCo_coverage.xml
 
-	Remove-Item -Path $(Resolve-Path .\coverage.xml) -Force
+	Remove-Item -Path $(Resolve-Path .\JaCoCo_coverage.xml) -Force
 	Remove-Item -Path $(Resolve-Path .\codecov.sh) -Force
 
 }
