@@ -6,9 +6,9 @@
 
 # **psPAS: PowerShell Module for the CyberArk API**
 
-Use PowerShell to manage CyberArk via the Web Services REST API.
+Use PowerShell to manage CyberArk via the PVWA REST API.
 
-Contains all published methods of the API up to CyberArk v11.7.
+Contains all published methods of the API up to CyberArk v12.1.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -176,29 +176,29 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 - Get information relating to Safes you have access to:
 
 ````powershell
-Find-PASSafe -search 3_TestSafe_028_XYJ
-
-SafeUrlId          SafeName           Description                  Location
----------          --------           -----------                  --------
-3_TestSafe_028_XYJ 3_TestSafe_028_XYJ TestSafe: 3_TestSafe_028_XYJ \
-
-Get-PASSafe -SafeName 3_TestSafe_028_XYJ
+Get-PASSafe -search _YZO
 
 SafeName           ManagingCPM     NumberOfDaysRetention NumberOfVersionsRetention Description
 --------           -----------     --------------------- ------------------------- -----------
-3_TestSafe_028_XYJ PasswordManager                       3                         TestSafe: 3_TestSafe_028_XYJ
+1_TestSafe_096_YZO PasswordManager                       3                         TestSafe: 1_TestSafe_096_YZO
+1_TestSafe_100_YZO PasswordManager                       3                         TestSafe: 1_TestSafe_100_YZO
+3_TestSafe_058_YZO PasswordManager                       3                         TestSafe: 3_TestSafe_058_YZO
+3_TestSafe_068_YZO PasswordManager                       3                         TestSafe: 3_TestSafe_068_YZO
+3_TestSafe_069_YZO PasswordManager                       3                         TestSafe: 3_TestSafe_069_YZO
+2_TestSafe_090_YZO PasswordManager                       3                         TestSafe: 2_TestSafe_090_YZO
+1_TestSafe_067_YZO PasswordManager                       3                         TestSafe: 1_TestSafe_067_YZO
 ````
 
-##### Safe Members
+## Safe Members
 
 - Find Safe Members:
 
 ````powershell
-Get-PASSafeMember -SafeName 3_TestSafe_028_XYJ -MemberName ACC-G-3_TestSafe_028_XYJ-Usr
+Get-PASSafeMember -SafeName 1_TestSafe_067_YZO -search Usr
 
 UserName                     SafeName           Permissions
 --------                     --------           -----------
-ACC-G-3_TestSafe_028_XYJ-Usr 3_TestSafe_028_XYJ @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+ACC-G-1_TestSafe_067_YZO-Usr 1_TestSafe_067_YZO @{useAccounts=True; retrieveAccounts=True; listAccounts=True; addAccounts=False;.....
 ````
 
 ##### Users
@@ -223,7 +223,7 @@ ID  UserName    Source UserType ComponentUser Location
 - Return Account data:
 
 ````powershell
-Get-PASAccount -filter "SafeName eq 3_TestSafe_028_XYJ" -search sbwudlov
+Get-PASAccount -SafeName "3_TestSafe_028_XYJ" -search sbwudlov
 
 AccountID                 : 286_4
 Safe                      : 3_TestSafe_028_XYJ
@@ -232,15 +232,14 @@ userName                  : sbwudlov
 name                      : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-sbwudlov
 platformId                : Z_WINDOMAIN_OFF
 secretType                : password
-platformAccountProperties : @{LogonDomain=SOMEDOMAIN}
-secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=1559864222}
+platformAccountProperties : @{LogonDomain = SOMEDOMAIN }
+secretManagement          : @{automaticManagementEnabled = True; lastModifiedTime = 1559864222 }
 createdTime               : 06/06/2019 23:37:02
 ````
 
-###### Classic API
+###### 1st Gen API
 
-- There is a limitation of only returning details of the first found account when using the Classic API.
-  - The `keywords` & `safe` parameters of `Get-PASAccount` force use of the Classic API:
+- The `keywords` & `safe` parameters of `Get-PASAccount` force use of the 1st gen API:
 
 ````powershell
 Get-PASAccount -Safe 3_TestSafe_028_XYJ
@@ -254,13 +253,14 @@ UserName           : kmgrsebf
 PlatformID         : Z_WINDOMAIN_OFF
 DeviceType         : Operating System
 Address            : SOMEDOMAIN.COM
-InternalProperties : @{CreationMethod=PVWA}
+InternalProperties : @{CreationMethod = PVWA }
 ````
 
-- More results can be returned by specifying alternative parameters and avoiding the Classic API:
+- Only details of the first found account will be returned.
+- More results can be returned by specifying alternative parameters to avoid sending the request via the 1st gen API
 
 ````powershell
-PS>Get-PASAccount -filter "SafeName eq 3_TestSafe_028_XYJ"
+PS>Get-PASAccount -SafeName "3_TestSafe_028_XYJ"
 
 AccountID                 : 286_3
 Safe                      : 3_TestSafe_028_XYJ
@@ -269,8 +269,8 @@ userName                  : kmgrsebf
 name                      : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-kmgrsebf
 platformId                : Z_WINDOMAIN_OFF
 secretType                : password
-platformAccountProperties : @{LogonDomain=SOMEDOMAIN}
-secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=1559864221}
+platformAccountProperties : @{LogonDomain = SOMEDOMAIN }
+secretManagement          : @{automaticManagementEnabled = True; lastModifiedTime = 1559864221 }
 createdTime               : 06/06/2019 23:37:01
 
 AccountID                 : 286_4
@@ -280,8 +280,8 @@ userName                  : sbwudlov
 name                      : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-sbwudlov
 platformId                : Z_WINDOMAIN_OFF
 secretType                : password
-platformAccountProperties : @{LogonDomain=SOMEDOMAIN}
-secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=1559864222}
+platformAccountProperties : @{LogonDomain = SOMEDOMAIN }
+secretManagement          : @{automaticManagementEnabled = True; lastModifiedTime = 1559864222 }
 createdTime               : 06/06/2019 23:37:02
 ````
 
@@ -327,11 +327,11 @@ NewSafe  PasswordManager                       10                        New Saf
 
 ````powershell
 Add-PASSafeMember -SafeName NewSafe -MemberName NewMember -UseAccounts $false -ListAccounts $true `
--RetrieveAccounts $false -ViewAuditLog $true -ViewSafeMembers $true
+	-RetrieveAccounts $false -ViewAuditLog $true -ViewSafeMembers $true
 
-MemberName SearchIn SafeName Permissions
----------- -------- -------- -----------
-NewMember  vault    NewSafe  @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+UserName  SafeName Permissions
+--------  -------- -----------
+NewMember NewSafe  @{useAccounts=False; retrieveAccounts=False; listAccounts=True; addAccounts=False;...
 ````
 
 ##### Update Accounts
@@ -437,44 +437,48 @@ Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp
 
 ````powershell
 #Find directory groups assigned to safes
-Get-PASSafe -query JXW | Get-PASSafeMember |
-Where-Object{ Get-PASGroup -search $_.UserName -filter 'groupType eq Directory' }
+Get-PASSafe -search YZO | Get-PASSafeMember -memberType group -includePredefinedUsers $false |
+    Where-Object { Get-PASGroup -search $_.UserName -groupType Directory }
 
 UserName                     SafeName           Permissions
 --------                     --------           -----------
-ACC-G-1_TestSafe_049_JXW-Usr 1_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-ACC-G-1_TestSafe_049_JXW-Adm 1_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-ACC-G-2_TestSafe_049_JXW-Usr 2_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-ACC-G-2_TestSafe_049_JXW-Adm 2_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-ACC-G-3_TestSafe_049_JXW-Usr 3_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-ACC-G-3_TestSafe_049_JXW-Adm 3_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+ACC-G-1_TestSafe_096_YZO-Usr 1_TestSafe_096_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-1_TestSafe_096_YZO-Adm 1_TestSafe_096_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-1_TestSafe_100_YZO-Usr 1_TestSafe_100_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-1_TestSafe_100_YZO-Adm 1_TestSafe_100_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_058_YZO-Usr 3_TestSafe_058_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_058_YZO-Adm 3_TestSafe_058_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_068_YZO-Usr 3_TestSafe_068_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_068_YZO-Adm 3_TestSafe_068_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_069_YZO-Usr 3_TestSafe_069_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_069_YZO-Adm 3_TestSafe_069_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-2_TestSafe_090_YZO-Usr 2_TestSafe_090_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-2_TestSafe_090_YZO-Adm 2_TestSafe_090_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-1_TestSafe_067_YZO-Usr 1_TestSafe_067_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-1_TestSafe_067_YZO-Adm 1_TestSafe_067_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+
 ````
 
 - Multiple `psPAS` commands can be used together, along with standard PowerShell CmdLets:
 
 ````powershell
 #Add all "admin" users in the root location to the PVWAMonitor group
-Get-PASUser -UserType EPVUser -Search Admin | Where-Object{ $_.location -eq "\" } |
+Get-PASUser -UserType EPVUser -Search Admin | Where-Object { $_.location -eq "\" } |
 Add-PASGroupMember -GroupName PVWAMonitor
 
 #Find an account, then find the members of the account's safe.
-Get-PASAccount -id 330_5 | Get-PASSafe | Get-PASSafeMember
+Get-PASAccount -id 283_3 | Get-PASSafeMember
 
-UserName             SafeName    Permissions
---------             --------    ---------- -
-Master               ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-Batch                ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-Backup Users         ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=True...}
-Auditors             ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
-Operators            ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-DR Users             ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=True...}
-Notification Engines ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
-PVWAGWAccounts       ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
-PasswordManager      ApproveTest @{Add=False; AddRenameFolder=True; BackupSafe=False...}
-SafeAdmin            ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-SafeAdmin1           ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-zApprover_1          ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
-xReq                 ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
+UserName                     SafeName           Permissions
+--------                     --------           -----------
+SafeAdmin                    3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
+PSMAppUsers                  3_TestSafe_100_OWZ @{useAccounts=False; retrieveAccounts=False; lis...
+PasswordManager              3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
+SafeAdmin3                   3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_100_OWZ-Usr 3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_100_OWZ-Adm 3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
+Prov_ZZSRV01                 3_TestSafe_100_OWZ @{useAccounts=False; retrieveAccounts=True; lis...
+psPAS                        3_TestSafe_100_OWZ @{useAccounts=False; retrieveAccounts=True; lis...
 ````
 
 ### Advanced Examples
@@ -518,7 +522,7 @@ $LogonCredential = Get-Credential
 #Logon
 New-PASSession -Credential $LogonCredential -BaseURI https://your.pvwa.url
 
-$Safes = Get-PASSafe -query TestSafe
+$Safes = Get-PASSafe -search TestSafe
 
 #Delete Safes
 foreach ($Safe in $Safes){
@@ -592,17 +596,17 @@ $Role2 = [PSCustomObject]@{
   MoveAccountsAndFolders                 = $true
 }
 
-$Role1 | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Vault
+$Role1 | Add-PASSafeMember -SafeName NewSafe -MemberName a032485 -SearchIn Vault
 
-MemberName SearchIn SafeName Permissions
----------- -------- -------- -----------
-User23     Vault    NewSafe  @{Add=False; AddRenameFolder=False; BackupSafe=False...}
+UserName SafeName Permissions
+-------- -------- -----------
+a032485  NewSafe  @{useAccounts=True; retrieveAccounts=False; listAccounts=True;...
 
 $Role2 | Add-PASSafeMember -SafeName NewSafe -MemberName SafeAdmin1 -SearchIn Vault
 
-MemberName SearchIn SafeName Permissions
----------- -------- -------- -----------
-SafeAdmin1 Vault    NewSafe  @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+UserName   SafeName Permissions
+--------   -------- -----------
+SafeAdmin1 NewSafe  @{useAccounts=False; retrieveAccounts=False; listAccounts=Tr...
 ````
 
 ![Logo][Logo]
@@ -861,7 +865,7 @@ Click the below dropdown to view the current lis of psPAS functions and their mi
 [`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     |**10.7**            |Get details of configured directory mappings.
 [`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configured directory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             |**10.7**            |Delete a directory configuration.
-[`Find-PASSafe`][Find-PASSafe]                                                           |**10.1**            |List or Search Safes by name.
+[`Find-PASSafe`][Find-PASSafe]                                                           |**10.1**-**11.7**   |List or Search Safes by name.
 [`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                           |**10.10**           |Reorder Directory Mappings
 [`Set-PASUserPassword`][Set-PASUserPassword]                                             |**10.10**           |Reset a User's Password
 [`New-PASGroup`][New-PASGroup]                                                           |**11.1**            |Create a new CyberArk group
@@ -894,6 +898,14 @@ Click the below dropdown to view the current lis of psPAS functions and their mi
 [`Remove-PASOpenIDConnectProvider`][Remove-PASOpenIDConnectProvider]                     |**11.7**            |Deletes an OIDC Authentication Provider
 [`Set-PASOpenIDConnectProvider`][Set-PASOpenIDConnectProvider]                           |**11.7**            |Updates an OIDC Authentication Provider
 [`Remove-PASAuthenticationMethod`][Remove-PASAuthenticationMethod]                       |**11.7**            |Delete an authentication method
+[`Clear-PASDiscoveredAccountList`][Clear-PASDiscoveredAccountList]                       |**12.1**            |Clear all discovered accounts from the pending account list
+[`Get-PASAccountPasswordVersion`][Get-PASAccountPasswordVersion]                         |**12.1**            |Get details of previous password versions
+[`New-PASAccountPassword`][New-PASAccountPassword]                                       |**12.0**            |Generate new password values based on platform policy
+[`Set-PASLinkedAccount`][Set-PASLinkedAccount]                                           |**12.1**            |Associate logon and reconcile accounts
+[`Clear-PASPrivateSSHKey`][Clear-PASPrivateSSHKey]                                       |**12.1**            |Remove all MFA caching SSH Keys
+[`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                           |**12.1**            |Generate MFA caching SSH Keys
+[`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                     |**12.1**            |Delete MFA caching SSH Keys
+[`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**            |Update CyberArk groups
 
 [Add-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider
 [Get-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Get-PASOpenIDConnectProvider
@@ -1025,6 +1037,14 @@ Click the below dropdown to view the current lis of psPAS functions and their mi
 [Enable-PASPlatform]:psPAS/Functions/Platforms/Enable-PASPlatform.ps1
 [Remove-PASPlatform]:psPAS/Functions/Platforms/Remove-PASPlatform.ps1
 [Remove-PASGroup]:psPAS/Functions/User/Remove-PASGroup.ps1
+[Clear-PASDiscoveredAccountList]:/psPAS/Functions/Accounts/Clear-PASDiscoveredAccountList
+[Get-PASAccountPasswordVersion]:/psPAS/Functions/Accounts/Get-PASAccountPasswordVersion
+[New-PASAccountPassword]:/psPAS/Functions/Accounts/New-PASAccountPassword
+[Set-PASLinkedAccount]:/psPAS/Functions/Accounts/Set-PASLinkedAccount
+[Clear-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Clear-PASPrivateSSHKey
+[New-PASPrivateSSHKey]:/psPAS/Functions/Authentication/New-PASPrivateSSHKey
+[Remove-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Remove-PASPrivateSSHKey
+[Set-PASGroup]:/psPAS/Functions/User/Set-PASGroup
 </details>
 
 ## Installation

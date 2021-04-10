@@ -13,10 +13,10 @@
 	Author            = 'Pete Maan'
 
 	# Company or vendor of this module
-	CompanyName       = 'PSPETE LTD'
+	# CompanyName       = ''
 
 	# Copyright statement for this module
-	Copyright         = '(c) 2020 PSPETE LTD. All rights reserved.'
+	Copyright         = '(c) 2017-2021 Pete Maan. All rights reserved.'
 
 	# Description of the functionality provided by this module
 	Description       = 'Module for CyberArk Privileged Access Security Web Service REST API'
@@ -66,7 +66,7 @@
 		'xml\psPAS.CyberArk.Vault.OnboardingRule.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Platform.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.PSM.Formats.ps1xml',
-		'xml\psPAS.CyberArk.Vault.PublicSSHKey.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.SSHKey.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Request.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Safe.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.User.Formats.ps1xml',
@@ -206,7 +206,15 @@
 		'Get-PASOpenIDConnectProvider',
 		'Set-PASOpenIDConnectProvider',
 		'Remove-PASOpenIDConnectProvider',
-		'Remove-PASAuthenticationMethod'
+		'Remove-PASAuthenticationMethod',
+		'Set-PASGroup',
+		'Set-PASLinkedAccount',
+		'Clear-PASDiscoveredAccountList',
+		'New-PASAccountPassword',
+		'Get-PASAccountPasswordVersion',
+		'New-PASPrivateSSHKey',
+		'Remove-PASPrivateSSHKey',
+		'Clear-PASPrivateSSHKey'
 	)
 
 	AliasesToExport   = @(

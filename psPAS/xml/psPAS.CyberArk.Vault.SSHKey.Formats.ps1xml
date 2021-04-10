@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+	<ViewDefinitions>
+		<View>
+			<Name>psPAS.CyberArk.Vault.PublicSSHKey</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PublicSSHKey</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>UserName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>KeyID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>PublicSSHKey</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.PrivateSSHKey</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PrivateSSHKey</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<Label>creationTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.creationTime)</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>expirationTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.expirationTime)</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>value</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>publicKey</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>count</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.PrivateSSHKey</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PrivateSSHKey</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Label>creationTime</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>expirationTime</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>value</Label>
+						<Width>16</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>publicKey</Label>
+						<Width>16</Width>
+					</TableColumnHeader>
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.creationTime)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.expirationTime)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>value</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>publicKey</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Count</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+	</ViewDefinitions>
+</Configuration>

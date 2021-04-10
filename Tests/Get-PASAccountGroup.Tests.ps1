@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -30,6 +30,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 	AfterAll {
 
 		$Script:RequestBody = $null
+		$Script:ExternalVersion = '0.0'
 
 	}
 
@@ -38,26 +39,30 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		BeforeEach {
 
 			Mock Invoke-PASRestMethod -MockWith {
-				[pscustomobject]@{"Prop1" = "Val1" }
+				[pscustomobject]@{'Prop1' = 'Val1' }
 			}
 
 			$InputObj = [pscustomobject]@{
-				"Safe" = "SomeSafe"
+				'Safe' = 'SomeSafe'
 			}
 
-			$response = $InputObj | Get-PASAccountGroup -UseClassicAPI -verbose
+			$response = $InputObj | Get-PASAccountGroup -UseClassicAPI -Verbose
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			AfterEach {
+				$Script:ExternalVersion = '0.0'
+			}
+
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -67,25 +72,25 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
 				{ $InputObj | Get-PASAccountGroup } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
-			It "sends request to expected endpoint - V10 ParameterSet" {
+			It 'sends request to expected endpoint - V10 ParameterSet' {
 
 				$InputObj | Get-PASAccountGroup
 
@@ -97,31 +102,35 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.1"
-				{ Get-PASAccountGroup -safe "SomeSafe" } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
+				{ Get-PASAccountGroup -Safe 'SomeSafe' } | Should -Throw
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides output" {
+			AfterEach {
+				$Script:ExternalVersion = '0.0'
+			}
+
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.Group
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.Group
 
 			}
 

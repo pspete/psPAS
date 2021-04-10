@@ -1,26 +1,36 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASUser {
-	[CmdletBinding(DefaultParameterSetName = "Gen2")]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
 	param(
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2ID"
+			ParameterSetName = 'Gen2ID'
 		)]
 		[int]$id,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-ExtendedDetails'
 		)]
 		[string]$Search,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-ExtendedDetails'
 		)]
 		[string]$UserType,
 
@@ -28,14 +38,27 @@ function Get-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-ExtendedDetails'
 		)]
 		[boolean]$ComponentUser,
+
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-ExtendedDetails'
+		)]
+		[boolean]$ExtendedDetails,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$UserName
 	)
@@ -49,7 +72,7 @@ function Get-PASUser {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"Gen2ID" {
+			'Gen2ID' {
 
 				Assert-VersionRequirement -RequiredVersion 10.10
 				#Create URL for request
@@ -59,7 +82,13 @@ function Get-PASUser {
 
 			}
 
-			"Gen2" {
+			'Gen2-ExtendedDetails' {
+
+				Assert-VersionRequirement -RequiredVersion 12.1
+
+			}
+
+			( { $PSItem -match '^Gen2' } ) {
 
 				Assert-VersionRequirement -RequiredVersion 10.9
 				#Get Parameters to include in request
@@ -79,12 +108,12 @@ function Get-PASUser {
 
 			}
 
-			"Gen1" {
+			'Gen1' {
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 
-				$TypeName = "psPAS.CyberArk.Vault.User"
+				$TypeName = 'psPAS.CyberArk.Vault.User'
 
 				break;
 
@@ -96,10 +125,10 @@ function Get-PASUser {
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		#Handle return
-		if ($PSCmdlet.ParameterSetName -match "Gen2") {
+		if ($PSCmdlet.ParameterSetName -match 'Gen2') {
 
 			#All "V10" operations have the same output type
-			$TypeName = "psPAS.CyberArk.Vault.User.Extended"
+			$TypeName = 'psPAS.CyberArk.Vault.User.Extended'
 
 			#User search will return an object with a Total property
 			If ($result.Total -ge 1) {

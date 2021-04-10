@@ -61,13 +61,14 @@
 		[parameter(
 			Mandatory = $false)]
 		[array]$Secrets = @(
-			"Secret",
-			"Password",
-			"NewCredentials",
-			"NewPassword",
-			"BindPassword",
-			"InitialPassword",
-			"clientSecret"
+			'Secret',
+			'Password',
+			'NewCredentials',
+			'NewPassword',
+			'BindPassword',
+			'InitialPassword',
+			'clientSecret',
+			'keyPassword'
 		)
 	)
 

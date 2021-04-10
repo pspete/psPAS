@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -30,16 +30,14 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 	AfterAll {
 
 		$Script:RequestBody = $null
-
+		#$Script:ExternalVersion = '0.0'
 	}
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Standard Operation" {
+		Context 'Standard Operation' {
 
 			BeforeEach {
-
-				$Script:ExternalVersion = 10.1
 
 				Mock Invoke-PASRestMethod -MockWith { }
 
@@ -49,40 +47,41 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 				$OctetStream = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$OctetStream | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$OctetStream | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/octet-stream' ; "Content-Disposition" = "attachment; filename=FILENAME.zip" } -Force
-				$OctetStream | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes("Expected")) -Force
+				$OctetStream | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'application/octet-stream' ; 'Content-Disposition' = 'attachment; filename=FILENAME.zip' } -Force
+				$OctetStream | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes('Expected')) -Force
 
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ $InputObject | Get-PASAccountPassword } | Should -Not -Throw
 
 
 			}
 
-			It "throws if version requirement not met" {
-				$Script:ExternalVersion = 1.1
+			It 'throws if version requirement not met' {
+				$Script:ExternalVersion = '1.1'
 
-				{ $InputObject | Get-PASAccountPassword } | Should -Throw -ExpectedMessage "CyberArk 1.1 does not meet the minimum version requirement of 10.1 for Get-PASAccountPassword (using ParameterSet: Gen2)"
+				{ $InputObject | Get-PASAccountPassword } | Should -Throw -ExpectedMessage 'CyberArk 1.1 does not meet the minimum version requirement of 10.1 for Get-PASAccountPassword (using ParameterSet: Gen2)'
 
+				$Script:ExternalVersion = '0.0'
 
 			}
 
-			It "Returns expected response" {
+			It 'Returns expected response' {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					Return "\\Expected" | ConvertTo-Json
+					Return '\\Expected' | ConvertTo-Json
 				}
 
 				$result = $InputObject | Get-PASAccountPassword
 
-				$result.Password | Should -Be "\\Expected"
+				$result.Password | Should -Be '\\Expected'
 
 			}
 
-			It "Returns expected Classic API response" {
+			It 'Returns expected Classic API response' {
 
 				Mock Invoke-PASRestMethod -MockWith {
 					Return $OctetStream
@@ -90,7 +89,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 				$result = $InputObject | Get-PASAccountPassword -UseClassicAPI
 
-				$result.Password | Should -Be "Expected"
+				$result.Password | Should -Be 'Expected'
 
 			}
 

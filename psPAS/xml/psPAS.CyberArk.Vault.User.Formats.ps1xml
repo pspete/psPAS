@@ -107,6 +107,9 @@
 								<PropertyName>AuthenticationMethod</PropertyName>
 							</ListItem>
 							<ListItem>
+								<PropertyName>userDN</PropertyName>
+							</ListItem>
+							<ListItem>
 								<PropertyName>Description</PropertyName>
 							</ListItem>
 							<ListItem>

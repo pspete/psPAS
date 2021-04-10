@@ -6,19 +6,20 @@ Write-Host "Installing Required Modules:" -ForegroundColor Yellow
 $RequiredModules = @(
 	"PowerShellGet"
 	"Pester",
-	"PSScriptAnalyzer",
+	"PSScriptAnalyzer"<#,
 	"coveralls",
-	"PSCodeCovIo"
+	"PSCodeCovIo"#>
 )
 
 #---------------------------------#
 # Install NuGet                   #
-#---------------------------------#
+<#---------------------------------#
 if(-not $IsCoreCLR) {
 	Write-Host "`tNuGet..."
 	$pkg = Install-PackageProvider -Name NuGet -Confirm:$false -Force -ErrorAction Stop
 	Write-Host "`t`tInstalled NuGet version '$($pkg.version)'"
 }
+#>
 #---------------------------------#
 # Install Required Modules        #
 #---------------------------------#

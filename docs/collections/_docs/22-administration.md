@@ -2,7 +2,7 @@
 title: "Administration"
 permalink: /docs/administration/
 excerpt: "psPAS Administration"
-last_modified_at: 2020-06-28T01:33:52-00:00
+last_modified_at: 2021-04-10T01:33:52-00:00
 ---
 
 ## Add An Account
@@ -45,9 +45,9 @@ NewSafe  PasswordManager                       10                        New Saf
 Add-PASSafeMember -SafeName NewSafe -MemberName NewMember -UseAccounts $false -ListAccounts $true `
 	-RetrieveAccounts $false -ViewAuditLog $true -ViewSafeMembers $true
 
-MemberName SearchIn SafeName Permissions
----------- -------- -------- ---------- -
-NewMember  vault    NewSafe @{Add=True; AddRenameFolder=True; BackupSafe=True...
+UserName  SafeName Permissions
+--------  -------- -----------
+NewMember NewSafe  @{useAccounts=False; retrieveAccounts=False; listAccounts=True; addAccounts=False;...
 ````
 
 ## Update Accounts
