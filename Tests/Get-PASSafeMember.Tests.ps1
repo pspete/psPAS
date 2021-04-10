@@ -143,7 +143,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Get-PASSafeMember -SafeName SomeSafe -search SomeMember -memberType user
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members?filter=memberType%20eq%20user&search=SomeMember"
+					($URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members?filter=memberType%20eq%20user&search=SomeMember") -or
+					($URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members?search=SomeMember&filter=memberType%20eq%20user")
 
 				} -Times 1 -Exactly -Scope It
 			}
