@@ -865,7 +865,7 @@ Click the below dropdown to view the current lis of psPAS functions and their mi
 [`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     |**10.7**            |Get details of configured directory mappings.
 [`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configured directory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             |**10.7**            |Delete a directory configuration.
-[`Find-PASSafe`][Find-PASSafe]                                                           |**10.1**-**11.7**   |List or Search Safes by name.
+[`Find-PASSafe`][Find-PASSafe]                                                           |**10.1** - **11.7** |List or Search Safes by name.
 [`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                           |**10.10**           |Reorder Directory Mappings
 [`Set-PASUserPassword`][Set-PASUserPassword]                                             |**10.10**           |Reset a User's Password
 [`New-PASGroup`][New-PASGroup]                                                           |**11.1**            |Create a new CyberArk group

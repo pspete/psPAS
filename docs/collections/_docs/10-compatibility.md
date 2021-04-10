@@ -120,7 +120,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     | **10.7**                                           |Get details of configured directory mappings.
 [`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     | **10.7** ([Notes](#set-pasdirectorymapping))       |Update a configured directory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             | **10.7**                                           |Delete a directory configuration.
-[`Find-PASSafe`][Find-PASSafe]                                                           | **10.1**-**11.7** ([Notes](#find-passafe))         |List or Search Safes by name.
+[`Find-PASSafe`][Find-PASSafe]                                                           | **10.1** - **11.7** ([Notes](#find-passafe))       |List or Search Safes by name.
 [`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                           | **10.10**                                          |Reorder Directory Mappings
 [`Set-PASUserPassword`][Set-PASUserPassword]                                             | **10.10**                                          |Reset a User's Password
 [`New-PASGroup`][New-PASGroup]                                                           | **11.1**                                           |Create a new CyberArk group
