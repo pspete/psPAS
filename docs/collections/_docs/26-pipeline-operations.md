@@ -2,24 +2,33 @@
 title: "Pipeline Operations"
 permalink: /docs/pipeline-operations/
 excerpt: "psPAS Pipeline Operations"
-last_modified_at: 2020-06-28T01:33:52-00:00
+last_modified_at: 2021-04-10T01:33:52-00:00
 ---
 
 - Work with the PowerShell pipeline:
 
 ````powershell
 #Find directory groups assigned to safes
-Get-PASSafe -query JXW | Get-PASSafeMember |
-Where-Object { Get-PASGroup -search $_.UserName -groupType Directory }
+Get-PASSafe -search YZO | Get-PASSafeMember -memberType group -includePredefinedUsers $false |
+    Where-Object { Get-PASGroup -search $_.UserName -groupType Directory }
 
 UserName                     SafeName           Permissions
---------                     --------           ---------- -
-ACC-G-1_TestSafe_049_JXW-Usr 1_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-ACC-G-1_TestSafe_049_JXW-Adm 1_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-ACC-G-2_TestSafe_049_JXW-Usr 2_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-ACC-G-2_TestSafe_049_JXW-Adm 2_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-ACC-G-3_TestSafe_049_JXW-Usr 3_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-ACC-G-3_TestSafe_049_JXW-Adm 3_TestSafe_049_JXW @{Add=True; AddRenameFolder=True; BackupSafe=True...}
+--------                     --------           -----------
+ACC-G-1_TestSafe_096_YZO-Usr 1_TestSafe_096_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-1_TestSafe_096_YZO-Adm 1_TestSafe_096_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-1_TestSafe_100_YZO-Usr 1_TestSafe_100_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-1_TestSafe_100_YZO-Adm 1_TestSafe_100_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_058_YZO-Usr 3_TestSafe_058_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_058_YZO-Adm 3_TestSafe_058_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_068_YZO-Usr 3_TestSafe_068_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_068_YZO-Adm 3_TestSafe_068_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_069_YZO-Usr 3_TestSafe_069_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_069_YZO-Adm 3_TestSafe_069_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-2_TestSafe_090_YZO-Usr 2_TestSafe_090_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-2_TestSafe_090_YZO-Adm 2_TestSafe_090_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-1_TestSafe_067_YZO-Usr 1_TestSafe_067_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-1_TestSafe_067_YZO-Adm 1_TestSafe_067_YZO @{useAccounts=True; retrieveAccounts=True; lis...
+
 ````
 
 - Multiple `psPAS` commands can be used together, along with standard PowerShell CmdLets:
@@ -30,21 +39,16 @@ Get-PASUser -UserType EPVUser -Search Admin | Where-Object { $_.location -eq "\"
 Add-PASGroupMember -GroupName PVWAMonitor
 
 #Find an account, then find the members of the account's safe.
-Get-PASAccount -id 330_5 | Get-PASSafe | Get-PASSafeMember
+Get-PASAccount -id 283_3 | Get-PASSafeMember
 
-UserName             SafeName    Permissions
---------             --------    ---------- -
-Master               ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-Batch                ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-Backup Users         ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=True...}
-Auditors             ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
-Operators            ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-DR Users             ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=True...}
-Notification Engines ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
-PVWAGWAccounts       ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
-PasswordManager      ApproveTest @{Add=False; AddRenameFolder=True; BackupSafe=False...}
-SafeAdmin            ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-SafeAdmin1           ApproveTest @{Add=True; AddRenameFolder=True; BackupSafe=True...}
-zApprover_1          ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
-xReq                 ApproveTest @{Add=False; AddRenameFolder=False; BackupSafe=False...}
+UserName                     SafeName           Permissions
+--------                     --------           -----------
+SafeAdmin                    3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
+PSMAppUsers                  3_TestSafe_100_OWZ @{useAccounts=False; retrieveAccounts=False; lis...
+PasswordManager              3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
+SafeAdmin3                   3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_100_OWZ-Usr 3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
+ACC-G-3_TestSafe_100_OWZ-Adm 3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
+Prov_ZZSRV01                 3_TestSafe_100_OWZ @{useAccounts=False; retrieveAccounts=True; lis...
+psPAS                        3_TestSafe_100_OWZ @{useAccounts=False; retrieveAccounts=True; lis...
 ````

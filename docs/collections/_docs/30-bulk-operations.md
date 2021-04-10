@@ -2,7 +2,7 @@
 title: "Bulk Operations"
 permalink: /docs/bulk-operations/
 excerpt: "psPAS Bulk Operations"
-last_modified_at: 2019-09-01T01:33:52-00:00
+last_modified_at: 2021-04-10T01:33:52-00:00
 ---
 
 The standard features of PowerShell which allow creation of and iterations through collections of objects, can be used to perform bulk operations:
@@ -40,7 +40,7 @@ $LogonCredential = Get-Credential
 #Logon
 New-PASSession -Credential $LogonCredential -BaseURI https://your.pvwa.url
 
-$Safes = Get-PASSafe -query TestSafe
+$Safes = Get-PASSafe -search TestSafe
 
 #Delete Safes
 foreach ($Safe in $Safes){

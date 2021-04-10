@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2020-07-27zT01:33:52-00:00
+last_modified_at: 2021-04-10zT01:33:52-00:00
 toc: false
 ---
 
@@ -54,7 +54,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Remove-PASApplication`][Remove-PASApplication]                                         |**9.1**                                             |Deletes an application
 [`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod] |**9.1**                                             |Delete auth method from an application
 [`Import-PASConnectionComponent`][Import-PASConnectionComponent]                         |**10.3**                                            |Imports a Connection Component
-[`New-PASPSMSession`][New-PASPSMSession]                         |**9.10** ([Notes](#New-PASPSMSession))  |Get required parameters to connect through PSM
+[`New-PASPSMSession`][New-PASPSMSession]                                                 |**9.10** ([Notes](#New-PASPSMSession))  |Get required parameters to connect through PSM
 [`Get-PASPSMRecording`][Get-PASPSMRecording]                                             |**9.10** ([Notes](#get-paspsmrecording))            |Get details of PSM Recording
 [`Get-PASPSMSession`][Get-PASPSMSession]                                                 |**9.10** ([Notes](#get-paspsmsession))              |Get details of PSM Sessions
 [`Resume-PASPSMSession`][Resume-PASPSMSession]                                           |**10.2**                                            |Resumes a Suspended PSM Session.
@@ -75,13 +75,13 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASRequestDetail`][Get-PASRequestDetail]                                           |**9.10** ([Notes](#-pasrequestdetail))              |Get request details
 [`New-PASRequest`][New-PASRequest]                                                       |**9.10** ([Notes](#-pasrequest))                    |Creates an access request for an account
 [`Remove-PASRequest`][Remove-PASRequest]                                                 |**9.10** ([Notes](#-pasrequest))                    |Deletes a request
-[`Add-PASSafeMember`][Add-PASSafeMember]                                                 |**9.3**                                             |Adds a Safe Member to a safe
-[`Get-PASSafeMember`][Get-PASSafeMember]                                                 |**9.7**                                             |Lists the members of a Safe
+[`Add-PASSafeMember`][Add-PASSafeMember]                                                 |**9.3** ([Notes](#add-passafemember)                |Adds a Safe Member to a safe
+[`Get-PASSafeMember`][Get-PASSafeMember]                                                 |**9.7** ([Notes](#get-passafemember)                |Lists the members of a Safe
 [`Remove-PASSafeMember`][Remove-PASSafeMember]                                           |**9.3**                                             |Removes a member from a safe
 [`Set-PASSafeMember`][Set-PASSafeMember]                                                 |**9.3**                                             |Updates a Safe Member's Permissions
-[`Add-PASSafe`][Add-PASSafe]                                                             | **9.2**                                            |Adds a new safe
-[`Get-PASSafe`][Get-PASSafe]                                                             | **9.7**                                            |Returns safe details
-[`Remove-PASSafe`][Remove-PASSafe]                                                       | **9.3**                                            |Deletes a safe
+[`Add-PASSafe`][Add-PASSafe]                                                             | **9.2** ([Notes](#add-passafe)                     |Adds a new safe
+[`Get-PASSafe`][Get-PASSafe]                                                             | **9.7** ([Notes](#get-passafe)                     |Returns safe details
+[`Remove-PASSafe`][Remove-PASSafe]                                                       | **9.3** ([Notes](#remove-passafe)                  |Deletes a safe
 [`Set-PASSafe`][Set-PASSafe]                                                             | **9.3**                                            |Updates a safe
 [`Get-PASSafeShareLogo`][Get-PASSafeShareLogo]                                           | **9.7**                                            |Returns details of SafeShare Logo
 [`Get-PASServer`][Get-PASServer]                                                         | **9.7**                                            |Returns details of the Web Service Server
@@ -120,7 +120,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     | **10.7**                                           |Get details of configured directory mappings.
 [`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     | **10.7** ([Notes](#set-pasdirectorymapping))       |Update a configured directory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             | **10.7**                                           |Delete a directory configuration.
-[`Find-PASSafe`][Find-PASSafe]                                                           | **10.1**                                           |List or Search Safes by name.
+[`Find-PASSafe`][Find-PASSafe]                                                           | **10.1**-**11.7** ([Notes](#find-passafe))         |List or Search Safes by name.
 [`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                           | **10.10**                                          |Reorder Directory Mappings
 [`Set-PASUserPassword`][Set-PASUserPassword]                                             | **10.10**                                          |Reset a User's Password
 [`New-PASGroup`][New-PASGroup]                                                           | **11.1**                                           |Create a new CyberArk group
@@ -153,7 +153,24 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Remove-PASOpenIDConnectProvider`][Remove-PASOpenIDConnectProvider]                     |**11.7**                                            |Deletes an OIDC Authentication Provider
 [`Set-PASOpenIDConnectProvider`][Set-PASOpenIDConnectProvider]                           |**11.7**                                            |Updates an OIDC Authentication Provider
 [`Remove-PASAuthenticationMethod`][Remove-PASAuthenticationMethod]                       |**11.7**                                            |Delete an authentication method
+[`Clear-PASDiscoveredAccountList`][Clear-PASDiscoveredAccountList]                       |**12.1**                                            |Clear all discovered accounts from the pending account list
+[`Get-PASAccountPasswordVersion`][Get-PASAccountPasswordVersion]                         |**12.1**                                            |Get details of previous password versions
+[`New-PASAccountPassword`][New-PASAccountPassword]                                       |**12.0**                                            |Generate new password values based on platform policy
+[`Set-PASLinkedAccount`][Set-PASLinkedAccount]                                           |**12.1**                                            |Associate logon and reconcile accounts
+[`Clear-PASPrivateSSHKey`][Clear-PASPrivateSSHKey]                                       |**12.1**                                            |Remove all MFA caching SSH Keys
+[`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                           |**12.1**                                            |Generate MFA caching SSH Keys
+[`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                     |**12.1**                                            |Delete MFA caching SSH Keys
+[`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**                                            |Update CyberArk groups
 
+
+[Clear-PASDiscoveredAccountList]:/commands/Clear-PASDiscoveredAccountList
+[Get-PASAccountPasswordVersion]:/commands/Get-PASAccountPasswordVersion
+[New-PASAccountPassword]:/commands/New-PASAccountPassword
+[Set-PASLinkedAccount]:/commands/Set-PASLinkedAccount
+[Clear-PASPrivateSSHKey]:/commands/Clear-PASPrivateSSHKey
+[New-PASPrivateSSHKey]:/commands/New-PASPrivateSSHKey
+[Remove-PASPrivateSSHKey]:/commands/Remove-PASPrivateSSHKey
+[Set-PASGroup]:/commands/Set-PASGroup
 [Add-PASOpenIDConnectProvider]:/commands/Add-PASOpenIDConnectProvider
 [Get-PASOpenIDConnectProvider]:/commands/Get-PASOpenIDConnectProvider
 [Remove-PASOpenIDConnectProvider]:/commands/Remove-PASOpenIDConnectProvider
@@ -416,6 +433,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
   - Supports:
     - Get user by ID.
 - Version 11.5 returns additional group membership  detail for user accounts.
+- Version 12.1 introduced new parameter to request `ExtendedDetails` for a user.
 
 ### New-PASUser
 
@@ -502,3 +520,30 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 11.4 introduced new parameters for filtering events
   - Supports:
     - accountID
+
+### Get-PASSafeMember
+
+- Version 12.0 introduced a new API endpoint.
+- Version 12.1 introduced new filter parameters.
+
+### Add-PASSafeMember
+
+- Version 12.1 introduced a new API endpoint.
+
+### Add-PASSafe
+
+- Version 12.0 introduced a new API endpoint.
+
+### Get-PASSafe
+
+- Version 12.0 introduced a new API endpoint.
+- Version 12.1 introduced a new parameter `extendedDetails`.
+
+### Remove-PASSafe
+
+- Version 12.1 introduced a new API endpoint.
+
+### Find-PASSafe
+
+- External changes to the API mean `Find-PASSafe` cannot be used past version 11.7.
+- Equivalent API functionality exists in `Get-PASSafe` using the `Gen2` ParameterSet.

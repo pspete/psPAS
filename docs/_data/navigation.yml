@@ -42,6 +42,12 @@ commands:
         url: /commands/Remove-PASOpenIDConnectProvider
       - title: "Set-PASOpenIDConnectProvider"
         url: /commands/Set-PASOpenIDConnectProvider
+      - title: "New-PASPrivateSSHKey"
+        url: /commands/New-PASPrivateSSHKey
+      - title: "Remove-PASPrivateSSHKey"
+        url: /commands/Remove-PASPrivateSSHKey
+      - title: "Clear-PASPrivateSSHKey"
+        url: /commands/Clear-PASPrivateSSHKey
 
   - title: "Account ACL"
     children:
@@ -103,6 +109,14 @@ commands:
         url: /commands/New-PASAccountObject
       - title: "Get-PASDiscoveredAccount"
         url: /commands/Get-PASDiscoveredAccount
+      - title: "Clear-PASDiscoveredAccountList"
+        url: /commands/Clear-PASDiscoveredAccountList
+      - title: "Get-PASAccountPasswordVersion"
+        url: /commands/Get-PASAccountPasswordVersion
+      - title: "New-PASAccountPassword"
+        url: /commands/New-PASAccountPassword
+      - title: "Set-PASLinkedAccount"
+        url: /commands/Set-PASLinkedAccount
 
   - title: "Applications"
     children:
@@ -326,6 +340,8 @@ commands:
         url: /commands/New-PASGroup
       - title: "Remove-PASGroup"
         url: /commands/Remove-PASGroup
+      - title: "Set-PASGroup"
+        url: /commands/Set-PASGroup
 
 # documentation links
 docs:
