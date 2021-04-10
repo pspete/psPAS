@@ -8,7 +8,8 @@ Import-Module $ManifestPath -Force
 #---------------------------------#
 # Run Pester Tests                #
 #---------------------------------#
-$files = Get-ChildItem $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME) -Include *.ps1 -Recurse | Select-Object -ExpandProperty FullName
+#$files = Get-ChildItem $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME) -Include *.ps1 -Recurse | Select-Object -ExpandProperty FullName
+$files = Get-Item 'pspas/**/*/*.ps1', 'pspas/**/*.ps1' | Select-Object -ExpandProperty FullName
 
 # get default from static property
 $configuration = [PesterConfiguration]::Default
@@ -20,7 +21,7 @@ $configuration.CodeCoverage.Path = $files
 $configuration.TestResult.Enabled = $true
 $configuration.TestResult.OutputFormat = 'NUnitXml'
 $configuration.TestResult.OutputPath = '.\TestResults.xml'
-$configuration.Output.Verbosity = 'None'
+$configuration.Output.Verbosity = 'Minimal'
 
 $result = Invoke-Pester -Configuration $configuration
 
