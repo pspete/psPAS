@@ -127,7 +127,7 @@ function Get-PASSafe {
 			( { $PSItem -match '^Gen1-' } ) {
 
 				#check required version
-				Assert-VersionRequirement -MaximumVersion 12.1
+				Assert-VersionRequirement -MaximumVersion 12.2
 
 				#Create URL for Gen1 API requests
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes"

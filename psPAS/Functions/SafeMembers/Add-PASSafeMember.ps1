@@ -244,7 +244,7 @@ function Add-PASSafeMember {
 
 			( { $PSItem -match '^Gen1' } ) {
 
-				Assert-VersionRequirement -MaximumVersion 12.2
+				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |

@@ -5,7 +5,7 @@ Function Compare-MaximumVersion {
 
 	.DESCRIPTION
 	Compares 2 System.Version numbers.
-	Returns True if Version is less than or equal to MaximumVersion
+	Returns True if Version is less than MaximumVersion
 
 	.PARAMETER Version
 	A Version to compare against a Maximum Version
@@ -54,15 +54,15 @@ Function Compare-MaximumVersion {
 		# Only compare if version greater than "0.0"
 		If ($Version -gt '0.0') {
 
-			#Determine if Version is greater than or equal to MaximumVersion
-			If ($Version -le $MaximumVersion) {
+			#Determine if Version is less than MaximumVersion
+			If ($Version -lt $MaximumVersion) {
 
-				#Version is greater than or equal to MaximumVersion
+				#Version is less than MaximumVersion
 				$True
 
 			} Else {
 
-				#Version is less than  MaximumVersion
+				#Version is greater than  MaximumVersion
 				$False
 
 			}

@@ -123,7 +123,7 @@ function Get-PASSafeMember {
 			'Gen1-MemberPermissions' {
 
 				#check required version
-				Assert-VersionRequirement -MaximumVersion 12.2
+				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for member specific request
 				$URI = "$URI/$($MemberName | Get-EscapedString)"
