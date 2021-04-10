@@ -142,23 +142,27 @@ function ConvertTo-SortedPermission {
 
 			} {
 
-				Switch ($PSCmdlet.ParameterSetName) {
+				If (($Permissions.Keys).count -gt 0) {
 
-					'Gen1' {
+					Switch ($PSCmdlet.ParameterSetName) {
 
-						#return permissions, in order
-						$Permissions.getenumerator() | ForEach-Object { $PSItem }
+						'Gen1' {
 
-						break
+							#return permissions, in order
+							$Permissions.getenumerator() | ForEach-Object { $PSItem }
 
-					}
+							break
 
-					'Gen2' {
+						}
 
-						#return permissions, in order
-						$Permissions.getenumerator()
+						'Gen2' {
 
-						break
+							#return permissions, in order
+							$Permissions
+
+							break
+
+						}
 
 					}
 

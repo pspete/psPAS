@@ -131,13 +131,15 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'outputs values in expected order' {
 
 				$Result = $Permissions | ConvertTo-SortedPermission -Gen2
-				$Result[0].Name | Should -Be 'unlockAccounts'
-				$Result[1].Name | Should -Be 'ManageSafe'
-				$Result[2].Name | Should -Be 'ManageSafeMembers'
-				$Result[3].Name | Should -Be 'BackupSafe'
-				$Result[4].Name | Should -Be 'ViewAuditLog'
-				$Result[5].Name | Should -Be 'ViewSafeMembers'
-				$Result[6].Name | Should -Be 'requestsAuthorizationLevel1'
+				$Result.Keys | Should -BeExactly @(
+					'unlockAccounts',
+					'manageSafe',
+					'manageSafeMembers',
+					'backupSafe',
+					'viewAuditLog',
+					'viewSafeMembers',
+					'requestsAuthorizationLevel1'
+				)
 
 			}
 
