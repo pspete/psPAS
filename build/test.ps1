@@ -8,22 +8,22 @@ Import-Module $ManifestPath -Force
 #---------------------------------#
 # Run Pester Tests                #
 #---------------------------------#
-$files = Get-Item 'pspas/**/*/*.ps1', 'pspas/**/*.ps1' | Select-Object -ExpandProperty FullName
-$paths = @(
-	'.\psPAS\Functions\*\*.ps1',
-	'.\psPAS\Private\*.ps1'
-)
+#$files = Get-Item 'pspas/**/*/*.ps1', 'pspas/**/*.ps1' | Select-Object -ExpandProperty FullName
+#$paths = @(
+#	'.\psPAS\Functions\*\*.ps1',
+#	'.\psPAS\Private\*.ps1'
+#)
 
 # get default from static property
 $configuration = [PesterConfiguration]::Default
 # assing properties & discover via intellisense
 $configuration.Run.Path = '.\Tests'
 $configuration.Run.PassThru = $true
-$configuration.CodeCoverage.Enabled = $true
-$configuration.CodeCoverage.Path = $paths
-$configuration.CodeCoverage.OutputEncoding = 'ascii'
-$configuration.CodeCoverage.OutputFormat = 'JaCoCo'
-$configuration.CodeCoverage.OutputPath = '.\JaCoCo_coverage.xml'
+$configuration.CodeCoverage.Enabled = $false
+#$configuration.CodeCoverage.Path = $paths
+#$configuration.CodeCoverage.OutputEncoding = 'ascii'
+#$configuration.CodeCoverage.OutputFormat = 'JaCoCo'
+#$configuration.CodeCoverage.OutputPath = '.\JaCoCo_coverage.xml'
 $configuration.TestResult.Enabled = $true
 $configuration.TestResult.OutputFormat = 'NUnitXml'
 $configuration.TestResult.OutputPath = '.\TestResults.xml'
@@ -46,15 +46,15 @@ if ($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq 'Pete Maan') {
 
 	#$null = Export-CodeCovIoJson -CodeCoverage $res.CodeCoverage -RepoRoot $pwd -Path coverage.json
 
-	Write-Host 'Publishing Code Coverage'
+	#Write-Host 'Publishing Code Coverage'
 	#$null = Publish-Coverage -Coverage $coverage
 
-	$null = Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+	#$null = Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
 
-	$null = bash codecov.sh -f .\JaCoCo_coverage.xml
+	#$null = bash codecov.sh -f .\JaCoCo_coverage.xml
 
-	Remove-Item -Path $(Resolve-Path .\JaCoCo_coverage.xml) -Force
-	Remove-Item -Path $(Resolve-Path .\codecov.sh) -Force
+	#Remove-Item -Path $(Resolve-Path .\JaCoCo_coverage.xml) -Force
+	#Remove-Item -Path $(Resolve-Path .\codecov.sh) -Force
 
 }
 
