@@ -2,7 +2,7 @@
 title: "Search"
 permalink: /docs/search/
 excerpt: "Basic Operations - Searching"
-last_modified_at: 2020-06-28T01:33:52-00:00
+last_modified_at: 2021-04-08T01:33:52-00:00
 ---
 
 ## Safes
@@ -10,17 +10,17 @@ last_modified_at: 2020-06-28T01:33:52-00:00
 - Get information relating to Safes you have access to:
 
 ````powershell
-Find-PASSafe -search 3_TestSafe_028_XYJ
-
-SafeUrlId          SafeName           Description                  Location
--------- - --------           ---------- - --------
-3_TestSafe_028_XYJ 3_TestSafe_028_XYJ TestSafe: 3_TestSafe_028_XYJ \
-
-Get-PASSafe -SafeName 3_TestSafe_028_XYJ
+Get-PASSafe -search _YZO
 
 SafeName           ManagingCPM     NumberOfDaysRetention NumberOfVersionsRetention Description
---------           ---------- - -------------------- - ------------------------ - ---------- -
-3_TestSafe_028_XYJ PasswordManager                       3                         TestSafe: 3_TestSafe_028_XYJ
+--------           -----------     --------------------- ------------------------- -----------
+1_TestSafe_096_YZO PasswordManager                       3                         TestSafe: 1_TestSafe_096_YZO
+1_TestSafe_100_YZO PasswordManager                       3                         TestSafe: 1_TestSafe_100_YZO
+3_TestSafe_058_YZO PasswordManager                       3                         TestSafe: 3_TestSafe_058_YZO
+3_TestSafe_068_YZO PasswordManager                       3                         TestSafe: 3_TestSafe_068_YZO
+3_TestSafe_069_YZO PasswordManager                       3                         TestSafe: 3_TestSafe_069_YZO
+2_TestSafe_090_YZO PasswordManager                       3                         TestSafe: 2_TestSafe_090_YZO
+1_TestSafe_067_YZO PasswordManager                       3                         TestSafe: 1_TestSafe_067_YZO
 ````
 
 ## Safe Members
@@ -28,11 +28,11 @@ SafeName           ManagingCPM     NumberOfDaysRetention NumberOfVersionsRetenti
 - Find Safe Members:
 
 ````powershell
-Get-PASSafeMember -SafeName 3_TestSafe_028_XYJ -MemberName ACC-G-3_TestSafe_028_XYJ-Usr
+Get-PASSafeMember -SafeName 1_TestSafe_067_YZO -search Usr
 
 UserName                     SafeName           Permissions
---------                     --------           ---------- -
-ACC-G-3_TestSafe_028_XYJ-Usr 3_TestSafe_028_XYJ @{Add=True; AddRenameFolder=True; BackupSafe=True...
+--------                     --------           -----------
+ACC-G-1_TestSafe_067_YZO-Usr 1_TestSafe_067_YZO @{useAccounts=True; retrieveAccounts=True; listAccounts=True; addAccounts=False;.....
 ````
 
 ## Users
@@ -73,7 +73,6 @@ createdTime               : 06/06/2019 23:37:02
 
 ### 1st Gen API
 
-- There is a limitation of only returning details of the first found account when using the 1st gen API.
 - The `keywords` & `safe` parameters of `Get-PASAccount` force use of the 1st gen API:
 
 ````powershell
@@ -90,8 +89,8 @@ DeviceType         : Operating System
 Address            : SOMEDOMAIN.COM
 InternalProperties : @{CreationMethod = PVWA }
 ````
-
-- More results can be returned by specifying alternative parameters and avoiding the 1st gen API:
+- Only details of the first found account will be returned.
+- More results can be returned by specifying alternative parameters to avoid sending the request via the 1st gen API
 
 ````powershell
 PS>Get-PASAccount -SafeName "3_TestSafe_028_XYJ"

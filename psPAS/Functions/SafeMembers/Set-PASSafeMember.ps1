@@ -9,7 +9,7 @@ function Set-PASSafeMember {
 		[ValidateNotNullOrEmpty()]
 		[string]$SafeName,
 
-		[Alias("UserName")]
+		[Alias('UserName')]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
@@ -62,14 +62,14 @@ function Set-PASSafeMember {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "CPM"
+			ParameterSetName = 'CPM'
 		)]
 		[boolean]$InitiateCPMAccountManagementOperations,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "CPM"
+			ParameterSetName = 'CPM'
 		)]
 		[boolean]$SpecifyNextAccountContent,
 
@@ -172,23 +172,23 @@ function Set-PASSafeMember {
 		#Get passed parameters to include in request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		If ($PSBoundParameters.ContainsKey("MembershipExpirationDate")) {
+		If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
 
 			#Convert ExpiryDate to string in Required format
 			$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yyyy).ToString()
 
 			#Include date string in request
-			$boundParameters["MembershipExpirationDate"] = $Date
+			$boundParameters['MembershipExpirationDate'] = $Date
 
 		}
 
 		#Add permissions array to request in correct order
-		[array]$boundParameters["Permissions"] = $boundParameters | ConvertTo-SortedPermission
+		[array]$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -Gen1
 
 		#Create JSON for body of request
 		$body = @{
 
-			"member" = $boundParameters | Get-PASParameter -ParametersToKeep $keysToKeep
+			'member' = $boundParameters | Get-PASParameter -ParametersToKeep $keysToKeep
 
 			#Ensure all levels of object are output
 		} | ConvertTo-Json -Depth 3
@@ -203,14 +203,14 @@ function Set-PASSafeMember {
 				#format output
 				$result.member | Select-Object MembershipExpirationDate,
 
-				@{Name = "Permissions"; "Expression" = {
+				@{Name = 'Permissions'; 'Expression' = {
 
 						$result.member.permissions | ConvertFrom-KeyValuePair }
 
 				} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member -PropertyToAdd @{
 
-					"UserName" = $MemberName
-					"SafeName" = $SafeName
+					'UserName' = $MemberName
+					'SafeName' = $SafeName
 
 				}
 

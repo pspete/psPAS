@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,26 +35,15 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
-		Mock Invoke-PASRestMethod -MockWith {
+		Context 'Mandatory Parameters' {
 
-		}
+			$Parameters = @{Parameter = 'SafeName' }
 
-		$InputObj = [pscustomobject]@{
-			"SafeName"     = "SomeSafe"
-
-		}
-			$response = $InputObj | Remove-PASSafe
-}
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'SafeName'}
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Remove-PASSafe).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Remove-PASSafe).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should -Be $true
 
 			}
 
@@ -62,15 +51,30 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 
 
-		Context "Input" {
+		Context 'Gen1 Input' {
 
-			It "sends request" {
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeSafe'
+
+				}
+
+				$response = $InputObj | Remove-PASSafe -UseGen1API
+
+			}
+
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -80,23 +84,124 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'DELETE' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Body -eq $null} -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws if version exceeds 12.2' {
+
+				$Script:ExternalVersion = '12.3'
+				{ Get-PASSafe -SafeName SomeSafe } | Should -Throw
+				$Script:ExternalVersion = '0.0'
 
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Gen2 Input' {
 
-			it "provides no output" {
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeSafe'
+
+				}
+
+				$response = $InputObj | Remove-PASSafe
+
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/API/Safes/SomeSafe"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with no body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws error if version 12.1 requirement not met' {
+				$Script:ExternalVersion = '1.0'
+				{ Get-PASSafe -search SomeSafe } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+			}
+
+		}
+
+		Context 'Gen1 Output' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeSafe'
+
+				}
+
+				$response = $InputObj | Remove-PASSafe -UseGen1API
+
+			}
+
+			It 'provides no output' {
+
+				$response | Should -BeNullOrEmpty
+
+			}
+
+		}
+
+		Context 'Gen2 Output' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeSafe'
+
+				}
+
+				$response = $InputObj | Remove-PASSafe -UseGen1API
+
+			}
+
+			It 'provides no output' {
 
 				$response | Should -BeNullOrEmpty
 

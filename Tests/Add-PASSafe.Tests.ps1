@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,26 +35,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
+		Context 'Mandatory Parameters' {
 
-			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{"addsaferesult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"}}
-			}
+			$Parameters = @{Parameter = 'SafeName' }
 
-			$InputObj = [pscustomobject]@{
-				"SafeName"     = "SomeName"
-
-			}
-
-			$response = $InputObj | Add-PASSafe -NumberOfDaysRetention 1
-
-		}
-
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'SafeName'}
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -62,29 +47,56 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "specifies parameter NumberOfVersionsRetention as mandatory for ParameterSet Versions" {
+			It 'specifies parameter NumberOfVersionsRetention as mandatory for ParameterSet NumberOfVersionsRetention' {
 
-				(Get-Command Add-PASSafe).Parameters["NumberOfVersionsRetention"].ParameterSets["Versions"].IsMandatory | Should -Be $true
+				(Get-Command Add-PASSafe).Parameters['NumberOfVersionsRetention'].ParameterSets['NumberOfVersionsRetention'].IsMandatory | Should -Be $true
 
 			}
 
-			It "specifies parameter NumberOfDaysRetention as mandatory for ParameterSet Days" {
+			It 'specifies parameter NumberOfDaysRetention as mandatory for ParameterSet NumberOfDaysRetention' {
 
-				(Get-Command Add-PASSafe).Parameters["NumberOfDaysRetention"].ParameterSets["Days"].IsMandatory | Should -Be $true
+				(Get-Command Add-PASSafe).Parameters['NumberOfDaysRetention'].ParameterSets['NumberOfDaysRetention'].IsMandatory | Should -Be $true
+
+			}
+
+			It 'specifies parameter NumberOfVersionsRetention as mandatory for ParameterSet Gen1-NumberOfVersionsRetention' {
+
+				(Get-Command Add-PASSafe).Parameters['NumberOfVersionsRetention'].ParameterSets['Gen1-NumberOfVersionsRetention'].IsMandatory | Should -Be $true
+
+			}
+
+			It 'specifies parameter NumberOfDaysRetention as mandatory for ParameterSet Gen1-NumberOfDaysRetention' {
+
+				(Get-Command Add-PASSafe).Parameters['NumberOfDaysRetention'].ParameterSets['Gen1-NumberOfDaysRetention'].IsMandatory | Should -Be $true
 
 			}
 
 		}
 
-		Context "Input" {
+		Context 'Gen1 Input' {
 
-			It "sends request" {
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'addsaferesult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeName'
+
+				}
+
+				$response = $InputObj | Add-PASSafe -NumberOfDaysRetention 1 -UseGen1API
+
+			}
+
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -94,13 +106,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -112,7 +124,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It 'has a request body with expected number of properties' {
 
 				($Script:RequestBody.safe | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
@@ -120,23 +132,141 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Output" {
+		Context 'Gen2 Input' {
 
-			it "provides output" {
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'addsaferesult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeName'
+
+				}
+
+				$response = $InputObj | Add-PASSafe -NumberOfDaysRetention 1
+
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/api/Safes"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with expected body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody) -ne $null
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'has a request body with expected number of properties' {
+
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 2
+
+			}
+			It 'throws error if version 12.0 requirement not met' {
+				$Script:ExternalVersion = '1.0'
+				{ Add-PASSafe -SafeName SomeSafe -NumberOfVersionsRetention 1 } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+			}
+
+		}
+
+		Context 'Gen1 Output' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'addsaferesult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeName'
+
+				}
+
+				$response = $InputObj | Add-PASSafe -NumberOfDaysRetention 1 -UseGen1API
+
+			}
+
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe
+
+			}
+
+
+
+		}
+
+		Context 'Gen2 Output' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeName'
+
+				}
+
+				$response = $InputObj | Add-PASSafe -NumberOfDaysRetention 1
+
+			}
+
+			It 'provides output' {
+
+				$response | Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'has output with expected number of properties' {
+
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
+
+			}
+
+			It 'outputs object with expected typename' {
+
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe.Gen2
 
 			}
 

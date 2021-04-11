@@ -12,6 +12,7 @@
 					<TableColumnHeader />
 					<TableColumnHeader />
 					<TableColumnHeader />
+					<TableColumnHeader />
 				</TableHeaders>
 				<TableRowEntries>
 					<TableRowEntry>
@@ -27,6 +28,9 @@
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>location</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>members</PropertyName>
 							</TableColumnItem>
 						</TableColumnItems>
 					</TableRowEntry>
@@ -62,6 +66,9 @@
 							</ListItem>
 							<ListItem>
 								<PropertyName>dn</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>members</PropertyName>
 							</ListItem>
 						</ListItems>
 					</ListEntry>

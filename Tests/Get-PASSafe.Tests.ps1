@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,26 +35,30 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{
-				"SearchSafesResult" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
-				"GetSafesResult"    = [PSCustomObject]@{"PropA" = "ValA"; "PropB" = "ValB"; "PropC" = "ValC" }
-				"GetSafeResult"     = [PSCustomObject]@{"Prop5" = "Val5"; "Prop6" = "Val6"; "Prop7" = "Val7"; "Prop8" = "Val8" }
+		BeforeEach {
+			Mock Invoke-PASRestMethod -MockWith {
+				[PSCustomObject]@{
+					'SearchSafesResult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+					'GetSafesResult'    = [PSCustomObject]@{'PropA' = 'ValA'; 'PropB' = 'ValB'; 'PropC' = 'ValC' }
+					'GetSafeResult'     = [PSCustomObject]@{'Prop5' = 'Val5'; 'Prop6' = 'Val6'; 'Prop7' = 'Val7'; 'Prop8' = 'Val8' }
+				}
 			}
 		}
-}
-		Context "Input - byAll ParameterSet" {
-			BeforeEach{
-			Get-PASSafe -FindAll
-}
-			It "sends request" {
+		Context 'Input - Gen1-byAll ParameterSet' {
+
+			BeforeEach {
+
+				Get-PASSafe -FindAll
+
+			}
+
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -64,31 +68,43 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
+			It 'throws if version exceeds 12.1' {
+
+				$Script:ExternalVersion = '12.2'
+				{ Get-PASSafe -FindAll } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+
+			}
+
 		}
 
-		Context "Input - byName ParameterSet" {
-			BeforeEach{
-			Get-PASSafe -SafeName SomeSafe
-}
-			It "sends request" {
+		Context 'Input - Gen1-byName ParameterSet' {
+
+			BeforeEach {
+
+				Get-PASSafe -SafeName SomeSafe
+
+			}
+
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -98,31 +114,43 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
+			It 'throws if version exceeds 12.1' {
+
+				$Script:ExternalVersion = '12.2'
+				{ Get-PASSafe -SafeName SomeSafe } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+
+			}
+
 		}
 
-		Context "Input - byQuery ParameterSet" {
-			BeforeEach{
-			Get-PASSafe -query "SomeSafe"
-}
-			It "sends request" {
+		Context 'Input - Gen1-byQuery ParameterSet' {
+
+			BeforeEach {
+
+				Get-PASSafe -query 'SomeSafe'
+
+			}
+
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -132,39 +160,121 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
+			It 'throws if version exceeds 12.1' {
+
+				$Script:ExternalVersion = '12.2'
+				{ Get-PASSafe -query 'SomeSafe' } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+
+			}
+
 		}
 
-		Context "Output - byAll ParameterSet" {
-			BeforeEach{
-			$response = Get-PASSafe -FindAll
-}
-			it "provides output" {
+		Context 'Input - Gen2 ParameterSet' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'Count' = 30
+						'Value' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+					}
+
+				}
+
+				Get-PASSafe
+
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/API/Safes"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends expected query' {
+
+				Get-PASSafe -search SomeSafe
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/API/Safes?search=SomeSafe"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with no body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws error if version 12.0 requirement not met' {
+				$Script:ExternalVersion = '1.0'
+				{ Get-PASSafe -search SomeSafe } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+			}
+
+			It 'throws error if version 12.1 requirement not met' {
+				$Script:ExternalVersion = '12.0'
+				{ Get-PASSafe -search SomeSafe -extendedDetails $false } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+			}
+
+
+		}
+
+		Context 'Output - Gen1-byAll ParameterSet' {
+
+			BeforeEach {
+
+				$response = Get-PASSafe -FindAll
+			}
+
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 3
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe
 
 			}
 
@@ -172,25 +282,29 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Output - byName ParameterSet" {
-			BeforeEach{
-			$response = Get-PASSafe -SafeName SomeSafe
-}
-			it "provides output" {
+		Context 'Output - Gen1-byName ParameterSet' {
+
+			BeforeEach {
+
+				$response = Get-PASSafe -SafeName SomeSafe
+
+			}
+
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 4
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe
 
 			}
 
@@ -198,29 +312,96 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Output - byQuery ParameterSet" {
-			BeforeEach{
-			$response = Get-PASSafe -query "SomeSafe"
-}
-			it "provides output" {
+		Context 'Output - Gen1-byQuery ParameterSet' {
+
+			BeforeEach {
+
+				$response = Get-PASSafe -query 'SomeSafe'
+
+			}
+
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe
 
 			}
 
 
+
+		}
+
+		Context 'Output - Gen2 ParameterSet' {
+
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'Count' = 30
+						'Value' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+					}
+				}
+				$response = Get-PASSafe -search 'SomeSafe'
+
+			}
+
+			It 'provides output' {
+
+				$response | Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'has output with expected number of properties' {
+
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 1
+
+			}
+
+			It 'outputs object with expected typename' {
+
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe.Gen2
+
+			}
+
+			It 'outputs object with expected typename' {
+
+				$response = Get-PASSafe -search 'SomeSafe' -extendedDetails $false
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe.Gen2.Name
+
+			}
+
+			It 'processes NextLink' {
+				Mock Invoke-PASRestMethod -MockWith {
+					if ($script:iteration -lt 9) {
+						[pscustomobject]@{
+							'Count'    = 30
+							'nextLink' = 'SomeLink'
+							'Value'    = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+						}
+						$script:iteration++
+					} else {
+						[pscustomobject]@{
+							'Count' = 30
+							'Value' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+						}
+					}
+				}
+				$script:iteration = 1
+				Get-PASSafe
+				Assert-MockCalled Invoke-PASRestMethod -Times 10 -Exactly -Scope It
+
+			}
 
 		}
 

@@ -1,5 +1,5 @@
 # version format
-version: 4.5.{build}
+version: 5.0.{build}
 
 environment:
   #GIT_TRACE: 1
@@ -52,7 +52,7 @@ test_script:
   #- ps: . .\build\test.ps1
   - pwsh.exe -File .\build\test.ps1
 
-#deploy_script:
+deploy_script:
   #- ps: . .\build\deploy-github.ps1
   - pwsh.exe -File .\build\deploy-github.ps1
   - pwsh.exe -File .\build\deploy-psgallery.ps1

@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,13 +35,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'Gen1 General' {
 
 			BeforeEach {
 
 				$InputObj = @{
-					Property1 = "Value"
-					Property2 = "Another Value"
+					Property1 = 'Value'
+					Property2 = 'Another Value'
 				}
 
 				$Permissions = @{
@@ -56,34 +56,90 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
-				{ ConvertTo-SortedPermission } | Should -Not -Throw
-
-			}
-
-			It "produces no output if given no input" {
-
-				ConvertTo-SortedPermission | Should -BeNullOrEmpty
+				{ ConvertTo-SortedPermission -Gen1 } | Should -Not -Throw
 
 			}
 
-			It "produces no output if no permission values provided as input" {
+			It 'produces no output if given no input' {
 
-				$InputObj | ConvertTo-SortedPermission | Should -BeNullOrEmpty
+				ConvertTo-SortedPermission -Gen1 | Should -BeNullOrEmpty
 
 			}
 
-			It "outputs values in expected order" {
+			It 'produces no output if no permission values provided as input' {
 
-				$Result = $Permissions | ConvertTo-SortedPermission
-				$Result[0].Name | Should -Be "UnlockAccounts"
-				$Result[1].Name | Should -Be "ManageSafe"
-				$Result[2].Name | Should -Be "ManageSafeMembers"
-				$Result[3].Name | Should -Be "BackupSafe"
-				$Result[4].Name | Should -Be "ViewAuditLog"
-				$Result[5].Name | Should -Be "ViewSafeMembers"
-				$Result[6].Name | Should -Be "RequestsAuthorizationLevel"
+				$InputObj | ConvertTo-SortedPermission -Gen1 | Should -BeNullOrEmpty
+
+			}
+
+			It 'outputs values in expected order' {
+
+				$Result = $Permissions | ConvertTo-SortedPermission -Gen1
+				$Result[0].Name | Should -Be 'UnlockAccounts'
+				$Result[1].Name | Should -Be 'ManageSafe'
+				$Result[2].Name | Should -Be 'ManageSafeMembers'
+				$Result[3].Name | Should -Be 'BackupSafe'
+				$Result[4].Name | Should -Be 'ViewAuditLog'
+				$Result[5].Name | Should -Be 'ViewSafeMembers'
+				$Result[6].Name | Should -Be 'RequestsAuthorizationLevel'
+
+			}
+
+		}
+
+		Context 'Gen2 General' {
+
+			BeforeEach {
+
+				$InputObj = @{
+					Property1 = 'Value'
+					Property2 = 'Another Value'
+				}
+
+				$Permissions = @{
+					requestsAuthorizationLevel1 = 0 #7
+					BackupSafe                  = $false #4
+					ManageSafe                  = $false #2
+					ManageSafeMembers           = $false #3
+					ViewSafeMembers             = $false #6
+					ViewAuditLog                = $false #5
+					UnlockAccounts              = $false #1
+				}
+
+			}
+
+			It 'does not throw' {
+
+				{ ConvertTo-SortedPermission -Gen2 } | Should -Not -Throw
+
+			}
+
+			It 'produces no output if given no input' {
+
+				ConvertTo-SortedPermission -Gen2 | Should -BeNullOrEmpty
+
+			}
+
+			It 'produces no output if no permission values provided as input' {
+
+				$InputObj | ConvertTo-SortedPermission -Gen2 | Should -BeNullOrEmpty
+
+			}
+
+			It 'outputs values in expected order' {
+
+				$Result = $Permissions | ConvertTo-SortedPermission -Gen2
+				$Result.Keys | Should -BeExactly @(
+					'unlockAccounts',
+					'manageSafe',
+					'manageSafeMembers',
+					'backupSafe',
+					'viewAuditLog',
+					'viewSafeMembers',
+					'requestsAuthorizationLevel1'
+				)
 
 			}
 

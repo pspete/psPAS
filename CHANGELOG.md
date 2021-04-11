@@ -3,7 +3,69 @@
 ## Planned Updates
 
 - Continued development to encompass any new documented features of the CyberArk API.
-- psPAS v5.0...
+- psPAS v6.0...
+
+## **5.0.0** (April 11th 2021)
+
+### Module update to cover all CyberArk 12.0 & 12.1 API features
+
+- Breaking Changes
+  - `Get-PASSafeMember`, `Add-PASSafe`, `Get-PASSafe`, `Add-PASSafeMember`, `Remove-PASSafe`
+    - Default operation of these functions is now to use the Gen2 API.
+    - The `-UseGen1API` Parameter can be specified to force use of the Gen1 API for the following commands:
+      - `Get-PASSafeMember`
+      - `Add-PASSafeMember`
+      - `Add-PASSafe`
+      - `Remove-PASSafe`
+  - `Find-PASSafe`
+    - External changes to the API mean `Find-PASSafe` cannot be used past version 11.7.
+    - Equivalent API functionality now exists in `Get-PASSafe` using the Gen2 ParameterSet.
+- New Functions For CyberArk Version 12.0:
+  - `New-PASAccountPassword`
+    - Defines a password value based on the policy for an account
+  - `Set-PASGroup`
+    - Updates vault groups
+- New Functions For CyberArk version 12.1:
+  - `Clear-PASDiscoveredAccountList`
+    - Clears Pending Accounts List
+  - `Get-PASAccountPasswordVersion`
+    - Returns details of available password versions
+  - `Set-PASLinkedAccount`
+    - Associates Linked Logon & Reconcile accounts
+  - `New-PASPrivateSSHKey`
+    - Generates new MFA Caching Private SSH Key
+  - `Remove-PASPrivateSSHKey`
+    - Deletes an MFA Caching Private SSH Key
+  - `Clear-PASPrivateSSHKey`
+    - Removes all MFA Caching Private SSH Keys
+- Updated Functions For CyberArk Version 12.0:
+  - `Get-PASSafeMember`
+    - Updated to use the new Gen2 API endpoint available from version 12.0
+    - `MemberName` Parameter depreciated past 12.2
+  - `Add-PASSafe`
+    - Updated to use the new Gen2 API endpoint available from version 12.0
+  - `Get-PASSafe`
+    - Updated to use the new Gen2 API endpoint available from version 12.0
+- Updated Functions For CyberArk Version 12.1:
+  - `Add-PASSafeMember`
+    - Updated to use the new Gen2 API endpoint available from version 12.1
+    - Gen 1 will not work post 12.2
+  - `Get-PASSafeMember`
+    - Updated to include new filter parameters available from version 12.1
+    - Additional Gen2 Parameters available
+  - `Get-PASSafe`
+    - Updated to include new Parameter available in 12.1
+  - `Remove-PASSafe`
+    - Updated to use the new Gen2 API endpoint available from version 12.1
+    - Gen 1 will not work post 12.2
+  - `Get-PASUser`
+    - Updated to include the new `ExtendedDetails` parameter available from version 12.1
+    - Additional Gen2 Parameter available
+- Other
+  - `Get-PASAccount`
+    - Removed depreciated Parameter `offset`
+    - Removed depreciated Parameter `limit`
+
 
 ## **4.5.90** (November 25th 2020)
 

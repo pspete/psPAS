@@ -28,8 +28,8 @@ Get-PASAccount -id <String> [-TimeoutSec <Int32>] [<CommonParameters>]
 
 ### Gen2Filter
 ```
-Get-PASAccount [-search <String>] [-searchType <String>] [-sort <String[]>] [-offset <Int32>] [-limit <Int32>]
- [-filter <String>] [-TimeoutSec <Int32>] [<CommonParameters>]
+Get-PASAccount [-search <String>] [-searchType <String>] [-sort <String[]>] [-filter <String>]
+ [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
 ### Gen1
@@ -122,10 +122,10 @@ If multiple accounts are found, a warning will be displayed before the result
 
 ### EXAMPLE 9
 ```
-Get-PASAccount -search root -sort name -offset 100 -limit 5
+Get-PASAccount -search root -sort name
 ```
 
-Returns all accounts matching "root", sorted by AccountName, Search results offset by 100 and limited to 5.
+Returns all accounts matching "root", sorted by AccountName.
 
 ## PARAMETERS
 
@@ -224,43 +224,6 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -offset
-An offset for the search results (to discard the first x results for instance).
-
-```yaml
-Type: Int32
-Parameter Sets: Gen2Filter
-Aliases:
-
-Required: False
-Position: Named
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -limit
-Maximum number of returned accounts.
-
-If not specified, the default value is 50.
-
-The maximum number that can be specified is 1000.
-
-When used together with the Offset parameter,
-this value determines the number of accounts to return, starting from the first account that is returned.
-
-```yaml
-Type: Int32
-Parameter Sets: Gen2Filter
-Aliases:
-
-Required: False
-Position: Named
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -filter
 A filter for the search.
 
@@ -344,8 +307,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 New functionality added in version 10.4, limited functionality before this version.
-
-As of psPAS v2.5.1+, the use of 'limit' and 'offset' parameters is discouraged - nextLink functionality was added
 
 ## RELATED LINKS
 

@@ -24,6 +24,12 @@ Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [
 Get-PASUser -id <Int32> [<CommonParameters>]
 ```
 
+### Gen2-ExtendedDetails
+```
+Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [-ExtendedDetails <Boolean>]
+ [<CommonParameters>]
+```
+
 ### Gen1
 ```
 Get-PASUser -UserName <String> [<CommonParameters>]
@@ -62,6 +68,13 @@ Get-PASUser -UserName Target_User
 
 Displays information on Target_User
 
+### EXAMPLE 5
+```
+Get-PASUser -ExtendedDetails $true -Search SomeSearchTerm
+```
+
+Returns extended information for all matching Users
+
 ## PARAMETERS
 
 ### -id
@@ -88,7 +101,7 @@ Requires CyberArk version 10.9+
 
 ```yaml
 Type: String
-Parameter Sets: Gen2
+Parameter Sets: Gen2, Gen2-ExtendedDetails
 Aliases:
 
 Required: False
@@ -105,7 +118,7 @@ Requires CyberArk version 10.9+
 
 ```yaml
 Type: String
-Parameter Sets: Gen2
+Parameter Sets: Gen2, Gen2-ExtendedDetails
 Aliases:
 
 Required: False
@@ -122,7 +135,7 @@ Requires CyberArk version 10.9+
 
 ```yaml
 Type: Boolean
-Parameter Sets: Gen2
+Parameter Sets: Gen2, Gen2-ExtendedDetails
 Aliases:
 
 Required: False
@@ -141,6 +154,21 @@ Parameter Sets: Gen1
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ExtendedDetails
+Returns user groups and userDN for LDAP users.
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen2-ExtendedDetails
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

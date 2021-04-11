@@ -14,33 +14,76 @@ Adds a Safe Member to safe
 
 ## SYNTAX
 
+### Gen2 (Default)
 ```
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
  [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
+ [-UpdateAccountProperties <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
+ [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
+ [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-requestsAuthorizationLevel1 <Boolean>]
+ [-requestsAuthorizationLevel2 <Boolean>] [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>]
+ [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [<CommonParameters>]
+```
+
+### Gen1-CPM
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
+ [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
+ [-UpdateAccountProperties <Boolean>] -InitiateCPMAccountManagementOperations <Boolean>
  [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
  [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
  [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-RequestsAuthorizationLevel <Int32>]
  [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
- [-MoveAccountsAndFolders <Boolean>] [<CommonParameters>]
+ [-MoveAccountsAndFolders <Boolean>] [-UseGen1API] [<CommonParameters>]
+```
+
+### Gen2-CPM
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
+ [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
+ [-UpdateAccountProperties <Boolean>] -InitiateCPMAccountManagementOperations <Boolean>
+ [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
+ [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
+ [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-requestsAuthorizationLevel1 <Boolean>]
+ [-requestsAuthorizationLevel2 <Boolean>] [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>]
+ [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [<CommonParameters>]
+```
+
+### Gen1
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
+ [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
+ [-UpdateAccountProperties <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
+ [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
+ [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-RequestsAuthorizationLevel <Int32>]
+ [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-UseGen1API] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Adds an existing user as a Safe member.
 "Manage Safe Members" permission is required by the authenticated user account sending request.
 
+Default operation uses the Gen 2 API and requires version 12.1+
+- Earlier versions must specify the `-UseGen1API` switch to force use of the Gen1 API.
+
+**Note** when using the Gen1 API:
 Unless otherwise specified, the default permissions applied to a safe member will include:
 - ListAccounts, RetrieveAccounts, UseAccounts, ViewAuditLog & ViewSafeMembers.
 
-If these permissions should not be granted to the safe member, they must be explicitly set to $false in the request.
+If these permissions should not be granted to the safe member, they must be explicitly set to `$false` in the request.
+
+Gen 1 API is depreciated from version 12.3
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
 Add-PASSafeMember -SafeName Windows_Safe -MemberName winUser -SearchIn Vault -UseAccounts $true `
-
 -RetrieveAccounts $true -ListAccounts $true
 ```
 
@@ -61,6 +104,22 @@ PS > $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Va
 ```
 
 Grant User23 UseAccounts, RetrieveAccounts & ListAccounts only
+
+### EXAMPLE 3
+```
+$Role = [PSCustomObject]@{
+
+  UseAccounts                  = $true
+  ListAccounts                 = $true
+  RetrieveAccounts						 = $true
+  ViewAuditLog                 = $false
+  ViewSafeMembers              = $false
+}
+
+PS > $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Vault -UseGen1API
+```
+
+Grant User23 UseAccounts, RetrieveAccounts & ListAccounts using the Gen 1 API
 
 ## PARAMETERS
 
@@ -132,7 +191,7 @@ Accept wildcard characters: False
 Boolean value defining if UseAccounts permission will be granted to
 safe member on safe.
 
-Get-PASSafeMember returns the name of this permission as: RestrictedRetrieve
+Get-PASSafeMember (Gen1) returns the name of this permission as: RestrictedRetrieve
 
 ```yaml
 Type: Boolean
@@ -150,7 +209,7 @@ Accept wildcard characters: False
 Boolean value defining if RetrieveAccounts permission will be granted
 to safe member on safe.
 
-Get-PASSafeMember returns the name of this permission as: Retrieve
+Get-PASSafeMember (Gen1) returns the name of this permission as: Retrieve
 
 ```yaml
 Type: Boolean
@@ -168,7 +227,7 @@ Accept wildcard characters: False
 Boolean value defining if ListAccounts permission will be granted to
 safe member on safe.
 
-Get-PASSafeMember returns the name of this permission as: ListContent
+Get-PASSafeMember (Gen1) returns the name of this permission as: ListContent
 
 ```yaml
 Type: Boolean
@@ -188,7 +247,7 @@ on safe.
 
 Includes UpdateAccountProperties (when adding or removing permission).
 
-Get-PASSafeMember returns the name of this permission as: Add
+Get-PASSafeMember (Gen1) returns the name of this permission as: Add
 
 ```yaml
 Type: Boolean
@@ -206,7 +265,7 @@ Accept wildcard characters: False
 Boolean value defining if AddAccounts permission will be granted to safe
 member on safe.
 
-Get-PASSafeMember returns the name of this permission as: Update
+Get-PASSafeMember (Gen1) returns the name of this permission as: Update
 
 ```yaml
 Type: Boolean
@@ -224,7 +283,7 @@ Accept wildcard characters: False
 Boolean value defining if UpdateAccountProperties permission will be granted
 to safe member on safe.
 
-Get-PASSafeMember returns the name of this permission as: UpdateMetadata
+Get-PASSafeMember (Gen1) returns the name of this permission as: UpdateMetadata
 
 ```yaml
 Type: Boolean
@@ -241,15 +300,16 @@ Accept wildcard characters: False
 ### -InitiateCPMAccountManagementOperations
 Boolean value defining if InitiateCPMAccountManagementOperations permission
 will be granted to safe member on safe.
+When this parameter is set to `$False`, the SpecifyNextAccountContent parameter is also automatically set to False.
 
-Get-PASSafeMember may not return details of this permission
+Get-PASSafeMember (Gen1) may not return details of this permission
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen1-CPM, Gen2-CPM
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: False
 Accept pipeline input: True (ByPropertyName)
@@ -259,12 +319,14 @@ Accept wildcard characters: False
 ### -SpecifyNextAccountContent
 Boolean value defining if SpecifyNextAccountContent permission will be granted
 to safe member on safe.
+Can only be specified when the InitiateCPMAccountManagementOperations parameter is set to `$True`.
 
-Get-PASSafeMember may not return details of this permission
+When InitiateCPMAccountManagementOperations is set to `$False` this parameter is automatically set to False.
+Get-PASSafeMember (Gen1) may not return details of this permission
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen1-CPM, Gen2-CPM
 Aliases:
 
 Required: False
@@ -278,7 +340,7 @@ Accept wildcard characters: False
 Boolean value defining if RenameAccounts permission will be granted to safe
 member on safe.
 
-Get-PASSafeMember returns the name of this permission as: Rename
+Get-PASSafeMember (Gen1) returns the name of this permission as: Rename
 
 ```yaml
 Type: Boolean
@@ -296,7 +358,7 @@ Accept wildcard characters: False
 Boolean value defining if DeleteAccounts permission will be granted to safe
 member on safe.
 
-Get-PASSafeMember returns the name of this permission as: Delete
+Get-PASSafeMember (Gen1) returns the name of this permission as: Delete
 
 ```yaml
 Type: Boolean
@@ -314,7 +376,7 @@ Accept wildcard characters: False
 Boolean value defining if UnlockAccounts permission will be granted to safe
 member on safe.
 
-Get-PASSafeMember returns the name of this permission as: Unlock
+Get-PASSafeMember (Gen1) returns the name of this permission as: Unlock
 
 ```yaml
 Type: Boolean
@@ -380,7 +442,7 @@ Accept wildcard characters: False
 Boolean value defining if ViewAuditLog permission will be granted to safe member
 on safe.
 
-Get-PASSafeMember returns the name of this permission as: ViewAudit
+Get-PASSafeMember (Gen1) returns the name of this permission as: ViewAudit
 
 ```yaml
 Type: Boolean
@@ -398,7 +460,7 @@ Accept wildcard characters: False
 Boolean value defining if ViewSafeMembers permission will be granted to safe member
 on safe.
 
-Get-PASSafeMember returns the name of this permission as: ViewMembers
+Get-PASSafeMember (Gen1) returns the name of this permission as: ViewMembers
 
 ```yaml
 Type: Boolean
@@ -416,11 +478,12 @@ Accept wildcard characters: False
 Integer value defining level assigned to RequestsAuthorizationLevel for safe member.
 Valid Values: 0, 1 or 2
 
-Get-PASSafeMember may not return details of this permission
+Get-PASSafeMember (Gen1) may not return details of this permission
+Depreciated from version 12.3
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: Gen1-CPM, Gen1
 Aliases:
 
 Required: False
@@ -434,7 +497,7 @@ Accept wildcard characters: False
 Boolean value defining if AccessWithoutConfirmation permission will be granted to
 safe member on safe.
 
-Get-PASSafeMember may not return details of this permission
+Get-PASSafeMember (Gen1) may not return details of this permission
 
 ```yaml
 Type: Boolean
@@ -452,7 +515,7 @@ Accept wildcard characters: False
 Boolean value defining if CreateFolders permission will be granted to safe member
 on safe.
 
-Get-PASSafeMember returns the name of this permission as: AddRenameFolder
+Get-PASSafeMember (Gen1) returns the name of this permission as: AddRenameFolder
 
 ```yaml
 Type: Boolean
@@ -486,7 +549,7 @@ Accept wildcard characters: False
 Boolean value defining if MoveAccountsAndFolders permission will be granted to safe
 member on safe.
 
-Get-PASSafeMember returns the name of this permission as: MoveFilesAndFolders
+Get-PASSafeMember (Gen1) returns the name of this permission as: MoveFilesAndFolders
 
 ```yaml
 Type: Boolean
@@ -497,6 +560,52 @@ Required: False
 Position: Named
 Default value: False
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -requestsAuthorizationLevel1
+Request Authorization Level 1
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen2, Gen2-CPM
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -requestsAuthorizationLevel2
+Request Authorization Level 2
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen2, Gen2-CPM
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Force use of Gen1 API.
+Depreciated from version 12.3
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1-CPM, Gen1
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

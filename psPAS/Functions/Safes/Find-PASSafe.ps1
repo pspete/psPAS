@@ -18,7 +18,7 @@ function Find-PASSafe {
 
 	BEGIN {
 
-		Assert-VersionRequirement -RequiredVersion 10.1
+		Assert-VersionRequirement -RequiredVersion 10.1 -MaximumVersion 11.7
 
 		#Create base URL for request
 		$URI = "$Script:BaseURI/api/Safes"
