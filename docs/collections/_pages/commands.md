@@ -2,7 +2,7 @@
 title: "psPAS + API Command Reference"
 permalink: /commands/
 excerpt: "Command Reference"
-last_modified_at: 2020-08-25zT01:33:52-00:00
+last_modified_at: 2021-04-23zT01:33:52-00:00
 toc: false
 layout: single-mod
 classes: wide
@@ -186,6 +186,16 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Delete OpenID Connect Identity Provider][Delete OpenID Connect Identity Provider]             | [Remove-PASOpenIDConnectProvider][Remove-PASOpenIDConnectProvider]
 [Update OpenID Connect Identity Provider][Update OpenID Connect Identity Provider]             | [Set-PASOpenIDConnectProvider][Set-PASOpenIDConnectProvider]
 [Delete authentication method][Delete authentication method]                                   | [Remove-PASAuthenticationMethod][Remove-PASAuthenticationMethod]
+[Delete discovered accounts][Delete discovered accounts]                                       | [Clear-PASDiscoveredAccountList][Clear-PASDiscoveredAccountList]
+[Get Secret Versions][Get Secret Versions]                                                     | [Get-PASAccountPasswordVersion][Get-PASAccountPasswordVersion]
+[Generate Password][Generate Password]                                                         | [New-PASAccountPassword][New-PASAccountPassword]
+[Link an Account][Link an Account]                                                             | [Set-PASLinkedAccount][Set-PASLinkedAccount]
+[Delete all MFA caching SSH keys][Delete all MFA caching SSH keys]                             | [Clear-PASPrivateSSHKey][Clear-PASPrivateSSHKey]
+[Generate an MFA caching SSH key][Generate an MFA caching SSH key]                                   | [New-PASPrivateSSHKey][New-PASPrivateSSHKey]
+[Generate an MFA caching SSH key for another user][Generate an MFA caching SSH key for another user] | [New-PASPrivateSSHKey][New-PASPrivateSSHKey]
+[Delete an MFA caching SSH key][Delete an MFA caching SSH key]                                       | [Remove-PASPrivateSSHKey][Remove-PASPrivateSSHKey]
+[Delete an MFA caching SSH key for another user][Delete an MFA caching SSH key for another user]     | [Remove-PASPrivateSSHKey][Remove-PASPrivateSSHKey]
+[Update Group][Update Group]                                                                         | [Set-PASGroup][Set-PASGroup]
 
 [Get-PASDiscoveredAccount]:/commands/Get-PASDiscoveredAccount
 [Start-PASAccountImportJob]:/commands/Start-PASAccountImportJob
@@ -317,7 +327,25 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Remove-PASOpenIDConnectProvider]:/commands/Remove-PASOpenIDConnectProvider
 [Set-PASOpenIDConnectProvider]:/commands/Set-PASOpenIDConnectProvider
 [Remove-PASAuthenticationMethod]:/commands/Remove-PASAuthenticationMethod
+[Clear-PASDiscoveredAccountList]:/commands/Clear-PASDiscoveredAccountList
+[Get-PASAccountPasswordVersion]:/commands/Get-PASAccountPasswordVersion
+[New-PASAccountPassword]:/commands/New-PASAccountPassword
+[Set-PASLinkedAccount]:/commands/Set-PASLinkedAccount
+[Clear-PASPrivateSSHKey]:/commands/Clear-PASPrivateSSHKey
+[New-PASPrivateSSHKey]:/commands/New-PASPrivateSSHKey
+[Remove-PASPrivateSSHKey]:/commands/Remove-PASPrivateSSHKey
+[Set-PASGroup]:/commands/Set-PASGroup
 
+[Delete discovered accounts]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete-Discovered-accounts.htm
+[Get Secret Versions]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Secrets-Get-versions.htm
+[Generate Password]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Secrets-Generate-Password.htm
+[Link an Account]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Link-account.htm
+[Delete all MFA caching SSH keys]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20all%20MFA%20caching%20SSH%20keys.htm
+[Generate an MFA caching SSH key]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Generate%20MFA%20caching%20SSH%20key.htm
+[Generate an MFA caching SSH key for another user]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Generate%20MFA%20caching%20SSH%20key%20for%20another%20user.htm
+[Delete an MFA caching SSH key]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20MFA%20caching%20SSH%20key.htm
+[Delete an MFA caching SSH key for another user]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20MFA%20caching%20SSH%20key%20for%20another%20user.htm
+[Update Group]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/12.0/en/Content/WebServices/Update-group.htm
 [Delete OpenID Connect Identity Provider]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/OIDC-Delete-Provider.htm
 [Add OpenID Connect Identity Provider]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/OIDC-Add-Provider.htm
 [Update OpenID Connect Identity Provider]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/OIDC-Update-Provider.htm
