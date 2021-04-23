@@ -93,6 +93,17 @@ Will set the AccountName of account with AccountID of 21_3 to "NewName".
 
 **Any/All additional properties of the account which are not specified via parameters will be cleared**
 
+### EXAMPLE 6
+
+```
+$actions = @()
+$props = @{"port"="5022";"UserDN"="SomeDN";"LogonDomain"="SomeDomain"}
+$actions += @{"op"="add";"path"="/platformAccountProperties";"value"=$props}
+Set-PASAccount -AccountID 29_3 -operations $actions
+```
+
+Adds multiple values to categories under the platformAccountProperties path.
+
 ## PARAMETERS
 
 ### -AccountID

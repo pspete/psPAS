@@ -762,7 +762,7 @@ requires version 9.8+).
 
 Check the output of `Get-Help` for the `psPAS` functions for further details of available parameters and version requirements.
 
-Click the below dropdown to view the current lis of psPAS functions and their minimum version requirements:
+Click the below dropdown to view the current list of psPAS functions and their minimum version requirements:
 <details>
   <Summary> List of Functions </summary>
 
