@@ -541,85 +541,127 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock -CommandName Invoke-PASRestMethod { return @{UserName = 'AUserName' } } -ParameterFilter { $Uri -eq 'https://P_URI/PasswordVault/api/Auth/Windows/Logon' }
 
-				Mock Set-Variable -MockWith { }
-				Mock Get-Variable -MockWith { }
-				Mock Get-PASServer -MockWith {
-					[PSCustomObject]@{
-						ExternalVersion = '6.6.6'
+				$errorDetails1 = $([pscustomobject]@{'ErrorCode' = 'ITATS542I'; 'ErrorMessage' = 'Some Radius Message' } | ConvertTo-Json)
+				$errorDetails2 = $([pscustomobject]@{'ErrorCode' = 'ITATS555E'; 'ErrorMessage' = 'Some Error Message' } | ConvertTo-Json)
+			}
+
+			$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
+
+			$Script:ExternalVersion = '0.0'
+			$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+		}
+
+		It 'throws if no session token is returned after successful IIS authentication' {
+			if ($IsCoreCLR) {
+				{ $Credentials | New-PASSession -BaseURI 'https://P_URI' -type Windows } | Should -Throw
+			} Else { Set-ItResult -Inconclusive }
+		}
+
+		It 'sends expected number of requests for Windows Auth + RADIUS' {
+			if ($IsCoreCLR) {
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type Windows -OTP 123456 -OTPMode Challenge
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://P_URI/PasswordVault/api/Auth/Windows/Logon'
+
+				} -Times 1 -Exactly -Scope It
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://P_URI/PasswordVault/api/Auth/RADIUS/Logon'
+
+				} -Times 2 -Exactly -Scope It
+			} Else { Set-ItResult -Inconclusive }
+		}
+
+		It 'throws if RADIUS challenge fails' {
+			if ($IsCoreCLR) {
+				Mock -CommandName Invoke-PASRestMethod { Throw $errorRecord } -ParameterFilter { $Uri -eq 'https://P_URI/PasswordVault/api/Auth/RADIUS/Logon' }
+
+				{ $Credentials | New-PASSession -BaseURI 'https://P_URI' -type Windows -OTP 123456 -OTPMode Challenge } | Should -Throw
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://P_URI/PasswordVault/api/Auth/Windows/Logon'
+
+				} -Times 1 -Exactly -Scope It
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://P_URI/PasswordVault/api/Auth/RADIUS/Logon'
+
+				} -Times 2 -Exactly -Scope It
+
+			} Else { Set-ItResult -Inconclusive }
+
+		}
+
+	}
+
+	Context 'SAML' {
+
+		BeforeEach {
+
+			Mock Invoke-PASRestMethod -MockWith {
+				[PSCustomObject]@{
+					'CyberArkLogonResult' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				}
+			}
+
+			Mock Get-PASServer -MockWith {
+				[PSCustomObject]@{
+					ExternalVersion = '6.6.6'
+				}
+				Mock -CommandName Invoke-PASRestMethod {
+					If ($Script:counter -eq 0) {
+						$Script:counter++
+						Throw $errorRecord1
+					} ElseIf ($Script:counter -ge 1) {
+
+						Throw $errorRecord2
+
 					}
+
+				} -ParameterFilter { $Uri -eq 'https://P_URI/PasswordVault/api/Auth/RADIUS/Logon' }
+				It 'sends request' {
+					New-PASSession -BaseURI 'https://P_URI' -SAMLAuth
+					Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
 				}
 
-				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
+				It 'sends expected request to expected endpoint' {
 
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-
-			}
-
-			It 'throws if no session token is returned after successful IIS authentication' {
-				if ($IsCoreCLR) {
-					{ $Credentials | New-PASSession -BaseURI 'https://P_URI' -type Windows } | Should -Throw
-				} Else { Set-ItResult -Inconclusive }
-			}
-
-			It 'sends expected number of requests for Windows Auth + RADIUS' {
-				if ($IsCoreCLR) {
-					$Credentials | New-PASSession -BaseURI 'https://P_URI' -type Windows -OTP 123456 -OTPMode Challenge
-
+					New-PASSession -BaseURI 'https://P_URI' -SAMLAuth
 					Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-						$URI -eq 'https://P_URI/PasswordVault/api/Auth/Windows/Logon'
+						$URI -eq 'https://P_URI/PasswordVault/api/Auth/SAML/Logon'
+						$ContentType -eq 'application/x-www-form-urlencoded'
+						$Body['SAMLResponse'] -eq 'ThisIsTheSAMLResponse'
+						$Body['apiUse'] -eq $true
 
 					} -Times 1 -Exactly -Scope It
 
-					Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+				}
 
-						$URI -eq 'https://P_URI/PasswordVault/api/Auth/RADIUS/Logon'
+				It 'throws if saml response is not available' {
 
-					} -Times 2 -Exactly -Scope It
-				} Else { Set-ItResult -Inconclusive }
-			}
+					Mock Get-PASSAMLResponse -MockWith {
 
-			It 'throws if RADIUS challenge fails' {
-				if ($IsCoreCLR) {
-					Mock -CommandName Invoke-PASRestMethod { Throw $errorRecord } -ParameterFilter { $Uri -eq 'https://P_URI/PasswordVault/api/Auth/RADIUS/Logon' }
+						Throw 'ThisIsTheSAMLResponse'
 
-					{ $Credentials | New-PASSession -BaseURI 'https://P_URI' -type Windows -OTP 123456 -OTPMode Challenge } | Should -Throw
+					}
 
-					Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+					{ New-PASSession -BaseURI 'https://P_URI' -SAMLAuth } | Should -Throw
 
-						$URI -eq 'https://P_URI/PasswordVault/api/Auth/Windows/Logon'
-
-					} -Times 1 -Exactly -Scope It
-
-					Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-						$URI -eq 'https://P_URI/PasswordVault/api/Auth/RADIUS/Logon'
-
-					} -Times 2 -Exactly -Scope It
-
-				} Else { Set-ItResult -Inconclusive }
+				}
 
 			}
 
 		}
 
-		Context 'SAML' {
-
-			BeforeEach {
-
-				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{
-						'CyberArkLogonResult' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
-					}
-				}
-
-				Mock Get-PASServer -MockWith {
-					[PSCustomObject]@{
-						ExternalVersion = '6.6.6'
-					}
-				}
-
+	}
 				Mock Set-Variable -MockWith { }
 
 				$Script:ExternalVersion = '0.0'

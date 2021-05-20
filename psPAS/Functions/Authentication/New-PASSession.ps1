@@ -457,42 +457,25 @@ function New-PASSession {
 
 					#ITATS542I is expected for RADIUS Challenge
 
-					#OTP value has not yet been provided.
-					#Initial RADIUS auth attempt will trigger notification of OTP for user to provide.
-					#?"passcode" remains an option for backward compatibility.
-					If ((-not ($PSBoundParameters.ContainsKey('OTP'))) -or ($OTP -match 'passcode')) {
-
-						#*The message of the exception should contain instructions from the RADIUS server
-						#*containing information the expected OTP value to provide or other available options.
-						If ($($PSItem.Exception.Message)) {
-
-							$Prompt = $($PSItem.Exception.Message)
-
-						} Else {
-
-							#Default value for the Read-Host prompt.
-							$Prompt = 'Enter OTP'
-
-						}
-
-						#Prompt user for OTP
-						$OTP = $(Read-Host -Prompt $Prompt)
-
-					}
-
-					#$OTP as RADIUS response
-					#!If $RadiusChallenge = Password, $OTP will be password value
-					$boundParameters['password'] = $OTP
-
-					#Construct Request Body
-					$LogonRequest['Body'] = $boundParameters | ConvertTo-Json
-
 					#Use WebSession from initial request
 					$LogonRequest.Remove('SessionVariable')
 					$LogonRequest['WebSession'] = $Script:WebSession
 
+					#Collect values required to respond to the challenge
+					$RADIUSResponse = @{}
+					$RADIUSResponse['LogonRequest'] = $LogonRequest
+					$RADIUSResponse['Message'] = $($PSItem.Exception.Message)
+
+					#Include any OTP value provided in the RADIUS Response
+					If ($PSBoundParameters.ContainsKey('OTP')) {
+
+						#!If $RadiusChallenge = Password, $OTP will be password value
+						$RADIUSResponse['OTP'] = $OTP
+
+					}
+
 					#Respond to RADIUS challenge
-					$PASSession = Invoke-PASRestMethod @LogonRequest
+					$PASSession = Send-RADIUSResponse @RADIUSResponse
 
 				}
 

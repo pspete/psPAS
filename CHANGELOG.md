@@ -5,6 +5,12 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
+## **vNext 5.x.x**
+
+- Updates
+  - `New-PASSession`
+    - Introduce support for providing response to RADIUS challenges featuring sub-options.
+
 ## **5.0.0** (April 11th 2021)
 
 ### Module update to cover all CyberArk 12.0 & 12.1 API features
