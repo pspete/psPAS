@@ -34,8 +34,13 @@ function New-PASSession {
 		)]
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $true,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1SAML'
 		)]
 		[Alias('UseClassicAPI')]
 		[switch]$UseGen1API,
@@ -55,7 +60,7 @@ function New-PASSession {
 		[SecureString]$newPassword,
 
 		[Parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2SAML'
@@ -63,12 +68,18 @@ function New-PASSession {
 		[switch]$SAMLAuth,
 
 		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2SAML'
+		)]
+		[Parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1SAML'
 		)]
-		[String]$SAMLToken,
+		[String]$SAMLResponse,
 
 		[Parameter(
 			Mandatory = $True,
@@ -313,23 +324,32 @@ function New-PASSession {
 				$LogonRequest['Uri'] = "$Uri/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
 
 				#add token to header
-				$LogonRequest['Headers'] = @{'Authorization' = $SAMLToken }
+				$LogonRequest['Headers'] = @{'Authorization' = $SAMLResponse }
 				break
 
 			}
 
 			'Gen2SAML' {
 
-				#*For SAML auth:
-				#*https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
-				$SAMLResponse = Get-PASSAMLResponse -URL $Uri
-
-				#The only expected parameter should be concurrentSession
-				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep concurrentSession
+				#*For SAML auth
+				#The only expected parameter should be concurrentSession & SAMLResponse
+				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep concurrentSession, SAMLResponse
 
 				#add required parameters
-				$boundParameters.Add('SAMLResponse', $SAMLResponse)
 				$boundParameters.Add('apiUse', $true)
+
+				If ( -not ($PSBoundParameters.ContainsKey('SAMLResponse'))) {
+
+					#If no SAMLResponse provided
+					#Get SAML Response from IdP
+					#*https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
+					$SAMLResponse = Get-PASSAMLResponse -URL $Uri
+
+					#add SAMLResponse to boundParameters
+					$boundParameters.Add('SAMLResponse', $SAMLResponse)
+
+				}
+
 				$LogonRequest['Body'] = $boundParameters
 				$LogonRequest['ContentType'] = 'application/x-www-form-urlencoded'
 				$LogonRequest['Uri'] = "$Uri/api/auth/SAML/Logon"

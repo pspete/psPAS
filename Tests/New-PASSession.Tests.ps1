@@ -274,7 +274,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'sends request to expected URL for SAML Authentication' {
 
-				New-PASSession -BaseURI 'https://P_URI' -SAMLToken 'SomeSAMLToken'
+				New-PASSession -BaseURI 'https://P_URI' -SAMLResponse 'SomeSAMLToken' -UseGen1API
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -286,7 +286,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'sends expected header for SAML Authentication' {
 
-				New-PASSession -BaseURI 'https://P_URI' -SAMLToken 'SomeSAMLToken'
+				New-PASSession -BaseURI 'https://P_URI' -SAMLResponse 'SomeSAMLToken' -UseGen1API
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
