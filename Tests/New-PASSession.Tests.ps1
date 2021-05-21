@@ -681,6 +681,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'invokes gets IdP SAML response' {
+
+				New-PASSession -BaseURI 'https://P_URI' -SAMLAuth
+				Assert-MockCalled Get-PASSAMLResponse -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'sends expected request to expected endpoint' {
 
 				New-PASSession -BaseURI 'https://P_URI' -SAMLAuth
@@ -695,7 +702,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'throws if saml response is not available' {
+			It 'throws if saml response is error' {
 
 				Mock Get-PASSAMLResponse -MockWith {
 
@@ -704,6 +711,33 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				{ New-PASSession -BaseURI 'https://P_URI' -SAMLAuth } | Should -Throw
+
+			}
+
+			It 'sends request when samlresponse provided' {
+				New-PASSession -BaseURI 'https://P_URI' -SAMLAuth
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'invokes gets IdP SAML response' {
+
+				New-PASSession -BaseURI 'https://P_URI' -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled Get-PASSAMLResponse -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends expected SAMLResponse to expected endpoint' {
+
+				New-PASSession -BaseURI 'https://P_URI' -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://P_URI/PasswordVault/api/Auth/SAML/Logon'
+					$ContentType -eq 'application/x-www-form-urlencoded'
+					$Body['SAMLResponse'] -eq 'SomeSAMLResponse'
+					$Body['apiUse'] -eq $true
+
+				} -Times 1 -Exactly -Scope It
 
 			}
 
