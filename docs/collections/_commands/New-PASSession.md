@@ -46,18 +46,18 @@ New-PASSession -Credential <PSCredential> [-type <String>] [-OTP <String>] [-OTP
  [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Gen2SAML
+### Gen1SAML
 ```
-New-PASSession [-SAMLAuth] [-concurrentSession <Boolean>] -BaseURI <String> [-PVWAAppName <String>]
+New-PASSession [-UseGen1API] -SAMLResponse <String> -BaseURI <String> [-PVWAAppName <String>]
  [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Gen1SAML
+### Gen2SAML
 ```
-New-PASSession -SAMLToken <String> -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
- [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+New-PASSession [-SAMLAuth] [-SAMLResponse <String>] [-concurrentSession <Boolean>] -BaseURI <String>
+ [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
+ [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### shared
@@ -149,10 +149,10 @@ Gets authorisation token by authenticating to a CyberArk Vault using shared auth
 
 ### EXAMPLE 8
 ```
-New-PASSession -SAMLToken $SAMLToken -BaseURI https://PVWA.domain.com
+New-PASSession -BaseURI $url -SAMLAuth
 ```
 
-Authenticates to a CyberArk Vault using SAML authentication.
+Perform saml sso authentication from version 11.4
 
 ### EXAMPLE 9
 ```
@@ -233,10 +233,17 @@ Perform initial authentication and supply OTP value for  RADIUS challenge when p
 
 ### EXAMPLE 20
 ```
-New-PASSession -BaseURI $url -SAMLAuth
+New-PASSession -BaseURI $url -SAMLResponse $SAMLResponse
 ```
 
 Perform saml authentication from version 11.4
+
+### EXAMPLE 21
+```
+New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain.com
+```
+
+Authenticates to a CyberArk Vault using SAML authentication & gen 1 API.
 
 ## PARAMETERS
 
@@ -294,22 +301,34 @@ Type: SwitchParameter
 Parameter Sets: Gen2SAML
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: False
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -SAMLToken
-SAML token that identifies the session, encoded in BASE 64.
+### -SAMLResponse
+SAML response token that identifies the session, encoded in BASE 64.
 
 ```yaml
 Type: String
 Parameter Sets: Gen1SAML
-Aliases:
+Aliases: SAMLToken
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: Gen2SAML
+Aliases: SAMLToken
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -635,25 +654,13 @@ Relevant for CyberArk versions earlier than 10.4
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Gen1Radius
+Parameter Sets: Gen1Radius, Gen1, Gen1SAML
 Aliases: UseClassicAPI
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Gen1
-Aliases: UseClassicAPI
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
