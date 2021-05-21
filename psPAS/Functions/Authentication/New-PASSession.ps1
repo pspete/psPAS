@@ -34,8 +34,13 @@ function New-PASSession {
 		)]
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $true,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1SAML'
 		)]
 		[Alias('UseClassicAPI')]
 		[switch]$UseGen1API,
@@ -55,7 +60,7 @@ function New-PASSession {
 		[SecureString]$newPassword,
 
 		[Parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2SAML'
@@ -63,12 +68,19 @@ function New-PASSession {
 		[switch]$SAMLAuth,
 
 		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2SAML'
+		)]
+		[Parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1SAML'
 		)]
-		[String]$SAMLToken,
+		[Alias('SAMLToken')]
+		[String]$SAMLResponse,
 
 		[Parameter(
 			Mandatory = $True,
@@ -255,6 +267,7 @@ function New-PASSession {
 
 	BEGIN {
 
+		$Uri = "$baseURI/$PVWAAppName"
 		#Hashtable to hold Logon Request
 		$LogonRequest = @{ }
 
@@ -290,7 +303,7 @@ function New-PASSession {
 
 			'integrated' {
 
-				$LogonRequest['Uri'] = "$baseURI/$PVWAAppName/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
+				$LogonRequest['Uri'] = "$Uri/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
 
 				#Construct Request Body
 				#The only expected parameter should be concurrentSessions
@@ -302,37 +315,58 @@ function New-PASSession {
 
 			'shared' {
 
-				$LogonRequest['Uri'] = "$baseURI/$PVWAAppName/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logon"
+				$LogonRequest['Uri'] = "$Uri/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logon"
 				break
 
 			}
 
 			'Gen1SAML' {
 
-				$LogonRequest['Uri'] = "$baseURI/$PVWAAppName/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
+				$LogonRequest['Uri'] = "$Uri/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
 
 				#add token to header
-				$LogonRequest['Headers'] = @{'Authorization' = $SAMLToken }
+				$LogonRequest['Headers'] = @{'Authorization' = $SAMLResponse }
 				break
 
 			}
 
 			'Gen2SAML' {
 
-				$URI = "$baseURI/$PVWAAppName/api/Auth/SAML/Logon"
+				#*For SAML auth
+				#The only expected parameter should be concurrentSession & SAMLResponse
+				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep concurrentSession, SAMLResponse
+
+				#add required parameters
+				$boundParameters.Add('apiUse', $true)
+
+				If ( -not ($PSBoundParameters.ContainsKey('SAMLResponse'))) {
+
+					#If no SAMLResponse provided
+					#Get SAML Response from IdP
+					#*https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
+					$SAMLResponse = Get-PASSAMLResponse -URL $Uri
+
+					#add SAMLResponse to boundParameters
+					$boundParameters.Add('SAMLResponse', $SAMLResponse)
+
+				}
+
+				$LogonRequest['Body'] = $boundParameters
+				$LogonRequest['ContentType'] = 'application/x-www-form-urlencoded'
+				$LogonRequest['Uri'] = "$Uri/api/auth/SAML/Logon"
 				break
 
 			}
 
 			( { $PSItem -match '^Gen2' } ) {
 
-				$LogonRequest['Uri'] = "$baseURI/$PVWAAppName/api/Auth/$type/Logon"
+				$LogonRequest['Uri'] = "$Uri/api/Auth/$type/Logon"
 
 			}
 
 			( { $PSItem -match '^Gen1' } ) {
 
-				$LogonRequest['Uri'] = "$baseURI/$PVWAAppName/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
+				$LogonRequest['Uri'] = "$Uri/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
 
 			}
 
@@ -403,37 +437,9 @@ function New-PASSession {
 
 		}
 
-		if ($PSCmdlet.ShouldProcess("$BaseURI/$PVWAAppName", 'Logon')) {
+		if ($PSCmdlet.ShouldProcess($LogonRequest['Uri'], 'Logon')) {
 
 			try {
-
-				If ($PSCmdlet.ParameterSetName -eq 'Gen2SAML') {
-
-					#The only expected parameter should be concurrentSessions
-					$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SAMLAuth,
-					SkipVersionCheck, SkipCertificateCheck, CertificateThumbprint, BaseURI, PVWAAppName, Certificate
-
-					#*For SAML auth:
-					#*https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
-					$SAMLResponse = Get-PASSAMLResponse -URL "$baseURI/$PVWAAppName"
-
-					#add required parameters
-					$boundParameters.Add('SAMLResponse', $SAMLResponse)
-					$boundParameters.Add('apiUse', $true)
-
-					#Create Logon URL
-					$LogonString = $boundParameters | ConvertTo-QueryString
-
-					if ($LogonString) {
-
-						#Build URL from base URL
-						$URI = "$URI`?$LogonString"
-
-					}
-
-					$LogonRequest['Uri'] = $URI
-
-				}
 
 				#Send Logon Request
 				$PASSession = Invoke-PASRestMethod @LogonRequest
@@ -448,7 +454,7 @@ function New-PASSession {
 
 						#If RADIUS parameters are specified
 						#Prepare RADIUS auth request
-						$LogonRequest['Uri'] = "$baseURI/$PVWAAppName/api/Auth/RADIUS/Logon"
+						$LogonRequest['Uri'] = "$Uri/api/Auth/RADIUS/Logon"
 
 						#Use WebSession from initial request
 						$LogonRequest.Remove('SessionVariable')
@@ -519,7 +525,6 @@ function New-PASSession {
 						#Shared Auth LogonResult.
 						$CyberArkLogonResult = $PASSession.LogonResult
 
-
 					}
 
 					#Classic
@@ -530,10 +535,8 @@ function New-PASSession {
 
 					}
 
-					#?SAML Auth?
-
 					#BaseURI set in Module Scope
-					Set-Variable -Name BaseURI -Value "$BaseURI/$PVWAAppName" -Scope Script
+					Set-Variable -Name BaseURI -Value $Uri -Scope Script
 
 					#Auth token added to WebSession
 					$Script:WebSession.Headers['Authorization'] = [string]$CyberArkLogonResult

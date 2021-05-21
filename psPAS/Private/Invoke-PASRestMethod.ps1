@@ -62,7 +62,7 @@
 
 	Send request to web service
 	#>
-	[CmdletBinding(DefaultParameterSetName = "WebSession")]
+	[CmdletBinding(DefaultParameterSetName = 'WebSession')]
 	param
 	(
 		[Parameter(Mandatory = $true)]
@@ -73,20 +73,20 @@
 		[String]$URI,
 
 		[Parameter(Mandatory = $false)]
-		[String]$Body,
+		[Object]$Body,
 
 		[Parameter(Mandatory = $false)]
 		[hashtable]$Headers,
 
 		[Parameter(
 			Mandatory = $false,
-			ParameterSetName = "SessionVariable"
+			ParameterSetName = 'SessionVariable'
 		)]
 		[String]$SessionVariable,
 
 		[Parameter(
 			Mandatory = $false,
-			ParameterSetName = "WebSession"
+			ParameterSetName = 'WebSession'
 		)]
 		[Microsoft.PowerShell.Commands.WebRequestSession]$WebSession,
 
@@ -106,26 +106,34 @@
 		[string]$CertificateThumbprint,
 
 		[Parameter(Mandatory = $false)]
-		[switch]$SkipCertificateCheck
+		[switch]$SkipCertificateCheck,
+
+		[Parameter(Mandatory = $false)]
+		[string]$ContentType
 	)
 
 	Begin {
 
 		#Set defaults for all function calls
 		$ProgressPreference = 'SilentlyContinue'
-		$PSBoundParameters.Add("ContentType", 'application/json')
-		$PSBoundParameters.Add("UseBasicParsing", $true)
+		$PSBoundParameters.Add('UseBasicParsing', $true)
+
+		if ( -not ($PSBoundParameters.ContainsKey('ContentType'))) {
+
+			$PSBoundParameters.Add('ContentType', 'application/json')
+
+		}
 
 		#Bypass strict RFC header parsing in PS Core
 		#Use TLS 1.2
 		if (Test-IsCoreCLR) {
 
-			$PSBoundParameters.Add("SkipHeaderValidation", $true)
-			$PSBoundParameters.Add("SslProtocol", "TLS12")
+			$PSBoundParameters.Add('SkipHeaderValidation', $true)
+			$PSBoundParameters.Add('SslProtocol', 'TLS12')
 
 		}
 
-		Switch ($PSBoundParameters.ContainsKey("SkipCertificateCheck")) {
+		Switch ($PSBoundParameters.ContainsKey('SkipCertificateCheck')) {
 
 			$true {
 
@@ -133,7 +141,7 @@
 				if ( -not (Test-IsCoreCLR)) {
 
 					#Remove parameter, incompatible with PowerShell
-					$PSBoundParameters.Remove("SkipCertificateCheck") | Out-Null
+					$PSBoundParameters.Remove('SkipCertificateCheck') | Out-Null
 
 					if ($SkipCertificateCheck) {
 
@@ -142,8 +150,7 @@
 
 					}
 
-				}
-				else {
+				} else {
 
 					#PWSH
 					if ($SkipCertificateCheck) {
@@ -168,7 +175,7 @@
 
 						#Add SkipCertificateCheck to PS Core command
 						#Parameter must be included for all pwsh invocations of Invoke-WebRequest
-						$PSBoundParameters.Add("SkipCertificateCheck", $true)
+						$PSBoundParameters.Add('SkipCertificateCheck', $true)
 
 					}
 
@@ -179,10 +186,10 @@
 		}
 
 		#If Tls12 Security Protocol is available
-		if (([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") -and
+		if (([Net.SecurityProtocolType].GetEnumNames() -contains 'Tls12') -and
 
 			#And Tls12 is not already in use
-			(-not ([System.Net.ServicePointManager]::SecurityProtocol -match "Tls12"))) {
+			(-not ([System.Net.ServicePointManager]::SecurityProtocol -match 'Tls12'))) {
 
 			[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
@@ -195,7 +202,7 @@
 		#Show sanitised request body if in debug mode
 		If ([System.Management.Automation.ActionPreference]::SilentlyContinue -ne $DebugPreference) {
 
-			If ($PSBoundParameters.ContainsKey("Body")) {
+			If (($PSBoundParameters.ContainsKey('Body')) -and (($PSBoundParameters['Body']).GetType().Name -eq 'String')) {
 
 				Write-Debug "[Body] $(Hide-SecretValue -InputValue $Body)"
 
@@ -208,8 +215,7 @@
 			#make web request, splat PSBoundParameters
 			$APIResponse = Invoke-WebRequest @PSBoundParameters -ErrorAction Stop
 
-		}
-		catch [System.UriFormatException] {
+		} catch [System.UriFormatException] {
 
 			#Catch URI Format errors. Likely $Script:BaseURI is not set; New-PASSession should be run.
 			$PSCmdlet.ThrowTerminatingError(
@@ -225,8 +231,7 @@
 
 			)
 
-		}
-		catch {
+		} catch {
 
 			$ErrorID = $null
 			$StatusCode = $($PSItem.Exception.Response).StatusCode.value__
@@ -243,16 +248,14 @@
 
 				throw $PSItem
 
-			}
-			Else {
+			} Else {
 
 				If (-not($StatusCode)) {
 
 					#Generic failure message if no status code/response
 					$ErrorMessage = "Error contacting $($PSItem.TargetObject.RequestUri.AbsoluteUri)"
 
-				}
-				ElseIf ($ErrorDetails) {
+				} ElseIf ($ErrorDetails) {
 
 					try {
 
@@ -269,19 +272,18 @@
 						if ($Response.Details) {
 
 							#Join Inner Error Text to Error Message
-							$ErrorMessage = $ErrorMessage, $(($Response.Details | Select-Object -ExpandProperty ErrorMessage) -join ", ") -join ": "
+							$ErrorMessage = $ErrorMessage, $(($Response.Details | Select-Object -ExpandProperty ErrorMessage) -join ', ') -join ': '
 
 							#Join Inner Error Codes to ErrorID
-							$ErrorID = $ErrorID, $(($Response.Details | Select-Object -ExpandProperty ErrorCode) -join ",") -join ","
+							$ErrorID = $ErrorID, $(($Response.Details | Select-Object -ExpandProperty ErrorCode) -join ',') -join ','
 
 						}
 
-					}
-					catch {
+					} catch {
 
 						#If error converting JSON, return $ErrorDetails
 						#replace any new lines or whitespace with single spaces
-						$ErrorMessage = $ErrorDetails -replace "(`n|\W+)", " "
+						$ErrorMessage = $ErrorDetails -replace "(`n|\W+)", ' '
 						#Use $StatusCode as ErrorID
 						$ErrorID = $StatusCode
 
@@ -304,11 +306,10 @@
 
 			)
 
-		}
-		finally {
+		} finally {
 
 			#If Session Variable passed as argument
-			If ($PSCmdlet.ParameterSetName -eq "SessionVariable") {
+			If ($PSCmdlet.ParameterSetName -eq 'SessionVariable') {
 
 				#Make the WebSession available in the module scope
 				Set-Variable -Name WebSession -Value $(Get-Variable $(Get-Variable sessionVariable).Value).Value -Scope Script
