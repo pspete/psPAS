@@ -21692,7 +21692,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="UseClassicAPI">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UseClassicAPI">
           <maml:name>UseGen1API</maml:name>
           <maml:description>
             <maml:para>Specify to send the authentication request via the Gen1 API endpoint.</maml:para>
@@ -21847,7 +21847,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="UseClassicAPI">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UseClassicAPI">
           <maml:name>UseGen1API</maml:name>
           <maml:description>
             <maml:para>Specify to send the authentication request via the Gen1 API endpoint.</maml:para>
@@ -21862,7 +21862,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>New-PASSession</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>SAMLAuth</maml:name>
           <maml:description>
             <maml:para>Supported from 11.4</maml:para>
@@ -21873,6 +21873,18 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
             <maml:uri />
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="SAMLToken">
+          <maml:name>SAMLResponse</maml:name>
+          <maml:description>
+            <maml:para>SAML response token that identifies the session, encoded in BASE 64.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>concurrentSession</maml:name>
@@ -21992,10 +22004,10 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>New-PASSession</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SAMLToken</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="SAMLToken">
+          <maml:name>SAMLResponse</maml:name>
           <maml:description>
-            <maml:para>SAML token that identifies the session, encoded in BASE 64.</maml:para>
+            <maml:para>SAML response token that identifies the session, encoded in BASE 64.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -22099,6 +22111,18 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Specify to send the authentication request via the Gen1 API endpoint.</maml:para>
+            <maml:para>Relevant for CyberArk versions earlier than 10.4</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -22380,7 +22404,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>SAMLAuth</maml:name>
         <maml:description>
           <maml:para>Supported from 11.4</maml:para>
@@ -22393,10 +22417,10 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>SAMLToken</maml:name>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="SAMLToken">
+        <maml:name>SAMLResponse</maml:name>
         <maml:description>
-          <maml:para>SAML token that identifies the session, encoded in BASE 64.</maml:para>
+          <maml:para>SAML response token that identifies the session, encoded in BASE 64.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -22641,7 +22665,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="UseClassicAPI">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UseClassicAPI">
         <maml:name>UseGen1API</maml:name>
         <maml:description>
           <maml:para>Specify to send the authentication request via the Gen1 API endpoint.</maml:para>
@@ -22714,9 +22738,9 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
-        <dev:code>New-PASSession -SAMLToken $SAMLToken -BaseURI https://PVWA.domain.com</dev:code>
+        <dev:code>New-PASSession -BaseURI $url -SAMLAuth</dev:code>
         <dev:remarks>
-          <maml:para>Authenticates to a CyberArk Vault using SAML authentication.</maml:para>
+          <maml:para>Perform saml sso authentication from version 11.4</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -22798,9 +22822,16 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 20 --------------------------</maml:title>
-        <dev:code>New-PASSession -BaseURI $url -SAMLAuth</dev:code>
+        <dev:code>New-PASSession -BaseURI $url -SAMLResponse $SAMLResponse</dev:code>
         <dev:remarks>
           <maml:para>Perform saml authentication from version 11.4</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 21 --------------------------</maml:title>
+        <dev:code>New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain.com</dev:code>
+        <dev:remarks>
+          <maml:para>Authenticates to a CyberArk Vault using SAML authentication &amp; gen 1 API.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -27812,6 +27843,16 @@ Set-PASAccount -AccountID 27_4 -operations $actions</dev:code>
 -DeviceType Database -PlatformID Oracle -Address dbServer.domain.com -UserName DBUser</dev:code>
         <dev:remarks>
           <maml:para>Will set the AccountName of account with AccountID of 21_3 to "NewName". Any/All additional properties of the account which are not specified via parameters will be cleared</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
+        <dev:code>$actions = @()
+$props = @{"port"="5022";"UserDN"="SomeDN";"LogonDomain"="SomeDomain"}
+$actions += @{"op"="add";"path"="/platformAccountProperties";"value"=$props}
+Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
+        <dev:remarks>
+          <maml:para>Adds multiple values to categories under the platformAccountProperties path.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
