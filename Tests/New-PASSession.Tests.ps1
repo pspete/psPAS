@@ -681,7 +681,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'invokes gets IdP SAML response' {
+			It 'gets IdP SAML response' {
 
 				New-PASSession -BaseURI 'https://P_URI' -SAMLAuth
 				Assert-MockCalled Get-PASSAMLResponse -Times 1 -Exactly -Scope It
@@ -720,10 +720,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'invokes gets IdP SAML response' {
+			It 'does not invoke Get-PASSAMLResponse' {
 
 				New-PASSession -BaseURI 'https://P_URI' -SAMLResponse 'SomeSAMLResponse'
-				Assert-MockCalled Get-PASSAMLResponse -Times 1 -Exactly -Scope It
+				Assert-MockCalled Get-PASSAMLResponse -Times 0 -Exactly -Scope It
 
 			}
 
