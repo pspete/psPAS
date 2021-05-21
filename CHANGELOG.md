@@ -5,11 +5,14 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
-## **vNext 5.x.x**
+## **vNext 5.1.x**
 
 - Updates
   - `New-PASSession`
     - Introduce support for providing response to RADIUS challenges featuring sub-options.
+    - Fixes Gen2 SAML Authentication:
+      - Code to get SAML Response via SSO using default credentials updated to correctly format authentication request.
+      - Option added for user to provide their own SAMLResponse as string value.
 
 ## **5.0.0** (April 11th 2021)
 
