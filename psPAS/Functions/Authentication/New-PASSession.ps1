@@ -79,6 +79,7 @@ function New-PASSession {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1SAML'
 		)]
+		[Alias('SAMLToken')]
 		[String]$SAMLResponse,
 
 		[Parameter(
