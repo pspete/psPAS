@@ -19,31 +19,6 @@ Adds a Safe Member to safe
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
  [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
- [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
- [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-requestsAuthorizationLevel1 <Boolean>]
- [-requestsAuthorizationLevel2 <Boolean>] [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>]
- [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [<CommonParameters>]
-```
-
-### Gen1-CPM
-```
-Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
- [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] -InitiateCPMAccountManagementOperations <Boolean>
- [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
- [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
- [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-RequestsAuthorizationLevel <Int32>]
- [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
- [-MoveAccountsAndFolders <Boolean>] [-UseGen1API] [<CommonParameters>]
-```
-
-### Gen2-CPM
-```
-Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
- [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
  [-UpdateAccountProperties <Boolean>] -InitiateCPMAccountManagementOperations <Boolean>
  [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
  [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
@@ -57,7 +32,8 @@ Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
  [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
+ [-UpdateAccountProperties <Boolean>] -InitiateCPMAccountManagementOperations <Boolean>
+ [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
  [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
  [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-RequestsAuthorizationLevel <Int32>]
  [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
@@ -306,7 +282,7 @@ Get-PASSafeMember (Gen1) may not return details of this permission
 
 ```yaml
 Type: Boolean
-Parameter Sets: Gen1-CPM, Gen2-CPM
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -326,7 +302,7 @@ Get-PASSafeMember (Gen1) may not return details of this permission
 
 ```yaml
 Type: Boolean
-Parameter Sets: Gen1-CPM, Gen2-CPM
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -483,7 +459,7 @@ Depreciated from version 12.3
 
 ```yaml
 Type: Int32
-Parameter Sets: Gen1-CPM, Gen1
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -568,7 +544,7 @@ Request Authorization Level 1
 
 ```yaml
 Type: Boolean
-Parameter Sets: Gen2, Gen2-CPM
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -583,7 +559,7 @@ Request Authorization Level 2
 
 ```yaml
 Type: Boolean
-Parameter Sets: Gen2, Gen2-CPM
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -599,7 +575,7 @@ Depreciated from version 12.3
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Gen1-CPM, Gen1
+Parameter Sets: Gen1
 Aliases:
 
 Required: True
