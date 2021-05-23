@@ -4,7 +4,8 @@ Function Get-PASSAMLResponse {
 Get SAML Token for PAS SAML Auth
 
 .DESCRIPTION
-Get SAML Token from pvwa webresponse
+Get SAML IdP URl using a request the /auth/saml/ PVWA resource
+Authenticates to IdP and to obtain Saml Token
 
 .PARAMETER URL
 The PVWA URL
@@ -15,7 +16,7 @@ Get-PASSAMLResponse -URL "https://pvwa.somecompany.com/PasswordVault"
 .NOTES
 https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
 #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -26,19 +27,29 @@ https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
 	)
 
 	Process {
+
 		Try {
 
-			$WebResponse = Invoke-WebRequest -Uri "$URL/auth/saml/" -MaximumRedirection 0 -ErrorAction SilentlyContinue -UseBasicParsing
+			$Uri = "$URL/auth/saml/"
 
-			$SAMLResponse = Invoke-WebRequest -Uri ($WebResponse.links.href) -MaximumRedirection 1 -UseDefaultCredentials -UseBasicParsing
+			if ($PSCmdlet.ShouldProcess($Uri, 'SAML Auth')) {
 
-			If ($SAMLResponse.InputFields[0].name -eq "SAMLResponse") {
-				$SAMLResponse.InputFields[0].value
+				$WebResponse = Invoke-WebRequest -Uri $Uri -MaximumRedirection 0 -ErrorAction SilentlyContinue -UseBasicParsing
+
+				$SAMLResponse = Invoke-WebRequest -Uri $($WebResponse.links.href) -MaximumRedirection 1 -UseDefaultCredentials -UseBasicParsing
+
+				If ($SAMLResponse.InputFields[0].name -eq 'SAMLResponse') {
+
+					$SAMLResponse.InputFields[0].value
+
+				} Else { Throw }
+
 			}
-			Else { Throw }
 
 		}
 
-		Catch { Throw "Failed to get SAMLResponse" }
+		Catch { Throw 'Failed to get SAMLResponse' }
+
 	}
+
 }

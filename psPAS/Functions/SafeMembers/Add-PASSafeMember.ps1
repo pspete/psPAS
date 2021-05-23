@@ -74,25 +74,13 @@ function Add-PASSafeMember {
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen2-CPM'
-		)]
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen1-CPM'
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$InitiateCPMAccountManagementOperations,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen2-CPM'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen1-CPM'
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$SpecifyNextAccountContent,
 
@@ -154,11 +142,6 @@ function Add-PASSafeMember {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1'
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen1-CPM'
-		)]
 		[ValidateRange(0, 2)]
 		[int]$RequestsAuthorizationLevel,
 
@@ -168,22 +151,12 @@ function Add-PASSafeMember {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen2-CPM'
-		)]
 		[boolean]$requestsAuthorizationLevel1,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen2-CPM'
 		)]
 		[boolean]$requestsAuthorizationLevel2,
 
@@ -217,11 +190,6 @@ function Add-PASSafeMember {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = 'Gen1'
-		)]
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = 'Gen1-CPM'
 		)]
 		[switch]$UseGen1API
 	)
