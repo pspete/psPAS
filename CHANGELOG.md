@@ -9,6 +9,9 @@
 - Updates
   - `Get-PASSession`
     - Catch errors getting the username of the logged on user so session token and other information can still be extracted from the module scope.
+  - `Add-PASSafeMember`
+    - Makes `InitiateCPMAccountManagementOperations` non-mandatory; fixes issue introduced in `5.1.16`.
+
 
 ## **5.1.16** (May 23rd 2021)
 

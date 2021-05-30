@@ -6955,7 +6955,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>InitiateCPMAccountManagementOperations</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe. When this parameter is set to `$False`, the SpecifyNextAccountContent parameter is also automatically set to False.</maml:para>
@@ -7289,7 +7289,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>InitiateCPMAccountManagementOperations</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe. When this parameter is set to `$False`, the SpecifyNextAccountContent parameter is also automatically set to False.</maml:para>
@@ -7623,7 +7623,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>InitiateCPMAccountManagementOperations</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe. When this parameter is set to `$False`, the SpecifyNextAccountContent parameter is also automatically set to False.</maml:para>
