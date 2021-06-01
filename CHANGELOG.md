@@ -11,7 +11,8 @@
     - Catch errors getting the username of the logged on user so session token and other information can still be extracted from the module scope.
   - `Add-PASSafeMember`
     - Makes `InitiateCPMAccountManagementOperations` non-mandatory; fixes issue introduced in `5.1.16`.
-
+  - `Remove-PASGroupMember`
+    - Resolves issue where attempting to remove group member with an '@' symbol in the user name reported a 404 error.
 
 ## **5.1.16** (May 23rd 2021)
 

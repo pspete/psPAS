@@ -6,14 +6,14 @@ function Remove-PASGroupMember {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("ID")]
+		[Alias('ID')]
 		[string]$GroupID,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("UserName")]
+		[Alias('UserName')]
 		[string]$Member
 	)
 
@@ -24,7 +24,7 @@ function Remove-PASGroupMember {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/UserGroups/$GroupID/members/$Member"
+		$URI = "$Script:BaseURI/API/UserGroups/$GroupID/members/$Member/"
 
 		if ($PSCmdlet.ShouldProcess($GroupID, "Remove Group Member $Member")) {
 
