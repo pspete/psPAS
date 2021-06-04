@@ -13,6 +13,8 @@
     - Makes `InitiateCPMAccountManagementOperations` non-mandatory; fixes issue introduced in `5.1.16`.
   - `Remove-PASGroupMember`
     - Resolves issue where attempting to remove group member with an '@' symbol in the user name reported a 404 error.
+  - `Get-PASPlatform`
+    - Fixes issue where expected output was not displayed when using the `platforms` parameterset.
 
 ## **5.1.16** (May 23rd 2021)
 
