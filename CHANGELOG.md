@@ -5,7 +5,8 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
-## **vNext**
+## **5.1.21 (June 7th 2021)**
+
 - Updates
   - `Get-PASSession`
     - Catch errors getting the username of the logged on user so session token and other information can still be extracted from the module scope.
