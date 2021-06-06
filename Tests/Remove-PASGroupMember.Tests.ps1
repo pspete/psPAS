@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,12 +35,12 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'GroupID' },
 			@{Parameter = 'Member' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -50,59 +50,59 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith { }
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
-			It "sends request" {
+			It 'sends request' {
 				Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 				Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/UserGroups/X1_Y2/members/TargetUser"
+					$URI -eq "$($Script:BaseURI)/API/UserGroups/X1_Y2/members/TargetUser/"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 				Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 				Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.2"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.2'
 
 				{ Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith { }
 			}
 
-			it "provides no output" {
+			It 'provides no output' {
 				$response = Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
 				$response | Should -BeNullOrEmpty
 

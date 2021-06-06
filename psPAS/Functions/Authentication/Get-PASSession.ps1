@@ -7,8 +7,14 @@ function Get-PASSession {
 
 	PROCESS {
 
+		Try {
+
+			$UserName = Get-PASLoggedOnUser -ErrorAction Stop | Select-Object -ExpandProperty Username
+
+		} Catch { $UserName = $null }
+
 		[PSCustomObject]@{
-			User            = Get-PASLoggedOnUser -ErrorAction Stop | Select-Object -ExpandProperty Username
+			User            = $UserName
 			BaseURI         = $Script:BaseURI
 			ExternalVersion = $Script:ExternalVersion
 			WebSession      = $Script:WebSession

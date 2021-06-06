@@ -5,6 +5,18 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
+## **5.1.21 (June 7th 2021)**
+
+- Updates
+  - `Get-PASSession`
+    - Catch errors getting the username of the logged on user so session token and other information can still be extracted from the module scope.
+  - `Add-PASSafeMember`
+    - Makes `InitiateCPMAccountManagementOperations` non-mandatory; fixes issue introduced in `5.1.16`.
+  - `Remove-PASGroupMember`
+    - Resolves issue where attempting to remove group member with an '@' symbol in the user name reported a 404 error.
+  - `Get-PASPlatform`
+    - Fixes issue where expected output was not displayed when using the `platforms` parameterset.
+
 ## **5.1.16** (May 23rd 2021)
 
 - Updates

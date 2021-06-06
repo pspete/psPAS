@@ -73,7 +73,7 @@ function Add-PASSafeMember {
 		[boolean]$UpdateAccountProperties,
 
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[boolean]$InitiateCPMAccountManagementOperations,

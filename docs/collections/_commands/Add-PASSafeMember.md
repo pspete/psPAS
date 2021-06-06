@@ -19,7 +19,7 @@ Adds a Safe Member to safe
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
  [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] -InitiateCPMAccountManagementOperations <Boolean>
+ [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
  [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
  [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
  [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-requestsAuthorizationLevel1 <Boolean>]
@@ -32,7 +32,7 @@ Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
  [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] -InitiateCPMAccountManagementOperations <Boolean>
+ [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
  [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
  [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
  [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-RequestsAuthorizationLevel <Int32>]
@@ -285,7 +285,7 @@ Type: Boolean
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: False
 Accept pipeline input: True (ByPropertyName)

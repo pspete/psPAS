@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -34,30 +34,50 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 	}
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
-BeforeEach{
-		Mock Get-PASLoggedOnUser -MockWith {
-			[PSCustomObject]@{"Username" = "SomeUser"; "Prop2" = "Val2" }
+		BeforeEach {
+			Mock Get-PASLoggedOnUser -MockWith {
+				[PSCustomObject]@{'Username' = 'SomeUser'; 'Prop2' = 'Val2' }
+			}
+
+			$response = Get-PASSession
 		}
+		Context 'Standard Operation' {
 
-		$response = Get-PASSession
-}
-		Context "Standard Operation" {
-
-			it "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 4
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Session
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Session
+
+			}
+
+			It 'does not throw if Get-PASLoggedOnUser fails' {
+				Mock Get-PASLoggedOnUser -MockWith {
+					throw 'Some Error'
+				}
+
+				{ Get-PASSession } | Should -Not -Throw
+
+			}
+
+			It 'does provides output if Get-PASLoggedOnUser fails' {
+				Mock Get-PASLoggedOnUser -MockWith {
+					throw 'Some Error'
+				}
+
+				$response = Get-PASSession
+
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 4
 
 			}
 
