@@ -72,6 +72,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
+			It "converts date to expected unixtime in milliseconds, even when locale is not en-US" {
+				$currentCulture = [System.Threading.Thread]::CurrentThread.CurrentCulture
+				[System.Threading.Thread]::CurrentThread.CurrentCulture = "nl-NL"
+				ConvertTo-UnixTime -Date $(Get-Date 1/1/2020) -Milliseconds | Should -Be 1577836800000
+				[System.Threading.Thread]::CurrentThread.CurrentCulture = $currentCulture
+			}
+
 		}
 
 	}
