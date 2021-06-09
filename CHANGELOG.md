@@ -5,6 +5,12 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
+## *Unreleased*
+
+- Fixes
+  - Resolves issue where the `ConvertTo-UnixTime` helper function provided invalid values when the culture was not 'en-US'.
+    - (Thanks [liamwh](https://github.com/liamwh)!).
+
 ## **5.1.21 (June 7th 2021)**
 
 - Updates
