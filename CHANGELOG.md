@@ -10,6 +10,8 @@
 - Fixes
   - Resolves issue where the `ConvertTo-UnixTime` helper function provided invalid values when the culture was not 'en-US'.
     - (Thanks [liamwh](https://github.com/liamwh)!).
+  - `Set-PASUser`
+    - Sets `ValueFromPipelinebyPropertyName = $false` for `ExpiryDate` parameter, avoids parameter validation exception when piping object representing user, such as the output from `Get-PASUSer`, into `Set-PASUser`.
 
 ## **5.1.21 (June 7th 2021)**
 
