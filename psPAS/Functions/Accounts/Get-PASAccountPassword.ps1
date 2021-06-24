@@ -71,7 +71,9 @@ function Get-PASAccountPassword {
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "Gen2"
 		)]
-		[switch]$Machine
+		[switch]$Machine,
+		[switch]$AsPsCredential,
+		[parameter(ValueFromPipelinebyPropertyName = $true)][String]$UserName
 	)
 
 	BEGIN {
@@ -148,8 +150,11 @@ function Get-PASAccountPassword {
 				}
 
 			}
-
-			[PSCustomObject] @{"Password" = $result } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
+			if ($PsBoundParameters.containskey("AsPsCredential")) {
+				New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $username, $result	
+			} else {
+				[PSCustomObject] @{"Password" = $result } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
+			}
 
 		}
 
