@@ -97,7 +97,7 @@ function Get-PASAccountPassword {
 					"Method" = "POST"
 
 					#Get all parameters that will be sent in the request
-					"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
+					"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID,AsPsCredential,UserName | ConvertTo-Json
 
 				}
 
@@ -151,8 +151,11 @@ function Get-PASAccountPassword {
 
 			}
 			if ($PsBoundParameters.containskey("AsPsCredential")) {
-				New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $username, $result	
+				New-Object System.Management.Automation.PSCredential ($UserName,( ConvertTo-SecureString $result -AsPlainText -force))	
 			} else {
+				if ($PsBoundParameters.containskey("UserName")) { 
+					write-warning "The username switch does not have any action unless used with the AsPsCredential switch" 
+				}
 				[PSCustomObject] @{"Password" = $result } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
 			}
 
