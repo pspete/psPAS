@@ -11027,6 +11027,17 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+		<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UserName</maml:name>
+          <maml:description>
+            <maml:para>Per default, will pick the UserName of the InputObject, but a user may specify a UserName if wanted.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-PASAccountPassword</maml:name>
