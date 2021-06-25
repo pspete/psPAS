@@ -443,6 +443,7 @@ function New-PASSession {
 
 				#Send Logon Request
 				$PASSession = Invoke-PASRestMethod @LogonRequest
+				return 				$PASSession
 
 				If ($null -ne $PASSession.UserName) {
 

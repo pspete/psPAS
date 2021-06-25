@@ -72,8 +72,11 @@ function Get-PASAccountPassword {
 			ParameterSetName = "Gen2"
 		)]
 		[switch]$Machine,
-		[switch]$AsPsCredential,
-		[parameter(ValueFromPipelinebyPropertyName = $true)][String]$UserName
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[String]$UserName
 	)
 
 	BEGIN {
@@ -97,7 +100,7 @@ function Get-PASAccountPassword {
 					"Method" = "POST"
 
 					#Get all parameters that will be sent in the request
-					"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID,AsPsCredential,UserName | ConvertTo-Json
+					"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
 
 				}
 
@@ -150,14 +153,10 @@ function Get-PASAccountPassword {
 				}
 
 			}
-			if ($PsBoundParameters.containskey("AsPsCredential")) {
-				New-Object System.Management.Automation.PSCredential ($UserName,( ConvertTo-SecureString $result -AsPlainText -force))
-			} else {
-				if ($PsBoundParameters.containskey("UserName")) { 
-					write-warning "The username switch can only be used with the AsPsCredential switch" 
-				}
-				[PSCustomObject] @{"Password" = $result } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
-			}
+			[PSCustomObject]@{
+					"Password" = $result
+					"UserName" = $UserName
+			} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
 
 		}
 

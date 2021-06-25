@@ -16,8 +16,7 @@ Returns password for an account.
 
 ### Gen2 (Default)
 ```
-Get-PASAccountPassword -AccountID <String> [-Reason <String>] [-TicketingSystem <String>] [-TicketId <String>]
- [-Version <Int32>] [-ActionType <String>] [-isUse <Boolean>] [-Machine] [<CommonParameters>]
+Get-PASAccountPassword -AccountID <String> [-Reason <String>] [-TicketingSystem <String>] [-TicketId <String>] [-UserName <string>] [-Version <Int32>] [-ActionType <String>] [-isUse <Boolean>] [-Machine] [<CommonParameters>]
 ```
 
 ### Gen1
@@ -209,6 +208,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserName
+The username that will get returned.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: 
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
