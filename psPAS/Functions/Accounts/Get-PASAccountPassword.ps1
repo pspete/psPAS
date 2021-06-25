@@ -100,7 +100,7 @@ function Get-PASAccountPassword {
 					"Method" = "POST"
 
 					#Get all parameters that will be sent in the request
-					"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
+					"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID,AsPsCredential,UserName | ConvertTo-Json
 
 				}
 
@@ -153,11 +153,11 @@ function Get-PASAccountPassword {
 				}
 
 			}
+
 			[PSCustomObject]@{
 					"Password" = $result
 					"UserName" = $UserName
 			} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
-
 		}
 
 	}#process
