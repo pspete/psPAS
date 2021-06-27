@@ -71,7 +71,12 @@ function Get-PASAccountPassword {
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = "Gen2"
 		)]
-		[switch]$Machine
+		[switch]$Machine,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[String]$UserName
 	)
 
 	BEGIN {
@@ -95,7 +100,7 @@ function Get-PASAccountPassword {
 					"Method" = "POST"
 
 					#Get all parameters that will be sent in the request
-					"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
+					"Body"   = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID,UserName | ConvertTo-Json
 
 				}
 
@@ -149,8 +154,10 @@ function Get-PASAccountPassword {
 
 			}
 
-			[PSCustomObject] @{"Password" = $result } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
-
+			[PSCustomObject]@{
+					"Password" = $result
+					"UserName" = $UserName
+			} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
 		}
 
 	}#process
