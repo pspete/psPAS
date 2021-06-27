@@ -12,6 +12,10 @@
     - (Thanks [liamwh](https://github.com/liamwh)!).
   - `Set-PASUser`
     - Sets `ValueFromPipelinebyPropertyName = $false` for `ExpiryDate` parameter, avoids parameter validation exception when piping object representing user, such as the output from `Get-PASUSer`, into `Set-PASUser`.
+  - `Get-PASAccountPassword`
+    - MachineName parameter changed to `string` type (previously was incorrectly specified as `switch`)
+    - Added `UserName` parameter & `ToPsCredential()` Method to enable return of Credential Object.
+      - (Thanks [zamothh](https://github.com/zamothh))
 
 ## **5.1.21 (June 7th 2021)**
 

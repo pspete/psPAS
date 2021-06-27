@@ -17,12 +17,13 @@ Returns password for an account.
 ### Gen2 (Default)
 ```
 Get-PASAccountPassword -AccountID <String> [-Reason <String>] [-TicketingSystem <String>] [-TicketId <String>]
- [-Version <Int32>] [-ActionType <String>] [-isUse <Boolean>] [-Machine] [<CommonParameters>]
+ [-Version <Int32>] [-ActionType <String>] [-isUse <Boolean>] [-Machine <String>] [-UserName <String>]
+ [<CommonParameters>]
 ```
 
 ### Gen1
 ```
-Get-PASAccountPassword -AccountID <String> [-UseGen1API] [<CommonParameters>]
+Get-PASAccountPassword -AccountID <String> [-UseGen1API] [-UserName <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -186,7 +187,7 @@ The address of the remote machine to connect to.
 Use of parameter requires version 10.1 at a minimum.
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: Gen2
 Aliases:
 
@@ -209,6 +210,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserName
+UserName value, specified either manually or via input object.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
