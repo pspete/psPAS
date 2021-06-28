@@ -662,11 +662,19 @@ Methods present on objects returned from psPAS functions can be leveraged to get
 Get-PASSafe | Where-Object{ ($_.safemembers() | Select-Object -ExpandProperty UserName) -notcontains "AppUser"}
 ```
 
-- Retrieved credentials can be immediately converted into Secure Strings:
+- Retrieved credentials can be immediately converted into Secure Strings or into a PsCredential object:
 
 ```powershell
+#Returns a Secure String 
 (Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToSecureString()
+
+#Returns a PsCredential Object 
+(Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToPsCredential()
+
+#Returns a PsCredential Object with a custom username (to include a domain for example)
+(Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToPsCredential("MyDomain\MyAccount")
 ```
+
 
 ![Logo][Logo]
 

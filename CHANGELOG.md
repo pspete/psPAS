@@ -5,6 +5,18 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
+## **5.1.37 (June 28th 2021)**
+
+- Updates
+  - Resolves issue where the `ConvertTo-UnixTime` helper function provided invalid values when the culture was not 'en-US'.
+    - (Thanks [liamwh](https://github.com/liamwh)!).
+  - `Set-PASUser`
+    - Sets `ValueFromPipelinebyPropertyName = $false` for `ExpiryDate` parameter, avoids parameter validation exception when piping object representing user, such as the output from `Get-PASUSer`, into `Set-PASUser`.
+  - `Get-PASAccountPassword`
+    - MachineName parameter changed to `string` type (previously was incorrectly specified as `switch`)
+    - Added `UserName` parameter & `ToPsCredential()` Method to enable return of Credential Object.
+      - (Thanks [zamothh](https://github.com/zamothh)!)
+
 ## **5.1.21 (June 7th 2021)**
 
 - Updates

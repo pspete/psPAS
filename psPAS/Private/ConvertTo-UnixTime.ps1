@@ -28,8 +28,12 @@ Get-Date | ConvertTo-UnixTime
 		)]
 		[switch]$Milliseconds
 	)
+	begin {
+		$currentCulture = [System.Threading.Thread]::CurrentThread.CurrentCulture
+	}
+	process {
+		[System.Threading.Thread]::CurrentThread.CurrentCulture = "en-US"
 
-	Process {
 		$UnixTime = [math]::Round($(Get-Date $Date.ToUniversalTime() -UFormat %s))
 
 		If ($Milliseconds) {
@@ -37,5 +41,8 @@ Get-Date | ConvertTo-UnixTime
 		}
 
 		$UnixTime
+	}
+	end {
+		[System.Threading.Thread]::CurrentThread.CurrentCulture = $currentCulture
 	}
 }
