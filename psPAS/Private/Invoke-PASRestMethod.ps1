@@ -209,7 +209,11 @@
 			}
 
 		}
-
+		
+		write-verbose "*********** BoundParameters *************"
+		write-verbose ($PSBoundParameters | out-string -Width ($host.UI.RawUI.BufferSize.Width -2 ))
+		write-verbose "******* End of PSBoundParameters ********"
+		
 		try {
 
 			#make web request, splat PSBoundParameters
