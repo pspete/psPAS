@@ -33,3 +33,15 @@ If you are already using psPAS, please consider <a href="https://github.com/spon
 psPAS would not be what it is without contributions received from the community.
 
 Whether it is reporting a typo, logging a feature request, updating documentation or code - every contribution is appreciated.
+
+Use the [Contributing][Contributing] guide on GitHub to understand how to interact with and provide your updates to the project.
+
+[Contributing]:https://github.com/pspete/psPAS/blob/master/CONTRIBUTING.md
+
+## Getting Help & Support
+
+As a community developed tool, psPAS is not covered by any support or maintenance agreements you may have; it is neither developed nor supported by CyberArk, any official support channels offered by the vendor are not appropriate for seeking help with the psPAS module.
+
+Help and support should be sought by opening an Issue on the project's GitHub page (preferable), or emailing <a href="mailto:pspas@pspete.dev">pspas@pspete.dev</a> if opening a GiHub Issue is not an available option.
+
+Priority support could be considered for sponsors of <a href="https://github.com/sponsors/pspete">@pspete on GitHub</a>. Contact us to discuss options.

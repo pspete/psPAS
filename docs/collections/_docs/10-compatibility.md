@@ -75,13 +75,13 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASRequestDetail`][Get-PASRequestDetail]                                           |**9.10** ([Notes](#-pasrequestdetail))              |Get request details
 [`New-PASRequest`][New-PASRequest]                                                       |**9.10** ([Notes](#-pasrequest))                    |Creates an access request for an account
 [`Remove-PASRequest`][Remove-PASRequest]                                                 |**9.10** ([Notes](#-pasrequest))                    |Deletes a request
-[`Add-PASSafeMember`][Add-PASSafeMember]                                                 |**9.3** ([Notes](#add-passafemember)                |Adds a Safe Member to a safe
-[`Get-PASSafeMember`][Get-PASSafeMember]                                                 |**9.7** ([Notes](#get-passafemember)                |Lists the members of a Safe
+[`Add-PASSafeMember`][Add-PASSafeMember]                                                 |**9.3** ([Notes](#add-passafemember))                |Adds a Safe Member to a safe
+[`Get-PASSafeMember`][Get-PASSafeMember]                                                 |**9.7** ([Notes](#get-passafemember))                |Lists the members of a Safe
 [`Remove-PASSafeMember`][Remove-PASSafeMember]                                           |**9.3**                                             |Removes a member from a safe
 [`Set-PASSafeMember`][Set-PASSafeMember]                                                 |**9.3**                                             |Updates a Safe Member's Permissions
-[`Add-PASSafe`][Add-PASSafe]                                                             | **9.2** ([Notes](#add-passafe)                     |Adds a new safe
-[`Get-PASSafe`][Get-PASSafe]                                                             | **9.7** ([Notes](#get-passafe)                     |Returns safe details
-[`Remove-PASSafe`][Remove-PASSafe]                                                       | **9.3** ([Notes](#remove-passafe)                  |Deletes a safe
+[`Add-PASSafe`][Add-PASSafe]                                                             | **9.2** ([Notes](#add-passafe))                     |Adds a new safe
+[`Get-PASSafe`][Get-PASSafe]                                                             | **9.7** ([Notes](#get-passafe))                     |Returns safe details
+[`Remove-PASSafe`][Remove-PASSafe]                                                       | **9.3** ([Notes](#remove-passafe))                  |Deletes a safe
 [`Set-PASSafe`][Set-PASSafe]                                                             | **9.3**                                            |Updates a safe
 [`Get-PASSafeShareLogo`][Get-PASSafeShareLogo]                                           | **9.7**                                            |Returns details of SafeShare Logo
 [`Get-PASServer`][Get-PASServer]                                                         | **9.7**                                            |Returns details of the Web Service Server
