@@ -26,6 +26,8 @@ Updates a directory mapping.
 
 Membership of the Vault Admins group required.
 
+Minimum required version 10.7
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -37,6 +39,8 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
 
 Configures the AddUpdateUsers & AuditUsers authorisations on the mapping.
 
+Minimum required version 10.7
+
 ### EXAMPLE 2
 ```
 Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch `
@@ -45,14 +49,17 @@ Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -Map
 
 Sets AddUpdateUsers, ActivateUsers & ResetUsersPasswords authorisations on the directory mapping
 
+Minimum required version 10.7
+
 ### EXAMPLE 3
 ```
 Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch `
-```
-
 -UserActivityLogPeriod 365
 
+```
 Sets UserActivityLogPeriod for the mapping to 365
+
+Minimum required version 10.10
 
 ## PARAMETERS
 
@@ -209,7 +216,7 @@ Accept wildcard characters: False
 ### -UserActivityLogPeriod
 Retention period in days for user activity logs
 
-Requires CyberArk version 10.10+
+Minimum required version 10.10
 
 ```yaml
 Type: Int32

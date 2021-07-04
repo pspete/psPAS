@@ -65,7 +65,7 @@ Logs off from the session related to the authorisation token using the Shared Au
 Close-PASSession -UseGen1API
 ```
 
-Logs off from the session related to the authorisation token using the 1st gen API endpoint.
+Logs off from the session related to the authorisation token using the Gen1 API endpoint.
 
 ## PARAMETERS
 
@@ -102,7 +102,7 @@ Accept wildcard characters: False
 ### -UseGen1API
 Specify  to send the logoff request via the Gen1 API endpoint.
 
-Relevant for CyberArk versions earlier than 10.4
+Should be specified for versions earlier than 10.4
 
 ```yaml
 Type: SwitchParameter

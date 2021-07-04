@@ -44,12 +44,14 @@ Get-PASPSMSession -liveSessionId 123_45
 
 Returns details of active PSM Session with Id 123_45
 
+Minimum required version 10.6
+
 ## PARAMETERS
 
 ### -liveSessionId
 The ID of an active session to get details of.
 
-Requires CyberArk version 10.6+
+Minimum required version 10.6
 
 ```yaml
 Type: String

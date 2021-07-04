@@ -41,6 +41,10 @@ The function returns either an RDP file or URL for PSM connections.
 It requires the PVWA and PSM to be configured for either transparent connections through PSM with RDP files
 or the HTML5 Gateway.
 
+Minimum required version for AdHocConnect 10.5
+
+Minimum required version for HTMLGW 10.2
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -77,6 +81,8 @@ Accept wildcard characters: False
 ### -userName
 For Ad-Hoc connections: the username of the account to connect with.
 
+Minimum required version 10.5
+
 ```yaml
 Type: String
 Parameter Sets: AdHocConnect
@@ -91,6 +97,8 @@ Accept wildcard characters: False
 
 ### -secret
 For Ad-Hoc connections: The target account password.
+
+Minimum required version 10.5
 
 ```yaml
 Type: SecureString
@@ -107,6 +115,8 @@ Accept wildcard characters: False
 ### -address
 For Ad-Hoc connections: The target account address.
 
+Minimum required version 10.5
+
 ```yaml
 Type: String
 Parameter Sets: AdHocConnect
@@ -122,6 +132,8 @@ Accept wildcard characters: False
 ### -platformID
 For Ad-Hoc connections: A configured secure connect platform.
 
+Minimum required version 10.5
+
 ```yaml
 Type: String
 Parameter Sets: AdHocConnect
@@ -136,6 +148,8 @@ Accept wildcard characters: False
 
 ### -extraFields
 For Ad-Hoc connections: Additional needed parameters for the various connection components.
+
+Minimum required version 10.5
 
 ```yaml
 Type: String

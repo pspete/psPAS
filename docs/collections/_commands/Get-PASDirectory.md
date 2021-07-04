@@ -25,6 +25,8 @@ Each directory will be returned with its own data.
 
 Membership of the Vault Admins group required.
 
+Minimum required version 10.4
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -34,12 +36,21 @@ Get-PASDirectory
 
 Returns LDAP directories configured in the Vault
 
+### EXAMPLE 2
+```
+Get-PASDirectory -id SomeDirectory
+```
+
+Returns details of "SomeDirectory" LDAP directory configured in the Vault
+
+Minimum required version 10.5
+
 ## PARAMETERS
 
 ### -id
 The ID or Name of the directory to return information on.
 
-Requires CyberArk version 10.5+
+Minimum required version 10.5
 
 ```yaml
 Type: String

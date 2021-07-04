@@ -85,7 +85,7 @@ Accept wildcard characters: False
 ### -UseGen1API
 Specify to force usage the Gen1 API endpoint.
 
-Relevant for CyberArk versions earlier than 10.4
+Should be specified for versions earlier than 10.4
 
 ```yaml
 Type: SwitchParameter

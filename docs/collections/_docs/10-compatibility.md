@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2021-04-10zT01:33:52-00:00
+last_modified_at: 2021-07-04zT01:33:52-00:00
 toc: false
 ---
 
@@ -317,21 +317,21 @@ If you are using version 9.7+, and the function being invoked requires version 9
     - Windows
 - Version 11.3 introduced support for concurrent API sessions.
 - Version 11.4 introduced updated support for SAML auth.
-- The 1st gen API endpoint can be used by specifying the `-UseGen1API` parameter.
+- The Gen1 API endpoint can be used by specifying the `-UseGen1API` parameter.
 
 ### Close-PASSession
 
-- The 1st gen API endpoint can be used by specifying the `-UseGen1API` parameter.
+- The Gen1 API endpoint can be used by specifying the `-UseGen1API` parameter.
 
 ### Get-PASAccountGroup
 
 - Version 10.5 introduced a new API endpoint.
-- The 1st gen API endpoint can be used by specifying the `-UseGen1API` parameter.
+- The Gen1 API endpoint can be used by specifying the `-UseGen1API` parameter.
 
 ### Add-PASAccount
 
 - Version 10.4 introduced a new API endpoint.
-- The 1st gen API endpoint can be used by using the ParameterSet which includes the  `-password` parameter.
+- The Gen1 API endpoint can be used by using the ParameterSet which includes the  `-password` parameter.
 
 ### Get-PASAccount
 
@@ -339,8 +339,8 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 10.4 introduced a new API endpoint.
   - Supports:
     - Get details of all matching accounts.
-- The 1st gen API endpoint can be used by using the `-Keywords` & `-Safe` parameters.
-  - The 1st gen API is limited to returning the details of only 1 account.
+- The Gen1 API endpoint can be used by using the `-Keywords` & `-Safe` parameters.
+  - The Gen1 API is limited to returning the details of only 1 account.
 
 ### Get-PASAccountPassword
 
@@ -354,7 +354,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 ### Remove-PASAccount
 
 - Version 10.4 introduced a new API endpoint.
-- The 1st gen API endpoint can be used by specifying the `-UseGen1API` parameter.
+- The Gen1 API endpoint can be used by specifying the `-UseGen1API` parameter.
 
 ### Set-PASAccount
 
@@ -365,7 +365,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
   - Requires Parameters:
     - `op` (for single property update)
     - `operations` (for multiple updates)
-- The 1st gen API endpoint requires all of the account properties be passed to the function.
+- The Gen1 API endpoint requires all of the account properties be passed to the function.
   - Any current properties of the account not sent as part of the request will result in them being removed from the account.
 
 ### Invoke-PASCPMOperation
@@ -377,7 +377,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
   - Supports:
     - Changing password to specific value.
     - Changing password only in the vault.
-- The 1st gen API endpoint can be used by:
+- The Gen1 API endpoint can be used by:
   - Using the `-ImmediateChangeByCPM` parameter.
   - Specifying the `-UseGen1API` parameter.
 
@@ -421,8 +421,8 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 10.6 introduced a new API endpoint.
   - Requires Parameters:
     - `GroupID`
-    - `UserID`
-- The 1st gen API endpoint can be used by using the `GroupName` & `UserName` parameters.
+    - `memberID`
+- The Gen1 API endpoint can be used by using the `GroupName` & `UserName` parameters.
 
 ### Get-PASUser
 
@@ -446,7 +446,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 10.10 introduced a new API endpoint.
   - Requires Parameters:
     - `userID`
-- The 1st gen API endpoint can be used by using the `userName` parameter.
+- The Gen1 API endpoint can be used by using the `userName` parameter.
 
 ### Get-PASDirectory
 

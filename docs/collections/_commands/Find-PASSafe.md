@@ -19,7 +19,10 @@ Find-PASSafe [[-search] <String>] [[-TimeoutSec] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+Minimum required version 10.1
+
 Depreciated from 11.7
+
 Returns abbreviated details for all safes
 
 ## EXAMPLES
@@ -84,7 +87,7 @@ Find-PASSafe is depreciated from 11.7
 
 Function was based on undocumented features available since V10
 
-It returns results faster than the v9 API (invoked with Get-PASSafe) but has a vastly different return object
+It returns results faster than the Gen1 API (invoked with Get-PASSafe) but has a vastly different return object
 
 Now documented since version 12.0, this is the Gen2 API for Get-PASafe.
 

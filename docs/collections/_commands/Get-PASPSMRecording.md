@@ -37,12 +37,20 @@ Get-PASPSMRecording -Limit 10 -Safe PSMRecordings -Sort -FileName
 
 Lists the first 10 recordings from the PSMRecordings safe, sorted by decending filename.
 
+### EXAMPLE 2
+```
+Get-PASPSMRecording -RecordingID $Id
+```
+Gets details of specified PSM recording
+
+Minimum required version 10.6
+
 ## PARAMETERS
 
 ### -RecordingID
 Unique ID of the recorded PSM session
 
-Requires CyberArk version 10.6+
+Minimum required version 10.6
 
 ```yaml
 Type: String

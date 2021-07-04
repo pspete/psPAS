@@ -80,13 +80,13 @@ which are used in subsequent calls to the API.
 
 In addition, this method allows you to set a new password.
 
-Will attempt authentication against the V10 API by default.
+Default operation is against the Gen2 API and requires minimum version 10
 
-For older CyberArk versions, specify the -UseGen1API switch parameter to force use of the V9 API endpoint.
+For older CyberArk versions, specify the -UseGen1API switch parameter to force use of the Gen1 API endpoint.
 
-Windows authentication is only supported (from CyberArk 10.4+).
+Minimum version required for Windows authentication is 10.4
 
-Authenticate using CyberArk, LDAP, RADIUS, SAML or Shared authentication (From CyberArk version 9.7+).
+Minimum version required for LDAP, RADIUS, SAML or Shared authentication is 9.7
 
 For CyberArk version older than 9.7:
 - Only CyberArk Authentication method is supported.
@@ -166,7 +166,7 @@ Logon to Version 10 using RADIUS
 New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True
 ```
 
-Logon using RADIUS via the 1st gen API
+Logon using RADIUS via the Gen1 API
 
 ### EXAMPLE 11
 ```
@@ -180,7 +180,7 @@ Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
 New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
 ```
 
-Logon using RADIUS & OTP (Append Mode) via the 1st gen API
+Logon using RADIUS & OTP (Append Mode) via the Gen1 API
 
 ### EXAMPLE 13
 ```
@@ -236,14 +236,16 @@ Perform initial authentication and supply OTP value for  RADIUS challenge when p
 New-PASSession -BaseURI $url -SAMLResponse $SAMLResponse
 ```
 
-Perform saml authentication from version 11.4
+Perform saml authentication
+
+Minimum version required 11.4
 
 ### EXAMPLE 21
 ```
 New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain.com
 ```
 
-Authenticates to a CyberArk Vault using SAML authentication & gen 1 API.
+Authenticates to a CyberArk Vault using SAML authentication & Gen1 API.
 
 ## PARAMETERS
 
@@ -277,8 +279,6 @@ Accept wildcard characters: False
 ### -newPassword
 Optional parameter, enables you to change a CyberArk users password.
 
-Must be supplied as a SecureString (Not Plain Text).
-
 ```yaml
 Type: SecureString
 Parameter Sets: Gen2, Gen1
@@ -292,9 +292,9 @@ Accept wildcard characters: False
 ```
 
 ### -SAMLAuth
-Supported from 11.4
+Specify to authenticate after retrieval of saml token via SSO.
 
-Specify to authenticate after retrieval of saml token.
+Minimum version required 11.4
 
 ```yaml
 Type: SwitchParameter
@@ -372,7 +372,7 @@ Valid values are:
 - CyberArk
 - LDAP
 - Windows
-  - only a valid option for version 10.4 onward.
+  - Minimum version required 10.4
 - RADIUS
 
 ```yaml
@@ -473,7 +473,7 @@ Accept wildcard characters: False
 ### -concurrentSession
 Enables multiple simultaneous connection sessions as the same user.
 
-Requires 11.3+
+Minimum version required 11.3
 
 ```yaml
 Type: Boolean
@@ -508,7 +508,7 @@ Accept wildcard characters: False
 ### -BaseURI
 A string containing the base web address to send te request to.
 
-Pass the portion the PVWA HTTP address.
+Pass the PVWA HTTP address.
 
 Do not include "/PasswordVault/"
 
@@ -650,7 +650,7 @@ Accept wildcard characters: False
 ### -UseGen1API
 Specify to send the authentication request via the Gen1 API endpoint.
 
-Relevant for CyberArk versions earlier than 10.4
+Should be specified for versions earlier than 10.4
 
 ```yaml
 Type: SwitchParameter

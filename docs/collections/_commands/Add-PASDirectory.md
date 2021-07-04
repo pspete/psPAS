@@ -30,7 +30,10 @@ Add-PASDirectory -DirectoryType <String> -BindUsername <String> -BindPassword <S
 
 ## DESCRIPTION
 Adds an LDAP directory to the Vault.
+
 Membership of the Vault Admins group required.
+
+Minimum required version 10.4
 
 ## EXAMPLES
 
@@ -48,7 +51,9 @@ Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "BindUser
 -DomainBaseContext "DC=domain,DC=com" -DCList @{"Name"="DC.domain.com";"Port"=636;"SSLConnect"=$true} -SSLConnect $true -Port 636
 ```
 
-(For 10.7+) - Adds the Domain.Com directory to the vault, configured for LDAPS.
+Adds the Domain.Com directory to the vault, configured for LDAPS.
+
+Minimum required version 10.7
 
 ## PARAMETERS
 
@@ -133,7 +138,9 @@ Accept wildcard characters: False
 ```
 
 ### -DCList
-Applies to 10.7+; an array of hashtables containing LDAPDomainController information.
+Array of hashtables containing LDAPDomainController information.
+
+Minimum required version 10.7
 
 ```yaml
 Type: Hashtable[]
@@ -204,4 +211,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Add-PASDirectory](https://pspas.pspete.dev/commands/Add-PASDirectory)
-

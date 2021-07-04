@@ -37,6 +37,10 @@ Get-PASSafe [-FindAll] [-TimeoutSec <Int32>] [<CommonParameters>]
 
 ## DESCRIPTION
 Gets safe by SafeName, by search query string, or, by default will return all safes.
+- Minimum required version for default operation using Gen2 API is 12.0.
+- Gen1 API parameters must be used for earlier versions.
+- Gen1 API parameters are not supported for versions higher than 12.2.
+
 
 ## EXAMPLES
 
@@ -47,6 +51,8 @@ Get-PASSafe
 
 Returns details of all safes.
 
+Minimum required version 12.0.
+
 ### EXAMPLE 2
 ```
 Get-PASSafe -search SAFE1 -extendedDetails $false
@@ -54,12 +60,15 @@ Get-PASSafe -search SAFE1 -extendedDetails $false
 
 Returns names of safes matching pattern "Safe1"
 
+Minimum required version 12.1
+
 ### EXAMPLE 3
 ```
 Get-PASSafe -SafeName SAFE1
 ```
 
 Returns details of "Safe1" using Gen1 API.
+
 Depreciated from version 12.2
 
 ### EXAMPLE 4
@@ -68,6 +77,7 @@ Get-PASSafe -query SAFE1
 ```
 
 Returns details of safes matching query "Safe1" using Gen1 API.
+
 Depreciated from version 12.2
 
 ### EXAMPLE 5
@@ -76,12 +86,15 @@ Get-PASSafe -FindAll
 ```
 
 Returns details of all safes using Gen1 API.
+
 Depreciated from version 12.2
 
 ## PARAMETERS
 
 ### -includeAccounts
 Whether or not to return accounts for each Safe as part of the response.
+
+Minimum required version 12.0
 
 ```yaml
 Type: Boolean
@@ -98,6 +111,8 @@ Accept wildcard characters: False
 ### -search
 Searches according to the Safe name.
 
+Minimum required version 12.0
+
 ```yaml
 Type: String
 Parameter Sets: Gen2
@@ -113,6 +128,8 @@ Accept wildcard characters: False
 ### -sort
 Sorts according to the safeName property in ascending order (default) or descending order.
 
+Minimum required version 12.0
+
 ```yaml
 Type: String
 Parameter Sets: Gen2
@@ -127,7 +144,8 @@ Accept wildcard characters: False
 
 ### -extendedDetails
 Whether or not to return all Safe details or only safeName as part of the response.
-Supported from version 12.1
+
+Minimum required version 12.1
 
 ```yaml
 Type: Boolean
@@ -143,6 +161,7 @@ Accept wildcard characters: False
 
 ### -SafeName
 The name of a specific safe to get details of using Gen1 API.
+
 Depreciated from version 12.2
 
 ```yaml
@@ -159,6 +178,7 @@ Accept wildcard characters: False
 
 ### -query
 Query String for safe search in the vault using Gen1 API.
+
 Depreciated from version 12.2
 
 ```yaml
@@ -175,7 +195,9 @@ Accept wildcard characters: False
 
 ### -FindAll
 Specify to find all safes using Gen1 API.
+
 If SafeName or query are not specified, FindAll is the default behaviour.
+
 Depreciated from version 12.2
 
 ```yaml

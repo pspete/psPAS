@@ -28,6 +28,8 @@ Add-PASGroupMember -GroupName <String> -UserName <String> [<CommonParameters>]
 ## DESCRIPTION
 Adds an existing user to an existing group in the vault
 
+Default operation using the Gen2 API requires minimum version of 10.6
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -44,12 +46,21 @@ Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
 
 Adds TargetUser to PVWAMonitor group
 
+### EXAMPLE 3
+```
+Add-PASGroupMember -groupId 1234 -memberId TargetUser
+```
+
+Adds TargetUser to group with id 1234
+
+Minimum required version 10.6
+
 ## PARAMETERS
 
 ### -groupId
 The unique ID of the group to add the member to.
 
-Requires CyberArk version 10.6+
+Minimum required version 10.6
 
 ```yaml
 Type: Int32
@@ -66,7 +77,7 @@ Accept wildcard characters: False
 ### -memberId
 The name of the user or group to add as a member.
 
-Requires CyberArk version 10.6+
+Minimum required version 10.6
 
 ```yaml
 Type: String
@@ -85,7 +96,7 @@ The type of user being added to the Vault group.
 
 Valid values: domain/vault
 
-Requires CyberArk version 10.6+
+Minimum required version 10.6
 
 ```yaml
 Type: String
@@ -102,7 +113,7 @@ Accept wildcard characters: False
 ### -domainName
 If memberType=domain, dns address of the domain
 
-Requires CyberArk version 10.6+
+Minimum required version 10.6
 
 ```yaml
 Type: String
