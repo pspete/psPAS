@@ -37,7 +37,9 @@ Set-PASAccount -AccountID <String> -Folder <String> -AccountName <String> [-Devi
 ## DESCRIPTION
 Updates an existing accounts details.
 
-For CyberArk version prior to 10.4:
+Default operation using the Gen2 API requires minimum version fo 10.4
+
+When using the Gen1 API:
 
 - All of the account's property details MUST be passed to the function.
 - Any current properties of the account not sent as part of the request will be removed
@@ -58,12 +60,16 @@ Set-PASAccount -AccountID 27_4 -op replace -path "/address" -value "NewAddress"
 
 Replaces the current address value with NewAddress
 
+Requires minimum version of 10.4
+
 ### EXAMPLE 2
 ```
 Set-PASAccount -AccountID 27_4 -op remove -path "/platformAccountProperties/UserDN"
 ```
 
 Removes UserDN property set on account
+
+Requires minimum version of 10.4
 
 ### EXAMPLE 3
 ```
@@ -76,12 +82,16 @@ Set-PASAccount -AccountID 27_4 -operations $actions
 
 Performs the update operations contained in the $actions array against the account
 
+Requires minimum version of 10.4
+
 ### EXAMPLE 4
 ```
 Get-PASAccount DBUser | Set-PASAccount -Properties @{"DSN"="myDSN"}
 ```
 
 Sets DSN value on matched account dbUser
+
+Requires minimum version of 10.4
 
 ### EXAMPLE 5
 ```
@@ -104,12 +114,14 @@ Set-PASAccount -AccountID 29_3 -operations $actions
 
 Adds multiple values to categories under the platformAccountProperties path.
 
+Requires minimum version of 10.4
+
 ## PARAMETERS
 
 ### -AccountID
 The unique ID of the account to update.
 
-Retrieved by Get-PASAccount
+As returned by by Get-PASAccount
 
 ```yaml
 Type: String
@@ -126,7 +138,7 @@ Accept wildcard characters: False
 ### -op
 The operation to perform (add, remove, replace).
 
-Requires CyberArk version 10.4+
+Requires minimum version of 10.4
 
 ```yaml
 Type: String
@@ -143,7 +155,7 @@ Accept wildcard characters: False
 ### -path
 The path of the property to update, for instance /address or /name.
 
-Requires CyberArk version 10.4+
+Requires minimum version of 10.4
 
 ```yaml
 Type: String
@@ -160,7 +172,7 @@ Accept wildcard characters: False
 ### -value
 The new property value for add or replace operations.
 
-Requires CyberArk version 10.4+
+Requires minimum version of 10.4
 
 ```yaml
 Type: String
@@ -177,7 +189,7 @@ Accept wildcard characters: False
 ### -operations
 A collection of update actions to perform, must include op, path & value (except where action is remove).
 
-Requires CyberArk version 10.4+
+Requires minimum version of 10.4
 
 ```yaml
 Type: Hashtable[]

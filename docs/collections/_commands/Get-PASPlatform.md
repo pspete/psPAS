@@ -49,6 +49,8 @@ Get-PASPlatform [-RotationalGroup] [<CommonParameters>]
 ## DESCRIPTION
 Request platform configuration information from the Vault.
 
+Default operation requires minimum version of 11.4
+
 11.4+ can return details of target, dependent, group & rotational group platforms,
 with additional filters available for target group queries.
 
@@ -75,12 +77,16 @@ Get-PASPlatform
 
 Return details of all platforms
 
+Minimum required version 11.4
+
 ### EXAMPLE 2
 ```
 Get-PASPlatform -Active $true
 ```
 
 Get all active platforms
+
+Minimum required version 11.4
 
 ### EXAMPLE 3
 ```
@@ -89,12 +95,16 @@ Get-PASPlatform -Active $true -Search "WIN_"
 
 Get active platforms matching search string "WIN_"
 
+Minimum required version 11.1
+
 ### EXAMPLE 4
 ```
 Get-PASPlatform -PlatformID "CyberArk"
 ```
 
 Get details of specific platform CyberArk
+
+Minimum required version 9.10
 
 ### EXAMPLE 5
 ```
@@ -103,12 +113,16 @@ Get-PASPlatform -GroupPlatform
 
 Get details of all group platforms
 
+Minimum required version 11.4
+
 ### EXAMPLE 6
 ```
 Get-PASPlatform -RotationalGroup
 ```
 
 Get details of all rotational group platforms
+
+Minimum required version 11.4
 
 ### EXAMPLE 7
 ```
@@ -117,12 +131,16 @@ Get-PASPlatform -DependentPlatform
 
 Get details of all dependent platforms
 
+Minimum required version 11.4
+
 ### EXAMPLE 8
 ```
 Get-PASPlatform -Active $false -SystemType Windows
 ```
 
 Get details of all deactivated Windows platforms
+
+Minimum required version 11.4
 
 ### EXAMPLE 9
 ```
@@ -131,10 +149,32 @@ Get-PASPlatform -Active $true -SystemType '*NIX' -AutomaticReconcile $true
 
 Get details of all active Unix platforms configured for automatic reconciliation.
 
+Minimum required version 11.4
+
+### EXAMPLE 10
+```
+Get-PASPlatform -PlatformType Regular -Search "WIN_"
+```
+
+Get platforms matching search string "WIN_"
+
+Minimum required version 11.1
+
+### EXAMPLE 11
+```
+Get-PASPlatform -PlatformType Regular -Search "WIN_" -Active $true
+```
+
+Get active platforms matching search string "WIN_"
+
+Minimum required version 11.1
+
 ## PARAMETERS
 
 ### -Active
 Filter active/inactive platforms
+
+Minimum required version 11.1
 
 ```yaml
 Type: Boolean
@@ -151,6 +191,8 @@ Accept wildcard characters: False
 ### -PlatformType
 Filter regular/group platforms
 
+Minimum required version 11.1
+
 ```yaml
 Type: String
 Parameter Sets: platforms
@@ -165,6 +207,8 @@ Accept wildcard characters: False
 
 ### -Search
 Filter platform by search pattern
+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -181,6 +225,8 @@ Accept wildcard characters: False
 ### -PlatformID
 The unique ID/Name of the platform.
 
+Minimum required version 9.10
+
 ```yaml
 Type: String
 Parameter Sets: platform-details
@@ -195,6 +241,8 @@ Accept wildcard characters: False
 
 ### -DependentPlatform
 Specify to return details of dependent platforms
+
+Minimum required version 11.4
 
 ```yaml
 Type: SwitchParameter
@@ -211,6 +259,8 @@ Accept wildcard characters: False
 ### -GroupPlatform
 Specify to return details of group platforms
 
+Minimum required version 11.4
+
 ```yaml
 Type: SwitchParameter
 Parameter Sets: groups
@@ -225,6 +275,8 @@ Accept wildcard characters: False
 
 ### -RotationalGroup
 Specify to return details of rotational group platforms
+
+Minimum required version 11.4
 
 ```yaml
 Type: SwitchParameter
@@ -241,6 +293,8 @@ Accept wildcard characters: False
 ### -SystemType
 Filter target platforms for specific system type
 
+Minimum required version 11.4
+
 ```yaml
 Type: String
 Parameter Sets: targets
@@ -255,6 +309,8 @@ Accept wildcard characters: False
 
 ### -PeriodicVerify
 Filter target platforms by periodic verification configuration
+
+Minimum required version 11.4
 
 ```yaml
 Type: Boolean
@@ -271,6 +327,8 @@ Accept wildcard characters: False
 ### -ManualVerify
 Filter target platforms by manual verification configuration
 
+Minimum required version 11.4
+
 ```yaml
 Type: Boolean
 Parameter Sets: targets
@@ -285,6 +343,8 @@ Accept wildcard characters: False
 
 ### -PeriodicChange
 Filter target platforms by periodic change configuration
+
+Minimum required version 11.4
 
 ```yaml
 Type: Boolean
@@ -301,6 +361,8 @@ Accept wildcard characters: False
 ### -ManualChange
 Filter target platforms by manual change configuration
 
+Minimum required version 11.4
+
 ```yaml
 Type: Boolean
 Parameter Sets: targets
@@ -316,6 +378,8 @@ Accept wildcard characters: False
 ### -AutomaticReconcile
 Filter target platforms by automatic reconciliation configuration
 
+Minimum required version 11.4
+
 ```yaml
 Type: Boolean
 Parameter Sets: targets
@@ -330,6 +394,8 @@ Accept wildcard characters: False
 
 ### -ManualReconcile
 Filter target platforms by manual reconciliation configuration
+
+Minimum required version 11.4
 
 ```yaml
 Type: Boolean

@@ -27,6 +27,8 @@ Unblock-PASUser -UserName <String> -Suspended <Boolean> [<CommonParameters>]
 ## DESCRIPTION
 Activates an existing vault user who was suspended due to password failures.
 
+Default operation requires minimum version of 10.10
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -34,7 +36,7 @@ Activates an existing vault user who was suspended due to password failures.
 Unblock-PASUser -UserName MrFatFingers -Suspended $false
 ```
 
-Activates suspended vault user MrFatFingers using the 1st gen API
+Activates suspended vault user MrFatFingers using the Gen1 API
 
 ### EXAMPLE 2
 ```
@@ -47,7 +49,8 @@ Activates suspended vault user with id 666, using the API from 10.10+
 
 ### -id
 The user's unique ID
-Requires CyberArk version 10.10+
+
+Minimum required version 10.10
 
 ```yaml
 Type: Int32

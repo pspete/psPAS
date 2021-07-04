@@ -83,6 +83,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
 ## DESCRIPTION
 Enables an account or SSH key that is discovered by an external scanner to be added
 as a pending account to the Accounts Feed.
+
 Users can identify privileged accounts and determine which are on-boarded to the vault.
 
 ## EXAMPLES
@@ -578,7 +579,7 @@ The AWS Account ID, in the format of a 12-digit number.
 
 Relevant when platformType is set to AWS or AWS Access Keys
 
-Requires 10.8+
+Minimum required version 10.8
 
 ```yaml
 Type: String
@@ -597,7 +598,7 @@ The AWS Access Key ID string
 
 Relevant when platformType is set to AWS or AWS Access Keys
 
-Requires 10.8+
+Minimum required version 10.8
 
 ```yaml
 Type: String
@@ -623,7 +624,7 @@ Accepts hashtable representing key/value pairs for:
   - Windows Service
 - taskFolder: The dependency task folder, relevant for Windows Scheduled Tasks.
 
-Requires 10.8+
+Minimum required version 10.8
 
 ```yaml
 Type: Hashtable[]
@@ -639,6 +640,8 @@ Accept wildcard characters: False
 
 ### -activeDirectoryID
 Azure Active Directory tenant ID
+
+Minimum required version 11.7
 
 ```yaml
 Type: String

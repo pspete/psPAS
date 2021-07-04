@@ -44,6 +44,7 @@ Adds a new safe to the Vault.
 The "Add Safes" permission is required in the vault.
 
 Defaults to the Gen2 API which requires CyberArk version 12.0+.
+
 For use against earlier versions the `-UseGen1API` switch must be specified to force use of the Gen1 API.
 
 ## EXAMPLES
@@ -55,6 +56,8 @@ Add-PASSafe -SafeName Oracle -Description "Oracle Safe" -ManagingCPM PasswordMan
 
 Creates a new safe named Oracle with a 7 version retention.
 
+Minimum required version 12.0
+
 ### EXAMPLE 2
 ```
 Add-PASSafe -SafeName Dev_Team -Description "Dev Safe" -ManagingCPM DEV_CPM -NumberOfDaysRetention 7 -location "\Safes"
@@ -62,19 +65,21 @@ Add-PASSafe -SafeName Dev_Team -Description "Dev Safe" -ManagingCPM DEV_CPM -Num
 
 Creates a new safe named Dev_Team, assigned to CPM DEV_CPM, with a 7 day retention period, in the \Safes location.
 
+Minimum required version 12.0
+
 ### EXAMPLE 3
 ```
 Add-PASSafe -SafeName Oracle -Description "Oracle Safe" -ManagingCPM PasswordManager -NumberOfVersionsRetention 7 -UseGen1API
 ```
 
-Creates a new safe named Oracle with a 7 version retention using the Gen 1 API.
+Creates a new safe named Oracle with a 7 version retention using the Gen1 API.
 
 ### EXAMPLE 4
 ```
 Add-PASSafe -SafeName Dev_Team -Description "Dev Safe" -ManagingCPM DEV_CPM -NumberOfDaysRetention 7 -UseGen1API
 ```
 
-Creates a new safe named Dev_Team, assigned to CPM DEV_CPM, with a 7 day retention period using the Gen 1 API.
+Creates a new safe named Dev_Team, assigned to CPM DEV_CPM, with a 7 day retention period using the Gen1 API.
 
 ## PARAMETERS
 
@@ -189,6 +194,8 @@ Accept wildcard characters: False
 ### -AutoPurgeEnabled
 Whether or not to automatically purge files after the end of the Object History Retention Period defined in the Safe properties.
 
+Minimum required version 12.0
+
 ```yaml
 Type: Boolean
 Parameter Sets: NumberOfVersionsRetention, NumberOfDaysRetention
@@ -204,6 +211,8 @@ Accept wildcard characters: False
 ### -location
 The location of the Safe in the Vault.
 
+Minimum required version 12.0
+
 ```yaml
 Type: String
 Parameter Sets: (All)
@@ -218,6 +227,8 @@ Accept wildcard characters: False
 
 ### -UseGen1API
 Force use of Gen1 API for request.
+
+Should be specified for versions earlier than 12.0
 
 ```yaml
 Type: SwitchParameter

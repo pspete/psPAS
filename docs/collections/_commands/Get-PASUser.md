@@ -10,7 +10,7 @@ title: Get-PASUser
 # Get-PASUser
 
 ## SYNOPSIS
-Returns details of a user
+Returns details of vault users
 
 ## SYNTAX
 
@@ -36,7 +36,9 @@ Get-PASUser -UserName <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Returns information on specific vault user.
+Returns information on queried vault users
+
+Default operation using the Gen2 API requires minimum version of 10.9
 
 ## EXAMPLES
 
@@ -47,6 +49,8 @@ Get-PASUser
 
 Returns information for all found Users
 
+Minimum required version 10.9
+
 ### EXAMPLE 2
 ```
 Get-PASUser -id 123
@@ -54,12 +58,16 @@ Get-PASUser -id 123
 
 Returns information on User with id 123
 
+Minimum required version 10.10
+
 ### EXAMPLE 3
 ```
 Get-PASUser -search SearchTerm -ComponentUser $False
 ```
 
 Returns information for all matching Users
+
+Minimum required version 10.9
 
 ### EXAMPLE 4
 ```
@@ -75,12 +83,14 @@ Get-PASUser -ExtendedDetails $true -Search SomeSearchTerm
 
 Returns extended information for all matching Users
 
+Minimum required version 12.1
+
 ## PARAMETERS
 
 ### -id
 The numeric id of the user to return details of.
 
-Requires CyberArk version 10.10+
+Minimum required version 10.10
 
 ```yaml
 Type: Int32
@@ -97,7 +107,7 @@ Accept wildcard characters: False
 ### -Search
 Search string.
 
-Requires CyberArk version 10.9+
+Minimum required version 10.9
 
 ```yaml
 Type: String
@@ -114,7 +124,7 @@ Accept wildcard characters: False
 ### -UserType
 The type of the user.
 
-Requires CyberArk version 10.9+
+Minimum required version 10.9
 
 ```yaml
 Type: String
@@ -131,7 +141,7 @@ Accept wildcard characters: False
 ### -ComponentUser
 Whether the user is a known component or not.
 
-Requires CyberArk version 10.9+
+Minimum required version 10.9
 
 ```yaml
 Type: Boolean
@@ -162,6 +172,8 @@ Accept wildcard characters: False
 
 ### -ExtendedDetails
 Returns user groups and userDN for LDAP users.
+
+Minimum required version 12.1
 
 ```yaml
 Type: Boolean

@@ -39,13 +39,13 @@ Get-PASSafeMember -SafeName <String> [-memberType <String>] [-membershipExpired 
 ## DESCRIPTION
 Lists the members of a Safe.
 
-View Safe Members permission is required.
-Defaults to the Gen 2 API which requires 12.0 or higher.
-Additional member filter parameters require 12.1 or higher.
-Versions lower than 12.0 must specify the `UseGen1API` switch to force use of the Gen1 API.
+- View Safe Members permission is required.
+- Defaults to the Gen 2 API which requires 12.0 or higher.
+- Additional member filter parameters require 12.1 or higher.
+- Versions lower than 12.0 must specify the `UseGen1API` switch to force use of the Gen1 API.
 
 **Note**
-When using the Gen 1 API & querying all members of a safe, the permissions are reported as follows:
+When using the Gen1 API & querying all members of a safe, the permissions are reported as follows:
 
 - List accounts (ListContent)
 - Retrieve accounts	(Retrieve)
@@ -104,6 +104,8 @@ Get-PASSafeMember -SafeName Target_Safe
 
 Lists all members with permissions on Target_Safe
 
+Minimum required version 12.0
+
 ### EXAMPLE 2
 ```
 Get-PASSafeMember -SafeName Target_Safe -MemberName SomeUser
@@ -160,6 +162,8 @@ Accept wildcard characters: False
 ### -includePredefinedUsers
 Filter to include/exclude predefined users in the returned list.
 
+Minimum required version 12.1
+
 ```yaml
 Type: Boolean
 Parameter Sets: Gen2-MemberFilter
@@ -175,6 +179,8 @@ Accept wildcard characters: False
 ### -membershipExpired
 Returns either expired members or members that are not expired.
 
+Minimum required version 12.1
+
 ```yaml
 Type: Boolean
 Parameter Sets: Gen2-MemberFilter
@@ -188,7 +194,9 @@ Accept wildcard characters: False
 ```
 
 ### -memberType
-Filter members according to the type (user or group)
+Filter members according to the type (user or group).
+
+Minimum required version 12.1
 
 ```yaml
 Type: String
@@ -205,6 +213,8 @@ Accept wildcard characters: False
 ### -search
 Search for safe members matching specific strings.
 
+Minimum required version 12.1
+
 ```yaml
 Type: String
 Parameter Sets: Gen2-MemberFilter
@@ -219,6 +229,8 @@ Accept wildcard characters: False
 
 ### -sort
 Sorts results according to the memberName property in ascending order (default) or descending order.
+
+Minimum required version 12.1
 
 ```yaml
 Type: String
@@ -250,7 +262,9 @@ Accept wildcard characters: False
 ```
 
 ### -UseGen1API
-Force use of the Gen 1 API, for versions earlier than 12.0.
+Force use of the Gen1 API.
+
+Should be specified for versions earlier than 12.0.
 
 ```yaml
 Type: SwitchParameter

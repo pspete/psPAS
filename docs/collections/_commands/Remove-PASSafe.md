@@ -29,8 +29,9 @@ Deletes a safe from the Vault.
 
 The "Manage" Safe vault permission is required.
 
-Default operation requires CyberArk version 12.1+. 
-For earlier versions, the Gen1 API switch must be specified.  
+Default operation requires CyberArk version 12.1+.
+
+For earlier versions, the Gen1 API switch must be specified.
 
 ## EXAMPLES
 
@@ -68,6 +69,8 @@ Accept wildcard characters: False
 ### -UseGen1API
 Forces use of the Gen1 API endpoint
 
+Should be specified for PAS versions earlier than 12.1
+
 ```yaml
 Type: SwitchParameter
 Parameter Sets: Gen1
@@ -82,6 +85,7 @@ Accept wildcard characters: False
 
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
+
 The cmdlet is not run.
 
 ```yaml

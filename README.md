@@ -58,6 +58,7 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 - [Author](#author)
 - [License](#license)
 - [Contributing](#contributing)
+- [Support](#support)
 - [Acknowledgements](#acknowledgements)
 
 ## Usage
@@ -665,10 +666,10 @@ Get-PASSafe | Where-Object{ ($_.safemembers() | Select-Object -ExpandProperty Us
 - Retrieved credentials can be immediately converted into Secure Strings or into a PsCredential object:
 
 ```powershell
-#Returns a Secure String 
+#Returns a Secure String
 (Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToSecureString()
 
-#Returns a PsCredential Object 
+#Returns a PsCredential Object
 (Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToPsCredential()
 
 #Returns a PsCredential Object with a custom username (to include a domain for example)
@@ -1170,6 +1171,16 @@ This project is [licensed under the MIT License](LICENSE.md).
 Any and all contributions to this project are appreciated.
 
 See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
+
+## Support
+
+psPAS is neither developed nor supported by CyberArk; any official support channels offered by the vendor are not appropriate for seeking help with the psPAS module.
+
+Help and support should be sought by [opening an issue][new-issue], or emailing <a href="mailto:pspas@pspete.dev">pspas@pspete.dev</a>.
+
+[new-issue]: https://github.com/pspete/psPAS/issues/new
+
+Priority support could be considered for <a href="https://github.com/sponsors/pspete">sponsors of @pspete</a>, <a href="mailto:pspas@pspete.dev">contact us</a> to discuss options.
 
 ## Acknowledgements
 

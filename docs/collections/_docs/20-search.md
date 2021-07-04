@@ -2,7 +2,7 @@
 title: "Search"
 permalink: /docs/search/
 excerpt: "Basic Operations - Searching"
-last_modified_at: 2021-04-08T01:33:52-00:00
+last_modified_at: 2021-07-04T01:33:52-00:00
 ---
 
 ## Safes
@@ -71,9 +71,9 @@ secretManagement          : @{automaticManagementEnabled = True; lastModifiedTim
 createdTime               : 06/06/2019 23:37:02
 ````
 
-### 1st Gen API
+### Gen1 API
 
-- The `keywords` & `safe` parameters of `Get-PASAccount` force use of the 1st gen API:
+- The `keywords` & `safe` parameters of `Get-PASAccount` force use of the Gen1 API:
 
 ````powershell
 Get-PASAccount -Safe 3_TestSafe_028_XYJ
@@ -90,7 +90,7 @@ Address            : SOMEDOMAIN.COM
 InternalProperties : @{CreationMethod = PVWA }
 ````
 - Only details of the first found account will be returned.
-- More results can be returned by specifying alternative parameters to avoid sending the request via the 1st gen API
+- More results can be returned by specifying alternative parameters to avoid sending the request via the Gen1 API
 
 ````powershell
 PS>Get-PASAccount -SafeName "3_TestSafe_028_XYJ"

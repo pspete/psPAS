@@ -27,6 +27,8 @@ Remove-PASUser -UserName <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ## DESCRIPTION
 Deletes an existing user from the vault
 
+Default operation using the Gen2 API requires minimum version of 11.1
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -35,6 +37,8 @@ Remove-PASUser -id 1234
 ```
 
 Deletes vault user with id 1234
+
+Minimum required version 11.1
 
 ### EXAMPLE 2
 ```
@@ -47,7 +51,8 @@ Deletes vault user "This_User"
 
 ### -id
 The numeric id of the user to delete.
-Requires CyberArk version 11.1+
+
+Minimum required version 11.1
 
 ```yaml
 Type: Int32
@@ -64,6 +69,8 @@ Accept wildcard characters: False
 ### -UserName
 The name of the user to delete from the vault
 
+Should be specified for versions earlier than 11.1
+
 ```yaml
 Type: String
 Parameter Sets: Gen1
@@ -78,6 +85,7 @@ Accept wildcard characters: False
 
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
+
 The cmdlet is not run.
 
 ```yaml

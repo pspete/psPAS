@@ -29,11 +29,11 @@ Get-PASAccountPassword -AccountID <String> [-UseGen1API] [-UserName <String>] [<
 ## DESCRIPTION
 Returns password for an account identified by its AccountID.
 
-If using version 9.7+ of the API:
+If using version 9.7+ & Gen1 API parameters:
  - Will not return SSH Keys.
  - Cannot be used if a reason for password access must be specified.
 
-If using version 10.1+ of the API:
+If using version 10.1+ & Gen2 API parameters:
  - Will return SSH key of an existing account
  - Can be used if a reason and/or ticket ID must be specified.
 
@@ -51,14 +51,14 @@ Will return the password value of the account found by Get-PASAccount
 Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -UseGen1API
 ```
 
-Will retrieve the password value of the account found by Get-PASAccount using the classic (v9) API
+Will retrieve the password value of the account found by Get-PASAccount using the Gen1 API
 
 ### EXAMPLE 3
 ```
 Get-PASAccount -Keywords root -Safe Prod_Safe | Get-PASAccountPassword -Reason "Incident Investigation"
 ```
 
-Will retrieve the password value of the account found by Get-PASAccount using the v10 API, and specify a reason for access.
+Will retrieve the password value of the account found by Get-PASAccount using the Gen2 API, and specify a reason for access.
 
 ## PARAMETERS
 
@@ -80,7 +80,7 @@ Accept wildcard characters: False
 ### -Reason
 The reason that is required to be specified to retrieve the password/SSH key.
 
-Use of parameter requires version 10.1 at a minimum.
+Requires minimum version of 10.1
 
 ```yaml
 Type: String
@@ -97,7 +97,7 @@ Accept wildcard characters: False
 ### -TicketingSystem
 The name of the Ticketing System.
 
-Use of parameter requires version 10.1 at a minimum.
+Requires minimum version of 10.1
 
 ```yaml
 Type: String
@@ -114,7 +114,7 @@ Accept wildcard characters: False
 ### -TicketId
 The ticket ID of the ticketing system.
 
-Use of parameter requires version 10.1 at a minimum.
+Requires minimum version of 10.1
 
 ```yaml
 Type: String
@@ -133,7 +133,7 @@ The version number of the required password.
 
 If there are no previous versions, the current password/key version is returned.
 
-Use of parameter requires version 10.1 at a minimum.
+Requires minimum version of 10.1
 
 ```yaml
 Type: Int32
@@ -150,7 +150,7 @@ Accept wildcard characters: False
 ### -ActionType
 The action this password will be used for.
 
-Use of parameter requires version 10.1 at a minimum.
+Requires minimum version of 10.1
 
 ```yaml
 Type: String
@@ -167,7 +167,7 @@ Accept wildcard characters: False
 ### -isUse
 Internal parameter (for PSMP only).
 
-Use of parameter requires version 10.1 at a minimum.
+Requires minimum version of 10.1
 
 ```yaml
 Type: Boolean
@@ -184,7 +184,7 @@ Accept wildcard characters: False
 ### -Machine
 The address of the remote machine to connect to.
 
-Use of parameter requires version 10.1 at a minimum.
+Requires minimum version of 10.1
 
 ```yaml
 Type: String
@@ -200,6 +200,8 @@ Accept wildcard characters: False
 
 ### -UseGen1API
 Specify to force usage the Gen1 API endpoint.
+
+Should be specified for versions earlier than 10.1
 
 ```yaml
 Type: SwitchParameter

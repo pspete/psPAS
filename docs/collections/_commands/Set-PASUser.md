@@ -44,6 +44,8 @@ Appears to require all properties set on a user to be passed with the request.
 
 Not passing a value to an already set property will result in it being cleared.
 
+Default operation using the Gen2 API requires minimum version of 11.1
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -58,7 +60,7 @@ Disables vault user Bill
 ### -id
 The numeric id of the user to update.
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: Int32
@@ -107,7 +109,7 @@ Accept wildcard characters: False
 ### -userType
 The user type
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -124,7 +126,7 @@ Accept wildcard characters: False
 ### -suspended
 The user suspension status
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: Boolean
@@ -141,7 +143,7 @@ Accept wildcard characters: False
 ### -unAuthorizedInterfaces
 The CyberArk interfaces that this user is not authorized to use.
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String[]
@@ -158,7 +160,7 @@ Accept wildcard characters: False
 ### -enableUser
 Whether the user will be enabled upon creation.
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: Boolean
@@ -179,7 +181,8 @@ Valid Values:
 - "AuthTypePass", for CyberArk Authentication (default)
 - "AuthTypeLDAP", for LDAP authentication
 - "AuthTypeRADIUS", for RADIUS authentication
-Requires CyberArk version 11.1+
+
+Minimum required version 11.1
 
 ```yaml
 Type: String[]
@@ -211,7 +214,7 @@ Accept wildcard characters: False
 ### -ChangePassOnNextLogon
 Whether or not user will be forced to change password on first logon
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: Boolean
@@ -243,7 +246,7 @@ Accept wildcard characters: False
 ### -passwordNeverExpires
 Whether or not the user's password will expire
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: Boolean
@@ -260,7 +263,7 @@ Accept wildcard characters: False
 ### -distinguishedName
 The distinguished name of the user.
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -290,7 +293,8 @@ Valid values:
 - ManageServerFileCategories
 - BackupAllSafes
 - RestoreAllSafes
-Requires CyberArk version 11.1+
+
+Minimum required version 11.1
 
 ```yaml
 Type: String[]
@@ -375,7 +379,7 @@ Accept wildcard characters: False
 ### -workStreet
 Business Address detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -392,7 +396,7 @@ Accept wildcard characters: False
 ### -workCity
 Business Address detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -409,7 +413,7 @@ Accept wildcard characters: False
 ### -workState
 Business Address detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -426,7 +430,7 @@ Accept wildcard characters: False
 ### -workZip
 Business Address detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -443,7 +447,7 @@ Accept wildcard characters: False
 ### -workCountry
 Business Address detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -460,7 +464,7 @@ Accept wildcard characters: False
 ### -homePage
 The user's email address
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -477,7 +481,7 @@ Accept wildcard characters: False
 ### -homeEmail
 The user's email address
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -494,7 +498,7 @@ Accept wildcard characters: False
 ### -businessEmail
 The user's email address
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -511,7 +515,7 @@ Accept wildcard characters: False
 ### -otherEmail
 The user's email address
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -528,7 +532,7 @@ Accept wildcard characters: False
 ### -homeNumber
 The user's phone number
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -545,7 +549,7 @@ Accept wildcard characters: False
 ### -businessNumber
 The user's phone number
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -562,7 +566,7 @@ Accept wildcard characters: False
 ### -cellularNumber
 The user's phone number
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -579,7 +583,7 @@ Accept wildcard characters: False
 ### -faxNumber
 The user's phone number
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -596,7 +600,7 @@ Accept wildcard characters: False
 ### -pagerNumber
 The user's phone number
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -613,7 +617,7 @@ Accept wildcard characters: False
 ### -description
 Description Text
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -645,7 +649,7 @@ Accept wildcard characters: False
 ### -MiddleName
 The User's Middle Name
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -677,7 +681,7 @@ Accept wildcard characters: False
 ### -street
 Address detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -694,7 +698,7 @@ Accept wildcard characters: False
 ### -city
 Address detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -711,7 +715,7 @@ Accept wildcard characters: False
 ### -state
 Address detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -728,7 +732,7 @@ Accept wildcard characters: False
 ### -zip
 Address detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -745,7 +749,7 @@ Accept wildcard characters: False
 ### -country
 Address detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -762,7 +766,7 @@ Accept wildcard characters: False
 ### -title
 Personal detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -779,7 +783,7 @@ Accept wildcard characters: False
 ### -organization
 Personal detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -796,7 +800,7 @@ Accept wildcard characters: False
 ### -department
 Personal detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -813,7 +817,7 @@ Accept wildcard characters: False
 ### -profession
 Personal detail for the user
 
-Requires CyberArk version 11.1+
+Minimum required version 11.1
 
 ```yaml
 Type: String
@@ -860,6 +864,8 @@ Accept wildcard characters: False
 
 ### -UseGen1API
 Specify to force usage the Gen1 API endpoint.
+
+Should be specified for versions earlier than 11.1
 
 ```yaml
 Type: SwitchParameter

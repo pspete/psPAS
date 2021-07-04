@@ -12,19 +12,19 @@ A concise summary of the issue
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
 **Screenshots & Console Output**
-If applicable, add screenshots to help explain your problem.
+If applicable, add screenshots and/or console output to help explain your problem.
 
-Console Output Code Block:
 ```powershell
 
+<--Console Output Goes Here-->
 
 ```
 

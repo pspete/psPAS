@@ -12,7 +12,7 @@ title: Add-PASAccount
 ## SYNOPSIS
 Adds a new privileged account to the Vault
 
-Uses either the API present from 10.4 onwards, or the version 9 API endpoint.
+Can target either the Gen2 API present from 10.4 onwards, or the previous Gen1 API endpoint.
 
 ## SYNTAX
 
@@ -45,14 +45,16 @@ Parameters are processed to create request object from passed parameters in the 
 Add-PASAccount -address ThisServer -userName ThisUser -platformID UNIXSSH -SafeName UNIXSafe -automaticManagementEnabled $false
 ```
 
-Using the version 10 API, adds an account which is disabled for automatic password management
+Using the Gen2 API, adds an account which is disabled for automatic password management
+
+Requires minimum version of 10.4
 
 ### EXAMPLE 2
 ```
 Add-PASAccount -safe Prod_Access -PlatformID WINDOMAIN -Address domain.com -Password $secureString -username domainUser
 ```
 
-Using the "version 9" API, adds account domain.com\domainuser to the Prod_Access Safe using the WINDOMAIN platform.
+Using the Gen1 API, adds account domain.com\domainuser to the Prod_Access Safe using the WINDOMAIN platform.
 
 The contents of $secureString will be set as the password value.
 
@@ -61,7 +63,7 @@ The contents of $secureString will be set as the password value.
 ### -name
 The name of the account.
 
-A version 10.4 onward specific parameter
+Requires minimum version of 10.4
 
 ```yaml
 Type: String
@@ -150,7 +152,7 @@ Accept wildcard characters: False
 ### -secretType
 The type of password.
 
-A version 10.4 onward specific parameter
+Requires minimum version of 10.4
 
 ```yaml
 Type: String
@@ -167,7 +169,7 @@ Accept wildcard characters: False
 ### -secret
 The password value
 
-A version 10.4 onward specific parameter
+Requires minimum version of 10.4
 
 ```yaml
 Type: SecureString
@@ -186,7 +188,7 @@ key-value pairs to associate with the account, as defined by the account platfor
 
 These properties are validated against the mandatory and optional properties of the specified platform's definition.
 
-A version 10.4 onward specific parameter
+Requires minimum version of 10.4
 
 ```yaml
 Type: Hashtable
@@ -203,7 +205,7 @@ Accept wildcard characters: False
 ### -automaticManagementEnabled
 Whether CPM Password Management should be enabled
 
-A version 10.4 onward specific parameter
+Requires minimum version of 10.4
 
 ```yaml
 Type: Boolean
@@ -220,7 +222,7 @@ Accept wildcard characters: False
 ### -manualManagementReason
 A reason for disabling CPM Password Management
 
-A version 10.4 onward specific parameter
+Requires minimum version of 10.4
 
 ```yaml
 Type: String
@@ -237,7 +239,7 @@ Accept wildcard characters: False
 ### -remoteMachines
 For supported platforms, a list of remote machines the account can connect to.
 
-A version 10.4 onward specific parameter
+Requires minimum version of 10.4
 
 ```yaml
 Type: String
@@ -254,7 +256,7 @@ Accept wildcard characters: False
 ### -accessRestrictedToRemoteMachines
 Whether access is restricted to the defined remote machines.
 
-A version 10.4 onward specific parameter
+Requires minimum version of 10.4
 
 ```yaml
 Type: Boolean

@@ -42,18 +42,20 @@ Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
 
 ## DESCRIPTION
 Adds an existing user as a Safe member.
+
 "Manage Safe Members" permission is required by the authenticated user account sending request.
 
 Default operation uses the Gen 2 API and requires version 12.1+
 - Earlier versions must specify the `-UseGen1API` switch to force use of the Gen1 API.
 
 **Note** when using the Gen1 API:
+
 Unless otherwise specified, the default permissions applied to a safe member will include:
 - ListAccounts, RetrieveAccounts, UseAccounts, ViewAuditLog & ViewSafeMembers.
 
 If these permissions should not be granted to the safe member, they must be explicitly set to `$false` in the request.
 
-Gen 1 API is depreciated from version 12.3
+Gen1 API is depreciated from version 12.3
 
 ## EXAMPLES
 
@@ -63,7 +65,9 @@ Add-PASSafeMember -SafeName Windows_Safe -MemberName winUser -SearchIn Vault -Us
 -RetrieveAccounts $true -ListAccounts $true
 ```
 
-Adds winUser to Windows_Safe with Use, Retrieve & List permissions
+Adds winUser to Windows_Safe with Use, Retrieve & List permissions.
+
+Minimum required version 12.1
 
 ### EXAMPLE 2
 ```
@@ -79,7 +83,9 @@ $Role = [PSCustomObject]@{
 PS > $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Vault
 ```
 
-Grant User23 UseAccounts, RetrieveAccounts & ListAccounts only
+Grant User23 UseAccounts, RetrieveAccounts & ListAccounts only.
+
+Minimum required version 12.1
 
 ### EXAMPLE 3
 ```
@@ -95,7 +101,7 @@ $Role = [PSCustomObject]@{
 PS > $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Vault -UseGen1API
 ```
 
-Grant User23 UseAccounts, RetrieveAccounts & ListAccounts using the Gen 1 API
+Grant User23 UseAccounts, RetrieveAccounts & ListAccounts using the Gen1 API
 
 ## PARAMETERS
 
@@ -276,6 +282,7 @@ Accept wildcard characters: False
 ### -InitiateCPMAccountManagementOperations
 Boolean value defining if InitiateCPMAccountManagementOperations permission
 will be granted to safe member on safe.
+
 When this parameter is set to `$False`, the SpecifyNextAccountContent parameter is also automatically set to False.
 
 Get-PASSafeMember (Gen1) may not return details of this permission
@@ -295,9 +302,11 @@ Accept wildcard characters: False
 ### -SpecifyNextAccountContent
 Boolean value defining if SpecifyNextAccountContent permission will be granted
 to safe member on safe.
+
 Can only be specified when the InitiateCPMAccountManagementOperations parameter is set to `$True`.
 
 When InitiateCPMAccountManagementOperations is set to `$False` this parameter is automatically set to False.
+
 Get-PASSafeMember (Gen1) may not return details of this permission
 
 ```yaml
@@ -452,9 +461,11 @@ Accept wildcard characters: False
 
 ### -RequestsAuthorizationLevel
 Integer value defining level assigned to RequestsAuthorizationLevel for safe member.
+
 Valid Values: 0, 1 or 2
 
 Get-PASSafeMember (Gen1) may not return details of this permission
+
 Depreciated from version 12.3
 
 ```yaml
@@ -542,6 +553,8 @@ Accept wildcard characters: False
 ### -requestsAuthorizationLevel1
 Request Authorization Level 1
 
+Minimum required version 12.1
+
 ```yaml
 Type: Boolean
 Parameter Sets: Gen2
@@ -557,6 +570,8 @@ Accept wildcard characters: False
 ### -requestsAuthorizationLevel2
 Request Authorization Level 2
 
+Minimum required version 12.1
+
 ```yaml
 Type: Boolean
 Parameter Sets: Gen2
@@ -571,6 +586,9 @@ Accept wildcard characters: False
 
 ### -UseGen1API
 Force use of Gen1 API.
+
+Should be specified for versions earlier than 12.1
+
 Depreciated from version 12.3
 
 ```yaml

@@ -81,14 +81,14 @@ Marks an account for verification
 Invoke-PASCPMOperation -AccountID $ID -VerifyTask -UseGen1API
 ```
 
-Marks an account for verification using the 1st gen API
+Marks an account for verification using the Gen1 API
 
 ### EXAMPLE 3
 ```
 Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ImmediateChangeByCPM Yes
 ```
 
-Marks an account for immediate change using the 1st gen API
+Marks an account for immediate change using the Gen1 API
 
 ### EXAMPLE 4
 ```
@@ -187,7 +187,7 @@ Whether or not the password will be changed immediately in the Vault.
 
 Only relevant when specifying a password value for the next CPM change.
 
-Requires CyberArk version 10.1+
+Minimum required version 10.1
 
 ```yaml
 Type: Boolean
@@ -206,7 +206,7 @@ Secure String value of the new account password that will be allocated to the ac
 
 Only relevant when specifying a password value for the next CPM change, or updating the password only in the vault.
 
-Requires CyberArk version 10.1+
+Minimum required version 10.1
 
 ```yaml
 Type: SecureString
@@ -229,7 +229,7 @@ Parameter will be ignored if account does not belong to a group.
 
 Applicable to immediate change via CPM, and password change in the vault only.
 
-Requires CyberArk version 10.1+
+Minimum required version 10.1
 
 ```yaml
 Type: Boolean
@@ -258,7 +258,7 @@ Accept wildcard characters: False
 ### -ImmediateChangeByCPM
 Yes/No value, dictating if the account will be scheduled for immediate change.
 
-Specify Yes to initiate a password change by CPM - Relevant for 1st gen API only.
+Specify Yes to initiate a password change by CPM - Relevant for Gen1 API only.
 
 ```yaml
 Type: String
@@ -280,7 +280,7 @@ This is only relevant for accounts that belong to an account group.
 
 Parameter will be ignored if account does not belong to a group.
 
-Relevant for 1st gen API only.
+Relevant for Gen1 API only.
 
 ```yaml
 Type: String
@@ -327,6 +327,8 @@ Accept wildcard characters: False
 
 ### -UseGen1API
 Specify to force verification via Gen1 API.
+
+Should be specified for versions earlier than 10.1
 
 ```yaml
 Type: SwitchParameter
