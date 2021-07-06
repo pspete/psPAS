@@ -1210,7 +1210,8 @@ Priority support could be considered for <a href="https://github.com/sponsors/ps
 Hat Tips:
 
 **Allyn Lindsay**
-([Allyn Lindsay](https://github.com/allynl93)) for [PS-SAML-Interactive](https://github.com/allynl93/PS-SAML-Interactive)
+([allynl93](https://github.com/allynl93))
+for [PS-SAML-Interactive](https://github.com/allynl93/PS-SAML-Interactive)
 
 **Assaf Miron**
 ([AssafMiron](https://github.com/AssafMiron))
