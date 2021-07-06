@@ -43,7 +43,7 @@ Deletes MFA caching SSH key for user with id 646.
 ## PARAMETERS
 
 ### -UserID
-The numerical id of the user to delete the key for. 
+The numerical id of the user to delete the key for.
 
 ```yaml
 Type: Int32
@@ -99,3 +99,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Remove-PASPrivateSSHKey](https://pspas.pspete.dev/commands/Remove-PASPrivateSSHKey)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20MFA%20caching%20SSH%20key.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20MFA%20caching%20SSH%20key.htm)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20MFA%20caching%20SSH%20key%20for%20another%20user.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20MFA%20caching%20SSH%20key%20for%20another%20user.htm)

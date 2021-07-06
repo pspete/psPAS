@@ -147,3 +147,4 @@ Minimum Version CyberArk 10.4
 
 [https://pspas.pspete.dev/commands/Add-PASPTARule](https://pspas.pspete.dev/commands/Add-PASPTARule)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddNewRule.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddNewRule.htm)

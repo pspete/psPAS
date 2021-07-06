@@ -76,3 +76,4 @@ Minimum CyberArk Version 10.6
 
 [https://pspas.pspete.dev/commands/Export-PASPSMRecording](https://pspas.pspete.dev/commands/Export-PASPSMRecording)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/PlayRecording.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/PlayRecording.htm)

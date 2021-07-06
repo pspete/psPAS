@@ -352,3 +352,4 @@ Minimum CyberArk Version 9.10
 
 [https://pspas.pspete.dev/commands/New-PASRequest](https://pspas.pspete.dev/commands/New-PASRequest)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/CreateRequest.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/CreateRequest.htm)

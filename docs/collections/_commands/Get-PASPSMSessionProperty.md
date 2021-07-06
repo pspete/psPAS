@@ -61,3 +61,4 @@ Minimum CyberArk Version 10.6
 
 [https://pspas.pspete.dev/commands/Get-PASPSMSessionProperty](https://pspas.pspete.dev/commands/Get-PASPSMSessionProperty)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetActiveSessionProperties.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetActiveSessionProperties.htm)

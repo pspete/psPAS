@@ -90,3 +90,6 @@ Minimum CyberArk version 9.10
 
 [https://pspas.pspete.dev/commands/Get-PASAccountGroup](https://pspas.pspete.dev/commands/Get-PASAccountGroup)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetSafeAccountGroups.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetSafeAccountGroups.htm)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetAccountGroupBySafe.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetAccountGroupBySafe.htm)

@@ -61,3 +61,4 @@ Minimum CyberArk Version 10.6
 
 [https://pspas.pspete.dev/commands/Get-PASPSMRecordingProperty](https://pspas.pspete.dev/commands/Get-PASPSMRecordingProperty)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetRecordingProperties.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetRecordingProperties.htm)

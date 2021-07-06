@@ -245,3 +245,4 @@ From version 10.1 onwards both passwords and ssh keys can be retrieved.
 
 [https://pspas.pspete.dev/commands/Get-PASAccountPassword](https://pspas.pspete.dev/commands/Get-PASAccountPassword)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetPasswordValueV10.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetPasswordValueV10.htm)

@@ -146,3 +146,4 @@ Minimum Version CyberArk 10.4
 
 [https://pspas.pspete.dev/commands/Set-PASPTARemediation](https://pspas.pspete.dev/commands/Set-PASPTARemediation)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AutomaticRemediation_UpdateConfiguration.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AutomaticRemediation_UpdateConfiguration.htm)

@@ -242,6 +242,24 @@ Minimum version required 11.4
 
 ### EXAMPLE 21
 ```
+import-module -name 'C:\PS-SAML-Interactive.psm1'
+
+$loginURL = 'https://company.okta.com/home/app1/0oa11xddwdzhvlbiZ5d7/aln1k2HsUl5d7'
+$baseURL = 'https://pvwa.mycompany.com'
+
+$loginResponse = New-SAMLInteractive -LoginIDP $loginURL
+
+New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLResponse $loginResponse
+```
+
+Use the PS-SAML-Interactive module to get the SAML Response.
+
+Perform saml authentication using the SAMLResponse
+
+Minimum version required 11.4
+
+### EXAMPLE 22
+```
 New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain.com
 ```
 
@@ -310,6 +328,8 @@ Accept wildcard characters: False
 
 ### -SAMLResponse
 SAML response token that identifies the session, encoded in BASE 64.
+
+The PS-SAML-Interactive can be used to get this value (see related links).
 
 ```yaml
 Type: String
@@ -677,3 +697,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 [https://pspas.pspete.dev/commands/New-PASSession](https://pspas.pspete.dev/commands/New-PASSession)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/CyberArk%20Authentication%20-%20Logon_v10.htm#CyberArkLDAPRadiusWindows](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/CyberArk%20Authentication%20-%20Logon_v10.htm#CyberArkLDAPRadiusWindows)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/SAML_%20Authentication_%20Logon_newgen.htm#SAMLlogon](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/SAML_%20Authentication_%20Logon_newgen.htm#SAMLlogon)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Shared%20Logon%20Authentication%20-%20Logon.htm#Sharedlogonauthentication](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Shared%20Logon%20Authentication%20-%20Logon.htm#Sharedlogonauthentication)
+
+[https://github.com/allynl93/PS-SAML-Interactive](https://github.com/allynl93/PS-SAML-Interactive)

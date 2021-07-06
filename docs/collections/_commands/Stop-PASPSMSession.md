@@ -92,3 +92,4 @@ Minimum CyberArk Version 10.1
 
 [https://pspas.pspete.dev/commands/Stop-PASPSMSession](https://pspas.pspete.dev/commands/Stop-PASPSMSession)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/PTA-PSM-TerminateSession.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/PTA-PSM-TerminateSession.htm)

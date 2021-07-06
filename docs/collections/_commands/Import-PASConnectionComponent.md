@@ -93,3 +93,4 @@ Minimum CyberArk version 10.3
 
 [https://pspas.pspete.dev/commands/Import-PASConnectionComponent](https://pspas.pspete.dev/commands/Import-PASConnectionComponent)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ImportConnComponent.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ImportConnComponent.htm)

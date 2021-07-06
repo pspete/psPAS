@@ -116,3 +116,4 @@ Minimum CyberArk version 9.10
 
 [https://pspas.pspete.dev/commands/Remove-PASAccountGroupMember](https://pspas.pspete.dev/commands/Remove-PASAccountGroupMember)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/DeleteMemberFromAccountGroup.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/DeleteMemberFromAccountGroup.htm)

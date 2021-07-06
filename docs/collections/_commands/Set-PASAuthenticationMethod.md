@@ -2,7 +2,7 @@
 category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version:
+online version: https://pspas.pspete.dev/commands/Set-PASAuthenticationMethod
 schema: 2.0.0
 title: Set-PASAuthenticationMethod
 ---
@@ -220,3 +220,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Set-PASAuthenticationMethod](https://pspas.pspete.dev/commands/Set-PASAuthenticationMethod)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Update_Authentication_method.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Update_Authentication_method.htm)

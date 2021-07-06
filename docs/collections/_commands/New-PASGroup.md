@@ -136,3 +136,4 @@ Minimum Version 11.1
 
 [https://pspas.pspete.dev/commands/New-PASGroup](https://pspas.pspete.dev/commands/New-PASGroup)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/rest-api-create-group.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/rest-api-create-group.htm)

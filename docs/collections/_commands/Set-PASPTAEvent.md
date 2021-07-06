@@ -105,3 +105,4 @@ Minimum Version CyberArk 11.3
 
 [https://pspas.pspete.dev/commands/Set-PASPTAEvent](https://pspas.pspete.dev/commands/Set-PASPTAEvent)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/CloseOpenSecurityEvent.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/CloseOpenSecurityEvent.htm)

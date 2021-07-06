@@ -93,3 +93,4 @@ Minimum CyberArk Version 10.2
 
 [https://pspas.pspete.dev/commands/Suspend-PASPSMSession](https://pspas.pspete.dev/commands/Suspend-PASPSMSession)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Suspend-ResumeSession.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Suspend-ResumeSession.htm)
