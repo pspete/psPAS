@@ -157,7 +157,7 @@ UserName Source UserTypeName AgentUser Expired Disabled Suspended
 DuoUser  LDAP   EPVUser      False     False   False    False
 ````
 
-## SAML Authentication
+#### SAML Authentication
 
 SAML SSO authentication using IWA and ADFS can be performed
 
