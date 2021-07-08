@@ -6,7 +6,7 @@ All contributions, whether comments, code or otherwise are welcomed and apprecia
 
 If you find an error in `psPAS`, or have a question relating to the module, [log an issue][new-issue].
 
-### Pull Requests
+## Pull Requests
 
 When submitting a Pull Request to psPAS, automated tasks will run in Appveyor.
 
