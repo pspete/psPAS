@@ -355,6 +355,8 @@ docs:
         url: /docs/authentication/
       - title: "Compatibility"
         url: /docs/compatibility/
+      - title: "Troubleshooting"
+        url: /docs/troubleshooting/
   - title: "Basic Operations"
     children:
         - title: Search
