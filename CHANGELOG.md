@@ -5,7 +5,7 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
-## Unreleased
+## **5.1.44 (July 13th 2021)**
 
 - Updates
   - `Get-PASGroup`
