@@ -16,12 +16,18 @@ List groups from the vault
 
 ### groupType (Default)
 ```
-Get-PASGroup [-groupType <String>] [-search <String>] [<CommonParameters>]
+Get-PASGroup [-groupType <String>] [-search <String>] [-includeMembers <Boolean>] [<CommonParameters>]
+```
+
+### includeMembers
+```
+Get-PASGroup [-groupType <String>] [-filter <String>] [-search <String>] [-includeMembers <Boolean>]
+ [<CommonParameters>]
 ```
 
 ### filter
 ```
-Get-PASGroup [-filter <String>] [-search <String>] [<CommonParameters>]
+Get-PASGroup [-filter <String>] [-search <String>] [-includeMembers <Boolean>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -75,6 +81,13 @@ Get-PASGroup -search "Vault Admins" -groupType Directory
 
 Returns all existing Directory groups matching all search terms
 
+### EXAMPLE 7
+```
+Get-PASGroup -search Admins -includeMembers $true
+```
+
+Returns all existing groups matching search, includes vault group member details in result.
+
 ## PARAMETERS
 
 ### -groupType
@@ -82,7 +95,7 @@ Search for groups which are from a configured Directory or from the Vault.
 
 ```yaml
 Type: String
-Parameter Sets: groupType
+Parameter Sets: groupType, includeMembers
 Aliases:
 
 Required: False
@@ -99,7 +112,7 @@ Filter according to REST standard.
 
 ```yaml
 Type: String
-Parameter Sets: filter
+Parameter Sets: includeMembers, filter
 Aliases:
 
 Required: False
@@ -114,6 +127,25 @@ Search will match when ALL search terms appear in the group name.
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -includeMembers
+Specify $true to return vault group members
+
+Defaults to $false due to performance considerations
+
+Requires minimum version of 12.0
+
+```yaml
+Type: Boolean
 Parameter Sets: (All)
 Aliases:
 

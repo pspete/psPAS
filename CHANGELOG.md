@@ -5,6 +5,12 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
+## Unreleased
+
+- Updates
+  - `Get-PASGroup`
+    - Added `includeMembers` parameter based on [this article](https://cyberark-customers.force.com/s/article/PVWA-REST-Get-groups-API-does-not-return-members).
+
 ## **5.1.37 (June 28th 2021)**
 
 - Updates

@@ -106,7 +106,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASPTARule`][Get-PASPTARule]                                                       | **10.4**                                           |List Risky Command rules from PTA
 [`Set-PASPTARemediation`][Set-PASPTARemediation]                                         | **10.4**                                           |Update automaticresponse config in PTA
 [`Set-PASPTARule`][Set-PASPTARule]                                                       | **10.4**                                           |Update a Risky Commandrule in PTA
-[`Get-PASGroup`][Get-PASGroup]                                                           | **10.5**                                           |Return group information
+[`Get-PASGroup`][Get-PASGroup]                                                           | **10.5** ([Notes](#get-pasgroup))                  |Return group information
 [`Remove-PASGroupMember`][Remove-PASGroupMember]                                         | **10.5**                                           |Remove group members
 [`Set-PASOnboardingRule`][Set-PASOnboardingRule]                                         | **10.5**                                           |Update Onboarding Rules
 [`Add-PASDiscoveredAccount`][Add-PASDiscoveredAccount]                                   | **10.5** ([Notes](#add-pasdiscoveredaccount))      |Add discovered accounts to the Accounts Feed
@@ -547,3 +547,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 
 - External changes to the API mean `Find-PASSafe` cannot be used past version 11.7.
 - Equivalent API functionality exists in `Get-PASSafe` using the `Gen2` ParameterSet.
+
+### Get-PASGroup
+
+- Version 12.0 introduced `includeMembers` parameter.
