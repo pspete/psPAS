@@ -41,6 +41,7 @@ Lists the first 10 recordings from the PSMRecordings safe, sorted by decending f
 ```
 Get-PASPSMRecording -RecordingID $Id
 ```
+
 Gets details of specified PSM recording
 
 Minimum required version 10.6

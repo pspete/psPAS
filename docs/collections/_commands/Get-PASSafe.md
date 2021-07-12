@@ -41,7 +41,6 @@ Gets safe by SafeName, by search query string, or, by default will return all sa
 - For PAS versions earlier than 12.0, the Gen1 API parameters must be used.
 - Gen1 API parameters are depreciated for versions higher than 12.2.
 
-
 ## EXAMPLES
 
 ### EXAMPLE 1

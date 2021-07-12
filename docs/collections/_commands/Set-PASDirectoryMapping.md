@@ -55,8 +55,8 @@ Minimum required version 10.7
 ```
 Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch `
 -UserActivityLogPeriod 365
-
 ```
+
 Sets UserActivityLogPeriod for the mapping to 365
 
 Minimum required version 10.10
