@@ -19,12 +19,6 @@ List groups from the vault
 Get-PASGroup [-groupType <String>] [-search <String>] [-includeMembers <Boolean>] [<CommonParameters>]
 ```
 
-### includeMembers
-```
-Get-PASGroup [-groupType <String>] [-filter <String>] [-search <String>] [-includeMembers <Boolean>]
- [<CommonParameters>]
-```
-
 ### filter
 ```
 Get-PASGroup [-filter <String>] [-search <String>] [-includeMembers <Boolean>] [<CommonParameters>]
@@ -95,7 +89,7 @@ Search for groups which are from a configured Directory or from the Vault.
 
 ```yaml
 Type: String
-Parameter Sets: groupType, includeMembers
+Parameter Sets: groupType
 Aliases:
 
 Required: False
@@ -112,7 +106,7 @@ Filter according to REST standard.
 
 ```yaml
 Type: String
-Parameter Sets: includeMembers, filter
+Parameter Sets: filter
 Aliases:
 
 Required: False
