@@ -392,3 +392,6 @@ Ad-Hoc connections require 10.5
 
 [https://pspas.pspete.dev/commands/New-PASPSMSession](https://pspas.pspete.dev/commands/New-PASPSMSession)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ConnectThroughPSM.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ConnectThroughPSM.htm)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/SecureConnectPSM.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/SecureConnectPSM.htm)

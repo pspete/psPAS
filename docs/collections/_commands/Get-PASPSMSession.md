@@ -220,3 +220,6 @@ For querying sessions by ID, Required CyberArk Version is 10.6
 
 [https://pspas.pspete.dev/commands/Get-PASPSMSession](https://pspas.pspete.dev/commands/Get-PASPSMSession)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetLiveSessions.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetLiveSessions.htm)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetActiveSession.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetActiveSession.htm)

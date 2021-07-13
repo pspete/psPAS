@@ -360,3 +360,4 @@ the Safe specified in the TargetSafeName parameter with the Add accounts permiss
 
 [https://pspas.pspete.dev/commands/New-PASOnboardingRule](https://pspas.pspete.dev/commands/New-PASOnboardingRule)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddAutomaticOnboardingRule.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddAutomaticOnboardingRule.htm)

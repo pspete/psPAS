@@ -45,3 +45,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 [https://pspas.pspete.dev/commands/Get-PASLoggedOnUser](https://pspas.pspete.dev/commands/Get-PASLoggedOnUser)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/User%20Web%20Services%20-%20Logged%20on%20User%20Details.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/User%20Web%20Services%20-%20Logged%20on%20User%20Details.htm)

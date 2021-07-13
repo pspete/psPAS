@@ -2,7 +2,7 @@
 category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version:
+online version: https://pspas.pspete.dev/commands/Get-PASPlatformPSMConfigSession%20Mngmnt%20-%20Get_Session_Management_Policy_Platform.htm
 schema: 2.0.0
 title: Get-PASPlatformPSMConfig
 ---
@@ -57,3 +57,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASPlatformPSMConfig](https://pspas.pspete.dev/commands/Get-PASPlatformPSMConfig)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Session%20Mngmnt%20-%20Get_Session_Management_Policy_Platform.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Session%20Mngmnt%20-%20Get_Session_Management_Policy_Platform.htm)
+

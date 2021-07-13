@@ -83,3 +83,4 @@ Minimum CyberArk Version 10.5
 
 [https://pspas.pspete.dev/commands/Connect-PASPSMSession](https://pspas.pspete.dev/commands/Connect-PASPSMSession)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/PSM%20-%20Monitor%20Sessions.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/PSM%20-%20Monitor%20Sessions.htm)

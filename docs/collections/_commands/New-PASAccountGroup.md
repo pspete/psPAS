@@ -131,3 +131,4 @@ Minimum version 9.9.5
 
 [https://pspas.pspete.dev/commands/New-PASAccountGroup](https://pspas.pspete.dev/commands/New-PASAccountGroup)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Add-account-group.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Add-account-group.htm)

@@ -38,9 +38,8 @@ Get-PASSafe [-FindAll] [-TimeoutSec <Int32>] [<CommonParameters>]
 ## DESCRIPTION
 Gets safe by SafeName, by search query string, or, by default will return all safes.
 - Minimum required version for default operation using Gen2 API is 12.0.
-- Gen1 API parameters must be used for earlier versions.
-- Gen1 API parameters are not supported for versions higher than 12.2.
-
+- For PAS versions earlier than 12.0, the Gen1 API parameters must be used.
+- Gen1 API parameters are depreciated for versions higher than 12.2.
 
 ## EXAMPLES
 
@@ -162,6 +161,8 @@ Accept wildcard characters: False
 ### -SafeName
 The name of a specific safe to get details of using Gen1 API.
 
+Should be specified for versions earlier than 12.0
+
 Depreciated from version 12.2
 
 ```yaml
@@ -178,6 +179,8 @@ Accept wildcard characters: False
 
 ### -query
 Query String for safe search in the vault using Gen1 API.
+
+Should be specified for versions earlier than 12.0
 
 Depreciated from version 12.2
 
@@ -196,7 +199,7 @@ Accept wildcard characters: False
 ### -FindAll
 Specify to find all safes using Gen1 API.
 
-If SafeName or query are not specified, FindAll is the default behaviour.
+Should be specified for versions earlier than 12.0
 
 Depreciated from version 12.2
 
@@ -242,3 +245,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 [https://pspas.pspete.dev/commands/Get-PASSafe](https://pspas.pspete.dev/commands/Get-PASSafe)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes%20Web%20Services%20-%20List%20Safes.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes%20Web%20Services%20-%20List%20Safes.htm)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes%20Web%20Services%20-%20Search%20for%20Safe.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes%20Web%20Services%20-%20Search%20for%20Safe.htm)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes%20Web%20Services%20-%20Get%20Safes%20Details.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Safes%20Web%20Services%20-%20Get%20Safes%20Details.htm)

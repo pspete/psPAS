@@ -2,7 +2,7 @@
 category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version:
+online version: https://pspas.pspete.dev/commands/Get-PASAllowedReferrer
 schema: 2.0.0
 title: Get-PASAllowedReferrer
 ---
@@ -44,3 +44,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASAllowedReferrer](https://pspas.pspete.dev/commands/Get-PASAllowedReferrer)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Get_Allowed_Referrer.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Get_Allowed_Referrer.htm)

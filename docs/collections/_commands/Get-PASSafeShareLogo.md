@@ -61,3 +61,4 @@ SafeShare no longer available from CyberArk
 
 [https://pspas.pspete.dev/commands/Get-PASSafeShareLogo](https://pspas.pspete.dev/commands/Get-PASSafeShareLogo)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Server%20Web%20Services%20-%20Logo.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Server%20Web%20Services%20-%20Logo.htm)

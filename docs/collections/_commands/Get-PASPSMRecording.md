@@ -41,6 +41,7 @@ Lists the first 10 recordings from the PSMRecordings safe, sorted by decending f
 ```
 Get-PASPSMRecording -RecordingID $Id
 ```
+
 Gets details of specified PSM recording
 
 Minimum required version 10.6
@@ -217,3 +218,6 @@ Minimum CyberArk Version 9.10
 
 [https://pspas.pspete.dev/commands/Get-PASPSMRecording](https://pspas.pspete.dev/commands/Get-PASPSMRecording)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetRecordings.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetRecordings.htm)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetRecording.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetRecording.htm)

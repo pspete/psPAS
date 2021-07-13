@@ -1,28 +1,34 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASGroup {
-	[CmdletBinding(DefaultParameterSetName = "groupType")]
+	[CmdletBinding(DefaultParameterSetName = 'groupType')]
 	param(
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "groupType"
+			ParameterSetName = 'groupType'
 		)]
-		[ValidateSet("Directory", "Vault")]
+		[ValidateSet('Directory', 'Vault')]
 		[string]$groupType,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "filter"
+			ParameterSetName = 'filter'
 		)]
-		[ValidateSet("groupType eq Directory", "groupType eq Vault")]
+		[ValidateSet('groupType eq Directory', 'groupType eq Vault')]
 		[string]$filter,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$search
+		[string]$search,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[boolean]$includeMembers
 	)
 
 	BEGIN {
@@ -30,6 +36,12 @@ function Get-PASGroup {
 	}#begin
 
 	PROCESS {
+
+		If ($PSBoundParameters.ContainsKey('includeMembers')) {
+
+			Assert-VersionRequirement -RequiredVersion 12.0
+
+		}
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/UserGroups"

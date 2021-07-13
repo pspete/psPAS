@@ -76,3 +76,4 @@ Requires minimum version of CyberArk 10.1.
 
 [https://pspas.pspete.dev/commands/Get-PASComponentDetail](https://pspas.pspete.dev/commands/Get-PASComponentDetail)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/SystemDetails.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/SystemDetails.htm)

@@ -157,6 +157,29 @@ UserName Source UserTypeName AgentUser Expired Disabled Suspended
 DuoUser  LDAP   EPVUser      False     False   False    False
 ````
 
+#### SAML Authentication
+
+SAML SSO authentication using IWA and ADFS can be performed
+
+```powershell
+New-PASSession -BaseURI $url -SAMLAuth
+```
+
+Where IWA SSO is not possible, the [PS-SAML-Interactive](https://github.com/allynl93/PS-SAML-Interactive) module can be used to obtain the SAMLResponse from an authentication service.
+
+SAMLResponse is then used to perform saml authentication.
+
+```powershell
+import-module -name 'C:\PS-SAML-Interactive.psm1'
+
+$loginURL = 'https://company.okta.com/home/app1/0oa11xddwdzhvlbiZ5d7/aln1k2HsUl5d7'
+$baseURL = 'https://pvwa.mycompany.com'
+
+$loginResponse = New-SAMLInteractive -LoginIDP $loginURL
+
+New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLResponse $loginResponse
+```
+
 #### Shared Authentication with Client Certificate
 
 - If IIS is configured to require client certificates, `psPAS` will use any provided certificate details for the duration of the session.
@@ -1185,6 +1208,10 @@ Priority support could be considered for <a href="https://github.com/sponsors/ps
 ## Acknowledgements
 
 Hat Tips:
+
+**Allyn Lindsay**
+([allynl93](https://github.com/allynl93))
+for [PS-SAML-Interactive](https://github.com/allynl93/PS-SAML-Interactive)
 
 **Assaf Miron**
 ([AssafMiron](https://github.com/AssafMiron))

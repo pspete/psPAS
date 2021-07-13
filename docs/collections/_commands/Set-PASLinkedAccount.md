@@ -28,7 +28,7 @@ Requires the following Safe member authorizations:
 - Update account properties.
   - Require for the Safe of the source account
 
-Requires CyberArk Vrsion 12.1+ 
+Requires CyberArk Vrsion 12.1+
 
 ## EXAMPLES
 
@@ -173,3 +173,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Set-PASLinkedAccount](https://pspas.pspete.dev/commands/Set-PASLinkedAccount)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Link-account.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Link-account.htm)

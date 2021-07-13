@@ -62,4 +62,3 @@ Minimum CyberArk Version 11.2
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Test-PASPSMRecording](https://pspas.pspete.dev/commands/Test-PASPSMRecording)
-

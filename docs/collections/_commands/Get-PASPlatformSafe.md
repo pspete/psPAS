@@ -59,3 +59,4 @@ Minimum CyberArk version 11.1
 
 [https://pspas.pspete.dev/commands/Get-PASPlatformSafe](https://pspas.pspete.dev/commands/Get-PASPlatformSafe)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-safe-by-platform.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-safe-by-platform.htm)

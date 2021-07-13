@@ -109,3 +109,4 @@ Minimum CyberArk version 10.4
 
 [https://pspas.pspete.dev/commands/Export-PASPlatform](https://pspas.pspete.dev/commands/Export-PASPlatform)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/ExportPlatform.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/ExportPlatform.htm)

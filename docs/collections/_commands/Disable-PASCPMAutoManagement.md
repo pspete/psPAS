@@ -84,3 +84,4 @@ Applicable to and requires 10.4+
 
 [https://pspas.pspete.dev/commands/Disable-PASCPMAutoManagement](https://pspas.pspete.dev/commands/Disable-PASCPMAutoManagement)
 
+[https://pspas.pspete.dev/commands/Set-PASAccount](https://pspas.pspete.dev/commands/Set-PASAccount)

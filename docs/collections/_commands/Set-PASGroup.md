@@ -19,11 +19,11 @@ Set-PASGroup [-GroupID] <Int32> [-GroupName] <String> [-WhatIf] [-Confirm] [<Com
 ```
 
 ## DESCRIPTION
-Updates a Vault group. 
+Updates a Vault group.
 The authenticated user requires the following permissions:
 - Add\Update users
 
-Requires CyberArk Vrsion 12.0+ 
+Requires CyberArk Vrsion 12.0+
 
 ## EXAMPLES
 
@@ -109,3 +109,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Set-PASGroup](https://pspas.pspete.dev/commands/Set-PASGroup)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/12.0/en/Content/WebServices/Update-group.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/12.0/en/Content/WebServices/Update-group.htm)

@@ -41,6 +41,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Invoke-PASRestMethod -MockWith { }
 
+				Mock Get-PASAccount -MockWith {
+					[PSCustomObject]@{
+						UserName = 'SomeUser'
+					}
+				}
+
 				$InputObject = [PSCustomObject]@{
 					AccountID = 1234
 				}

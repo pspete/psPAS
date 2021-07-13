@@ -16,12 +16,12 @@ List groups from the vault
 
 ### groupType (Default)
 ```
-Get-PASGroup [-groupType <String>] [-search <String>] [<CommonParameters>]
+Get-PASGroup [-groupType <String>] [-search <String>] [-includeMembers <Boolean>] [<CommonParameters>]
 ```
 
 ### filter
 ```
-Get-PASGroup [-filter <String>] [-search <String>] [<CommonParameters>]
+Get-PASGroup [-filter <String>] [-search <String>] [-includeMembers <Boolean>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -75,6 +75,13 @@ Get-PASGroup -search "Vault Admins" -groupType Directory
 
 Returns all existing Directory groups matching all search terms
 
+### EXAMPLE 7
+```
+Get-PASGroup -search Admins -includeMembers $true
+```
+
+Returns all existing groups matching search, includes vault group member details in result.
+
 ## PARAMETERS
 
 ### -groupType
@@ -124,6 +131,25 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -includeMembers
+Specify $true to return vault group members
+
+Defaults to $false due to performance considerations
+
+Requires minimum version of 12.0
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -138,3 +164,4 @@ Minimum Version 10.5
 
 [https://pspas.pspete.dev/commands/Get-PASGroup](https://pspas.pspete.dev/commands/Get-PASGroup)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetGroupsFromVault.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetGroupsFromVault.htm)

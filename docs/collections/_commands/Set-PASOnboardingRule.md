@@ -287,3 +287,4 @@ Minimum Version: 10.5
 
 [https://pspas.pspete.dev/commands/Set-PASOnboardingRule](https://pspas.pspete.dev/commands/Set-PASOnboardingRule)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/EditAutomaticOnboardingRule.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/EditAutomaticOnboardingRule.htm)

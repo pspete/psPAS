@@ -157,3 +157,4 @@ Minimum Version CyberArk 10.3
 
 [https://pspas.pspete.dev/commands/Get-PASPTAEvent](https://pspas.pspete.dev/commands/Get-PASPTAEvent)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetSecurityEvents.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetSecurityEvents.htm)

@@ -80,3 +80,6 @@ Minimum CyberArk Version 9.10
 
 [https://pspas.pspete.dev/commands/Get-PASRequestDetail](https://pspas.pspete.dev/commands/Get-PASRequestDetail)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetDetailsMyRequest.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetDetailsMyRequest.htm)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetDetailsRequestConfirmation.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetDetailsRequestConfirmation.htm)

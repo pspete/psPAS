@@ -892,3 +892,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 [https://pspas.pspete.dev/commands/Set-PASUser](https://pspas.pspete.dev/commands/Set-PASUser)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Users%20Web%20Services%20-%20Update%20User.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Users%20Web%20Services%20-%20Update%20User.htm)

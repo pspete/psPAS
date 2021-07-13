@@ -109,3 +109,4 @@ Minimum CyberArk version 9.10
 
 [https://pspas.pspete.dev/commands/Unlock-PASAccount](https://pspas.pspete.dev/commands/Unlock-PASAccount)
 
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Checkin-account.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Checkin-account.htm)
