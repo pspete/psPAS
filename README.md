@@ -883,6 +883,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Get-PASPTARule`][Get-PASPTARule]                                                       |**10.4**            |List Risky Command rules from PTA
 [`Set-PASPTARemediation`][Set-PASPTARemediation]                                         |**10.4**            |Update automaticresponse config in PTA
 [`Set-PASPTARule`][Set-PASPTARule]                                                       |**10.4**            |Update a Risky Commandrule in PTA
+[`Get-PASAccountDetail`][Get-PASAccountDetail]                                           |**10.4**            |Returns information about accounts.
 [`Get-PASGroup`][Get-PASGroup]                                                           |**10.5**            |Return group information
 [`Remove-PASGroupMember`][Remove-PASGroupMember]                                         |**10.5**            |Remove group members
 [`Set-PASOnboardingRule`][Set-PASOnboardingRule]                                         |**10.5**            |Update Onboarding Rules
@@ -893,7 +894,8 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Get-PASPSMRecordingActivity`][Get-PASPSMRecordingActivity]                             |**10.6**            |Get activity details from a PSM Recording.
 [`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                             |**10.6**            |Get property details from a PSM Recording.
 [`Export-PASPSMRecording`][Export-PASPSMRecording]                                       |**10.6**            |Save PSM Session Recording to a file.
-[`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       |**10.6**            |Request temporary access to a server.
+[`Request-PASJustInTimeAccess`][Request-PASJustInTimeAccess]                             |**10.6**            |Request temporary access to a server.
+[`Revoke-PASJustInTimeAccess`][Revoke-PASJustInTimeAccess]                               |**12.0**            |Revoke temporary server access.
 [`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     |**10.7**            |Get details of configured directory mappings.
 [`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configured directory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             |**10.7**            |Delete a directory configuration.
@@ -976,6 +978,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [Add-PASAccount]:/psPAS/Functions/Accounts/Add-PASAccount.ps1
 [Add-PASPendingAccount]:/psPAS/Functions/Accounts/Add-PASPendingAccount.ps1
 [Get-PASAccount]:/psPAS/Functions/Accounts/Get-PASAccount.ps1
+[Get-PASAccountDetail]:/psPAS/Functions/Accounts/Get-PASAccountDetail.ps1
 [Get-PASAccountActivity]:/psPAS/Functions/Accounts/Get-PASAccountActivity.ps1
 [Get-PASAccountPassword]:/psPAS/Functions/Accounts/Get-PASAccountPassword.ps1
 [Remove-PASAccount]:/psPAS/Functions/Accounts/Remove-PASAccount.ps1
@@ -1050,7 +1053,8 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [Get-PASPSMRecordingActivity]:/psPAS/Functions/Monitoring/Get-PASPSMRecordingActivity.ps1
 [Get-PASPSMRecordingProperty]:/psPAS/Functions/Monitoring/Get-PASPSMRecordingProperty.ps1
 [Export-PASPSMRecording]:/psPAS/Functions/Monitoring/Export-PASPSMRecording.ps1
-[Request-PASAdHocAccess]:/psPAS/Functions/Accounts/Request-PASAdHocAccess.ps1
+[Request-PASJustInTimeAccess]:/psPAS/Functions/Accounts/Request-PASJustInTimeAccess.ps1
+[Revoke-PASJustInTimeAccess]:/psPAS/Functions/Accounts/Revoke-PASJustInTimeAccess.ps1
 [Get-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Get-PASDirectoryMapping.ps1
 [Set-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Set-PASDirectoryMapping.ps1
 [Remove-PASDirectory]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectory.ps1

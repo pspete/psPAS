@@ -214,12 +214,12 @@
 		'Get-PASAccountPasswordVersion',
 		'New-PASPrivateSSHKey',
 		'Remove-PASPrivateSSHKey',
-		'Clear-PASPrivateSSHKey'
+		'Clear-PASPrivateSSHKey',
+		'Revoke-PASJustInTimeAccess',
+		'Get-PASAccountDetail'
 	)
 
-	AliasesToExport   = @(
-		'Get-PASPSMConnectionParameter'
-	)
+	#AliasesToExport   = @()
 
 	# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 	PrivateData       = @{

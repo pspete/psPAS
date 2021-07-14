@@ -10936,6 +10936,77 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-PASAccountDetail</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>PASAccountDetail</command:noun>
+      <maml:description>
+        <maml:para>Gets extended overview of account details</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Gets extended details of an account, including data on compliance, activities, dependencies, recordings &amp; platform configuration settings.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-PASAccountDetail</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AccountID">
+          <maml:name>id</maml:name>
+          <maml:description>
+            <maml:para>The Account ID of the account to get extended details for.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AccountID">
+        <maml:name>id</maml:name>
+        <maml:description>
+          <maml:para>The Account ID of the account to get extended details for.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>This is not an officially documented API method and is subject to change.</maml:para>
+        <maml:para>It is assumed to require minimum version of 10.4.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASAccountDetail -id 123_45</dev:code>
+        <dev:remarks>
+          <maml:para>Displays extended details of account with id 123_45</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASAccountActivity</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Get-PASAccountActivity</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://documenter.getpostman.com/view/998920/RzZ9Gz1U#d20c01c2-f7fc-4717-bf10-d8c51cb11411</maml:linkText>
+        <maml:uri>https://documenter.getpostman.com/view/998920/RzZ9Gz1U#d20c01c2-f7fc-4717-bf10-d8c51cb11411</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-PASAccountGroup</command:name>
       <command:verb>Get</command:verb>
       <command:noun>PASAccountGroup</command:noun>
@@ -27405,11 +27476,11 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Request-PASAdHocAccess</command:name>
+      <command:name>Request-PASJustInTimeAccess</command:name>
       <command:verb>Request</command:verb>
-      <command:noun>PASAdHocAccess</command:noun>
+      <command:noun>PASJustInTimeAccess</command:noun>
       <maml:description>
-        <maml:para>Requests access to a target Windows machine</maml:para>
+        <maml:para>Requests JIT access to a target Windows machine</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -27417,7 +27488,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Request-PASAdHocAccess</maml:name>
+        <maml:name>Request-PASJustInTimeAccess</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:description>
@@ -27456,16 +27527,16 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Request-PASAdHocAccess -AccountID 36_3</dev:code>
+        <dev:code>Request-PASJustInTimeAccess -AccountID 36_3</dev:code>
         <dev:remarks>
-          <maml:para>Requests "ad hoc" access on the server for which the account with id 36_3 is a local account with local admin membership.</maml:para>
+          <maml:para>Requests JIT access on the server for which the account with id 36_3 is a local account with local admin membership.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Request-PASAdHocAccess</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Request-PASAdHocAccess</maml:uri>
+        <maml:linkText>https://pspas.pspete.dev/commands/Request-PASJustInTimeAccess</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Request-PASJustInTimeAccess</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetAccess.htm</maml:linkText>
@@ -27586,6 +27657,76 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Suspend-ResumeSession.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Suspend-ResumeSession.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Revoke-PASJustInTimeAccess</command:name>
+      <command:verb>Revoke</command:verb>
+      <command:noun>PASJustInTimeAccess</command:noun>
+      <maml:description>
+        <maml:para>Revoke JIT access to a target Windows machine</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Requests and receives access, with administrative rights, to a target Windows machine. The domain user who issuing the command will be removed from the local Administrators group of the target machine.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Revoke-PASJustInTimeAccess</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
+          <maml:name>AccountID</maml:name>
+          <maml:description>
+            <maml:para>The ID of the local account that will be used to remove the authenticated user from the Administrators group on the target machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
+        <maml:name>AccountID</maml:name>
+        <maml:description>
+          <maml:para>The ID of the local account that will be used to remove the authenticated user from the Administrators group on the target machine.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Revoke-PASJustInTimeAccess -AccountID 36_3</dev:code>
+        <dev:remarks>
+          <maml:para>Revokes JIT access on the server for which the account with id 36_3 is a local account with local admin membership.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Revoke-PASJustInTimeAccess</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Revoke-PASJustInTimeAccess</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetAccess.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetAccess.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>

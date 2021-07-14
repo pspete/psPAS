@@ -2,20 +2,20 @@
 category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Request-PASAdHocAccess
+online version: https://pspas.pspete.dev/commands/Request-PASJustInTimeAccess
 schema: 2.0.0
-title: Request-PASAdHocAccess
+title: Request-PASJustInTimeAccess
 ---
 
-# Request-PASAdHocAccess
+# Request-PASJustInTimeAccess
 
 ## SYNOPSIS
-Requests access to a target Windows machine
+Requests JIT access to a target Windows machine
 
 ## SYNTAX
 
 ```
-Request-PASAdHocAccess [-AccountID] <String> [<CommonParameters>]
+Request-PASJustInTimeAccess [-AccountID] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,10 +26,10 @@ The domain user who requests access will be added to the local Administrators gr
 
 ### EXAMPLE 1
 ```
-Request-PASAdHocAccess -AccountID 36_3
+Request-PASJustInTimeAccess -AccountID 36_3
 ```
 
-Requests "ad hoc" access on the server for which the account with id 36_3 is a local account with local admin membership.
+Requests JIT access on the server for which the account with id 36_3 is a local account with local admin membership.
 
 ## PARAMETERS
 
@@ -59,6 +59,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Request-PASAdHocAccess](https://pspas.pspete.dev/commands/Request-PASAdHocAccess)
+[https://pspas.pspete.dev/commands/Request-PASJustInTimeAccess](https://pspas.pspete.dev/commands/Request-PASJustInTimeAccess)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetAccess.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetAccess.htm)

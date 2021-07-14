@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-function Request-PASAdHocAccess {
+function Request-PASJustInTimeAccess {
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -7,7 +7,7 @@ function Request-PASAdHocAccess {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[Alias("id")]
+		[Alias('id')]
 		[string]$AccountID
 	)
 
@@ -27,4 +27,5 @@ function Request-PASAdHocAccess {
 	}#process
 
 	END { }#end
+
 }

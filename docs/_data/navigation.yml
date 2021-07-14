@@ -77,6 +77,8 @@ commands:
         url: /commands/Add-PASAccount
       - title: "Get-PASAccount"
         url: /commands/Get-PASAccount
+      - title: "Get-PASAccountDetail"
+        url: /commands/Get-PASAccountDetail
       - title: "Remove-PASAccount"
         url: /commands/Remove-PASAccount
       - title: "Set-PASAccount"
@@ -93,8 +95,8 @@ commands:
         url: /commands/Add-PASPendingAccount
       - title: "Invoke-PASCPMOperation"
         url: /commands/Invoke-PASCPMOperation
-      - title: "Request-PASAdHocAccess"
-        url: /commands/Request-PASAdHocAccess
+      - title: "Request-PASJustInTimeAccess"
+        url: /commands/Request-PASJustInTimeAccess
       - title: "Enable-PASCPMAutoManagement"
         url: /commands/Enable-PASCPMAutoManagement
       - title: "Disable-PASCPMAutoManagement"
