@@ -1,7 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Request-PASJustInTimeAccess {
 	[CmdletBinding()]
-	[Alias('Request-PASAdHocAccess')]
 	param(
 		[parameter(
 			Mandatory = $true,

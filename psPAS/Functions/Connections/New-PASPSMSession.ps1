@@ -1,13 +1,12 @@
 # .ExternalHelp psPAS-help.xml
 function New-PASPSMSession {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'PSMConnectPrerequisites', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'PSMConnectPrerequisites', Justification = 'False Positive')]
 	[CmdletBinding(SupportsShouldProcess)]
-	[Alias("Get-PASPSMConnectionParameter")]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$AccountID,
@@ -15,173 +14,173 @@ function New-PASPSMSession {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[string]$userName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[securestring]$secret,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[string]$address,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[string]$platformID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[string]$extraFields,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[string]$reason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[string]$TicketingSystemName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[string]$TicketId,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[string]$ConnectionComponent,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
-		[ValidateSet("Yes", "No")]
+		[ValidateSet('Yes', 'No')]
 		[string]$AllowMappingLocalDrives,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
-		[ValidateSet("Yes", "No")]
+		[ValidateSet('Yes', 'No')]
 		[string]$AllowConnectToConsole,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
-		[ValidateSet("Yes", "No")]
+		[ValidateSet('Yes', 'No')]
 		[string]$RedirectSmartCards,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[string]$PSMRemoteMachine,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
 		[string]$LogonDomain,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
-		[ValidateSet("Yes", "No")]
+		[ValidateSet('Yes', 'No')]
 		[string]$AllowSelectHTML5,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "PSMConnect"
+			ParameterSetName = 'PSMConnect'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AdHocConnect"
+			ParameterSetName = 'AdHocConnect'
 		)]
-		[ValidateSet("RDP", "PSMGW")]
+		[ValidateSet('RDP', 'PSMGW')]
 		[string]$ConnectionMethod,
 
 		[parameter(
@@ -194,7 +193,7 @@ function New-PASPSMSession {
 
 	BEGIN {
 
-		$AdHocParameters = [Collections.Generic.List[String]]@("ConnectionComponent", "reason", "ticketingSystemName", "ticketId", "ConnectionParams")
+		$AdHocParameters = [Collections.Generic.List[String]]@('ConnectionComponent', 'reason', 'ticketingSystemName', 'ticketId', 'ConnectionParams')
 
 	}#begin
 
@@ -209,7 +208,7 @@ function New-PASPSMSession {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"PSMConnect" {
+			'PSMConnect' {
 				Assert-VersionRequirement -RequiredVersion 9.10
 
 				#Create URL for Request
@@ -224,14 +223,14 @@ function New-PASPSMSession {
 
 			}
 
-			"AdHocConnect" {
+			'AdHocConnect' {
 				Assert-VersionRequirement -RequiredVersion 10.5
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/API/Accounts/AdHocConnect"
 
 				#Include decoded password in request
-				$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
+				$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
 
 				#Connection parameters are included under the PSMConnectPrerequisites property of the JSON body, for each one specified
 				$boundParameters.keys | Where-Object { $AdHocParameters -contains $PSItem } | ForEach-Object {
@@ -247,7 +246,7 @@ function New-PASPSMSession {
 					if ($PSMConnectPrerequisites.keys.count -gt 0) {
 
 						#If PSMConnectPrerequisites have been specified, add PSMConnectPrerequisites to boundParameters
-						$boundParameters["PSMConnectPrerequisites"] = $PSMConnectPrerequisites
+						$boundParameters['PSMConnectPrerequisites'] = $PSMConnectPrerequisites
 
 					}
 				}
@@ -266,30 +265,29 @@ function New-PASPSMSession {
 		$ThisSession = $Script:WebSession
 
 		#if a connection method is specified
-		If ($PSBoundParameters.ContainsKey("ConnectionMethod")) {
+		If ($PSBoundParameters.ContainsKey('ConnectionMethod')) {
 
 			#The information needs to passed in the header
-			if ($PSBoundParameters["ConnectionMethod"] -eq "RDP") {
+			if ($PSBoundParameters['ConnectionMethod'] -eq 'RDP') {
 
 				#RDP accept "application/json" response
-				$Accept = "application/octet-stream"
+				$Accept = 'application/octet-stream'
 
-			}
-			elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
+			} elseif ($PSBoundParameters['ConnectionMethod'] -eq 'PSMGW') {
 
 				Assert-VersionRequirement -RequiredVersion 10.2
 
 				#PSMGW accept * / * response
-				$Accept = "* / *"
+				$Accept = '* / *'
 
 			}
 
 			#add detail to header
-			$ThisSession.Headers["Accept"] = $Accept
+			$ThisSession.Headers['Accept'] = $Accept
 
 		}
 
-		if ($PSCmdlet.ShouldProcess($ShouldProcess, "New PSM Session")) {
+		if ($PSCmdlet.ShouldProcess($ShouldProcess, 'New PSM Session')) {
 
 			#send request to PAS web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $ThisSession
@@ -298,13 +296,12 @@ function New-PASPSMSession {
 
 		If ($null -ne $result) {
 
-			If (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains "PSMGWRequest") {
+			If (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains 'PSMGWRequest') {
 
 				#Return PSM GW URL Details
 				$result
 
-			}
-			Else {
+			} Else {
 
 				#Save the RDP file to disk
 				Out-PASFile -InputObject $result -Path $Path

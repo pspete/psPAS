@@ -10,7 +10,6 @@
 - Updates
   - `Request-PASJustInTimeAccess`
     - Command renamed from `Request-PASAdHocAccess` in line with CyberArk feature nomenclature.
-    - Old command name depreciated, but still available for use via an Alias
   - Account Methods updated to apply to account details obtained via Gen2 API calls
     - `VerifyPassword()`
       - Updated method to use `Invoke-PASCPMOperation`
@@ -20,6 +19,8 @@
       - New method using `Invoke-PASCPMOperation`
     - `GetDetails()`
       - New method using `Get-PASAccountDetail`
+  - Alias Removeal
+    - Removed alias values for previously depreciated command names
 - New Commands
   - `Get-PASAccountDetail`
     - New experimental function based off of unofficial documentation
