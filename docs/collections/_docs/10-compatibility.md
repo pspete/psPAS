@@ -41,6 +41,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Add-PASAccount`][Add-PASAccount]                                                       |**9.0** ([Notes](#add-pasaccount))                  |Adds a new account.
 [`Add-PASPendingAccount`][Add-PASPendingAccount]                                         |**9.7**                                             |Adds discovered account or SSH key as a pending account.
 [`Get-PASAccount`][Get-PASAccount]                                                       |**9.3** ([Notes](#get-pasaccount))                  |Returns information about accounts.
+[`Get-PASAccountDetail`][Get-PASAccountDetail]                                           |**10.4**                                            |Returns information about accounts.
 [`Get-PASAccountActivity`][Get-PASAccountActivity]                                       |**9.7**                                             |Returns activities for an account.
 [`Get-PASAccountPassword`][Get-PASAccountPassword]                                       |**9.7** ([Notes](#get-pasaccountpassword))          |Returns password for an account.
 [`Remove-PASAccount`][Remove-PASAccount]                                                 |**9.3** ([Notes](#remove-pasaccount))               |Deletes an account
@@ -116,7 +117,8 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASPSMRecordingActivity`][Get-PASPSMRecordingActivity]                             | **10.6**                                           |Get activity details from a PSM Recording.
 [`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                             | **10.6**                                           |Get property details from a PSM Recording.
 [`Export-PASPSMRecording`][Export-PASPSMRecording]                                       | **10.6**                                           |Save PSM Session Recording to a file.
-[`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       | **10.6**                                           |Request temporary access to a server.
+[`Request-PASJustInTimeAccess`][Request-PASJustInTimeAccess]                             | **10.6**                                           |Request temporary access to a server.
+[`Revoke-PASJustInTimeAccess`][Revoke-PASJustInTimeAccess]                               | **12.0**                                           |Revoke temporary server access.
 [`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     | **10.7**                                           |Get details of configured directory mappings.
 [`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     | **10.7** ([Notes](#set-pasdirectorymapping))       |Update a configured directory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             | **10.7**                                           |Delete a directory configuration.
@@ -282,7 +284,8 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [Get-PASPSMRecordingActivity]:/commands/Get-PASPSMRecordingActivity
 [Get-PASPSMRecordingProperty]:/commands/Get-PASPSMRecordingProperty
 [Export-PASPSMRecording]:/commands/Export-PASPSMRecording
-[Request-PASAdHocAccess]:/commands/Request-PASAdHocAccess
+[Request-PASJustInTimeAccess]:/commands/Request-PASJustInTimeAccess
+[Revoke-PASJustInTimeAccess]:/commands/Revoke-PASJustInTimeAccess
 [Get-PASDirectoryMapping]:/commands/Get-PASDirectoryMapping
 [Set-PASDirectoryMapping]:/commands/Set-PASDirectoryMapping
 [Remove-PASDirectory]:/commands/Remove-PASDirectory
@@ -301,6 +304,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [Enable-PASPlatform]:/commands/Enable-PASPlatform
 [Remove-PASPlatform]:/commands/Remove-PASPlatform
 [Remove-PASGroup]:/commands/Remove-PASGroup
+[Get-PASAccountDetail]:/commands/Get-PASAccountDetail
 
 ## Notes
 

@@ -5,6 +5,28 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
+## Unreleased
+
+- Updates
+  - `Request-PASJustInTimeAccess`
+    - Command renamed from `Request-PASAdHocAccess` in line with CyberArk feature nomenclature.
+    - Old command name depreciated, but still available for use via an Alias
+  - Account Methods updated to apply to account details obtained via Gen2 API calls
+    - `VerifyPassword()`
+      - Updated method to use `Invoke-PASCPMOperation`
+    - `ChangePassword()`
+      - Updated method to use `Invoke-PASCPMOperation`
+    - `ReconcilePassword()`
+      - New method using `Invoke-PASCPMOperation`
+    - `GetDetails()`
+      - New method using `Get-PASAccountDetail`
+- New Commands
+  - `Get-PASAccountDetail`
+    - New experimental function based off of unofficial documentation
+  - `Revoke-PASJustInTimeAccess`
+    - New API function supported from 12.0 (previously missed)
+    - Revokes requested JIT access.
+
 ## **5.1.44 (July 13th 2021)**
 
 - Updates

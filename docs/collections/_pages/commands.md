@@ -49,7 +49,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get bulk account upload result][Get bulk account upload result]                            | [Get-PASAccountImportJob][Get-PASAccountImportJob]
 [Get password value][Get password value]                                                    | [Get-PASAccountPassword][Get-PASAccountPassword]
 [Retrieve private SSH key account][Retrieve private SSH key account]                        | [Get-PASAccountSSHKey][Get-PASAccountSSHKey]
-[Get Just in Time access][Get Just in Time access]                                          | [Request-PASAdHocAccess][Request-PASAdHocAccess]
+[Get Just in Time access][Get Just in Time access]                                          | [Request-PASJustInTimeAccess][Request-PASJustInTimeAccess]
+[Revoke Just in Time access][Revoke Just in Time access]                                    | [Revoke-PASJustInTimeAccess][Revke-PASJustInTimeAccess]
 [Add allowed referrer][Add allowed referrer]                                                | [Add-PASAllowedReferrer][Add-PASAllowedReferrer]
 [Get allowed referrer][Get allowed referrer]                                                | [Get-PASAllowedReferrer][Get-PASAllowedReferrer]
 [Get applications][Get applications]                                                        | [Get-PASApplication][Get-PASApplication]
@@ -196,6 +197,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Delete an MFA caching SSH key][Delete an MFA caching SSH key]                                       | [Remove-PASPrivateSSHKey][Remove-PASPrivateSSHKey]
 [Delete an MFA caching SSH key for another user][Delete an MFA caching SSH key for another user]     | [Remove-PASPrivateSSHKey][Remove-PASPrivateSSHKey]
 [Update Group][Update Group]                                                                         | [Set-PASGroup][Set-PASGroup]
+[Extended Account Overview][Extended Account Overview]                                               | [Get-PASAccountDetail][Get-PASAccountDetail]
 
 [Get-PASDiscoveredAccount]:/commands/Get-PASDiscoveredAccount
 [Start-PASAccountImportJob]:/commands/Start-PASAccountImportJob
@@ -303,7 +305,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get-PASPSMRecordingActivity]:/commands/Get-PASPSMRecordingActivity
 [Get-PASPSMRecordingProperty]:/commands/Get-PASPSMRecordingProperty
 [Export-PASPSMRecording]:/commands/Export-PASPSMRecording
-[Request-PASAdHocAccess]:/commands/Request-PASAdHocAccess
+[Request-PASJustInTimeAccess]:/commands/Request-PASJustInTimeAccess
+[Revoke-PASJustInTimeAccess]:/commands/Revoke-PASJustInTimeAccess
 [Get-PASDirectoryMapping]:/commands/Get-PASDirectoryMapping
 [Set-PASDirectoryMapping]:/commands/Set-PASDirectoryMapping
 [Remove-PASDirectory]:/commands/Remove-PASDirectory
@@ -335,7 +338,9 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [New-PASPrivateSSHKey]:/commands/New-PASPrivateSSHKey
 [Remove-PASPrivateSSHKey]:/commands/Remove-PASPrivateSSHKey
 [Set-PASGroup]:/commands/Set-PASGroup
+[Get-PASAccountDetail]:/commands/Get-PASAccountDetail
 
+[Extended Account Overview]:https://documenter.getpostman.com/view/998920/RzZ9Gz1U#d20c01c2-f7fc-4717-bf10-d8c51cb11411
 [Delete discovered accounts]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete-Discovered-accounts.htm
 [Get Secret Versions]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Secrets-Get-versions.htm
 [Generate Password]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Secrets-Generate-Password.htm
@@ -491,6 +496,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Add member to account group]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Add-account-to-account-group.htm
 [Delete member from account group]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/DeleteMemberFromAccountGroup.htm
 [Get Just in Time access]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetAccess.htm
+[Revoke Just in Time access]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Revoke-access.htm
 [Connect using PSM]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ConnectThroughPSM.htm
 [Ad hoc connect using PSM]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/SecureConnectPSM.htm
 [Get password value]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetPasswordValueV10.htm
