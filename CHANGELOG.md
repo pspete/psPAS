@@ -19,7 +19,7 @@
       - New method using `Invoke-PASCPMOperation`
     - `GetDetails()`
       - New method using `Get-PASAccountDetail`
-  - Alias Removeal
+  - Alias Removal
     - Removed alias values for previously depreciated command names
 - New Commands
   - `Get-PASAccountDetail`
