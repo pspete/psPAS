@@ -80,9 +80,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'throws if version exceeds 12.1' {
+			It 'throws if version exceeds 12.2' {
 
-				$Script:ExternalVersion = '12.2'
+				$Script:ExternalVersion = '12.3'
 				{ Get-PASSafe -FindAll } | Should -Throw
 				$Script:ExternalVersion = '0.0'
 
@@ -94,7 +94,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
-				Get-PASSafe -SafeName SomeSafe
+				Get-PASSafe -SafeName SomeSafe -UseGen1API
 
 			}
 
@@ -126,10 +126,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'throws if version exceeds 12.1' {
+			It 'throws if version exceeds 12.2' {
 
-				$Script:ExternalVersion = '12.2'
-				{ Get-PASSafe -SafeName SomeSafe } | Should -Throw
+				$Script:ExternalVersion = '12.3'
+				{ Get-PASSafe -SafeName SomeSafe -UseGen1API } | Should -Throw
 				$Script:ExternalVersion = '0.0'
 
 			}
@@ -172,9 +172,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'throws if version exceeds 12.1' {
+			It 'throws if version exceeds 12.2' {
 
-				$Script:ExternalVersion = '12.2'
+				$Script:ExternalVersion = '12.3'
 				{ Get-PASSafe -query 'SomeSafe' } | Should -Throw
 				$Script:ExternalVersion = '0.0'
 
@@ -253,6 +253,57 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Input - Gen2-byName ParameterSet' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'Prop1' = 'Val1'
+					}
+
+				}
+
+				Get-PASSafe -SafeName SomeSafe -includeAccounts $true
+
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/API/Safes/SomeSafe?includeAccounts=True"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with no body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws error if version 12.2 requirement not met' {
+				$Script:ExternalVersion = '1.0'
+				{ Get-PASSafe -search SomeSafe } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+			}
+
+		}
+
 		Context 'Output - Gen1-byAll ParameterSet' {
 
 			BeforeEach {
@@ -286,7 +337,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
-				$response = Get-PASSafe -SafeName SomeSafe
+				$response = Get-PASSafe -SafeName SomeSafe -UseGen1API
 
 			}
 
@@ -402,6 +453,43 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Assert-MockCalled Invoke-PASRestMethod -Times 10 -Exactly -Scope It
 
 			}
+
+		}
+
+		Context 'Output - Gen2-byName ParameterSet' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'Prop1' = 'Val1'
+					}
+
+				}
+
+				$response = Get-PASSafe -SafeName SomeSafe
+
+			}
+
+			It 'provides output' {
+
+				$response | Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'has output with expected number of properties' {
+
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 1
+
+			}
+
+			It 'outputs object with expected typename' {
+
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe.Gen2
+
+			}
+
+
 
 		}
 
