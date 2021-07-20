@@ -15,13 +15,16 @@ Removes a member from a safe
 ## SYNTAX
 
 ```
-Remove-PASSafeMember [-SafeName] <String> [-MemberName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-PASSafeMember [-SafeName] <String> [-MemberName] <String> [-UseGen1API] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Removes a specific member from a Safe.
 
 The user who runs this function requires the ManageSafeMembers permission.
+
+Default operation against Gen2 API requires minimum version of 12.2
 
 ## EXAMPLES
 
@@ -30,7 +33,16 @@ The user who runs this function requires the ManageSafeMembers permission.
 Remove-PASSafeMember -SafeName TargetSafe -MemberName TargetUser
 ```
 
-Removes TargetUser as safe member from TargetSafe
+Removes TargetUser as safe member from TargetSafe using Gen2 API
+
+Requires minimum version 12.2
+
+### EXAMPLE 2
+```
+Remove-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -UseGen1API
+```
+
+Removes TargetUser as safe member from TargetSafe using Gen1 API
 
 ## PARAMETERS
 
@@ -92,6 +104,23 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Specify to force usage the Gen1 API endpoint.
+
+Should be specified for versions earlier than 12.2
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

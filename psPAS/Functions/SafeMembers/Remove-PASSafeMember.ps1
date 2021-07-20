@@ -9,23 +9,47 @@ function Remove-PASSafeMember {
 		[ValidateNotNullOrEmpty()]
 		[string]$SafeName,
 
-		[Alias("UserName")]
+		[Alias('UserName')]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$MemberName
+		[string]$MemberName,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1'
+		)]
+		[switch]$UseGen1API
 	)
 
 	BEGIN { }#begin
 
 	PROCESS {
 
-		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
+		switch ($PSCmdlet.ParameterSetName) {
 
-            Get-EscapedString)/Members/$($MemberName | Get-EscapedString)"
+			'Gen1' {
+
+				#Create URL for request
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
+					Get-EscapedString)/Members/$($MemberName | Get-EscapedString)"
+
+			}
+
+			default {
+
+				Assert-VersionRequirement -RequiredVersion 12.2
+
+				#Create URL for request
+				$URI = "$Script:BaseURI/api/Safes/$($SafeName |
+					Get-EscapedString)/members/$($MemberName | Get-EscapedString)"
+
+			}
+
+		}
 
 		if ($PSCmdlet.ShouldProcess($SafeName, "Remove Safe Member '$MemberName'")) {
 
