@@ -157,7 +157,7 @@ function Get-PASSafe {
 				Assert-VersionRequirement -RequiredVersion 12.2
 
 				#define base URL
-				$URI = "$Script:BaseURI/API/Safes/$SafeName"
+				$URI = "$Script:BaseURI/API/Safes/$($SafeName | Get-EscapedString)"
 
 				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName
 
