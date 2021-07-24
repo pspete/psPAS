@@ -21,7 +21,7 @@ Get-PASSafeMember -SafeName <String> [-TimeoutSec <Int32>] [<CommonParameters>]
 
 ### Gen1-MemberPermissions
 ```
-Get-PASSafeMember -SafeName <String> -MemberName <String> [<CommonParameters>]
+Get-PASSafeMember -SafeName <String> -MemberName <String> [-UseGen1API] [<CommonParameters>]
 ```
 
 ### Gen1-SafeMembers
@@ -36,13 +36,19 @@ Get-PASSafeMember -SafeName <String> [-memberType <String>] [-membershipExpired 
  [<CommonParameters>]
 ```
 
+### Gen2-MemberPermissions
+```
+Get-PASSafeMember -SafeName <String> -MemberName <String> [-useCache <Boolean>] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 Lists the members of a Safe.
 
 - View Safe Members permission is required.
 - Defaults to the Gen 2 API which requires 12.0 or higher.
 - Additional member filter parameters require 12.1 or higher.
-- Versions lower than 12.0 must specify the `UseGen1API` switch to force use of the Gen1 API.
+- MemberName parameter requires 12.2 or higher for use with Gen2 API.
+- Versions lower than 12.0 (or 12.2 when using the MemberName parameter) must specify the `UseGen1API` switch to force use of the Gen1 API.
 
 **Note**
 When using the Gen1 API & querying all members of a safe, the permissions are reported as follows:
@@ -111,9 +117,9 @@ Minimum required version 12.0
 Get-PASSafeMember -SafeName Target_Safe -MemberName SomeUser
 ```
 
-Lists all permissions for member SomeUser on Target_Safe
+Lists all permissions for member SomeUser on Target_Safe using Gen2 API
 
-Depreciated from CyberArk Version 12.3
+Requires minimum CyberArk Version of 12.2
 
 ### EXAMPLE 3
 ```
@@ -121,6 +127,15 @@ Get-PASSafeMember -SafeName Target_Safe -UseGen1API
 ```
 
 Lists all members with permissions on Target_Safe using the Gen1 API.
+
+### EXAMPLE 4
+```
+Get-PASSafeMember -SafeName Target_Safe -MemberName SomeUser -UseGen1API
+```
+
+Lists all permissions for member SomeUser on Target_Safe using Gen1 API
+
+Depreciated from CyberArk Version 12.3
 
 ## PARAMETERS
 
@@ -142,14 +157,17 @@ Accept wildcard characters: False
 ### -MemberName
 Specify the name of a safe member to return their safe permissions in full.
 
-**NOTE**: An empty PUT request (update) is sent to retrieve full safe permissions for a user:
+Operation against Gen2 API requires minimum version of 12.2
+
+**NOTE for Gen1 Operation**: An empty PUT request (update) is sent to retrieve full safe permissions for a user:
+- `-UseGen1API` parameter must be specified.
 - You cannot report on the permissions of the user authenticated to the API.
 - Reporting on the permissions of the Quota Owner is expected to fail.
 - Depreciated from CyberArk Version 12.3
 
 ```yaml
 Type: String
-Parameter Sets: Gen1-MemberPermissions
+Parameter Sets: Gen1-MemberPermissions, Gen2-MemberPermissions
 Aliases: UserName
 
 Required: True
@@ -266,6 +284,20 @@ Force use of the Gen1 API.
 
 Should be specified for versions earlier than 12.0.
 
+Should be specified for versions earlier than 12.2 when querying by MemberName
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1-MemberPermissions
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ```yaml
 Type: SwitchParameter
 Parameter Sets: Gen1-SafeMembers
@@ -274,7 +306,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -useCache
+Whether or not to retrieve the cache from a session.
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen2-MemberPermissions
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
