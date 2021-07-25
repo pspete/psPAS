@@ -99,7 +99,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'throws if version exceeds 12.2' {
 
 				$Script:ExternalVersion = '12.3'
-				{ Get-PASSafe -SafeName SomeSafe } | Should -Throw
+				{ Get-PASSafe -SafeName SomeSafe -UseGen1API } | Should -Throw
 				$Script:ExternalVersion = '0.0'
 
 			}
