@@ -20,6 +20,18 @@ function Get-PASGroup {
 
 		[parameter(
 			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'groupType'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'filter'
+		)]
+		[string[]]$sort,
+
+		[parameter(
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$search,
@@ -37,9 +49,23 @@ function Get-PASGroup {
 
 	PROCESS {
 
-		If ($PSBoundParameters.ContainsKey('includeMembers')) {
+		switch ($PSBoundParameters.Keys) {
 
-			Assert-VersionRequirement -RequiredVersion 12.0
+			{ $_ -match 'includeMembers' } {
+
+				#includeMembers parameter require 12.0
+				Assert-VersionRequirement -RequiredVersion 12.0
+
+				continue
+
+			}
+
+			{ $_ -match 'sort' } {
+
+				#Sort parameter require 12.2
+				Assert-VersionRequirement -RequiredVersion 12.2
+
+			}
 
 		}
 
