@@ -13034,6 +13034,21 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>sort</maml:name>
+          <maml:description>
+            <maml:para>Property or properties by which to sort returned groups, followed by asc (default) or desc to control sort direction.</maml:para>
+            <maml:para>Cannot sort by a property other than `groupname`, `directory` or `location`.</maml:para>
+            <maml:para>Separate multiple properties with commas, up to a maximum of three properties.</maml:para>
+            <maml:para>Requires minimum version of 12.2</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-PASGroup</maml:name>
@@ -13072,6 +13087,21 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
           <dev:type>
             <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>sort</maml:name>
+          <maml:description>
+            <maml:para>Property or properties by which to sort returned groups, followed by asc (default) or desc to control sort direction.</maml:para>
+            <maml:para>Cannot sort by a property other than `groupname`, `directory` or `location`.</maml:para>
+            <maml:para>Separate multiple properties with commas, up to a maximum of three properties.</maml:para>
+            <maml:para>Requires minimum version of 12.2</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -13126,6 +13156,21 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
         <dev:type>
           <maml:name>Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>sort</maml:name>
+        <maml:description>
+          <maml:para>Property or properties by which to sort returned groups, followed by asc (default) or desc to control sort direction.</maml:para>
+          <maml:para>Cannot sort by a property other than `groupname`, `directory` or `location`.</maml:para>
+          <maml:para>Separate multiple properties with commas, up to a maximum of three properties.</maml:para>
+          <maml:para>Requires minimum version of 12.2</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -15677,8 +15722,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Gets safe by SafeName, by search query string, or, by default will return all safes. - Minimum required version for default operation using Gen2 API is 12.0.</maml:para>
+      <maml:para>- Minimum required version for operation using Gen2-byName ParameterSet is 12.2.</maml:para>
       <maml:para>- For PAS versions earlier than 12.0, the Gen1 API parameters must be used.</maml:para>
-      <maml:para>- Gen1 API parameters are depreciated for versions higher than 12.2.</maml:para>
+      <maml:para>- Gen1 API parameters are depreciated for versions higher than 12.3.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -15687,7 +15733,8 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:name>includeAccounts</maml:name>
           <maml:description>
             <maml:para>Whether or not to return accounts for each Safe as part of the response.</maml:para>
-            <maml:para>Minimum required version 12.0</maml:para>
+            <maml:para>Minimum required version 12.0 (Default Gen2 Operation)</maml:para>
+            <maml:para>Minimum required version 12.2 (Gen2-byName Operation)</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
           <dev:type>
@@ -15752,11 +15799,26 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:syntaxItem>
         <maml:name>Get-PASSafe</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>includeAccounts</maml:name>
+          <maml:description>
+            <maml:para>Whether or not to return accounts for each Safe as part of the response.</maml:para>
+            <maml:para>Minimum required version 12.0 (Default Gen2 Operation)</maml:para>
+            <maml:para>Minimum required version 12.2 (Gen2-byName Operation)</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>SafeName</maml:name>
           <maml:description>
-            <maml:para>The name of a specific safe to get details of using Gen1 API.</maml:para>
-            <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-            <maml:para>Depreciated from version 12.2</maml:para>
+            <maml:para>The name of a specific safe to get details of.</maml:para>
+            <maml:para>Gen2 API operation requires minimum version 12.2</maml:para>
+            <maml:para>When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.</maml:para>
+            <maml:para>Gen1 operation depreciated from version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -15778,6 +15840,60 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>useCache</maml:name>
+          <maml:description>
+            <maml:para>Whether to retrieve from session or not.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-PASSafe</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SafeName</maml:name>
+          <maml:description>
+            <maml:para>The name of a specific safe to get details of.</maml:para>
+            <maml:para>Gen2 API operation requires minimum version 12.2</maml:para>
+            <maml:para>When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.</maml:para>
+            <maml:para>Gen1 operation depreciated from version 12.3</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>TimeoutSec</maml:name>
+          <maml:description>
+            <maml:para>See Invoke-WebRequest</maml:para>
+            <maml:para>Specify a timeout value in seconds</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Specify to force use of the Gen1 API</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-PASSafe</maml:name>
@@ -15786,7 +15902,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:description>
             <maml:para>Query String for safe search in the vault using Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-            <maml:para>Depreciated from version 12.2</maml:para>
+            <maml:para>Depreciated from version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -15816,7 +15932,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:description>
             <maml:para>Specify to find all safes using Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-            <maml:para>Depreciated from version 12.2</maml:para>
+            <maml:para>Depreciated from version 12.3</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -15844,7 +15960,8 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:name>includeAccounts</maml:name>
         <maml:description>
           <maml:para>Whether or not to return accounts for each Safe as part of the response.</maml:para>
-          <maml:para>Minimum required version 12.0</maml:para>
+          <maml:para>Minimum required version 12.0 (Default Gen2 Operation)</maml:para>
+          <maml:para>Minimum required version 12.2 (Gen2-byName Operation)</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
         <dev:type>
@@ -15892,12 +16009,13 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>SafeName</maml:name>
         <maml:description>
-          <maml:para>The name of a specific safe to get details of using Gen1 API.</maml:para>
-          <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-          <maml:para>Depreciated from version 12.2</maml:para>
+          <maml:para>The name of a specific safe to get details of.</maml:para>
+          <maml:para>Gen2 API operation requires minimum version 12.2</maml:para>
+          <maml:para>When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.</maml:para>
+          <maml:para>Gen1 operation depreciated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -15911,7 +16029,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:description>
           <maml:para>Query String for safe search in the vault using Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-          <maml:para>Depreciated from version 12.2</maml:para>
+          <maml:para>Depreciated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -15925,7 +16043,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:description>
           <maml:para>Specify to find all safes using Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-          <maml:para>Depreciated from version 12.2</maml:para>
+          <maml:para>Depreciated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -15946,6 +16064,30 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:uri />
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>useCache</maml:name>
+        <maml:description>
+          <maml:para>Whether to retrieve from session or not.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>UseGen1API</maml:name>
+        <maml:description>
+          <maml:para>Specify to force use of the Gen1 API</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -15976,8 +16118,8 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
         <dev:code>Get-PASSafe -SafeName SAFE1</dev:code>
         <dev:remarks>
-          <maml:para>Returns details of "Safe1" using Gen1 API.</maml:para>
-          <maml:para>Depreciated from version 12.2</maml:para>
+          <maml:para>Returns details of "Safe1" using Gen2 API.</maml:para>
+          <maml:para>Minimum required version 12.2</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -15993,7 +16135,15 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASSafe -FindAll</dev:code>
         <dev:remarks>
           <maml:para>Returns details of all safes using Gen1 API.</maml:para>
-          <maml:para>Depreciated from version 12.2</maml:para>
+          <maml:para>Depreciated from version 12.3</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
+        <dev:code>Get-PASSafe -SafeName SAFE1 -UseGen1Api</dev:code>
+        <dev:remarks>
+          <maml:para>Returns details of "Safe1" using Gen1 API.</maml:para>
+          <maml:para>Depreciated from version 12.3</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -16030,7 +16180,8 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:para>- View Safe Members permission is required.</maml:para>
       <maml:para>- Defaults to the Gen 2 API which requires 12.0 or higher.</maml:para>
       <maml:para>- Additional member filter parameters require 12.1 or higher.</maml:para>
-      <maml:para>- Versions lower than 12.0 must specify the `UseGen1API` switch to force use of the Gen1 API. Note When using the Gen1 API &amp; querying all members of a safe, the permissions are reported as follows:</maml:para>
+      <maml:para>- MemberName parameter requires 12.2 or higher for use with Gen2 API.</maml:para>
+      <maml:para>- Versions lower than 12.0 (or 12.2 when using the MemberName parameter) must specify the `UseGen1API` switch to force use of the Gen1 API. Note When using the Gen1 API &amp; querying all members of a safe, the permissions are reported as follows:</maml:para>
       <maml:para>- List accounts (ListContent)</maml:para>
       <maml:para>- Retrieve accounts	(Retrieve)</maml:para>
       <maml:para>- Add accounts, including update properties (Add)</maml:para>
@@ -16096,13 +16247,71 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
           <maml:name>MemberName</maml:name>
           <maml:description>
-            <maml:para>Specify the name of a safe member to return their safe permissions in full. NOTE : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - You cannot report on the permissions of the user authenticated to the API.</maml:para>
+            <maml:para>Specify the name of a safe member to return their safe permissions in full.</maml:para>
+            <maml:para>Operation against Gen2 API requires minimum version of 12.2 NOTE for Gen1 Operation : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - `-UseGen1API` parameter must be specified.</maml:para>
+            <maml:para>- You cannot report on the permissions of the user authenticated to the API.</maml:para>
             <maml:para>- Reporting on the permissions of the Quota Owner is expected to fail.</maml:para>
             <maml:para>- Depreciated from CyberArk Version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Force use of the Gen1 API.</maml:para>
+            <maml:para>Should be specified for versions earlier than 12.0.</maml:para>
+            <maml:para>Should be specified for versions earlier than 12.2 when querying by MemberName</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-PASSafeMember</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SafeName</maml:name>
+          <maml:description>
+            <maml:para>The name of the safe to get the members of</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
+          <maml:name>MemberName</maml:name>
+          <maml:description>
+            <maml:para>Specify the name of a safe member to return their safe permissions in full.</maml:para>
+            <maml:para>Operation against Gen2 API requires minimum version of 12.2 NOTE for Gen1 Operation : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - `-UseGen1API` parameter must be specified.</maml:para>
+            <maml:para>- You cannot report on the permissions of the user authenticated to the API.</maml:para>
+            <maml:para>- Reporting on the permissions of the Quota Owner is expected to fail.</maml:para>
+            <maml:para>- Depreciated from CyberArk Version 12.3</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>useCache</maml:name>
+          <maml:description>
+            <maml:para>Whether or not to retrieve the cache from a session.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -16243,11 +16452,12 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>UseGen1API</maml:name>
           <maml:description>
             <maml:para>Force use of the Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.0.</maml:para>
+            <maml:para>Should be specified for versions earlier than 12.2 when querying by MemberName</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -16273,7 +16483,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
         <maml:name>MemberName</maml:name>
         <maml:description>
-          <maml:para>Specify the name of a safe member to return their safe permissions in full. NOTE : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - You cannot report on the permissions of the user authenticated to the API.</maml:para>
+          <maml:para>Specify the name of a safe member to return their safe permissions in full.</maml:para>
+          <maml:para>Operation against Gen2 API requires minimum version of 12.2 NOTE for Gen1 Operation : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - `-UseGen1API` parameter must be specified.</maml:para>
+          <maml:para>- You cannot report on the permissions of the user authenticated to the API.</maml:para>
           <maml:para>- Reporting on the permissions of the Quota Owner is expected to fail.</maml:para>
           <maml:para>- Depreciated from CyberArk Version 12.3</maml:para>
         </maml:description>
@@ -16362,11 +16574,12 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>UseGen1API</maml:name>
         <maml:description>
           <maml:para>Force use of the Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.0.</maml:para>
+          <maml:para>Should be specified for versions earlier than 12.2 when querying by MemberName</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -16374,6 +16587,18 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>useCache</maml:name>
+        <maml:description>
+          <maml:para>Whether or not to retrieve the cache from a session.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -16396,8 +16621,8 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>Get-PASSafeMember -SafeName Target_Safe -MemberName SomeUser</dev:code>
         <dev:remarks>
-          <maml:para>Lists all permissions for member SomeUser on Target_Safe</maml:para>
-          <maml:para>Depreciated from CyberArk Version 12.3</maml:para>
+          <maml:para>Lists all permissions for member SomeUser on Target_Safe using Gen2 API</maml:para>
+          <maml:para>Requires minimum CyberArk Version of 12.2</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -16405,6 +16630,14 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASSafeMember -SafeName Target_Safe -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Lists all members with permissions on Target_Safe using the Gen1 API.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Get-PASSafeMember -SafeName Target_Safe -MemberName SomeUser -UseGen1API</dev:code>
+        <dev:remarks>
+          <maml:para>Lists all permissions for member SomeUser on Target_Safe using Gen1 API</maml:para>
+          <maml:para>Depreciated from CyberArk Version 12.3</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -16796,6 +17029,35 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UserName</maml:name>
+          <maml:description>
+            <maml:para>The user's name</maml:para>
+            <maml:para>Default operation targets the Gen2 API &amp; requires minimum version of 12.2.</maml:para>
+            <maml:para>For operation against versions earlier than 12.2, the `UseGen1API` parameter should also be specified.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>sort</maml:name>
+          <maml:description>
+            <maml:para>Property or properties by which to sort returned accounts, followed by asc (default) or desc to control sort direction.</maml:para>
+            <maml:para>Cannot sort by a property other than `username`, `usertype`, `firstname`, `lastname`, `location`, `middlename` or `source`.</maml:para>
+            <maml:para>Separate multiple properties with commas, up to a maximum of three properties.</maml:para>
+            <maml:para>Requires minimum version of 12.2</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-PASUser</maml:name>
@@ -16839,6 +17101,20 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UserName</maml:name>
+          <maml:description>
+            <maml:para>The user's name</maml:para>
+            <maml:para>Default operation targets the Gen2 API &amp; requires minimum version of 12.2.</maml:para>
+            <maml:para>For operation against versions earlier than 12.2, the `UseGen1API` parameter should also be specified.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>ExtendedDetails</maml:name>
           <maml:description>
             <maml:para>Returns user groups and userDN for LDAP users.</maml:para>
@@ -16851,6 +17127,21 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>sort</maml:name>
+          <maml:description>
+            <maml:para>Property or properties by which to sort returned accounts, followed by asc (default) or desc to control sort direction.</maml:para>
+            <maml:para>Cannot sort by a property other than `username`, `usertype`, `firstname`, `lastname`, `location`, `middlename` or `source`.</maml:para>
+            <maml:para>Separate multiple properties with commas, up to a maximum of three properties.</maml:para>
+            <maml:para>Requires minimum version of 12.2</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-PASUser</maml:name>
@@ -16858,6 +17149,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>UserName</maml:name>
           <maml:description>
             <maml:para>The user's name</maml:para>
+            <maml:para>Default operation targets the Gen2 API &amp; requires minimum version of 12.2.</maml:para>
+            <maml:para>For operation against versions earlier than 12.2, the `UseGen1API` parameter should also be specified.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -16865,6 +17158,17 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Forces use of the Gen1 API endpoint</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -16921,10 +17225,12 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>UserName</maml:name>
         <maml:description>
           <maml:para>The user's name</maml:para>
+          <maml:para>Default operation targets the Gen2 API &amp; requires minimum version of 12.2.</maml:para>
+          <maml:para>For operation against versions earlier than 12.2, the `UseGen1API` parameter should also be specified.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -16945,6 +17251,33 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>sort</maml:name>
+        <maml:description>
+          <maml:para>Property or properties by which to sort returned accounts, followed by asc (default) or desc to control sort direction.</maml:para>
+          <maml:para>Cannot sort by a property other than `username`, `usertype`, `firstname`, `lastname`, `location`, `middlename` or `source`.</maml:para>
+          <maml:para>Separate multiple properties with commas, up to a maximum of three properties.</maml:para>
+          <maml:para>Requires minimum version of 12.2</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>UseGen1API</maml:name>
+        <maml:description>
+          <maml:para>Forces use of the Gen1 API endpoint</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -18027,7 +18360,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>GroupPlatformID</maml:name>
           <maml:description>
             <maml:para>The name of the platform for the group.</maml:para>
-            <maml:para>The associated platform must be set to "PolicyType=Group"</maml:para>
+            <maml:para>The associated platform must be set to "PolicyType=Group" or "PolicyType=RotationalGroup"</maml:para>
+            <maml:para>To add Account Group with Policy Type of Rotational Group requires minimum version of 12.2</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -18089,7 +18423,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:name>GroupPlatformID</maml:name>
         <maml:description>
           <maml:para>The name of the platform for the group.</maml:para>
-          <maml:para>The associated platform must be set to "PolicyType=Group"</maml:para>
+          <maml:para>The associated platform must be set to "PolicyType=Group" or "PolicyType=RotationalGroup"</maml:para>
+          <maml:para>To add Account Group with Policy Type of Rotational Group requires minimum version of 12.2</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -27164,6 +27499,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
     <maml:description>
       <maml:para>Removes a specific member from a Safe.</maml:para>
       <maml:para>The user who runs this function requires the ManageSafeMembers permission.</maml:para>
+      <maml:para>Default operation against Gen2 API requires minimum version of 12.2</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -27207,6 +27543,18 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+            <maml:para>Should be specified for versions earlier than 12.2</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -27265,6 +27613,19 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>UseGen1API</maml:name>
+        <maml:description>
+          <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+          <maml:para>Should be specified for versions earlier than 12.2</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -27278,7 +27639,15 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Remove-PASSafeMember -SafeName TargetSafe -MemberName TargetUser</dev:code>
         <dev:remarks>
-          <maml:para>Removes TargetUser as safe member from TargetSafe</maml:para>
+          <maml:para>Removes TargetUser as safe member from TargetSafe using Gen2 API</maml:para>
+          <maml:para>Requires minimum version 12.2</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Remove-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -UseGen1API</dev:code>
+        <dev:remarks>
+          <maml:para>Removes TargetUser as safe member from TargetSafe using Gen1 API</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -31228,7 +31597,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>NumberOfVersionsRetention</maml:name>
           <maml:description>
             <maml:para>The number of retained versions of every password that is stored in the Safe. - Max value = 999 Specify either this parameter or NumberOfDaysRetention.</maml:para>
@@ -31255,6 +31624,134 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>location</maml:name>
+          <maml:description>
+            <maml:para>The vault location to set for the safe</maml:para>
+            <maml:para>Minimum required version 12.2</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-PASSafe</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SafeName</maml:name>
+          <maml:description>
+            <maml:para>The name of the safe to update. - Max Length 28 characters.</maml:para>
+            <maml:para>- Cannot start with a space.</maml:para>
+            <maml:para>- Cannot contain: '\','/',':','*','&lt;','&gt;','"','.' or '|'</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>NewSafeName</maml:name>
+          <maml:description>
+            <maml:para>A name to rename the safe to - Max Length 28 characters.</maml:para>
+            <maml:para>- Cannot start with a space.</maml:para>
+            <maml:para>- Cannot contain: '\','/',':','*','&lt;','&gt;','"','.' or '|'</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>Updated Description for safe.</maml:para>
+            <maml:para>Max 100 characters.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>OLACEnabled</maml:name>
+          <maml:description>
+            <maml:para>Boolean value, dictating whether or not to enable Object Level Access Control on the safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ManagingCPM</maml:name>
+          <maml:description>
+            <maml:para>The Name of the CPM user to manage the safe.</maml:para>
+            <maml:para>Specify "" to prevent CPM management.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>NumberOfVersionsRetention</maml:name>
+          <maml:description>
+            <maml:para>The number of retained versions of every password that is stored in the Safe. - Max value = 999 Specify either this parameter or NumberOfDaysRetention.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+            <maml:para>Should be specified for versions earlier than 12.2</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -31331,7 +31828,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>NumberOfDaysRetention</maml:name>
           <maml:description>
             <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>
@@ -31361,6 +31858,137 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>location</maml:name>
+          <maml:description>
+            <maml:para>The vault location to set for the safe</maml:para>
+            <maml:para>Minimum required version 12.2</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-PASSafe</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SafeName</maml:name>
+          <maml:description>
+            <maml:para>The name of the safe to update. - Max Length 28 characters.</maml:para>
+            <maml:para>- Cannot start with a space.</maml:para>
+            <maml:para>- Cannot contain: '\','/',':','*','&lt;','&gt;','"','.' or '|'</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>NewSafeName</maml:name>
+          <maml:description>
+            <maml:para>A name to rename the safe to - Max Length 28 characters.</maml:para>
+            <maml:para>- Cannot start with a space.</maml:para>
+            <maml:para>- Cannot contain: '\','/',':','*','&lt;','&gt;','"','.' or '|'</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>Updated Description for safe.</maml:para>
+            <maml:para>Max 100 characters.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>OLACEnabled</maml:name>
+          <maml:description>
+            <maml:para>Boolean value, dictating whether or not to enable Object Level Access Control on the safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ManagingCPM</maml:name>
+          <maml:description>
+            <maml:para>The Name of the CPM user to manage the safe.</maml:para>
+            <maml:para>Specify "" to prevent CPM management.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>NumberOfDaysRetention</maml:name>
+          <maml:description>
+            <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>
+            <maml:para>- Minimum Value: 1</maml:para>
+            <maml:para>- Maximum Value: 3650</maml:para>
+            <maml:para>Specify either this parameter or NumberOfVersionsRetention</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+            <maml:para>Should be specified for versions earlier than 12.2</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -31437,7 +32065,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>NumberOfVersionsRetention</maml:name>
         <maml:description>
           <maml:para>The number of retained versions of every password that is stored in the Safe. - Max value = 999 Specify either this parameter or NumberOfDaysRetention.</maml:para>
@@ -31449,7 +32077,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>NumberOfDaysRetention</maml:name>
         <maml:description>
           <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>
@@ -31488,6 +32116,32 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>location</maml:name>
+        <maml:description>
+          <maml:para>The vault location to set for the safe</maml:para>
+          <maml:para>Minimum required version 12.2</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>UseGen1API</maml:name>
+        <maml:description>
+          <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+          <maml:para>Should be specified for versions earlier than 12.2</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -31501,7 +32155,15 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfVersionsRetention 10</dev:code>
         <dev:remarks>
-          <maml:para>Updates description and version retention on SAFE</maml:para>
+          <maml:para>Updates description and version retention on SAFE using Gen2 API</maml:para>
+          <maml:para>Minimum required version 12.2</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfDaysRetention 10 -UseGen1API</dev:code>
+        <dev:remarks>
+          <maml:para>Updates description and number of days retention on SAFE using Gen1 API</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -31528,6 +32190,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
     <maml:description>
       <maml:para>Updates an existing Safe Member's permissions on a safe.</maml:para>
       <maml:para>Manage Safe Members permission is required.</maml:para>
+      <maml:para>Default operation against the Gen2 API requires a minimum version of 12.2</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -31568,7 +32231,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
           <maml:name>UseAccounts</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31580,7 +32243,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
           <maml:name>RetrieveAccounts</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31592,7 +32255,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
           <maml:name>ListAccounts</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31604,7 +32267,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
           <maml:name>AddAccounts</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
@@ -31617,7 +32280,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
           <maml:name>UpdateAccountContent</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31629,7 +32292,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
           <maml:name>UpdateAccountProperties</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
@@ -31665,7 +32328,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
           <maml:name>RenameAccounts</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31677,7 +32340,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
           <maml:name>DeleteAccounts</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31689,7 +32352,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
           <maml:name>UnlockAccounts</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31737,7 +32400,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
           <maml:name>ViewAuditLog</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
@@ -31749,7 +32412,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
           <maml:name>ViewSafeMembers</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
@@ -31786,7 +32449,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
           <maml:name>CreateFolders</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
@@ -31810,7 +32473,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
           <maml:name>MoveAccountsAndFolders</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
@@ -31843,6 +32506,346 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
             <maml:uri />
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+            <maml:para>Should be specified for versions earlier than 12.2</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-PASSafeMember</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SafeName</maml:name>
+          <maml:description>
+            <maml:para>The name of the safe to which the safe member belong</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
+          <maml:name>MemberName</maml:name>
+          <maml:description>
+            <maml:para>Vault or Domain User, or Group, safe member to update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>MembershipExpirationDate</maml:name>
+          <maml:description>
+            <maml:para>Defines when the member's Safe membership expires.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+          <dev:type>
+            <maml:name>DateTime</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
+          <maml:name>UseAccounts</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
+          <maml:name>RetrieveAccounts</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
+          <maml:name>ListAccounts</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
+          <maml:name>AddAccounts</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
+            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
+          <maml:name>UpdateAccountContent</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
+          <maml:name>UpdateAccountProperties</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SpecifyNextAccountContent</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
+          <maml:name>RenameAccounts</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
+          <maml:name>DeleteAccounts</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
+          <maml:name>UnlockAccounts</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>ManageSafe</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>ManageSafeMembers</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>BackupSafe</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
+          <maml:name>ViewAuditLog</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
+          <maml:name>ViewSafeMembers</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>AccessWithoutConfirmation</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if AccessWithoutConfirmation permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
+          <maml:name>CreateFolders</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>DeleteFolders</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
+          <maml:name>MoveAccountsAndFolders</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>requestsAuthorizationLevel1</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if requestsAuthorizationLevel1 permission will be granted to safe member on safe.</maml:para>
+            <maml:para>Minimum required version 12.2</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>requestsAuthorizationLevel2</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if requestsAuthorizationLevel2 permission will be granted to safe member on safe.</maml:para>
+            <maml:para>Minimum required version 12.2</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -31883,7 +32886,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
         <maml:name>UseAccounts</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31895,7 +32898,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
         <maml:name>RetrieveAccounts</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31907,7 +32910,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
         <maml:name>ListAccounts</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31919,7 +32922,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
         <maml:name>AddAccounts</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
@@ -31932,7 +32935,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
         <maml:name>UpdateAccountContent</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31944,7 +32947,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
         <maml:name>UpdateAccountProperties</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
@@ -31980,7 +32983,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
         <maml:name>RenameAccounts</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
@@ -31992,7 +32995,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
         <maml:name>DeleteAccounts</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
@@ -32004,7 +33007,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
         <maml:name>UnlockAccounts</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
@@ -32052,7 +33055,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
         <maml:name>ViewAuditLog</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
@@ -32064,7 +33067,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
         <maml:name>ViewSafeMembers</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
@@ -32101,7 +33104,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
         <maml:name>CreateFolders</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
@@ -32125,7 +33128,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
         <maml:name>MoveAccountsAndFolders</maml:name>
         <maml:description>
           <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
@@ -32161,6 +33164,45 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>requestsAuthorizationLevel1</maml:name>
+        <maml:description>
+          <maml:para>Boolean value defining if requestsAuthorizationLevel1 permission will be granted to safe member on safe.</maml:para>
+          <maml:para>Minimum required version 12.2</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>requestsAuthorizationLevel2</maml:name>
+        <maml:description>
+          <maml:para>Boolean value defining if requestsAuthorizationLevel2 permission will be granted to safe member on safe.</maml:para>
+          <maml:para>Minimum required version 12.2</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>UseGen1API</maml:name>
+        <maml:description>
+          <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+          <maml:para>Should be specified for versions earlier than 12.2</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -32174,7 +33216,15 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true</dev:code>
         <dev:remarks>
-          <maml:para>Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts"</maml:para>
+          <maml:para>Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts" using the Gen2 API.</maml:para>
+          <maml:para>Minimum required version 12.2</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true -UseGen1API</dev:code>
+        <dev:remarks>
+          <maml:para>Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts" using the Gen1 API.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
