@@ -2,7 +2,7 @@
 title: "Safe Permissions"
 permalink: /docs/safe-permissions/
 excerpt: "psPAS Safe Permissions"
-last_modified_at: 2021-04-10T01:33:52-00:00
+last_modified_at: 2021-07-25T01:33:52-00:00
 ---
 
 - Define Safe Roles and assign to safe members:
@@ -32,7 +32,8 @@ $Role2 = [PSCustomObject]@{
   BackupSafe                             = $false
   ViewAuditLog                           = $true
   ViewSafeMembers                        = $true
-  RequestsAuthorizationLevel             = $false
+  requestsAuthorizationLevel1            = $false
+  requestsAuthorizationLevel2            = $false
   AccessWithoutConfirmation              = $true
   CreateFolders                          = $true
   DeleteFolders                          = $true

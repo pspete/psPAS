@@ -97,6 +97,8 @@ commands:
         url: /commands/Invoke-PASCPMOperation
       - title: "Request-PASJustInTimeAccess"
         url: /commands/Request-PASJustInTimeAccess
+      - title: "Revoke-PASJustInTimeAccess"
+        url: /commands/Revoke-PASJustInTimeAccess
       - title: "Enable-PASCPMAutoManagement"
         url: /commands/Enable-PASCPMAutoManagement
       - title: "Disable-PASCPMAutoManagement"

@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2021-07-04zT01:33:52-00:00
+last_modified_at: 2021-07-25zT01:33:52-00:00
 toc: false
 ---
 
@@ -76,14 +76,14 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASRequestDetail`][Get-PASRequestDetail]                                           |**9.10** ([Notes](#-pasrequestdetail))              |Get request details
 [`New-PASRequest`][New-PASRequest]                                                       |**9.10** ([Notes](#-pasrequest))                    |Creates an access request for an account
 [`Remove-PASRequest`][Remove-PASRequest]                                                 |**9.10** ([Notes](#-pasrequest))                    |Deletes a request
-[`Add-PASSafeMember`][Add-PASSafeMember]                                                 |**9.3** ([Notes](#add-passafemember))                |Adds a Safe Member to a safe
-[`Get-PASSafeMember`][Get-PASSafeMember]                                                 |**9.7** ([Notes](#get-passafemember))                |Lists the members of a Safe
-[`Remove-PASSafeMember`][Remove-PASSafeMember]                                           |**9.3**                                             |Removes a member from a safe
-[`Set-PASSafeMember`][Set-PASSafeMember]                                                 |**9.3**                                             |Updates a Safe Member's Permissions
-[`Add-PASSafe`][Add-PASSafe]                                                             | **9.2** ([Notes](#add-passafe))                     |Adds a new safe
-[`Get-PASSafe`][Get-PASSafe]                                                             | **9.7** ([Notes](#get-passafe))                     |Returns safe details
-[`Remove-PASSafe`][Remove-PASSafe]                                                       | **9.3** ([Notes](#remove-passafe))                  |Deletes a safe
-[`Set-PASSafe`][Set-PASSafe]                                                             | **9.3**                                            |Updates a safe
+[`Add-PASSafeMember`][Add-PASSafeMember]                                                 |**9.3** ([Notes](#add-passafemember))               |Adds a Safe Member to a safe
+[`Get-PASSafeMember`][Get-PASSafeMember]                                                 |**9.7** ([Notes](#get-passafemember))               |Lists the members of a Safe
+[`Remove-PASSafeMember`][Remove-PASSafeMember]                                           |**9.3** ([Notes](#remove-passafemember)             |Removes a member from a safe
+[`Set-PASSafeMember`][Set-PASSafeMember]                                                 |**9.3** ([Notes](#set-passafemember)                |Updates a Safe Member's Permissions
+[`Add-PASSafe`][Add-PASSafe]                                                             | **9.2** ([Notes](#add-passafe))                    |Adds a new safe
+[`Get-PASSafe`][Get-PASSafe]                                                             | **9.7** ([Notes](#get-passafe))                    |Returns safe details
+[`Remove-PASSafe`][Remove-PASSafe]                                                       | **9.3** ([Notes](#remove-passafe))                 |Deletes a safe
+[`Set-PASSafe`][Set-PASSafe]                                                             | **9.3** ([Notes](#set-passafe))                    |Updates a safe
 [`Get-PASSafeShareLogo`][Get-PASSafeShareLogo]                                           | **9.7**                                            |Returns details of SafeShare Logo
 [`Get-PASServer`][Get-PASServer]                                                         | **9.7**                                            |Returns details of the Web Service Server
 [`Get-PASServerWebService`][Get-PASServerWebService]                                     | **9.7**                                            |Returns details of the Web Service
@@ -427,6 +427,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
     - `GroupID`
     - `memberID`
 - The Gen1 API endpoint can be used by using the `GroupName` & `UserName` parameters.
+- Gen1 API depreciated from 12.3
 
 ### Get-PASUser
 
@@ -438,12 +439,14 @@ If you are using version 9.7+, and the function being invoked requires version 9
     - Get user by ID.
 - Version 11.5 returns additional group membership  detail for user accounts.
 - Version 12.1 introduced new parameter to request `ExtendedDetails` for a user.
+- Version 12.2 introduced new `sort` parameter and ability to filter by UserName.
 
 ### New-PASUser
 
 - Version 10.9 introduced a new API endpoint.
   - Supports:
     - Additional property parameters.
+- Gen1 API depreciated from 12.3
 
 ### Unblock-PASUser
 
@@ -451,6 +454,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
   - Requires Parameters:
     - `userID`
 - The Gen1 API endpoint can be used by using the `userName` parameter.
+- Gen1 API depreciated from 12.3
 
 ### Get-PASDirectory
 
@@ -508,12 +512,14 @@ If you are using version 9.7+, and the function being invoked requires version 9
 - Version 11.1 introduced a new API endpoint.
   - Supports:
     - Delete User by ID
+- Gen1 API depreciated from 12.3
 
 ### Set-PASUser
 
 - Version 11.1 introduced a new API endpoint.
   - Supports:
     - Additional parameters for updating users.
+- Gen1 API depreciated from 12.3
 
 ### Get-PASPTAEvent
 
@@ -529,6 +535,15 @@ If you are using version 9.7+, and the function being invoked requires version 9
 
 - Version 12.0 introduced a new API endpoint.
 - Version 12.1 introduced new filter parameters.
+- Version 12.2 introduces capability to get permissions of individual safe member.
+
+### Set-PASSafeMember
+
+- Version 12.2 introduced a new API endpoint.
+
+### Remove-PASSafeMember
+
+- Version 12.2 introduced a new API endpoint.
 
 ### Add-PASSafeMember
 
@@ -542,6 +557,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 
 - Version 12.0 introduced a new API endpoint.
 - Version 12.1 introduced a new parameter `extendedDetails`.
+- Version 12.1 introduces capability to get details of individual safe using the Gen2 API.
 
 ### Remove-PASSafe
 
@@ -555,3 +571,8 @@ If you are using version 9.7+, and the function being invoked requires version 9
 ### Get-PASGroup
 
 - Version 12.0 introduced `includeMembers` parameter.
+- Version 12.2 introduced new `sort` parameter.
+
+### Set-PASSafe
+
+- Version 12.2 introduced new API endpoint
