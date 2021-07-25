@@ -34,7 +34,6 @@ function Get-PASUser {
 		)]
 		[string]$UserType,
 
-
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
@@ -47,6 +46,17 @@ function Get-PASUser {
 		)]
 		[boolean]$ComponentUser,
 
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-ExtendedDetails'
+		)]
+		[string[]]$sort,
 
 		[parameter(
 			Mandatory = $false,
@@ -56,11 +66,28 @@ function Get-PASUser {
 		[boolean]$ExtendedDetails,
 
 		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-ExtendedDetails'
+		)]
+		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1'
 		)]
-		[string]$UserName
+		[string]$UserName,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Gen1'
+		)]
+		[switch]$UseGen1API
 	)
 
 	BEGIN { }#begin
@@ -75,6 +102,7 @@ function Get-PASUser {
 			'Gen2ID' {
 
 				Assert-VersionRequirement -RequiredVersion 10.10
+
 				#Create URL for request
 				$URI = "$URI/$id"
 
@@ -90,7 +118,19 @@ function Get-PASUser {
 
 			( { $PSItem -match '^Gen2' } ) {
 
+				switch ($PSBoundParameters.Keys) {
+
+					{ $_ -match 'UserName|sort' } {
+
+						#Gen2 UserName & Sort parameters require 12.2
+						Assert-VersionRequirement -RequiredVersion 12.2
+
+					}
+
+				}
+
 				Assert-VersionRequirement -RequiredVersion 10.9
+
 				#Get Parameters to include in request
 				$boundParameters = $PSBoundParameters | Get-PASParameter
 
@@ -109,6 +149,8 @@ function Get-PASUser {
 			}
 
 			'Gen1' {
+
+				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"

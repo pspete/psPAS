@@ -16,7 +16,8 @@ Returns details of vault users
 
 ### Gen2 (Default)
 ```
-Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [<CommonParameters>]
+Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [-sort <String[]>]
+ [-UserName <String>] [<CommonParameters>]
 ```
 
 ### Gen2ID
@@ -26,13 +27,13 @@ Get-PASUser -id <Int32> [<CommonParameters>]
 
 ### Gen2-ExtendedDetails
 ```
-Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [-ExtendedDetails <Boolean>]
- [<CommonParameters>]
+Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [-sort <String[]>]
+ [-ExtendedDetails <Boolean>] [-UserName <String>] [<CommonParameters>]
 ```
 
 ### Gen1
 ```
-Get-PASUser -UserName <String> [<CommonParameters>]
+Get-PASUser -UserName <String> [-UseGen1API] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -158,6 +159,21 @@ Accept wildcard characters: False
 ### -UserName
 The user's name
 
+Default operation targets the Gen2 API & requires minimum version of 12.2.
+
+For operation against versions earlier than 12.2, the `UseGen1API` parameter should also be specified.
+```yaml
+Type: String
+Parameter Sets: Gen2, Gen2-ExtendedDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ```yaml
 Type: String
 Parameter Sets: Gen1
@@ -184,6 +200,43 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -sort
+Property or properties by which to sort returned accounts,
+followed by asc (default) or desc to control sort direction.
+
+Cannot sort by a property other than `username`, `usertype`, `firstname`, `lastname`, `location`, `middlename` or `source`.
+
+Separate multiple properties with commas, up to a maximum of three properties.
+
+Requires minimum version of 12.2
+
+```yaml
+Type: String[]
+Parameter Sets: Gen2, Gen2-ExtendedDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Forces use of the Gen1 API endpoint
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
