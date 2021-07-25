@@ -1,5 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Remove-PASSafeMember {
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = 'False Positive')]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
