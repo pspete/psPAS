@@ -8,7 +8,7 @@
 
 Use PowerShell to manage CyberArk via the PVWA REST API.
 
-Contains all published methods of the API up to CyberArk v12.1.
+Contains all published methods of the API up to CyberArk v12.2.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -613,7 +613,8 @@ $Role2 = [PSCustomObject]@{
   BackupSafe                             = $false
   ViewAuditLog                           = $true
   ViewSafeMembers                        = $true
-  RequestsAuthorizationLevel             = $false
+  requestsAuthorizationLevel1            = $false
+  requestsAuthorizationLevel2            = $false
   AccessWithoutConfirmation              = $true
   CreateFolders                          = $true
   DeleteFolders                          = $true

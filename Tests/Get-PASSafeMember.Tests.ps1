@@ -68,7 +68,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'sends request to expected endpoint' {
 
-				$response = $InputObj | Get-PASSafeMember -MemberName SomeMember
+				$response = $InputObj | Get-PASSafeMember -MemberName SomeMember -UseGen1API
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -86,16 +86,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'uses expected PUT method' {
 
-				$response = Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember
+				$response = Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember -UseGen1API
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It 'throws for PUT method if version exceeds 12.2' {
+			It 'throws for PUT method if version exceeds 12.3' {
 
-				$Script:ExternalVersion = '12.3'
-				{ Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember } | Should -Throw
+				$Script:ExternalVersion = '12.4'
+				{ Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember -UseGen1API } | Should -Throw
 				$Script:ExternalVersion = '0.0'
 
 			}
@@ -139,8 +139,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sends request to expected endpoint' {
+
+				Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members/SomeMember"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'sends expected query' {
+
 				Get-PASSafeMember -SafeName SomeSafe -search SomeMember -memberType user
+
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					($URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members?filter=memberType%20eq%20user&search=SomeMember") -or
@@ -170,6 +184,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'throws error if version 12.1 requirement not met' {
 				$Script:ExternalVersion = '12.0'
 				{ Get-PASSafeMember -SafeName SomeSafe -search SomeMember } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+			}
+
+			It 'throws error if version 12.2 requirement not met' {
+				$Script:ExternalVersion = '12.0'
+				{ Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember } | Should -Throw
 				$Script:ExternalVersion = '0.0'
 			}
 
@@ -294,7 +314,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				}
 
-				$response = $InputObj | Get-PASSafeMember -MemberName SomeMember
+				$response = $InputObj | Get-PASSafeMember -MemberName SomeMember -UseGen1API
 
 				$response.UserName | Should -Be 'SomeMember'
 

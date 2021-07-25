@@ -35,20 +35,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context 'Mandatory Parameters' {
-
-			$Parameters = @{Parameter = 'UserName' }
-
-			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Get-PASUser).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
-
-			}
-
-		}
-
 		Context 'Input' {
 
 			BeforeEach {
@@ -79,6 +65,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'sends request to expected endpoint' {
+
+				$response = $InputObj | Get-PASUser -UseGen1API
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -143,7 +131,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'throws error if version 12.1 requirement not met' {
 				$Script:ExternalVersion = '1.0'
-				{ Get-PASUser -id 123 -extendedDetails $true } | Should -Throw
+				{ Get-PASUser -id 123 -ExtendedDetails $true } | Should -Throw
 				$Script:ExternalVersion = '0.0'
 			}
 
@@ -185,6 +173,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'outputs object with expected typename' {
 
+				$response = $InputObj | Get-PASUser -UseGen1API
+
 				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User
 
 			}
@@ -200,8 +190,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User.Extended
 
 			}
-
-
 
 		}
 

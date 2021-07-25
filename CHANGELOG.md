@@ -5,11 +5,55 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
-## Unreleased
+## Unreleased **5.2.XX (July XX 2021)**
 
-- Updates
+### Module update to cover all CyberArk 12.2 API features
+
+- Breaking Changes
   - `Request-PASJustInTimeAccess`
     - Command renamed from `Request-PASAdHocAccess` in line with CyberArk feature nomenclature.
+  - `Get-PASSafeMember`
+    - Adds capability to get permissions for individual safe member using the Gen2 API from 12.2 onward.
+    - Addition of `UseGen1API` parameter allows operation against Gen1 API if required.
+  - `Set-PASSafeMember`
+    - Adds Gen2 API capability introduced in 12.2.
+    - Default operation is now via Gen2 API.
+    - Addition of `UseGen1API` parameter allows operation against Gen1 API if required.
+  - `Remove-PASSafeMember`
+    - Adds support for operation against Gen2 API introduced in PAS 12.2
+    - Default operation now requires 12.2
+    - `UseGen1API` parameter added to force operation against Gen1 API for earlier PAS versions.
+  - `Set-PASSafe`
+    - Adds Gen2 API capability introduced in 12.2.
+    - Default operation is now via Gen2 API.
+    - Addition of `UseGen1API` parameter allows operation against Gen1 API if required.
+- New Commands
+  - `Get-PASAccountDetail`
+    - New experimental function developed using unofficial documentation
+  - `Revoke-PASJustInTimeAccess`
+    - New API function supported from 12.0 (previously missed)
+    - Revokes requested JIT access.
+- Other Updates
+  - `Get-PASSafe`
+    - Implements Get Individual Safe details using Gen2 API feature of PAS 12.2.
+    - Adds `UseGen1API` parameter to allow backward compatibility when using the `SafeName` parameter.
+    - Changes depreciation of Gen1 API operations from 12.2 to 12.3.
+  - `Get-PASUser`
+    - New `sort` parameter added, supported from 12.2.
+    - Added ability to filter by UserName using Gen2 API.
+    - Gen1 search by UserName now accessible by also specifying the introduced `UseGen1API` parameter.
+  - `Get-PASGroup`
+    - New `sort` parameter added, supported from 12.2.
+  - `Add-PASGroupMember`
+    - Added version check to prevent use of Gen1 API starting from 12.3 in line with documented plan for API depreciation
+  - `New-PASUser`
+    - Added version check to prevent use of Gen1 API starting from 12.3 in line with documented plan for API depreciation
+  - `Remove-PASUser`
+    - Added version check to prevent use of Gen1 API starting from 12.3 in line with documented plan for API depreciation
+  - `Set-PASUser`
+    - Added version check to prevent use of Gen1 API starting from 12.3 in line with documented plan for API depreciation
+  - `Unblock-PASUser`
+    - Added version check to prevent use of Gen1 API starting from 12.3 in line with documented plan for API depreciation
   - Account Methods updated to apply to account details obtained via Gen2 API calls
     - `VerifyPassword()`
       - Updated method to use `Invoke-PASCPMOperation`
@@ -21,12 +65,6 @@
       - New method using `Get-PASAccountDetail`
   - Alias Removal
     - Removed alias values for previously depreciated command names
-- New Commands
-  - `Get-PASAccountDetail`
-    - New experimental function based off of unofficial documentation
-  - `Revoke-PASJustInTimeAccess`
-    - New API function supported from 12.0 (previously missed)
-    - Revokes requested JIT access.
 
 ## **5.1.44 (July 13th 2021)**
 

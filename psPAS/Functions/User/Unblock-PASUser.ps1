@@ -1,26 +1,26 @@
 # .ExternalHelp psPAS-help.xml
 function Unblock-PASUser {
 
-	[CmdletBinding(DefaultParameterSetName = "Gen2")]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[int]$id,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$UserName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateSet($false)]
 		[boolean]$Suspended
@@ -28,7 +28,7 @@ function Unblock-PASUser {
 
 	BEGIN {
 
-		$Request = @{"WebSession" = $Script:WebSession }
+		$Request = @{'WebSession' = $Script:WebSession }
 
 	}#begin
 
@@ -36,24 +36,26 @@ function Unblock-PASUser {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"Gen2" {
+			'Gen2' {
 
 				Assert-VersionRequirement -RequiredVersion 10.10
 
 				#Create request
-				$Request["URI"] = "$Script:BaseURI/api/Users/$id/Activate"
-				$Request["Method"] = "POST"
+				$Request['URI'] = "$Script:BaseURI/api/Users/$id/Activate"
+				$Request['Method'] = 'POST'
 
 				break
 
 			}
 
-			"Gen1" {
+			'Gen1' {
+
+				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create request
-				$Request["URI"] = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
-				$Request["Method"] = "PUT"
-				$Request["Body"] = $PSBoundParameters | Get-PASParameter -ParametersToRemove UserName | ConvertTo-Json
+				$Request['URI'] = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
+				$Request['Method'] = 'PUT'
+				$Request['Body'] = $PSBoundParameters | Get-PASParameter -ParametersToRemove UserName | ConvertTo-Json
 
 				break
 

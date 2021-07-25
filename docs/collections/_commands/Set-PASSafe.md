@@ -14,22 +14,32 @@ Updates a safe in the Vault
 
 ## SYNTAX
 
-### Update (Default)
+### Gen2-NumberOfDaysRetention (Default)
 ```
-Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
-```
-
-### Versions
-```
-Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] [-NumberOfVersionsRetention <Int32>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-location <String>]
+ [-OLACEnabled <Boolean>] [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
-### Days
+### Gen2-NumberOfVersionsRetention
+```
+Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-location <String>]
+ [-OLACEnabled <Boolean>] [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
+### Gen1-NumberOfVersionsRetention
 ```
 Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] [-NumberOfDaysRetention <Int32>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-ManagingCPM <String>] [-NumberOfVersionsRetention <Int32>] [-UseGen1API] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
+### Gen1-NumberOfDaysRetention
+```
+Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-OLACEnabled <Boolean>]
+ [-ManagingCPM <String>] [-NumberOfDaysRetention <Int32>] [-UseGen1API] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -43,7 +53,16 @@ Manage Safe permission is required.
 Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfVersionsRetention 10
 ```
 
-Updates description and version retention on SAFE
+Updates description and version retention on SAFE using Gen2 API
+
+Minimum required version 12.2
+
+### EXAMPLE 2
+```
+Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfDaysRetention 10 -UseGen1API
+```
+
+Updates description and number of days retention on SAFE using Gen1 API
 
 ## PARAMETERS
 
@@ -139,13 +158,25 @@ Specify either this parameter or NumberOfDaysRetention.
 
 ```yaml
 Type: Int32
-Parameter Sets: Versions
+Parameter Sets: Gen2-NumberOfVersionsRetention
+Aliases:
+
+Required: True
+Position: Named
+Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: Int32
+Parameter Sets: Gen1-NumberOfVersionsRetention
 Aliases:
 
 Required: False
 Position: Named
 Default value: 0
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -158,13 +189,25 @@ Specify either this parameter or NumberOfVersionsRetention
 
 ```yaml
 Type: Int32
-Parameter Sets: Days
+Parameter Sets: Gen2-NumberOfDaysRetention
+Aliases:
+
+Required: True
+Position: Named
+Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: Int32
+Parameter Sets: Gen1-NumberOfDaysRetention
 Aliases:
 
 Required: False
 Position: Named
 Default value: 0
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -196,6 +239,40 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -location
+The vault location to set for the safe
+
+Minimum required version 12.2
+
+```yaml
+Type: String
+Parameter Sets: Gen2-NumberOfDaysRetention, Gen2-NumberOfVersionsRetention
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Specify to force usage the Gen1 API endpoint.
+
+Should be specified for versions earlier than 12.2
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1-NumberOfVersionsRetention, Gen1-NumberOfDaysRetention
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

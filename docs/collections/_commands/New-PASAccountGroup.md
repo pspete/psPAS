@@ -57,7 +57,9 @@ Accept wildcard characters: False
 ### -GroupPlatformID
 The name of the platform for the group.
 
-The associated platform must be set to "PolicyType=Group"
+The associated platform must be set to "PolicyType=Group" or "PolicyType=RotationalGroup"
+
+To add Account Group with Policy Type of Rotational Group requires minimum version of 12.2
 
 ```yaml
 Type: String

@@ -1,22 +1,11 @@
 # .ExternalHelp psPAS-help.xml
 function Set-PASSafe {
 	[CmdletBinding(SupportsShouldProcess,
-		DefaultParameterSetName = "Update")]
+		DefaultParameterSetName = 'Gen2-NumberOfDaysRetention')]
 	param(
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Update"
-		)]
-		[Parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Days"
-		)]
-		[Parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Versions"
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
 		[ValidateScript( { $_ -notmatch ".*(\\|\/|:|\*|<|>|`"|\.|\||^\s).*" })]
@@ -39,6 +28,18 @@ function Set-PASSafe {
 		[ValidateLength(0, 100)]
 		[string]$Description,
 
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-NumberOfDaysRetention'
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-NumberOfVersionsRetention'
+		)]
+		[string]$location,
+
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false
@@ -51,52 +52,126 @@ function Set-PASSafe {
 		)]
 		[string]$ManagingCPM,
 
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-NumberOfVersionsRetention'
+		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "Versions"
+			ParameterSetName = 'Gen1-NumberOfVersionsRetention'
 		)]
 		[ValidateRange(1, 999)]
 		[int]$NumberOfVersionsRetention,
 
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-NumberOfDaysRetention'
+		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "Days"
+			ParameterSetName = 'Gen1-NumberOfDaysRetention'
 		)]
 		[ValidateRange(1, 3650)]
-		[int]$NumberOfDaysRetention
+		[int]$NumberOfDaysRetention,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1-NumberOfVersionsRetention'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1-NumberOfDaysRetention'
+		)]
+		[switch]$UseGen1API
+
 	)
 
 	BEGIN { }#begin
 
 	PROCESS {
 
-		#Create URL for Request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
-
-            Get-EscapedString)"
+		$typename = 'psPAS.CyberArk.Vault.Safe'
 
 		$BoundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName, NewSafeName
 
-		if ($PSBoundParameters.ContainsKey("NewSafeName")) {
-			$BoundParameters["SafeName"] = $PSBoundParameters["NewSafeName"]
+		if ($PSBoundParameters.ContainsKey('NewSafeName')) {
+
+			$BoundParameters['SafeName'] = $PSBoundParameters['NewSafeName']
+
 		}
 
-		#Create Request Body
-		$body = @{
-			"safe" = $BoundParameters
+		switch ($PSCmdlet.ParameterSetName) {
 
-		} | ConvertTo-Json
+			( { $PSItem -match '^Gen2-' } ) {
 
-		if ($PSCmdlet.ShouldProcess($SafeName, "Update Safe Properties")) {
+				Assert-VersionRequirement -RequiredVersion 12.2
+
+				$typename = "$typename.Gen2"
+
+				#Create URL for Request
+				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)"
+
+				#Create Request Body
+				$body = $BoundParameters | ConvertTo-Json
+
+				break
+
+			}
+
+			( { $PSItem -match '^Gen1-' } ) {
+
+				Assert-VersionRequirement -MaximumVersion 12.3
+
+				#Create URL for Request
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName | Get-EscapedString)"
+
+				#Create Request Body
+				$body = @{
+
+					'safe' = $BoundParameters
+
+				} | ConvertTo-Json
+
+				break
+
+			}
+
+		}
+
+		if ($PSCmdlet.ShouldProcess($SafeName, 'Update Safe Properties')) {
 
 			#Send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 			If ($null -ne $result) {
 
-				$result.UpdateSafeResult | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe
+				switch ($PSCmdlet.ParameterSetName) {
+
+					( { $PSItem -match '^Gen1-' } ) {
+
+						$return = $result.UpdateSafeResult
+
+						break
+
+					}
+
+					default {
+
+						$return = $result
+
+						break
+
+					}
+
+				}
+
+				$return | Add-ObjectDetail -typename $typename
 
 			}
 
