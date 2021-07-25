@@ -14,6 +14,20 @@ Updates a Safe Member
 
 ## SYNTAX
 
+### Gen2 (Default)
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>]
+ [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>] [-ListAccounts <Boolean>] [-AddAccounts <Boolean>]
+ [-UpdateAccountContent <Boolean>] [-UpdateAccountProperties <Boolean>]
+ [-InitiateCPMAccountManagementOperations <Boolean>] [-SpecifyNextAccountContent <Boolean>]
+ [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>] [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>]
+ [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>] [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>]
+ [-requestsAuthorizationLevel1 <Boolean>] [-requestsAuthorizationLevel2 <Boolean>]
+ [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### Gen1
 ```
 Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>]
  [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>] [-ListAccounts <Boolean>] [-AddAccounts <Boolean>]
@@ -22,13 +36,16 @@ Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpiration
  [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>] [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>]
  [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>] [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>]
  [-RequestsAuthorizationLevel <Int32>] [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>]
- [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [-UseGen1API] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Updates an existing Safe Member's permissions on a safe.
 
 Manage Safe Members permission is required.
+
+Default operation against the Gen2 API requires a minimum version of 12.2
 
 ## EXAMPLES
 
@@ -37,7 +54,16 @@ Manage Safe Members permission is required.
 Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true
 ```
 
-Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts"
+Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts" using the Gen2 API.
+
+Minimum required version 12.2
+
+### EXAMPLE 2
+```
+Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true -UseGen1API
+```
+
+Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts" using the Gen1 API.
 
 ## PARAMETERS
 
@@ -93,7 +119,7 @@ safe member on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: RestrictedRetrieve
 
 Required: False
 Position: Named
@@ -109,7 +135,7 @@ to safe member on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: Retrieve
 
 Required: False
 Position: Named
@@ -125,7 +151,7 @@ safe member on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: ListContent
 
 Required: False
 Position: Named
@@ -143,7 +169,7 @@ Includes UpdateAccountProperties (when adding or removing permission).
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: Add
 
 Required: False
 Position: Named
@@ -159,7 +185,7 @@ member on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: Update
 
 Required: False
 Position: Named
@@ -175,7 +201,7 @@ to safe member on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: UpdateMetadata
 
 Required: False
 Position: Named
@@ -223,7 +249,7 @@ member on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: Rename
 
 Required: False
 Position: Named
@@ -239,7 +265,7 @@ member on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: Delete
 
 Required: False
 Position: Named
@@ -255,7 +281,7 @@ member on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: Unlock
 
 Required: False
 Position: Named
@@ -319,7 +345,7 @@ on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: ViewAudit
 
 Required: False
 Position: Named
@@ -335,7 +361,7 @@ on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: ViewMembers
 
 Required: False
 Position: Named
@@ -351,7 +377,7 @@ Valid Values: 0, 1 or 2
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: Gen1
 Aliases:
 
 Required: False
@@ -384,7 +410,7 @@ on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: AddRenameFolder
 
 Required: False
 Position: Named
@@ -416,7 +442,7 @@ member on safe.
 ```yaml
 Type: Boolean
 Parameter Sets: (All)
-Aliases:
+Aliases: MoveFilesAndFolders
 
 Required: False
 Position: Named
@@ -450,6 +476,57 @@ Parameter Sets: (All)
 Aliases: cf
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -requestsAuthorizationLevel1
+Boolean value defining if requestsAuthorizationLevel1 permission will be granted to safe member on safe.
+
+Minimum required version 12.2
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -requestsAuthorizationLevel2
+Boolean value defining if requestsAuthorizationLevel2 permission will be granted to safe member on safe.
+
+Minimum required version 12.2
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Specify to force usage the Gen1 API endpoint.
+
+Should be specified for versions earlier than 12.2
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
