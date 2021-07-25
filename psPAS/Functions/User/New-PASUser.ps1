@@ -1,16 +1,16 @@
 ﻿# .ExternalHelp psPAS-help.xml
 function New-PASUser {
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "Gen2")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Gen2')]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateLength(0, 128)]
 		[string]$UserName,
@@ -18,133 +18,133 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[securestring]$InitialPassword,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[string]$userType,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet("PIMSU", "PSM", "PSMP", "PVWA", "WINCLIENT", "PTA", "PACLI", "NAPI", "XAPI", "HTTPGW",
-			"EVD", "PIMSu", "AIMApp", "CPM", "PVWAApp", "PSMApp", "AppPrv", "AIMApp", "PSMPApp")]
+		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
+			'EVD', 'PIMSu', 'AIMApp', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp')]
 		[string[]]$unAuthorizedInterfaces,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[boolean]$enableUser,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet("AuthTypePass", "AuthTypeLDAP", "AuthTypeRADIUS")]
+		[ValidateSet('AuthTypePass', 'AuthTypeLDAP', 'AuthTypeRADIUS')]
 		[string[]]$authenticationMethod,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$Email,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[boolean]$ChangePassOnNextLogon,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[boolean]$ChangePasswordOnTheNextLogon,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[boolean]$passwordNeverExpires,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[string]$distinguishedName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet("AddSafes", "AuditUsers", "AddUpdateUsers", "ResetUsersPasswords", "ActivateUsers",
-			"AddNetworkAreas", "ManageDirectoryMapping", "ManageServerFileCategories", "BackupAllSafes",
-			"RestoreAllSafes")]
+		[ValidateSet('AddSafes', 'AuditUsers', 'AddUpdateUsers', 'ResetUsersPasswords', 'ActivateUsers',
+			'AddNetworkAreas', 'ManageDirectoryMapping', 'ManageServerFileCategories', 'BackupAllSafes',
+			'RestoreAllSafes')]
 		[string[]]$vaultAuthorization,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[datetime]$ExpiryDate,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$UserTypeName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[boolean]$Disabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$Location,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 29)]
 		[string]$workStreet,
@@ -152,7 +152,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workCity,
@@ -160,7 +160,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workState,
@@ -168,7 +168,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workZip,
@@ -176,7 +176,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 19)]
 		[string]$workCountry,
@@ -184,7 +184,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 319)]
 		[string]$homePage,
@@ -192,7 +192,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 319)]
 		[string]$homeEmail,
@@ -201,7 +201,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 319)]
 		[string]$businessEmail,
@@ -209,7 +209,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 319)]
 		[string]$otherEmail,
@@ -217,7 +217,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 24)]
 		[string]$homeNumber,
@@ -225,7 +225,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 24)]
 		[string]$businessNumber,
@@ -233,7 +233,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 24)]
 		[string]$cellularNumber,
@@ -241,7 +241,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 24)]
 		[string]$faxNumber,
@@ -249,7 +249,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 24)]
 		[string]$pagerNumber,
@@ -257,7 +257,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 99)]
 		[string]$description,
@@ -266,12 +266,12 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateLength(0, 29)]
 		[string]$FirstName,
@@ -279,7 +279,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 29)]
 		[string]$MiddleName,
@@ -288,12 +288,12 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateLength(0, 29)]
 		[string]$LastName,
@@ -301,7 +301,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 29)]
 		[string]$street,
@@ -309,7 +309,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 19)]
 		[string]$city,
@@ -317,7 +317,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 19)]
 		[string]$state,
@@ -325,7 +325,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 19)]
 		[string]$zip,
@@ -333,7 +333,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 19)]
 		[string]$country,
@@ -341,7 +341,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 49)]
 		[string]$title,
@@ -349,7 +349,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 49)]
 		[string]$organization,
@@ -357,7 +357,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 49)]
 		[string]$department,
@@ -365,7 +365,7 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateLength(0, 49)]
 		[string]$profession,
@@ -373,9 +373,9 @@ function New-PASUser {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
-		[Alias("UseClassicAPI")]
+		[Alias('UseClassicAPI')]
 		[switch]$UseGen1API
 	)
 
@@ -386,16 +386,16 @@ function New-PASUser {
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		If ($PSBoundParameters.ContainsKey("InitialPassword")) {
+		If ($PSBoundParameters.ContainsKey('InitialPassword')) {
 
 			#Include decoded password in request
-			$boundParameters["InitialPassword"] = $(ConvertTo-InsecureString -SecureString $InitialPassword)
+			$boundParameters['InitialPassword'] = $(ConvertTo-InsecureString -SecureString $InitialPassword)
 
 		}
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"Gen2" {
+			'Gen2' {
 
 				Assert-VersionRequirement -RequiredVersion 10.9
 
@@ -404,28 +404,30 @@ function New-PASUser {
 
 				$boundParameters = $boundParameters | Format-PASUserObject
 
-				$TypeName = "psPAS.CyberArk.Vault.User.Extended"
+				$TypeName = 'psPAS.CyberArk.Vault.User.Extended'
 
 				break
 
 			}
 
-			"Gen1" {
+			'Gen1' {
+
+				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users"
 
-				If ($PSBoundParameters.ContainsKey("ExpiryDate")) {
+				If ($PSBoundParameters.ContainsKey('ExpiryDate')) {
 
 					#Convert ExpiryDate to string in Required format
 					$Date = (Get-Date $ExpiryDate -Format MM/dd/yyyy).ToString()
 
 					#Include date string in request
-					$boundParameters["ExpiryDate"] = $Date
+					$boundParameters['ExpiryDate'] = $Date
 
 				}
 
-				$TypeName = "psPAS.CyberArk.Vault.User"
+				$TypeName = 'psPAS.CyberArk.Vault.User'
 
 				break
 
@@ -436,7 +438,7 @@ function New-PASUser {
 		#Construct Request Body
 		$body = $boundParameters | ConvertTo-Json -Depth 4
 
-		if ($PSCmdlet.ShouldProcess($UserName, "Create User")) {
+		if ($PSCmdlet.ShouldProcess($UserName, 'Create User')) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
