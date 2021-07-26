@@ -121,6 +121,8 @@ commands:
         url: /commands/New-PASAccountPassword
       - title: "Set-PASLinkedAccount"
         url: /commands/Set-PASLinkedAccount
+      - title: "Clear-PASLinkedAccount"
+        url: /commands/Clear-PASLinkedAccount
 
   - title: "Applications"
     children:

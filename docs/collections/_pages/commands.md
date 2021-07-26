@@ -191,6 +191,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get Secret Versions][Get Secret Versions]                                                     | [Get-PASAccountPasswordVersion][Get-PASAccountPasswordVersion]
 [Generate Password][Generate Password]                                                         | [New-PASAccountPassword][New-PASAccountPassword]
 [Link an Account][Link an Account]                                                             | [Set-PASLinkedAccount][Set-PASLinkedAccount]
+[Unlink an Account][Unlink an Account]                                                         | [Clear-PASLinkedAccount][Clear-PASLinkedAccount]
 [Delete all MFA caching SSH keys][Delete all MFA caching SSH keys]                             | [Clear-PASPrivateSSHKey][Clear-PASPrivateSSHKey]
 [Generate an MFA caching SSH key][Generate an MFA caching SSH key]                                   | [New-PASPrivateSSHKey][New-PASPrivateSSHKey]
 [Generate an MFA caching SSH key for another user][Generate an MFA caching SSH key for another user] | [New-PASPrivateSSHKey][New-PASPrivateSSHKey]
@@ -334,6 +335,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get-PASAccountPasswordVersion]:/commands/Get-PASAccountPasswordVersion
 [New-PASAccountPassword]:/commands/New-PASAccountPassword
 [Set-PASLinkedAccount]:/commands/Set-PASLinkedAccount
+[Clear-PASLinkedAccount]:/commands/Clear-PASLinkedAccount
 [Clear-PASPrivateSSHKey]:/commands/Clear-PASPrivateSSHKey
 [New-PASPrivateSSHKey]:/commands/New-PASPrivateSSHKey
 [Remove-PASPrivateSSHKey]:/commands/Remove-PASPrivateSSHKey
@@ -345,6 +347,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get Secret Versions]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Secrets-Get-versions.htm
 [Generate Password]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Secrets-Generate-Password.htm
 [Link an Account]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Link-account.htm
+[Unlink an Account]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Link-account-unlink.htm
 [Delete all MFA caching SSH keys]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20all%20MFA%20caching%20SSH%20keys.htm
 [Generate an MFA caching SSH key]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Generate%20MFA%20caching%20SSH%20key.htm
 [Generate an MFA caching SSH key for another user]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Generate%20MFA%20caching%20SSH%20key%20for%20another%20user.htm

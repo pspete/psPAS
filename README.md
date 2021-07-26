@@ -937,6 +937,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Get-PASAccountPasswordVersion`][Get-PASAccountPasswordVersion]                         |**12.1**            |Get details of previous password versions
 [`New-PASAccountPassword`][New-PASAccountPassword]                                       |**12.0**            |Generate new password values based on platform policy
 [`Set-PASLinkedAccount`][Set-PASLinkedAccount]                                           |**12.1**            |Associate logon and reconcile accounts
+[`Clear-PASLinkedAccount`][Clear-PASLinkedAccount]                                       |**12.2**            |Clear associated linked accounts
 [`Clear-PASPrivateSSHKey`][Clear-PASPrivateSSHKey]                                       |**12.1**            |Remove all MFA caching SSH Keys
 [`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                           |**12.1**            |Generate MFA caching SSH Keys
 [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                     |**12.1**            |Delete MFA caching SSH Keys
@@ -1078,6 +1079,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [Get-PASAccountPasswordVersion]:/psPAS/Functions/Accounts/Get-PASAccountPasswordVersion
 [New-PASAccountPassword]:/psPAS/Functions/Accounts/New-PASAccountPassword
 [Set-PASLinkedAccount]:/psPAS/Functions/Accounts/Set-PASLinkedAccount
+[Clear-PASLinkedAccount]:/psPAS/Functions/Accounts/Clear-PASLinkedAccount
 [Clear-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Clear-PASPrivateSSHKey
 [New-PASPrivateSSHKey]:/psPAS/Functions/Authentication/New-PASPrivateSSHKey
 [Remove-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Remove-PASPrivateSSHKey

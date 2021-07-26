@@ -159,6 +159,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Get-PASAccountPasswordVersion`][Get-PASAccountPasswordVersion]                         |**12.1**                                            |Get details of previous password versions
 [`New-PASAccountPassword`][New-PASAccountPassword]                                       |**12.0**                                            |Generate new password values based on platform policy
 [`Set-PASLinkedAccount`][Set-PASLinkedAccount]                                           |**12.1**                                            |Associate logon and reconcile accounts
+[`Clear-PASLinkedAccount`][Clear-PASLinkedAccount]                                       |**12.2**                                            |Clear associated linked accounts
 [`Clear-PASPrivateSSHKey`][Clear-PASPrivateSSHKey]                                       |**12.1**                                            |Remove all MFA caching SSH Keys
 [`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                           |**12.1**                                            |Generate MFA caching SSH Keys
 [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                     |**12.1**                                            |Delete MFA caching SSH Keys
@@ -169,6 +170,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [Get-PASAccountPasswordVersion]:/commands/Get-PASAccountPasswordVersion
 [New-PASAccountPassword]:/commands/New-PASAccountPassword
 [Set-PASLinkedAccount]:/commands/Set-PASLinkedAccount
+[Clear-PASLinkedAccount]:/commands/Clear-PASLinkedAccount
 [Clear-PASPrivateSSHKey]:/commands/Clear-PASPrivateSSHKey
 [New-PASPrivateSSHKey]:/commands/New-PASPrivateSSHKey
 [Remove-PASPrivateSSHKey]:/commands/Remove-PASPrivateSSHKey
