@@ -16,6 +16,9 @@ A lot of issues reported to the project stem from sources outside of the psPAS c
 
 Use the resources on this page to help navigate the project and information in the public domain to find resolutions for any challenge with psPAS you may face.
 
+The details on this site always relate to the latest module version. If you are using an older version of the module consult the module help, accessed via the PowerShell Get-Help CmdLet, to get details relevant to the version you use.
+{: .notice--info}
+
 ## Previous Issues
 
 Check the historic [issues](https://github.com/pspete/psPAS/issues?q=is%3Aissue) logged for the module; it is possible an answer, reason or resolution has already been provided for any observed behaviour.
