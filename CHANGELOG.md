@@ -33,6 +33,10 @@
   - `Revoke-PASJustInTimeAccess`
     - New API function supported from 12.0 (previously missed)
     - Revokes requested JIT access.
+  - `Clear-PASLinkedAccount`
+    - Unlinks associated Logon/Reconcile/ExtraPass accounts
+  - `Get-PASPlatformSummary`
+    - Returns basic platform system type information
 - Other Updates
   - `Get-PASSafe`
     - Implements Get Individual Safe details using Gen2 API feature of PAS 12.2.
