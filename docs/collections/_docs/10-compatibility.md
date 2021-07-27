@@ -164,8 +164,9 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                           |**12.1**                                            |Generate MFA caching SSH Keys
 [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                     |**12.1**                                            |Delete MFA caching SSH Keys
 [`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**                                            |Update CyberArk groups
+[`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                       |**12.2**                                            |Get basic information on current platform system types
 
-
+[Get-PASPlatformSummary]:/commands/Get-PASPlatformSummary
 [Clear-PASDiscoveredAccountList]:/commands/Clear-PASDiscoveredAccountList
 [Get-PASAccountPasswordVersion]:/commands/Get-PASAccountPasswordVersion
 [New-PASAccountPassword]:/commands/New-PASAccountPassword

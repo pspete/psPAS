@@ -253,6 +253,8 @@ commands:
         url: /commands/Get-PASPlatformPSMConfig
       - title: "Set-PASPlatformPSMConfig"
         url: /commands/Set-PASPlatformPSMConfig
+      - title: "Get-PASPlatformSummary"
+        url: /commands/Get-PASPlatformSummary
 
   - title: "Policy ACL"
     children:

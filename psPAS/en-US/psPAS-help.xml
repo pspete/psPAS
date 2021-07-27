@@ -14292,6 +14292,47 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-PASPlatformSummary</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>PASPlatformSummary</command:noun>
+      <maml:description>
+        <maml:para>Get list of all platform system types</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Retrieve basic information on all existing platform system types.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-PASPlatformSummary</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASPlatformSummary</dev:code>
+        <dev:remarks>
+          <maml:para>Returns list and count of each current platform system types.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASPlatformSummary</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Get-PASPlatformSummary</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-PASPolicyACL</command:name>
       <command:verb>Get</command:verb>
       <command:noun>PASPolicyACL</command:noun>

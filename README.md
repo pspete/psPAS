@@ -942,12 +942,14 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                           |**12.1**            |Generate MFA caching SSH Keys
 [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                     |**12.1**            |Delete MFA caching SSH Keys
 [`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**            |Update CyberArk groups
+[`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                       |**12.2**            |Get information on platform system types
 
-[Add-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider
-[Get-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Get-PASOpenIDConnectProvider
-[Remove-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Remove-PASOpenIDConnectProvider
-[Set-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Set-PASOpenIDConnectProvider
-[Remove-PASAuthenticationMethod]:/psPAS/Functions/Authentication/Remove-PASAuthenticationMethod
+[Get-PASPlatformSummary]:/psPAS/Functions/Platforms/Get-PASPlatformSummary.ps1
+[Add-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider.ps1
+[Get-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Get-PASOpenIDConnectProvider.ps1
+[Remove-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Remove-PASOpenIDConnectProvider.ps1
+[Set-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Set-PASOpenIDConnectProvider.ps1
+[Remove-PASAuthenticationMethod]:/psPAS/Functions/Authentication/Remove-PASAuthenticationMethod.ps1
 [Get-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Get-PASDiscoveredAccount.ps1
 [Start-PASAccountImportJob]:/psPAS/Functions/Accounts/Start-PASAccountImportJob.ps1
 [Get-PASAccountImportJob]:/psPAS/Functions/Accounts/Get-PASAccountImportJob.ps1
@@ -1075,15 +1077,15 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [Enable-PASPlatform]:psPAS/Functions/Platforms/Enable-PASPlatform.ps1
 [Remove-PASPlatform]:psPAS/Functions/Platforms/Remove-PASPlatform.ps1
 [Remove-PASGroup]:psPAS/Functions/User/Remove-PASGroup.ps1
-[Clear-PASDiscoveredAccountList]:/psPAS/Functions/Accounts/Clear-PASDiscoveredAccountList
-[Get-PASAccountPasswordVersion]:/psPAS/Functions/Accounts/Get-PASAccountPasswordVersion
-[New-PASAccountPassword]:/psPAS/Functions/Accounts/New-PASAccountPassword
-[Set-PASLinkedAccount]:/psPAS/Functions/Accounts/Set-PASLinkedAccount
-[Clear-PASLinkedAccount]:/psPAS/Functions/Accounts/Clear-PASLinkedAccount
-[Clear-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Clear-PASPrivateSSHKey
-[New-PASPrivateSSHKey]:/psPAS/Functions/Authentication/New-PASPrivateSSHKey
-[Remove-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Remove-PASPrivateSSHKey
-[Set-PASGroup]:/psPAS/Functions/User/Set-PASGroup
+[Clear-PASDiscoveredAccountList]:/psPAS/Functions/Accounts/Clear-PASDiscoveredAccountList.ps1
+[Get-PASAccountPasswordVersion]:/psPAS/Functions/Accounts/Get-PASAccountPasswordVersion.ps1
+[New-PASAccountPassword]:/psPAS/Functions/Accounts/New-PASAccountPassword.ps1
+[Set-PASLinkedAccount]:/psPAS/Functions/Accounts/Set-PASLinkedAccount.ps1
+[Clear-PASLinkedAccount]:/psPAS/Functions/Accounts/Clear-PASLinkedAccount.ps1
+[Clear-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Clear-PASPrivateSSHKey.ps1
+[New-PASPrivateSSHKey]:/psPAS/Functions/Authentication/New-PASPrivateSSHKey.ps1
+[Remove-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Remove-PASPrivateSSHKey.ps1
+[Set-PASGroup]:/psPAS/Functions/User/Set-PASGroup.ps1
 </details>
 
 ## Installation

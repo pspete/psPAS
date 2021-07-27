@@ -217,7 +217,8 @@
 		'Clear-PASPrivateSSHKey',
 		'Revoke-PASJustInTimeAccess',
 		'Get-PASAccountDetail',
-		'Clear-PASLinkedAccount'
+		'Clear-PASLinkedAccount',
+		'Get-PASPlatformSummary'
 	)
 
 	#AliasesToExport   = @()
