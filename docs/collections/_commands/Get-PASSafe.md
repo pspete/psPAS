@@ -20,9 +20,15 @@ Get-PASSafe [-search <String>] [-sort <String>] [-includeAccounts <Boolean>] [-e
  [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
+### Gen2-byName
+```
+Get-PASSafe [-includeAccounts <Boolean>] -SafeName <String> [-useCache <Boolean>] [-TimeoutSec <Int32>]
+ [<CommonParameters>]
+```
+
 ### Gen1-byName
 ```
-Get-PASSafe [-SafeName <String>] [-TimeoutSec <Int32>] [<CommonParameters>]
+Get-PASSafe [-SafeName <String>] [-UseGen1API] [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
 ### Gen1-byQuery
@@ -38,8 +44,9 @@ Get-PASSafe [-FindAll] [-TimeoutSec <Int32>] [<CommonParameters>]
 ## DESCRIPTION
 Gets safe by SafeName, by search query string, or, by default will return all safes.
 - Minimum required version for default operation using Gen2 API is 12.0.
+- Minimum required version for operation using Gen2-byName ParameterSet is 12.2.
 - For PAS versions earlier than 12.0, the Gen1 API parameters must be used.
-- Gen1 API parameters are depreciated for versions higher than 12.2.
+- Gen1 API parameters are depreciated for versions higher than 12.3.
 
 ## EXAMPLES
 
@@ -66,9 +73,9 @@ Minimum required version 12.1
 Get-PASSafe -SafeName SAFE1
 ```
 
-Returns details of "Safe1" using Gen1 API.
+Returns details of "Safe1" using Gen2 API.
 
-Depreciated from version 12.2
+Minimum required version 12.2
 
 ### EXAMPLE 4
 ```
@@ -86,18 +93,29 @@ Get-PASSafe -FindAll
 
 Returns details of all safes using Gen1 API.
 
-Depreciated from version 12.2
+Depreciated from version 12.3
+
+### EXAMPLE 6
+```
+Get-PASSafe -SafeName SAFE1 -UseGen1Api
+```
+
+Returns details of "Safe1" using Gen1 API.
+
+Depreciated from version 12.3
 
 ## PARAMETERS
 
 ### -includeAccounts
 Whether or not to return accounts for each Safe as part of the response.
 
-Minimum required version 12.0
+Minimum required version 12.0 (Default Gen2 Operation)
+
+Minimum required version 12.2 (Gen2-byName Operation)
 
 ```yaml
 Type: Boolean
-Parameter Sets: Gen2
+Parameter Sets: Gen2, Gen2-byName
 Aliases:
 
 Required: False
@@ -159,11 +177,25 @@ Accept wildcard characters: False
 ```
 
 ### -SafeName
-The name of a specific safe to get details of using Gen1 API.
+The name of a specific safe to get details of.
 
-Should be specified for versions earlier than 12.0
+Gen2 API operation requires minimum version 12.2
 
-Depreciated from version 12.2
+When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.
+
+Gen1 operation depreciated from version 12.3
+
+```yaml
+Type: String
+Parameter Sets: Gen2-byName
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
 ```yaml
 Type: String
@@ -182,7 +214,7 @@ Query String for safe search in the vault using Gen1 API.
 
 Should be specified for versions earlier than 12.0
 
-Depreciated from version 12.2
+Depreciated from version 12.3
 
 ```yaml
 Type: String
@@ -201,7 +233,7 @@ Specify to find all safes using Gen1 API.
 
 Should be specified for versions earlier than 12.0
 
-Depreciated from version 12.2
+Depreciated from version 12.3
 
 ```yaml
 Type: SwitchParameter
@@ -229,6 +261,36 @@ Required: False
 Position: Named
 Default value: 0
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -useCache
+Whether to retrieve from session or not.
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen2-byName
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Specify to force use of the Gen1 API
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1-byName
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Types>
 	<Type>
-		<Name>psPAS.CyberArk.Vault.Account</Name>
+		<Name>psPAS.CyberArk.Vault.Account.V10</Name>
 		<Members>
 			<ScriptMethod>
 				<Name>GetActivity</Name>
 				<Script>
 					$this | Get-PASAccountActivity
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>GetDetails</Name>
+				<Script>
+					$this | Get-PASAccountDetail
 				</Script>
 			</ScriptMethod>
 			<ScriptMethod>
@@ -18,13 +24,19 @@
 			<ScriptMethod>
 				<Name>VerifyPassword</Name>
 				<Script>
-					$this | Start-PASCredVerify
+					$this | Invoke-PASCPMOperation -VerifyTask
 				</Script>
 			</ScriptMethod>
 			<ScriptMethod>
 				<Name>ChangePassword</Name>
 				<Script>
-					$this | Start-PASCredChange -ImmediateChangeByCPM Yes
+					$this | Invoke-PASCPMOperation -ChangeTask
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>ReconcilePassword</Name>
+				<Script>
+					$this | Invoke-PASCPMOperation -ReconcileTask
 				</Script>
 			</ScriptMethod>
 			<ScriptMethod>

@@ -16,12 +16,14 @@ List groups from the vault
 
 ### groupType (Default)
 ```
-Get-PASGroup [-groupType <String>] [-search <String>] [-includeMembers <Boolean>] [<CommonParameters>]
+Get-PASGroup [-groupType <String>] [-sort <String[]>] [-search <String>] [-includeMembers <Boolean>]
+ [<CommonParameters>]
 ```
 
 ### filter
 ```
-Get-PASGroup [-filter <String>] [-search <String>] [-includeMembers <Boolean>] [<CommonParameters>]
+Get-PASGroup [-filter <String>] [-sort <String[]>] [-search <String>] [-includeMembers <Boolean>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -140,6 +142,28 @@ Requires minimum version of 12.0
 
 ```yaml
 Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -sort
+Property or properties by which to sort returned groups,
+followed by asc (default) or desc to control sort direction.
+
+Cannot sort by a property other than `groupname`, `directory` or `location`.
+
+Separate multiple properties with commas, up to a maximum of three properties.
+
+Requires minimum version of 12.2
+
+```yaml
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 

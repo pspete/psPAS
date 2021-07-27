@@ -8,7 +8,7 @@
 
 Use PowerShell to manage CyberArk via the PVWA REST API.
 
-Contains all published methods of the API up to CyberArk v12.1.
+Contains all published methods of the API up to CyberArk v12.2.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -613,7 +613,8 @@ $Role2 = [PSCustomObject]@{
   BackupSafe                             = $false
   ViewAuditLog                           = $true
   ViewSafeMembers                        = $true
-  RequestsAuthorizationLevel             = $false
+  requestsAuthorizationLevel1            = $false
+  requestsAuthorizationLevel2            = $false
   AccessWithoutConfirmation              = $true
   CreateFolders                          = $true
   DeleteFolders                          = $true
@@ -883,6 +884,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Get-PASPTARule`][Get-PASPTARule]                                                       |**10.4**            |List Risky Command rules from PTA
 [`Set-PASPTARemediation`][Set-PASPTARemediation]                                         |**10.4**            |Update automaticresponse config in PTA
 [`Set-PASPTARule`][Set-PASPTARule]                                                       |**10.4**            |Update a Risky Commandrule in PTA
+[`Get-PASAccountDetail`][Get-PASAccountDetail]                                           |**10.4**            |Returns information about accounts.
 [`Get-PASGroup`][Get-PASGroup]                                                           |**10.5**            |Return group information
 [`Remove-PASGroupMember`][Remove-PASGroupMember]                                         |**10.5**            |Remove group members
 [`Set-PASOnboardingRule`][Set-PASOnboardingRule]                                         |**10.5**            |Update Onboarding Rules
@@ -893,7 +895,8 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Get-PASPSMRecordingActivity`][Get-PASPSMRecordingActivity]                             |**10.6**            |Get activity details from a PSM Recording.
 [`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                             |**10.6**            |Get property details from a PSM Recording.
 [`Export-PASPSMRecording`][Export-PASPSMRecording]                                       |**10.6**            |Save PSM Session Recording to a file.
-[`Request-PASAdHocAccess`][Request-PASAdHocAccess]                                       |**10.6**            |Request temporary access to a server.
+[`Request-PASJustInTimeAccess`][Request-PASJustInTimeAccess]                             |**10.6**            |Request temporary access to a server.
+[`Revoke-PASJustInTimeAccess`][Revoke-PASJustInTimeAccess]                               |**12.0**            |Revoke temporary server access.
 [`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                     |**10.7**            |Get details of configured directory mappings.
 [`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                     |**10.7**            |Update a configured directory mapping.
 [`Remove-PASDirectory`][Remove-PASDirectory]                                             |**10.7**            |Delete a directory configuration.
@@ -934,16 +937,19 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Get-PASAccountPasswordVersion`][Get-PASAccountPasswordVersion]                         |**12.1**            |Get details of previous password versions
 [`New-PASAccountPassword`][New-PASAccountPassword]                                       |**12.0**            |Generate new password values based on platform policy
 [`Set-PASLinkedAccount`][Set-PASLinkedAccount]                                           |**12.1**            |Associate logon and reconcile accounts
+[`Clear-PASLinkedAccount`][Clear-PASLinkedAccount]                                       |**12.2**            |Clear associated linked accounts
 [`Clear-PASPrivateSSHKey`][Clear-PASPrivateSSHKey]                                       |**12.1**            |Remove all MFA caching SSH Keys
 [`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                           |**12.1**            |Generate MFA caching SSH Keys
 [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                     |**12.1**            |Delete MFA caching SSH Keys
 [`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**            |Update CyberArk groups
+[`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                       |**12.2**            |Get information on platform system types
 
-[Add-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider
-[Get-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Get-PASOpenIDConnectProvider
-[Remove-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Remove-PASOpenIDConnectProvider
-[Set-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Set-PASOpenIDConnectProvider
-[Remove-PASAuthenticationMethod]:/psPAS/Functions/Authentication/Remove-PASAuthenticationMethod
+[Get-PASPlatformSummary]:/psPAS/Functions/Platforms/Get-PASPlatformSummary.ps1
+[Add-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider.ps1
+[Get-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Get-PASOpenIDConnectProvider.ps1
+[Remove-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Remove-PASOpenIDConnectProvider.ps1
+[Set-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Set-PASOpenIDConnectProvider.ps1
+[Remove-PASAuthenticationMethod]:/psPAS/Functions/Authentication/Remove-PASAuthenticationMethod.ps1
 [Get-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Get-PASDiscoveredAccount.ps1
 [Start-PASAccountImportJob]:/psPAS/Functions/Accounts/Start-PASAccountImportJob.ps1
 [Get-PASAccountImportJob]:/psPAS/Functions/Accounts/Get-PASAccountImportJob.ps1
@@ -976,6 +982,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [Add-PASAccount]:/psPAS/Functions/Accounts/Add-PASAccount.ps1
 [Add-PASPendingAccount]:/psPAS/Functions/Accounts/Add-PASPendingAccount.ps1
 [Get-PASAccount]:/psPAS/Functions/Accounts/Get-PASAccount.ps1
+[Get-PASAccountDetail]:/psPAS/Functions/Accounts/Get-PASAccountDetail.ps1
 [Get-PASAccountActivity]:/psPAS/Functions/Accounts/Get-PASAccountActivity.ps1
 [Get-PASAccountPassword]:/psPAS/Functions/Accounts/Get-PASAccountPassword.ps1
 [Remove-PASAccount]:/psPAS/Functions/Accounts/Remove-PASAccount.ps1
@@ -1050,7 +1057,8 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [Get-PASPSMRecordingActivity]:/psPAS/Functions/Monitoring/Get-PASPSMRecordingActivity.ps1
 [Get-PASPSMRecordingProperty]:/psPAS/Functions/Monitoring/Get-PASPSMRecordingProperty.ps1
 [Export-PASPSMRecording]:/psPAS/Functions/Monitoring/Export-PASPSMRecording.ps1
-[Request-PASAdHocAccess]:/psPAS/Functions/Accounts/Request-PASAdHocAccess.ps1
+[Request-PASJustInTimeAccess]:/psPAS/Functions/Accounts/Request-PASJustInTimeAccess.ps1
+[Revoke-PASJustInTimeAccess]:/psPAS/Functions/Accounts/Revoke-PASJustInTimeAccess.ps1
 [Get-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Get-PASDirectoryMapping.ps1
 [Set-PASDirectoryMapping]:/psPAS/Functions/LDAPDirectories/Set-PASDirectoryMapping.ps1
 [Remove-PASDirectory]:/psPAS/Functions/LDAPDirectories/Remove-PASDirectory.ps1
@@ -1069,14 +1077,15 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [Enable-PASPlatform]:psPAS/Functions/Platforms/Enable-PASPlatform.ps1
 [Remove-PASPlatform]:psPAS/Functions/Platforms/Remove-PASPlatform.ps1
 [Remove-PASGroup]:psPAS/Functions/User/Remove-PASGroup.ps1
-[Clear-PASDiscoveredAccountList]:/psPAS/Functions/Accounts/Clear-PASDiscoveredAccountList
-[Get-PASAccountPasswordVersion]:/psPAS/Functions/Accounts/Get-PASAccountPasswordVersion
-[New-PASAccountPassword]:/psPAS/Functions/Accounts/New-PASAccountPassword
-[Set-PASLinkedAccount]:/psPAS/Functions/Accounts/Set-PASLinkedAccount
-[Clear-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Clear-PASPrivateSSHKey
-[New-PASPrivateSSHKey]:/psPAS/Functions/Authentication/New-PASPrivateSSHKey
-[Remove-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Remove-PASPrivateSSHKey
-[Set-PASGroup]:/psPAS/Functions/User/Set-PASGroup
+[Clear-PASDiscoveredAccountList]:/psPAS/Functions/Accounts/Clear-PASDiscoveredAccountList.ps1
+[Get-PASAccountPasswordVersion]:/psPAS/Functions/Accounts/Get-PASAccountPasswordVersion.ps1
+[New-PASAccountPassword]:/psPAS/Functions/Accounts/New-PASAccountPassword.ps1
+[Set-PASLinkedAccount]:/psPAS/Functions/Accounts/Set-PASLinkedAccount.ps1
+[Clear-PASLinkedAccount]:/psPAS/Functions/Accounts/Clear-PASLinkedAccount.ps1
+[Clear-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Clear-PASPrivateSSHKey.ps1
+[New-PASPrivateSSHKey]:/psPAS/Functions/Authentication/New-PASPrivateSSHKey.ps1
+[Remove-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Remove-PASPrivateSSHKey.ps1
+[Set-PASGroup]:/psPAS/Functions/User/Set-PASGroup.ps1
 </details>
 
 ## Installation

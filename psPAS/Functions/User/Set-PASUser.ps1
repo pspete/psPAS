@@ -425,6 +425,8 @@ function Set-PASUser {
 
 			'Gen1' {
 
+				Assert-VersionRequirement -MaximumVersion 12.3
+
 				If ($PSBoundParameters.ContainsKey('ExpiryDate')) {
 
 					#Convert ExpiryDate to string in Required format

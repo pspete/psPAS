@@ -23,6 +23,11 @@ function Get-PASSafe {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-byName'
+		)]
 		[ValidateNotNullOrEmpty()]
 		[Boolean]$includeAccounts,
 
@@ -39,8 +44,21 @@ function Get-PASSafe {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1-byName'
 		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-byName'
+		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$SafeName,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-byName'
+		)]
+		[ValidateNotNullOrEmpty()]
+		[Boolean]$useCache,
 
 		[parameter(
 			Mandatory = $false,
@@ -55,6 +73,13 @@ function Get-PASSafe {
 			ParameterSetName = 'Gen1-byAll'
 		)]
 		[switch]$FindAll,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1-byName'
+		)]
+		[switch]$UseGen1API,
 
 		[parameter(
 			Mandatory = $false,
@@ -124,10 +149,36 @@ function Get-PASSafe {
 
 			}
 
+			'Gen2-ByName' {
+
+				#assign new type name
+				$typeName = "$typeName.Gen2"
+
+				Assert-VersionRequirement -RequiredVersion 12.2
+
+				#define base URL
+				$URI = "$Script:BaseURI/API/Safes/$($SafeName | Get-EscapedString)"
+
+				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName
+
+				#Create Query String, escaped for inclusion in request URL
+				$queryString = $boundParameters | ConvertTo-QueryString
+
+				If ($null -ne $queryString) {
+
+					#Build URL from base URL
+					$URI = "$URI`?$queryString"
+
+				}
+
+				break
+
+			}
+
 			( { $PSItem -match '^Gen1-' } ) {
 
 				#check required version
-				Assert-VersionRequirement -MaximumVersion 12.2
+				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for Gen1 API requests
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes"
@@ -207,6 +258,15 @@ function Get-PASSafe {
 
 				#return list
 				$return = $Result | Get-NextLink -TimeoutSec $TimeoutSec
+
+				break
+
+			}
+
+			default {
+
+				#return result (Gen2-ByName)
+				$return = $Result
 
 				break
 

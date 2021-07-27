@@ -41,35 +41,30 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			$InputObj = [pscustomobject]@{
-				'MemberName' = 'SomeUser'
-				'SafeName'   = 'SomeSafe'
+				'AccountID' = '22_2'
 
 			}
 
+			$response = $InputObj | Revoke-PASJustInTimeAccess
 
 		}
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'MemberName' },
-			@{Parameter = 'SafeName' }
+			$Parameters = @{Parameter = 'AccountID' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Remove-PASSafeMember).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Revoke-PASJustInTimeAccess).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
 		}
 
-		Context 'Input-Gen2' {
 
-			BeforeEach {
 
-				$response = $InputObj | Remove-PASSafeMember
-
-			}
+		Context 'Input' {
 
 			It 'sends request' {
 
@@ -81,7 +76,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/members/SomeUser"
+					$URI -eq "$($Script:BaseURI)/API/Accounts/22_2/RevokeAdministrativeAccess"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -89,7 +84,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'uses expected method' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -101,67 +96,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
-		Context 'Input-Gen1' {
-
-			BeforeEach {
-
-				$response = $InputObj | Remove-PASSafeMember -UseGen1API
-
-			}
-
-			It 'sends request' {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
-
-			}
-
-			It 'sends request to expected endpoint' {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Safes/SomeSafe/Members/SomeUser"
-
-				} -Times 1 -Exactly -Scope It
-
-			}
-
-			It 'uses expected method' {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
-
-			}
-
-			It 'sends request with no body' {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
-
-			}
-
-		}
-
-		Context 'Output-Gen1' {
-
-			BeforeEach {
-
-				$response = $InputObj | Remove-PASSafeMember -UseGen1API
-
-			}
-
-			It 'provides no output' {
-
-				$response | Should -BeNullOrEmpty
-
-			}
-
-		}
-
-		Context 'Output-Gen2' {
-
-			BeforeEach {
-
-				$response = $InputObj | Remove-PASSafeMember
-
-			}
+		Context 'Output' {
 
 			It 'provides no output' {
 

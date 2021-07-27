@@ -77,6 +77,8 @@ commands:
         url: /commands/Add-PASAccount
       - title: "Get-PASAccount"
         url: /commands/Get-PASAccount
+      - title: "Get-PASAccountDetail"
+        url: /commands/Get-PASAccountDetail
       - title: "Remove-PASAccount"
         url: /commands/Remove-PASAccount
       - title: "Set-PASAccount"
@@ -93,8 +95,10 @@ commands:
         url: /commands/Add-PASPendingAccount
       - title: "Invoke-PASCPMOperation"
         url: /commands/Invoke-PASCPMOperation
-      - title: "Request-PASAdHocAccess"
-        url: /commands/Request-PASAdHocAccess
+      - title: "Request-PASJustInTimeAccess"
+        url: /commands/Request-PASJustInTimeAccess
+      - title: "Revoke-PASJustInTimeAccess"
+        url: /commands/Revoke-PASJustInTimeAccess
       - title: "Enable-PASCPMAutoManagement"
         url: /commands/Enable-PASCPMAutoManagement
       - title: "Disable-PASCPMAutoManagement"
@@ -117,6 +121,8 @@ commands:
         url: /commands/New-PASAccountPassword
       - title: "Set-PASLinkedAccount"
         url: /commands/Set-PASLinkedAccount
+      - title: "Clear-PASLinkedAccount"
+        url: /commands/Clear-PASLinkedAccount
 
   - title: "Applications"
     children:
@@ -247,6 +253,8 @@ commands:
         url: /commands/Get-PASPlatformPSMConfig
       - title: "Set-PASPlatformPSMConfig"
         url: /commands/Set-PASPlatformPSMConfig
+      - title: "Get-PASPlatformSummary"
+        url: /commands/Get-PASPlatformSummary
 
   - title: "Policy ACL"
     children:

@@ -10,6 +10,11 @@ function Get-PASSafeMember {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-MemberPermissions'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2-MemberFilter'
 		)]
 		[parameter(
@@ -66,10 +71,23 @@ function Get-PASSafeMember {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-MemberPermissions'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1-MemberPermissions'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$MemberName,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-MemberPermissions'
+		)]
+		[ValidateNotNullOrEmpty()]
+		[Boolean]$useCache,
 
 		[parameter(
 			Mandatory = $false,
@@ -83,6 +101,11 @@ function Get-PASSafeMember {
 		)]
 		[int]$TimeoutSec,
 
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1-MemberPermissions'
+		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
@@ -117,6 +140,30 @@ function Get-PASSafeMember {
 
 				#Create URL for Gen2 API requests
 				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)/Members"
+
+			}
+
+			'Gen2-MemberPermissions' {
+
+				#check required version
+				Assert-VersionRequirement -RequiredVersion 12.2
+
+				#Create URL for member specific request
+				$URI = "$URI/$($MemberName | Get-EscapedString)"
+
+				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep useCache
+
+				#Create Query String, escaped for inclusion in request URL
+				$queryString = $boundParameters | ConvertTo-QueryString
+
+				If ($null -ne $queryString) {
+
+					#Build URL from base URL
+					$URI = "$URI`?$queryString"
+
+				}
+
+				break
 
 			}
 
@@ -237,7 +284,23 @@ function Get-PASSafeMember {
 
 					ElseIf ($null -ne $result) {
 
-						$Output = $result.value
+						switch ($PSCmdlet.ParameterSetName) {
+
+							'Gen2-MemberPermissions' {
+
+								$Output = $result
+
+								break
+
+							}
+
+							default {
+
+								$Output = $result.value
+
+							}
+
+						}
 
 					}
 
