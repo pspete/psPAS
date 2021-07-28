@@ -5,6 +5,11 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
+## **5.2.54 (July 28th 2021)**
+
+- Fix
+  - Added `Request-PASJustInTimeAccess` as Exported Function in `psPAS.psd1`.
+
 ## **5.2.52 (July 27th 2021)**
 
 ### Module update to cover all CyberArk 12.2 API features
