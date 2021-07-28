@@ -166,7 +166,7 @@
 		'Get-PASPSMRecordingProperty',
 		'Get-PASPSMSessionProperty',
 		'Export-PASPSMRecording',
-		'Request-PASAdHocAccess',
+		'Request-PASJustInTimeAccess',
 		'Get-PASDirectoryMapping',
 		'Remove-PASDirectory',
 		'Set-PASDirectoryMapping',
