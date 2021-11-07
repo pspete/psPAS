@@ -23,7 +23,7 @@ function Set-PASSafe {
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateLength(0, 100)]
 		[string]$Description,
@@ -48,7 +48,7 @@ function Set-PASSafe {
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$ManagingCPM,
 
@@ -59,7 +59,7 @@ function Set-PASSafe {
 		)]
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1-NumberOfVersionsRetention'
 		)]
 		[ValidateRange(1, 999)]
@@ -72,7 +72,7 @@ function Set-PASSafe {
 		)]
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1-NumberOfDaysRetention'
 		)]
 		[ValidateRange(1, 3650)]
@@ -98,7 +98,7 @@ function Set-PASSafe {
 
 		$typename = 'psPAS.CyberArk.Vault.Safe'
 
-		$BoundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName, NewSafeName
+		$BoundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove NewSafeName
 
 		if ($PSBoundParameters.ContainsKey('NewSafeName')) {
 

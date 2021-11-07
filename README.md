@@ -551,7 +551,7 @@ $Safes = Get-PASSafe -search TestSafe
 #Delete Safes
 foreach ($Safe in $Safes){
 
-  Remove-PASSafe -SafeName $Safe -WhatIf
+  Remove-PASSafe -SafeName $Safe.SafeName -WhatIf
 
 }
 
