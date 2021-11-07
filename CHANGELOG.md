@@ -5,7 +5,7 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
-## **5.2.xx (November 7th 2021)**
+## **5.2.59 (November 7th 2021)**
 
 - Fix
   - Resolves issue where `Get-PASSafeMember` would fail with error when using Gen2 API and specifying `MemberName` parameter.
