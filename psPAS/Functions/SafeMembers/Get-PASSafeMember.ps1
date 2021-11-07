@@ -266,23 +266,7 @@ function Get-PASSafeMember {
 
 				( { $PSItem -match '^Gen2' } ) {
 
-					$Total = $result.Count
-
-					If ($Total -gt 0) {
-
-						$Members = [Collections.Generic.List[Object]]::New(($result.value))
-
-						For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
-
-							$Null = $Members.AddRange((Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec).value)
-
-						}
-
-						$Output = $Members
-
-					}
-
-					ElseIf ($null -ne $result) {
+					If ($null -ne $result) {
 
 						switch ($PSCmdlet.ParameterSetName) {
 
@@ -296,7 +280,21 @@ function Get-PASSafeMember {
 
 							default {
 
-								$Output = $result.value
+								$Total = $result.Count
+
+								If ($Total -gt 0) {
+
+									$Members = [Collections.Generic.List[Object]]::New(($result.value))
+
+									For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+
+										$Null = $Members.AddRange((Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec).value)
+
+									}
+
+									$Output = $Members
+
+								}
 
 							}
 
