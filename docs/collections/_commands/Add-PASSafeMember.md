@@ -71,6 +71,17 @@ Minimum required version 12.1
 
 ### EXAMPLE 2
 ```
+Add-PASSafeMember -SafeName Windows_Domain_Safe -MemberName anLDAPGroup -SearchIn cybr.lab -UseAccounts $true `
+-RetrieveAccounts $true -ListAccounts $true
+```
+
+Adds the LDAP Group *anLDAPGroup* to *Windows_Domain_Safe* with Use, Retrieve & List permissions.
+There should be Directory named *cybr.lab* in the LDAP Integration settings.
+
+Minimum required version 12.1
+
+### EXAMPLE 3
+```
 $Role = [PSCustomObject]@{
 
   UseAccounts                  = $true
@@ -87,7 +98,7 @@ Grant User23 UseAccounts, RetrieveAccounts & ListAccounts only.
 
 Minimum required version 12.1
 
-### EXAMPLE 3
+### EXAMPLE 4
 ```
 $Role = [PSCustomObject]@{
 
