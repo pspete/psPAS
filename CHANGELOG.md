@@ -5,6 +5,13 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
+## **vNext 5.2.## (TBC)**
+
+- Updates
+  - `Get-PASGroup`
+    - Added `groupName` parameter, supported from 12.2.
+  - Updated documentation and help text.
+
 ## **5.2.59 (November 7th 2021)**
 
 - Fix

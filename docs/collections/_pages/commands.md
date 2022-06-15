@@ -2,7 +2,7 @@
 title: "psPAS + API Command Reference"
 permalink: /commands/
 excerpt: "Command Reference"
-last_modified_at: 2021-04-23zT01:33:52-00:00
+last_modified_at: 2022-06-08zT01:33:52-00:00
 toc: false
 layout: single-mod
 classes: wide
@@ -50,7 +50,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get password value][Get password value]                                                    | [Get-PASAccountPassword][Get-PASAccountPassword]
 [Retrieve private SSH key account][Retrieve private SSH key account]                        | [Get-PASAccountSSHKey][Get-PASAccountSSHKey]
 [Get Just in Time access][Get Just in Time access]                                          | [Request-PASJustInTimeAccess][Request-PASJustInTimeAccess]
-[Revoke Just in Time access][Revoke Just in Time access]                                    | [Revoke-PASJustInTimeAccess][Revke-PASJustInTimeAccess]
+[Revoke Just in Time access][Revoke Just in Time access]                                    | [Revoke-PASJustInTimeAccess][Revoke-PASJustInTimeAccess]
 [Add allowed referrer][Add allowed referrer]                                                | [Add-PASAllowedReferrer][Add-PASAllowedReferrer]
 [Get allowed referrer][Get allowed referrer]                                                | [Get-PASAllowedReferrer][Get-PASAllowedReferrer]
 [Get applications][Get applications]                                                        | [Get-PASApplication][Get-PASApplication]

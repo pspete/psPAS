@@ -16,8 +16,8 @@ List groups from the vault
 
 ### groupType (Default)
 ```
-Get-PASGroup [-groupType <String>] [-sort <String[]>] [-search <String>] [-includeMembers <Boolean>]
- [<CommonParameters>]
+Get-PASGroup [-groupType <String>] [-groupName <String>] [-sort <String[]>] [-search <String>]
+ [-includeMembers <Boolean>] [<CommonParameters>]
 ```
 
 ### filter
@@ -83,6 +83,12 @@ Get-PASGroup -search Admins -includeMembers $true
 ```
 
 Returns all existing groups matching search, includes vault group member details in result.
+
+### EXAMPLE 8
+```
+Get-PASGroup -groupName "Vault Admins" -includeMembers $true
+```
+Returns group matching name, includes vault group member details in result.
 
 ## PARAMETERS
 
@@ -165,6 +171,23 @@ Requires minimum version of 12.2
 ```yaml
 Type: String[]
 Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -groupName
+Search for groups by name.
+
+Requires minimum version of 12.2
+
+```yaml
+Type: String
+Parameter Sets: groupType
 Aliases:
 
 Required: False
