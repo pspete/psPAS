@@ -13,6 +13,13 @@ function Get-PASGroup {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'groupType'
+		)]
+		[string]$groupName,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'filter'
 		)]
 		[ValidateSet('groupType eq Directory', 'groupType eq Vault')]
@@ -60,7 +67,7 @@ function Get-PASGroup {
 
 			}
 
-			{ $_ -match 'sort' } {
+			{ $_ -match 'sort|groupName' } {
 
 				#Sort parameter require 12.2
 				Assert-VersionRequirement -RequiredVersion 12.2
@@ -73,8 +80,8 @@ function Get-PASGroup {
 		$URI = "$Script:BaseURI/API/UserGroups"
 
 		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove groupType
-		$filterProperties = $PSBoundParameters | Get-PASParameter -ParametersToKeep groupType
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove groupType, groupName
+		$filterProperties = $PSBoundParameters | Get-PASParameter -ParametersToKeep groupType, groupName
 		$FilterString = $filterProperties | ConvertTo-FilterString
 
 		If ($null -ne $FilterString) {
