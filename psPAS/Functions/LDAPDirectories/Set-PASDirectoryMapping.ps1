@@ -84,7 +84,7 @@ function Set-PASDirectoryMapping {
 			'MappingAuthorizations' {
 
 				#Transform MappingAuthorizations
-				$boundParameters.Add("MappingAuthorizations", [array][int]$MappingAuthorizations)
+				$boundParameters.Add('MappingAuthorizations', [array][int]$MappingAuthorizations)
 				Continue
 
 			}
@@ -104,7 +104,7 @@ function Set-PASDirectoryMapping {
 
 		$body = $boundParameters | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($MappingID, "Update Directory Mapping")) {
+		if ($PSCmdlet.ShouldProcess($MappingID, 'Update Directory Mapping')) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
@@ -121,4 +121,5 @@ function Set-PASDirectoryMapping {
 	}#process
 
 	END { }#end
+
 }

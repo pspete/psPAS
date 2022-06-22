@@ -32,14 +32,14 @@ function Set-PASOnboardingRule {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Workstation", "Server")]
+		[ValidateSet('Workstation', 'Server')]
 		[string]$MachineTypeFilter,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Windows", "Unix")]
+		[ValidateSet('Windows', 'Unix')]
 		[string]$SystemTypeFilter,
 
 		[parameter(
@@ -53,7 +53,7 @@ function Set-PASOnboardingRule {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Equals", "Begins", "Ends")]
+		[ValidateSet('Equals', 'Begins', 'Ends')]
 		[string]$UserNameMethod,
 
 		[parameter(
@@ -67,14 +67,14 @@ function Set-PASOnboardingRule {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Equals", "Begins", "Ends")]
+		[ValidateSet('Equals', 'Begins', 'Ends')]
 		[string]$AddressMethod,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Any", "Privileged", "NonPrivileged")]
+		[ValidateSet('Any', 'Privileged', 'NonPrivileged')]
 		[string]$AccountCategoryFilter,
 
 		[parameter(

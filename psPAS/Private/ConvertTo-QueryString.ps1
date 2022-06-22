@@ -20,8 +20,8 @@ Joins Multiple Key Value pairs with '&'
 Formats input as: "Key=Value&Key=Value"
 
 #>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilterList', Justification = "False Positive")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'NoEscape', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilterList', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'NoEscape', Justification = 'False Positive')]
 	[CmdletBinding()]
 	[OutputType('System.String')]
 	param(
@@ -55,8 +55,7 @@ Formats input as: "Key=Value&Key=Value"
 					#Return Key=Value string, unescaped.
 					$Value = "$PSItem=$($Parameters[$PSItem])"
 
-				}
-				Else {
+				} Else {
 
 					#Return Key=Value string, escaped.
 					$Value = "$PSItem=$($Parameters[$PSItem] | Get-EscapedString)"
@@ -69,7 +68,7 @@ Formats input as: "Key=Value&Key=Value"
 
 				If ($FilterList.count -gt 0) {
 
-					$FilterList -join "&"
+					$FilterList -join '&'
 
 				}
 			}

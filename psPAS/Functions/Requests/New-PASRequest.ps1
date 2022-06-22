@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function New-PASRequest {
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "ConnectionParams")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'ConnectionParams')]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -66,53 +66,53 @@ function New-PASRequest {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ConnectionParams"
+			ParameterSetName = 'ConnectionParams'
 		)]
-		[ValidateSet("Yes", "No")]
+		[ValidateSet('Yes', 'No')]
 		[string]$AllowMappingLocalDrives,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ConnectionParams"
+			ParameterSetName = 'ConnectionParams'
 		)]
-		[ValidateSet("Yes", "No")]
+		[ValidateSet('Yes', 'No')]
 		[string]$AllowConnectToConsole,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ConnectionParams"
+			ParameterSetName = 'ConnectionParams'
 		)]
-		[ValidateSet("Yes", "No")]
+		[ValidateSet('Yes', 'No')]
 		[string]$RedirectSmartCards,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ConnectionParams"
+			ParameterSetName = 'ConnectionParams'
 		)]
 		[string]$PSMRemoteMachine,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ConnectionParams"
+			ParameterSetName = 'ConnectionParams'
 		)]
 		[string]$LogonDomain,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ConnectionParams"
+			ParameterSetName = 'ConnectionParams'
 		)]
-		[ValidateSet("Yes", "No")]
+		[ValidateSet('Yes', 'No')]
 		[string]$AllowSelectHTML5,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ManualParams"
+			ParameterSetName = 'ManualParams'
 		)]
 		[hashtable]$ConnectionParams
 	)
@@ -128,17 +128,17 @@ function New-PASRequest {
 
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		if ($boundParameters.ContainsKey("FromDate")) {
+		if ($boundParameters.ContainsKey('FromDate')) {
 
 			#convert to unix time
-			$boundParameters["FromDate"] = $FromDate | ConvertTo-UnixTime
+			$boundParameters['FromDate'] = $FromDate | ConvertTo-UnixTime
 
 		}
 
-		if ($boundParameters.ContainsKey("ToDate")) {
+		if ($boundParameters.ContainsKey('ToDate')) {
 
 			#convert to unix time
-			$boundParameters["ToDate"] = $ToDate | ConvertTo-UnixTime
+			$boundParameters['ToDate'] = $ToDate | ConvertTo-UnixTime
 
 		}
 
@@ -149,7 +149,7 @@ function New-PASRequest {
 		#Create body of request
 		$body = $boundParameters | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($AccountId, "Create Request for Account Access")) {
+		if ($PSCmdlet.ShouldProcess($AccountId, 'Create Request for Account Access')) {
 
 			#send request to PAS web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession

@@ -25,4 +25,5 @@ Function Get-PASPTARule {
 	}#process
 
 	END { }#end
+
 }

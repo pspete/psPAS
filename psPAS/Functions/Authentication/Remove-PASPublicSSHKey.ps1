@@ -6,7 +6,7 @@ function Remove-PASPublicSSHKey {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( { $_ -notmatch ".*(%|\&|\+|\.).*" })]
+		[ValidateScript( { $_ -notmatch '.*(%|\&|\+|\.).*' })]
 		[string]$UserName,
 
 		[parameter(
@@ -26,7 +26,7 @@ function Remove-PASPublicSSHKey {
 
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/$KeyID"
 
-		if ($PSCmdlet.ShouldProcess($KeyID, "Delete Public SSH Key")) {
+		if ($PSCmdlet.ShouldProcess($KeyID, 'Delete Public SSH Key')) {
 
 			#Send Request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -36,4 +36,5 @@ function Remove-PASPublicSSHKey {
 	}#process
 
 	END { }#end
+
 }

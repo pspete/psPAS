@@ -1,43 +1,43 @@
 # .ExternalHelp psPAS-help.xml
 Function Get-PASPTAEvent {
-	[CmdletBinding(DefaultParameterSetName = "11.3")]
+	[CmdletBinding(DefaultParameterSetName = '11.3')]
 	param(
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.4"
+			ParameterSetName = '11.4'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.3"
+			ParameterSetName = '11.3'
 		)]
 		[datetime]$fromUpdateDate,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.3"
+			ParameterSetName = '11.3'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.4"
+			ParameterSetName = '11.4'
 		)]
-		[ValidateSet("OPEN", "CLOSED")]
+		[ValidateSet('OPEN', 'CLOSED')]
 		[string]$status,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "11.4"
+			ParameterSetName = '11.4'
 		)]
 		[string]$accountID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.3"
+			ParameterSetName = '10.3'
 		)]
 		[datetime]$lastUpdatedEventDate
 
@@ -59,14 +59,14 @@ Function Get-PASPTAEvent {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"10.3" {
+			'10.3' {
 
-				if ($PSBoundParameters.ContainsKey("lastUpdatedEventDate")) {
+				if ($PSBoundParameters.ContainsKey('lastUpdatedEventDate')) {
 
 					#add Unix Time Stamp of lastUpdatedEventDate to header as key=value pair
-					$boundParameters["lastUpdatedEventDate"] = $lastUpdatedEventDate | ConvertTo-UnixTime
+					$boundParameters['lastUpdatedEventDate'] = $lastUpdatedEventDate | ConvertTo-UnixTime
 
-					$ThisSession.Headers["lastUpdatedEventDate"] = $boundParameters["lastUpdatedEventDate"]
+					$ThisSession.Headers['lastUpdatedEventDate'] = $boundParameters['lastUpdatedEventDate']
 
 				}
 
@@ -76,10 +76,10 @@ Function Get-PASPTAEvent {
 
 			default {
 
-				if ($PSBoundParameters.ContainsKey("fromUpdateDate")) {
+				if ($PSBoundParameters.ContainsKey('fromUpdateDate')) {
 
 					#Include time as unixtimestamp in milliseconds
-					$boundParameters["fromUpdateDate"] = $fromUpdateDate | ConvertTo-UnixTime -Milliseconds
+					$boundParameters['fromUpdateDate'] = $fromUpdateDate | ConvertTo-UnixTime -Milliseconds
 
 				}
 

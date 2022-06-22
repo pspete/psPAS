@@ -6,7 +6,7 @@ function Remove-PASAccountACL {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("PolicyID")]
+		[Alias('PolicyID')]
 		[ValidateNotNullOrEmpty()]
 		[string]$AccountPolicyId,
 

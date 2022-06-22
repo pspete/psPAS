@@ -5,7 +5,7 @@ function Get-PASOnboardingRule {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Names"
+			ParameterSetName = 'Names'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$Names
@@ -20,7 +20,7 @@ function Get-PASOnboardingRule {
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules"
 
-		If ($PSBoundParameters.ContainsKey("Names")) {
+		If ($PSBoundParameters.ContainsKey('Names')) {
 
 			Assert-VersionRequirement -RequiredVersion 10.2
 

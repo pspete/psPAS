@@ -34,7 +34,7 @@ Function Compare-MinimumVersion {
 			Mandatory = $true,
 			ValueFromPipelineByPropertyName = $true
 		)]
-		[Alias("ExternalVersion")]
+		[Alias('ExternalVersion')]
 		[System.Version]
 		$Version,
 
@@ -52,7 +52,7 @@ Function Compare-MinimumVersion {
 	Process {
 
 		# Only compare if version greater than "0.0"
-		If ($Version -gt "0.0") {
+		If ($Version -gt '0.0') {
 
 			#Determine if Version is greater than or equal to MinimumVersion
 			If ($Version -ge $MinimumVersion) {

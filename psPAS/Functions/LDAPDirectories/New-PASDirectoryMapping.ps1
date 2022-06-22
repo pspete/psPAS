@@ -75,7 +75,7 @@ function New-PASDirectoryMapping {
 			'MappingAuthorizations' {
 
 				#Transform MappingAuthorizations
-				$boundParameters.Add("MappingAuthorizations", [array][int]$MappingAuthorizations)
+				$boundParameters.Add('MappingAuthorizations', [array][int]$MappingAuthorizations)
 				Continue
 
 			}
@@ -88,7 +88,7 @@ function New-PASDirectoryMapping {
 
 			}
 
-			{ $_ -match "VaultGroups|Location|LDAPQuery" } {
+			{ $_ -match 'VaultGroups|Location|LDAPQuery' } {
 
 				#v10.7
 				Assert-VersionRequirement -RequiredVersion 10.7
@@ -110,7 +110,7 @@ function New-PASDirectoryMapping {
 
 		$body = $boundParameters | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($MappingName, "Create Directory Mapping")) {
+		if ($PSCmdlet.ShouldProcess($MappingName, 'Create Directory Mapping')) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession

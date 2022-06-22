@@ -6,8 +6,8 @@ function Add-PASAccountACL {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("PolicyID")]
-		[Alias("PlatformID")]
+		[Alias('PolicyID')]
+		[Alias('PlatformID')]
 		[ValidateNotNullOrEmpty()]
 		[string]$AccountPolicyId,
 
@@ -15,7 +15,7 @@ function Add-PASAccountACL {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("Address")]
+		[Alias('Address')]
 		[ValidateNotNullOrEmpty()]
 		[string]$AccountAddress,
 
@@ -43,7 +43,7 @@ function Add-PASAccountACL {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $false
 		)]
-		[ValidateSet("Allow", "Deny")]
+		[ValidateSet('Allow', 'Deny')]
 		[string]$PermissionType,
 
 		[parameter(
@@ -78,9 +78,9 @@ function Add-PASAccountACL {
 		#Request body
 		$Body = $PSBoundParameters |
 
-		Get-PASParameter -ParametersToRemove AccountAddress, AccountUserName, AccountPolicyID |
+			Get-PASParameter -ParametersToRemove AccountAddress, AccountUserName, AccountPolicyID |
 
-		ConvertTo-Json
+			ConvertTo-Json
 
 		#Send Request
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
@@ -89,7 +89,7 @@ function Add-PASAccountACL {
 
 			$result.AddAccountPrivilegedCommandResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Account
+				Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Account
 
 		}
 

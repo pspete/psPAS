@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Set-PASAccount {
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "Gen2SingleOp")]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Gen2SingleOp')]
 	param(
 
 		[parameter(
@@ -8,118 +8,118 @@ function Set-PASAccount {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[Alias("id")]
+		[Alias('id')]
 		[string]$AccountID,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2SingleOp"
+			ParameterSetName = 'Gen2SingleOp'
 		)]
-		[ValidateSet("add", "replace", "remove")]
-		[Alias("Operation")]
+		[ValidateSet('add', 'replace', 'remove')]
+		[Alias('Operation')]
 		[string]$op,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2SingleOp"
+			ParameterSetName = 'Gen2SingleOp'
 		)]
 		[string]$path,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2SingleOp"
+			ParameterSetName = 'Gen2SingleOp'
 		)]
 		[string]$value,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2MultiOp"
+			ParameterSetName = 'Gen2MultiOp'
 		)]
 		[hashtable[]]$operations,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$Folder,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
-		[Alias("Name")]
+		[Alias('Name')]
 		[string]$AccountName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$DeviceType,
 
-		[Alias("PolicyID")]
+		[Alias('PolicyID')]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$PlatformID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$Address,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$UserName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$GroupName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$GroupPlatformID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[hashtable]$Properties = @{ },
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
-			ParameterSetName = "Gen2SingleOp"
+			ParameterSetName = 'Gen2SingleOp'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
-			ParameterSetName = "Gen2MultiOp"
+			ParameterSetName = 'Gen2MultiOp'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[PSObject]$InputObject
 	)
@@ -135,7 +135,7 @@ function Set-PASAccount {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			{ $PSItem -match "Gen2" } {
+			{ $PSItem -match 'Gen2' } {
 
 				Assert-VersionRequirement -RequiredVersion 10.4
 
@@ -143,14 +143,14 @@ function Set-PASAccount {
 				$URI = "$Script:BaseURI/api/Accounts/$AccountID"
 
 				#Define method for request
-				$Method = "PATCH"
+				$Method = 'PATCH'
 
 				#Define type of output object
-				$Type = "psPAS.CyberArk.Vault.Account.V10"
+				$Type = 'psPAS.CyberArk.Vault.Account.V10'
 
-				if ($PSCmdlet.ParameterSetName -match "Gen2MultiOp") {
+				if ($PSCmdlet.ParameterSetName -match 'Gen2MultiOp') {
 
-					$boundParameters = $boundParameters["operations"]
+					$boundParameters = $boundParameters['operations']
 
 				}
 
@@ -160,28 +160,28 @@ function Set-PASAccount {
 
 			}
 
-			"Gen1" {
+			'Gen1' {
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
 
 				#Define method for request
-				$Method = "PUT"
+				$Method = 'PUT'
 
 				#Define type of output object
-				$Type = "psPAS.CyberArk.Vault.Account"
+				$Type = 'psPAS.CyberArk.Vault.Account'
 
-				if ($PSBoundParameters.ContainsKey("Properties")) {
+				if ($PSBoundParameters.ContainsKey('Properties')) {
 
 					#Format "Properties" parameter value.
 					#Array of key=value pairs required for JSON convertion
-					$boundParameters["Properties"] = [Collections.Generic.List[String]]@($boundParameters["Properties"].getenumerator() |
+					$boundParameters['Properties'] = [Collections.Generic.List[String]]@($boundParameters['Properties'].getenumerator() |
 
 							ForEach-Object { $_ })
 
 				}
 
-				If (($InputObject) -and (($InputObject | Get-Member).TypeName -eq "psPAS.CyberArk.Vault.Account")) {
+				If (($InputObject) -and (($InputObject | Get-Member).TypeName -eq 'psPAS.CyberArk.Vault.Account')) {
 
 					#If InputObject is psPAS.CyberArk.Vault.Account
 					#*i.e. receiving pipeline from Get-PASAccount
@@ -193,39 +193,39 @@ function Set-PASAccount {
 						#exclude properties output by get-pasaccount not applicable to set-pasaccount request
 						Select-Object -Property * -ExcludeProperty Name, PolicyID, Safe |
 
-							#get all remaining noteproperties
-							Get-Member -MemberType "NoteProperty" |
+						#get all remaining noteproperties
+						Get-Member -MemberType 'NoteProperty' |
 
-								#For each property
-								ForEach-Object {
+						#For each property
+						ForEach-Object {
 
-									#Initialise hashtable
-									$ExistingProperty = @{ }
+							#Initialise hashtable
+							$ExistingProperty = @{ }
 
-									#if property is not bound to function parameter by name,
-									if (!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
+							#if property is not bound to function parameter by name,
+							if (!(($PSBoundParameters.ContainsKey($($_.Name))) -or (
 
-												#if not being explicitly updated.
-												$($Properties).ContainsKey($($_.Name))))) {
+										#if not being explicitly updated.
+										$($Properties).ContainsKey($($_.Name))))) {
 
-										[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
+								[hashtable]$ExistingProperty.Add($($_.Name), $($InputObject.$($_.Name)))
 
-										#Add to Properties node of request data
-										[array]$boundParameters["Properties"] += $ExistingProperty.GetEnumerator() | ForEach-Object { $_ }
-										#*any existing properties of an account not sent in a "set" request will be cleared on the account.
-										#*This ensures correctly formatted request with all existing account properties included
-										#*when function is sent data via the pipeline.
+								#Add to Properties node of request data
+								[array]$boundParameters['Properties'] += $ExistingProperty.GetEnumerator() | ForEach-Object { $_ }
+								#*any existing properties of an account not sent in a "set" request will be cleared on the account.
+								#*This ensures correctly formatted request with all existing account properties included
+								#*when function is sent data via the pipeline.
 
-									}
+							}
 
-								}
+						}
 
 				}
 
 				#Create body of request
 				$body = @{
 
-					"Accounts" = $boundParameters
+					'Accounts' = $boundParameters
 
 					#ensure nodes at all required depths are included in the JSON object
 				} | ConvertTo-Json -Depth 3
@@ -235,7 +235,7 @@ function Set-PASAccount {
 			}
 		}
 
-		if ($PSCmdlet.ShouldProcess($AccountID, "Update Account Properties")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, 'Update Account Properties')) {
 
 			#send request to PAS web service
 			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body -WebSession $Script:WebSession
@@ -244,7 +244,7 @@ function Set-PASAccount {
 
 				switch ($PSCmdlet.ParameterSetName) {
 
-					"Gen1" { $Return = $Result.UpdateAccountResult ; break }
+					'Gen1' { $Return = $Result.UpdateAccountResult ; break }
 
 					default { $Return = $Result }
 
@@ -252,7 +252,7 @@ function Set-PASAccount {
 
 				$Return | Add-ObjectDetail -typename $Type -PropertyToAdd @{
 
-					"AccountID" = $AccountID
+					'AccountID' = $AccountID
 
 				}
 

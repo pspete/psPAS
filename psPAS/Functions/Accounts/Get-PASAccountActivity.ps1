@@ -6,7 +6,7 @@ function Get-PASAccountActivity {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("id")]
+		[Alias('id')]
 		[string]$AccountID
 
 
@@ -29,7 +29,7 @@ function Get-PASAccountActivity {
 			#Return Results
 			$result.GetAccountActivitiesResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Activity
+				Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Activity
 
 		}
 

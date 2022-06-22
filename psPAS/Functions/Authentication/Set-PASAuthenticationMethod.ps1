@@ -1,7 +1,7 @@
 # .ExternalHelp psPAS-help.xml
 Function Set-PASAuthenticationMethod {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = "passwordFieldLabel not related to password value")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUsernameAndPasswordParams', '', Justification = "usernameFieldLabel & passwordFieldLabel not related to password value")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = 'passwordFieldLabel not related to password value')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUsernameAndPasswordParams', '', Justification = 'usernameFieldLabel & passwordFieldLabel not related to password value')]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -40,7 +40,7 @@ Function Set-PASAuthenticationMethod {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("cyberark", "radius", "ldap")]
+		[ValidateSet('cyberark', 'radius', 'ldap')]
 		[string]$secondFactorAuth,
 
 		[parameter(
@@ -79,13 +79,12 @@ Function Set-PASAuthenticationMethod {
 		#Request body
 		$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove ID | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($ID, "Update Authentication Method")) {
+		if ($PSCmdlet.ShouldProcess($ID, 'Update Authentication Method')) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
 
 		}
-
 
 		If ($null -ne $result) {
 

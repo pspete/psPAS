@@ -13,7 +13,7 @@ function Connect-PASPSMSession {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("RDP", "PSMGW")]
+		[ValidateSet('RDP', 'PSMGW')]
 		[string]$ConnectionMethod
 	)
 
@@ -29,24 +29,23 @@ function Connect-PASPSMSession {
 		$ThisSession = $Script:WebSession
 
 		#if a connection method is specified
-		If ($PSBoundParameters.ContainsKey("ConnectionMethod")) {
+		If ($PSBoundParameters.ContainsKey('ConnectionMethod')) {
 
 			#The information needs to passed in the header
-			if ($PSBoundParameters["ConnectionMethod"] -eq "RDP") {
+			if ($PSBoundParameters['ConnectionMethod'] -eq 'RDP') {
 
 				#RDP accept "application/json" response
-				$Accept = "application/json"
+				$Accept = 'application/json'
 
-			}
-			elseif ($PSBoundParameters["ConnectionMethod"] -eq "PSMGW") {
+			} elseif ($PSBoundParameters['ConnectionMethod'] -eq 'PSMGW') {
 
 				#PSMGW accept * / * response
-				$Accept = "* / *"
+				$Accept = '* / *'
 
 			}
 
 			#add detail to header
-			$ThisSession.Headers["Accept"] = $Accept
+			$ThisSession.Headers['Accept'] = $Accept
 
 		}
 

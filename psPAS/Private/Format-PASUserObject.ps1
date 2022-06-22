@@ -24,11 +24,11 @@ Function Format-PASUserObject {
 	)
 
 	Begin {
-		$businessAddressParams = [Collections.Generic.List[String]]@("workStreet", "workCity", "workState", "workZip", "workCountry")
-		$internetParams = [Collections.Generic.List[String]]@("homePage", "homeEmail", "businessEmail", "otherEmail")
-		$phonesParams = [Collections.Generic.List[String]]@("homeNumber", "businessNumber", "cellularNumber", "faxNumber", "pagerNumber")
-		$personalDetailsParams = [Collections.Generic.List[String]]@("street", "city", "state", "zip", "country", "title", "organization",
-			"department", "profession", "FirstName", "middleName", "LastName")
+		$businessAddressParams = [Collections.Generic.List[String]]@('workStreet', 'workCity', 'workState', 'workZip', 'workCountry')
+		$internetParams = [Collections.Generic.List[String]]@('homePage', 'homeEmail', 'businessEmail', 'otherEmail')
+		$phonesParams = [Collections.Generic.List[String]]@('homeNumber', 'businessNumber', 'cellularNumber', 'faxNumber', 'pagerNumber')
+		$personalDetailsParams = [Collections.Generic.List[String]]@('street', 'city', 'state', 'zip', 'country', 'title', 'organization',
+			'department', 'profession', 'FirstName', 'middleName', 'LastName')
 	}
 
 	Process {
@@ -39,53 +39,53 @@ Function Format-PASUserObject {
 		#Process each key of the input hashtable
 		switch ($UserProperties.keys) {
 
-			"ExpiryDate" {
+			'ExpiryDate' {
 				#Include date string in required format
-				$UserObject["ExpiryDate"] = $UserProperties["ExpiryDate"] | ConvertTo-UnixTime
+				$UserObject['ExpiryDate'] = $UserProperties['ExpiryDate'] | ConvertTo-UnixTime
 
 			}
 
 			{ $businessAddressParams -contains $PSItem } {
 
 				#Create businessAddress key if it does not exist
-				if (-not($UserObject.ContainsKey("businessAddress"))) {
-					$UserObject.Add("businessAddress", @{})
+				if (-not($UserObject.ContainsKey('businessAddress'))) {
+					$UserObject.Add('businessAddress', @{})
 				}
 				#Add as Key/Value under businessAddress
-				$UserObject["businessAddress"].Add($PSItem, $UserObject[$PSItem])
+				$UserObject['businessAddress'].Add($PSItem, $UserObject[$PSItem])
 
 			}
 
 			{ $internetParams -contains $PSItem } {
 
 				#Create internet key if it does not exist
-				if (-not($UserObject.ContainsKey("internet"))) {
-					$UserObject.Add("internet", @{})
+				if (-not($UserObject.ContainsKey('internet'))) {
+					$UserObject.Add('internet', @{})
 				}
 				#Add as Key/Value under internet
-				$UserObject["internet"].Add($PSItem, $UserObject[$PSItem])
+				$UserObject['internet'].Add($PSItem, $UserObject[$PSItem])
 
 			}
 
 			{ $phonesParams -contains $PSItem } {
 
 				#Create phones key if it does not exist
-				if (-not($UserObject.ContainsKey("phones"))) {
-					$UserObject.Add("phones", @{})
+				if (-not($UserObject.ContainsKey('phones'))) {
+					$UserObject.Add('phones', @{})
 				}
 				#Add as Key/Value under phones
-				$UserObject["phones"].Add($PSItem, $UserObject[$PSItem])
+				$UserObject['phones'].Add($PSItem, $UserObject[$PSItem])
 
 			}
 
 			{ $personalDetailsParams -contains $PSItem } {
 
 				#Create personalDetails key if it does not exist
-				if (-not($UserObject.ContainsKey("personalDetails"))) {
-					$UserObject.Add("personalDetails", @{})
+				if (-not($UserObject.ContainsKey('personalDetails'))) {
+					$UserObject.Add('personalDetails', @{})
 				}
 				#Add as Key/Value under personalDetails
-				$UserObject["personalDetails"].Add($PSItem, $UserObject[$PSItem])
+				$UserObject['personalDetails'].Add($PSItem, $UserObject[$PSItem])
 
 			}
 

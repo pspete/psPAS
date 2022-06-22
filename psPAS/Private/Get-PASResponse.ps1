@@ -40,7 +40,7 @@ function Get-PASResponse {
 			$PASResponse = $APIResponse.Content
 
 			#get response content type
-			$ContentType = $APIResponse.Headers["Content-Type"]
+			$ContentType = $APIResponse.Headers['Content-Type']
 
 			#handle content type
 			switch ($ContentType) {
@@ -55,7 +55,7 @@ function Get-PASResponse {
 
 							[System.Management.Automation.ErrorRecord]::new(
 
-								"Guru Meditation - HTML Response Received",
+								'Guru Meditation - HTML Response Received',
 								$StatusCode,
 								[System.Management.Automation.ErrorCategory]::NotSpecified,
 								$APIResponse
@@ -80,7 +80,7 @@ function Get-PASResponse {
 				default {
 
 					# Byte Array expected for files to be saved
-					if ($($PASResponse | Get-Member | Select-Object -ExpandProperty typename) -eq "System.Byte" ) {
+					if ($($PASResponse | Get-Member | Select-Object -ExpandProperty typename) -eq 'System.Byte' ) {
 
 						#return content and headers
 						$PASResponse = $APIResponse | Select-Object Content, Headers

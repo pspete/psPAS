@@ -5,9 +5,9 @@ function Get-PASDirectory {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "id"
+			ParameterSetName = 'id'
 		)]
-		[Alias("DomainName")]
+		[Alias('DomainName')]
 		[string]$id
 
 	)
@@ -25,14 +25,14 @@ function Get-PASDirectory {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"id" {
+			'id' {
 
 				Assert-VersionRequirement -RequiredVersion 10.5
 
 				#Update URL for request
 				$URI = "$URI/$id/"
 
-				$type = "psPAS.CyberArk.Vault.Directory.Extended"
+				$type = 'psPAS.CyberArk.Vault.Directory.Extended'
 
 				break
 
@@ -40,7 +40,7 @@ function Get-PASDirectory {
 
 			default {
 
-				$type = "psPAS.CyberArk.Vault.Directory"
+				$type = 'psPAS.CyberArk.Vault.Directory'
 
 				break
 
@@ -61,4 +61,5 @@ function Get-PASDirectory {
 	}#process
 
 	END { }#end
+
 }

@@ -28,7 +28,7 @@ Output: @{"filter" = "Key eq Value AND Key eq Value"}
 Returns datetime as unixtime, with `gte` operator.
 
 #>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilterList', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilterList', Justification = 'False Positive')]
 	[CmdletBinding()]
 	[OutputType('System.Hashtable')]
 	param(
@@ -71,7 +71,7 @@ Returns datetime as unixtime, with `gte` operator.
 
 				If ($FilterList.count -gt 0) {
 
-					@{"filter" = $FilterList -join " AND " }
+					@{'filter' = $FilterList -join ' AND ' }
 
 				}
 			}

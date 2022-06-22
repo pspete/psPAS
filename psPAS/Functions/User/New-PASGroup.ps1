@@ -33,7 +33,7 @@ function New-PASGroup {
 		#Construct Request Body
 		$Body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($groupName, "Create Group")) {
+		if ($PSCmdlet.ShouldProcess($groupName, 'Create Group')) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession

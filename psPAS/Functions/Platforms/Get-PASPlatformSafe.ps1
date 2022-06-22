@@ -24,7 +24,7 @@ function Get-PASPlatformSafe {
 		If ($result.count -gt 0) {
 
 			#Return Results
-			$result.value | ForEach-Object { [pscustomobject]@{"SafeName" = $PSItem } }
+			$result.value | ForEach-Object { [pscustomobject]@{'SafeName' = $PSItem } }
 
 		}
 

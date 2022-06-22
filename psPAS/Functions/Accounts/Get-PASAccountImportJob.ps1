@@ -5,7 +5,7 @@ Function Get-PASAccountImportJob {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byID"
+			ParameterSetName = 'byID'
 		)]
 		[string]$id
 	)
@@ -21,7 +21,7 @@ Function Get-PASAccountImportJob {
 		#Create URL for Request
 		$URI = "$Script:BaseURI/api/bulkactions/accounts"
 
-		If ($PSCmdlet.ParameterSetName -eq "byID") {
+		If ($PSCmdlet.ParameterSetName -eq 'byID') {
 
 			$URI = "$URI/$id"
 
@@ -32,13 +32,13 @@ Function Get-PASAccountImportJob {
 
 		If ($null -ne $Result) {
 
-			If ($PSCmdlet.ParameterSetName -ne "byID") {
+			If ($PSCmdlet.ParameterSetName -ne 'byID') {
 
 				$Result = $Result.BulkActions
 
 			}
 
-			$Result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Account.Job"
+			$Result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Account.Job'
 
 		}
 

@@ -24,7 +24,7 @@ function Remove-PASDirectoryMapping {
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID"
 
-		if ($PSCmdlet.ShouldProcess($MappingID, "Delete Directory Mapping")) {
+		if ($PSCmdlet.ShouldProcess($MappingID, 'Delete Directory Mapping')) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -34,4 +34,5 @@ function Remove-PASDirectoryMapping {
 	}#process
 
 	END { }#end
+
 }

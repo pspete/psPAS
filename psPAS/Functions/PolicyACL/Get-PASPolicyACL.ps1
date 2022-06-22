@@ -27,7 +27,7 @@ function Get-PASPolicyACL {
 
 			$result.ListPolicyPrivilegedCommandsResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Policy
+				Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Policy
 
 		}
 

@@ -18,7 +18,7 @@ function Get-PASServerWebService {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string]$PVWAAppName = "PasswordVault"
+		[string]$PVWAAppName = 'PasswordVault'
 	)
 
 	BEGIN { }#begin
@@ -41,4 +41,5 @@ function Get-PASServerWebService {
 	}#process
 
 	END { }#end
+
 }

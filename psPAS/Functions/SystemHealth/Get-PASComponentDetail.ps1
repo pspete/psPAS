@@ -7,7 +7,7 @@ Function Get-PASComponentDetail {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateSet("PVWA", "SessionManagement", "CPM", "AIM")]
+		[ValidateSet('PVWA', 'SessionManagement', 'CPM', 'AIM')]
 		[string]$ComponentID
 
 	)
@@ -34,4 +34,5 @@ Function Get-PASComponentDetail {
 	}#process
 
 	END { }#end
+
 }

@@ -6,7 +6,7 @@ function Get-PASPublicSSHKey {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( { $_ -notmatch ".*(%|\&|\+|\.).*" })]
+		[ValidateScript( { $_ -notmatch '.*(%|\&|\+|\.).*' })]
 		[string]$UserName
 
 	)
@@ -27,11 +27,11 @@ function Get-PASPublicSSHKey {
 
 			$result.GetUserAuthorizedKeysResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
+				Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
 
-				"UserName" = $UserName
+					'UserName' = $UserName
 
-			}
+				}
 
 		}
 

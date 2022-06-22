@@ -1,7 +1,7 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASPendingAccount {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'LastPasswordSet', Justification = "Parameter does not hold password")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = 'Username not used for authentication')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'LastPasswordSet', Justification = 'Parameter does not hold password')]
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -27,14 +27,14 @@ function Add-PASPendingAccount {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Windows", "Unix")]
+		[ValidateSet('Windows', 'Unix')]
 		[string]$OSType,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("enabled", "disabled")]
+		[ValidateSet('enabled', 'disabled')]
 		[string]$AccountEnabled,
 
 		[parameter(
@@ -47,7 +47,7 @@ function Add-PASPendingAccount {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("domain", "local")]
+		[ValidateSet('domain', 'local')]
 		[string]$AccountType,
 
 		[parameter(
@@ -96,7 +96,7 @@ function Add-PASPendingAccount {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Privileged", "Non-privileged")]
+		[ValidateSet('Privileged', 'Non-privileged')]
 		[string]$AccountCategory,
 
 		[parameter(
@@ -134,7 +134,7 @@ function Add-PASPendingAccount {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Workstation", "Server")]
+		[ValidateSet('Workstation', 'Server')]
 		[string]$MachineOSFamily
 	)
 
@@ -148,13 +148,13 @@ function Add-PASPendingAccount {
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		If ($PSBoundParameters.ContainsKey("AccountDiscoveryDate")) {
+		If ($PSBoundParameters.ContainsKey('AccountDiscoveryDate')) {
 
 			#Convert ExpiryDate to string in Required format
-			$Date = (Get-Date $AccountDiscoveryDate.ToUniversalTime() -Format "yyyy-MM-ddTHH:mm:ssZ").ToString()
+			$Date = (Get-Date $AccountDiscoveryDate.ToUniversalTime() -Format 'yyyy-MM-ddTHH:mm:ssZ').ToString()
 
 			#Include date string in request
-			$boundParameters["AccountDiscoveryDate"] = $Date
+			$boundParameters['AccountDiscoveryDate'] = $Date
 
 		}
 
@@ -162,7 +162,7 @@ function Add-PASPendingAccount {
 		$body = @{
 
 			#pendingaccount node
-			"pendingAccount" = $boundParameters | Get-PASParameter
+			'pendingAccount' = $boundParameters | Get-PASParameter
 
 			#JSON object
 		} | ConvertTo-Json
@@ -173,4 +173,5 @@ function Add-PASPendingAccount {
 	}#process
 
 	END { }#end
+
 }

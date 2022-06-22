@@ -5,12 +5,12 @@ function Get-PASApplication {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byAppID"
+			ParameterSetName = 'byAppID'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$AppID,
@@ -18,14 +18,14 @@ function Get-PASApplication {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "byAppID"
+			ParameterSetName = 'byAppID'
 		)]
 		[switch]$ExactMatch,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$Location,
@@ -33,7 +33,7 @@ function Get-PASApplication {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[boolean]$IncludeSublocations
 	)
@@ -46,7 +46,7 @@ function Get-PASApplication {
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications"
 
 		#If AppID specified
-		If ($($PSCmdlet.ParameterSetName) -eq "byAppID") {
+		If ($($PSCmdlet.ParameterSetName) -eq 'byAppID') {
 
 			#Build URL from base URL
 			$URI = "$URI/$($AppID | Get-EscapedString)"
@@ -54,7 +54,7 @@ function Get-PASApplication {
 		}
 
 		#If search query specified
-		ElseIf ($($PSCmdlet.ParameterSetName) -eq "byQuery") {
+		ElseIf ($($PSCmdlet.ParameterSetName) -eq 'byQuery') {
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter

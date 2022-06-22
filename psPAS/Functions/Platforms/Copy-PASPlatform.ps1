@@ -5,28 +5,28 @@ Function Copy-PASPlatform {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "targets"
+			ParameterSetName = 'targets'
 		)]
 		[switch]$TargetPlatform,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "dependents"
+			ParameterSetName = 'dependents'
 		)]
 		[switch]$DependentPlatform,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "groups"
+			ParameterSetName = 'groups'
 		)]
 		[switch]$GroupPlatform,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "rotationalGroups"
+			ParameterSetName = 'rotationalGroups'
 		)]
 		[switch]$RotationalGroup,
 

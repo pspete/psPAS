@@ -46,7 +46,7 @@ Function Set-PASPTARemediation {
 		#Create body of request
 		$body = $boundParameters | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess("PTA", "Update Automatic Remediation Config")) {
+		if ($PSCmdlet.ShouldProcess('PTA', 'Update Automatic Remediation Config')) {
 
 			#send request to PAS web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $Script:WebSession
@@ -54,7 +54,7 @@ Function Set-PASPTARemediation {
 			If ($null -ne $result) {
 
 				#Return Results
-				$result.automaticRemediation | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.PTA.Remediation"
+				$result.automaticRemediation | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.PTA.Remediation'
 
 			}
 

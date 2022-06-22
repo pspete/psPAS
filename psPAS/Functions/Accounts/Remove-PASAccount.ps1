@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Remove-PASAccount {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = 'False Positive')]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -8,15 +8,15 @@ function Remove-PASAccount {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[Alias("id")]
+		[Alias('id')]
 		[string]$AccountID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
-		[Alias("UseClassicAPI")]
+		[Alias('UseClassicAPI')]
 		[switch]$UseGen1API
 	)
 
@@ -29,7 +29,7 @@ function Remove-PASAccount {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"Gen1" {
+			'Gen1' {
 
 				#Create URL for request (earlier than 10.4)
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
@@ -46,7 +46,7 @@ function Remove-PASAccount {
 
 		}
 
-		if ($PSCmdlet.ShouldProcess($AccountID, "Delete Account")) {
+		if ($PSCmdlet.ShouldProcess($AccountID, 'Delete Account')) {
 
 			#Send request to webservice
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -56,4 +56,5 @@ function Remove-PASAccount {
 	}#process
 
 	END { }#end
+
 }

@@ -32,7 +32,7 @@ Get-Date | ConvertTo-UnixTime
 		$currentCulture = [System.Threading.Thread]::CurrentThread.CurrentCulture
 	}
 	process {
-		[System.Threading.Thread]::CurrentThread.CurrentCulture = "en-US"
+		[System.Threading.Thread]::CurrentThread.CurrentCulture = 'en-US'
 
 		$UnixTime = [math]::Round($(Get-Date $Date.ToUniversalTime() -UFormat %s))
 

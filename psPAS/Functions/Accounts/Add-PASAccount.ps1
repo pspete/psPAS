@@ -6,168 +6,168 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[string]$name,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[string]$address,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[string]$userName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
-		[Alias("PolicyID")]
+		[Alias('PolicyID')]
 		[string]$platformID,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[ValidateNotNullOrEmpty()]
-		[Alias("safe")]
+		[Alias('safe')]
 		[string]$SafeName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet("Password", "Key")]
+		[ValidateSet('Password', 'Key')]
 		[string]$secretType,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[securestring]$secret,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[hashtable]$platformAccountProperties,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[boolean]$automaticManagementEnabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[string]$manualManagementReason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[string]$remoteMachines,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[boolean]$accessRestrictedToRemoteMachines,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$accountName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[securestring]$password,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[boolean]$disableAutoMgmt,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$disableAutoMgmtReason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$groupName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$groupPlatformID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[int]$Port,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass1Name,
@@ -175,14 +175,14 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$ExtraPass1Folder,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass1Safe,
@@ -190,7 +190,7 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass3Name,
@@ -198,14 +198,14 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$ExtraPass3Folder,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$ExtraPass3Safe,
@@ -213,7 +213,7 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[hashtable]$DynamicProperties
 	)
@@ -221,8 +221,8 @@ function Add-PASAccount {
 	BEGIN {
 
 		#V9 baseparameters are contained in JSON object at the same depth
-		$baseParameters = [Collections.Generic.List[String]]@("Safe", "PlatformID", "Address", "AccountName", "Password", "Username",
-			"DisableAutoMgmt", "DisableAutoMgmtReason", "GroupName", "GroupPlatformID")
+		$baseParameters = [Collections.Generic.List[String]]@('Safe', 'PlatformID', 'Address', 'AccountName', 'Password', 'Username',
+			'DisableAutoMgmt', 'DisableAutoMgmtReason', 'GroupName', 'GroupPlatformID')
 
 	}#begin
 
@@ -233,7 +233,7 @@ function Add-PASAccount {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"Gen2" {
+			'Gen2' {
 
 				Assert-VersionRequirement -RequiredVersion 10.4
 
@@ -248,24 +248,24 @@ function Add-PASAccount {
 
 			}
 
-			"Gen1" {
+			'Gen1' {
 
 				#Create URL for Request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account"
 
 				#deal with Password SecureString
-				If ($PSBoundParameters.ContainsKey("password")) {
+				If ($PSBoundParameters.ContainsKey('password')) {
 
 					#Include decoded password in request
-					$boundParameters["password"] = $(ConvertTo-InsecureString -SecureString $password)
+					$boundParameters['password'] = $(ConvertTo-InsecureString -SecureString $password)
 
 				}
 
 				#Process for required formatting - fix V10 specific parameter names
-				$boundParameters.remove("SafeName")
-				$boundParameters.remove("userName")
-				$boundParameters["safe"] = $SafeName
-				$boundParameters["username"] = $userName
+				$boundParameters.remove('SafeName')
+				$boundParameters.remove('userName')
+				$boundParameters['safe'] = $SafeName
+				$boundParameters['username'] = $userName
 
 				#declare empty hashtable to hold "non-base" parameters
 				$properties = @{ }
@@ -277,7 +277,7 @@ function Add-PASAccount {
 				$boundParameters.keys | Where-Object { $baseParameters -notcontains $_ } | ForEach-Object {
 
 					#For all "non-base" parameters except "DynamicProperties"
-					if ($_ -ne "DynamicProperties") {
+					if ($_ -ne 'DynamicProperties') {
 
 						#Add key/Value to "properties" hashtable
 						$properties[$_] = $boundParameters[$_]
@@ -302,13 +302,13 @@ function Add-PASAccount {
 				}
 
 				#Add "non-base" parameter hashtable as value of "properties" on boundparameters object
-				$boundParameters["properties"] = [Collections.Generic.List[String]]@($properties.getenumerator() | ForEach-Object { $_ })
+				$boundParameters['properties'] = [Collections.Generic.List[String]]@($properties.getenumerator() | ForEach-Object { $_ })
 
 				#Create body of request
 				$body = @{
 
 					#account node does not contain non-base parameters
-					"account" = $boundParameters | Get-PASParameter -ParametersToRemove $keysToRemove
+					'account' = $boundParameters | Get-PASParameter -ParametersToRemove $keysToRemove
 
 					#ensure nodes at all required depths are included in the JSON object
 				} | ConvertTo-Json -Depth 4
@@ -322,12 +322,12 @@ function Add-PASAccount {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
-		if ($PSCmdlet.ParameterSetName -eq "Gen2") {
+		if ($PSCmdlet.ParameterSetName -eq 'Gen2') {
 
 			If ($null -ne $result) {
 
 				#Return Results
-				$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.Account.V10"
+				$result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Account.V10'
 
 			}
 
@@ -336,4 +336,5 @@ function Add-PASAccount {
 	}#process
 
 	END { }#end
+
 }

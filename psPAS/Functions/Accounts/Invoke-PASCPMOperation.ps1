@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Invoke-PASCPMOperation {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'ChangeCredsForGroup', Justification = "Parameter does not hold password")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'ChangeCredsForGroup', Justification = 'Parameter does not hold password')]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -8,85 +8,85 @@ function Invoke-PASCPMOperation {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[Alias("id")]
+		[Alias('id')]
 		[string]$AccountID,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "VerifyCredentials"
+			ParameterSetName = 'VerifyCredentials'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Verify"
+			ParameterSetName = 'Verify'
 		)]
 		[switch]$VerifyTask,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Password/Update"
+			ParameterSetName = 'Password/Update'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SetNextPassword"
+			ParameterSetName = 'SetNextPassword'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Change"
+			ParameterSetName = 'Change'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "ChangeCredentials"
+			ParameterSetName = 'ChangeCredentials'
 		)]
 		[switch]$ChangeTask,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Reconcile"
+			ParameterSetName = 'Reconcile'
 		)]
 		[switch]$ReconcileTask,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SetNextPassword"
+			ParameterSetName = 'SetNextPassword'
 		)]
 		[boolean]$ChangeImmediately,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "SetNextPassword"
+			ParameterSetName = 'SetNextPassword'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Password/Update"
+			ParameterSetName = 'Password/Update'
 		)]
 		[securestring]$NewCredentials,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "Change"
+			ParameterSetName = 'Change'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Password/Update"
+			ParameterSetName = 'Password/Update'
 		)]
 		[boolean]$ChangeEntireGroup,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "ChangeCredentials"
+			ParameterSetName = 'ChangeCredentials'
 		)]
 		[ValidateSet('Yes', 'No')]
 		[string]$ImmediateChangeByCPM,
@@ -94,7 +94,7 @@ function Invoke-PASCPMOperation {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "ChangeCredentials"
+			ParameterSetName = 'ChangeCredentials'
 		)]
 		[ValidateSet('Yes', 'No')]
 		[string]$ChangeCredsForGroup,
@@ -102,9 +102,9 @@ function Invoke-PASCPMOperation {
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "VerifyCredentials"
+			ParameterSetName = 'VerifyCredentials'
 		)]
-		[Alias("UseClassicAPI")]
+		[Alias('UseClassicAPI')]
 		[switch]$UseGen1API
 	)
 
@@ -112,8 +112,8 @@ function Invoke-PASCPMOperation {
 
 		#Create hashtable for splatting
 		$ThisRequest = @{ }
-		$ThisRequest["WebSession"] = $Script:WebSession
-		$ThisRequest["Method"] = "PUT"
+		$ThisRequest['WebSession'] = $Script:WebSession
+		$ThisRequest['Method'] = 'PUT'
 
 	}#Begin
 
@@ -125,24 +125,24 @@ function Invoke-PASCPMOperation {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"ChangeCredentials" {
+			'ChangeCredentials' {
 
 				#add ImmediateChangeByCPM to header as key=value pair
-				$ThisRequest["WebSession"].Headers["ImmediateChangeByCPM"] = $ImmediateChangeByCPM
+				$ThisRequest['WebSession'].Headers['ImmediateChangeByCPM'] = $ImmediateChangeByCPM
 
 				#create request body
-				$ThisRequest["Body"] = $boundParameters | ConvertTo-Json
+				$ThisRequest['Body'] = $boundParameters | ConvertTo-Json
 
 			}
 
-			"VerifyCredentials" {
+			'VerifyCredentials' {
 
 				#Empty Body
-				$ThisRequest["Body"] = @{ } | ConvertTo-Json
+				$ThisRequest['Body'] = @{ } | ConvertTo-Json
 
 			}
 
-			{ $PSItem -match "Credentials$" } {
+			{ $PSItem -match 'Credentials$' } {
 
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc"
 				break
@@ -158,28 +158,28 @@ function Invoke-PASCPMOperation {
 				$URI = "$Script:BaseURI/API"
 
 				#verify/change/reconcile method
-				$ThisRequest["Method"] = "POST"
+				$ThisRequest['Method'] = 'POST'
 
 				#deal with NewCredentials SecureString
-				If ($PSBoundParameters.ContainsKey("NewCredentials")) {
+				If ($PSBoundParameters.ContainsKey('NewCredentials')) {
 
 					#Specifying next password value, or changing in the vault requires 10.1 or above
 					Assert-VersionRequirement -RequiredVersion 10.1
 
 					#Include decoded password in request
-					$boundParameters["NewCredentials"] = $(ConvertTo-InsecureString -SecureString $NewCredentials)
+					$boundParameters['NewCredentials'] = $(ConvertTo-InsecureString -SecureString $NewCredentials)
 
 				}
 
 				#create request body
-				$ThisRequest["Body"] = $boundParameters | ConvertTo-Json
+				$ThisRequest['Body'] = $boundParameters | ConvertTo-Json
 
 			}
 
 		}
 
 		#Use AccountID + ParameterSet name for required URI
-		$ThisRequest["URI"] = "$URI/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
+		$ThisRequest['URI'] = "$URI/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
 
 		if ($PSCmdlet.ShouldProcess($AccountID, "Initiate CPM $($PSBoundParameters.Keys | Where-Object{$_ -like '*Task'})")) {
 
@@ -188,10 +188,10 @@ function Invoke-PASCPMOperation {
 
 		}
 
-		If ($ThisRequest["WebSession"].Headers.ContainsKey("ImmediateChangeByCPM")) {
+		If ($ThisRequest['WebSession'].Headers.ContainsKey('ImmediateChangeByCPM')) {
 
 			#Ensure ImmediateChangeByCPM is removed from WebSession Header
-			$ThisRequest["WebSession"].Headers.Remove("ImmediateChangeByCPM") | Out-Null
+			$ThisRequest['WebSession'].Headers.Remove('ImmediateChangeByCPM') | Out-Null
 
 		}
 

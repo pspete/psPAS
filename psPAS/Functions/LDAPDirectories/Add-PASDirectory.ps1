@@ -1,60 +1,60 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASDirectory {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlaintextForPassword', '', Justification = "It's a path to password object")]
-	[CmdletBinding(DefaultParameterSetName = "10.4")]
+	[CmdletBinding(DefaultParameterSetName = '10.4')]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.4"
+			ParameterSetName = '10.4'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.7"
+			ParameterSetName = '10.7'
 		)]
 		[string]$DirectoryType,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.4"
+			ParameterSetName = '10.4'
 		)]
 		[string[]]$HostAddresses,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.4"
+			ParameterSetName = '10.4'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.7"
+			ParameterSetName = '10.7'
 		)]
 		[string]$BindUsername,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.4"
+			ParameterSetName = '10.4'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.7"
+			ParameterSetName = '10.7'
 		)]
 		[securestring]$BindPassword,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.4"
+			ParameterSetName = '10.4'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.7"
+			ParameterSetName = '10.7'
 		)]
 		[ValidateRange(1, 65535)]
 		[int]$Port,
@@ -62,43 +62,43 @@ function Add-PASDirectory {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.7"
+			ParameterSetName = '10.7'
 		)]
 		[hashtable[]]$DCList,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.4"
+			ParameterSetName = '10.4'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.7"
+			ParameterSetName = '10.7'
 		)]
 		[string]$DomainName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.4"
+			ParameterSetName = '10.4'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.7"
+			ParameterSetName = '10.7'
 		)]
 		[string]$DomainBaseContext,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.4"
+			ParameterSetName = '10.4'
 		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "10.7"
+			ParameterSetName = '10.7'
 		)]
 		[boolean]$SSLConnect
 
@@ -119,10 +119,10 @@ function Add-PASDirectory {
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#deal with BindPassword SecureString
-		If ($PSBoundParameters.ContainsKey("BindPassword")) {
+		If ($PSBoundParameters.ContainsKey('BindPassword')) {
 
 			#Include decoded bind password in request
-			$boundParameters["BindPassword"] = $(ConvertTo-InsecureString -SecureString $BindPassword)
+			$boundParameters['BindPassword'] = $(ConvertTo-InsecureString -SecureString $BindPassword)
 
 		}
 
@@ -141,4 +141,5 @@ function Add-PASDirectory {
 	}#process
 
 	END { }#end
+
 }

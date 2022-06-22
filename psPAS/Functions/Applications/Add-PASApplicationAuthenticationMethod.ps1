@@ -5,32 +5,32 @@ function Add-PASApplicationAuthenticationMethod {
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "path"
+            ParameterSetName = 'path'
         )]
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "certificateattr"
+            ParameterSetName = 'certificateattr'
         )]
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "certificateserialnumber"
+            ParameterSetName = 'certificateserialnumber'
         )]
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "hash"
+            ParameterSetName = 'hash'
         )]
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "osUser"
+            ParameterSetName = 'osUser'
         )]
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "machineAddress"
+            ParameterSetName = 'machineAddress'
         )]
         [ValidateNotNullOrEmpty()]
         [string]$AppID,
@@ -38,87 +38,87 @@ function Add-PASApplicationAuthenticationMethod {
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "path"
+            ParameterSetName = 'path'
         )]
         [string]$path,
 
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "hash"
+            ParameterSetName = 'hash'
         )]
         [string]$hash,
 
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "osUser"
+            ParameterSetName = 'osUser'
         )]
         [string]$osUser,
 
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "machineAddress"
+            ParameterSetName = 'machineAddress'
         )]
         [string]$machineAddress,
 
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "certificateserialnumber"
+            ParameterSetName = 'certificateserialnumber'
         )]
         [string]$certificateserialnumber,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "certificateattr"
+            ParameterSetName = 'certificateattr'
         )]
         [string[]]$Subject,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "certificateattr"
+            ParameterSetName = 'certificateattr'
         )]
         [string[]]$Issuer,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "certificateattr"
+            ParameterSetName = 'certificateattr'
         )]
         [string[]]$SubjectAlternativeName,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "path"
+            ParameterSetName = 'path'
         )]
         [boolean]$IsFolder,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "path"
+            ParameterSetName = 'path'
         )]
         [boolean]$AllowInternalScripts,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "certificateattr"
+            ParameterSetName = 'certificateattr'
         )]
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "certificateserialnumber"
+            ParameterSetName = 'certificateserialnumber'
         )]
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = "hash"
+            ParameterSetName = 'hash'
         )]
         [string]$Comment
     )
@@ -132,20 +132,20 @@ function Add-PASApplicationAuthenticationMethod {
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AppID
 
         #Accepted authtype names match parameterset names
-        $boundParameters.Add("AuthType", $($PSCmdlet.ParameterSetName))
+        $boundParameters.Add('AuthType', $($PSCmdlet.ParameterSetName))
 
         #When parameterset name matches parametername
         If ($boundParameters.ContainsKey($PSCmdlet.ParameterSetName)) {
 
             #Rename hashtable key to "AuthValue"
-            $boundParameters.Add("AuthValue", $boundParameters.$($PSCmdlet.ParameterSetName))
+            $boundParameters.Add('AuthValue', $boundParameters.$($PSCmdlet.ParameterSetName))
             $boundParameters.Remove($($PSCmdlet.ParameterSetName))
 
         }
 
         $Body = @{
 
-            "authentication" = $boundParameters
+            'authentication' = $boundParameters
 
         } | ConvertTo-Json
 

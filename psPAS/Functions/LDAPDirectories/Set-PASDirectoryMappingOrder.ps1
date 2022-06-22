@@ -29,7 +29,7 @@ function Set-PASDirectoryMappingOrder {
 		#Get request parameters
 		$body = $($PSBoundParameters | Get-PASParameter -ParametersToRemove DirectoryName) | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($DirectoryName, "Update Directory Mapping Order")) {
+		if ($PSCmdlet.ShouldProcess($DirectoryName, 'Update Directory Mapping Order')) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession

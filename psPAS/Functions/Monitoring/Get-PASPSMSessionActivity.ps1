@@ -6,7 +6,7 @@ function Get-PASPSMSessionActivity {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("SessionID")]
+		[Alias('SessionID')]
 		[string]$liveSessionId
 	)
 

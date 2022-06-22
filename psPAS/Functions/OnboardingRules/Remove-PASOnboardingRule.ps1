@@ -16,7 +16,7 @@ function Remove-PASOnboardingRule {
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules/$($RuleID | Get-EscapedString)"
 
-		if ($PSCmdlet.ShouldProcess($RuleID, "Delete On-boarding Rule")) {
+		if ($PSCmdlet.ShouldProcess($RuleID, 'Delete On-boarding Rule')) {
 
 			#Send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -26,4 +26,5 @@ function Remove-PASOnboardingRule {
 	}#process
 
 	END { }#end
+
 }

@@ -1,109 +1,109 @@
 # .ExternalHelp psPAS-help.xml
 Function New-PASAccountObject {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'remoteMachinesAccess', Justification = "False Positive")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'secretManagement', Justification = "False Positive")]
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = "AccountObject")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'remoteMachinesAccess', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'secretManagement', Justification = 'False Positive')]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'AccountObject')]
 	param(
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[int]$uploadIndex,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[string]$userName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[string]$name,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[string]$address,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
-		[Alias("PolicyID")]
+		[Alias('PolicyID')]
 		[string]$platformID,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[ValidateNotNullOrEmpty()]
-		[Alias("safe")]
+		[Alias('safe')]
 		[string]$SafeName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
-		[ValidateSet("Password", "Key")]
+		[ValidateSet('Password', 'Key')]
 		[string]$secretType,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[securestring]$secret,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[hashtable]$platformAccountProperties,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[boolean]$automaticManagementEnabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[string]$manualManagementReason,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[string]$remoteMachines,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[boolean]$accessRestrictedToRemoteMachines,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AccountObject"
+			ParameterSetName = 'AccountObject'
 		)]
 		[string]$groupName
 
@@ -112,8 +112,8 @@ Function New-PASAccountObject {
 	Begin {
 
 		#V10 parameters are nested under JSON object properties
-		$remoteMachine = [Collections.Generic.List[String]]@("remoteMachines", "accessRestrictedToRemoteMachines")
-		$SecretMgmt = [Collections.Generic.List[String]]@("automaticManagementEnabled", "manualManagementReason")
+		$remoteMachine = [Collections.Generic.List[String]]@('remoteMachines', 'accessRestrictedToRemoteMachines')
+		$SecretMgmt = [Collections.Generic.List[String]]@('automaticManagementEnabled', 'manualManagementReason')
 
 	}
 
@@ -124,13 +124,13 @@ Function New-PASAccountObject {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"AccountObject" {
+			'AccountObject' {
 
 				#deal with "secret" SecureString
-				If ($PSBoundParameters.ContainsKey("secret")) {
+				If ($PSBoundParameters.ContainsKey('secret')) {
 
 					#Include decoded password in request
-					$boundParameters["secret"] = $(ConvertTo-InsecureString -SecureString $secret)
+					$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
 
 				}
 
@@ -146,7 +146,7 @@ Function New-PASAccountObject {
 
 				} {
 
-					$boundParameters["remoteMachinesAccess"] = $remoteMachinesAccess
+					$boundParameters['remoteMachinesAccess'] = $remoteMachinesAccess
 
 				}
 
@@ -161,11 +161,11 @@ Function New-PASAccountObject {
 
 				} {
 
-					$boundParameters["secretManagement"] = $secretManagement
+					$boundParameters['secretManagement'] = $secretManagement
 
 				}
 
-				if ($PSCmdlet.ShouldProcess($userName, "Create Account Object Definition")) {
+				if ($PSCmdlet.ShouldProcess($userName, 'Create Account Object Definition')) {
 
 					$boundParameters | Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt)
 

@@ -12,7 +12,7 @@ Function Set-PASPTAEvent {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("OPEN", "CLOSED")]
+		[ValidateSet('OPEN', 'CLOSED')]
 		[string]$mStatus
 
 	)
@@ -29,7 +29,7 @@ Function Set-PASPTAEvent {
 		#Get Parameters to include in request
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove EventID | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($EventID, "Update Event Status")) {
+		if ($PSCmdlet.ShouldProcess($EventID, 'Update Event Status')) {
 
 			#Send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $body

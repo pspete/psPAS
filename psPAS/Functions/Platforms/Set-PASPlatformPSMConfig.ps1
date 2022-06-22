@@ -35,7 +35,7 @@ Function Set-PASPlatformPSMConfig {
 		#Request body
 		$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove ID | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($ID, "Update Platform PSM Config")) {
+		if ($PSCmdlet.ShouldProcess($ID, 'Update Platform PSM Config')) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
