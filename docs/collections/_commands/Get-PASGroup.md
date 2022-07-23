@@ -20,6 +20,11 @@ Get-PASGroup [-groupType <String>] [-groupName <String>] [-sort <String[]>] [-se
  [-includeMembers <Boolean>] [<CommonParameters>]
 ```
 
+### byID
+```
+Get-PASGroup -id <Int32> [-includeMembers <Boolean>] [<CommonParameters>]
+```
+
 ### filter
 ```
 Get-PASGroup [-filter <String>] [-sort <String[]>] [-search <String>] [-includeMembers <Boolean>]
@@ -88,7 +93,14 @@ Returns all existing groups matching search, includes vault group member details
 ```
 Get-PASGroup -groupName "Vault Admins" -includeMembers $true
 ```
-Returns group matching name, includes vault group member details in result.
+
+### EXAMPLE 9
+```
+Get-PASGroup -id 11
+```
+
+Returns group with id 11.
+Requires minimum version of 12.6
 
 ## PARAMETERS
 
@@ -110,7 +122,7 @@ Accept wildcard characters: False
 ### -filter
 Filter according to REST standard.
 
-*depreciated parameter in psPAS - filter value will automatically be set with if groupType specified.
+*depreciated parameter in psPAS - filter value will automatically be set if groupType specified.
 
 ```yaml
 Type: String
@@ -129,7 +141,7 @@ Search will match when ALL search terms appear in the group name.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: groupType, filter
 Aliases:
 
 Required: False
@@ -170,7 +182,7 @@ Requires minimum version of 12.2
 
 ```yaml
 Type: String[]
-Parameter Sets: (All)
+Parameter Sets: groupType, filter
 Aliases:
 
 Required: False
@@ -191,6 +203,22 @@ Parameter Sets: groupType
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -id
+The integer id value of the group to get details of.
+Requires minimum version of 12.6
+
+```yaml
+Type: Int32
+Parameter Sets: byID
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
