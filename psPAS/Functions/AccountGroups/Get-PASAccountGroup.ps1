@@ -31,9 +31,9 @@ function Get-PASAccountGroup {
 
 			'Gen1' {
 
-				Assert-VersionRequirement -RequiredVersion 9.10
+				Assert-VersionRequirement -RequiredVersion 10.5 -MaximumVersion 12.3
 				#Create URL for Request
-				$URI = "$Script:BaseURI/API/AccountGroups?$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
+				$URI = "$Script:BaseURI/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
 
 				break
 
@@ -41,9 +41,9 @@ function Get-PASAccountGroup {
 
 			default {
 
-				Assert-VersionRequirement -RequiredVersion 10.5
+				Assert-VersionRequirement -RequiredVersion 9.10
 				#Create URL for Request
-				$URI = "$Script:BaseURI/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
+				$URI = "$Script:BaseURI/API/AccountGroups?$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
 
 			}
 
