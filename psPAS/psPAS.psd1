@@ -218,7 +218,9 @@
 		'Revoke-PASJustInTimeAccess',
 		'Get-PASAccountDetail',
 		'Clear-PASLinkedAccount',
-		'Get-PASPlatformSummary'
+		'Get-PASPlatformSummary',
+		'Enable-PASUser',
+		'Disable-PASUser'
 	)
 
 	#AliasesToExport   = @()
