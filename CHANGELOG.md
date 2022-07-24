@@ -5,11 +5,24 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
-## **vNext 5.2.## (TBC)**
+## **vNext 5.3.## (TBC)**
 
+### Module update to cover all CyberArk 12.6 API features
+
+- New Commands
+  - `Enable-PASUser`
+    - New command, supported from 12.6
+  - `Disable-PASUser`
+    - New command, supported from 12.6
 - Updates
+  - `Get-PASAccount`
+    - Added `savedFilter` parameter, supported from 12.6
   - `Get-PASGroup`
+    - Added `id` parameter, supported from 12.6
     - Added `groupName` parameter, supported from 12.2.
+  - `Get-PASAccountGroup`
+    - Depreciated use of "Get Safe account groups" API
+    - Makes ParameterSet based on `Get account group by Safe` API the default.
   - Updated documentation and help text.
 
 ## **5.2.59 (November 7th 2021)**
