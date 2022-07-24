@@ -162,6 +162,7 @@ The user's name
 Default operation targets the Gen2 API & requires minimum version of 12.2.
 
 For operation against versions earlier than 12.2, the `UseGen1API` parameter should also be specified.
+
 ```yaml
 Type: String
 Parameter Sets: Gen2, Gen2-ExtendedDetails

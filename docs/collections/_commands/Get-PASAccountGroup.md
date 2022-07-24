@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ### -UseGen1API
 Specify to force usage the Gen1 API endpoint.
 
-Should be specified for versions earlier than 10.5
+This is based on the Get Account Groups By Safe API, introduced in PAS 10.5, depreciated in 12.6
 
 ```yaml
 Type: SwitchParameter
