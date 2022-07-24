@@ -43,6 +43,18 @@ function Get-PASAccount {
 		[string]$safeName,
 
 		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2Query'
+		)]
+		[ValidateSet('Regular', 'Recently', 'New', 'Link', 'Deleted', 'PolicyFailures',
+			'AccessedByUsers', 'ModifiedByUsers', 'ModifiedByCPM', 'DisabledPasswordByUser',
+			'DisabledPasswordByCPM', 'ScheduledForChange', 'ScheduledForVerify', 'ScheduledForReconcile',
+			'SuccessfullyReconciled', 'FailedChange', 'FailedVerify', 'FailedReconcile', 'LockedOrNew',
+			'Locked', 'Favorites')]
+		[string]$savedFilter,
+
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Query'
@@ -108,6 +120,12 @@ function Get-PASAccount {
 			( { $PSItem -match 'Gen2' } ) {
 
 				switch ($PSBoundParameters) {
+
+					( { $PSItem.ContainsKey('savedFilter') }) {
+						#check required version
+						Assert-VersionRequirement -RequiredVersion 12.6
+
+					}
 
 					( { $PSItem.ContainsKey('modificationTime') }) {
 						#check required version
