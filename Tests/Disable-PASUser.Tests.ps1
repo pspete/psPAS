@@ -54,7 +54,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 param($Parameter)
 
-				(Get-Command Enable-PASUser).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Disable-PASUser).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
             }
 
@@ -65,13 +65,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
         Context 'Input' {
 
             It 'sends request' {
-                $InputObj | Enable-PASUser
+                $InputObj | Disable-PASUser
                 Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request to expected endpoint' {
-                Enable-PASUser -id 1234
+                Disable-PASUser -id 1234
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:BaseURI)/API/Users/1234/disable/"
@@ -81,13 +81,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
 
             It 'uses expected method' {
-                $InputObj | Enable-PASUser
+                $InputObj | Disable-PASUser
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request with no body' {
-                $InputObj | Enable-PASUser
+                $InputObj | Disable-PASUser
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
             }
