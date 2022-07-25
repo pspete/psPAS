@@ -74,7 +74,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 Enable-PASUser -id 1234
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:BaseURI)/API/Users/1234/enable"
+                    $URI -eq "$($Script:BaseURI)/API/Users/1234/enable/"
 
                 } -Times 1 -Exactly -Scope It
 
