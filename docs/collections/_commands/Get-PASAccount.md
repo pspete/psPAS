@@ -17,7 +17,7 @@ Returns information about a single account. (Version 9.3 - 10.3)
 
 ### Gen2Query (Default)
 ```
-Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] -savedFilter <String>
+Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] [-savedFilter <String>]
  [-modificationTime <DateTime>] [-sort <String[]>] [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
@@ -346,7 +346,7 @@ Type: String
 Parameter Sets: Gen2Query
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

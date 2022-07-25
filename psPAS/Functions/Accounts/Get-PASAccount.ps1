@@ -43,7 +43,7 @@ function Get-PASAccount {
 		[string]$safeName,
 
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Query'
 		)]
