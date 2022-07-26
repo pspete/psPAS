@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -37,20 +37,20 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		BeforeEach {
 			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+				[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 			}
 
-			$response = Add-PASAllowedReferrer -referrerURL "SomeURLValue"
+			$response = Add-PASAllowedReferrer -referrerURL 'SomeURLValue'
 		}
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -60,39 +60,39 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json).referrerURL -eq "SomeURLValue"
+					($Body | ConvertFrom-Json).referrerURL -eq 'SomeURLValue'
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
-				{ Add-PASAllowedReferrer  -referrerURL "SomeURLValue" } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
+				{ Add-PASAllowedReferrer -referrerURL 'SomeURLValue' } | Should -Throw
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 

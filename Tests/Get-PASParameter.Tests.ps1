@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,15 +35,15 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General Tests"{
+		Context 'General Tests' {
 
-			BeforeEach{
+			BeforeEach {
 
 				[array]$CommonParameters = [System.Management.Automation.PSCmdlet]::CommonParameters
 				[array]$CommonParameters += [System.Management.Automation.PSCmdlet]::OptionalCommonParameters
 				[array]$CommonParameters = $CommonParameters | Select-Object -Unique
-				[hashtable]$InputParams = @{"KeepThis" = "Kept"; "RemoveThis" = "Removed" }
-				$CommonParameters | ForEach-Object { $InputParams.Add($PSItem, "something") }
+				[hashtable]$InputParams = @{'KeepThis' = 'Kept'; 'RemoveThis' = 'Removed' }
+				$CommonParameters | ForEach-Object { $InputParams.Add($PSItem, 'something') }
 				$ReturnData = $InputParams | Get-PASParameter -ParametersToRemove RemoveThis
 
 			}
@@ -64,11 +64,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It 'does not return additional specified parameters' {
-				$ReturnData["RemoveThis"] | Should -BeNullOrEmpty
+				$ReturnData['RemoveThis'] | Should -BeNullOrEmpty
 			}
 
 			It 'returns expected value' {
-				$ReturnData["KeepThis"] | Should -Be "Kept"
+				$ReturnData['KeepThis'] | Should -Be 'Kept'
 			}
 
 		}

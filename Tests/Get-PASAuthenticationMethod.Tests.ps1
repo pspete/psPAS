@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -37,20 +37,20 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		BeforeEach {
 			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{"Methods" = [PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" } }
+				[PSCustomObject]@{'Methods' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
 			}
 
 			$response = Get-PASAuthenticationMethod
 		}
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint - get all method" {
+			It 'sends request to expected endpoint - get all method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -60,7 +60,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - get specific method" {
+			It 'sends request to expected endpoint - get specific method' {
 
 				Get-PASAuthenticationMethod -ID SomeMethod
 
@@ -72,35 +72,35 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
 				{ Get-PASAuthenticationMethod } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			It "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 

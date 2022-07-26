@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -36,16 +36,16 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		It 'returns TRUE if version is greater than minimum version' {
-			Compare-MinimumVersion -Version "9.8.0" -MinimumVersion "8.9.0" | Should -Be $true
+			Compare-MinimumVersion -Version '9.8.0' -MinimumVersion '8.9.0' | Should -Be $true
 		}
 
 		It 'returns FALSE if version is less than minimum version' {
-			Compare-MinimumVersion -Version "9.8.0" -MinimumVersion "9.9.0" | Should -Be $false
+			Compare-MinimumVersion -Version '9.8.0' -MinimumVersion '9.9.0' | Should -Be $false
 		}
 
 		It 'returns TRUE if version is 0.0' {
 
-			Compare-MinimumVersion -Version "0.0" -MinimumVersion "1.1.0" | Should -Be $true
+			Compare-MinimumVersion -Version '0.0' -MinimumVersion '1.1.0' | Should -Be $true
 
 		}
 

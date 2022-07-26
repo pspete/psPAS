@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,66 +35,66 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
 				$InputObj = @{
-					"UserName"   = "SomeUser"
-					"FirstName"  = "Some"
-					"LastName"   = "User"
-					"ExpiryDate" = "10/31/2018"
-					"workStreet" = "SomeStreet"
-					"homePage"   = "www.geocities.com"
-					"faxNumber"  = "1979"
-					"city"       = "Tombouctou"
+					'UserName'   = 'SomeUser'
+					'FirstName'  = 'Some'
+					'LastName'   = 'User'
+					'ExpiryDate' = '10/31/2018'
+					'workStreet' = 'SomeStreet'
+					'homePage'   = 'www.geocities.com'
+					'faxNumber'  = '1979'
+					'city'       = 'Tombouctou'
 				}
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ $InputObj | Format-PASUserObject } | Should -Not -Throw
 
 			}
 
-			It "outputs expected object type" {
+			It 'outputs expected object type' {
 				$InputObj | Format-PASUserObject | Should -BeOfType Hashtable
 			}
 
-			It "has output with expected number of keys" {
+			It 'has output with expected number of keys' {
 				$result = $InputObj | Format-PASUserObject
 				$result.keys.count | Should -Be 6
 			}
 
-			It "has expected value for remoteMachinesAccess" {
+			It 'has expected value for remoteMachinesAccess' {
 				$result = $InputObj | Format-PASUserObject
-				$result["personalDetails"].keys | Should -Contain FirstName
-				$result["personalDetails"].keys | Should -Contain LastName
-				$result["personalDetails"].keys | Should -Contain city
+				$result['personalDetails'].keys | Should -Contain FirstName
+				$result['personalDetails'].keys | Should -Contain LastName
+				$result['personalDetails'].keys | Should -Contain city
 			}
 
-			It "has expected value for businessAddress" {
+			It 'has expected value for businessAddress' {
 				$result = $InputObj | Format-PASUserObject
-				$result["businessAddress"].keys | Should -Contain workStreet
+				$result['businessAddress'].keys | Should -Contain workStreet
 			}
 
-			It "has expected value for phones" {
+			It 'has expected value for phones' {
 				$result = $InputObj | Format-PASUserObject
-				$result["phones"].keys | Should -Contain faxNumber
+				$result['phones'].keys | Should -Contain faxNumber
 			}
 
-			It "has expected value for internet" {
+			It 'has expected value for internet' {
 				$result = $InputObj | Format-PASUserObject
-				$result["internet"].keys | Should -Contain homePage
+				$result['internet'].keys | Should -Contain homePage
 			}
 
-			It "has expected value for ExpiryDate" {
+			It 'has expected value for ExpiryDate' {
 				$result = $InputObj | Format-PASUserObject
-				$result["ExpiryDate"] | Should -Be "1540944000"
+				$result['ExpiryDate'] | Should -Be '1540944000'
 			}
 
-			It "does not include unexpected keys in result" {
+			It 'does not include unexpected keys in result' {
 				$result = $InputObj | Format-PASUserObject
 				$result.keys | Should -Not -Contain FirstName
 				$result.keys | Should -Not -Contain LastName

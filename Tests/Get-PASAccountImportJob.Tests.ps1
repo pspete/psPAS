@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,7 +35,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
@@ -44,18 +44,18 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ Get-PASAccountImportJob } | Should -Not -Throw
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 				Get-PASAccountImportJob
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 				Get-PASAccountImportJob
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -64,7 +64,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "sends request to expected endpoint - byID" {
+			It 'sends request to expected endpoint - byID' {
 				Get-PASAccountImportJob -id 1234
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -73,16 +73,16 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 				Get-PASAccountImportJob
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "11.5"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '11.5'
 
 				{ $InputObj | Get-PASAccountImportJob } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}

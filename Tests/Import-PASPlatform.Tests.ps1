@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,25 +35,25 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
+		BeforeEach {
 			Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"PlatformID" = "SomePlatform" }
-		}
+				[PSCustomObject]@{'PlatformID' = 'SomePlatform' }
+			}
 
-		#Create a 512b file to test with
-		$file = [System.IO.File]::Create("$env:Temp\testPlatform.zip")
-		$file.SetLength(0.5kb)
-		$file.Close()
+			#Create a 512b file to test with
+			$file = [System.IO.File]::Create("$env:Temp\testPlatform.zip")
+			$file.SetLength(0.5kb)
+			$file.Close()
 
 			$response = Import-PASPlatform -ImportFile $($file.name)
 
 		}
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'ImportFile' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -65,27 +65,27 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "throws if InputFile does not exist" {
+			It 'throws if InputFile does not exist' {
 				{ Import-PASPlatform -ImportFile SomeFile.txt } | Should -Throw
 			}
 
-			It "throws if InputFile resolves to a folder" {
+			It 'throws if InputFile resolves to a folder' {
 				{ Import-PASPlatform -ImportFile $pwd } | Should -Throw
 			}
 
-			It "throws if InputFile does not have a zip extention" {
+			It 'throws if InputFile does not have a zip extention' {
 				{ Import-PASPlatform -ImportFile README.MD } | Should -Throw
 			}
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -95,13 +95,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -113,44 +113,44 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It 'has a request body with expected number of properties' {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
 			}
 
-			It "has body content of expected length" {
+			It 'has body content of expected length' {
 
 				($Script:RequestBody.ImportFile).length | Should -Be 512
 
 			}
 
-			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ Import-PASPlatform -ImportFile $($file.name)  } | Should -Throw
-$Script:ExternalVersion = "0.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
+				{ Import-PASPlatform -ImportFile $($file.name) } | Should -Throw
+				$Script:ExternalVersion = '0.0'
 			}
 
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be System.Management.Automation.PSCustomObject
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be System.Management.Automation.PSCustomObject
 
 			}
 

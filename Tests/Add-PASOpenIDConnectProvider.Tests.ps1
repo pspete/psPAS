@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -36,21 +36,21 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		BeforeEach {
-			$Script:ExternalVersion = "0.0"
+			$Script:ExternalVersion = '0.0'
 
 			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+				[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 			}
 
-			$clientSecret = $("SomeClientSecret" | ConvertTo-SecureString -AsPlainText -Force)
+			$clientSecret = $('SomeClientSecret' | ConvertTo-SecureString -AsPlainText -Force)
 
 			$InputObject = [PSCustomObject]@{
 
-				id                   = "idValue"
-				authenticationFlow   = "Code"
-				discoveryEndpointUrl = "https://SomeValue"
-				clientId             = "00000159875dgjut02f5"
-				clientSecretMethod   = "Post"
+				id                   = 'idValue'
+				authenticationFlow   = 'Code'
+				discoveryEndpointUrl = 'https://SomeValue'
+				clientId             = '00000159875dgjut02f5'
+				clientSecretMethod   = 'Post'
 				clientSecret         = $clientSecret
 			}
 
@@ -58,15 +58,15 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -76,13 +76,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 					$($Body | ConvertFrom-Json) -ne $null
@@ -90,27 +90,27 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "throws error if userNameClaim contains invalid characters" {
-				{ $InputObject | Add-PASOpenIDConnectProvider -userNameClaim "abc_123-456" } | Should -Throw
+			It 'throws error if userNameClaim contains invalid characters' {
+				{ $InputObject | Add-PASOpenIDConnectProvider -userNameClaim 'abc_123-456' } | Should -Throw
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
 				{ $InputObject | Add-PASOpenIDConnectProvider } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			It "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 

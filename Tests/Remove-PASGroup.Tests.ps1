@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "11.5"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '11.5'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -41,16 +41,16 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			$InputObj = [pscustomobject]@{
-				"GroupID" = 1234
+				'GroupID' = 1234
 
 			}
 		}
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'GroupID' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -62,28 +62,28 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 				$InputObj | Remove-PASGroup
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint"{
+			It 'sends request to expected endpoint' {
 				Remove-PASGroup -GroupID 1234
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 					$URI -eq "$($Script:BaseURI)/API/UserGroups/1234"
 				}-Times 1 -Exactly -Scope It
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 				$InputObj | Remove-PASGroup
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 				$InputObj | Remove-PASGroup
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
@@ -91,9 +91,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides no output" {
+			It 'provides no output' {
 				$response = $InputObj | Remove-PASGroup
 				$response | Should -BeNullOrEmpty
 

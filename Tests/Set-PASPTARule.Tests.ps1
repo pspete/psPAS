@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,36 +35,36 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
-		Mock Invoke-PASRestMethod -MockWith {
+		BeforeEach {
+			Mock Invoke-PASRestMethod -MockWith {
 
-		}
+			}
 
-		$InputObj = [pscustomobject]@{
-"id"           = 99
-			"category"     = "KEYSTROKES"
-			"regex"        = "(.*)Some Pattern(.*)"
-			"score"        = 80
-			"description"  = "Some String"
-			"response"     = "NONE"
-			"active"       = $true
+			$InputObj = [pscustomobject]@{
+				'id'          = 99
+				'category'    = 'KEYSTROKES'
+				'regex'       = '(.*)Some Pattern(.*)'
+				'score'       = 80
+				'description' = 'Some String'
+				'response'    = 'NONE'
+				'active'      = $true
 
-		}
+			}
 
 			$response = $InputObj | Set-PASPTARule
 
-}
-		Context "Mandatory Parameters" {
+		}
+		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'id'},
-			@{Parameter = 'category'},
-			@{Parameter = 'regex'},
-			@{Parameter = 'score'},
-			@{Parameter = 'description'},
-			@{Parameter = 'response'},
-			@{Parameter = 'active'}
+			$Parameters = @{Parameter = 'id' },
+			@{Parameter = 'category' },
+			@{Parameter = 'regex' },
+			@{Parameter = 'score' },
+			@{Parameter = 'description' },
+			@{Parameter = 'response' },
+			@{Parameter = 'active' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -76,15 +76,15 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -94,13 +94,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'PUT' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -112,23 +112,23 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It 'has a request body with expected number of properties' {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 7
 
 			}
 
-			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{$InputObj | Set-PASPTARule } | Should -Throw
-$Script:ExternalVersion = "0.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
+				{ $InputObj | Set-PASPTARule } | Should -Throw
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides no output" {
+			It 'provides no output' {
 
 				$response | Should -BeNullOrEmpty
 

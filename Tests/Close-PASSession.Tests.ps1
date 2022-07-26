@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,8 +35,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
-				Mock Invoke-PASRestMethod -MockWith {
+		BeforeEach {
+			Mock Invoke-PASRestMethod -MockWith {
 
 			}
 
@@ -44,19 +44,19 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			$response = Close-PASSession -UseClassicAPI -verbose
+			$response = Close-PASSession -UseClassicAPI -Verbose
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -66,19 +66,19 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected v10 URL" {
+			It 'sends request to expected v10 URL' {
 
 				$response = Close-PASSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -89,7 +89,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected SAML Auth URL" {
+			It 'sends request to expected SAML Auth URL' {
 
 				$response = Close-PASSession -SAMLAuthentication
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -100,7 +100,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected Shared Auth URL" {
+			It 'sends request to expected Shared Auth URL' {
 
 				$response = Close-PASSession -SharedAuthentication
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -113,9 +113,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides no output" {
+			It 'provides no output' {
 
 				$response | Should -BeNullOrEmpty
 

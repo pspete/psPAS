@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,20 +35,20 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Standard Operation" {
+		Context 'Standard Operation' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
-					"id"          = "12345"
-					"NewPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+					'id'          = '12345'
+					'NewPassword' = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
 				}
 
 				$InputObj1 = [pscustomobject]@{
-					"id"          = "12345"
-					"NewPassword" = $("P_PasswordP_PasswordP_PasswordP_PasswordP_PasswordP_PasswordP_Password" | ConvertTo-SecureString -AsPlainText -Force)
+					'id'          = '12345'
+					'NewPassword' = $('P_PasswordP_PasswordP_PasswordP_PasswordP_PasswordP_PasswordP_Password' | ConvertTo-SecureString -AsPlainText -Force)
 				}
 			}
 
@@ -57,7 +57,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 			It 'throws if NewPassword exceeds 39 characters' {
-				{ $InputObj1 | Set-PASUserPassword } | Should -Throw -ExpectedMessage "Password must not exceed 39 characters"
+				{ $InputObj1 | Set-PASUserPassword } | Should -Throw -ExpectedMessage 'Password must not exceed 39 characters'
 			}
 
 			It 'sends request' {

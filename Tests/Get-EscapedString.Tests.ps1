@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -37,13 +37,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		It 'outputs a string' {
 
-			"+ & %" | Get-EscapedString | Should -BeOfType System.String
+			'+ & %' | Get-EscapedString | Should -BeOfType System.String
 
 		}
 
 		It 'outputs an escaped string' {
 
-			"+ & %" | Get-EscapedString | Should -BeExactly "%2B%20%26%20%25"
+			'+ & %' | Get-EscapedString | Should -BeExactly '%2B%20%26%20%25'
 
 		}
 

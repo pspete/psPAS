@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,28 +35,28 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith { "Data" }
+				Mock Invoke-PASRestMethod -MockWith { 'Data' }
 				Mock Get-NextLink -MockWith {  }
 
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ Get-PASDiscoveredAccount } | Should -Not -Throw
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 				Get-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 				Get-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -65,7 +65,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "sends request to expected endpoint - byID" {
+			It 'sends request to expected endpoint - byID' {
 				Get-PASDiscoveredAccount -id 456
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -74,48 +74,48 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "sends expected filter" {
-				Get-PASDiscoveredAccount -privileged $true -accountEnabled $true
+			It 'sends expected filter' {
+				Get-PASDiscoveredAccount -privileged $true -AccountEnabled $true
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 					($URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?filter=privileged%20eq%20True%20AND%20AccountEnabled%20eq%20True" -or
-						$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?filter=AccountEnabled%20eq%20True%20AND%20privileged%20eq%20True")
+					$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?filter=AccountEnabled%20eq%20True%20AND%20privileged%20eq%20True")
 
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "sends expected query" {
+			It 'sends expected query' {
 				Get-PASDiscoveredAccount -search something -searchType startswith
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 					($URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?search=something&searchType=startswith" -or
-						$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?searchType=startswith&search=something")
+					$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?searchType=startswith&search=something")
 
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "sends expected query & filter" {
+			It 'sends expected query & filter' {
 				Get-PASDiscoveredAccount -search something -privileged $true
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 					($URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?search=something&filter=privileged%20eq%20True" -or
-						$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?filter=privileged%20eq%20True&search=something")
+					$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?filter=privileged%20eq%20True&search=something")
 
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 				Get-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 			}
 
-			It "invokes Get-NextLink" {
+			It 'invokes Get-NextLink' {
 				Get-PASDiscoveredAccount
 				Assert-MockCalled Get-NextLink -Times 1 -Exactly -Scope It
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "11.5"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '11.5'
 
 				{ Get-PASDiscoveredAccount } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}

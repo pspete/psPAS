@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,27 +35,27 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context	"General Tests"{
-			BeforeEach{
+		Context	'General Tests' {
+			BeforeEach {
 
 				[array]$Secrets = @(
-					"Secret",
-					"Password",
-					"NewCredentials",
-					"NewPassword",
-					"BindPassword",
-					"InitialPassword"
+					'Secret',
+					'Password',
+					'NewCredentials',
+					'NewPassword',
+					'BindPassword',
+					'InitialPassword'
 				)
 
 				$String = [pscustomobject]@{
-					"Property"         = "Value"
-					"Password"         = "SecretValue"
-					"Secret"           = "DontShareThis"
-					"NewCredentials"   = "S3cr3t"
-					"NewPassword"      = "Password123!"
-					"BindPassword"     = "ABCDE123!"
-					"InitialPassword"  = "123456"
-					"InnocentProperty" = "SomeValue"
+					'Property'         = 'Value'
+					'Password'         = 'SecretValue'
+					'Secret'           = 'DontShareThis'
+					'NewCredentials'   = 'S3cr3t'
+					'NewPassword'      = 'Password123!'
+					'BindPassword'     = 'ABCDE123!'
+					'InitialPassword'  = '123456'
+					'InnocentProperty' = 'SomeValue'
 				} | ConvertTo-Json
 			}
 
@@ -66,25 +66,25 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			}
 
 
-				It "does not include <Parameter> value in return data" -TestCases @{Parameter = 'Secret' },
-				@{Parameter = 'Password' },
-				@{Parameter = 'NewCredentials' },
-				@{Parameter = 'NewPassword' },
-				@{Parameter = 'BindPassword' },
-				@{Parameter = 'InitialPassword' } {
-					$ReturnData = Hide-SecretValue -InputValue $String -SecretsToRemove Property
-					$ReturnData | ConvertFrom-Json | Select-Object -ExpandProperty $Parameter | Should -Be "******"
+			It 'does not include <Parameter> value in return data' -TestCases @{Parameter = 'Secret' },
+			@{Parameter = 'Password' },
+			@{Parameter = 'NewCredentials' },
+			@{Parameter = 'NewPassword' },
+			@{Parameter = 'BindPassword' },
+			@{Parameter = 'InitialPassword' } {
+				$ReturnData = Hide-SecretValue -InputValue $String -SecretsToRemove Property
+				$ReturnData | ConvertFrom-Json | Select-Object -ExpandProperty $Parameter | Should -Be '******'
 
-				}
+			}
 
 			It 'does not return additional specified parameters' {
 				$ReturnData = Hide-SecretValue -InputValue $String -SecretsToRemove Property
-				$ReturnData | ConvertFrom-Json | Select-Object -ExpandProperty Property | Should -Be "******"
+				$ReturnData | ConvertFrom-Json | Select-Object -ExpandProperty Property | Should -Be '******'
 			}
 
 			It 'returns expected value' {
 				$ReturnData = Hide-SecretValue -InputValue $String -SecretsToRemove Property
-				$ReturnData | ConvertFrom-Json | Select-Object -ExpandProperty InnocentProperty | Should -Be "SomeValue"
+				$ReturnData | ConvertFrom-Json | Select-Object -ExpandProperty InnocentProperty | Should -Be 'SomeValue'
 			}
 
 		}

@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,11 +35,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
-				Mock Invoke-PASRestMethod -MockWith { "11" }
+				Mock Invoke-PASRestMethod -MockWith { '11' }
 				Mock Get-PASAccountImportJob -MockWith {}
 				$Accounts = @(
 					New-PASAccountObject -uploadIndex 1 -userName SomeAccount1 -address domain.com -platformID WinDomain -SafeName SomeSafe
@@ -50,19 +50,19 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ Start-PASAccountImportJob -Accounts $Accounts } | Should -Not -Throw
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 				Start-PASAccountImportJob -Accounts $Accounts
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 				Start-PASAccountImportJob -Accounts $Accounts
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -72,13 +72,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 				Start-PASAccountImportJob -Accounts $Accounts
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 				Start-PASAccountImportJob -Accounts $Accounts
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -90,28 +90,28 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "invokes Get-PASAccountImportJob" {
+			It 'invokes Get-PASAccountImportJob' {
 
 				Start-PASAccountImportJob -Accounts $Accounts
 				Assert-MockCalled Get-PASAccountImportJob -ParameterFilter {
 
-					$id -eq "11"
+					$id -eq '11'
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "returns ID value if Get-PASAccountImportJob throws" {
+			It 'returns ID value if Get-PASAccountImportJob throws' {
 				Mock Get-PASAccountImportJob -MockWith { throw }
 				$result = Start-PASAccountImportJob -Accounts $Accounts
 				$result.id | Should -Be 11
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "11.5"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '11.5'
 
 				{ $InputObj | Start-PASAccountImportJob } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
