@@ -53,7 +53,7 @@ function Unblock-PASUser {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create request
-				$Request['URI'] = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
+				$Request['URI'] = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)/"
 				$Request['Method'] = 'PUT'
 				$Request['Body'] = $PSBoundParameters | Get-PASParameter -ParametersToRemove UserName | ConvertTo-Json
 

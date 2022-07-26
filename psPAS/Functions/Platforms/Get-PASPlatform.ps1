@@ -144,7 +144,7 @@ function Get-PASPlatform {
 				Assert-VersionRequirement -RequiredVersion 9.10
 
 				#Create request URL
-				$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)"
+				$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)/"
 
 				break
 

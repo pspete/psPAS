@@ -25,7 +25,7 @@ function Add-PASPublicSSHKey {
 		#Create URL to endpoint for request
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
 
-            Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys"
+            Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/"
 
 		#create request body
 		$Body = @{

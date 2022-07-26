@@ -22,7 +22,7 @@ function Remove-PASDirectoryMapping {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID"
+		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID/"
 
 		if ($PSCmdlet.ShouldProcess($MappingID, 'Delete Directory Mapping')) {
 

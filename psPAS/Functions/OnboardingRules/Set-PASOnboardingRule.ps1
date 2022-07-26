@@ -99,7 +99,7 @@ function Set-PASOnboardingRule {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules/$Id"
+		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules/$Id/"
 
 		#create request body
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove Id | ConvertTo-Json

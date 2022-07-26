@@ -59,7 +59,7 @@ function Add-PASGroupMember {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Groups/$($GroupName | Get-EscapedString)/Users"
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Groups/$($GroupName | Get-EscapedString)/Users/"
 
 				break
 

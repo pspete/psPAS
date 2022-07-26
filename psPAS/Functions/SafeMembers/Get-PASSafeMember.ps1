@@ -149,7 +149,7 @@ function Get-PASSafeMember {
 				Assert-VersionRequirement -RequiredVersion 12.2
 
 				#Create URL for member specific request
-				$URI = "$URI/$($MemberName | Get-EscapedString)"
+				$URI = "$URI/$($MemberName | Get-EscapedString)/"
 
 				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep useCache
 
@@ -173,7 +173,7 @@ function Get-PASSafeMember {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for member specific request
-				$URI = "$URI/$($MemberName | Get-EscapedString)"
+				$URI = "$URI/$($MemberName | Get-EscapedString)/"
 				#Send a PUT Request instead of GET
 				$Method = 'PUT'
 				#Send an empty body

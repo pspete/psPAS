@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,23 +35,23 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
+		BeforeEach {
 
 			Mock Invoke-PASRestMethod -MockWith {
-			[pscustomobject]@{"AddAccountPrivilegedCommandResult" = [pscustomobject]@{"some" = "thing" } }
+				[pscustomobject]@{'AddAccountPrivilegedCommandResult' = [pscustomobject]@{'some' = 'thing' } }
+
+			}
+
+			$InputObj = [pscustomobject]@{
+				'AccountPolicyID' = 'UNIXSSH'
+				'AccountAddress'  = 'ServerA.domain.com'
+			}
+
+			$response = $InputObj | Add-PASAccountACL -AccountUserName 'root' -Command 'some command' -CommandGroup $false -PermissionType Deny -UserName 'TestUser'
 
 		}
 
-		$InputObj = [pscustomobject]@{
-			"AccountPolicyID" = "UNIXSSH"
-			"AccountAddress"  = "ServerA.domain.com"
-		}
-
-		$response = $InputObj | Add-PASAccountACL -AccountUserName "root" -Command 'some command' -CommandGroup $false -PermissionType Deny -UserName "TestUser"
-
-		}
-
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'AccountPolicyId' },
 			@{Parameter = 'AccountAddress' },
@@ -62,7 +62,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			@{Parameter = 'UserName' }
 
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -72,31 +72,31 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Account/ServerA.domain.com|root|UNIXSSH/PrivilegedCommands"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Account/ServerA.domain.com|root|UNIXSSH/PrivilegedCommands/"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -108,7 +108,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It 'has a request body with expected number of properties' {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 4
 
@@ -116,23 +116,23 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.ACL.Account
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.ACL.Account
 
 			}
 

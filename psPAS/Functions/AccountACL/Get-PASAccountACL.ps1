@@ -37,7 +37,7 @@ function Get-PASAccountACL {
 
                 Get-EscapedString)|$($AccountPolicyId |
 
-                    Get-EscapedString)/PrivilegedCommands"
+                    Get-EscapedString)/PrivilegedCommands/"
 
 		#Send request to Web Service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession #DevSkim: ignore DS104456

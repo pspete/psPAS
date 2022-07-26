@@ -100,7 +100,7 @@ function Set-PASDirectoryMapping {
 		}
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID"
+		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID/"
 
 		$body = $boundParameters | ConvertTo-Json
 

@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,31 +35,31 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Standard Operation" {
+		Context 'Standard Operation' {
 
 			BeforeEach {
 
-				$Script:BaseURI = "https://SomeURL/SomeApp"
-				$Script:ExternalVersion = "0.0"
+				$Script:BaseURI = 'https://SomeURL/SomeApp'
+				$Script:ExternalVersion = '0.0'
 				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
+					[PSCustomObject]@{'Detail1' = 'Detail'; 'Detail2' = 'Detail' }
 				}
 			}
 
-			It "sends request to V10" {
+			It 'sends request to V10' {
 				Unblock-PASUser -id 123
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It -ParameterFilter {
-					$URI -eq "https://SomeURL/SomeApp/api/Users/123/Activate"
+					$URI -eq 'https://SomeURL/SomeApp/api/Users/123/Activate'
 				}
 
 			}
 
-			It "sends request to Classic API" {
+			It 'sends request to Classic API' {
 				Unblock-PASUser -UserName MrFatFingers -Suspended $false
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It -ParameterFilter {
-					$URI -eq "https://SomeURL/SomeApp/WebServices/PIMServices.svc/Users/MrFatFingers"
+					$URI -eq 'https://SomeURL/SomeApp/WebServices/PIMServices.svc/Users/MrFatFingers/'
 				}
 
 			}

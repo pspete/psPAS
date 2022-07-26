@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,31 +35,31 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
-		Mock Invoke-PASRestMethod -MockWith {
-			Write-Output "Added"
+		BeforeEach {
+			Mock Invoke-PASRestMethod -MockWith {
+				Write-Output 'Added'
+			}
+
+			$InputObj = [pscustomobject]@{
+				'GroupName' = 'SomeGroup'
+				'UserName'  = 'SomeUser'
+
+			}
+
+			$InputObjV10 = [pscustomobject]@{
+				'memberId'   = 'someName'
+				'memberType' = 'domain'
+				'domainName' = 'SomeDomain'
+				'groupId'    = '1234'
+
+			}
 		}
-
-		$InputObj = [pscustomobject]@{
-			"GroupName" = "SomeGroup"
-			"UserName"  = "SomeUser"
-
-		}
-
-		$InputObjV10 = [pscustomobject]@{
-			"memberId"   = "someName"
-			"memberType" = "domain"
-			"domainName" = "SomeDomain"
-			"groupId"    = "1234"
-
-		}
-}
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'GroupName' },
 			@{Parameter = 'UserName' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -69,9 +69,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 
 				$InputObj | Add-PASGroupMember
 
@@ -79,19 +79,19 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				$InputObj | Add-PASGroupMember
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Groups/SomeGroup/Users"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Groups/SomeGroup/Users/"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint - V10" {
+			It 'sends request to expected endpoint - V10' {
 
 				$InputObjV10 | Add-PASGroupMember
 
@@ -103,7 +103,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				$InputObj | Add-PASGroupMember
 
@@ -111,7 +111,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method - V10" {
+			It 'uses expected method - V10' {
 
 				$InputObjV10 | Add-PASGroupMember
 
@@ -119,7 +119,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				$InputObj | Add-PASGroupMember
 
@@ -133,13 +133,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It 'has a request body with expected number of properties' {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
 			}
 
-			It "sends request with expected body - v10" {
+			It 'sends request with expected body - v10' {
 
 				$InputObjV10 | Add-PASGroupMember
 
@@ -153,28 +153,28 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties - V10" {
+			It 'has a request body with expected number of properties - V10' {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 3
 
 			}
 
-			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
 
-				$Script:ExternalVersion = "1.0"
+				$Script:ExternalVersion = '1.0'
 
 				{ $InputObjV10 | Add-PASGroupMember } | Should -Throw
 
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides output" {
+			It 'provides output' {
 				$response = $InputObj | Add-PASGroupMember
 				$response | Should -Not -BeNullOrEmpty
 

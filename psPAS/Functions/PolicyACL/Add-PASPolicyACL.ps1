@@ -51,7 +51,7 @@ function Add-PASPolicyACL {
 		#Create URL for request
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Policy/$($PolicyID |
 
-            Get-EscapedString)/PrivilegedCommands"
+            Get-EscapedString)/PrivilegedCommands/"
 
 		#Create request body
 		$body = $PSBoundParameters |

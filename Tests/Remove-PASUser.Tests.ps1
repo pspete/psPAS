@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,22 +35,22 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-BeforeEach{
+		BeforeEach {
 			Mock Invoke-PASRestMethod -MockWith {
 
+			}
+
+			$InputObj = [pscustomobject]@{
+				'UserName' = 'ThatUser'
+
+			}
 		}
 
-		$InputObj = [pscustomobject]@{
-			"UserName"     = "ThatUser"
+		Context 'Mandatory Parameters' {
 
-		}
-}
+			$Parameters = @{Parameter = 'UserName' }
 
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'UserName'}
-
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -62,25 +62,25 @@ BeforeEach{
 
 
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 				$InputObj | Remove-PASUser
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint - Classic API" {
+			It 'sends request to expected endpoint - Classic API' {
 				$InputObj | Remove-PASUser
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/ThatUser"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/ThatUser/"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint - V2 API" {
+			It 'sends request to expected endpoint - V2 API' {
 				Remove-PASUser -id 1234
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -90,13 +90,13 @@ BeforeEach{
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 				$InputObj | Remove-PASUser
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 				$InputObj | Remove-PASUser
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
@@ -104,9 +104,9 @@ BeforeEach{
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides no output" {
+			It 'provides no output' {
 				$response = $InputObj | Remove-PASUser
 				$response | Should -BeNullOrEmpty
 

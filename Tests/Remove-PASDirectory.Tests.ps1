@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,11 +35,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'id' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -49,63 +49,63 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
 			BeforeEach {
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 				Mock Invoke-PASRestMethod -MockWith { }
 
 				$response = Remove-PASDirectory -id SomeDir
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDir"
+					$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDir/"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
 				{ Get-PASDirectory } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
 			BeforeEach {
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 				Mock Invoke-PASRestMethod -MockWith { }
 
 				$response = Remove-PASDirectory -id SomeDir
 
 			}
 
-			it "provides no output" {
+			It 'provides no output' {
 
 				$response | Should -BeNullOrEmpty
 

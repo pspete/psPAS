@@ -31,12 +31,12 @@ function Get-PASDirectoryMapping {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
+		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/"
 
 		if ($PSCmdlet.ParameterSetName -eq 'Mapping') {
 
 			#Update URL for request
-			$URI = "$URI/$MappingID"
+			$URI = "$URI$MappingID/"
 
 		}
 

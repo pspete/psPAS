@@ -49,7 +49,7 @@ function Get-PASApplication {
 		If ($($PSCmdlet.ParameterSetName) -eq 'byAppID') {
 
 			#Build URL from base URL
-			$URI = "$URI/$($AppID | Get-EscapedString)"
+			$URI = "$URI/$($AppID | Get-EscapedString)/"
 
 		}
 

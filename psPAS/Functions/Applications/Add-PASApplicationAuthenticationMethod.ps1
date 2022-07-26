@@ -127,7 +127,7 @@ function Add-PASApplicationAuthenticationMethod {
 
     PROCESS {
 
-        $URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID | Get-EscapedString)/Authentications"
+        $URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID | Get-EscapedString)/Authentications/"
 
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AppID
 

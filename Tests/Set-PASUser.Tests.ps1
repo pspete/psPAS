@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,60 +35,60 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
-			It "specifies parameter UserName as mandatory for ParameterSet Gen1" {
+			It 'specifies parameter UserName as mandatory for ParameterSet Gen1' {
 
-				(Get-Command Set-PASUser).Parameters["UserName"].ParameterSets["Gen1"].IsMandatory | Should -Be $true
+				(Get-Command Set-PASUser).Parameters['UserName'].ParameterSets['Gen1'].IsMandatory | Should -Be $true
 
 			}
 
-			It "specifies parameter UserName as mandatory for ParameterSet Gen2" {
+			It 'specifies parameter UserName as mandatory for ParameterSet Gen2' {
 
-				(Get-Command Set-PASUser).Parameters["UserName"].ParameterSets["Gen2"].IsMandatory | Should -Be $true
+				(Get-Command Set-PASUser).Parameters['UserName'].ParameterSets['Gen2'].IsMandatory | Should -Be $true
 
 			}
 
 		}
 
-		Context "Input - Gen1" {
+		Context 'Input - Gen1' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
+					[PSCustomObject]@{'Detail1' = 'Detail'; 'Detail2' = 'Detail' }
 				}
 
 				$InputObj = [pscustomobject]@{
-					"UserName"    = "SomeUser"
-					"NewPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
-					"FirstName"   = "Some"
-					"LastName"    = "User"
-					"ExpiryDate"  = "10/31/2018"
+					'UserName'    = 'SomeUser'
+					'NewPassword' = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
+					'FirstName'   = 'Some'
+					'LastName'    = 'User'
+					'ExpiryDate'  = '10/31/2018'
 
 				}
 
-				$response = $InputObj | Set-PASUser -NewPassword $("P_Password" | ConvertTo-SecureString -AsPlainText -Force) -ExpiryDate "10/31/2018" -UseClassicAPI
+				$response = $InputObj | Set-PASUser -NewPassword $('P_Password' | ConvertTo-SecureString -AsPlainText -Force) -ExpiryDate '10/31/2018' -UseClassicAPI
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/SomeUser"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/SomeUser/"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
@@ -96,24 +96,24 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input - Gen2" {
+		Context 'Input - Gen2' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
+					[PSCustomObject]@{'Detail1' = 'Detail'; 'Detail2' = 'Detail' }
 				}
 
 				$InputObj = [pscustomobject]@{
-					"id"          = 1234
-					"UserName"    = "SomeUser"
-					"NewPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
-					"FirstName"   = "Some"
-					"LastName"    = "User"
-					"ExpiryDate"  = "10/31/2018"
-					"workStreet"  = "SomeStreet"
-					"homePage"    = "www.geocities.com"
-					"faxNumber"   = "1979"
+					'id'          = 1234
+					'UserName'    = 'SomeUser'
+					'NewPassword' = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
+					'FirstName'   = 'Some'
+					'LastName'    = 'User'
+					'ExpiryDate'  = '10/31/2018'
+					'workStreet'  = 'SomeStreet'
+					'homePage'    = 'www.geocities.com'
+					'faxNumber'   = '1979'
 
 				}
 
@@ -121,13 +121,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -137,13 +137,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -155,51 +155,51 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
 
 				{ $InputObj | Set-PASUser } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 
 			}
 
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Detail1" = "Detail"; "Detail2" = "Detail" }
+					[PSCustomObject]@{'Detail1' = 'Detail'; 'Detail2' = 'Detail' }
 				}
 
 				$InputObj = [pscustomobject]@{
-					"UserName"    = "SomeUser"
-					"NewPassword" = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
-					"FirstName"   = "Some"
-					"LastName"    = "User"
-					"ExpiryDate"  = "10/31/2018"
+					'UserName'    = 'SomeUser'
+					'NewPassword' = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
+					'FirstName'   = 'Some'
+					'LastName'    = 'User'
+					'ExpiryDate'  = '10/31/2018'
 
 				}
 
-				$response = $InputObj | Set-PASUser -NewPassword $("P_Password" | ConvertTo-SecureString -AsPlainText -Force) -ExpiryDate "10/31/2018" -UseClassicAPI
+				$response = $InputObj | Set-PASUser -NewPassword $('P_Password' | ConvertTo-SecureString -AsPlainText -Force) -ExpiryDate '10/31/2018' -UseClassicAPI
 
 			}
 
-			It "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
 			}
 
-			It "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
 				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User
 

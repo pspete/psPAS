@@ -73,7 +73,7 @@ function Add-PASAccountACL {
 
                 Get-EscapedString)|$($AccountPolicyId |
 
-                    Get-EscapedString)/PrivilegedCommands"
+                    Get-EscapedString)/PrivilegedCommands/"
 
 		#Request body
 		$Body = $PSBoundParameters |

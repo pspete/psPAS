@@ -16,7 +16,7 @@ function Get-PASPlatformSafe {
 	PROCESS {
 
 		#Create request URL
-		$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)/Safes"
+		$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)/Safes/"
 
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession

@@ -18,7 +18,7 @@ function Get-PASPolicyACL {
 		#Create URL for request
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Policy/$($PolicyID |
 
-            Get-EscapedString)/PrivilegedCommands"
+            Get-EscapedString)/PrivilegedCommands/"
 
 		#Send Request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession

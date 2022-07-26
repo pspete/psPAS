@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,11 +35,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'PlatformID'}
+			$Parameters = @{Parameter = 'PlatformID' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -49,100 +49,100 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input - 11.1" {
+		Context 'Input - 11.1' {
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
 
 					[PSCustomObject]@{
-						"count" = 2
-						"value" = [array] "value1","value2","value3"
-						}
+						'count' = 2
+						'value' = [array] 'value1', 'value2', 'value3'
 					}
+				}
 
 
 				$InputObj = [pscustomobject]@{
-					"PlatformID" = "SomeName"
+					'PlatformID' = 'SomeName'
 				}
 
 				$response = $InputObj | Get-PASPlatformSafe
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Platforms/SomeName/Safes"
+					$URI -eq "$($Script:BaseURI)/API/Platforms/SomeName/Safes/"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "10.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '10.0'
 				{ $InputObj | Get-PASPlatformSafe } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
 
-					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = 123 }
+					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2'; 'Prop3' = 123 }
 
 				}
 
 				$InputObj = [pscustomobject]@{
-					"Name" = "SomeName"
+					'Name' = 'SomeName'
 
 				}
 
-				$response = $InputObj | Get-PASPlatform -verbose
+				$response = $InputObj | Get-PASPlatform -Verbose
 
 			}
 
-			it "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties - legacy" {
+			It 'has output with expected number of properties - legacy' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 3
 
 			}
 
-			It "has output with expected number of properties - 11.1" {
+			It 'has output with expected number of properties - 11.1' {
 
 				Mock Invoke-PASRestMethod -MockWith {
 
 					[PSCustomObject]@{
-						"Platforms" = [PSCustomObject]@{
-							"Prop1" = "Val1"; "Prop2" = "Val2"; "Prop3" = 123
+						'Platforms' = [PSCustomObject]@{
+							'Prop1' = 'Val1'; 'Prop2' = 'Val2'; 'Prop3' = 123
 						}
 					}
 
@@ -154,9 +154,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Platform
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Platform
 
 			}
 
