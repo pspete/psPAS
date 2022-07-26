@@ -5,7 +5,9 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
-## **vNext 5.3.## (TBC)**
+## **vNext (TBC)** ##
+
+## **5.3.69 (July 26th 2022)**
 
 ### Module update to cover all CyberArk 12.6 API features
 
@@ -23,6 +25,7 @@
   - `Get-PASAccountGroup`
     - Depreciated use of "Get Safe account groups" API
     - Makes ParameterSet based on `Get account group by Safe` API the default.
+  - Updates URL formatting to include a forward slash (/) to end of URL for functions which may include a dot (.) via provided parameter values.
   - Updated documentation and help text.
 
 ## **5.2.59 (November 7th 2021)**
