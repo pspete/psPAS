@@ -6,7 +6,7 @@ Function Get-PASAccountSSHKey {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("id")]
+		[Alias('id')]
 		[string]$AccountID,
 
 		[parameter(
@@ -37,7 +37,7 @@ Function Get-PASAccountSSHKey {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("retrieve")]
+		[ValidateSet('retrieve')]
 		[string]$ActionType,
 
 		[parameter(

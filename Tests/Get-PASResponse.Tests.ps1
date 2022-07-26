@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,63 +35,63 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Standard Operation" {
+		Context 'Standard Operation' {
 
 			BeforeEach {
 
 				$JSONResponse = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$JSONResponse | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$JSONResponse | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/json; charset=utf-8' } -Force
+				$JSONResponse | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'application/json; charset=utf-8' } -Force
 				$JSONResponse | Add-Member -MemberType NoteProperty -Name Content -Value (@{
-						"prop1"   = "value1";
-						"prop2"   = "value2";
-						"prop123" = 123
-						"test"    = 321
+						'prop1'   = 'value1';
+						'prop2'   = 'value2';
+						'prop123' = 123
+						'test'    = 321
 					} | ConvertTo-Json) -Force
 
 				$TextResponse = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$TextResponse | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$TextResponse | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'text/html; charset=utf-8' } -Force
+				$TextResponse | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'text/html; charset=utf-8' } -Force
 				$TextResponse | Add-Member -MemberType NoteProperty -Name Content -Value '"Value"' -Force
 
 				$HTMLResponse = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$HTMLResponse | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$HTMLResponse | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'text/html; charset=utf-8' } -Force
+				$HTMLResponse | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'text/html; charset=utf-8' } -Force
 				$HTMLResponse | Add-Member -MemberType NoteProperty -Name Content -Value '<HTML><HEAD><BODY><P>Test</P></BODY></HEAD></HTML>' -Force
 
 				$ApplicationSave = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$ApplicationSave | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/save' ; "Content-Disposition" = "attachment; filename=FILENAME.zip" } -Force
-				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes("Expected")) -Force
+				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'application/save' ; 'Content-Disposition' = 'attachment; filename=FILENAME.zip' } -Force
+				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes('Expected')) -Force
 
 				$OctetStream = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$OctetStream | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$OctetStream | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/octet-stream' ; "Content-Disposition" = "attachment; filename=FILENAME.zip" } -Force
-				$OctetStream | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes("Expected")) -Force
+				$OctetStream | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'application/octet-stream' ; 'Content-Disposition' = 'attachment; filename=FILENAME.zip' } -Force
+				$OctetStream | Add-Member -MemberType NoteProperty -Name Content -Value $([System.Text.Encoding]::Ascii.GetBytes('Expected')) -Force
 
 			}
 
-			It "returns expected number of properties" {
+			It 'returns expected number of properties' {
 				$result = Get-PASResponse -APIResponse $JSONResponse
 				($result | Get-Member -MemberType NoteProperty).length | Should -Be 4
 			}
 
-			It "returns expected text value" {
+			It 'returns expected text value' {
 				Get-PASResponse -APIResponse $TextResponse | Should -Be '"Value"'
 			}
 
-			It "throws if HTML received" {
+			It 'throws if HTML received' {
 				{ Get-PASResponse -APIResponse $HTMLResponse } | Should -Throw
 			}
 
-			It "returns expected application-save value" {
+			It 'returns expected application-save value' {
 				$result = Get-PASResponse -APIResponse $ApplicationSave
-				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should -Be "Expected"
+				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should -Be 'Expected'
 			}
 
-			It "returns expected octet-stream value" {
+			It 'returns expected octet-stream value' {
 				$result = Get-PASResponse -APIResponse $OctetStream
-				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should -Be "Expected"
+				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should -Be 'Expected'
 			}
 
 		}

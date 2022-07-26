@@ -22,7 +22,7 @@ Get-ByteArray -Path "C:\SomeFile.zip"
 			ValueFromPipeline = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateScript( { Test-Path -Path $_ -PathType Leaf})]
+		[ValidateScript( { Test-Path -Path $_ -PathType Leaf })]
 		[String]
 		$Path
 	)

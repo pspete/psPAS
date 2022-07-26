@@ -8,7 +8,7 @@
 
 Use PowerShell to manage CyberArk via the PVWA REST API.
 
-Contains all published methods of the API up to CyberArk v12.2.
+Contains all published methods of the API up to CyberArk v12.6.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -943,6 +943,8 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                     |**12.1**            |Delete MFA caching SSH Keys
 [`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**            |Update CyberArk groups
 [`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                       |**12.2**            |Get information on platform system types
+[`Enable-PASUser`][Enable-PASUser]                                                       |**12.6**            |Enable CyberArk Users
+[`Disable-PASUser`][Enable-PASUser]                                                      |**12.6**            |Disable CyberArk Users
 
 [Get-PASPlatformSummary]:/psPAS/Functions/Platforms/Get-PASPlatformSummary.ps1
 [Add-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider.ps1
@@ -1094,7 +1096,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 
 ### Prerequisites
 
-- Powershell v5 (minimum), or PowerShell Core
+- PowerShell Core, or Windows Powershell v5 (minimum)
 - CyberArk PAS REST API/Web Service
 - A user with which to authenticate, with appropriate Vault/Safe permissions.
 

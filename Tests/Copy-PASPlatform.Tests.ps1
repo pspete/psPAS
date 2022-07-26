@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "11.4"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '11.4'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,7 +35,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'TargetPlatform' },
 			@{Parameter = 'DependentPlatform' },
@@ -44,7 +44,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			@{Parameter = 'ID' },
 			@{Parameter = 'name' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -54,29 +54,29 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
 			BeforeEach {
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 				}
 
 				$InputObj = [pscustomobject]@{
-					"name" = "SomeName"
-					"ID"   = 1234
+					'name' = 'SomeName'
+					'ID'   = 1234
 				}
 
 				$response = $InputObj | Copy-PASPlatform -TargetPlatform
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint - TargetPlatform" {
+			It 'sends request to expected endpoint - TargetPlatform' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -86,7 +86,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - DependentPlatform" {
+			It 'sends request to expected endpoint - DependentPlatform' {
 				$response = $InputObj | Copy-PASPlatform -DependentPlatform
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -96,7 +96,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - RotationalGroup" {
+			It 'sends request to expected endpoint - RotationalGroup' {
 
 				$response = $InputObj | Copy-PASPlatform -RotationalGroup
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -107,7 +107,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - GroupPlatform" {
+			It 'sends request to expected endpoint - GroupPlatform' {
 
 				$response = $InputObj | Copy-PASPlatform -GroupPlatform
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -118,13 +118,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -136,39 +136,39 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It 'has a request body with expected number of properties' {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 1
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "11.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '11.0'
 				{ $InputObj | Copy-PASPlatform -GroupPlatform } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
 			BeforeEach {
 
-				$Script:ExternalVersion = "11.4"
+				$Script:ExternalVersion = '11.4'
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"Prop1" = "Val1"; "Prop2" = "Val2" }
+					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 				}
 
 				$InputObj = [pscustomobject]@{
-					"name" = "SomeName"
-					"ID"   = 1234
+					'name' = 'SomeName'
+					'ID'   = 1234
 				}
 
 				$response = $InputObj | Copy-PASPlatform -TargetPlatform
 
 			}
 
-			it "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 

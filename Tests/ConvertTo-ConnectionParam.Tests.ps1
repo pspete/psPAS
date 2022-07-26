@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,51 +35,51 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
 				$InputObj = @{
-					PSMRemoteMachine = "RemoteMachineValue"
-					LogonDomain      = "LogonDomainValue"
-					SomeProperty     = "SomeValue"
+					PSMRemoteMachine = 'RemoteMachineValue'
+					LogonDomain      = 'LogonDomainValue'
+					SomeProperty     = 'SomeValue'
 				}
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ ConvertTo-ConnectionParam } | Should -Not -Throw
 
 			}
 
-			It "produces no output if given no input" {
+			It 'produces no output if given no input' {
 
 				ConvertTo-ConnectionParam | Should -BeNullOrEmpty
 
 			}
 
-			It "outputs expected ConnectionParams properties" {
+			It 'outputs expected ConnectionParams properties' {
 
 				$result = $InputObj | ConvertTo-ConnectionParam
-				$result["ConnectionParams"]["PSMRemoteMachine"]["Value"] | Should -Be "RemoteMachineValue"
-				$result["ConnectionParams"]["LogonDomain"]["Value"] | Should -Be "LogonDomainValue"
-				$result["SomeProperty"] | Should -Be "SomeValue"
+				$result['ConnectionParams']['PSMRemoteMachine']['Value'] | Should -Be 'RemoteMachineValue'
+				$result['ConnectionParams']['LogonDomain']['Value'] | Should -Be 'LogonDomainValue'
+				$result['SomeProperty'] | Should -Be 'SomeValue'
 
 			}
 
-			It "returns expected hashtable if no ConnectionParams are specified" {
+			It 'returns expected hashtable if no ConnectionParams are specified' {
 
 				$InputObj = @{
-					Property1 = "SomeValue"
-					Property2 = "SomeOtherValue"
+					Property1 = 'SomeValue'
+					Property2 = 'SomeOtherValue'
 				}
 
 				$result = $InputObj | ConvertTo-ConnectionParam
 
-				$result["Property1"] | Should -Be "SomeValue"
-				$result["Property2"] | Should -Be "SomeOtherValue"
-				$result["ConnectionParams"] | Should -BeNullOrEmpty
+				$result['Property1'] | Should -Be 'SomeValue'
+				$result['Property2'] | Should -Be 'SomeOtherValue'
+				$result['ConnectionParams'] | Should -BeNullOrEmpty
 
 			}
 

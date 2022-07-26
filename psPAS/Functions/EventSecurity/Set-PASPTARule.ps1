@@ -12,7 +12,7 @@ Function Set-PASPTARule {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("SSH", "WINDOWS", "SCP", "KEYSTROKES", "SQL")]
+		[ValidateSet('SSH', 'WINDOWS', 'SCP', 'KEYSTROKES', 'SQL')]
 		[string]$category,
 
 		[parameter(
@@ -38,7 +38,7 @@ Function Set-PASPTARule {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("NONE", "TERMINATE", "SUSPEND")]
+		[ValidateSet('NONE', 'TERMINATE', 'SUSPEND')]
 		[string]$response,
 
 		[parameter(
@@ -66,7 +66,7 @@ Function Set-PASPTARule {
 		#Create body of request
 		$body = $boundParameters | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($id, "Update Risky Activity Rule")) {
+		if ($PSCmdlet.ShouldProcess($id, 'Update Risky Activity Rule')) {
 
 			#send request to PAS web service
 			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
@@ -76,4 +76,5 @@ Function Set-PASPTARule {
 	}#process
 
 	END { }#end
+
 }

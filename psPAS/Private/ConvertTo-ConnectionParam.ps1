@@ -26,7 +26,7 @@ $output["ConnectionParams"]["LogonDomain"]["Value"] = LogonDomainValue
 $output["SomeProperty"] = SomeValue
 
 #>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'ConnectionParams', Justification = "False Positive")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'ConnectionParams', Justification = 'False Positive')]
 	[CmdletBinding()]
 	[OutputType('System.Hashtable')]
 	param(
@@ -38,8 +38,8 @@ $output["SomeProperty"] = SomeValue
 	)
 
 	Begin {
-		$ConnectionParameters = [Collections.Generic.List[String]]@("AllowMappingLocalDrives", "AllowConnectToConsole",
-			"RedirectSmartCards", "PSMRemoteMachine", "LogonDomain", "AllowSelectHTML5")
+		$ConnectionParameters = [Collections.Generic.List[String]]@('AllowMappingLocalDrives', 'AllowConnectToConsole',
+			'RedirectSmartCards', 'PSMRemoteMachine', 'LogonDomain', 'AllowSelectHTML5')
 	}
 
 	Process {
@@ -55,14 +55,14 @@ $output["SomeProperty"] = SomeValue
 
 				#For Each ConnectionParams Parameter
 				#add key=value to hashtable
-				$ConnectionParams.Add($PSItem, @{"value" = $Parameters[$PSItem] })
+				$ConnectionParams.Add($PSItem, @{'value' = $Parameters[$PSItem] })
 
 			} {
 				if ($ConnectionParams.keys.count -gt 0) {
 
 					#if ConnectionParameters have been specified
 					#Add ConnectionParams to boundParameters
-					$Parameters["ConnectionParams"] = $ConnectionParams
+					$Parameters['ConnectionParams'] = $ConnectionParams
 
 				}
 

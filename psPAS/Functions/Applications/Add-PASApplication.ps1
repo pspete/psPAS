@@ -8,7 +8,7 @@ function Add-PASApplication {
 		)]
 		[ValidateNotNullOrEmpty()]
 		[ValidateLength(1, 127)]
-		[ValidateScript( { $_ -notmatch ".*(\&).*" })]
+		[ValidateScript( { $_ -notmatch '.*(\&).*' })]
 		[string]$AppID,
 
 		[parameter(
@@ -88,20 +88,20 @@ function Add-PASApplication {
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		If ($PSBoundParameters.ContainsKey("ExpirationDate")) {
+		If ($PSBoundParameters.ContainsKey('ExpirationDate')) {
 
 			#Convert ExpiryDate to string in Required format
 			$Date = (Get-Date $ExpirationDate -Format MM-dd-yyyy).ToString()
 
 			#Include date string in request
-			$boundParameters["ExpirationDate"] = $Date
+			$boundParameters['ExpirationDate'] = $Date
 
 		}
 
 		#Create Request Body
 		$body = @{
 
-			"application" = $boundParameters
+			'application' = $boundParameters
 
 		} | ConvertTo-Json
 
@@ -111,4 +111,5 @@ function Add-PASApplication {
 	}#process
 
 	END { }#end
+
 }

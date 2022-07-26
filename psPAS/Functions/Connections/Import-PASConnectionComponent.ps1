@@ -25,9 +25,9 @@ function Import-PASConnectionComponent {
 		$FileBytes = $ImportFile | Get-ByteArray
 
 		#Create Request Body
-		$Body = @{"ImportFile" = $FileBytes } | ConvertTo-Json
+		$Body = @{'ImportFile' = $FileBytes } | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($ImportFile, "Imports Connection Component")) {
+		if ($PSCmdlet.ShouldProcess($ImportFile, 'Imports Connection Component')) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession -Debug:$false

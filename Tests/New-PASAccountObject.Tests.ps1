@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,61 +35,61 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
-				$props = @{"SomeProp" = "SomeValue" }
+				$props = @{'SomeProp' = 'SomeValue' }
 				$InputObj = [PSCustomObject]@{
-					"address"                          = "someaddress"
-					"SafeName"                         = "SomeSafe"
-					"PlatformID"                       = "SomePlatform"
-					"userName"                         = "SomeUser"
-					"secret"                           = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
-					"automaticManagementEnabled"       = $true
-					"remoteMachines"                   = "someMachine"
-					"accessRestrictedToRemoteMachines" = $false
-					"platformAccountProperties"        = $props
+					'address'                          = 'someaddress'
+					'SafeName'                         = 'SomeSafe'
+					'PlatformID'                       = 'SomePlatform'
+					'userName'                         = 'SomeUser'
+					'secret'                           = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
+					'automaticManagementEnabled'       = $true
+					'remoteMachines'                   = 'someMachine'
+					'accessRestrictedToRemoteMachines' = $false
+					'platformAccountProperties'        = $props
 				}
 				Mock Invoke-PASRestMethod -MockWith {  }
 
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ $InputObj | New-PASAccountObject } | Should -Not -Throw
 
 			}
 
-			It "outputs expected object type" {
+			It 'outputs expected object type' {
 				$InputObj | New-PASAccountObject | Should -BeOfType Hashtable
 			}
 
-			It "has output with expected number of keys" {
+			It 'has output with expected number of keys' {
 				$result = $InputObj | New-PASAccountObject
 				$result.keys.count | Should -Be 8
 			}
 
-			It "has expected value for remoteMachinesAccess" {
+			It 'has expected value for remoteMachinesAccess' {
 				$result = $InputObj | New-PASAccountObject
-				$result["remoteMachinesAccess"].keys | Should -Contain remoteMachines
-				$result["remoteMachinesAccess"].keys | Should -Contain accessRestrictedToRemoteMachines
+				$result['remoteMachinesAccess'].keys | Should -Contain remoteMachines
+				$result['remoteMachinesAccess'].keys | Should -Contain accessRestrictedToRemoteMachines
 			}
 
-			It "has expected value for secretManagement" {
+			It 'has expected value for secretManagement' {
 				$result = $InputObj | New-PASAccountObject
-				$result["secretManagement"].keys | Should -Contain automaticManagementEnabled
+				$result['secretManagement'].keys | Should -Contain automaticManagementEnabled
 			}
 
-			It "has expected value for platformAccountProperties" {
+			It 'has expected value for platformAccountProperties' {
 				$result = $InputObj | New-PASAccountObject
-				$result["platformAccountProperties"].keys | Should -Contain SomeProp
+				$result['platformAccountProperties'].keys | Should -Contain SomeProp
 			}
 
-			It "has expected value for secret" {
+			It 'has expected value for secret' {
 				$result = $InputObj | New-PASAccountObject
-				$result["secret"] | Should -Be "P_Password"
+				$result['secret'] | Should -Be 'P_Password'
 			}
 
 		}

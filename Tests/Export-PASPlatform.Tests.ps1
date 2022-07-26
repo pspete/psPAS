@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,24 +35,24 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
+		BeforeEach {
 			Mock Invoke-PASRestMethod -MockWith {
 
-			New-Object Byte[] 512
+				New-Object Byte[] 512
 
+			}
+
+			Mock Out-PASFile -MockWith { }
+
+			$response = Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"
 		}
 
-		Mock Out-PASFile -MockWith { }
-
-		$response = Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"
-		}
-
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'PlatformID' },
 			@{Parameter = 'path' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -64,19 +64,19 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "throws if path is invalid" {
+			It 'throws if path is invalid' {
 				{ Export-PASPlatform -PlatformID SomePlatform -path A:\test.txt } | Should -Throw
 			}
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Scope It -Times 1 -Exactly
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -86,16 +86,16 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
 				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}

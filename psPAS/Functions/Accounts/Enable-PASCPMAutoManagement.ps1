@@ -6,7 +6,7 @@ function Enable-PASCPMAutoManagement {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("id")]
+		[Alias('id')]
 		[string]$AccountID
 
 	)
@@ -17,14 +17,14 @@ function Enable-PASCPMAutoManagement {
 
 		$ops = [Collections.Generic.List[Object]]@(
 			@{
-				"path"  = "/secretManagement/automaticManagementEnabled"
-				"op"    = "replace"
-				"value" = $true
+				'path'  = '/secretManagement/automaticManagementEnabled'
+				'op'    = 'replace'
+				'value' = $true
 			},
 			@{
-				"path"  = "/secretManagement/manualManagementReason"
-				"op"    = "replace"
-				"value" = ""
+				'path'  = '/secretManagement/manualManagementReason'
+				'op'    = 'replace'
+				'value' = ''
 			}
 		)
 

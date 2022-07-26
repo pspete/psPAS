@@ -1,62 +1,62 @@
 # .ExternalHelp psPAS-help.xml
 Function Get-PASDiscoveredAccount {
-	[CmdletBinding(DefaultParameterSetName = "byQuery")]
+	[CmdletBinding(DefaultParameterSetName = 'byQuery')]
 	param(
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byID"
+			ParameterSetName = 'byID'
 		)]
 		[string]$id,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
-		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key", "AWS", "AWS Access Keys", "Azure Password Management")]
+		[ValidateSet('Windows Server Local', 'Windows Desktop Local', 'Windows Domain', 'Unix', 'Unix SSH Key', 'AWS', 'AWS Access Keys', 'Azure Password Management')]
 		[string]$platformType,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[boolean]$privileged,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[boolean]$AccountEnabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[string]$search,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
-		[ValidateSet("startswith", "contains")]
+		[ValidateSet('startswith', 'contains')]
 		[string]$searchType,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[int]$offset,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[ValidateRange(1, 1000)]
 		[int]$limit
@@ -68,7 +68,7 @@ Function Get-PASDiscoveredAccount {
 		Assert-VersionRequirement -RequiredVersion 11.6
 
 		#Parameter to include as filter value in url
-		$Parameters = [Collections.Generic.List[String]]@("platformType", "privileged", "accountEnabled")
+		$Parameters = [Collections.Generic.List[String]]@('platformType', 'privileged', 'accountEnabled')
 
 	}
 
@@ -79,7 +79,7 @@ Function Get-PASDiscoveredAccount {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"byID" {
+			'byID' {
 
 				$URI = "$URI/$id"
 
@@ -87,9 +87,9 @@ Function Get-PASDiscoveredAccount {
 
 			}
 
-			"byQuery" {
+			'byQuery' {
 
-				If ($platformType -eq "Azure Password Management") {
+				If ($platformType -eq 'Azure Password Management') {
 
 					Assert-VersionRequirement -RequiredVersion 11.7
 
@@ -127,7 +127,7 @@ Function Get-PASDiscoveredAccount {
 
 		If ($null -ne $Result) {
 
-			If ($PSCmdlet.ParameterSetName -eq "byQuery") {
+			If ($PSCmdlet.ParameterSetName -eq 'byQuery') {
 
 				#Process nextlink if querying
 				$Result = $Result | Get-NextLink

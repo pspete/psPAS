@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,33 +35,33 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Input" {
+		Context 'Input' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"LiveSessions" = [PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" } }
+					[PSCustomObject]@{'LiveSessions' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
 				}
 
 				$InputObj = [pscustomobject]@{
 
-					"Limit" = 9
+					'Limit' = 9
 
 				}
 
-				$Script:BaseURI = "https://SomeURL/SomeApp"
-				$Script:ExternalVersion = "0.0"
+				$Script:BaseURI = 'https://SomeURL/SomeApp'
+				$Script:ExternalVersion = '0.0'
 				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 				$InputObj | Get-PASPSMSession
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 				$InputObj | Get-PASPSMSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -71,19 +71,19 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 				$InputObj | Get-PASPSMSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 				$InputObj | Get-PASPSMSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint when querying by ID" {
+			It 'sends request to expected endpoint when querying by ID' {
 
 				Get-PASPSMSession -liveSessionId SomeID
 
@@ -95,54 +95,54 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
 				{ $InputObj | Get-PASPSMSession } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
-			It "throws error if version requirement not met when querying by ID" {
-				$Script:ExternalVersion = "10.5"
+			It 'throws error if version requirement not met when querying by ID' {
+				$Script:ExternalVersion = '10.5'
 				{ Get-PASPSMSession -liveSessionId SomeID } | Should -Throw
 
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{"LiveSessions" = [PSCustomObject]@{"Prop1" = "VAL1"; "Prop2" = "Val2"; "Prop3" = "Val3" } }
+					[PSCustomObject]@{'LiveSessions' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
 				}
 
 				$InputObj = [pscustomobject]@{
 
-					"Limit" = 9
+					'Limit' = 9
 
 				}
 
-				$Script:BaseURI = "https://SomeURL/SomeApp"
-				$Script:ExternalVersion = "0.0"
+				$Script:BaseURI = 'https://SomeURL/SomeApp'
+				$Script:ExternalVersion = '0.0'
 				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
-			it "provides output" {
+			It 'provides output' {
 
 				$InputObj | Get-PASPSMSession | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($InputObj | Get-PASPSMSession | Get-Member -MemberType NoteProperty).length | Should -Be 3
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$InputObj | Get-PASPSMSession | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PSM.Session
+				$InputObj | Get-PASPSMSession | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PSM.Session
 
 			}
 

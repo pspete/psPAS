@@ -15,7 +15,7 @@ Function Add-PASOpenIDConnectProvider {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Code", "Implicit")]
+		[ValidateSet('Code', 'Implicit')]
 		[ValidateNotNullOrEmpty()]
 		[string]$authenticationFlow,
 
@@ -74,7 +74,7 @@ Function Add-PASOpenIDConnectProvider {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Basic", "Post")]
+		[ValidateSet('Basic', 'Post')]
 		[ValidateLength(1, 50)]
 		[ValidateNotNullOrEmpty()]
 		[string]$clientSecretMethod,
@@ -105,10 +105,10 @@ Function Add-PASOpenIDConnectProvider {
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#deal with clientSecret SecureString
-		If ($PSBoundParameters.ContainsKey("clientSecret")) {
+		If ($PSBoundParameters.ContainsKey('clientSecret')) {
 
 			#Include decoded clientSecret in request
-			$boundParameters["clientSecret"] = $(ConvertTo-InsecureString -SecureString $clientSecret)
+			$boundParameters['clientSecret'] = $(ConvertTo-InsecureString -SecureString $clientSecret)
 
 		}
 

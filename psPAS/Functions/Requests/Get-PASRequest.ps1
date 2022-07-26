@@ -7,7 +7,7 @@ function Get-PASRequest {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateSet("MyRequests", "IncomingRequests")]
+		[ValidateSet('MyRequests', 'IncomingRequests')]
 		[string]$RequestType,
 
 		[parameter(

@@ -36,7 +36,7 @@ function Remove-PASSafeMember {
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
-					Get-EscapedString)/Members/$($MemberName | Get-EscapedString)"
+					Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 
 			}
 
@@ -46,7 +46,7 @@ function Remove-PASSafeMember {
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/api/Safes/$($SafeName |
-					Get-EscapedString)/members/$($MemberName | Get-EscapedString)"
+					Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 
 			}
 

@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,11 +35,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'SecureString'}
+			$Parameters = @{Parameter = 'SecureString' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -49,7 +49,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
@@ -59,9 +59,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "converts securestring to plaintext" {
+			It 'converts securestring to plaintext' {
 
-				ConvertTo-InsecureString -SecureString $InputObj.SecureString| Should -Be "SomeSecureString"
+				ConvertTo-InsecureString -SecureString $InputObj.SecureString | Should -Be 'SomeSecureString'
 
 			}
 

@@ -17,7 +17,7 @@ function Remove-PASApplication {
 		#Request URL
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID | Get-EscapedString)/"
 
-		if ($PSCmdlet.ShouldProcess($AppID, "Delete Application")) {
+		if ($PSCmdlet.ShouldProcess($AppID, 'Delete Application')) {
 
 			#Send Request
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession

@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,7 +35,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
@@ -43,46 +43,46 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 				$Permissions = @(
 					[pscustomobject]@{
-						"Key"   = "Key1"
-						"Value" = $true
+						'Key'   = 'Key1'
+						'Value' = $true
 					},
 					[pscustomobject]@{
-						"Key"   = "Key2"
-						"Value" = $true
+						'Key'   = 'Key2'
+						'Value' = $true
 					},
 					[pscustomobject]@{
-						"Key"   = "TrueKey"
-						"Value" = $true
+						'Key'   = 'TrueKey'
+						'Value' = $true
 					},
 					[pscustomobject]@{
-						"Key"   = "FalseKey"
-						"Value" = $false
+						'Key'   = 'FalseKey'
+						'Value' = $false
 					},
 					[pscustomobject]@{
-						"Key"   = "AnotherKey"
-						"Value" = 1
+						'Key'   = 'AnotherKey'
+						'Value' = 1
 					},
 					[pscustomobject]@{
-						"Key"   = "AnotherFalseKey"
-						"Value" = $false
+						'Key'   = 'AnotherFalseKey'
+						'Value' = $false
 					}
 
 				)
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ $InputObj | ConvertFrom-KeyValuePair } | Should -Not -Throw
 
 			}
 
-			It "produces no output if given no input" {
+			It 'produces no output if given no input' {
 
 				$InputObj | ConvertFrom-KeyValuePair | Should -BeNullOrEmpty
 
 			}
 
-			It "outputs expected properties" {
+			It 'outputs expected properties' {
 
 				$Result = $Permissions | ConvertFrom-KeyValuePair
 				$Result.Key1 | Should -Be $true

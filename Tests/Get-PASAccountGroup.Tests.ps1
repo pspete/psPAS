@@ -46,7 +46,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				'Safe' = 'SomeSafe'
 			}
 
-			$response = $InputObj | Get-PASAccountGroup -UseClassicAPI -Verbose
+			$response = $InputObj | Get-PASAccountGroup -Verbose
 
 		}
 
@@ -90,9 +90,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Script:ExternalVersion = '0.0'
 			}
 
-			It 'sends request to expected endpoint - V10 ParameterSet' {
+			It 'sends request to expected endpoint - Gen1 ParameterSet' {
 
-				$InputObj | Get-PASAccountGroup
+				$InputObj | Get-PASAccountGroup -UseGen1API
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 

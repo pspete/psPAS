@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,42 +35,42 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
 				$InputObj = @{
-					Property1 = "Value"
-					Property2 = "Another Value"
+					Property1 = 'Value'
+					Property2 = 'Another Value'
 				}
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ ConvertTo-QueryString } | Should -Not -Throw
 
 			}
 
-			It "produces no output if given no input" {
+			It 'produces no output if given no input' {
 
 				ConvertTo-QueryString | Should -BeNullOrEmpty
 
 			}
 
-			It "converts hashtable to expected query string" {
+			It 'converts hashtable to expected query string' {
 
-				$InputObj | ConvertTo-QueryString | Should -Match "Value&Property"
-				$InputObj | ConvertTo-QueryString | Should -Match "Property1=Value"
-				$InputObj | ConvertTo-QueryString | Should -Match "Property2=Another%20Value"
+				$InputObj | ConvertTo-QueryString | Should -Match 'Value&Property'
+				$InputObj | ConvertTo-QueryString | Should -Match 'Property1=Value'
+				$InputObj | ConvertTo-QueryString | Should -Match 'Property2=Another%20Value'
 
 			}
 
-			It "returns expected unescaped string" {
+			It 'returns expected unescaped string' {
 				$InputObj = @{
-					Property1 = "Value,Value,Value,Value"
+					Property1 = 'Value,Value,Value,Value'
 				}
-				$InputObj | ConvertTo-QueryString -NoEscape | Should -Match "Property1=Value,Value,Value,Value"
+				$InputObj | ConvertTo-QueryString -NoEscape | Should -Match 'Property1=Value,Value,Value,Value'
 			}
 
 		}

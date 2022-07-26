@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -36,8 +36,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		It 'returns parent function name' {
-			Function Test-Parent {Test-Child}
-			Function Test-Child {Get-ParentFunction}
+			Function Test-Parent { Test-Child }
+			Function Test-Child { Get-ParentFunction }
 			$ThisTest = Test-Parent
 
 			$ThisTest.FunctionName | Should -Be Test-Parent
@@ -46,28 +46,28 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		It 'returns expected parent function name from expected scope' {
 			Function Test-Example {
 				[CmdletBinding()]
-				param([parameter(ParameterSetName = "ExampleParamSet")][string]$Name)
+				param([parameter(ParameterSetName = 'ExampleParamSet')][string]$Name)
 				Test-Parent
 			}
-			Function Test-Parent {Test-Child}
-			Function Test-Child {Get-ParentFunction -Scope 3}
-			$ThisTest = Test-Example -Name "test"
+			Function Test-Parent { Test-Child }
+			Function Test-Child { Get-ParentFunction -Scope 3 }
+			$ThisTest = Test-Example -Name 'test'
 
-			$ThisTest.FunctionName | Should -Be "Test-Example"
+			$ThisTest.FunctionName | Should -Be 'Test-Example'
 
 		}
 
 		It 'returns expected ParameterSetName from expected scope' {
 			Function Test-Example {
 				[CmdletBinding()]
-				param([parameter(ParameterSetName = "ExampleParamSet")][string]$Name)
+				param([parameter(ParameterSetName = 'ExampleParamSet')][string]$Name)
 				Test-Parent
 			}
-			Function Test-Parent {Test-Child}
-			Function Test-Child {Get-ParentFunction -Scope 3}
-			$ThisTest = Test-Example -Name "test"
+			Function Test-Parent { Test-Child }
+			Function Test-Child { Get-ParentFunction -Scope 3 }
+			$ThisTest = Test-Example -Name 'test'
 
-			$ThisTest.ParameterSetName | Should -Be "ExampleParamSet"
+			$ThisTest.ParameterSetName | Should -Be 'ExampleParamSet'
 		}
 
 

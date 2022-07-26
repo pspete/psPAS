@@ -16,7 +16,7 @@ function Get-PASPlatformSafe {
 	PROCESS {
 
 		#Create request URL
-		$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)/Safes"
+		$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)/Safes/"
 
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
@@ -24,7 +24,7 @@ function Get-PASPlatformSafe {
 		If ($result.count -gt 0) {
 
 			#Return Results
-			$result.value | ForEach-Object { [pscustomobject]@{"SafeName" = $PSItem } }
+			$result.value | ForEach-Object { [pscustomobject]@{'SafeName' = $PSItem } }
 
 		}
 

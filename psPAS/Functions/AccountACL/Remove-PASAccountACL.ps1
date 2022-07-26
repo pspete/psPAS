@@ -6,7 +6,7 @@ function Remove-PASAccountACL {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("PolicyID")]
+		[Alias('PolicyID')]
 		[ValidateNotNullOrEmpty()]
 		[string]$AccountPolicyId,
 
@@ -42,7 +42,7 @@ function Remove-PASAccountACL {
 
                 Get-EscapedString)|$($AccountPolicyId |
 
-                    Get-EscapedString)/PrivilegedCommands/$Id"
+                    Get-EscapedString)/PrivilegedCommands/$Id/"
 
 		#Request Body
 		$Body = @{ }

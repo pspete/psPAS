@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,49 +35,49 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
+		BeforeEach {
 
 			Mock Invoke-PASRestMethod -MockWith {
 				Write-Output @{ }
 			}
 
 			$InputObj = [pscustomobject]@{
-				"UserName"                = "SomeUser"
-				"Address"                 = "SomeAddress"
-				"AccountDiscoveryDate"    = "2018-02-22T22:22:22Z"
-				"OSType"                  = "Windows"
-				"AccountEnabled"          = "enabled"
-				"AccountOSGroups"         = "SomeGroup"
-				"AccountType"             = "local"
-				"DiscoveryPlatformType"   = "SomePlatform"
-				"Domain"                  = "SomeDomain"
-				"LastLogonDate"           = "2017-12-31T23:59:59Z"
-				"LastPasswordSet"         = "1995-05-06T20:20:00Z"
-				"PasswordNeverExpires"    = $true
-				"OSVersion"               = "SomeValue"
-				"OU"                      = "SomeOU"
-				"AccountCategory"         = "privileged"
-				"AccountCategoryCriteria" = "some;category"
-				"UserDisplayName"         = "DisplayThis"
-				"AccountDescription"      = "SomeDescription"
-				"AccountExpirationDate"   = "2020-01-01T00:00:00Z"
-				"UID"                     = "0"
-				"GID"                     = "0"
-				"MachineOSFamily"         = "Workstation"
+				'UserName'                = 'SomeUser'
+				'Address'                 = 'SomeAddress'
+				'AccountDiscoveryDate'    = '2018-02-22T22:22:22Z'
+				'OSType'                  = 'Windows'
+				'AccountEnabled'          = 'enabled'
+				'AccountOSGroups'         = 'SomeGroup'
+				'AccountType'             = 'local'
+				'DiscoveryPlatformType'   = 'SomePlatform'
+				'Domain'                  = 'SomeDomain'
+				'LastLogonDate'           = '2017-12-31T23:59:59Z'
+				'LastPasswordSet'         = '1995-05-06T20:20:00Z'
+				'PasswordNeverExpires'    = $true
+				'OSVersion'               = 'SomeValue'
+				'OU'                      = 'SomeOU'
+				'AccountCategory'         = 'privileged'
+				'AccountCategoryCriteria' = 'some;category'
+				'UserDisplayName'         = 'DisplayThis'
+				'AccountDescription'      = 'SomeDescription'
+				'AccountExpirationDate'   = '2020-01-01T00:00:00Z'
+				'UID'                     = '0'
+				'GID'                     = '0'
+				'MachineOSFamily'         = 'Workstation'
 			}
 
-			$response = $InputObj | Add-PASPendingAccount -verbose
+			$response = $InputObj | Add-PASPendingAccount -Verbose
 
 		}
 
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 			$Parameters = @{Parameter = 'UserName' },
 			@{Parameter = 'Address' },
 			@{Parameter = 'AccountDiscoveryDate' },
 			@{Parameter = 'AccountEnabled' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 				param($Parameter)
 
 				(Get-Command Add-PASPendingAccount).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
@@ -86,15 +86,15 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled 'Invoke-PASRestMethod' -ParameterFilter {
 
@@ -104,13 +104,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request using expected method" {
+			It 'sends request using expected method' {
 
 				Assert-MockCalled 'Invoke-PASRestMethod' -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -122,7 +122,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It 'has a request body with expected number of properties' {
 
 				($Script:RequestBody.pendingAccount | Get-Member -MemberType NoteProperty).length | Should -Be 21
 
@@ -130,9 +130,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides no output" {
+			It 'provides no output' {
 
 				$response | Should -BeNullOrEmpty
 

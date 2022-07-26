@@ -6,7 +6,7 @@ function Add-PASPublicSSHKey {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( { $_ -notmatch ".*(%|\&|\+|\.).*" })]
+		[ValidateScript( { $_ -notmatch '.*(%|\&|\+|\.).*' })]
 		[string]$UserName,
 
 		[parameter(
@@ -25,12 +25,12 @@ function Add-PASPublicSSHKey {
 		#Create URL to endpoint for request
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
 
-            Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys"
+            Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/"
 
 		#create request body
 		$Body = @{
 
-			"PublicSSHKey" = $PublicSSHKey
+			'PublicSSHKey' = $PublicSSHKey
 
 		} | ConvertTo-Json
 
@@ -41,15 +41,16 @@ function Add-PASPublicSSHKey {
 
 			$result.AddUserAuthorizedKeyResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
+				Add-ObjectDetail -typename psPAS.CyberArk.Vault.PublicSSHKey -PropertyToAdd @{
 
-				"UserName" = $UserName
+					'UserName' = $UserName
 
-			}
+				}
 
 		}
 
 	}#process
 
 	END { }#end
+
 }

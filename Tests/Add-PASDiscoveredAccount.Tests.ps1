@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,7 +35,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'UserName' },
 			@{Parameter = 'Address' },
@@ -43,7 +43,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 			@{Parameter = 'AccountEnabled' },
 			@{Parameter = 'fingerprint' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -53,29 +53,29 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
-					"UserName"       = "SomeUser"
-					"Address"        = "SomeDomain"
-					"discoveryDate"  = "$(Get-Date 1/1/1971)"
-					"AccountEnabled" = $true
+					'UserName'       = 'SomeUser'
+					'Address'        = 'SomeDomain'
+					'discoveryDate'  = "$(Get-Date 1/1/1971)"
+					'AccountEnabled' = $true
 
 				}
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 				$InputObj | Add-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 				$InputObj | Add-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -85,13 +85,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 				$InputObj | Add-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 				$InputObj | Add-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 					($Body) -ne $null
@@ -99,7 +99,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It 'has a request body with expected number of properties' {
 				$InputObj | Add-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -108,7 +108,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "converts date to expected UNIX time" {
+			It 'converts date to expected UNIX time' {
 				$InputObj | Add-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -117,68 +117,68 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.2"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.2'
 
 				{ $InputObj | Add-PASDiscoveredAccount } | Should -Throw
 
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 
 			}
 
-			It "has a request body with expected platformTypeAccountProperties property for Windows" {
-				$InputObj | Add-PASDiscoveredAccount -sid 1234
+			It 'has a request body with expected platformTypeAccountProperties property for Windows' {
+				$InputObj | Add-PASDiscoveredAccount -SID 1234
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json).platformTypeAccountProperties.SID -eq "1234"
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.SID -eq '1234'
 
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "has a request body with expected platformTypeAccountProperties property for UNIX" {
+			It 'has a request body with expected platformTypeAccountProperties property for UNIX' {
 				$InputObj | Add-PASDiscoveredAccount -uid 1234 -gid 1
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json).platformTypeAccountProperties.UID -eq "1234"
-					($Body | ConvertFrom-Json).platformTypeAccountProperties.GID -eq "1"
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.UID -eq '1234'
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.GID -eq '1'
 
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "has a request body with expected platformTypeAccountProperties property for UNIXSSHKey" {
-				$InputObj | Add-PASDiscoveredAccount -uid 1234 -gid 1 -fingerprint "SomePrint" -Path "SomePath" -format "SomeFormat"
+			It 'has a request body with expected platformTypeAccountProperties property for UNIXSSHKey' {
+				$InputObj | Add-PASDiscoveredAccount -uid 1234 -gid 1 -fingerprint 'SomePrint' -path 'SomePath' -format 'SomeFormat'
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json).platformTypeAccountProperties.UID -eq "1234"
-					($Body | ConvertFrom-Json).platformTypeAccountProperties.GID -eq "1"
-					($Body | ConvertFrom-Json).platformTypeAccountProperties.fingerprint -eq "SomePrint"
-					($Body | ConvertFrom-Json).platformTypeAccountProperties.Path -eq "SomePath"
-					($Body | ConvertFrom-Json).platformTypeAccountProperties.format -eq "SomeFormat"
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.UID -eq '1234'
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.GID -eq '1'
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.fingerprint -eq 'SomePrint'
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.Path -eq 'SomePath'
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.format -eq 'SomeFormat'
 
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "has a request body with expected platformTypeAccountProperties property for AWS" {
+			It 'has a request body with expected platformTypeAccountProperties property for AWS' {
 				$InputObj | Add-PASDiscoveredAccount -awsAccountID 123456777889 -awsAccessKeyID SomeAccessKey
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json).platformTypeAccountProperties.awsAccountID -eq "123456777889"
-					($Body | ConvertFrom-Json).platformTypeAccountProperties.awsAccessKeyID -eq "SomeAccessKey"
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.awsAccountID -eq '123456777889'
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.awsAccessKeyID -eq 'SomeAccessKey'
 
 				} -Times 1 -Exactly -Scope It
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
 
 					[pscustomobject]@{
-						"id"     = "Value1"
-						"status" = "Value2"
+						'id'     = 'Value1'
+						'status' = 'Value2'
 					}
 
 
@@ -187,16 +187,16 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 
 				$InputObj = [pscustomobject]@{
-					"UserName"       = "SomeUser"
-					"Address"        = "SomeDomain"
-					"discoveryDate"  = "$(Get-Date 1/1/1971)"
-					"AccountEnabled" = $true
+					'UserName'       = 'SomeUser'
+					'Address'        = 'SomeDomain'
+					'discoveryDate'  = "$(Get-Date 1/1/1971)"
+					'AccountEnabled' = $true
 
 				}
 
 			}
 
-			it "provides output" {
+			It 'provides output' {
 				$response = $InputObj | Add-PASDiscoveredAccount
 				$response | Should -Not -BeNullOrEmpty
 

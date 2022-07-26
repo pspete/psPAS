@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,38 +35,38 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
 				$InputObj = @{
-					Property1        = "Value"
-					Property2        = "Another Value"
+					Property1        = 'Value'
+					Property2        = 'Another Value'
 					modificationTime = $(Get-Date 1/1/2020)
 				}
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ ConvertTo-FilterString } | Should -Not -Throw
 
 			}
 
-			It "produces no output if given no input" {
+			It 'produces no output if given no input' {
 
 				ConvertTo-FilterString | Should -BeNullOrEmpty
 
 			}
 
-			It "converts hashtable to expected filter string" {
+			It 'converts hashtable to expected filter string' {
 
 				$Value = $InputObj | ConvertTo-FilterString
 
-				$Value["filter"] | Should -Match " AND "
-				$Value["filter"] | Should -Match "Property1 eq Value"
-				$Value["filter"] | Should -Match "Property2 eq Another Value"
-				$Value["filter"] | Should -Match "modificationTime gte 1577836800"
+				$Value['filter'] | Should -Match ' AND '
+				$Value['filter'] | Should -Match 'Property1 eq Value'
+				$Value['filter'] | Should -Match 'Property2 eq Another Value'
+				$Value['filter'] | Should -Match 'modificationTime gte 1577836800'
 
 			}
 

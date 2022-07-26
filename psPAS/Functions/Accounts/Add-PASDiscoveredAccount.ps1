@@ -1,8 +1,8 @@
 ﻿# .ExternalHelp psPAS-help.xml
 function Add-PASDiscoveredAccount {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = "Username not used for authentication")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'platformTypeAccountProperties', Justification = "False Positive")]
-	[CmdletBinding(DefaultParameterSetName = "Windows")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = 'Username not used for authentication')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'platformTypeAccountProperties', Justification = 'False Positive')]
+	[CmdletBinding(DefaultParameterSetName = 'Windows')]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -39,7 +39,7 @@ function Add-PASDiscoveredAccount {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Windows Server Local", "Windows Desktop Local", "Windows Domain", "Unix", "Unix SSH Key", "AWS", "AWS Access Keys", "Azure Password Management")]
+		[ValidateSet('Windows Server Local', 'Windows Desktop Local', 'Windows Domain', 'Unix', 'Unix SSH Key', 'AWS', 'AWS Access Keys', 'Azure Password Management')]
 		[string]$platformType,
 
 		[parameter(
@@ -106,7 +106,7 @@ function Add-PASDiscoveredAccount {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Workstation", "Server")]
+		[ValidateSet('Workstation', 'Server')]
 		[string]$osFamily,
 
 		[parameter(
@@ -124,47 +124,47 @@ function Add-PASDiscoveredAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Windows"
+			ParameterSetName = 'Windows'
 		)]
 		[string]$SID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Unix"
+			ParameterSetName = 'Unix'
 		)]
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnixSSHKey"
+			ParameterSetName = 'UnixSSHKey'
 		)]
 		[string]$uid,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Unix"
+			ParameterSetName = 'Unix'
 		)]
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnixSSHKey"
+			ParameterSetName = 'UnixSSHKey'
 		)]
 		[string]$gid,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnixSSHKey"
+			ParameterSetName = 'UnixSSHKey'
 		)]
 		[string]$fingerprint,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnixSSHKey"
+			ParameterSetName = 'UnixSSHKey'
 		)]
 		[ValidateSet(1024, 2048, 4096, 8192)]
 		[int]$size,
@@ -172,36 +172,36 @@ function Add-PASDiscoveredAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnixSSHKey"
+			ParameterSetName = 'UnixSSHKey'
 		)]
 		[string]$path,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnixSSHKey"
+			ParameterSetName = 'UnixSSHKey'
 		)]
 		[string]$format,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnixSSHKey"
+			ParameterSetName = 'UnixSSHKey'
 		)]
 		[string]$comment,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "UnixSSHKey"
+			ParameterSetName = 'UnixSSHKey'
 		)]
-		[ValidateSet("RSA", "DSA")]
+		[ValidateSet('RSA', 'DSA')]
 		[string]$encryption,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AWS"
+			ParameterSetName = 'AWS'
 		)]
 		[ValidateLength(12, 12)]
 		[string]$awsAccountID,
@@ -209,21 +209,21 @@ function Add-PASDiscoveredAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "AWS"
+			ParameterSetName = 'AWS'
 		)]
 		[string]$awsAccessKeyID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Dependency"
+			ParameterSetName = 'Dependency'
 		)]
 		[hashtable[]]$Dependencies,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Azure"
+			ParameterSetName = 'Azure'
 		)]
 		[string]$activeDirectoryID
 	)
@@ -232,14 +232,14 @@ function Add-PASDiscoveredAccount {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			{ $PSItem -match "Azure" } {
+			{ $PSItem -match 'Azure' } {
 
 				#v11.7 required for Azure
 				Assert-VersionRequirement -RequiredVersion 11.7
 
 			}
 
-			{ $PSItem -match "AWS|Dependency" } {
+			{ $PSItem -match 'AWS|Dependency' } {
 
 				#v10.8 required for AWS & Dependencies
 				Assert-VersionRequirement -RequiredVersion 10.8
@@ -255,9 +255,9 @@ function Add-PASDiscoveredAccount {
 
 		}
 
-		$AccountProperties = [Collections.Generic.List[String]]@("SID", "uid", "gid", "fingerprint", "size", "path", "format", "comment", "encryption", "awsAccountID", "awsAccessKeyID", "activeDirectoryID")
+		$AccountProperties = [Collections.Generic.List[String]]@('SID', 'uid', 'gid', 'fingerprint', 'size', 'path', 'format', 'comment', 'encryption', 'awsAccountID', 'awsAccessKeyID', 'activeDirectoryID')
 
-		$DateTimes = [Collections.Generic.List[String]]@("discoveryDate", "lastLogonDateTime", "lastPasswordSetDateTime", "passwordExpirationDateTime")
+		$DateTimes = [Collections.Generic.List[String]]@('discoveryDate', 'lastLogonDateTime', 'lastPasswordSetDateTime', 'passwordExpirationDateTime')
 
 	}#begin
 
@@ -293,7 +293,7 @@ function Add-PASDiscoveredAccount {
 
 			If ($platformTypeAccountProperties.Count -gt 0) {
 
-				$boundParameters["platformTypeAccountProperties"] = $platformTypeAccountProperties
+				$boundParameters['platformTypeAccountProperties'] = $platformTypeAccountProperties
 
 			}
 
@@ -314,4 +314,5 @@ function Add-PASDiscoveredAccount {
 	}#process
 
 	END { }#end
+
 }

@@ -1,24 +1,24 @@
 # .ExternalHelp psPAS-help.xml
 function Close-PASSession {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = "False Positive")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SharedAuthentication', Justification = "False Positive")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SAMLAuthentication', Justification = "False Positive")]
-	[CmdletBinding(DefaultParameterSetName = "Gen2")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SharedAuthentication', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SAMLAuthentication', Justification = 'False Positive')]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
 	param(
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
-		[Alias("UseClassicAPI")]
+		[Alias('UseClassicAPI')]
 		[switch]$UseGen1API,
 
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "shared"
+			ParameterSetName = 'shared'
 		)]
 		[switch]$SharedAuthentication,
 
@@ -26,7 +26,7 @@ function Close-PASSession {
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "saml"
+			ParameterSetName = 'saml'
 		)]
 		[switch]$SAMLAuthentication
 
@@ -36,28 +36,28 @@ function Close-PASSession {
 
 		Switch ($PSCmdlet.ParameterSetName) {
 
-			"Gen1" {
+			'Gen1' {
 
 				$URI = "$Script:BaseURI/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
 				break
 
 			}
 
-			"saml" {
+			'saml' {
 
 				$URI = "$Script:BaseURI/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
 				break
 
 			}
 
-			"shared" {
+			'shared' {
 
 				$URI = "$Script:BaseURI/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logoff"
 				break
 
 			}
 
-			"Gen2" {
+			'Gen2' {
 
 				$URI = "$Script:BaseURI/API/Auth/Logoff"
 				break
@@ -78,7 +78,7 @@ function Close-PASSession {
 	END {
 
 		#Set ExternalVersion to 0.0
-		[System.Version]$Version = "0.0"
+		[System.Version]$Version = '0.0'
 		Set-Variable -Name ExternalVersion -Value $Version -Scope Script -ErrorAction SilentlyContinue
 
 		#Clear Module scope variables on logoff

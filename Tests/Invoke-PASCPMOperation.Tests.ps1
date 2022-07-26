@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -36,157 +36,157 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 
-		Context "Standard Operation" {
+		Context 'Standard Operation' {
 
 			BeforeEach {
 				Mock Invoke-PASRestMethod -MockWith { }
 
-				$AccountID = "SomeID"
-				$Password = "SomePassword" | ConvertTo-SecureString -AsPlainText -Force
+				$AccountID = 'SomeID'
+				$Password = 'SomePassword' | ConvertTo-SecureString -AsPlainText -Force
 
 				$Script:RequestBody = $null
-				$Script:BaseURI = "https://SomeURL/SomeApp"
-				$Script:ExternalVersion = "0.0"
+				$Script:BaseURI = 'https://SomeURL/SomeApp'
+				$Script:ExternalVersion = '0.0'
 				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 			}
 
-			It "sends verify request to expected api endpoint" {
+			It 'sends verify request to expected api endpoint' {
 
 				Invoke-PASCPMOperation -AccountID $AccountID -VerifyTask
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$URI -eq "https://SomeURL/SomeApp/API/Accounts/SomeID/Verify"
+					$URI -eq 'https://SomeURL/SomeApp/API/Accounts/SomeID/Verify'
 				}
 
 			}
 
-			It "sends verify request using expected method" {
+			It 'sends verify request using expected method' {
 
 				Invoke-PASCPMOperation -AccountID $AccountID -VerifyTask
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$Method -eq "POST"
+					$Method -eq 'POST'
 				}
 
 			}
 
-			It "sends verify request to expected classic api endpoint" {
+			It 'sends verify request to expected classic api endpoint' {
 
 				Invoke-PASCPMOperation -AccountID $AccountID -VerifyTask -UseClassicAPI
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$URI -eq "https://SomeURL/SomeApp/WebServices/PIMServices.svc/Accounts/SomeID/VerifyCredentials"
+					$URI -eq 'https://SomeURL/SomeApp/WebServices/PIMServices.svc/Accounts/SomeID/VerifyCredentials'
 				}
 
 			}
 
-			It "sends change request to expected api endpoint" {
+			It 'sends change request to expected api endpoint' {
 
 				Invoke-PASCPMOperation -AccountID $AccountID -ChangeTask
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$URI -eq "https://SomeURL/SomeApp/API/Accounts/SomeID/Change"
+					$URI -eq 'https://SomeURL/SomeApp/API/Accounts/SomeID/Change'
 				}
 
 			}
 
-			It "sends change request using expected method" {
+			It 'sends change request using expected method' {
 
 				Invoke-PASCPMOperation -AccountID $AccountID -ChangeTask
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$Method -eq "POST"
+					$Method -eq 'POST'
 				}
 
 			}
 
-			It "sends change request to expected classic api endpoint" {
-				Invoke-PASCPMOperation -AccountID $AccountID -ChangeTask -ImmediateChangeByCPM "Yes" -ChangeCredsForGroup "No"
+			It 'sends change request to expected classic api endpoint' {
+				Invoke-PASCPMOperation -AccountID $AccountID -ChangeTask -ImmediateChangeByCPM 'Yes' -ChangeCredsForGroup 'No'
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$URI -eq "https://SomeURL/SomeApp/WebServices/PIMServices.svc/Accounts/SomeID/ChangeCredentials"
+					$URI -eq 'https://SomeURL/SomeApp/WebServices/PIMServices.svc/Accounts/SomeID/ChangeCredentials'
 				}
 
 			}
 
-			It "sends change request to classic api using expected method" {
+			It 'sends change request to classic api using expected method' {
 
-				Invoke-PASCPMOperation -AccountID $AccountID -ChangeTask -ImmediateChangeByCPM "Yes" -ChangeCredsForGroup "No"
+				Invoke-PASCPMOperation -AccountID $AccountID -ChangeTask -ImmediateChangeByCPM 'Yes' -ChangeCredsForGroup 'No'
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$Method -eq "PUT"
+					$Method -eq 'PUT'
 				}
 
 			}
 
-			It "sends change request, when specifying value, to expected api endpoint" {
+			It 'sends change request, when specifying value, to expected api endpoint' {
 
 				Invoke-PASCPMOperation -AccountID $AccountID -ChangeTask -ChangeImmediately $true -NewCredentials $Password
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$URI -eq "https://SomeURL/SomeApp/API/Accounts/SomeID/SetNextPassword"
+					$URI -eq 'https://SomeURL/SomeApp/API/Accounts/SomeID/SetNextPassword'
 				}
 
 			}
 
-			It "sends change request, when specifying value, with expected method" {
+			It 'sends change request, when specifying value, with expected method' {
 
 				Invoke-PASCPMOperation -AccountID $AccountID -ChangeTask -ChangeImmediately $true -NewCredentials $Password
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$Method -eq "POST"
+					$Method -eq 'POST'
 				}
 
 			}
 
-			It "sends change request, when updating only the vault, to expected api endpoint" {
+			It 'sends change request, when updating only the vault, to expected api endpoint' {
 
 				Invoke-PASCPMOperation -AccountID $AccountID -ChangeTask -NewCredentials $Password
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$URI -eq "https://SomeURL/SomeApp/API/Accounts/SomeID/Password/Update"
+					$URI -eq 'https://SomeURL/SomeApp/API/Accounts/SomeID/Password/Update'
 				}
 
 			}
 
-			It "sends change request, when updating only the vault, with expected method" {
+			It 'sends change request, when updating only the vault, with expected method' {
 
 				Invoke-PASCPMOperation -AccountID $AccountID -ChangeTask -NewCredentials $Password
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$Method -eq "POST"
+					$Method -eq 'POST'
 				}
 
 			}
 
-			It "sends reconcile request to expected api endpoint" {
+			It 'sends reconcile request to expected api endpoint' {
 				Invoke-PASCPMOperation -AccountID $AccountID -ReconcileTask
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$URI -eq "https://SomeURL/SomeApp/API/Accounts/SomeID/Reconcile"
+					$URI -eq 'https://SomeURL/SomeApp/API/Accounts/SomeID/Reconcile'
 				}
 
 			}
 
-			It "sends reconcile request using expected method" {
+			It 'sends reconcile request using expected method' {
 
 				Invoke-PASCPMOperation -AccountID $AccountID -ReconcileTask
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
 
-					$Method -eq "POST"
+					$Method -eq 'POST'
 				}
 
 			}

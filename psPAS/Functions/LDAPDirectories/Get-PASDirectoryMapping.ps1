@@ -1,24 +1,24 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASDirectoryMapping {
-	[CmdletBinding(DefaultParameterSetName = "All")]
+	[CmdletBinding(DefaultParameterSetName = 'All')]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "All"
+			ParameterSetName = 'All'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Mapping"
+			ParameterSetName = 'Mapping'
 		)]
-		[Alias("DomainName")]
+		[Alias('DomainName')]
 		[string]$DirectoryName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Mapping"
+			ParameterSetName = 'Mapping'
 		)]
 		[string]$MappingID
 
@@ -31,12 +31,12 @@ function Get-PASDirectoryMapping {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings"
+		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/"
 
-		if ($PSCmdlet.ParameterSetName -eq "Mapping") {
+		if ($PSCmdlet.ParameterSetName -eq 'Mapping') {
 
 			#Update URL for request
-			$URI = "$URI/$MappingID"
+			$URI = "$URI$MappingID/"
 
 		}
 
@@ -53,4 +53,5 @@ function Get-PASDirectoryMapping {
 	}#process
 
 	END { }#end
+
 }

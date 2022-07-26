@@ -350,6 +350,10 @@ commands:
         url: /commands/Remove-PASGroup
       - title: "Set-PASGroup"
         url: /commands/Set-PASGroup
+      - title: "Enable-PASUser"
+        url: /commands/Enable-PASUser
+      - title: "Disable-PASUser"
+        url: /commands/Disable-PASUser
 
 # documentation links
 docs:
@@ -407,3 +411,5 @@ docs:
         url: https://www.powershellgallery.com/packages/PoShPACLI/
       - title: "VaultControl"
         url: https://www.powershellgallery.com/packages/VaultControl/
+      - title: "PSMPSession"
+        url: https://www.powershellgallery.com/packages/PSMPSession/

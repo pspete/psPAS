@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,143 +35,143 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
-		Mock Invoke-PASRestMethod -MockWith {
+		BeforeEach {
+			Mock Invoke-PASRestMethod -MockWith {
 
+			}
+
+			$InputObj = [pscustomobject]@{
+
+				'AppID' = 'SomeApplication'
+
+			}
 		}
+		Context 'Mandatory Parameters' {
 
-		$InputObj = [pscustomobject]@{
-
-			"AppID"        = "SomeApplication"
-
-		}
-}
-		Context "Mandatory Parameters" {
-
-			$Parameters = @{Parameter = 'AppID'},
+			$Parameters = @{Parameter = 'AppID' },
 			@{Parameter = 'path' },
 			@{Parameter = 'hash' },
 			@{Parameter = 'osUser' },
 			@{Parameter = 'machineAddress' },
 			@{Parameter = 'certificateserialnumber' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Add-PASApplicationAuthenticationMethod).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique |  Should -Be $true
+				(Get-Command Add-PASApplicationAuthenticationMethod).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should -Be $true
 
 			}
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
-				$InputObj | Add-PASApplicationAuthenticationMethod -path "SomePath" -IsFolder $true -AllowInternalScripts $true
+			It 'sends request' {
+				$InputObj | Add-PASApplicationAuthenticationMethod -path 'SomePath' -IsFolder $true -AllowInternalScripts $true
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
-				$InputObj | Add-PASApplicationAuthenticationMethod -path "SomePath" -IsFolder $true -AllowInternalScripts $true
+				$InputObj | Add-PASApplicationAuthenticationMethod -path 'SomePath' -IsFolder $true -AllowInternalScripts $true
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Applications/SomeApplication/Authentications"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Applications/SomeApplication/Authentications/"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
-				$InputObj | Add-PASApplicationAuthenticationMethod -path "SomePath" -IsFolder $true -AllowInternalScripts $true
+				$InputObj | Add-PASApplicationAuthenticationMethod -path 'SomePath' -IsFolder $true -AllowInternalScripts $true
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {$Method -match 'POST' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected AuthType for path authentication" {
+			It 'sends request with expected AuthType for path authentication' {
 
-				$InputObj | Add-PASApplicationAuthenticationMethod -path "SomePath" -IsFolder $true -AllowInternalScripts $true
+				$InputObj | Add-PASApplicationAuthenticationMethod -path 'SomePath' -IsFolder $true -AllowInternalScripts $true
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Script:RequestBody = $Body | ConvertFrom-Json
 
-					($Script:RequestBody.authentication.AuthType) -eq "path"
+					($Script:RequestBody.authentication.AuthType) -eq 'path'
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected AuthType for hash authentication" {
+			It 'sends request with expected AuthType for hash authentication' {
 
-				$InputObj | Add-PASApplicationAuthenticationMethod -hash "SomeHash"
+				$InputObj | Add-PASApplicationAuthenticationMethod -hash 'SomeHash'
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Script:RequestBody = $Body | ConvertFrom-Json
 
-					($Script:RequestBody.authentication.AuthType) -eq "hash"
+					($Script:RequestBody.authentication.AuthType) -eq 'hash'
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected AuthType for osUser authentication" {
+			It 'sends request with expected AuthType for osUser authentication' {
 
-				$InputObj | Add-PASApplicationAuthenticationMethod -osUser "SomeUser"
+				$InputObj | Add-PASApplicationAuthenticationMethod -osUser 'SomeUser'
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Script:RequestBody = $Body | ConvertFrom-Json
 
-					($Script:RequestBody.authentication.AuthType) -eq "osUser"
+					($Script:RequestBody.authentication.AuthType) -eq 'osUser'
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected AuthType for machineAddress authentication" {
+			It 'sends request with expected AuthType for machineAddress authentication' {
 
-				$InputObj | Add-PASApplicationAuthenticationMethod -machineAddress "machineAddress"
+				$InputObj | Add-PASApplicationAuthenticationMethod -machineAddress 'machineAddress'
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Script:RequestBody = $Body | ConvertFrom-Json
 
-					($Script:RequestBody.authentication.AuthType) -eq "machineAddress"
+					($Script:RequestBody.authentication.AuthType) -eq 'machineAddress'
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected AuthType for certificateserialnumber authentication" {
+			It 'sends request with expected AuthType for certificateserialnumber authentication' {
 
-				$InputObj | Add-PASApplicationAuthenticationMethod -certificateserialnumber "certificateserialnumber"
+				$InputObj | Add-PASApplicationAuthenticationMethod -certificateserialnumber 'certificateserialnumber'
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Script:RequestBody = $Body | ConvertFrom-Json
 
-					($Script:RequestBody.authentication.AuthType) -eq "certificateserialnumber"
+					($Script:RequestBody.authentication.AuthType) -eq 'certificateserialnumber'
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected AuthType for certificateattr authentication" {
+			It 'sends request with expected AuthType for certificateattr authentication' {
 
-				Add-PASApplicationAuthenticationMethod -AppID AppWebService -SubjectAlternativeName "DNS Name=application.service"
+				Add-PASApplicationAuthenticationMethod -AppID AppWebService -SubjectAlternativeName 'DNS Name=application.service'
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$Script:RequestBody = $Body | ConvertFrom-Json
 
-					($Script:RequestBody.authentication.AuthType) -eq "certificateattr"
+					($Script:RequestBody.authentication.AuthType) -eq 'certificateattr'
 
 				} -Times 1 -Exactly -Scope It
 
@@ -179,11 +179,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides no output" {
+			It 'provides no output' {
 
-				$response = $InputObj | Add-PASApplicationAuthenticationMethod -path "SomePath"  -IsFolder $true -AllowInternalScripts $true
+				$response = $InputObj | Add-PASApplicationAuthenticationMethod -path 'SomePath' -IsFolder $true -AllowInternalScripts $true
 
 				$response | Should -BeNullOrEmpty
 

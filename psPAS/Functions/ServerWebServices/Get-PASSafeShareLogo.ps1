@@ -5,7 +5,7 @@ function Get-PASSafeShareLogo {
 		[parameter(
 			Mandatory = $true
 		)]
-		[ValidateSet("Square", "Watermark")]
+		[ValidateSet('Square', 'Watermark')]
 		[String]$ImageType
 	)
 
@@ -29,4 +29,5 @@ function Get-PASSafeShareLogo {
 	}#process
 
 	END { }#end
+
 }

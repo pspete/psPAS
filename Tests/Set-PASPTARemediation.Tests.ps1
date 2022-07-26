@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,28 +35,28 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
-		Mock Invoke-PASRestMethod -MockWith {
-			[PSCustomObject]@{"automaticRemediation" = [PSCustomObject]@{
-					"prop1" = "Value1"
-					"prop2" = "Value2"
-					"prop3" = "Value3"
-					"prop4" = "Value4"
+		BeforeEach {
+			Mock Invoke-PASRestMethod -MockWith {
+				[PSCustomObject]@{'automaticRemediation' = [PSCustomObject]@{
+						'prop1' = 'Value1'
+						'prop2' = 'Value2'
+						'prop3' = 'Value3'
+						'prop4' = 'Value4'
+					}
 				}
 			}
+
+			$response = Set-PASPTARemediation -changePassword_OverPassTheHash $true -reconcilePassword_SuspectedPasswordChange $true
 		}
+		Context 'Input' {
 
-		$response = Set-PASPTARemediation -changePassword_OverPassTheHash $true -reconcilePassword_SuspectedPasswordChange $true
-}
-		Context "Input" {
-
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -66,13 +66,13 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PATCH' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -84,37 +84,37 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It 'has a request body with expected number of properties' {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
 			}
 
-			It "throws error if version requirement not met" {
-$Script:ExternalVersion = "1.0"
-				{ Set-PASPTARemediation  } | Should -Throw
-$Script:ExternalVersion = "0.0"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '1.0'
+				{ Set-PASPTARemediation } | Should -Throw
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 4
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Remediation
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Remediation
 
 			}
 

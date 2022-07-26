@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,7 +35,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Request Input" {
+		Context 'Request Input' {
 
 			BeforeEach {
 
@@ -45,15 +45,15 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request - v10ByID parameterset" {
+			It 'sends request - v10ByID parameterset' {
 
-				Get-PASAccount -ID "SomeID"
+				Get-PASAccount -id 'SomeID'
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request - v10ByQuery parameterset" {
+			It 'sends request - v10ByQuery parameterset' {
 
 				Get-PASAccount -search SearchTerm -searchType contains
 
@@ -61,7 +61,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request - legacy parameterset" {
+			It 'sends request - legacy parameterset' {
 
 				Get-PASAccount -Keywords SomeValue -Safe SomeSafe
 
@@ -69,7 +69,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - v10ByQuery parameterset" {
+			It 'sends request to expected endpoint - v10ByQuery parameterset' {
 
 				Get-PASAccount -search SearchTerm
 
@@ -81,7 +81,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends expected filter - v10ByFilter parameterset" {
+			It 'sends expected filter - v10ByFilter parameterset' {
 
 				Get-PASAccount -safeName SomeSafe
 
@@ -93,7 +93,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends expected unix time - v10ByFilter parameterset" {
+			It 'sends expected unix time - v10ByFilter parameterset' {
 
 				Get-PASAccount -modificationTime $(Get-Date -Month 01 -Day 01 -Year 2020 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
 
@@ -105,7 +105,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends expected filters - v10ByFilter parameterset" {
+			It 'sends expected filters - v10ByFilter parameterset' {
 
 				Get-PASAccount -modificationTime $(Get-Date -Month 01 -Day 01 -Year 2020 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) -safeName SomeSafe
 
@@ -118,9 +118,9 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - v10ByID parameterset" {
+			It 'sends request to expected endpoint - v10ByID parameterset' {
 
-				Get-PASAccount -ID "SomeID"
+				Get-PASAccount -id 'SomeID'
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 					$URI -eq "$($Script:BaseURI)/api/Accounts/SomeID"
@@ -129,7 +129,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - legacy parameterset" {
+			It 'sends request to expected endpoint - legacy parameterset' {
 
 				Get-PASAccount -Keywords SomeValue -Safe SomeSafe
 
@@ -141,7 +141,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request using expected method" {
+			It 'sends request using expected method' {
 
 				Get-PASAccount -Keywords SomeValue -Safe SomeSafe
 
@@ -149,7 +149,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 
 				Get-PASAccount -Keywords SomeValue -Safe SomeSafe
 
@@ -157,86 +157,88 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "1.0"
-				{ Get-PASAccount -ID "SomeID" } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+			It 'throws error if version requirement not met' {
+
+				$Script:ExternalVersion = '1.0'
+				{ Get-PASAccount -id 'SomeID' } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+
 			}
 
 		}
 
-		Context "Response Output" {
+		Context 'Response Output' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
 
 					$result = [pscustomobject]@{
-						"Count"    = 30
-						"Accounts" = [pscustomobject]@{
-							"AccountID"          = "66_6"
-							"Properties"         = @(
+						'Count'    = 30
+						'Accounts' = [pscustomobject]@{
+							'AccountID'          = '66_6'
+							'Properties'         = @(
 								[pscustomobject]@{
-									"Key"   = "Safe"
-									"Value" = "zzTestSafe1"
+									'Key'   = 'Safe'
+									'Value' = 'zzTestSafe1'
 								},
 								[pscustomobject]@{
-									"Key"   = "Folder"
-									"Value" = "Root"
+									'Key'   = 'Folder'
+									'Value' = 'Root'
 								},
 								[pscustomobject]@{
-									"Key"   = "Name"
-									"Value" = "Operating System-_Test_WinDomain-VIRTUALREAL.IT-user01"
+									'Key'   = 'Name'
+									'Value' = 'Operating System-_Test_WinDomain-VIRTUALREAL.IT-user01'
 								},
 								[pscustomobject]@{
-									"Key"   = "UserName"
-									"Value" = "user01"
+									'Key'   = 'UserName'
+									'Value' = 'user01'
 								},
 								[pscustomobject]@{
-									"Key"   = "PolicyID"
-									"Value" = "_Test_WinDomain"
+									'Key'   = 'PolicyID'
+									'Value' = '_Test_WinDomain'
 								},
 								[pscustomobject]@{
-									"Key"   = "LogonDomain"
-									"Value" = "VIRTUALREAL"
+									'Key'   = 'LogonDomain'
+									'Value' = 'VIRTUALREAL'
 								},
 								[pscustomobject]@{
-									"Key"   = "LastSuccessVerification"
-									"Value" = "1511973510"
+									'Key'   = 'LastSuccessVerification'
+									'Value' = '1511973510'
 								},
 								[pscustomobject]@{
-									"Key"   = "Address"
-									"Value" = "VIRTUALREAL.IT"
+									'Key'   = 'Address'
+									'Value' = 'VIRTUALREAL.IT'
 								},
 								[pscustomobject]@{
-									"Key"   = "DeviceType"
-									"Value" = "Operating System"
+									'Key'   = 'DeviceType'
+									'Value' = 'Operating System'
 								}
 							)
-							"InternalProperties" = @(
+							'InternalProperties' = @(
 								[pscustomobject]@{
-									"Key"   = "CPMStatus"
-									"Value" = "success"
+									'Key'   = 'CPMStatus'
+									'Value' = 'success'
 								},
 								[pscustomobject]@{
-									"Key"   = "SequenceID"
-									"Value" = "1"
+									'Key'   = 'SequenceID'
+									'Value' = '1'
 								},
 								[pscustomobject]@{
-									"Key"   = "CreationMethod"
-									"Value" = "PVWA"
+									'Key'   = 'CreationMethod'
+									'Value' = 'PVWA'
 								},
 								[pscustomobject]@{
-									"Key"   = "RetriesCount"
-									"Value" = "-1"
+									'Key'   = 'RetriesCount'
+									'Value' = '-1'
 								},
 								[pscustomobject]@{
-									"Key"   = "LastSuccessChange"
-									"Value" = "1516127648"
+									'Key'   = 'LastSuccessChange'
+									'Value' = '1516127648'
 								},
 								[pscustomobject]@{
-									"Key"   = "LastTask"
-									"Value" = "ChangeTask"
+									'Key'   = 'LastTask'
+									'Value' = 'ChangeTask'
 								}
 							)
 						}
@@ -248,50 +250,49 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "provides output - legacy parameterset" {
+			It 'provides output - legacy parameterset' {
 				$response = Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
 				$response | Should -Not -Be Null
 
 			}
 
-			It "provides output - V10ByID parameterset" {
+			It 'provides output - V10ByID parameterset' {
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
-						"Count" = 30
-						"Value" = [pscustomobject]@{"Prop1" = "Val1" }
+						'Count' = 30
+						'Value' = [pscustomobject]@{'Prop1' = 'Val1' }
 					}
 				}
-				$response = Get-PASAccount -id "SomeID"
-				$response | Should -not -be null
+				$response = Get-PASAccount -id 'SomeID'
+				$response | Should -Not -Be null
 
 			}
 
-			It "provides output - V10ByQuery parameterset" {
+			It 'provides output - V10ByQuery parameterset' {
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
-						"Count" = 30
-						"Value" = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
+						'Count' = 30
+						'Value' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
 					}
 				}
 				$response = Get-PASAccount -search SomeSearchTerm
-				$response | Should -not -be null
+				$response | Should -Not -Be null
 
 			}
 
-			It "processes NextLink" {
+			It 'processes NextLink' {
 				Mock Invoke-PASRestMethod -MockWith {
 					if ($script:iteration -lt 10) {
 						[pscustomobject]@{
-							"Count"    = 30
-							"nextLink" = "SomeLink"
-							"Value"    = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
+							'Count'    = 30
+							'nextLink' = 'SomeLink'
+							'Value'    = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
 						}
 						$script:iteration++
-					}
-					else {
+					} else {
 						[pscustomobject]@{
-							"Count" = 30
-							"Value" = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
+							'Count' = 30
+							'Value' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
 						}
 					}
 				}
@@ -301,33 +302,33 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has output with expected number of properties - legacy parameterset" {
+			It 'has output with expected number of properties - legacy parameterset' {
 				$response = Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 11
 
 			}
 
-			It "outputs object with expected typename - legacy parameterset" {
+			It 'outputs object with expected typename - legacy parameterset' {
 				$response = Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningAction SilentlyContinue
-				$response | Get-Member | Select-Object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account
 
 			}
 
-			It "outputs object with expected typename - v10 parameterset" {
+			It 'outputs object with expected typename - v10 parameterset' {
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
-						"Count" = 30
-						"Value" = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
+						'Count' = 30
+						'Value' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
 					}
 				}
 				$response = Get-PASAccount -search SomeSearch
-				$response | Get-Member | Select-Object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.V10
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.V10
 
 			}
 
-			It "writes warning that more than 1 account returned from the search - legacy parameterset" {
+			It 'writes warning that more than 1 account returned from the search - legacy parameterset' {
 				$response = Get-PASAccount -Keywords SomeValue -Safe SomeSafe -WarningVariable warning -WarningAction SilentlyContinue
-				$warning | Should -Be "30 matching accounts found. Only the first result will be returned"
+				$warning | Should -Be '30 matching accounts found. Only the first result will be returned'
 
 			}
 

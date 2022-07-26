@@ -24,9 +24,9 @@ function Import-PASPlatform {
 		#Convert File to byte array
 		$FileBytes = $ImportFile | Get-ByteArray
 
-		$Body = @{"ImportFile" = $FileBytes } | ConvertTo-Json
+		$Body = @{'ImportFile' = $FileBytes } | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($ImportFile, "Imports Platform Package")) {
+		if ($PSCmdlet.ShouldProcess($ImportFile, 'Imports Platform Package')) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession -Debug:$false

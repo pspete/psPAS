@@ -1,18 +1,18 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASPSMSession {
-	[CmdletBinding(DefaultParameterSetName = "byQuery")]
+	[CmdletBinding(DefaultParameterSetName = 'byQuery')]
 	param(
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "bySessionID"
+			ParameterSetName = 'bySessionID'
 		)]
 		[string]$liveSessionId,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[int]$Limit,
@@ -20,55 +20,55 @@ function Get-PASPSMSession {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
-		[ValidateSet("RiskScore", "FileName", "SafeName", "FolderName", "PSMVaultUserName", "FromIP", "RemoteMachine",
-			"Client", "Protocol", "AccountUserName", "AccountAddress", "AccountPlatformID", "PSMStartTime", "TicketID",
-			"-RiskScore", "-FileName", "-SafeName", "-FolderName", "-PSMVaultUserName", "-FromIP", "-RemoteMachine",
-			"-Client", "-Protocol", "-AccountUserName", "-AccountAddress", "-AccountPlatformID", "-PSMStartTime",
-			"-TicketID"
+		[ValidateSet('RiskScore', 'FileName', 'SafeName', 'FolderName', 'PSMVaultUserName', 'FromIP', 'RemoteMachine',
+			'Client', 'Protocol', 'AccountUserName', 'AccountAddress', 'AccountPlatformID', 'PSMStartTime', 'TicketID',
+			'-RiskScore', '-FileName', '-SafeName', '-FolderName', '-PSMVaultUserName', '-FromIP', '-RemoteMachine',
+			'-Client', '-Protocol', '-AccountUserName', '-AccountAddress', '-AccountPlatformID', '-PSMStartTime',
+			'-TicketID'
 		)]
 		[string]$Sort,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[int]$Offset,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[string]$Search,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[string]$Safe,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[int]$FromTime,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[int]$ToTime,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "byQuery"
+			ParameterSetName = 'byQuery'
 		)]
 		[string]$Activities
 	)
@@ -84,7 +84,7 @@ function Get-PASPSMSession {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"bySessionID" {
+			'bySessionID' {
 				Assert-VersionRequirement -RequiredVersion 10.6
 
 				$URI = "$URI/$liveSessionId"
@@ -93,7 +93,7 @@ function Get-PASPSMSession {
 
 			}
 
-			"byQuery" {
+			'byQuery' {
 				#Get Parameters to include in request
 				$boundParameters = $PSBoundParameters | Get-PASParameter
 

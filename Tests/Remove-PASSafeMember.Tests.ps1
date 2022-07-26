@@ -81,7 +81,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/members/SomeUser"
+					$URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/members/SomeUser/"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -119,7 +119,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Safes/SomeSafe/Members/SomeUser"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Safes/SomeSafe/Members/SomeUser/"
 
 				} -Times 1 -Exactly -Scope It
 

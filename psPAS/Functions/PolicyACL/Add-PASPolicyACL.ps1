@@ -19,7 +19,7 @@ function Add-PASPolicyACL {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Allow", "Deny")]
+		[ValidateSet('Allow', 'Deny')]
 		[string]$PermissionType,
 
 		[parameter(
@@ -51,14 +51,14 @@ function Add-PASPolicyACL {
 		#Create URL for request
 		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Policy/$($PolicyID |
 
-            Get-EscapedString)/PrivilegedCommands"
+            Get-EscapedString)/PrivilegedCommands/"
 
 		#Create request body
 		$body = $PSBoundParameters |
 
-		Get-PASParameter -ParametersToRemove PolicyId |
+			Get-PASParameter -ParametersToRemove PolicyId |
 
-		ConvertTo-Json
+			ConvertTo-Json
 
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
@@ -67,7 +67,7 @@ function Add-PASPolicyACL {
 
 			$result.AddPolicyPrivilegedCommandResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Policy
+				Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Policy
 
 		}
 

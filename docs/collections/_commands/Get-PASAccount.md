@@ -17,8 +17,8 @@ Returns information about a single account. (Version 9.3 - 10.3)
 
 ### Gen2Query (Default)
 ```
-Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] [-modificationTime <DateTime>]
- [-sort <String[]>] [-TimeoutSec <Int32>] [<CommonParameters>]
+Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] [-savedFilter <String>]
+ [-modificationTime <DateTime>] [-sort <String[]>] [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
 ### Gen2ID
@@ -138,6 +138,15 @@ Get-PASAccount -search root -sort name
 Returns all accounts matching "root", sorted by AccountName.
 
 Requires minimum version of 10.4
+
+### EXAMPLE 10
+```
+Get-PASAccount -savedFilter New
+```
+
+Returns all accounts from the "New" Saved Filter
+
+Requires minimum version of 12.6
 
 ## PARAMETERS
 
@@ -319,6 +328,28 @@ Required: False
 Position: Named
 Default value: 0
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -savedFilter
+Specify a value matching one of the configured Saved Filters:
+'Regular', 'Recently', 'New', 'Link', 'Deleted', 'PolicyFailures',
+'AccessedByUsers', 'ModifiedByUsers', 'ModifiedByCPM', 'DisabledPasswordByUser',
+'DisabledPasswordByCPM', 'ScheduledForChange', 'ScheduledForVerify', 'ScheduledForReconcile',
+'SuccessfullyReconciled', 'FailedChange', 'FailedVerify', 'FailedReconcile', 'LockedOrNew',
+'Locked', 'Favorites'
+
+Requires minimum version of 12.6
+
+```yaml
+Type: String
+Parameter Sets: Gen2Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

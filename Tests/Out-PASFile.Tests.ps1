@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -37,12 +37,12 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 
 
-		Context "Standard Operation" {
+		Context 'Standard Operation' {
 			BeforeEach {
 
 				$Object = [PSCustomObject]@{
 					Content = New-Object Byte[] 512
-					Headers = @{"Content-Disposition" = "attachment; filename=FILENAME.zip" }
+					Headers = @{'Content-Disposition' = 'attachment; filename=FILENAME.zip' }
 				}
 
 				Mock Get-Item -MockWith { }
@@ -51,14 +51,14 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			it "does not throw" {
+			It 'does not throw' {
 
-				{ Out-PASFile -InputObject $Object -Path "C:\Temp" } | Should -Not -Throw
+				{ Out-PASFile -InputObject $Object -Path 'C:\Temp' } | Should -Not -Throw
 
 			}
 
-			It "throws on Set-Content error" {
-				Mock Set-Content -MockWith { throw "error" }
+			It 'throws on Set-Content error' {
+				Mock Set-Content -MockWith { throw 'error' }
 				{ Out-PASFile -InputObject $Object } | Should -Throw
 			}
 

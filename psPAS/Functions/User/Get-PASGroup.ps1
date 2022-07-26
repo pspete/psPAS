@@ -3,12 +3,26 @@ function Get-PASGroup {
 	[CmdletBinding(DefaultParameterSetName = 'groupType')]
 	param(
 		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'byID'
+		)]
+		[int]$id,
+
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'groupType'
 		)]
 		[ValidateSet('Directory', 'Vault')]
 		[string]$groupType,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'groupType'
+		)]
+		[string]$groupName,
 
 		[parameter(
 			Mandatory = $false,
@@ -32,13 +46,30 @@ function Get-PASGroup {
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'groupType'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'filter'
 		)]
 		[string]$search,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'byID'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'groupType'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'filter'
 		)]
 		[boolean]$includeMembers
 	)
@@ -49,37 +80,59 @@ function Get-PASGroup {
 
 	PROCESS {
 
-		switch ($PSBoundParameters.Keys) {
-
-			{ $_ -match 'includeMembers' } {
-
-				#includeMembers parameter require 12.0
-				Assert-VersionRequirement -RequiredVersion 12.0
-
-				continue
-
-			}
-
-			{ $_ -match 'sort' } {
-
-				#Sort parameter require 12.2
-				Assert-VersionRequirement -RequiredVersion 12.2
-
-			}
-
-		}
-
 		#Create URL for request
 		$URI = "$Script:BaseURI/API/UserGroups"
 
 		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove groupType
-		$filterProperties = $PSBoundParameters | Get-PASParameter -ParametersToKeep groupType
-		$FilterString = $filterProperties | ConvertTo-FilterString
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove groupType, groupName, id
 
-		If ($null -ne $FilterString) {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			$boundParameters = $boundParameters + $FilterString
+			'ByID' {
+
+				#id parameter require 12.6
+				Assert-VersionRequirement -RequiredVersion 12.6
+
+				#Create URL for request
+				$URI = "$URI/$id/"
+
+				break
+
+			}
+
+			default {
+
+				switch ($PSBoundParameters.Keys) {
+
+					{ $_ -match 'includeMembers' } {
+
+						#includeMembers parameter require 12.0
+						Assert-VersionRequirement -RequiredVersion 12.0
+
+						continue
+
+					}
+
+					{ $_ -match 'sort|groupName' } {
+
+						#Sort parameter require 12.2
+						Assert-VersionRequirement -RequiredVersion 12.2
+
+					}
+
+				}
+
+				#Get filter to include in request
+				$filterProperties = $PSBoundParameters | Get-PASParameter -ParametersToKeep groupType, groupName
+				$FilterString = $filterProperties | ConvertTo-FilterString
+
+				If ($null -ne $FilterString) {
+
+					$boundParameters = $boundParameters + $FilterString
+
+				}
+
+			}
 
 		}
 
@@ -98,7 +151,19 @@ function Get-PASGroup {
 
 		If ($null -ne $result) {
 
-			$result.value | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Group
+			switch ($PSCmdlet.ParameterSetName) {
+
+				{ $_ -match 'filter|groupType' } {
+
+					$result = $result.value
+
+					Continue
+
+				}
+
+			}
+
+			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Group
 
 		}
 

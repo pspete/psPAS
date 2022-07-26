@@ -1,25 +1,25 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASAccountGroup {
-	[CmdletBinding(DefaultParameterSetName = "Gen2")]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
 	param(
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen2"
+			ParameterSetName = 'Gen2'
 		)]
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
 		[string]$Safe,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = "Gen1"
+			ParameterSetName = 'Gen1'
 		)]
-		[Alias("UseClassicAPI")]
+		[Alias('UseClassicAPI')]
 		[switch]$UseGen1API
 	)
 
@@ -29,11 +29,11 @@ function Get-PASAccountGroup {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			"Gen1" {
+			'Gen1' {
 
-				Assert-VersionRequirement -RequiredVersion 9.10
+				Assert-VersionRequirement -RequiredVersion 10.5 -MaximumVersion 12.3
 				#Create URL for Request
-				$URI = "$Script:BaseURI/API/AccountGroups?$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
+				$URI = "$Script:BaseURI/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
 
 				break
 
@@ -41,9 +41,9 @@ function Get-PASAccountGroup {
 
 			default {
 
-				Assert-VersionRequirement -RequiredVersion 10.5
+				Assert-VersionRequirement -RequiredVersion 9.10
 				#Create URL for Request
-				$URI = "$Script:BaseURI/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
+				$URI = "$Script:BaseURI/API/AccountGroups?$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
 
 			}
 

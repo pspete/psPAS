@@ -6,7 +6,7 @@ function Get-PASPSMRecordingProperty {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("SessionID")]
+		[Alias('SessionID')]
 		[string]$RecordingID
 	)
 

@@ -30,30 +30,30 @@ param(
 }
 
 #Get function files
-Get-ChildItem $PSScriptRoot\ -Recurse -Include "*.ps1" -Exclude "*.ps1xml" |
+Get-ChildItem $PSScriptRoot\ -Recurse -Include '*.ps1' -Exclude '*.ps1xml' |
 
-ForEach-Object {
+	ForEach-Object {
 
-	if ($DotSourceModule) {
-		. $_.FullName
-	} else {
-		$ExecutionContext.InvokeCommand.InvokeScript(
-			$false,
-			(
-				[scriptblock]::Create(
-					[io.file]::ReadAllText(
-						$_.FullName,
-						[Text.Encoding]::UTF8
+		if ($DotSourceModule) {
+			. $_.FullName
+		} else {
+			$ExecutionContext.InvokeCommand.InvokeScript(
+				$false,
+				(
+					[scriptblock]::Create(
+						[io.file]::ReadAllText(
+							$_.FullName,
+							[Text.Encoding]::UTF8
+						)
 					)
-				)
-			),
-			$null,
-			$null
-		)
+				),
+				$null,
+				$null
+			)
+
+		}
 
 	}
 
-}
-
-[System.Version]$Version = "0.0"
+[System.Version]$Version = '0.0'
 Set-Variable -Name ExternalVersion -Value $Version -Scope Script

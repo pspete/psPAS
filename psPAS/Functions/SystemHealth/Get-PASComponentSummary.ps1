@@ -22,8 +22,8 @@ Function Get-PASComponentSummary {
 			$result | Select-Object -ExpandProperty Components
 
 			$result | Select-Object -ExpandProperty Vaults | Add-ObjectDetail -PropertyToAdd @{
-				"ComponentID"   = "EPV"
-				"ComponentName" = "EPV"
+				'ComponentID'   = 'EPV'
+				'ComponentName' = 'EPV'
 			} | Select-Object ComponentID, ComponentName, Role, IP, IsLoggedOn
 
 		}
@@ -31,4 +31,5 @@ Function Get-PASComponentSummary {
 	}#process
 
 	END { }#end
+
 }

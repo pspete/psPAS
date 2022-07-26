@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,11 +35,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'password' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -47,79 +47,79 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "specifies parameter userName as mandatory for ParameterSet Gen1" {
+			It 'specifies parameter userName as mandatory for ParameterSet Gen1' {
 
-				(Get-Command Add-PASAccount).Parameters["UserName"].ParameterSets["Gen1"].IsMandatory | Should -Be $true
-
-			}
-			It "specifies parameter SafeName as mandatory for ParameterSet Gen1" {
-
-				(Get-Command Add-PASAccount).Parameters["SafeName"].ParameterSets["Gen1"].IsMandatory | Should -Be $true
+				(Get-Command Add-PASAccount).Parameters['UserName'].ParameterSets['Gen1'].IsMandatory | Should -Be $true
 
 			}
-			It "specifies parameter SafeName as mandatory for ParameterSet Gen2" {
+			It 'specifies parameter SafeName as mandatory for ParameterSet Gen1' {
 
-				(Get-Command Add-PASAccount).Parameters["SafeName"].ParameterSets["Gen2"].IsMandatory | Should -Be $true
-
-			}
-			It "specifies parameter platformID as mandatory for ParameterSet Gen1" {
-
-				(Get-Command Add-PASAccount).Parameters["platformID"].ParameterSets["Gen1"].IsMandatory | Should -Be $true
+				(Get-Command Add-PASAccount).Parameters['SafeName'].ParameterSets['Gen1'].IsMandatory | Should -Be $true
 
 			}
-			It "specifies parameter platformID as mandatory for ParameterSet Gen2" {
+			It 'specifies parameter SafeName as mandatory for ParameterSet Gen2' {
 
-				(Get-Command Add-PASAccount).Parameters["platformID"].ParameterSets["Gen2"].IsMandatory | Should -Be $true
+				(Get-Command Add-PASAccount).Parameters['SafeName'].ParameterSets['Gen2'].IsMandatory | Should -Be $true
+
+			}
+			It 'specifies parameter platformID as mandatory for ParameterSet Gen1' {
+
+				(Get-Command Add-PASAccount).Parameters['platformID'].ParameterSets['Gen1'].IsMandatory | Should -Be $true
+
+			}
+			It 'specifies parameter platformID as mandatory for ParameterSet Gen2' {
+
+				(Get-Command Add-PASAccount).Parameters['platformID'].ParameterSets['Gen2'].IsMandatory | Should -Be $true
 
 			}
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
 			BeforeEach {
 
-				$secureString = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+				$secureString = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
 				Mock Invoke-PASRestMethod -MockWith {
 					Write-Output @{ }
 				}
 
 				$InputObj = [pscustomobject]@{
-					"safeName"              = "P_Safe"
-					"platformID"            = "P_Platform"
-					"password"              = $secureString
-					"userName"              = "P_UserName"
-					"Port"                  = 1234
-					"ExtraPass1Name"        = "P_ExtP1"
-					"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal" }
-					"address"               = "10.10.10.10"
-					"accountName"           = "SomeName"
-					"disableAutoMgmt"       = $true
-					"disableAutoMgmtReason" = "SomeReason"
-					"groupName"             = "SomeGroup"
-					"groupPlatformID"       = "GPlatform"
-					"ExtraPass1Folder"      = "Root"
-					"ExtraPass1Safe"        = "Safe1"
-					"ExtraPass3Name"        = "SomeName"
-					"ExtraPass3Folder"      = "Root"
-					"ExtraPass3Safe"        = "SomeSafe"
+					'safeName'              = 'P_Safe'
+					'platformID'            = 'P_Platform'
+					'password'              = $secureString
+					'userName'              = 'P_UserName'
+					'Port'                  = 1234
+					'ExtraPass1Name'        = 'P_ExtP1'
+					'DynamicProperties'     = @{'TestKey' = 'TestVal'; 'TestKey1' = 'TestVal'; 'TestKey2' = 'TestVal' }
+					'address'               = '10.10.10.10'
+					'accountName'           = 'SomeName'
+					'disableAutoMgmt'       = $true
+					'disableAutoMgmtReason' = 'SomeReason'
+					'groupName'             = 'SomeGroup'
+					'groupPlatformID'       = 'GPlatform'
+					'ExtraPass1Folder'      = 'Root'
+					'ExtraPass1Safe'        = 'Safe1'
+					'ExtraPass3Name'        = 'SomeName'
+					'ExtraPass3Folder'      = 'Root'
+					'ExtraPass3Safe'        = 'SomeSafe'
 				}
 
 				$InputObjV10 = [pscustomobject]@{
-					"address"                          = "someaddress"
-					"SafeName"                         = "SomeSafe"
-					"PlatformID"                       = "SomePlatform"
-					"userName"                         = "SomeUser"
-					"secret"                           = $secureString
-					"automaticManagementEnabled"       = $true
-					"remoteMachines"                   = "someMachine"
-					"accessRestrictedToRemoteMachines" = $false
+					'address'                          = 'someaddress'
+					'SafeName'                         = 'SomeSafe'
+					'PlatformID'                       = 'SomePlatform'
+					'userName'                         = 'SomeUser'
+					'secret'                           = $secureString
+					'automaticManagementEnabled'       = $true
+					'remoteMachines'                   = 'someMachine'
+					'accessRestrictedToRemoteMachines' = $false
 				}
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 
 			}
 
-			It "sends request" {
+			It 'sends request' {
 
 				$InputObj | Add-PASAccount
 
@@ -127,7 +127,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - V9 ParameterSet" {
+			It 'sends request to expected endpoint - V9 ParameterSet' {
 
 				$InputObj | Add-PASAccount
 
@@ -139,7 +139,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request to expected endpoint - V10 ParameterSet" {
+			It 'sends request to expected endpoint - V10 ParameterSet' {
 
 				$InputObjV10 | Add-PASAccount
 
@@ -151,7 +151,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				$InputObj | Add-PASAccount
 
@@ -159,7 +159,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "sends request with expected body - V9 ParameterSet" {
+			It 'sends request with expected body - V9 ParameterSet' {
 
 				$InputObj | Add-PASAccount
 
@@ -171,7 +171,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties - V9 ParameterSet" {
+			It 'has a request body with expected number of properties - V9 ParameterSet' {
 
 				$InputObj | Add-PASAccount
 
@@ -180,7 +180,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "has expected number of nested properties - V9 ParameterSet" {
+			It 'has expected number of nested properties - V9 ParameterSet' {
 				$InputObj | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -190,7 +190,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It "sends request with expected body - V10 ParameterSet" {
+			It 'sends request with expected body - V10 ParameterSet' {
 
 				$InputObjV10 | Add-PASAccount
 
@@ -202,7 +202,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties - V10 ParameterSet" {
+			It 'has a request body with expected number of properties - V10 ParameterSet' {
 
 				$InputObjV10 | Add-PASAccount
 
@@ -212,7 +212,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has expected number of RemoteMachine nested properties - V10 ParameterSet" {
+			It 'has expected number of RemoteMachine nested properties - V10 ParameterSet' {
 				$InputObjV10 | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -223,7 +223,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has expected number of secretManagement nested properties - V10 ParameterSet" {
+			It 'has expected number of secretManagement nested properties - V10 ParameterSet' {
 
 				$InputObjV10 | Add-PASAccount
 
@@ -235,82 +235,82 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "throws error if version requirement not met" {
+			It 'throws error if version requirement not met' {
 
-				$Script:ExternalVersion = "1.0"
+				$Script:ExternalVersion = '1.0'
 				{ $InputObjV10 | Add-PASAccount } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 
 			}
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
 			BeforeEach {
 
-				$secureString = $("P_Password" | ConvertTo-SecureString -AsPlainText -Force)
+				$secureString = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
 				Mock Invoke-PASRestMethod -MockWith {
 					$result = [pscustomobject]@{
-						"Prop1" = "Val1"
-						"Prop2" = "Val2"
-						"Prop3" = "Val3"
+						'Prop1' = 'Val1'
+						'Prop2' = 'Val2'
+						'Prop3' = 'Val3'
 					}
 
 					$result
 				}
 
 				$InputObj = [pscustomobject]@{
-					"address"                    = "someaddress"
-					"SafeName"                   = "SomeSafe"
-					"PlatformID"                 = "SomePlatform"
-					"userName"                   = "SomeUser"
-					"secret"                     = $secureString
-					"automaticManagementEnabled" = $true
-					"remoteMachines"             = "someMachine"
+					'address'                    = 'someaddress'
+					'SafeName'                   = 'SomeSafe'
+					'PlatformID'                 = 'SomePlatform'
+					'userName'                   = 'SomeUser'
+					'secret'                     = $secureString
+					'automaticManagementEnabled' = $true
+					'remoteMachines'             = 'someMachine'
 				}
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 
 			}
 
-			It "provides no output - V9 ParameterSet" {
+			It 'provides no output - V9 ParameterSet' {
 
 				$InputObj = [pscustomobject]@{
-					"safeName"              = "P_Safe"
-					"platformID"            = "P_Platform"
-					"password"              = $secureString
-					"userName"              = "P_UserName"
-					"Port"                  = 1234
-					"ExtraPass1Name"        = "P_ExtP1"
-					"DynamicProperties"     = @{"TestKey" = "TestVal"; "TestKey1" = "TestVal"; "TestKey2" = "TestVal" }
-					"address"               = "10.10.10.10"
-					"accountName"           = "SomeName"
-					"disableAutoMgmt"       = $true
-					"disableAutoMgmtReason" = "SomeReason"
-					"groupName"             = "SomeGroup"
-					"groupPlatformID"       = "GPlatform"
-					"ExtraPass1Folder"      = "Root"
-					"ExtraPass1Safe"        = "Safe1"
-					"ExtraPass3Name"        = "SomeName"
-					"ExtraPass3Folder"      = "Root"
-					"ExtraPass3Safe"        = "SomeSafe"
+					'safeName'              = 'P_Safe'
+					'platformID'            = 'P_Platform'
+					'password'              = $secureString
+					'userName'              = 'P_UserName'
+					'Port'                  = 1234
+					'ExtraPass1Name'        = 'P_ExtP1'
+					'DynamicProperties'     = @{'TestKey' = 'TestVal'; 'TestKey1' = 'TestVal'; 'TestKey2' = 'TestVal' }
+					'address'               = '10.10.10.10'
+					'accountName'           = 'SomeName'
+					'disableAutoMgmt'       = $true
+					'disableAutoMgmtReason' = 'SomeReason'
+					'groupName'             = 'SomeGroup'
+					'groupPlatformID'       = 'GPlatform'
+					'ExtraPass1Folder'      = 'Root'
+					'ExtraPass1Safe'        = 'Safe1'
+					'ExtraPass3Name'        = 'SomeName'
+					'ExtraPass3Folder'      = 'Root'
+					'ExtraPass3Safe'        = 'SomeSafe'
 				}
 				$response = $InputObj | Add-PASAccount
 				$response | Should -BeNullOrEmpty
 
 			}
 
-			It "provides output - V10 ParameterSet" {
+			It 'provides output - V10 ParameterSet' {
 				$response = $InputObj | Add-PASAccount
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "outputs object with expected typename - v10 parameterset" {
+			It 'outputs object with expected typename - v10 parameterset' {
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
-						"Count" = 30
-						"Value" = [pscustomobject]@{"Prop1" = "Val1" }
+						'Count' = 30
+						'Value' = [pscustomobject]@{'Prop1' = 'Val1' }
 					}
 				}
 				$response = $InputObj | Add-PASAccount

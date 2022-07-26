@@ -27,11 +27,11 @@ function Set-PASUserPassword {
 		$Password = ConvertTo-InsecureString -SecureString $NewPassword
 
 		If ($Password.length -gt 39) {
-			throw "Password must not exceed 39 characters"
+			throw 'Password must not exceed 39 characters'
 		}
 
 		#Include decoded password in request
-		$boundParameters["NewPassword"] = $Password
+		$boundParameters['NewPassword'] = $Password
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Users/$id/ResetPassword"
@@ -39,7 +39,7 @@ function Set-PASUserPassword {
 		#create request body
 		$body = $boundParameters | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($id, "Reset Password")) {
+		if ($PSCmdlet.ShouldProcess($id, 'Reset Password')) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession

@@ -77,7 +77,7 @@ General notes
 				Continue
 
 			}
-		
+
 			'MaximumVersion' {
 
 				If (-not (Compare-MaximumVersion -Version $ExternalVersion -MaximumVersion $MaximumVersion)) {

@@ -31,10 +31,10 @@ $PSBoundParameters object
 .OUTPUTS
 Hashtable/$PSBoundParameters object, with defined parameters removed.
 #>
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilteredParameters', Justification = "False Positive")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'ParametersToKeep', Justification = "False Positive")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'ParametersToRemove', Justification = "False Positive")]
-	[CmdletBinding(DefaultParameterSetName = "Remove")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilteredParameters', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'ParametersToKeep', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'ParametersToRemove', Justification = 'False Positive')]
+	[CmdletBinding(DefaultParameterSetName = 'Remove')]
 	[OutputType('System.Collections.Hashtable')]
 	param(
 		[parameter(
@@ -45,13 +45,13 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 		[parameter(
 			Mandatory = $false,
-			ParameterSetName = "Remove"
+			ParameterSetName = 'Remove'
 		)]
 		[array]$ParametersToRemove = @(),
 
 		[parameter(
 			Mandatory = $false,
-			ParameterSetName = "Keep"
+			ParameterSetName = 'Keep'
 		)]
 		[array]$ParametersToKeep = @()
 
@@ -62,10 +62,10 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 		$BaseParameters = [Collections.Generic.List[String]]@(
 			[System.Management.Automation.PSCmdlet]::CommonParameters +
 			[System.Management.Automation.PSCmdlet]::OptionalCommonParameters +
-			"SessionVariable" +
-			"UseClassicAPI" +
-			"UseGen1API" +
-			"TimeoutSec"
+			'SessionVariable' +
+			'UseClassicAPI' +
+			'UseGen1API' +
+			'TimeoutSec'
 		)
 
 	}#begin
@@ -78,7 +78,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 		} {
 
-			if ($PSCmdlet.ParameterSetName -eq "Keep") {
+			if ($PSCmdlet.ParameterSetName -eq 'Keep') {
 
 				if ($ParametersToKeep -contains $PSItem) {
 

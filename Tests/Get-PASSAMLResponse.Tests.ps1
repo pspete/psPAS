@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -30,24 +30,24 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach{
+		BeforeEach {
 
 			Mock Invoke-WebRequest -MockWith {
 
 				[pscustomobject]@{
 
-					"Links"       = [pscustomobject]@{
+					'Links'       = [pscustomobject]@{
 
-						"href" = "https://SomeLink/"
+						'href' = 'https://SomeLink/'
 
 					}
 
-					"InputFields" = @(
+					'InputFields' = @(
 
 						[pscustomobject]@{
 
-							"Name"  = "SAMLResponse"
-							"Value" = "IamSAMLiAM"
+							'Name'  = 'SAMLResponse'
+							'Value' = 'IamSAMLiAM'
 
 						}
 
@@ -57,33 +57,33 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			$response = Get-PASSAMLResponse -URL "https://pvwa.somecompany.com/PasswordVault"
+			$response = Get-PASSAMLResponse -URL 'https://pvwa.somecompany.com/PasswordVault'
 
 		}
 
-		Context "Standard Operation" {
+		Context 'Standard Operation' {
 
-			It "sends expected requests" {
+			It 'sends expected requests' {
 
 				Assert-MockCalled Invoke-WebRequest -Times 2 -Exactly -Scope It
 
 			}
 
-			It "returns expected response" {
+			It 'returns expected response' {
 
-				$response | Should -Be "IamSAMLiAM"
+				$response | Should -Be 'IamSAMLiAM'
 
 			}
 
-			It "throws expected error"{
+			It 'throws expected error' {
 
 				Mock Invoke-WebRequest -MockWith {
 
-					Throw "Some Error"
+					Throw 'Some Error'
 
 				}
 
-				{Get-PASSAMLResponse -URL "https://pvwa.somecompany.com/PasswordVault"} | Should -Throw "Failed to get SAMLResponse"
+				{ Get-PASSAMLResponse -URL 'https://pvwa.somecompany.com/PasswordVault' } | Should -Throw 'Failed to get SAMLResponse'
 
 			}
 

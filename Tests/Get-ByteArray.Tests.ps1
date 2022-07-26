@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 
@@ -21,8 +21,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -36,11 +36,11 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'Path'}
+			$Parameters = @{Parameter = 'Path' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -50,15 +50,14 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "General" {
+		Context 'General' {
 
-			It "outputs byte array of expected size" {
+			It 'outputs byte array of expected size' {
 
-				if($IsCoreCLR){
+				if ($IsCoreCLR) {
 
 					$(Get-ByteArray -Path "$PSCommandPath").Count | Should -Be (Get-Content "$PSCommandPath" -ReadCount 0 -AsByteStream).Count
-				}
-				Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
 		}

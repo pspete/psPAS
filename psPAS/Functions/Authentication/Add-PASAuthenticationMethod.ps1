@@ -1,7 +1,7 @@
 # .ExternalHelp psPAS-help.xml
 Function Add-PASAuthenticationMethod {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = "passwordFieldLabel not related to password value")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUsernameAndPasswordParams', '', Justification = "usernameFieldLabel & passwordFieldLabel not related to password value")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = 'passwordFieldLabel not related to password value')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUsernameAndPasswordParams', '', Justification = 'usernameFieldLabel & passwordFieldLabel not related to password value')]
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -40,7 +40,7 @@ Function Add-PASAuthenticationMethod {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("cyberark", "radius", "ldap")]
+		[ValidateSet('cyberark', 'radius', 'ldap')]
 		[string]$secondFactorAuth,
 
 		[parameter(

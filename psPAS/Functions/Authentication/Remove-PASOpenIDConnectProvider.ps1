@@ -23,7 +23,7 @@ Function Remove-PASOpenIDConnectProvider {
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/Configuration/OIDC/Providers/$($id | Get-EscapedString)"
 
-		if ($PSCmdlet.ShouldProcess($id, "Delete OIDC Provider")) {
+		if ($PSCmdlet.ShouldProcess($id, 'Delete OIDC Provider')) {
 
 			#Send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession

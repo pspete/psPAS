@@ -6,13 +6,13 @@ function Disable-PASCPMAutoManagement {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("id")]
+		[Alias('id')]
 		[string]$AccountID,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = "manualManagementReason"
+			ParameterSetName = 'manualManagementReason'
 		)]
 		[string]$Reason
 
@@ -24,9 +24,9 @@ function Disable-PASCPMAutoManagement {
 
 		$ops = [Collections.Generic.List[Object]]@(
 			@{
-				"path"  = "/secretManagement/automaticManagementEnabled"
-				"op"    = "replace"
-				"value" = $false
+				'path'  = '/secretManagement/automaticManagementEnabled'
+				'op'    = 'replace'
+				'value' = $false
 			}
 		)
 
@@ -34,12 +34,12 @@ function Disable-PASCPMAutoManagement {
 
 	PROCESS {
 
-		if ($PSCmdlet.ParameterSetName -eq "manualManagementReason") {
+		if ($PSCmdlet.ParameterSetName -eq 'manualManagementReason') {
 
 			$null = $ops.Add(@{
-					"path"  = "/secretManagement/manualManagementReason"
-					"op"    = "replace"
-					"value" = $Reason
+					'path'  = '/secretManagement/manualManagementReason'
+					'op'    = 'replace'
+					'value' = $Reason
 				})
 		}
 

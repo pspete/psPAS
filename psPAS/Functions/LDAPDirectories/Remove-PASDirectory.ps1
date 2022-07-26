@@ -6,7 +6,7 @@ function Remove-PASDirectory {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("DomainName")]
+		[Alias('DomainName')]
 		[string]$id
 
 	)
@@ -18,9 +18,9 @@ function Remove-PASDirectory {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$id"
+		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$id/"
 
-		if ($PSCmdlet.ShouldProcess($id, "Delete Directory")) {
+		if ($PSCmdlet.ShouldProcess($id, 'Delete Directory')) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
@@ -30,4 +30,5 @@ function Remove-PASDirectory {
 	}#process
 
 	END { }#end
+
 }

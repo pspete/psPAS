@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -38,26 +38,26 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		BeforeEach {
 
 			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{"AddUserAuthorizedKeyResult" = [PSCustomObject]@{"PublicSSHKey" = "SomeSSHKey" } }
+				[PSCustomObject]@{'AddUserAuthorizedKeyResult' = [PSCustomObject]@{'PublicSSHKey' = 'SomeSSHKey' } }
 			}
 
 			$InputObj = [pscustomobject]@{
-				"UserName" = "SomeUser"
+				'UserName' = 'SomeUser'
 
 			}
 
-			$response = $InputObj | Add-PASPublicSSHKey -PublicSSHKey "SomeSSHKey"
+			$response = $InputObj | Add-PASPublicSSHKey -PublicSSHKey 'SomeSSHKey'
 
 		}
 
 
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'UserName' },
 			@{Parameter = 'PublicSSHKey' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -68,31 +68,31 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 
-		Context "Input" {
+		Context 'Input' {
 
-			It "sends request" {
+			It 'sends request' {
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/SomeUser/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/SomeUser/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with expected body" {
+			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -104,7 +104,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "has a request body with expected number of properties" {
+			It 'has a request body with expected number of properties' {
 
 				($Script:RequestBody.PublicSSHKey).count | Should -Be 1
 
@@ -112,31 +112,31 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Output" {
+		Context 'Output' {
 
-			it "provides output" {
+			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It "has output with expected number of properties" {
+			It 'has output with expected number of properties' {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
 			}
 
-			it "outputs object with expected typename" {
+			It 'outputs object with expected typename' {
 
-				$response | get-member | select-object -expandproperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PublicSSHKey
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PublicSSHKey
 
 			}
 
 
 
-			It "returns expected UserName property in response" {
+			It 'returns expected UserName property in response' {
 
-				$response.UserName | Should -Be "SomeUser"
+				$response.UserName | Should -Be 'SomeUser'
 
 			}
 

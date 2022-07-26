@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,29 +35,28 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "General" {
+		Context 'General' {
 
 			BeforeEach {
 
 				$InputObj = [pscustomobject]@{
-					"Count"    = 30
-					"nextLink" = "SomeLink"
-					"Value"    = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
+					'Count'    = 30
+					'nextLink' = 'SomeLink'
+					'Value'    = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
 				}
 
 				Mock Invoke-PASRestMethod -MockWith {
 					if ($script:iteration -lt 10) {
 						[pscustomobject]@{
-							"Count"    = 30
-							"nextLink" = "SomeLink"
-							"Value"    = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
+							'Count'    = 30
+							'nextLink' = 'SomeLink'
+							'Value'    = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
 						}
 						$script:iteration++
-					}
-					else {
+					} else {
 						[pscustomobject]@{
-							"Count" = 30
-							"Value" = @([pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" }, [pscustomobject]@{"Prop1" = "Val1" })
+							'Count' = 30
+							'Value' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
 						}
 					}
 				}
@@ -65,29 +64,29 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
 				{ Get-NextLink } | Should -Not -Throw
 
 			}
 
-			It "produces no output if given no input" {
+			It 'produces no output if given no input' {
 
 				Get-NextLink | Should -BeNullOrEmpty
 
 			}
 
-			It "processes NextLink" {
+			It 'processes NextLink' {
 
 				$InputObj | Get-NextLink
 				Assert-MockCalled Invoke-PASRestMethod -Times 10 -Exactly -Scope It
 
 			}
 
-			It "outputs expected number of results" {
+			It 'outputs expected number of results' {
 
 				$results = $InputObj | Get-NextLink
-				$results.count | should -Be 99
+				$results.count | Should -Be 99
 
 			}
 

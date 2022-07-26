@@ -6,7 +6,7 @@ Function Add-PASPTARule {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("SSH", "WINDOWS", "SCP", "KEYSTROKES", "SQL")]
+		[ValidateSet('SSH', 'WINDOWS', 'SCP', 'KEYSTROKES', 'SQL')]
 		[string]$category,
 
 		[parameter(
@@ -32,7 +32,7 @@ Function Add-PASPTARule {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("NONE", "TERMINATE", "SUSPEND")]
+		[ValidateSet('NONE', 'TERMINATE', 'SUSPEND')]
 		[string]$response,
 
 		[parameter(
@@ -67,11 +67,12 @@ Function Add-PASPTARule {
 		If ($null -ne $result) {
 
 			#Return Results
-			$result | Add-ObjectDetail -typename "psPAS.CyberArk.Vault.PTA.Rule"
+			$result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.PTA.Rule'
 
 		}
 
 	}#process
 
 	END { }#end
+
 }

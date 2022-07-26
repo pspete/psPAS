@@ -212,7 +212,7 @@ function Set-PASSafeMember {
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
-					Get-EscapedString)/Members/$($MemberName | Get-EscapedString)"
+					Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 
 				If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
 
@@ -244,7 +244,7 @@ function Set-PASSafeMember {
 				Assert-VersionRequirement -RequiredVersion 12.2
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)/Members/$($MemberName | Get-EscapedString)"
+				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 
 				If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
 

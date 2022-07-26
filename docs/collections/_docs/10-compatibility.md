@@ -165,7 +165,11 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                     |**12.1**                                            |Delete MFA caching SSH Keys
 [`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**                                            |Update CyberArk groups
 [`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                       |**12.2**                                            |Get basic information on current platform system types
+[`Enable-PASUser`][Enable-PASUser]                                                       |**12.6**                                            |Enable CyberArk Users
+[`Disable-PASUser`][Enable-PASUser]                                                      |**12.6**                                            |Disable CyberArk Users
 
+[Enable-PASUser]:/commands/Enable-PASUser
+[Disable-PASUser]:/commands/Disable-PASUser
 [Get-PASPlatformSummary]:/commands/Get-PASPlatformSummary
 [Clear-PASDiscoveredAccountList]:/commands/Clear-PASDiscoveredAccountList
 [Get-PASAccountPasswordVersion]:/commands/Get-PASAccountPasswordVersion
@@ -332,8 +336,9 @@ If you are using version 9.7+, and the function being invoked requires version 9
 
 ### Get-PASAccountGroup
 
-- Version 10.5 introduced a new API endpoint.
-- The Gen1 API endpoint can be used by specifying the `-UseGen1API` parameter.
+- Version 10.5 introduced a new API endpoint, "Get Safe account groups".
+  - This API is depreciated from version 12.6.
+  - The "Get Safe account groups" API endpoint can be used by specifying the `-UseGen1API` parameter.
 
 ### Add-PASAccount
 
@@ -342,6 +347,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
 
 ### Get-PASAccount
 
+- 12.6 introduced ability to use the `savedFilter` parameter
 - 11.4 introduced ability to filter by modificationTime
 - Version 10.4 introduced a new API endpoint.
   - Supports:
@@ -574,7 +580,8 @@ If you are using version 9.7+, and the function being invoked requires version 9
 ### Get-PASGroup
 
 - Version 12.0 introduced `includeMembers` parameter.
-- Version 12.2 introduced new `sort` parameter.
+- Version 12.2 introduced new `sort` & `groupName` parameters.
+- Version 12.6 introduced the `id` parameter.
 
 ### Set-PASSafe
 

@@ -6,14 +6,14 @@ function Get-PASAccountACL {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("PolicyID")]
+		[Alias('PolicyID')]
 		[string]$AccountPolicyId,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("Address")]
+		[Alias('Address')]
 		[ValidateNotNullOrEmpty()]
 		[string]$AccountAddress,
 
@@ -21,7 +21,7 @@ function Get-PASAccountACL {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[Alias("UserName")]
+		[Alias('UserName')]
 		[ValidateNotNullOrEmpty()]
 		[string]$AccountUserName
 	)
@@ -37,7 +37,7 @@ function Get-PASAccountACL {
 
                 Get-EscapedString)|$($AccountPolicyId |
 
-                    Get-EscapedString)/PrivilegedCommands"
+                    Get-EscapedString)/PrivilegedCommands/"
 
 		#Send request to Web Service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession #DevSkim: ignore DS104456
@@ -46,7 +46,7 @@ function Get-PASAccountACL {
 
 			$result.ListAccountPrivilegedCommandsResult |
 
-			Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Account
+				Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Account
 
 		}
 

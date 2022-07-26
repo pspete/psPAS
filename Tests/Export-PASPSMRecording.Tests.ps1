@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,12 +35,12 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Mandatory Parameters" {
+		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'RecordingID' },
 			@{Parameter = 'path' }
 
-			It "specifies parameter <Parameter> as mandatory" -TestCases $Parameters {
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
@@ -50,20 +50,20 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 		}
 
-		Context "Input" {
+		Context 'Input' {
 
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
 						Content = New-Object Byte[] 512
-						Headers = @{"Content-Disposition" = "attachment; filename=FILENAME.zip" }
+						Headers = @{'Content-Disposition' = 'attachment; filename=FILENAME.zip' }
 					}
 				}
 
 				$InputObj = [pscustomobject]@{
-					"RecordingID" = "SomeID"
-					"path"        = "$env:Temp"
+					'RecordingID' = 'SomeID'
+					'path'        = "$env:Temp"
 
 				}
 
@@ -71,28 +71,28 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "throws if path is invalid" {
+			It 'throws if path is invalid' {
 				{ $InputObj | Export-PASPSMRecording -PlatformID SomePlatform -path A:\test.avi } | Should -Throw
 			}
 
-			It "throws if InputFile resolves to a file" {
+			It 'throws if InputFile resolves to a file' {
 
 				$InputObj = [pscustomobject]@{
-					"RecordingID" = "SomeID"
-					"path"        = "$env:Temp\test.avi"
+					'RecordingID' = 'SomeID'
+					'path'        = "$env:Temp\test.avi"
 
 				}
 
 				{ $InputObj | Export-PASPSMRecording -PlatformID SomePlatform -path $pwd } | Should -Throw
 			}
 
-			It "sends request" {
+			It 'sends request' {
 				$InputObj | Export-PASPSMRecording
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request to expected endpoint" {
+			It 'sends request to expected endpoint' {
 				$InputObj | Export-PASPSMRecording
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -102,23 +102,23 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-			It "uses expected method" {
+			It 'uses expected method' {
 				$InputObj | Export-PASPSMRecording
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "sends request with no body" {
+			It 'sends request with no body' {
 				$InputObj | Export-PASPSMRecording
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
-			It "throws error if version requirement not met" {
-				$Script:ExternalVersion = "10.5"
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '10.5'
 
 				{ $InputObj | Export-PASPSMRecording } | Should -Throw
-				$Script:ExternalVersion = "0.0"
+				$Script:ExternalVersion = '0.0'
 			}
 
 		}

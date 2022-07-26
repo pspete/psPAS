@@ -15,7 +15,7 @@ Function Skip-CertificateCheck {
 	$CompilerParameters.GenerateExecutable = $false
 	$CompilerParameters.GenerateInMemory = $true
 	$CompilerParameters.IncludeDebugInformation = $false
-	$CompilerParameters.ReferencedAssemblies.Add("System.DLL") | Out-Null
+	$CompilerParameters.ReferencedAssemblies.Add('System.DLL') | Out-Null
 	$CertificatePolicy = @'
         namespace Local.ToolkitExtensions.Net.CertificatePolicy
         {
@@ -35,7 +35,7 @@ Function Skip-CertificateCheck {
 		$PolicyResult = $CSharpCodeProvider.CompileAssemblyFromSource($CompilerParameters, $CertificatePolicy)
 		$CompiledAssembly = $PolicyResult.CompiledAssembly
 		## Create an instance of TrustAll and attach it to the ServicePointManager
-		$TrustAll = $CompiledAssembly.CreateInstance("Local.ToolkitExtensions.Net.CertificatePolicy.TrustAll")
+		$TrustAll = $CompiledAssembly.CreateInstance('Local.ToolkitExtensions.Net.CertificatePolicy.TrustAll')
 		[System.Net.ServicePointManager]::CertificatePolicy = $TrustAll
 
 	}

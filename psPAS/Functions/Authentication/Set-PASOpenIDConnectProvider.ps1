@@ -15,7 +15,7 @@ Function Set-PASOpenIDConnectProvider {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Code", "Implicit")]
+		[ValidateSet('Code', 'Implicit')]
 		[ValidateNotNullOrEmpty()]
 		[string]$authenticationFlow,
 
@@ -74,7 +74,7 @@ Function Set-PASOpenIDConnectProvider {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateSet("Basic", "Post")]
+		[ValidateSet('Basic', 'Post')]
 		[ValidateLength(1, 50)]
 		[ValidateNotNullOrEmpty()]
 		[string]$clientSecretMethod,
@@ -105,17 +105,17 @@ Function Set-PASOpenIDConnectProvider {
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove id
 
 		#deal with clientSecret SecureString
-		If ($PSBoundParameters.ContainsKey("clientSecret")) {
+		If ($PSBoundParameters.ContainsKey('clientSecret')) {
 
 			#Include decoded clientSecret in request
-			$boundParameters["clientSecret"] = $(ConvertTo-InsecureString -SecureString $clientSecret)
+			$boundParameters['clientSecret'] = $(ConvertTo-InsecureString -SecureString $clientSecret)
 
 		}
 
 		#Create body of request
 		$body = $boundParameters | ConvertTo-Json
 
-		if ($PSCmdlet.ShouldProcess($id, "Update OIDC Provider")) {
+		if ($PSCmdlet.ShouldProcess($id, 'Update OIDC Provider')) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -WebSession $Script:WebSession

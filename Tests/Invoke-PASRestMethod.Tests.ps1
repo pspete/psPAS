@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace ".Tests.ps1") {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -20,8 +20,8 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = "https://SomeURL/SomeApp"
-		$Script:ExternalVersion = "0.0"
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 	}
@@ -35,18 +35,18 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context "Standard Operation" {
+		Context 'Standard Operation' {
 
 			BeforeEach {
 
 				$Response = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$Response | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
-				$Response | Add-Member -MemberType NoteProperty -Name Headers -Value @{ "Content-Type" = 'application/json; charset=utf-8' } -Force
+				$Response | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'application/json; charset=utf-8' } -Force
 				$Response | Add-Member -MemberType NoteProperty -Name Content -Value (@{
-						"prop1"   = "value1";
-						"prop2"   = "value2";
-						"prop123" = 123
-						"test"    = 321
+						'prop1'   = 'value1';
+						'prop2'   = 'value2';
+						'prop123' = 123
+						'test'    = 321
 					} | ConvertTo-Json) -Force
 
 				$Failure = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
@@ -61,40 +61,40 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				Mock Skip-CertificateCheck -MockWith { }
 
 				$SessionVariable = @{
-					"URI"             = "https://CyberArk_URL"
-					"Method"          = "GET"
-					"SessionVariable" = "varSession"
+					'URI'             = 'https://CyberArk_URL'
+					'Method'          = 'GET'
+					'SessionVariable' = 'varSession'
 				}
 
 				$WebSession = @{
-					"URI"        = "https://CyberArk_URL"
-					"Method"     = "GET"
-					"WebSession" = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"Body"       = "something"
+					'URI'        = 'https://CyberArk_URL'
+					'Method'     = 'GET'
+					'WebSession' = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					'Body'       = 'something'
 				}
 
 				Set-Variable varSession -Value $(New-Object Microsoft.PowerShell.Commands.WebRequestSession)
-				$VarSession.Headers["Test"] = "OK"
+				$VarSession.Headers['Test'] = 'OK'
 
 			}
 
-			It "does not throw" {
+			It 'does not throw' {
 
-				{ 	$DebugPreference = "Continue"
+				{ $DebugPreference = 'Continue'
 					Invoke-PASRestMethod @WebSession 5>&1
-					$DebugPreference = "SilentlyContinue" } | Should -Not -Throw
+					$DebugPreference = 'SilentlyContinue' } | Should -Not -Throw
 
 			}
-			It "sends request" {
+			It 'sends request' {
 
 				Invoke-PASRestMethod @WebSession
-				Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly
+				Assert-MockCalled 'Invoke-WebRequest' -Times 1 -Scope It -Exactly
 
 			}
 
-			if ([Net.SecurityProtocolType].GetEnumNames() -contains "Tls12") {
+			if ([Net.SecurityProtocolType].GetEnumNames() -contains 'Tls12') {
 
-				It "enforces use of TLS 1.2" {
+				It 'enforces use of TLS 1.2' {
 					[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls11
 					Invoke-PASRestMethod @WebSession
 					[System.Net.ServicePointManager]::SecurityProtocol | Should -Be Tls12
@@ -102,83 +102,83 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 
 			}
 
-				it "specifies -SslProtocol TLS12" {
+			It 'specifies -SslProtocol TLS12' {
 
-					If ($IsCoreCLR) {
+				If ($IsCoreCLR) {
 
-						Mock Test-IsCoreCLR -MockWith { return $true }
-						Mock Invoke-WebRequest -MockWith { }
-						Invoke-PASRestMethod @WebSession
-						Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
-							$SslProtocol -eq "TLS12"
-						}
-					}else{Set-ItResult -Inconclusive}
-				}
+					Mock Test-IsCoreCLR -MockWith { return $true }
+					Mock Invoke-WebRequest -MockWith { }
+					Invoke-PASRestMethod @WebSession
+					Assert-MockCalled 'Invoke-WebRequest' -Times 1 -Scope It -Exactly -ParameterFilter {
+						$SslProtocol -eq 'TLS12'
+					}
+				} else { Set-ItResult -Inconclusive }
+			}
 
-				it "specifies SkipHeaderValidation" {
+			It 'specifies SkipHeaderValidation' {
 
-					If ($IsCoreCLR) {
-						Mock Test-IsCoreCLR -MockWith { return $true }
-						Mock Invoke-WebRequest -MockWith { }
+				If ($IsCoreCLR) {
+					Mock Test-IsCoreCLR -MockWith { return $true }
+					Mock Invoke-WebRequest -MockWith { }
 
-						Invoke-PASRestMethod @WebSession
-						Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
-							$SkipHeaderValidation -eq $true
-						}
-					}else{Set-ItResult -Inconclusive}
-				}
+					Invoke-PASRestMethod @WebSession
+					Assert-MockCalled 'Invoke-WebRequest' -Times 1 -Scope It -Exactly -ParameterFilter {
+						$SkipHeaderValidation -eq $true
+					}
+				} else { Set-ItResult -Inconclusive }
+			}
 
-				It "invokes Skip-CertificateCheck when run from PowerShell" {
-					Mock Test-IsCoreCLR -MockWith { return $false }
+			It 'invokes Skip-CertificateCheck when run from PowerShell' {
+				Mock Test-IsCoreCLR -MockWith { return $false }
+				Invoke-PASRestMethod @WebSession -SkipCertificateCheck
+				Assert-MockCalled 'Skip-CertificateCheck' -Times 1 -Scope It -Exactly
+			}
+
+			It 'uses parameter SkipCertificateCheck when run from PWSH' {
+
+				If ($IsCoreCLR) {
+					Mock Test-IsCoreCLR -MockWith { return $true }
+
+					Mock Invoke-WebRequest -MockWith { }
 					Invoke-PASRestMethod @WebSession -SkipCertificateCheck
-					Assert-MockCalled "Skip-CertificateCheck" -Times 1 -Scope It -Exactly
-				}
+					Assert-MockCalled 'Invoke-WebRequest' -Times 1 -Scope It -Exactly -ParameterFilter {
+						$SkipCertificateCheck -eq $true
+					}
+				} else { Set-ItResult -Inconclusive }
+			}
 
-				It "uses parameter SkipCertificateCheck when run from PWSH" {
+			It 'Skips Certificate Validation when run from PWSH' {
+				If ($IsCoreCLR) {
 
-					If ($IsCoreCLR) {
-						Mock Test-IsCoreCLR -MockWith { return $true }
+					Mock Test-IsCoreCLR -MockWith { return $true }
+					Mock Invoke-WebRequest -MockWith { }
+					$Script:SkipCertificateCheck = $true
+					Invoke-PASRestMethod @WebSession
+					Assert-MockCalled 'Invoke-WebRequest' -Times 1 -Scope It -Exactly -ParameterFilter {
+						$SkipCertificateCheck -eq $true
+					}
 
-						Mock Invoke-WebRequest -MockWith { }
-						Invoke-PASRestMethod @WebSession -SkipCertificateCheck
-						Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
-							$SkipCertificateCheck -eq $true
-						}
-					}else{Set-ItResult -Inconclusive}
-				}
-
-				It "Skips Certificate Validation when run from PWSH" {
-					If ($IsCoreCLR) {
-
-						Mock Test-IsCoreCLR -MockWith { return $true }
-						Mock Invoke-WebRequest -MockWith { }
-						$Script:SkipCertificateCheck = $true
-						Invoke-PASRestMethod @WebSession
-						Assert-MockCalled "Invoke-WebRequest" -Times 1 -Scope It -Exactly -ParameterFilter {
-							$SkipCertificateCheck -eq $true
-						}
-
-					}else{Set-ItResult -Inconclusive}
-				}
+				} else { Set-ItResult -Inconclusive }
+			}
 
 
-			It "sets WebSession variable in the module scope" {
+			It 'sets WebSession variable in the module scope' {
 				Invoke-PASRestMethod @SessionVariable
 				$Script:WebSession | Should -Not -BeNullOrEmpty
 			}
 
-			It "returns WebSession sessionvariable value" {
+			It 'returns WebSession sessionvariable value' {
 				Invoke-PASRestMethod @SessionVariable
-				$Script:WebSession.Headers["Test"] | Should -Be "OK"
+				$Script:WebSession.Headers['Test'] | Should -Be 'OK'
 			}
 
-			It "sends output to Get-PASResponse" {
+			It 'sends output to Get-PASResponse' {
 				Mock Get-PASResponse { }
 				Invoke-PASRestMethod @WebSession
-				Assert-MockCalled "Get-PASResponse" -Times 1 -Scope It -Exactly
+				Assert-MockCalled 'Get-PASResponse' -Times 1 -Scope It -Exactly
 			}
 
-			It "does not invoke Get-PASResponse if there an error code indicating failure" {
+			It 'does not invoke Get-PASResponse if there an error code indicating failure' {
 				Mock Invoke-WebRequest -MockWith {
 
 					return $Failure
@@ -186,79 +186,79 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 				}
 				Mock Get-PASResponse { }
 				Invoke-PASRestMethod @WebSession
-				Assert-MockCalled "Get-PASResponse" -Times 0 -Scope It -Exactly
+				Assert-MockCalled 'Get-PASResponse' -Times 0 -Scope It -Exactly
 			}
 
 		}
 
-		Context "Error Handling" {
+		Context 'Error Handling' {
 
 			BeforeEach {
 
 				If ($IsCoreCLR) {
-				$errorDetails = $([pscustomobject]@{"ErrorCode" = "URA999"; "ErrorMessage" = "Some Error Message" } | ConvertTo-Json)
-				$statusCode = 400
-				$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
-				$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
-				$errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
-				$errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
-				$targetObject = $null
-				$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
-				$errorRecord.ErrorDetails = $errorDetails
+					$errorDetails = $([pscustomobject]@{'ErrorCode' = 'URA999'; 'ErrorMessage' = 'Some Error Message' } | ConvertTo-Json)
+					$statusCode = 400
+					$response = New-Object System.Net.Http.HttpResponseMessage $statusCode
+					$exception = New-Object Microsoft.PowerShell.Commands.HttpResponseException "$statusCode ($($response.ReasonPhrase))", $response
+					$errorCategory = [System.Management.Automation.ErrorCategory]::InvalidOperation
+					$errorID = 'WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand'
+					$targetObject = $null
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
 				}
 
 				$WebSession = @{
-					"URI"        = "https://CyberArk_URL"
-					"Method"     = "GET"
-					"WebSession" = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-					"Body"       = "something"
+					'URI'        = 'https://CyberArk_URL'
+					'Method'     = 'GET'
+					'WebSession' = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+					'Body'       = 'something'
 				}
 
 			}
 
-			it "catches Uri Format Exceptions" {
+			It 'catches Uri Format Exceptions' {
 
-				{ Invoke-PASRestMethod -Method GET -URI "/s/r/f/c" } | Should -Throw -ExpectedMessage "Invalid URI: The hostname could not be parsed. Run New-PASSession"
+				{ Invoke-PASRestMethod -Method GET -URI '/s/r/f/c' } | Should -Throw -ExpectedMessage 'Invalid URI: The hostname could not be parsed. Run New-PASSession'
 			}
 
-			it "reports generic Http Request Exceptions" {
+			It 'reports generic Http Request Exceptions' {
 
-				$Credentials = New-Object System.Management.Automation.PSCredential ("SomeUser", $(ConvertTo-SecureString "SomePassword" -AsPlainText -Force))
-				{ New-PASSession -Credential $Credentials -BaseURI "https://dead.server.no-site.io" } | Should -Throw
+				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
+				{ New-PASSession -Credential $Credentials -BaseURI 'https://dead.server.no-site.io' } | Should -Throw
 
 			}
 
-			it "reports expected error message" {
+			It 'reports expected error message' {
 				If ($IsCoreCLR) {
 					Mock Invoke-WebRequest { Throw $errorRecord }
 
 					{ Invoke-PASRestMethod @WebSession } | Should -Throw
-				}Else{Set-ItResult -Inconclusive}
+				} Else { Set-ItResult -Inconclusive }
 
 			}
 
-			it "reports http errors not returned as json" {
+			It 'reports http errors not returned as json' {
 				If ($IsCoreCLR) {
 					$errorDetails = '"ErrorCode" [=] "URA999"[;] "ErrorMessage" [=] "Some Error Message"'
 					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
 					$errorRecord.ErrorDetails = $errorDetails
 					Mock Invoke-WebRequest { Throw $errorRecord }
 					{ Invoke-PASRestMethod @WebSession } | Should -Throw
-				}Else { Set-ItResult -Inconclusive}
+				} Else { Set-ItResult -Inconclusive }
 			}
 
-			it "reports inner error messages" {
+			It 'reports inner error messages' {
 				If ($IsCoreCLR) {
-					$Details = [pscustomobject]@{"ErrorCode" = "URA666"; "ErrorMessage" = "Some Inner Error" }
-					$errorDetails = $([pscustomobject]@{"ErrorCode" = "URA999"; "ErrorMessage" = "Some Error Message" ; "Details" = $Details } | ConvertTo-Json)
+					$Details = [pscustomobject]@{'ErrorCode' = 'URA666'; 'ErrorMessage' = 'Some Inner Error' }
+					$errorDetails = $([pscustomobject]@{'ErrorCode' = 'URA999'; 'ErrorMessage' = 'Some Error Message' ; 'Details' = $Details } | ConvertTo-Json)
 					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
 					$errorRecord.ErrorDetails = $errorDetails
 					Mock Invoke-WebRequest { Throw $errorRecord }
 					{ Invoke-PASRestMethod @WebSession } | Should -Throw
-				}Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 			}
 
-			it "catches other errors" {
+			It 'catches other errors' {
 				If ($IsCoreCLR) {
 					$errorDetails = $null
 					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
@@ -266,7 +266,7 @@ Describe $($PSCommandPath -Replace ".Tests.ps1") {
 					Mock Invoke-WebRequest { Throw $errorRecord }
 
 					{ Invoke-PASRestMethod @WebSession } | Should -Throw
-				}Else { Set-ItResult -Inconclusive }
+				} Else { Set-ItResult -Inconclusive }
 
 			}
 

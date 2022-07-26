@@ -32,7 +32,7 @@ Function Start-PASAccountImportJob {
 		#Create body of request
 		$body = $boundParameters | Get-PASParameter | ConvertTo-Json -Depth 3
 
-		if ($PSCmdlet.ShouldProcess("List of $($accountsList.count) account(s)", "Start Bulk Account Import Job")) {
+		if ($PSCmdlet.ShouldProcess("List of $($accountsList.count) account(s)", 'Start Bulk Account Import Job')) {
 
 			#send request
 			$Result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
@@ -50,7 +50,7 @@ Function Start-PASAccountImportJob {
 				catch {
 
 					#Return Import Job ID
-					[PSCustomObject]@{"id" = $Result }
+					[PSCustomObject]@{'id' = $Result }
 
 				}
 
