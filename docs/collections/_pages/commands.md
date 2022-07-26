@@ -199,6 +199,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Delete an MFA caching SSH key for another user][Delete an MFA caching SSH key for another user]     | [Remove-PASPrivateSSHKey][Remove-PASPrivateSSHKey]
 [Update Group][Update Group]                                                                         | [Set-PASGroup][Set-PASGroup]
 [Extended Account Overview][Extended Account Overview]                                               | [Get-PASAccountDetail][Get-PASAccountDetail]
+[Enable User][Enable User]                                                                           | [Enable-PASUser][Enable-PASUser]
+[Disable User][Disable User]                                                                         | [Disable-PASUser][Disable-PASUser]
 
 [Get-PASDiscoveredAccount]:/commands/Get-PASDiscoveredAccount
 [Start-PASAccountImportJob]:/commands/Start-PASAccountImportJob
@@ -341,7 +343,11 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Remove-PASPrivateSSHKey]:/commands/Remove-PASPrivateSSHKey
 [Set-PASGroup]:/commands/Set-PASGroup
 [Get-PASAccountDetail]:/commands/Get-PASAccountDetail
+[Enable-PASUser]:/commands/Enable-PASUser
+[Disable-PASUser]:/commands/Disable-PASUser
 
+[Enable User]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Enable-user.htm?tocpath=Developer%7CREST%20APIs%7CUser%20management%7CUsers%7C_____8
+[Disable User]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Disable-user.htm?tocpath=Developer%7CREST%20APIs%7CUser%20management%7CUsers%7C_____9
 [Extended Account Overview]:https://documenter.getpostman.com/view/998920/RzZ9Gz1U#d20c01c2-f7fc-4717-bf10-d8c51cb11411
 [Delete discovered accounts]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete-Discovered-accounts.htm
 [Get Secret Versions]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Secrets-Get-versions.htm
