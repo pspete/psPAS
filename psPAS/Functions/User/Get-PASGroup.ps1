@@ -27,20 +27,7 @@ function Get-PASGroup {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'filter'
-		)]
-		[ValidateSet('groupType eq Directory', 'groupType eq Vault')]
-		[string]$filter,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'groupType'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'filter'
 		)]
 		[string[]]$sort,
 
@@ -48,11 +35,6 @@ function Get-PASGroup {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'groupType'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'filter'
 		)]
 		[string]$search,
 
@@ -65,11 +47,6 @@ function Get-PASGroup {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'groupType'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'filter'
 		)]
 		[boolean]$includeMembers
 	)
@@ -157,7 +134,7 @@ function Get-PASGroup {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
-				{ $_ -match 'filter|groupType' } {
+				'groupType' {
 
 					$result = $result.value
 

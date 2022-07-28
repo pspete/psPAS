@@ -25,12 +25,6 @@ Get-PASGroup [-groupType <String>] [-groupName <String>] [-sort <String[]>] [-se
 Get-PASGroup -id <Int32> [-includeMembers <Boolean>] [<CommonParameters>]
 ```
 
-### filter
-```
-Get-PASGroup [-filter <String>] [-sort <String[]>] [-search <String>] [-includeMembers <Boolean>]
- [<CommonParameters>]
-```
-
 ## DESCRIPTION
 Returns a list of all existing user groups.
 
@@ -119,29 +113,12 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -filter
-Filter according to REST standard.
-
-*depreciated parameter in psPAS - filter value will automatically be set if groupType specified.
-
-```yaml
-Type: String
-Parameter Sets: filter
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -search
 Search will match when ALL search terms appear in the group name.
 
 ```yaml
 Type: String
-Parameter Sets: groupType, filter
+Parameter Sets: groupType
 Aliases:
 
 Required: False
@@ -182,7 +159,7 @@ Requires minimum version of 12.2
 
 ```yaml
 Type: String[]
-Parameter Sets: groupType, filter
+Parameter Sets: groupType
 Aliases:
 
 Required: False
