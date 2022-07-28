@@ -76,6 +76,10 @@ function Get-PASGroup {
 
 	BEGIN {
 		Assert-VersionRequirement -RequiredVersion 10.5
+
+		#Parameter to include as filter value in url
+		$Parameters = [Collections.Generic.List[String]]@('groupType', 'groupName')
+
 	}#begin
 
 	PROCESS {
@@ -84,7 +88,7 @@ function Get-PASGroup {
 		$URI = "$Script:BaseURI/API/UserGroups"
 
 		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove groupType, groupName, id
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters, id
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -123,7 +127,7 @@ function Get-PASGroup {
 				}
 
 				#Get filter to include in request
-				$filterProperties = $PSBoundParameters | Get-PASParameter -ParametersToKeep groupType, groupName
+				$filterProperties = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
 				$FilterString = $filterProperties | ConvertTo-FilterString
 
 				If ($null -ne $FilterString) {

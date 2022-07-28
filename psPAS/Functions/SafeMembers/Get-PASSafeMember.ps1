@@ -188,9 +188,12 @@ function Get-PASSafeMember {
 
 				Assert-VersionRequirement -RequiredVersion 12.1
 
+				#Parameter to include as filter value in url
+				$Parameters = [Collections.Generic.List[String]]@('memberType', 'membershipExpired', 'includePredefinedUsers')
+
 				#Get Parameters to include in request
-				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName, memberType, membershipExpired, includePredefinedUsers, TimeoutSec
-				$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep memberType, membershipExpired, includePredefinedUsers
+				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters, SafeName, TimeoutSec
+				$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
 				$FilterString = $filterParameters | ConvertTo-FilterString
 
 				If ($null -ne $FilterString) {
