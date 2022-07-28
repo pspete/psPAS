@@ -26,12 +26,6 @@ Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] [-
 Get-PASAccount -id <String> [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
-### Gen2Filter
-```
-Get-PASAccount [-search <String>] [-searchType <String>] [-sort <String[]>] [-filter <String>]
- [-TimeoutSec <Int32>] [<CommonParameters>]
-```
-
 ### Gen1
 ```
 Get-PASAccount [-Keywords <String>] [-Safe <String>] [-TimeoutSec <Int32>] [<CommonParameters>]
@@ -174,7 +168,7 @@ Requires minimum version of 10.4
 
 ```yaml
 Type: String
-Parameter Sets: Gen2Query, Gen2Filter
+Parameter Sets: Gen2Query
 Aliases:
 
 Required: False
@@ -191,7 +185,7 @@ Requires minimum version of 10.4
 
 ```yaml
 Type: String
-Parameter Sets: Gen2Query, Gen2Filter
+Parameter Sets: Gen2Query
 Aliases:
 
 Required: False
@@ -245,28 +239,7 @@ Requires minimum version of 10.4
 
 ```yaml
 Type: String[]
-Parameter Sets: Gen2Query, Gen2Filter
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -filter
-A filter for the search.
-
-Requires format: "SafeName eq 'YourSafe'"
-
-*depreciated parameter in psPAS - safeName & modifiedTime will automatically be set as filter values
-
-Requires minimum version of 10.4
-
-```yaml
-Type: String
-Parameter Sets: Gen2Filter
+Parameter Sets: Gen2Query
 Aliases:
 
 Required: False
