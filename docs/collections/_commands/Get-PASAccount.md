@@ -90,30 +90,12 @@ Requires minimum version of 11.4
 
 ### EXAMPLE 5
 ```
-Get-PASAccount -filter "SafeName eq TargetSafe"
-```
-
-Specify a filter value to return all accounts found in "TargetSafe"
-
-Requires minimum version of 10.4
-
-### EXAMPLE 6
-```
-Get-PASAccount -filter "SafeName eq 'TargetSafe'" -sort "userName desc"
-```
-
-Returns all accounts found in TargetSafe, sort by username in descending order.
-
-Requires minimum version of 10.4
-
-### EXAMPLE 7
-```
 Get-PASAccount -Keywords root -Safe UNIX
 ```
 
 Finds account matching keywords in UNIX safe
 
-### EXAMPLE 8
+### EXAMPLE 6
 ```
 Get-PASAccount -Keywords xtest
 ```
@@ -124,7 +106,7 @@ Only the first matching account will be returned.
 
 If multiple accounts are found, a warning will be displayed before the result
 
-### EXAMPLE 9
+### EXAMPLE 7
 ```
 Get-PASAccount -search root -sort name
 ```
@@ -133,7 +115,7 @@ Returns all accounts matching "root", sorted by AccountName.
 
 Requires minimum version of 10.4
 
-### EXAMPLE 10
+### EXAMPLE 8
 ```
 Get-PASAccount -savedFilter New
 ```

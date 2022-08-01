@@ -10808,77 +10808,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:syntaxItem>
         <maml:name>Get-PASAccount</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>search</maml:name>
-          <maml:description>
-            <maml:para>The search term or keywords.</maml:para>
-            <maml:para>Requires minimum version of 10.4</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>searchType</maml:name>
-          <maml:description>
-            <maml:para>Get accounts that either contain or start with the value specified in the Search parameter.</maml:para>
-            <maml:para>Requires minimum version of 10.4</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>sort</maml:name>
-          <maml:description>
-            <maml:para>Property or properties by which to sort returned accounts, followed by asc (default) or desc to control sort direction.</maml:para>
-            <maml:para>Separate multiple properties with commas, up to a maximum of three properties.</maml:para>
-            <maml:para>Requires minimum version of 10.4</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
-          <dev:type>
-            <maml:name>String[]</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>filter</maml:name>
-          <maml:description>
-            <maml:para>A filter for the search.</maml:para>
-            <maml:para>Requires format: "SafeName eq 'YourSafe'"</maml:para>
-            <maml:para>*depreciated parameter in psPAS - safeName &amp; modifiedTime will automatically be set as filter values</maml:para>
-            <maml:para>Requires minimum version of 10.4</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>TimeoutSec</maml:name>
-          <maml:description>
-            <maml:para>See Invoke-WebRequest</maml:para>
-            <maml:para>Specify a timeout value in seconds</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-          <dev:type>
-            <maml:name>Int32</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PASAccount</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>Keywords</maml:name>
           <maml:description>
             <maml:para>Keyword to search for.</maml:para>
@@ -11002,21 +10931,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>filter</maml:name>
-        <maml:description>
-          <maml:para>A filter for the search.</maml:para>
-          <maml:para>Requires format: "SafeName eq 'YourSafe'"</maml:para>
-          <maml:para>*depreciated parameter in psPAS - safeName &amp; modifiedTime will automatically be set as filter values</maml:para>
-          <maml:para>Requires minimum version of 10.4</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>Keywords</maml:name>
         <maml:description>
           <maml:para>Keyword to search for.</maml:para>
@@ -11113,29 +11027,13 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
-        <dev:code>Get-PASAccount -filter "SafeName eq TargetSafe"</dev:code>
-        <dev:remarks>
-          <maml:para>Specify a filter value to return all accounts found in "TargetSafe"</maml:para>
-          <maml:para>Requires minimum version of 10.4</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
-        <dev:code>Get-PASAccount -filter "SafeName eq 'TargetSafe'" -sort "userName desc"</dev:code>
-        <dev:remarks>
-          <maml:para>Returns all accounts found in TargetSafe, sort by username in descending order.</maml:para>
-          <maml:para>Requires minimum version of 10.4</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 7 --------------------------</maml:title>
         <dev:code>Get-PASAccount -Keywords root -Safe UNIX</dev:code>
         <dev:remarks>
           <maml:para>Finds account matching keywords in UNIX safe</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
         <dev:code>Get-PASAccount -Keywords xtest</dev:code>
         <dev:remarks>
           <maml:para>Finds account matching the specified keyword.</maml:para>
@@ -11144,7 +11042,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 9 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 7 --------------------------</maml:title>
         <dev:code>Get-PASAccount -search root -sort name</dev:code>
         <dev:remarks>
           <maml:para>Returns all accounts matching "root", sorted by AccountName.</maml:para>
@@ -11152,7 +11050,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 10 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
         <dev:code>Get-PASAccount -savedFilter New</dev:code>
         <dev:remarks>
           <maml:para>Returns all accounts from the "New" Saved Filter</maml:para>
@@ -13495,63 +13393,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:syntaxItem>
         <maml:name>Get-PASGroup</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>filter</maml:name>
-          <maml:description>
-            <maml:para>Filter according to REST standard.</maml:para>
-            <maml:para>*depreciated parameter in psPAS - filter value will automatically be set if groupType specified.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>search</maml:name>
-          <maml:description>
-            <maml:para>Search will match when ALL search terms appear in the group name.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>includeMembers</maml:name>
-          <maml:description>
-            <maml:para>Specify $true to return vault group members</maml:para>
-            <maml:para>Defaults to $false due to performance considerations</maml:para>
-            <maml:para>Requires minimum version of 12.0</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>sort</maml:name>
-          <maml:description>
-            <maml:para>Property or properties by which to sort returned groups, followed by asc (default) or desc to control sort direction.</maml:para>
-            <maml:para>Cannot sort by a property other than `groupname`, `directory` or `location`.</maml:para>
-            <maml:para>Separate multiple properties with commas, up to a maximum of three properties.</maml:para>
-            <maml:para>Requires minimum version of 12.2</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
-          <dev:type>
-            <maml:name>String[]</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PASGroup</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>includeMembers</maml:name>
           <maml:description>
             <maml:para>Specify $true to return vault group members</maml:para>
@@ -13584,19 +13425,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:name>groupType</maml:name>
         <maml:description>
           <maml:para>Search for groups which are from a configured Directory or from the Vault.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>filter</maml:name>
-        <maml:description>
-          <maml:para>Filter according to REST standard.</maml:para>
-          <maml:para>*depreciated parameter in psPAS - filter value will automatically be set if groupType specified.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -13703,41 +13531,34 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
-        <dev:code>Get-PASGroup -filter 'groupType eq Directory'</dev:code>
-        <dev:remarks>
-          <maml:para>Returns all existing Directory groups</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
         <dev:code>Get-PASGroup -search "Vault Admins"</dev:code>
         <dev:remarks>
           <maml:para>Returns all groups matching all search terms</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
         <dev:code>Get-PASGroup -search "Vault Admins" -groupType Directory</dev:code>
         <dev:remarks>
           <maml:para>Returns all existing Directory groups matching all search terms</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 7 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
         <dev:code>Get-PASGroup -search Admins -includeMembers $true</dev:code>
         <dev:remarks>
           <maml:para>Returns all existing groups matching search, includes vault group member details in result.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 7 --------------------------</maml:title>
         <dev:code>Get-PASGroup -groupName "Vault Admins" -includeMembers $true</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 9 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
         <dev:code>Get-PASGroup -id 11</dev:code>
         <dev:remarks>
           <maml:para>Returns group with id 11. Requires minimum version of 12.6</maml:para>

@@ -57,38 +57,31 @@ Returns all existing Vault groups
 
 ### EXAMPLE 4
 ```
-Get-PASGroup -filter 'groupType eq Directory'
-```
-
-Returns all existing Directory groups
-
-### EXAMPLE 5
-```
 Get-PASGroup -search "Vault Admins"
 ```
 
 Returns all groups matching all search terms
 
-### EXAMPLE 6
+### EXAMPLE 5
 ```
 Get-PASGroup -search "Vault Admins" -groupType Directory
 ```
 
 Returns all existing Directory groups matching all search terms
 
-### EXAMPLE 7
+### EXAMPLE 6
 ```
 Get-PASGroup -search Admins -includeMembers $true
 ```
 
 Returns all existing groups matching search, includes vault group member details in result.
 
-### EXAMPLE 8
+### EXAMPLE 7
 ```
 Get-PASGroup -groupName "Vault Admins" -includeMembers $true
 ```
 
-### EXAMPLE 9
+### EXAMPLE 8
 ```
 Get-PASGroup -id 11
 ```
