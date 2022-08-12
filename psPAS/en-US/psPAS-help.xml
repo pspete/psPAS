@@ -6246,7 +6246,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
       <command:verb>Add</command:verb>
       <command:noun>PASPublicSSHKey</command:noun>
       <maml:description>
-        <maml:para>Adds an authorised public SSH key foraspecific user in the Vault.</maml:para>
+        <maml:para>Adds an authorised public SSH key for a specific user in the Vault.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -6262,7 +6262,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           <maml:name>UserName</maml:name>
           <maml:description>
             <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-            <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+            <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -6293,7 +6293,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
         <maml:name>UserName</maml:name>
         <maml:description>
           <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-          <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+          <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -12812,7 +12812,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASConnectionComponent</dev:code>
         <dev:remarks>
-          <maml:para>Lists all connection components configred in the environment</maml:para>
+          <maml:para>Lists all connection components configured in the environment</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -14842,7 +14842,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPSMRecording -Limit 10 -Safe PSMRecordings -Sort -FileName</dev:code>
         <dev:remarks>
-          <maml:para>Lists the first 10 recordings from the PSMRecordings safe, sorted by decending filename.</maml:para>
+          <maml:para>Lists the first 10 recordings from the PSMRecordings safe, sorted by descending filename.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -15799,7 +15799,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:name>UserName</maml:name>
           <maml:description>
             <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-            <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+            <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -15815,7 +15815,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:name>UserName</maml:name>
         <maml:description>
           <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-          <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+          <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -26599,7 +26599,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Deletes an automatic on-boarding rulefrom the Vault.</maml:para>
+      <maml:para>Deletes an automatic on-boarding rule from the Vault.</maml:para>
       <maml:para>Vault Admin membership required.</maml:para>
     </maml:description>
     <command:syntax>
@@ -27464,7 +27464,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
           <maml:name>UserName</maml:name>
           <maml:description>
             <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-            <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+            <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -27514,7 +27514,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
         <maml:name>UserName</maml:name>
         <maml:description>
           <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-          <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+          <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -29961,7 +29961,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
     </command:details>
     <maml:description>
       <maml:para>Updates a Vault group. The authenticated user requires the following permissions: - Add\Update users</maml:para>
-      <maml:para>Requires CyberArk Vrsion 12.0+</maml:para>
+      <maml:para>Requires CyberArk Version 12.0+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -30103,7 +30103,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
     <maml:description>
       <maml:para>Associates a Reconcile account, Logon account, or other type of linked account that is defined in the platform configuration.</maml:para>
       <maml:para>Requires the following Safe member authorizations: - List accounts   - Required for both the Safe of the linked account and the Safe of the source account. - Update account properties.   - Require for the Safe of the source account</maml:para>
-      <maml:para>Requires CyberArk Vrsion 12.1+</maml:para>
+      <maml:para>Requires CyberArk Version 12.1+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -35014,7 +35014,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>set-pasuser -UserName Bill -Disabled $true</dev:code>
+        <dev:code>Set-PASUser -UserName Bill -Disabled $true</dev:code>
         <dev:remarks>
           <maml:para>Disables vault user Bill</maml:para>
         </dev:remarks>

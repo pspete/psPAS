@@ -43,7 +43,7 @@ Lists all SSH Keys for vault user
 ### -UserName
 The username of the Vault user whose public SSH keys will be added
 
-A username cannot contain te follwing characters: "%", "&", "+" or ".".
+A username cannot contain the following characters: "%", "&", "+" or ".".
 
 ```yaml
 Type: String

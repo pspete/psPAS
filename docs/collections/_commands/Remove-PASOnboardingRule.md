@@ -19,7 +19,7 @@ Remove-PASOnboardingRule [-RuleID] <String> [-WhatIf] [-Confirm] [<CommonParamet
 ```
 
 ## DESCRIPTION
-Deletes an automatic on-boarding rulefrom the Vault.
+Deletes an automatic on-boarding rule from the Vault.
 
 Vault Admin membership required.
 

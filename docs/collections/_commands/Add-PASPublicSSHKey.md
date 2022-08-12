@@ -10,7 +10,7 @@ title: Add-PASPublicSSHKey
 # Add-PASPublicSSHKey
 
 ## SYNOPSIS
-Adds an authorised public SSH key foraspecific user in the Vault.
+Adds an authorised public SSH key for a specific user in the Vault.
 
 ## SYNTAX
 
@@ -43,7 +43,7 @@ Adds SSH Key to vault user keyUser
 ### -UserName
 The username of the Vault user whose public SSH keys will be added
 
-A username cannot contain te follwing characters: "%", "&", "+" or ".".
+A username cannot contain the following characters: "%", "&", "+" or ".".
 
 ```yaml
 Type: String
