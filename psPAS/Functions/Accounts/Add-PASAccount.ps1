@@ -302,7 +302,7 @@ function Add-PASAccount {
 				}
 
 				#Add "non-base" parameter hashtable as value of "properties" on boundparameters object
-				$boundParameters['properties'] = [Collections.Generic.List[String]]@($properties.getenumerator() | ForEach-Object { $_ })
+				$boundParameters['properties'] = [Collections.Generic.List[Object]]@($properties.getenumerator() | ForEach-Object { $_ })
 
 				#Create body of request
 				$body = @{
