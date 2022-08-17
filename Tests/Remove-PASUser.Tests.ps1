@@ -74,7 +74,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$InputObj | Remove-PASUser
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/ThatUser/"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/ThatUser"
 
 				} -Times 1 -Exactly -Scope It
 

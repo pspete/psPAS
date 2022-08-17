@@ -59,7 +59,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sends request to Classic API' {
 				Unblock-PASUser -UserName MrFatFingers -Suspended $false
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It -ParameterFilter {
-					$URI -eq 'https://SomeURL/SomeApp/WebServices/PIMServices.svc/Users/MrFatFingers/'
+					$URI -eq 'https://SomeURL/SomeApp/WebServices/PIMServices.svc/Users/MrFatFingers'
 				}
 
 			}

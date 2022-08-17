@@ -1,11 +1,22 @@
 # psPAS
 
-## Planned Updates
+## Planned Updates / Unreleased
 
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
+- Removal of depreciated `filter` parameters.
+- Documentation updates
 
-## **vNext (TBC)** ##
+## **5.3.76 (August 17th 2022)** ##
+
+-Updates
+  - Set-PASUser / New-PASUser
+    - Adds `GUI` as available parameter value for `unAuthorizedInterfaces` parameter.
+- Gen1 API Specific
+  - Add-PASAccount / Set-PASAccount
+    - Fixes enumeration of dynamic properties for Gen1 requests.
+  - Reverts Gen1 specific URL update introduced in last release for "_user_" type commands.
+    - Removes forward slash (/) to end of request URL
 
 ## **5.3.69 (July 26th 2022)**
 

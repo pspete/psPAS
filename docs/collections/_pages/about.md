@@ -14,7 +14,7 @@ Initially released in 2017, psPAS contains over 100 commands for the CyberArk RE
 
 The module is designed to be compatible with CyberArk from Version 9 onwards, providing CyberArk users with an accessible resource for automating simple day to day administration tasks as well as more complex requirements.
 
-The module can work in both PowerShell Core & PowerShell, meaning Windows, Linux, and macOS CyberArk automation is possible.
+The module can work in both PowerShell Core & Windows PowerShell, meaning Windows, Linux, and macOS CyberArk automation is possible.
 
 Using a shared set of commands for interacting with the CyberArk API provides many benefits:
 

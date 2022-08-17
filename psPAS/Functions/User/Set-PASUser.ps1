@@ -55,7 +55,7 @@ function Set-PASUser {
 			ParameterSetName = 'Gen2'
 		)]
 		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
-			'EVD', 'PIMSu', 'AIMApp', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp')]
+			'EVD', 'PIMSu', 'AIMApp', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
 		[string[]]$unAuthorizedInterfaces,
 
 		[parameter(
@@ -438,7 +438,7 @@ function Set-PASUser {
 				}
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)/"
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 
 				$TypeName = 'psPAS.CyberArk.Vault.User'
 
