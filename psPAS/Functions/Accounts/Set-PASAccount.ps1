@@ -175,7 +175,7 @@ function Set-PASAccount {
 
 					#Format "Properties" parameter value.
 					#Array of key=value pairs required for JSON convertion
-					$boundParameters['Properties'] = [Collections.Generic.List[String]]@($boundParameters['Properties'].getenumerator() |
+					$boundParameters['Properties'] = [Collections.Generic.List[Object]]@($boundParameters['Properties'].getenumerator() |
 
 							ForEach-Object { $_ })
 
