@@ -7,7 +7,7 @@
 - Removal of depreciated `filter` parameters.
 - Documentation updates
 
-## **5.3.76 (August 2022)** ##
+## **5.3.76 (August 17th 2022)** ##
 
 -Updates
   - Set-PASUser / New-PASUser
