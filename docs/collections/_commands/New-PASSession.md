@@ -526,7 +526,7 @@ Accept wildcard characters: False
 ```
 
 ### -BaseURI
-A string containing the base web address to send te request to.
+A string containing the base web address to send the request to.
 
 Pass the PVWA HTTP address.
 

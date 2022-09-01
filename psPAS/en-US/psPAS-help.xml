@@ -22344,7 +22344,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -22541,7 +22541,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -22734,7 +22734,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -22888,7 +22888,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -23043,7 +23043,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -23161,7 +23161,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -23289,7 +23289,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -23419,7 +23419,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -23704,7 +23704,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>BaseURI</maml:name>
         <maml:description>
-          <maml:para>A string containing the base web address to send te request to.</maml:para>
+          <maml:para>A string containing the base web address to send the request to.</maml:para>
           <maml:para>Pass the PVWA HTTP address.</maml:para>
           <maml:para>Do not include "/PasswordVault/"</maml:para>
         </maml:description>
