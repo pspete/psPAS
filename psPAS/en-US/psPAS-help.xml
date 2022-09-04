@@ -16406,7 +16406,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-PASSafe</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>SafeName</maml:name>
           <maml:description>
             <maml:para>The name of a specific safe to get details of.</maml:para>
@@ -16478,7 +16478,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-PASSafe</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>FindAll</maml:name>
           <maml:description>
             <maml:para>Specify to find all safes using Gen1 API.</maml:para>
@@ -16503,6 +16503,17 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:uri />
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Specify to force use of the Gen1 API</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -16589,7 +16600,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>FindAll</maml:name>
         <maml:description>
           <maml:para>Specify to find all safes using Gen1 API.</maml:para>
@@ -16683,7 +16694,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
-        <dev:code>Get-PASSafe -FindAll</dev:code>
+        <dev:code>Get-PASSafe -FindAll -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Returns details of all safes using Gen1 API.</maml:para>
           <maml:para>Depreciated from version 12.3</maml:para>
@@ -16691,7 +16702,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
-        <dev:code>Get-PASSafe -SafeName SAFE1 -UseGen1Api</dev:code>
+        <dev:code>Get-PASSafe -SafeName SAFE1 -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Returns details of "Safe1" using Gen1 API.</maml:para>
           <maml:para>Depreciated from version 12.3</maml:para>
