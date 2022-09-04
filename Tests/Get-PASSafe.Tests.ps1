@@ -48,7 +48,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
-				Get-PASSafe -FindAll
+				Get-PASSafe -FindAll -UseGen1API
 
 			}
 
@@ -308,7 +308,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
-				$response = Get-PASSafe -FindAll
+				$response = Get-PASSafe -FindAll -UseGen1API
 			}
 
 			It 'provides output' {
