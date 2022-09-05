@@ -149,6 +149,69 @@
 			</TableControl>
 		</View>
 		<View>
+			<Name>psPAS.CyberArk.Vault.Account.LinkedAccount</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Account.LinkedAccount</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>extraPasswordIndex</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Descriptor</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Account.LinkedAccount</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Account.LinkedAccount</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>extraPasswordIndex</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Name</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Descriptor</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Broken</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>IsDefaultFromPolicy</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>NoAuthorization</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>DisplayName</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
 			<Name>psPAS.CyberArk.Vault.Account.Group</Name>
 			<ViewSelectedBy>
 				<TypeName>psPAS.CyberArk.Vault.Account.Group</TypeName>
