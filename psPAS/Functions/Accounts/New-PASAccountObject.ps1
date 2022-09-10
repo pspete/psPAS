@@ -13,6 +13,12 @@ Function New-PASAccountObject {
 		[int]$uploadIndex,
 
 		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'PersonalAdminAccount'
+		)]
+
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
@@ -25,6 +31,12 @@ Function New-PASAccountObject {
 			ParameterSetName = 'AccountObject'
 		)]
 		[string]$name,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'PersonalAdminAccount'
+		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -57,6 +69,12 @@ Function New-PASAccountObject {
 		)]
 		[ValidateSet('Password', 'Key')]
 		[string]$secretType,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'PersonalAdminAccount'
+		)]
 
 		[parameter(
 			Mandatory = $false,
@@ -105,7 +123,14 @@ Function New-PASAccountObject {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
 		)]
-		[string]$groupName
+		[string]$groupName,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'PersonalAdminAccount'
+		)]
+		[switch]$PersonalAdminAccount
 
 	)
 
@@ -122,17 +147,17 @@ Function New-PASAccountObject {
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
+		#deal with "secret" SecureString
+		If ($PSBoundParameters.ContainsKey('secret')) {
+
+			#Include decoded password in request
+			$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
+
+		}
+
 		switch ($PSCmdlet.ParameterSetName) {
 
 			'AccountObject' {
-
-				#deal with "secret" SecureString
-				If ($PSBoundParameters.ContainsKey('secret')) {
-
-					#Include decoded password in request
-					$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
-
-				}
 
 				$boundParameters.keys | Where-Object { $remoteMachine -contains $PSItem } | ForEach-Object {
 
@@ -165,15 +190,15 @@ Function New-PASAccountObject {
 
 				}
 
-				if ($PSCmdlet.ShouldProcess($userName, 'Create Account Object Definition')) {
-
-					$boundParameters | Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt)
-
-				}
-
 				break
 
 			}
+
+		}
+
+		if ($PSCmdlet.ShouldProcess($userName, 'Create Account Object Definition')) {
+
+			$boundParameters | Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt + 'PersonalAdminAccount')
 
 		}
 
