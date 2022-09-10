@@ -13,20 +13,10 @@ function Get-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen2Filter'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Query'
 		)]
 		[string]$search,
 
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen2Filter'
-		)]
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
@@ -64,21 +54,9 @@ function Get-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen2Filter'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Query'
 		)]
 		[string[]]$sort,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen2Filter'
-		)]
-		[string]$filter,
 
 		[parameter(
 			Mandatory = $false,
@@ -106,13 +84,16 @@ function Get-PASAccount {
 
 	BEGIN {
 
+		#Parameter to include as filter value in url
+		$Parameters = [Collections.Generic.List[String]]@('modificationTime', 'SafeName')
+
 	}#begin
 
 	PROCESS {
 
 		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove modificationTime, SafeName
-		$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep modificationTime, SafeName
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
+		$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
 		$FilterString = $filterParameters | ConvertTo-FilterString
 
 		switch ($PSCmdlet.ParameterSetName) {

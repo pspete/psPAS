@@ -50,7 +50,7 @@ Default operation using the Gen2 API requires minimum version of 11.1
 
 ### EXAMPLE 1
 ```
-set-pasuser -UserName Bill -Disabled $true
+Set-PASUser -UserName Bill -Disabled $true
 ```
 
 Disables vault user Bill

@@ -28,7 +28,7 @@ Requires the following Safe member authorizations:
 - Update account properties.
   - Require for the Safe of the source account
 
-Requires CyberArk Vrsion 12.1+
+Requires CyberArk Version 12.1+
 
 ## EXAMPLES
 

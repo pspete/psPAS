@@ -27,20 +27,7 @@ function Get-PASGroup {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'filter'
-		)]
-		[ValidateSet('groupType eq Directory', 'groupType eq Vault')]
-		[string]$filter,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'groupType'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'filter'
 		)]
 		[string[]]$sort,
 
@@ -48,11 +35,6 @@ function Get-PASGroup {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'groupType'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'filter'
 		)]
 		[string]$search,
 
@@ -66,16 +48,15 @@ function Get-PASGroup {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'groupType'
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'filter'
-		)]
 		[boolean]$includeMembers
 	)
 
 	BEGIN {
 		Assert-VersionRequirement -RequiredVersion 10.5
+
+		#Parameter to include in request
+		$Parameters = [Collections.Generic.List[Object]]::New(@('groupType', 'groupName', 'id'))
+
 	}#begin
 
 	PROCESS {
@@ -84,7 +65,7 @@ function Get-PASGroup {
 		$URI = "$Script:BaseURI/API/UserGroups"
 
 		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove groupType, groupName, id
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -122,8 +103,9 @@ function Get-PASGroup {
 
 				}
 
-				#Get filter to include in request
-				$filterProperties = $PSBoundParameters | Get-PASParameter -ParametersToKeep groupType, groupName
+				#Parse parameters to include as filter value in url
+				$null = $Parameters.Remove('id')
+				$filterProperties = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
 				$FilterString = $filterProperties | ConvertTo-FilterString
 
 				If ($null -ne $FilterString) {
@@ -153,7 +135,7 @@ function Get-PASGroup {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
-				{ $_ -match 'filter|groupType' } {
+				'groupType' {
 
 					$result = $result.value
 
