@@ -177,24 +177,36 @@ Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
 
 ### EXAMPLE 12
 ```
-New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
+Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -Credential $cred -BaseURI $url -type PKI -Certificate $Cert
 ```
 
-Logon using RADIUS & OTP (Append Mode) via the Gen1 API
+Logon with PKI auth, using a selected certificate stored on local machine or smart card + LDAP credentials
 
 ### EXAMPLE 13
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append
 ```
 
-Logon to Version 10 using RADIUS & Push Authentication (works with DUO 2FA)
+Logon to Version 10 using RADIUS & DUO Push Authentication (working with DUO 2FA Append Mode Configuration)
 
 ### EXAMPLE 14
 ```
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
 ```
 
-If authentication via certificates is configured, provide CertificateThumbprint details.
+Authenticate with provided CertificateThumbprint when IIS authentication via certificates is required.
 
 ### EXAMPLE 15
 ```
@@ -205,6 +217,7 @@ Skip SSL Certificate validation for the session.
 
 ### EXAMPLE 16
 ```
+$Certificate = Get-ChildItem -Path Cert:\CurrentUser\My | Where-Object {$PSItem.Subject -match "CN=SomeUser"}
 New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
 ```
 
@@ -394,6 +407,7 @@ Valid values are:
 - Windows
   - Minimum version required 10.4
 - RADIUS
+- PKI
 
 ```yaml
 Type: String

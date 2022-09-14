@@ -110,7 +110,7 @@ function New-PASSession {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Radius'
 		)]
-		[ValidateSet('CyberArk', 'LDAP', 'Windows', 'RADIUS')]
+		[ValidateSet('CyberArk', 'LDAP', 'Windows', 'RADIUS', 'PKI')]
 		[string]$type = 'CyberArk',
 
 		[Parameter(
@@ -447,23 +447,29 @@ function New-PASSession {
 				If ($null -ne $PASSession.UserName) {
 
 					#*$PASSession is expected to be a string value
-					#*For IIS Windows auth:
-					#*An object with a username property can be returned if a secondary authentication is required
+					#*For IIS Windows/PKI auth:
+					#*An object with a username property will be returned if a secondary authentication is required
 
-					If ($PSCmdlet.ParameterSetName -match 'Radius$') {
+					#Use WebSession from initial request
+					$LogonRequest.Remove('SessionVariable')
+					$LogonRequest['WebSession'] = $Script:WebSession
 
-						#If RADIUS parameters are specified
-						#Prepare RADIUS auth request
-						$LogonRequest['Uri'] = "$Uri/api/Auth/RADIUS/Logon"
-
-						#Use WebSession from initial request
-						$LogonRequest.Remove('SessionVariable')
-						$LogonRequest['WebSession'] = $Script:WebSession
-
-						#Submit initial RADIUS auth request
-						$PASSession = Invoke-PASRestMethod @LogonRequest
-
+					#Prepare auth request
+					switch ( $true ) {
+						($PSCmdlet.ParameterSetName -match 'Radius$') {
+							#RADIUS Secondary auth
+							$LogonRequest['Uri'] = "$Uri/api/Auth/RADIUS/Logon"
+							break
+						}
+						($type -eq 'PKI') {
+							#LDAP Secondary auth
+							$LogonRequest['Uri'] = "$Uri/api/Auth/LDAP/Logon"
+							break
+						}
 					}
+
+					#Submit secondary auth request
+					$PASSession = Invoke-PASRestMethod @LogonRequest
 
 				}
 
