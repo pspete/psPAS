@@ -22343,6 +22343,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
             <maml:para>- LDAP</maml:para>
             <maml:para>- Windows</maml:para>
             <maml:para>  - Minimum version required 10.4 - RADIUS</maml:para>
+            <maml:para>- PKI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -22489,6 +22490,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
             <maml:para>- LDAP</maml:para>
             <maml:para>- Windows</maml:para>
             <maml:para>  - Minimum version required 10.4 - RADIUS</maml:para>
+            <maml:para>- PKI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -23626,6 +23628,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:para>- LDAP</maml:para>
           <maml:para>- Windows</maml:para>
           <maml:para>  - Minimum version required 10.4 - RADIUS</maml:para>
+          <maml:para>- PKI</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -23931,23 +23934,35 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 12 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API -useRadiusAuthentication $True -OTP 123456 -OTPMode Append</dev:code>
+        <dev:code>Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -Credential $cred -BaseURI $url -type PKI -Certificate $Cert</dev:code>
         <dev:remarks>
-          <maml:para>Logon using RADIUS &amp; OTP (Append Mode) via the Gen1 API</maml:para>
+          <maml:para>Logon with PKI auth, using a selected certificate stored on local machine or smart card + LDAP credentials</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 13 --------------------------</maml:title>
         <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append</dev:code>
         <dev:remarks>
-          <maml:para>Logon to Version 10 using RADIUS &amp; Push Authentication (works with DUO 2FA)</maml:para>
+          <maml:para>Logon to Version 10 using RADIUS &amp; DUO Push Authentication (working with DUO 2FA Append Mode Configuration)</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 14 --------------------------</maml:title>
         <dev:code>New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb</dev:code>
         <dev:remarks>
-          <maml:para>If authentication via certificates is configured, provide CertificateThumbprint details.</maml:para>
+          <maml:para>Authenticate with provided CertificateThumbprint when IIS authentication via certificates is required.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -23959,7 +23974,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 16 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate</dev:code>
+        <dev:code>$Certificate = Get-ChildItem -Path Cert:\CurrentUser\My | Where-Object {$PSItem.Subject -match "CN=SomeUser"}
+New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate</dev:code>
         <dev:remarks>
           <maml:para>Logon to Version 10 with LDAP credential &amp; Client Certificate</maml:para>
         </dev:remarks>
