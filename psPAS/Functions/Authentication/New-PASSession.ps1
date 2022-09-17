@@ -267,7 +267,13 @@ function New-PASSession {
 
 	BEGIN {
 
+		#Ensure URL is in expected format
+		#Remove trailing space and PasswordVault if provided in BaseUri
+		$baseURI = $baseURI -replace '/$', ''
+		$baseURI = $baseURI -replace '/PasswordVault$', ''
+		#Build URL
 		$Uri = "$baseURI/$PVWAAppName"
+
 		#Hashtable to hold Logon Request
 		$LogonRequest = @{ }
 
