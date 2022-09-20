@@ -2,14 +2,14 @@
 title: "Authentication"
 permalink: /docs/authentication/
 excerpt: "psPAS Authentication"
-last_modified_at: 2019-09-01T01:33:52-00:00
+last_modified_at: 2022-09-20T01:23:45-00:00
 ---
 
 _It all starts with a **Logon**_
 
 `New-PASSession` is used to send a logon request to the CyberArk API.
 
-On successful authentication `psPAS` uses the data which was provided for the request & also returned from the API for all subsequent operations.
+After successful authentication, `psPAS` executes all subsequent operations using the data values supplied for the request (URL, Certificate), and also data returned from the API (Authentication Token, PVWA Version).
 
 ## CyberArk Authentication
 
@@ -51,8 +51,6 @@ xApprover_1 LDAP   EPVUser      False     False   False    False
 
 ## RADIUS Authentication
 
-### Challenge Mode
-
 ````powershell
 $cred = Get-Credential
 
@@ -71,30 +69,6 @@ UserName Source UserTypeName AgentUser Expired Disabled Suspended
 DuoUser  LDAP   EPVUser      False     False   False    False
 ````
 
-### Append Mode
-
-- Some 2FA solutions allow a One Time Passcode to be sent with the password.
-
-  - If an OTP is provided, it is sent to the API with the password, separated by a delimiter: "`$Password,$OTP`"
-
-````powershell
-$cred = Get-Credential
-
-PowerShell credential request
-Enter your credentials.
-User: DuoUser
-Password for user DuoUser: **********
-
-
-New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type RADIUS -OTP 738458 -OTPMode Append
-
-Get-PASLoggedOnUser
-
-UserName Source UserTypeName AgentUser Expired Disabled Suspended
--------- ------ ------------ --------- ------- -------- ---------
-DuoUser  LDAP   EPVUser      False     False   False    False
-````
-
 ## SAML Authentication
 
 SAML SSO authentication using IWA and ADFS can be performed
@@ -103,9 +77,9 @@ SAML SSO authentication using IWA and ADFS can be performed
 New-PASSession -BaseURI $url -SAMLAuth
 ```
 
-Where IWA SSO is not possible, the PS-SAML-Interactive module can be used to get the SAMLResponse from an authentication service.
+Where IWA SSO is not possible, the [PS-SAML-Interactive](https://github.com/allynl93/PS-SAML-Interactive) module can be used to get the SAMLResponse from an authentication service.
 
-SAMLResponse is then used to perform saml authentication.
+The SAMLResponse received from the IdP is sent to complete saml authentication to the API.
 
 ```powershell
 import-module -name 'C:\PS-SAML-Interactive.psm1'
@@ -118,12 +92,28 @@ $loginResponse = New-SAMLInteractive -LoginIDP $loginURL
 New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLResponse $loginResponse
 ```
 
-## Shared Authentication with Client Certificate
+## Certificate Authentication
 
-- If IIS is configured to require client certificates, `psPAS` will use any provided certificate details for the duration of the session.
+- Where PVWA/IIS requires client certificates, 'psPAS' will use any specified certificates for the duration of the session.
 
-````powershell
+PKI Authentication Example:
+```powershell
+Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -Credential $cred -BaseURI $url -type PKI -Certificate $Cert
+```
+Shared Authentication Example:
+```powershell
 $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
-New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com
--CertificateThumbprint $Cert
-````
+New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
+```
+

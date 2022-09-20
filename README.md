@@ -71,7 +71,7 @@ _It all starts with a **Logon**_
 
 `New-PASSession` is used to send a logon request to the CyberArk API.
 
-On successful authentication `psPAS` uses the data which was provided for the request & also returned from the API for all subsequent operations.
+After successful authentication, `psPAS` executes all subsequent operations using the data values supplied for the request (URL, Certificate), and also data returned from the API (Authentication Token, PVWA Version).
 
 #### CyberArk Authentication
 
@@ -113,8 +113,6 @@ xApprover_1 LDAP   EPVUser      False     False   False    False
 
 #### RADIUS Authentication
 
-##### Challenge Mode
-
 ````powershell
 $cred = Get-Credential
 
@@ -133,30 +131,6 @@ UserName Source UserTypeName AgentUser Expired Disabled Suspended
 DuoUser  LDAP   EPVUser      False     False   False    False
 ````
 
-##### Append Mode
-
-- Some 2FA solutions allow a One Time Passcode to be sent with the password.
-
-  - If an OTP is provided, it is sent to the API with the password, separated by a delimiter: "`$Password,$OTP`"
-
-````powershell
-$cred = Get-Credential
-
-PowerShell credential request
-Enter your credentials.
-User: DuoUser
-Password for user DuoUser: **********
-
-
-New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com -type RADIUS -OTP 738458 -OTPMode Append
-
-Get-PASLoggedOnUser
-
-UserName Source UserTypeName AgentUser Expired Disabled Suspended
--------- ------ ------------ --------- ------- -------- ---------
-DuoUser  LDAP   EPVUser      False     False   False    False
-````
-
 #### SAML Authentication
 
 SAML SSO authentication using IWA and ADFS can be performed
@@ -165,9 +139,9 @@ SAML SSO authentication using IWA and ADFS can be performed
 New-PASSession -BaseURI $url -SAMLAuth
 ```
 
-Where IWA SSO is not possible, the [PS-SAML-Interactive](https://github.com/allynl93/PS-SAML-Interactive) module can be used to obtain the SAMLResponse from an authentication service.
+Where IWA SSO is not possible, the [PS-SAML-Interactive](https://github.com/allynl93/PS-SAML-Interactive) module can be used to get the SAMLResponse from an authentication service.
 
-SAMLResponse is then used to perform saml authentication.
+The SAMLResponse received from the IdP is sent to complete saml authentication to the API.
 
 ```powershell
 import-module -name 'C:\PS-SAML-Interactive.psm1'
@@ -180,14 +154,30 @@ $loginResponse = New-SAMLInteractive -LoginIDP $loginURL
 New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLResponse $loginResponse
 ```
 
-#### Shared Authentication with Client Certificate
+#### Certificate Authentication
 
-- If IIS is configured to require client certificates, `psPAS` will use any provided certificate details for the duration of the session.
+- Where PVWA/IIS requires client certificates, 'psPAS' will use any specified certificates for the duration of the session.
 
-````powershell
+PKI Authentication Example:
+```powershell
+Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -Credential $cred -BaseURI $url -type PKI -Certificate $Cert
+```
+Shared Authentication Example:
+```powershell
 $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
-````
+```
 
 ### Basic Operations
 
@@ -781,17 +771,17 @@ A selection of psPAS sample scripts can be found in the [psPAS-Examples](https:/
 
 ## psPAS Functions
 
-Your version of CyberArk determines which functions of psPAS will be supported.
+The commands that are accessible in psPAS are described in this section, along with any possible version requirements.
 
-Check the below table to determine what is available for you to use.
+Which particular psPAS commands and parameters available for use depends on your version of CyberArk.
 
-The CyberArk Version listed is the minimum required to use the function.
+Your specific CyberArk version should be compatible and be able to be used with the most recent psPAS version.
 
-The module will attempt to confirm that your version of CyberArk meets the minimum
+The documentation for the command may include more explicit information on the version requirements for certain parameters.
 
-version requirement (if you are using version 9.7+, and the function being invoked
+The module will attempt to confirm that your version of CyberArk meets the minimum version requirement of any psPAS command being run,
 
-requires version 9.8+).
+and may prevent operations from being executed if version requirement thresholds are not satisfied.
 
 Check the output of `Get-Help` for the `psPAS` functions for further details of available parameters and version requirements.
 
@@ -1097,8 +1087,8 @@ Click the below dropdown to view the current list of psPAS functions and their m
 ### Prerequisites
 
 - PowerShell Core, or Windows Powershell v5 (minimum)
-- CyberArk PAS REST API/Web Service
-- A user with which to authenticate, with appropriate Vault/Safe permissions.
+- CyberArk PAS REST API/PVWA Web Service (available and accessible over HTTPS using TLS 1.2)
+- A user with appropriate Vault/Safe permissions, with which to authenticate.
 
 ### Install Options
 

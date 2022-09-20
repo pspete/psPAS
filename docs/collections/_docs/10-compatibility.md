@@ -2,11 +2,21 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2021-07-25zT01:33:52-00:00
+last_modified_at: 2022-09-20T01:23:45-00:00
 toc: false
 ---
 
-Your version of CyberArk determines which functions of psPAS will be supported.
+The commands that are accessible in psPAS are described in this section, along with any possible version requirements.
+
+Which particular psPAS commands and parameters available for use depends on your version of CyberArk.
+
+Your specific CyberArk version should be compatible and be able to be used with the most recent psPAS version.
+
+The documentation for the command may include more explicit information on the version requirements for certain parameters.
+
+The module will attempt to confirm that your version of CyberArk meets the minimum version requirement of any psPAS command being run, and may
+
+prevent operations from being executed if version requirement thresholds are not satisfied.
 
 ## Function List
 

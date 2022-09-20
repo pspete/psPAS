@@ -2,11 +2,11 @@
 title: "Troubleshooting"
 permalink: /docs/troubleshooting/
 excerpt: "Troubleshooting"
-last_modified_at: 2021-07-07zT01:23:45-00:00
+last_modified_at: 2022-09-20T01:23:45-00:00
 toc: true
 ---
 
-psPAS covers the capabilities of the API published by the Vendor. The published API documentation is the basis for all module operations.
+psPAS covers the capabilities of the API published by the Vendor. The [published API documentation](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Implementing%20Privileged%20Account%20Security%20Web%20Services%20.htm?tocpath=Developer%7CREST%20APIs%7C_____0) is the basis for all module operations.
 
 Links to official vendor documentation each psPAS command is developed against can be found in the Related Links section of the output of `Get-Help -Full <CommandName>`, or via the [command help](https://pspas.pspete.dev/commands/) pages.
 

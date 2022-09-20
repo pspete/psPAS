@@ -2,13 +2,13 @@
 title: "Installation"
 permalink: /docs/install/
 excerpt: "psPAS Download & Install Options"
-last_modified_at: 2020-07-15T01:33:52-00:00
+last_modified_at: 2022-09-20T01:23:45-00:00
 ---
 
 {% capture notice-text %}
-- Powershell v5 (minimum), or PowerShell Core
-- CyberArk PAS REST API/Web Service
-- A user with which to authenticate, with appropriate Vault/Safe permissions.
+- PowerShell Core, or Windows Powershell v5 (minimum)
+- CyberArk PAS REST API/PVWA Web Service (available and accessible over HTTPS using TLS 1.2)
+- A user with appropriate Vault/Safe permissions, with which to authenticate.
 {% endcapture %}
 
 <div class="notice--info">
