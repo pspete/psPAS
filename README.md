@@ -6,9 +6,9 @@
 
 # **psPAS: PowerShell Module for the CyberArk API**
 
-Use PowerShell to manage CyberArk via the PVWA REST API.
+Through the PVWA REST API, administer CyberArk with PowerShell.
 
-Contains all published methods of the API up to CyberArk v12.6.
+contains all of the documented API capabilities up to CyberArk v12.6.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -67,11 +67,11 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ### Authenticate
 
-_It all starts with a **Logon**_
+_Everything begins with a **Logon**:_
 
-`New-PASSession` is used to send a logon request to the CyberArk API.
+To submit a logon request to the CyberArk API, use the psPAS `New-PASSession` command.
 
-After successful authentication, `psPAS` executes all subsequent operations using the data values supplied for the request (URL, Certificate), and also data returned from the API (Authentication Token, PVWA Version).
+All subsequent operations are carried out by `psPAS` utilising the input data provided for the `New-PASSession` request (URL, Certificate), as well as data received from the API after successful authentication (Authentication Token, PVWA Version).
 
 #### CyberArk Authentication
 
@@ -771,19 +771,19 @@ A selection of psPAS sample scripts can be found in the [psPAS-Examples](https:/
 
 ## psPAS Functions
 
-The commands that are accessible in psPAS are described in this section, along with any possible version requirements.
+This section lists the commands available in psPAS as well as any relevant version requirements.
 
-Which particular psPAS commands and parameters available for use depends on your version of CyberArk.
+Depending on your version of CyberArk, different psPAS commands and parameters are available.
 
-Your specific CyberArk version should be compatible and be able to be used with the most recent psPAS version.
+The most recent psPAS version should work with your particular CyberArk version and be able to be used with it.
 
-The documentation for the command may include more explicit information on the version requirements for certain parameters.
+The version requirements for certain parameters are described in greater detail in the command's documentation.
 
-The module will attempt to confirm that your version of CyberArk meets the minimum version requirement of any psPAS command being run,
+The module will take steps to verify that your version of CyberArk meets any psPAS command's minimum version requirement.
 
-and may prevent operations from being executed if version requirement thresholds are not satisfied.
+If version requirement criteria are not met, operations may be prevented.
 
-Check the output of `Get-Help` for the `psPAS` functions for further details of available parameters and version requirements.
+To learn more about the parameters that may be used and the required version, consult the output of the 'Get-Help' command for the 'psPAS' functions.
 
 Click the below dropdown to view the current list of psPAS functions and their minimum version requirements:
 <details>
