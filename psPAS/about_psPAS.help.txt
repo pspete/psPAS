@@ -5,28 +5,29 @@ SHORT DESCRIPTION
     psPAS is a PowerShell interface for the CyberArk REST Web Services.
 
 LONG DESCRIPTION
-    psPAS sends requests to, and receives data from, a CyberArk Privileged Access Security Web Service.
-    It issues commands to the Web Service allowing a user to issue create, list, modify and delete operations to be
-    performed against entities in a Privileged Access Security solution from either a PowerShell console or script.
+    psPAS communicates with a CyberArk Privileged Access Security Web Service to submit requests and receive data.
+    It send commands to the Web Service, enabling a user to issue create, list, modify, and delete commands to be
+    executed against entities in a Privileged Access Security solution from either a PowerShell console or script.
 
 EXAMPLES
-    To use psPAS, access to a CyberArk Privileged Access Security Web Service, as well as a user account with which to
-    authenticate to the Web Service is required.
+    To utilise psPAS, you must have access to a CyberArk Privileged Access Security Web Service and a user account
+    that can be used to log in to the Web Service.
 
-    The version of the CyberArk Web Service will determine which of the modules functions, or in certain use cases,
-    which parameters or parametersets of specific functions can be used. The following table lists module compatibility
-    against CyberArk version:
+    Which module functions, or in some use cases, which parameters or parametersets of particular functions, can
+    be used, depends on the version of the CyberArk Web Service. The compatibility of each module command with
+    each CyberArk version is shown in the following table:
 
     https://github.com/pspete/psPAS#module-functions
 
-    Authentication to the Web Service must take place before any other commands can be issued, every
-    subsequent call to the web service requires the resulting authorization token returned upon successful logon.
+    It is required to authenticate with the Web Service before issuing any commands. After successful authentication,
+    the authorization token is acquired and used for any subsequent requests to the Web Service.
 
     LOGON:
 
     PS C:\> New-PASSession -Credential $VaultCredentials -BaseURI https://PVWA_URL
 
-    Successful authentication with New-PASSession results in the required authorization token value being made available to all subsequent calls to the API
+    All subsequent calls to the API will have access to the necessary authorization token value following a successful
+    authentication with New-PASSession.
 
     PIPELINE OPERATIONS:
 
@@ -53,4 +54,4 @@ KEYWORDS
     CyberArk
 
 SEE ALSO
-    https://github.com/pspete/psPAS
+    https://pspas.pspete.dev/
