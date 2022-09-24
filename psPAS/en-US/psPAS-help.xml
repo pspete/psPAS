@@ -10798,7 +10798,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Version 10.4+: - This method returns a list of either a specific, or all the accounts in the Vault.</maml:para>
+      <maml:para>Version 10.4+: - This method returns either a specific account, or a list of the accounts in the Vault matched by the provided query.</maml:para>
       <maml:para>Version 9.3 - 10.3: - Returns information about an account.</maml:para>
       <maml:para>- If more than one account meets the search criteria,</maml:para>
       <maml:para>only the first account will be returned (the Count output parameter will display the number of accounts that were found). - Only the following users can access this account:   - Users who are members of the Safe where the account is stored.   - Users who have access to this specific account.   - The user who runs this web service requires the following permission in the Safe:   - Retrieve account - If ten or more accounts are found, the Count Output parameter will show 10.</maml:para>
@@ -10924,6 +10924,30 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>limit</maml:name>
+          <maml:description>
+            <maml:para>The maximum page size of accounts to return per request. Specify a number up to 1000. Each page of results will be limited in size to the number provided.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>offset</maml:name>
+          <maml:description>
+            <maml:para>Offset of the first account that is returned in the collection of results.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -11108,6 +11132,30 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>limit</maml:name>
+        <maml:description>
+          <maml:para>The maximum page size of accounts to return per request. Specify a number up to 1000. Each page of results will be limited in size to the number provided.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>offset</maml:name>
+        <maml:description>
+          <maml:para>Offset of the first account that is returned in the collection of results.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -11179,6 +11227,22 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:remarks>
           <maml:para>Returns all accounts from the "New" Saved Filter</maml:para>
           <maml:para>Requires minimum version of 12.6</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 9 --------------------------</maml:title>
+        <dev:code>Get-PASAccount -limit 1000</dev:code>
+        <dev:remarks>
+          <maml:para>Returns all accounts, in page sizes of 1000.</maml:para>
+          <maml:para>Requires minimum version of 10.4</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 10 --------------------------</maml:title>
+        <dev:code>Get-PASAccount -limit 500 -offset 1500</dev:code>
+        <dev:remarks>
+          <maml:para>Returns all accounts, skipping the first 1500 results, in page sizes of 500.</maml:para>
+          <maml:para>Requires minimum version of 10.4</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
