@@ -2,33 +2,31 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2022-09-20T01:23:45-00:00
+last_modified_at: 2022-09-24T01:23:45-00:00
 toc: false
 ---
 
-The commands that are accessible in psPAS are described in this section, along with any possible version requirements.
+This section lists the commands available in psPAS as well as any relevant version requirements.
 
-Which particular psPAS commands and parameters available for use depends on your version of CyberArk.
+Depending on your version of CyberArk, different psPAS commands and parameters are available.
 
-Your specific CyberArk version should be compatible and be able to be used with the most recent psPAS version.
+The most recent psPAS version should work with your particular CyberArk version and be able to be used with it.
 
-The documentation for the command may include more explicit information on the version requirements for certain parameters.
-
-The module will attempt to confirm that your version of CyberArk meets the minimum version requirement of any psPAS command being run, and may
-
-prevent operations from being executed if version requirement thresholds are not satisfied.
+The version requirements for certain parameters are described in greater detail in the command's documentation.
 
 ## Function List
 
 Check the below table to determine what functions are available for you to use:
 
-The CyberArk Version listed is the minimum required to use the function.
+The minimum required version of CyberArk to use the function is listed.
 {: .notice--info}
 
 CyberArk Version may affect available capabilities or function parameters. See [Notes](#notes) for more details.
 {: .notice--warning}
 
-If you are using version 9.7+, and the function being invoked requires version 9.8+, psPAS will attempt to confirm that your version of CyberArk meets the minimum version requirement.
+If you are using version 9.7+, and the function being invoked requires version 9.8+, the module will take steps to verify that your version of CyberArk meets any psPAS command's minimum version requirement.
+
+If version requirement criteria are not met, operations may be prevented.
 {: .notice--success}
 
 **Function Name**                                                                        | **CyberArk Version**                               | **Description**

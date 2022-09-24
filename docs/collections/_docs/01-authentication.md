@@ -2,14 +2,14 @@
 title: "Authentication"
 permalink: /docs/authentication/
 excerpt: "psPAS Authentication"
-last_modified_at: 2022-09-20T01:23:45-00:00
+last_modified_at: 2022-09-24T01:23:45-00:00
 ---
 
-_It all starts with a **Logon**_
+_Everything begins with a **Logon**:_
 
-`New-PASSession` is used to send a logon request to the CyberArk API.
+To submit a logon request to the CyberArk API, use the psPAS `New-PASSession` command.
 
-After successful authentication, `psPAS` executes all subsequent operations using the data values supplied for the request (URL, Certificate), and also data returned from the API (Authentication Token, PVWA Version).
+All subsequent operations are carried out by `psPAS` utilising the input data provided for the `New-PASSession` request (URL, Certificate), as well as data received from the API after successful authentication (Authentication Token, PVWA Version).
 
 ## CyberArk Authentication
 
