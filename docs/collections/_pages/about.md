@@ -40,7 +40,7 @@ To learn how to interact with and contribute changes to the project, use the [Co
 
 ## Getting Help & Support
 
-As a community-developed tool, psPAS is not covered by any support or maintenance agreements you may have. Additionally, as CyberArk has not developed psPAS, you should not rely on the official support channels to get assistance related to the psPAS module.
+Because psPAS is a community-developed product, it is not covered by any current maintenance contracts you might have for CyberArk support. Likewise, since psPAS has been independently developed, you should not use the official support channels for assistance relating to the module.
 
 Help and support should be sought by opening an Issue on the project's GitHub page (preferable), or emailing <a href="mailto:pspas@pspete.dev">pspas@pspete.dev</a> if opening a GiHub Issue is not an available option.
 
