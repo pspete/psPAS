@@ -24,7 +24,7 @@ The minimum required version of CyberArk to use the function is listed.
 CyberArk Version may affect available capabilities or function parameters. See [Notes](#notes) for more details.
 {: .notice--warning}
 
-If you are using version 9.7+, and the function being invoked requires version 9.8+, the module will take steps to verify that your version of CyberArk meets any psPAS command's minimum version requirement.
+The module will take steps to verify that your version of CyberArk meets any psPAS command's minimum version requirement.
 
 If version requirement criteria are not met, operations may be prevented.
 {: .notice--success}
