@@ -29,7 +29,7 @@ This capability is currently in Beta phase and will be undergoing future changes
 
 ### Example 1
 ```powershell
-PS C:\> Add-PASPersonalAdminAccount -address somedomain -userName someUser -secret $SomePassword
+Add-PASPersonalAdminAccount -address somedomain -userName someUser -secret $SomePassword
 ```
 
 Adds Personal Admin Account to private dedicated Safe.
@@ -92,5 +92,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 [https://pspas.pspete.dev/commands/Add-PASPersonalAdminAccount](https://pspas.pspete.dev/commands/Add-PASPersonalAdminAccount)
-
-[https://docs.cyberark.com/Product-Doc/OnlineHelp/PrivCloud/Latest/en/Content/Privilege%20Cloud/PrivCloud-enable-personal-account.htm?TocPath=Administrators%7C_____6](https://docs.cyberark.com/Product-Doc/OnlineHelp/PrivCloud/Latest/en/Content/Privilege%20Cloud/PrivCloud-enable-personal-account.htm?TocPath=Administrators%7C_____6)

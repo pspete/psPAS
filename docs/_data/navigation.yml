@@ -123,6 +123,12 @@ commands:
         url: /commands/Set-PASLinkedAccount
       - title: "Clear-PASLinkedAccount"
         url: /commands/Clear-PASLinkedAccount
+      - title: "Get-PASLinkedAccount"
+        url: /commands/Get-PASLinkedAccount
+      - title: "Publish-PASDiscoveredAccount"
+        url: /commands/Publish-PASDiscoveredAccount
+      - title: "Add-PASPersonalAdminAccount"
+        url: /commands/Add-PASPersonalAdminAccount
 
   - title: "Applications"
     children:

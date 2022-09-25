@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2022-09-24T01:23:45-00:00
+last_modified_at: 2022-09-25T01:23:45-00:00
 toc: false
 ---
 
@@ -174,8 +174,14 @@ If version requirement criteria are not met, operations may be prevented.
 [`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**                                            |Update CyberArk groups
 [`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                       |**12.2**                                            |Get basic information on current platform system types
 [`Enable-PASUser`][Enable-PASUser]                                                       |**12.6**                                            |Enable CyberArk Users
-[`Disable-PASUser`][Enable-PASUser]                                                      |**12.6**                                            |Disable CyberArk Users
+[`Disable-PASUser`][Disable-PASUser]                                                     |**12.6**                                            |Disable CyberArk Users
+[`Publish-PASDiscoveredAccount`][Publish-PASDiscoveredAccount]                           |**12.6**                                            |Onboard Discovered Accounts
+[`Get-PASLinkedAccount`][Get-PASLinkedAccount]                                           |**12.2**                                            |Get details of linked accounts
+[`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                             |**12.6**                                            |Add Personal Admin Account (Privilege Cloud Only).
 
+[Get-PASLinkedAccount]:/commands/Get-PASLinkedAccount
+[Add-PASPersonalAdminAccount]:/commands/Add-PASPersonalAdminAccount
+[Publish-PASDiscoveredAccount]:/commands/Publish-PASDiscoveredAccount
 [Enable-PASUser]:/commands/Enable-PASUser
 [Disable-PASUser]:/commands/Disable-PASUser
 [Get-PASPlatformSummary]:/commands/Get-PASPlatformSummary

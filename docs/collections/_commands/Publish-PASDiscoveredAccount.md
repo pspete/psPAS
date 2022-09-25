@@ -29,7 +29,7 @@ Optionally set the account to be reconciled, and/or with a default password.
 ### Example 1
 ```powershell
 $password = Read-Host -AsSecureString -Prompt "defaultPassword value"
-Approve-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -defaultPassword $password
+Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -defaultPassword $password
 ```
 
 Onboard discovered account with id 66_6 to `SomeSafe` with the provided default password

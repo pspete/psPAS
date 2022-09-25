@@ -934,8 +934,14 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**            |Update CyberArk groups
 [`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                       |**12.2**            |Get information on platform system types
 [`Enable-PASUser`][Enable-PASUser]                                                       |**12.6**            |Enable CyberArk Users
-[`Disable-PASUser`][Enable-PASUser]                                                      |**12.6**            |Disable CyberArk Users
+[`Disable-PASUser`][Disable-PASUser]                                                     |**12.6**            |Disable CyberArk Users
+[`Publish-PASDiscoveredAccount`][Publish-PASDiscoveredAccount]                           |**12.6**            |Onboard Discovered Accounts
+[`Get-PASLinkedAccount`][Get-PASLinkedAccount]                                           |**12.2**            |Get details of linked accounts
+[`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                             |**12.6**            |Add Personal Admin Account (Privilege Cloud Only).
 
+[Get-PASLinkedAccount]:/psPAS/Functions/Accounts/Get-PASLinkedAccount
+[Add-PASPersonalAdminAccount]:/psPAS/Functions/Accounts/Add-PASPersonalAdminAccount
+[Publish-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Publish-PASDiscoveredAccount
 [Get-PASPlatformSummary]:/psPAS/Functions/Platforms/Get-PASPlatformSummary.ps1
 [Add-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider.ps1
 [Get-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Get-PASOpenIDConnectProvider.ps1

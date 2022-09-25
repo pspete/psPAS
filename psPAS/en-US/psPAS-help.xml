@@ -5951,7 +5951,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Add-PASPersonalAdminAccount -address somedomain -userName someUser -secret $SomePassword</dev:code>
+        <dev:code>Add-PASPersonalAdminAccount -address somedomain -userName someUser -secret $SomePassword</dev:code>
         <dev:remarks>
           <maml:para>Adds Personal Admin Account to private dedicated Safe.</maml:para>
         </dev:remarks>
@@ -5965,10 +5965,6 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
       <maml:navigationLink>
         <maml:linkText>https://pspas.pspete.dev/commands/Add-PASPersonalAdminAccount</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Add-PASPersonalAdminAccount</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PrivCloud/Latest/en/Content/Privilege%20Cloud/PrivCloud-enable-personal-account.htm?TocPath=Administrators%7C_____6</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PrivCloud/Latest/en/Content/Privilege%20Cloud/PrivCloud-enable-personal-account.htm?TocPath=Administrators%7C_____6</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -10798,11 +10794,12 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Version 10.4+: - This method returns either a specific account, or a list of the accounts in the Vault matched by the provided query.</maml:para>
-      <maml:para>Version 9.3 - 10.3: - Returns information about an account.</maml:para>
-      <maml:para>- If more than one account meets the search criteria,</maml:para>
-      <maml:para>only the first account will be returned (the Count output parameter will display the number of accounts that were found). - Only the following users can access this account:   - Users who are members of the Safe where the account is stored.   - Users who have access to this specific account.   - The user who runs this web service requires the following permission in the Safe:   - Retrieve account - If ten or more accounts are found, the Count Output parameter will show 10.</maml:para>
-      <maml:para>Requires the following permission on a safe to be able to get account details: - List accounts.</maml:para>
+      <maml:para>This function returns accounts in the Vault that match the submitted id or query.</maml:para>
+      <maml:para>Versions 9.3 to 10.3:</maml:para>
+      <maml:para>- Returns details about a single, matching account.</maml:para>
+      <maml:para>- Only the first account will be returned if more than one account matches the search criteria</maml:para>
+      <maml:para>  - (the Count output parameter will display the number of accounts that were found) - If ten or more accounts are found, the Count Output parameter will show 10.</maml:para>
+      <maml:para>Requires safe permissions: - List accounts.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -22361,13 +22358,13 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object which are used in subsequent calls to the API.</maml:para>
-      <maml:para>In addition, this method allows you to set a new password.</maml:para>
-      <maml:para>Default operation is against the Gen2 API and requires minimum version 10</maml:para>
-      <maml:para>For older CyberArk versions, specify the -UseGen1API switch parameter to force use of the Gen1 API endpoint.</maml:para>
-      <maml:para>Minimum version required for Windows authentication is 10.4</maml:para>
-      <maml:para>Minimum version required for LDAP, RADIUS, SAML or Shared authentication is 9.7</maml:para>
-      <maml:para>For CyberArk version older than 9.7: - Only CyberArk Authentication method is supported.</maml:para>
+      <maml:para>Facilitates user authentication to a CyberArk Vault and retains an authentication token as well as webrequest session data to be used in future API calls.</maml:para>
+      <maml:para>Users can also set a new password via the authentication process.</maml:para>
+      <maml:para>By default, the Gen2 API is used, and version 10 is expected.</maml:para>
+      <maml:para>Use the -UseGen1API switch parameter to target the Gen1 API endpoint.</maml:para>
+      <maml:para>Windows authentication requires at least version 10.4</maml:para>
+      <maml:para>LDAP, RADIUS, SAML, and shared authentication all require a minimum version of 9.7.</maml:para>
+      <maml:para>Versions of CyberArk prior to 9.7: - The only authentication mechanism supported is CyberArk.</maml:para>
       <maml:para>- newPassword Parameter is not supported.</maml:para>
       <maml:para>- useRadiusAuthentication Parameter is not supported.</maml:para>
       <maml:para>- connectionNumber Parameter is not supported.</maml:para>
@@ -25690,7 +25687,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
         <dev:code>$password = Read-Host -AsSecureString -Prompt "defaultPassword value"
-Approve-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -defaultPassword $password</dev:code>
+Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -defaultPassword $password</dev:code>
         <dev:remarks>
           <maml:para>Onboard discovered account with id 66_6 to `SomeSafe` with the provided default password</maml:para>
         </dev:remarks>

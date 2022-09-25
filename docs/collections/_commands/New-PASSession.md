@@ -75,21 +75,21 @@ New-PASSession [-UseDefaultCredentials] [-concurrentSession <Boolean>] -BaseURI 
 ```
 
 ## DESCRIPTION
-Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object
-which are used in subsequent calls to the API.
+Facilitates user authentication to a CyberArk Vault and retains an authentication token as well as webrequest
+session data to be used in future API calls.
 
-In addition, this method allows you to set a new password.
+Users can also set a new password via the authentication process.
 
-Default operation is against the Gen2 API and requires minimum version 10
+By default, the Gen2 API is used, and version 10 is expected.
 
-For older CyberArk versions, specify the -UseGen1API switch parameter to force use of the Gen1 API endpoint.
+Use the -UseGen1API switch parameter to target the Gen1 API endpoint.
 
-Minimum version required for Windows authentication is 10.4
+Windows authentication requires at least version 10.4
 
-Minimum version required for LDAP, RADIUS, SAML or Shared authentication is 9.7
+LDAP, RADIUS, SAML, and shared authentication all require a minimum version of 9.7.
 
-For CyberArk version older than 9.7:
-- Only CyberArk Authentication method is supported.
+Versions of CyberArk prior to 9.7:
+- The only authentication mechanism supported is CyberArk.
 - newPassword Parameter is not supported.
 - useRadiusAuthentication Parameter is not supported.
 - connectionNumber Parameter is not supported.

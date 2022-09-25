@@ -4,12 +4,34 @@
 
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
-- Removal of depreciated `filter` parameters.
-- Documentation updates
 
-## **5.3.76 (August 17th 2022)** ##
+## **5.4.## (September #### 2022)**
 
--Updates
+- New Commands
+  - `Publish-PASDiscoveredAccount`
+    - Onboards a discovered account.
+    - Feature Request: based on swagger documentation
+  - `Get-PASLinkedAccount`
+    - Gets details of linked accounts
+  - `Add-PASPersonalAdminAccount`
+    - Specific for Adding Personal Admin Accounts in Privilege Cloud.
+    - Based on swagger documentation
+- Other Updates
+  - `New-PASSession`
+    - Feature Request: Adds support for PKI Authentication.
+  - `Get-PASAccount`
+    - Adds `limit` & `offset` parameters.
+    - Removes `Gen2Filter` ParameterSet.
+  - `Get-PASGroup`
+    - Removes `filter` ParameterSet.
+  - `Get-PASSafe`
+    - Corrects ambiguous invocation options (Gen1).
+  - Documentation
+    - General updates throughout.
+
+## **5.3.76 (August 17th 2022)**
+
+- Updates
   - Set-PASUser / New-PASUser
     - Adds `GUI` as available parameter value for `unAuthorizedInterfaces` parameter.
 - Gen1 API Specific
