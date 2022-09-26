@@ -5,7 +5,7 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
-## **5.4.## (September 26th 2022)**
+## **5.4.94 (September 26th 2022)**
 
 - Breaking Changes
   - `Get-PASAccount`
