@@ -2,7 +2,7 @@
 title: "psPAS + API Command Reference"
 permalink: /commands/
 excerpt: "Command Reference"
-last_modified_at: 2022-06-08zT01:33:52-00:00
+last_modified_at: 2022-09-25T01:23:45-00:00
 toc: false
 layout: single-mod
 classes: wide
@@ -12,7 +12,7 @@ sidebar:
   nav: "commands"
 ---
 
-The table below lists links to the official documentation for the API commands, against links to the psPAS function where the API command is exposed within the module.
+In the table below, links to the official vendor documentation for the API commands are included alongside links to the documentation for related functions in the psPAS module.
 
 Some API commands are combined into single psPAS commands.
 {: .notice--warning}

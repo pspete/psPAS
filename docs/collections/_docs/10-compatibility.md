@@ -2,23 +2,31 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2021-07-25zT01:33:52-00:00
+last_modified_at: 2022-09-25T01:23:45-00:00
 toc: false
 ---
 
-Your version of CyberArk determines which functions of psPAS will be supported.
+This section lists the commands available in psPAS as well as any relevant version requirements.
+
+Depending on your version of CyberArk, different psPAS commands and parameters are available.
+
+The most recent psPAS version should work with your particular CyberArk version and be able to be used with it.
+
+The version requirements for certain parameters are described in greater detail in the command's documentation.
 
 ## Function List
 
 Check the below table to determine what functions are available for you to use:
 
-The CyberArk Version listed is the minimum required to use the function.
+The minimum required version of CyberArk to use the function is listed.
 {: .notice--info}
 
 CyberArk Version may affect available capabilities or function parameters. See [Notes](#notes) for more details.
 {: .notice--warning}
 
-If you are using version 9.7+, and the function being invoked requires version 9.8+, psPAS will attempt to confirm that your version of CyberArk meets the minimum version requirement.
+The module will take steps to verify that your version of CyberArk meets any psPAS command's minimum version requirement.
+
+If version requirement criteria are not met, operations may be prevented.
 {: .notice--success}
 
 **Function Name**                                                                        | **CyberArk Version**                               | **Description**
@@ -166,8 +174,14 @@ If you are using version 9.7+, and the function being invoked requires version 9
 [`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**                                            |Update CyberArk groups
 [`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                       |**12.2**                                            |Get basic information on current platform system types
 [`Enable-PASUser`][Enable-PASUser]                                                       |**12.6**                                            |Enable CyberArk Users
-[`Disable-PASUser`][Enable-PASUser]                                                      |**12.6**                                            |Disable CyberArk Users
+[`Disable-PASUser`][Disable-PASUser]                                                     |**12.6**                                            |Disable CyberArk Users
+[`Publish-PASDiscoveredAccount`][Publish-PASDiscoveredAccount]                           |**12.6**                                            |Onboard Discovered Accounts
+[`Get-PASLinkedAccount`][Get-PASLinkedAccount]                                           |**12.2**                                            |Get details of linked accounts
+[`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                             |**12.6**                                            |Add Personal Admin Account (Privilege Cloud Only).
 
+[Get-PASLinkedAccount]:/commands/Get-PASLinkedAccount
+[Add-PASPersonalAdminAccount]:/commands/Add-PASPersonalAdminAccount
+[Publish-PASDiscoveredAccount]:/commands/Publish-PASDiscoveredAccount
 [Enable-PASUser]:/commands/Enable-PASUser
 [Disable-PASUser]:/commands/Disable-PASUser
 [Get-PASPlatformSummary]:/commands/Get-PASPlatformSummary
@@ -511,7 +525,7 @@ If you are using version 9.7+, and the function being invoked requires version 9
     - New options for finding platforms
 - Version 11.4 introduced new API endpoints
   - Parameters added to enable more filtering options for querying target platforms
-  - Parameters addded to request details of dependent, group & rotational group platforms.
+  - Parameters added to request details of dependent, group & rotational group platforms.
 - Version 9.10+  When specifying PlatformID
   - if the platform properties contain a semicolon (';'), the API may not return the complete value.
     - noted for ChangeCommand, ReconcileCommand & ConnectionCommand properties

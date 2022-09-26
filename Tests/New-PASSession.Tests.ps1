@@ -228,6 +228,39 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sends request to expected URL if trailing slash is included by user' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI/'
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://P_URI/PasswordVault/api/AUTH/CyberArk/Logon'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected URL if PasswordVault is included by user' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI/PasswordVault'
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://P_URI/PasswordVault/api/AUTH/CyberArk/Logon'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected URL if PasswordVault and trailing slash are included by user' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI/PasswordVault/'
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://P_URI/PasswordVault/api/AUTH/CyberArk/Logon'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'sends request to expected v10 URL for LDAP Authentication' {
 
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type LDAP

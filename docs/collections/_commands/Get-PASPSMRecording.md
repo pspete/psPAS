@@ -35,7 +35,7 @@ Returns the details of recordings of PSM, PSMP or OPM sessions.
 Get-PASPSMRecording -Limit 10 -Safe PSMRecordings -Sort -FileName
 ```
 
-Lists the first 10 recordings from the PSMRecordings safe, sorted by decending filename.
+Lists the first 10 recordings from the PSMRecordings safe, sorted by descending filename.
 
 ### EXAMPLE 2
 ```

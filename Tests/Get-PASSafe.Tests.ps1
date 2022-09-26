@@ -48,7 +48,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
-				Get-PASSafe -FindAll
+				Get-PASSafe -FindAll -UseGen1API
 
 			}
 
@@ -83,7 +83,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'throws if version exceeds 12.2' {
 
 				$Script:ExternalVersion = '12.3'
-				{ Get-PASSafe -FindAll } | Should -Throw
+				{ Get-PASSafe -FindAll -UseGen1API } | Should -Throw
 				$Script:ExternalVersion = '0.0'
 
 			}
@@ -308,7 +308,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
-				$response = Get-PASSafe -FindAll
+				$response = Get-PASSafe -FindAll -UseGen1API
 			}
 
 			It 'provides output' {

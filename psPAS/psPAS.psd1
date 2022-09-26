@@ -220,7 +220,10 @@
 		'Clear-PASLinkedAccount',
 		'Get-PASPlatformSummary',
 		'Enable-PASUser',
-		'Disable-PASUser'
+		'Disable-PASUser',
+		'Publish-PASDiscoveredAccount',
+		'Get-PASLinkedAccount',
+		'Add-PASPersonalAdminAccount'
 	)
 
 	#AliasesToExport   = @()

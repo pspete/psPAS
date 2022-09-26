@@ -75,21 +75,21 @@ New-PASSession [-UseDefaultCredentials] [-concurrentSession <Boolean>] -BaseURI 
 ```
 
 ## DESCRIPTION
-Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object
-which are used in subsequent calls to the API.
+Facilitates user authentication to a CyberArk Vault and retains an authentication token as well as webrequest
+session data to be used in future API calls.
 
-In addition, this method allows you to set a new password.
+Users can also set a new password via the authentication process.
 
-Default operation is against the Gen2 API and requires minimum version 10
+By default, the Gen2 API is used, and version 10 is expected.
 
-For older CyberArk versions, specify the -UseGen1API switch parameter to force use of the Gen1 API endpoint.
+Use the -UseGen1API switch parameter to target the Gen1 API endpoint.
 
-Minimum version required for Windows authentication is 10.4
+Windows authentication requires at least version 10.4
 
-Minimum version required for LDAP, RADIUS, SAML or Shared authentication is 9.7
+LDAP, RADIUS, SAML, and shared authentication all require a minimum version of 9.7.
 
-For CyberArk version older than 9.7:
-- Only CyberArk Authentication method is supported.
+Versions of CyberArk prior to 9.7:
+- The only authentication mechanism supported is CyberArk.
 - newPassword Parameter is not supported.
 - useRadiusAuthentication Parameter is not supported.
 - connectionNumber Parameter is not supported.
@@ -177,24 +177,36 @@ Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
 
 ### EXAMPLE 12
 ```
-New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API -useRadiusAuthentication $True -OTP 123456 -OTPMode Append
+Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -Credential $cred -BaseURI $url -type PKI -Certificate $Cert
 ```
 
-Logon using RADIUS & OTP (Append Mode) via the Gen1 API
+Logon with PKI auth, using a selected certificate stored on local machine or smart card + LDAP credentials
 
 ### EXAMPLE 13
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append
 ```
 
-Logon to Version 10 using RADIUS & Push Authentication (works with DUO 2FA)
+Logon to Version 10 using RADIUS & DUO Push Authentication (working with DUO 2FA Append Mode Configuration)
 
 ### EXAMPLE 14
 ```
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
 ```
 
-If authentication via certificates is configured, provide CertificateThumbprint details.
+Authenticate with provided CertificateThumbprint when IIS authentication via certificates is required.
 
 ### EXAMPLE 15
 ```
@@ -205,6 +217,7 @@ Skip SSL Certificate validation for the session.
 
 ### EXAMPLE 16
 ```
+$Certificate = Get-ChildItem -Path Cert:\CurrentUser\My | Where-Object {$PSItem.Subject -match "CN=SomeUser"}
 New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
 ```
 
@@ -394,6 +407,7 @@ Valid values are:
 - Windows
   - Minimum version required 10.4
 - RADIUS
+- PKI
 
 ```yaml
 Type: String
@@ -526,7 +540,7 @@ Accept wildcard characters: False
 ```
 
 ### -BaseURI
-A string containing the base web address to send te request to.
+A string containing the base web address to send the request to.
 
 Pass the PVWA HTTP address.
 

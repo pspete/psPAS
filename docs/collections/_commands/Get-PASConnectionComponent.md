@@ -28,7 +28,7 @@ Allows Vault admins to get the list of all connection components of an entire en
 Get-PASConnectionComponent
 ```
 
-Lists all connection components configred in the environment
+Lists all connection components configured in the environment
 
 ## PARAMETERS
 

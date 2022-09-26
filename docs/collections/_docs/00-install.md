@@ -2,13 +2,13 @@
 title: "Installation"
 permalink: /docs/install/
 excerpt: "psPAS Download & Install Options"
-last_modified_at: 2020-07-15T01:33:52-00:00
+last_modified_at: 2022-09-25T01:23:45-00:00
 ---
 
 {% capture notice-text %}
-- Powershell v5 (minimum), or PowerShell Core
-- CyberArk PAS REST API/Web Service
-- A user with which to authenticate, with appropriate Vault/Safe permissions.
+- PowerShell Core, or Windows Powershell v5 (minimum)
+- CyberArk PAS REST API/PVWA Web Service (available and accessible over HTTPS using TLS 1.2)
+- A user who can authenticate and has the necessary Vault/Safe permissions.
 {% endcapture %}
 
 <div class="notice--info">
@@ -16,13 +16,13 @@ last_modified_at: 2020-07-15T01:33:52-00:00
   {{ notice-text | markdownify }}
 </div>
 
-psPAS is available to download from either the PowerShell Gallery or GitHub.
+Users can download psPAS from GitHub or the PowerShell Gallery.
 
-Choose one of the following methods to obtain & install the module:
+Choose any of the following ways to download the module and install it:
 
 ## Option 1: Install from PowerShell Gallery
 
-This is the simplest & preferred method for installation of the module.
+This is the easiest and most popular way to install the module.
 
 1. Open a PowerShell prompt
 
@@ -37,9 +37,9 @@ Install-Module -Name psPAS -Scope CurrentUser
 
 ## Option 2: Manual Install
 
-You can manually copy the module files to one of your powershell module folders.
+The module files can be manually copied to one of your PowerShell module directories.
 
-Find your PowerShell Module Paths with the following command:
+Use the following command to get the paths to your local PowerShell module folders:
 
 ```powershell
 
@@ -47,28 +47,28 @@ $env:PSModulePath.split(';')
 
 ```
 
-The module files should be placed in a folder named `psPAS` in one of the listed locations
+The module files must be placed in one of the listed directories, in a folder called `psPAS`.
 
 More: [about_PSModulePath](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_psmodulepath)
 
-There are multiple options for downloading the module files:
+The module files are available to download using a variety of methods:
 
 ### PowerShell Gallery
 
-- Download from the module [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/):
+- Download from the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/):
   - Run the PowerShell command `Save-Module -Name psPAS -Path C:\temp`
   - Copy the `C:\temp\psPAS` folder to your "Powershell Modules" directory of choice.
 
 ### psPAS Release
 
-- [Download the latest release](https://github.com/pspete/psPAS/releases/latest)
+- [Download the latest GitHub release](https://github.com/pspete/psPAS/releases/latest)
   - Unblock & Extract the archive
   - Rename the extracted `psPAS-v#.#.#` folder to `psPAS`
   - Copy the `psPAS` folder to your "Powershell Modules" directory of choice.
 
 ### psPAS Branch
 
-- [Download the ```master branch```](https://github.com/pspete/psPAS/archive/master.zip)
+- [Download ```GitHub Branch```](https://github.com/pspete/psPAS/archive/master.zip)
   - Unblock & Extract the archive
   - Copy the `psPAS` (`\<Archive Root>\psPAS-master\psPAS`) folder to your "Powershell Modules" directory of choice.
 

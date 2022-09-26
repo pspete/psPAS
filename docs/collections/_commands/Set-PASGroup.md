@@ -23,7 +23,7 @@ Updates a Vault group.
 The authenticated user requires the following permissions:
 - Add\Update users
 
-Requires CyberArk Vrsion 12.0+
+Requires CyberArk Version 12.0+
 
 ## EXAMPLES
 

@@ -5850,6 +5850,126 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Add-PASPersonalAdminAccount</command:name>
+      <command:verb>Add</command:verb>
+      <command:noun>PASPersonalAdminAccount</command:noun>
+      <maml:description>
+        <maml:para>Adds a personal privileged account in Privilege Cloud.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Privilege Cloud Only.</maml:para>
+      <maml:para>Add personal privileged account for individual use and store in private dedicated Safe.</maml:para>
+      <maml:para>This capability is currently in Beta phase and will be undergoing future changes and expansion.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Add-PASPersonalAdminAccount</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+          <maml:name>address</maml:name>
+          <maml:description>
+            <maml:para>The name or address of the machine where the account will be used. Valid values: DNS/IP/URL where the account is managed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+          <maml:name>userName</maml:name>
+          <maml:description>
+            <maml:para>Account user's name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+          <maml:name>secret</maml:name>
+          <maml:description>
+            <maml:para>Account password as SecureString</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
+          <dev:type>
+            <maml:name>SecureString</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+        <maml:name>address</maml:name>
+        <maml:description>
+          <maml:para>The name or address of the machine where the account will be used. Valid values: DNS/IP/URL where the account is managed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <maml:name>userName</maml:name>
+        <maml:description>
+          <maml:para>Account user's name.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+        <maml:name>secret</maml:name>
+        <maml:description>
+          <maml:para>Account password as SecureString</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
+        <dev:type>
+          <maml:name>SecureString</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Add-PASPersonalAdminAccount -address somedomain -userName someUser -secret $SomePassword</dev:code>
+        <dev:remarks>
+          <maml:para>Adds Personal Admin Account to private dedicated Safe.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Add-PASPendingAccount</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Add-PASPersonalAdminAccount</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Add-PASPersonalAdminAccount</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Add-PASPolicyACL</command:name>
       <command:verb>Add</command:verb>
       <command:noun>PASPolicyACL</command:noun>
@@ -6246,7 +6366,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
       <command:verb>Add</command:verb>
       <command:noun>PASPublicSSHKey</command:noun>
       <maml:description>
-        <maml:para>Adds an authorised public SSH key foraspecific user in the Vault.</maml:para>
+        <maml:para>Adds an authorised public SSH key for a specific user in the Vault.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -6262,7 +6382,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           <maml:name>UserName</maml:name>
           <maml:description>
             <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-            <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+            <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -6293,7 +6413,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
         <maml:name>UserName</maml:name>
         <maml:description>
           <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-          <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+          <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -10674,11 +10794,12 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Version 10.4+: - This method returns a list of either a specific, or all the accounts in the Vault.</maml:para>
-      <maml:para>Version 9.3 - 10.3: - Returns information about an account.</maml:para>
-      <maml:para>- If more than one account meets the search criteria,</maml:para>
-      <maml:para>only the first account will be returned (the Count output parameter will display the number of accounts that were found). - Only the following users can access this account:   - Users who are members of the Safe where the account is stored.   - Users who have access to this specific account.   - The user who runs this web service requires the following permission in the Safe:   - Retrieve account - If ten or more accounts are found, the Count Output parameter will show 10.</maml:para>
-      <maml:para>Requires the following permission on a safe to be able to get account details: - List accounts.</maml:para>
+      <maml:para>This function returns accounts in the Vault that match the submitted id or query.</maml:para>
+      <maml:para>Versions 9.3 to 10.3:</maml:para>
+      <maml:para>- Returns details about a single, matching account.</maml:para>
+      <maml:para>- Only the first account will be returned if more than one account matches the search criteria</maml:para>
+      <maml:para>  - (the Count output parameter will display the number of accounts that were found) - If ten or more accounts are found, the Count Output parameter will show 10.</maml:para>
+      <maml:para>Requires safe permissions: - List accounts.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -10804,76 +10925,29 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PASAccount</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>search</maml:name>
+          <maml:name>limit</maml:name>
           <maml:description>
-            <maml:para>The search term or keywords.</maml:para>
-            <maml:para>Requires minimum version of 10.4</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>searchType</maml:name>
-          <maml:description>
-            <maml:para>Get accounts that either contain or start with the value specified in the Search parameter.</maml:para>
-            <maml:para>Requires minimum version of 10.4</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>sort</maml:name>
-          <maml:description>
-            <maml:para>Property or properties by which to sort returned accounts, followed by asc (default) or desc to control sort direction.</maml:para>
-            <maml:para>Separate multiple properties with commas, up to a maximum of three properties.</maml:para>
-            <maml:para>Requires minimum version of 10.4</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
-          <dev:type>
-            <maml:name>String[]</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>filter</maml:name>
-          <maml:description>
-            <maml:para>A filter for the search.</maml:para>
-            <maml:para>Requires format: "SafeName eq 'YourSafe'"</maml:para>
-            <maml:para>*depreciated parameter in psPAS - safeName &amp; modifiedTime will automatically be set as filter values</maml:para>
-            <maml:para>Requires minimum version of 10.4</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>TimeoutSec</maml:name>
-          <maml:description>
-            <maml:para>See Invoke-WebRequest</maml:para>
-            <maml:para>Specify a timeout value in seconds</maml:para>
+            <maml:para>The maximum page size of accounts to return per request. Specify a number up to 1000. Each page of results will be limited in size to the number provided.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
             <maml:name>Int32</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>offset</maml:name>
+          <maml:description>
+            <maml:para>Offset of the first account that is returned in the collection of results.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -11002,21 +11076,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>filter</maml:name>
-        <maml:description>
-          <maml:para>A filter for the search.</maml:para>
-          <maml:para>Requires format: "SafeName eq 'YourSafe'"</maml:para>
-          <maml:para>*depreciated parameter in psPAS - safeName &amp; modifiedTime will automatically be set as filter values</maml:para>
-          <maml:para>Requires minimum version of 10.4</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>Keywords</maml:name>
         <maml:description>
           <maml:para>Keyword to search for.</maml:para>
@@ -11070,6 +11129,30 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>limit</maml:name>
+        <maml:description>
+          <maml:para>The maximum page size of accounts to return per request. Specify a number up to 1000. Each page of results will be limited in size to the number provided.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>offset</maml:name>
+        <maml:description>
+          <maml:para>Offset of the first account that is returned in the collection of results.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -11113,29 +11196,13 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
-        <dev:code>Get-PASAccount -filter "SafeName eq TargetSafe"</dev:code>
-        <dev:remarks>
-          <maml:para>Specify a filter value to return all accounts found in "TargetSafe"</maml:para>
-          <maml:para>Requires minimum version of 10.4</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
-        <dev:code>Get-PASAccount -filter "SafeName eq 'TargetSafe'" -sort "userName desc"</dev:code>
-        <dev:remarks>
-          <maml:para>Returns all accounts found in TargetSafe, sort by username in descending order.</maml:para>
-          <maml:para>Requires minimum version of 10.4</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 7 --------------------------</maml:title>
         <dev:code>Get-PASAccount -Keywords root -Safe UNIX</dev:code>
         <dev:remarks>
           <maml:para>Finds account matching keywords in UNIX safe</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
         <dev:code>Get-PASAccount -Keywords xtest</dev:code>
         <dev:remarks>
           <maml:para>Finds account matching the specified keyword.</maml:para>
@@ -11144,7 +11211,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 9 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 7 --------------------------</maml:title>
         <dev:code>Get-PASAccount -search root -sort name</dev:code>
         <dev:remarks>
           <maml:para>Returns all accounts matching "root", sorted by AccountName.</maml:para>
@@ -11152,11 +11219,27 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 10 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
         <dev:code>Get-PASAccount -savedFilter New</dev:code>
         <dev:remarks>
           <maml:para>Returns all accounts from the "New" Saved Filter</maml:para>
           <maml:para>Requires minimum version of 12.6</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 9 --------------------------</maml:title>
+        <dev:code>Get-PASAccount -limit 1000</dev:code>
+        <dev:remarks>
+          <maml:para>Returns all accounts, in page sizes of 1000.</maml:para>
+          <maml:para>Requires minimum version of 10.4</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 10 --------------------------</maml:title>
+        <dev:code>Get-PASAccount -limit 500 -offset 1500</dev:code>
+        <dev:remarks>
+          <maml:para>Returns all accounts, skipping the first 1500 results, in page sizes of 500.</maml:para>
+          <maml:para>Requires minimum version of 10.4</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -12914,7 +12997,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASConnectionComponent</dev:code>
         <dev:remarks>
-          <maml:para>Lists all connection components configred in the environment</maml:para>
+          <maml:para>Lists all connection components configured in the environment</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -13495,63 +13578,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:syntaxItem>
         <maml:name>Get-PASGroup</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>filter</maml:name>
-          <maml:description>
-            <maml:para>Filter according to REST standard.</maml:para>
-            <maml:para>*depreciated parameter in psPAS - filter value will automatically be set if groupType specified.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>search</maml:name>
-          <maml:description>
-            <maml:para>Search will match when ALL search terms appear in the group name.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>includeMembers</maml:name>
-          <maml:description>
-            <maml:para>Specify $true to return vault group members</maml:para>
-            <maml:para>Defaults to $false due to performance considerations</maml:para>
-            <maml:para>Requires minimum version of 12.0</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>sort</maml:name>
-          <maml:description>
-            <maml:para>Property or properties by which to sort returned groups, followed by asc (default) or desc to control sort direction.</maml:para>
-            <maml:para>Cannot sort by a property other than `groupname`, `directory` or `location`.</maml:para>
-            <maml:para>Separate multiple properties with commas, up to a maximum of three properties.</maml:para>
-            <maml:para>Requires minimum version of 12.2</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
-          <dev:type>
-            <maml:name>String[]</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PASGroup</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>includeMembers</maml:name>
           <maml:description>
             <maml:para>Specify $true to return vault group members</maml:para>
@@ -13584,19 +13610,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:name>groupType</maml:name>
         <maml:description>
           <maml:para>Search for groups which are from a configured Directory or from the Vault.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>filter</maml:name>
-        <maml:description>
-          <maml:para>Filter according to REST standard.</maml:para>
-          <maml:para>*depreciated parameter in psPAS - filter value will automatically be set if groupType specified.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -13703,41 +13716,34 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
-        <dev:code>Get-PASGroup -filter 'groupType eq Directory'</dev:code>
-        <dev:remarks>
-          <maml:para>Returns all existing Directory groups</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
         <dev:code>Get-PASGroup -search "Vault Admins"</dev:code>
         <dev:remarks>
           <maml:para>Returns all groups matching all search terms</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
         <dev:code>Get-PASGroup -search "Vault Admins" -groupType Directory</dev:code>
         <dev:remarks>
           <maml:para>Returns all existing Directory groups matching all search terms</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 7 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
         <dev:code>Get-PASGroup -search Admins -includeMembers $true</dev:code>
         <dev:remarks>
           <maml:para>Returns all existing groups matching search, includes vault group member details in result.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 7 --------------------------</maml:title>
         <dev:code>Get-PASGroup -groupName "Vault Admins" -includeMembers $true</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 9 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
         <dev:code>Get-PASGroup -id 11</dev:code>
         <dev:remarks>
           <maml:para>Returns group with id 11. Requires minimum version of 12.6</maml:para>
@@ -13752,6 +13758,73 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetGroupsFromVault.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetGroupsFromVault.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-PASLinkedAccount</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>PASLinkedAccount</command:noun>
+      <maml:description>
+        <maml:para>Gets linked account details</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Gets details of associated linked accounts for a given accountID</maml:para>
+      <maml:para>Requires CyberArk Version 12.2 or higher.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-PASLinkedAccount</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AccountID">
+          <maml:name>id</maml:name>
+          <maml:description>
+            <maml:para>The account id</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AccountID">
+        <maml:name>id</maml:name>
+        <maml:description>
+          <maml:para>The account id</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Get-PASLinkedAccount -id 66_6</dev:code>
+        <dev:remarks>
+          <maml:para>Gets linked account details associated with account with ID 66_6</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASLinkedAccount</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Get-PASLinkedAccount</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -15021,7 +15094,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPSMRecording -Limit 10 -Safe PSMRecordings -Sort -FileName</dev:code>
         <dev:remarks>
-          <maml:para>Lists the first 10 recordings from the PSMRecordings safe, sorted by decending filename.</maml:para>
+          <maml:para>Lists the first 10 recordings from the PSMRecordings safe, sorted by descending filename.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -15978,7 +16051,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:name>UserName</maml:name>
           <maml:description>
             <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-            <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+            <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -15994,7 +16067,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:name>UserName</maml:name>
         <maml:description>
           <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-          <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+          <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -16406,7 +16479,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-PASSafe</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>SafeName</maml:name>
           <maml:description>
             <maml:para>The name of a specific safe to get details of.</maml:para>
@@ -16478,7 +16551,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Get-PASSafe</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>FindAll</maml:name>
           <maml:description>
             <maml:para>Specify to find all safes using Gen1 API.</maml:para>
@@ -16503,6 +16576,17 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:uri />
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Specify to force use of the Gen1 API</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -16589,7 +16673,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>FindAll</maml:name>
         <maml:description>
           <maml:para>Specify to find all safes using Gen1 API.</maml:para>
@@ -16683,7 +16767,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
-        <dev:code>Get-PASSafe -FindAll</dev:code>
+        <dev:code>Get-PASSafe -FindAll -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Returns details of all safes using Gen1 API.</maml:para>
           <maml:para>Depreciated from version 12.3</maml:para>
@@ -16691,7 +16775,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
-        <dev:code>Get-PASSafe -SafeName SAFE1 -UseGen1Api</dev:code>
+        <dev:code>Get-PASSafe -SafeName SAFE1 -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Returns details of "Safe1" using Gen1 API.</maml:para>
           <maml:para>Depreciated from version 12.3</maml:para>
@@ -22274,13 +22358,13 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Authenticates a user to a CyberArk Vault and stores an authentication token and a webrequest session object which are used in subsequent calls to the API.</maml:para>
-      <maml:para>In addition, this method allows you to set a new password.</maml:para>
-      <maml:para>Default operation is against the Gen2 API and requires minimum version 10</maml:para>
-      <maml:para>For older CyberArk versions, specify the -UseGen1API switch parameter to force use of the Gen1 API endpoint.</maml:para>
-      <maml:para>Minimum version required for Windows authentication is 10.4</maml:para>
-      <maml:para>Minimum version required for LDAP, RADIUS, SAML or Shared authentication is 9.7</maml:para>
-      <maml:para>For CyberArk version older than 9.7: - Only CyberArk Authentication method is supported.</maml:para>
+      <maml:para>Facilitates user authentication to a CyberArk Vault and retains an authentication token as well as webrequest session data to be used in future API calls.</maml:para>
+      <maml:para>Users can also set a new password via the authentication process.</maml:para>
+      <maml:para>By default, the Gen2 API is used, and version 10 is expected.</maml:para>
+      <maml:para>Use the -UseGen1API switch parameter to target the Gen1 API endpoint.</maml:para>
+      <maml:para>Windows authentication requires at least version 10.4</maml:para>
+      <maml:para>LDAP, RADIUS, SAML, and shared authentication all require a minimum version of 9.7.</maml:para>
+      <maml:para>Versions of CyberArk prior to 9.7: - The only authentication mechanism supported is CyberArk.</maml:para>
       <maml:para>- newPassword Parameter is not supported.</maml:para>
       <maml:para>- useRadiusAuthentication Parameter is not supported.</maml:para>
       <maml:para>- connectionNumber Parameter is not supported.</maml:para>
@@ -22320,6 +22404,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
             <maml:para>- LDAP</maml:para>
             <maml:para>- Windows</maml:para>
             <maml:para>  - Minimum version required 10.4 - RADIUS</maml:para>
+            <maml:para>- PKI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -22344,7 +22429,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -22466,6 +22551,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
             <maml:para>- LDAP</maml:para>
             <maml:para>- Windows</maml:para>
             <maml:para>  - Minimum version required 10.4 - RADIUS</maml:para>
+            <maml:para>- PKI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -22541,7 +22627,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -22734,7 +22820,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -22888,7 +22974,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -23043,7 +23129,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -23161,7 +23247,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -23289,7 +23375,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -23419,7 +23505,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
-            <maml:para>A string containing the base web address to send te request to.</maml:para>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
             <maml:para>Pass the PVWA HTTP address.</maml:para>
             <maml:para>Do not include "/PasswordVault/"</maml:para>
           </maml:description>
@@ -23603,6 +23689,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:para>- LDAP</maml:para>
           <maml:para>- Windows</maml:para>
           <maml:para>  - Minimum version required 10.4 - RADIUS</maml:para>
+          <maml:para>- PKI</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -23704,7 +23791,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>BaseURI</maml:name>
         <maml:description>
-          <maml:para>A string containing the base web address to send te request to.</maml:para>
+          <maml:para>A string containing the base web address to send the request to.</maml:para>
           <maml:para>Pass the PVWA HTTP address.</maml:para>
           <maml:para>Do not include "/PasswordVault/"</maml:para>
         </maml:description>
@@ -23908,23 +23995,35 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 12 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API -useRadiusAuthentication $True -OTP 123456 -OTPMode Append</dev:code>
+        <dev:code>Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -Credential $cred -BaseURI $url -type PKI -Certificate $Cert</dev:code>
         <dev:remarks>
-          <maml:para>Logon using RADIUS &amp; OTP (Append Mode) via the Gen1 API</maml:para>
+          <maml:para>Logon with PKI auth, using a selected certificate stored on local machine or smart card + LDAP credentials</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 13 --------------------------</maml:title>
         <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append</dev:code>
         <dev:remarks>
-          <maml:para>Logon to Version 10 using RADIUS &amp; Push Authentication (works with DUO 2FA)</maml:para>
+          <maml:para>Logon to Version 10 using RADIUS &amp; DUO Push Authentication (working with DUO 2FA Append Mode Configuration)</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 14 --------------------------</maml:title>
         <dev:code>New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb</dev:code>
         <dev:remarks>
-          <maml:para>If authentication via certificates is configured, provide CertificateThumbprint details.</maml:para>
+          <maml:para>Authenticate with provided CertificateThumbprint when IIS authentication via certificates is required.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -23936,7 +24035,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 16 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate</dev:code>
+        <dev:code>$Certificate = Get-ChildItem -Path Cert:\CurrentUser\My | Where-Object {$PSItem.Subject -match "CN=SomeUser"}
+New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate</dev:code>
         <dev:remarks>
           <maml:para>Logon to Version 10 with LDAP credential &amp; Client Certificate</maml:para>
         </dev:remarks>
@@ -25393,6 +25493,215 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Publish-PASDiscoveredAccount</command:name>
+      <command:verb>Publish</command:verb>
+      <command:noun>PASDiscoveredAccount</command:noun>
+      <maml:description>
+        <maml:para>Onboard a discovered account</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Onboard a discovered account to a target platform into a target safe. Optionally set the account to be reconciled, and/or with a default password.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Publish-PASDiscoveredAccount</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+          <maml:name>id</maml:name>
+          <maml:description>
+            <maml:para>Discovered account ID</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+          <maml:name>PlatformID</maml:name>
+          <maml:description>
+            <maml:para>Target platform ID</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+          <maml:name>safeName</maml:name>
+          <maml:description>
+            <maml:para>Target safe name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+          <maml:name>shouldReconcileAccount</maml:name>
+          <maml:description>
+            <maml:para>Specify if the account should be reconciled</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
+          <maml:name>defaultPassword</maml:name>
+          <maml:description>
+            <maml:para>The default password value</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
+          <dev:type>
+            <maml:name>SecureString</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+        <maml:name>id</maml:name>
+        <maml:description>
+          <maml:para>Discovered account ID</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <maml:name>PlatformID</maml:name>
+        <maml:description>
+          <maml:para>Target platform ID</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+        <maml:name>safeName</maml:name>
+        <maml:description>
+          <maml:para>Target safe name</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+        <maml:name>shouldReconcileAccount</maml:name>
+        <maml:description>
+          <maml:para>Specify if the account should be reconciled</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
+        <maml:name>defaultPassword</maml:name>
+        <maml:description>
+          <maml:para>The default password value</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
+        <dev:type>
+          <maml:name>SecureString</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>$password = Read-Host -AsSecureString -Prompt "defaultPassword value"
+Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -defaultPassword $password</dev:code>
+        <dev:remarks>
+          <maml:para>Onboard discovered account with id 66_6 to `SomeSafe` with the provided default password</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Publish-PASDiscoveredAccount</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Publish-PASDiscoveredAccount</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Remove-PASAccount</command:name>
       <command:verb>Remove</command:verb>
       <command:noun>PASAccount</command:noun>
@@ -26778,7 +27087,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Deletes an automatic on-boarding rulefrom the Vault.</maml:para>
+      <maml:para>Deletes an automatic on-boarding rule from the Vault.</maml:para>
       <maml:para>Vault Admin membership required.</maml:para>
     </maml:description>
     <command:syntax>
@@ -27643,7 +27952,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
           <maml:name>UserName</maml:name>
           <maml:description>
             <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-            <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+            <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -27693,7 +28002,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
         <maml:name>UserName</maml:name>
         <maml:description>
           <maml:para>The username of the Vault user whose public SSH keys will be added</maml:para>
-          <maml:para>A username cannot contain te follwing characters: "%", "&amp;", "+" or ".".</maml:para>
+          <maml:para>A username cannot contain the following characters: "%", "&amp;", "+" or ".".</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -30140,7 +30449,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
     </command:details>
     <maml:description>
       <maml:para>Updates a Vault group. The authenticated user requires the following permissions: - Add\Update users</maml:para>
-      <maml:para>Requires CyberArk Vrsion 12.0+</maml:para>
+      <maml:para>Requires CyberArk Version 12.0+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -30282,7 +30591,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
     <maml:description>
       <maml:para>Associates a Reconcile account, Logon account, or other type of linked account that is defined in the platform configuration.</maml:para>
       <maml:para>Requires the following Safe member authorizations: - List accounts   - Required for both the Safe of the linked account and the Safe of the source account. - Update account properties.   - Require for the Safe of the source account</maml:para>
-      <maml:para>Requires CyberArk Vrsion 12.1+</maml:para>
+      <maml:para>Requires CyberArk Version 12.1+</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -35193,7 +35502,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>set-pasuser -UserName Bill -Disabled $true</dev:code>
+        <dev:code>Set-PASUser -UserName Bill -Disabled $true</dev:code>
         <dev:remarks>
           <maml:para>Disables vault user Bill</maml:para>
         </dev:remarks>

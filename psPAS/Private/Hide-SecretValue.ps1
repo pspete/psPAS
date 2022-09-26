@@ -68,7 +68,8 @@
 			'BindPassword',
 			'InitialPassword',
 			'clientSecret',
-			'keyPassword'
+			'keyPassword',
+			'defaultPassword'
 		)
 	)
 

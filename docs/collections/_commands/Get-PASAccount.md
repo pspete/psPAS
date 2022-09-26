@@ -18,18 +18,13 @@ Returns information about a single account. (Version 9.3 - 10.3)
 ### Gen2Query (Default)
 ```
 Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] [-savedFilter <String>]
- [-modificationTime <DateTime>] [-sort <String[]>] [-TimeoutSec <Int32>] [<CommonParameters>]
+ [-modificationTime <DateTime>] [-sort <String[]>] [-offset <Int32>] [-limit <Int32>] [-TimeoutSec <Int32>]
+ [<CommonParameters>]
 ```
 
 ### Gen2ID
 ```
 Get-PASAccount -id <String> [-TimeoutSec <Int32>] [<CommonParameters>]
-```
-
-### Gen2Filter
-```
-Get-PASAccount [-search <String>] [-searchType <String>] [-sort <String[]>] [-filter <String>]
- [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
 ### Gen1
@@ -38,22 +33,17 @@ Get-PASAccount [-Keywords <String>] [-Safe <String>] [-TimeoutSec <Int32>] [<Com
 ```
 
 ## DESCRIPTION
-Version 10.4+:
-- This method returns a list of either a specific, or all the accounts in the Vault.
 
-Version 9.3 - 10.3:
-- Returns information about an account.
-- If more than one account meets the search criteria,
-only the first account will be returned (the Count output parameter will display the number
-of accounts that were found).
-- Only the following users can access this account:
-  - Users who are members of the Safe where the account is stored.
-  - Users who have access to this specific account.
-  - The user who runs this web service requires the following permission in the Safe:
-  - Retrieve account
+This function returns accounts in the Vault that match the submitted id or query.
+
+Versions 9.3 to 10.3:
+
+- Returns details about a single, matching account.
+- Only the first account will be returned if more than one account matches the search criteria
+  - (the Count output parameter will display the number of accounts that were found)
 - If ten or more accounts are found, the Count Output parameter will show 10.
 
-Requires the following permission on a safe to be able to get account details:
+Requires safe permissions:
 - List accounts.
 
 ## EXAMPLES
@@ -96,30 +86,12 @@ Requires minimum version of 11.4
 
 ### EXAMPLE 5
 ```
-Get-PASAccount -filter "SafeName eq TargetSafe"
-```
-
-Specify a filter value to return all accounts found in "TargetSafe"
-
-Requires minimum version of 10.4
-
-### EXAMPLE 6
-```
-Get-PASAccount -filter "SafeName eq 'TargetSafe'" -sort "userName desc"
-```
-
-Returns all accounts found in TargetSafe, sort by username in descending order.
-
-Requires minimum version of 10.4
-
-### EXAMPLE 7
-```
 Get-PASAccount -Keywords root -Safe UNIX
 ```
 
 Finds account matching keywords in UNIX safe
 
-### EXAMPLE 8
+### EXAMPLE 6
 ```
 Get-PASAccount -Keywords xtest
 ```
@@ -130,7 +102,7 @@ Only the first matching account will be returned.
 
 If multiple accounts are found, a warning will be displayed before the result
 
-### EXAMPLE 9
+### EXAMPLE 7
 ```
 Get-PASAccount -search root -sort name
 ```
@@ -139,7 +111,7 @@ Returns all accounts matching "root", sorted by AccountName.
 
 Requires minimum version of 10.4
 
-### EXAMPLE 10
+### EXAMPLE 8
 ```
 Get-PASAccount -savedFilter New
 ```
@@ -147,6 +119,24 @@ Get-PASAccount -savedFilter New
 Returns all accounts from the "New" Saved Filter
 
 Requires minimum version of 12.6
+
+### EXAMPLE 9
+
+```
+Get-PASAccount -limit 1000
+```
+Returns all accounts, in page sizes of 1000.
+
+Requires minimum version of 10.4
+
+### EXAMPLE 10
+
+```
+Get-PASAccount -limit 500 -offset 1500
+```
+Returns all accounts, skipping the first 1500 results, in page sizes of 500.
+
+Requires minimum version of 10.4
 
 ## PARAMETERS
 
@@ -174,7 +164,7 @@ Requires minimum version of 10.4
 
 ```yaml
 Type: String
-Parameter Sets: Gen2Query, Gen2Filter
+Parameter Sets: Gen2Query
 Aliases:
 
 Required: False
@@ -191,7 +181,7 @@ Requires minimum version of 10.4
 
 ```yaml
 Type: String
-Parameter Sets: Gen2Query, Gen2Filter
+Parameter Sets: Gen2Query
 Aliases:
 
 Required: False
@@ -245,28 +235,7 @@ Requires minimum version of 10.4
 
 ```yaml
 Type: String[]
-Parameter Sets: Gen2Query, Gen2Filter
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -filter
-A filter for the search.
-
-Requires format: "SafeName eq 'YourSafe'"
-
-*depreciated parameter in psPAS - safeName & modifiedTime will automatically be set as filter values
-
-Requires minimum version of 10.4
-
-```yaml
-Type: String
-Parameter Sets: Gen2Filter
+Parameter Sets: Gen2Query
 Aliases:
 
 Required: False
@@ -343,6 +312,38 @@ Requires minimum version of 12.6
 
 ```yaml
 Type: String
+Parameter Sets: Gen2Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -limit
+The maximum page size of accounts to return per request.
+Specify a number up to 1000.
+Each page of results will be limited in size to the number provided.
+
+```yaml
+Type: Int32
+Parameter Sets: Gen2Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -offset
+Offset of the first account that is returned in the collection of results.
+
+```yaml
+Type: Int32
 Parameter Sets: Gen2Query
 Aliases:
 

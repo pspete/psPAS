@@ -40,7 +40,7 @@ function Get-PASSafe {
 		[Boolean]$extendedDetails,
 
 		[parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1-byName'
 		)]
@@ -68,7 +68,7 @@ function Get-PASSafe {
 		[string]$query,
 
 		[parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = 'Gen1-byAll'
 		)]
@@ -78,6 +78,11 @@ function Get-PASSafe {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1-byName'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Gen1-byAll'
 		)]
 		[switch]$UseGen1API,
 
