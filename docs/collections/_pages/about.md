@@ -34,9 +34,9 @@ Without community contributions, psPAS would not exist the way it does today.
 
 Every contribution, regardless of whether it is a feature request, reporting a typo, updated code or documentation, is valued.
 
-To learn how to interact with and contribute changes to the project, use the [Contributing][Contributing] documentation on GitHub.
+To learn how to interact with and contribute changes to the project, see the [Contribute to psPAS][Contributing] article.
 
-[Contributing]:https://github.com/pspete/psPAS/blob/master/CONTRIBUTING.md
+[Contributing]:https://pspas.pspete.dev/articles/contribute-to-pspas/
 
 ## Getting Help & Support
 

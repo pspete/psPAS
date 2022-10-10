@@ -6,6 +6,8 @@ main:
     url: commands/
   - title: "Install"
     url: /docs/install/
+  - title: "Articles"
+    url: /articles/
   - title: "About"
     url: /about/
 
