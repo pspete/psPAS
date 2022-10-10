@@ -108,7 +108,7 @@ analytics:
 # Site Author
 author:
   name             : "Pete Maan"
-  avatar           : "/assets/images/bio-photo.jpg"
+  avatar           : "/assets/images/PSPETE_symbol.png"
   bio              : "psPAS Developer"
   location         : "UK"
   #email            : "pspas@pspete.dev"
@@ -278,15 +278,18 @@ collections:
 defaults:
   # _posts
   - scope:
-      path: ""
+      path: _posts
       type: posts
     values:
       layout: single
+      classes: wide
       author_profile: true
       read_time: true
       comments: # true
       share: true
       related: true
+      toc: false
+      permalink: articles/:title/
   # _commands
   - scope:
       path: ""
