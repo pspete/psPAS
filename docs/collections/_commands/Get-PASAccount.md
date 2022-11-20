@@ -38,7 +38,7 @@ This function returns accounts in the Vault that match the submitted id or query
 
 Versions 9.3 to 10.3:
 
-- Returns details about a single, matching account.
+- Returns details about a single, matching account.
 - Only the first account will be returned if more than one account matches the search criteria
   - (the Count output parameter will display the number of accounts that were found)
 - If ten or more accounts are found, the Count Output parameter will show 10.
@@ -125,6 +125,7 @@ Requires minimum version of 12.6
 ```
 Get-PASAccount -limit 1000
 ```
+
 Returns all accounts, in page sizes of 1000.
 
 Requires minimum version of 10.4
@@ -134,6 +135,7 @@ Requires minimum version of 10.4
 ```
 Get-PASAccount -limit 500 -offset 1500
 ```
+
 Returns all accounts, skipping the first 1500 results, in page sizes of 500.
 
 Requires minimum version of 10.4

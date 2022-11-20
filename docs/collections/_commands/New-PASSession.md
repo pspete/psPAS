@@ -82,7 +82,7 @@ Users can also set a new password via the authentication process.
 
 By default, the Gen2 API is used, and version 10 is expected.
 
-Use the -UseGen1API switch parameter to target the Gen1 API endpoint.
+Use the -UseGen1API switch parameter to target the Gen1 API endpoint.
 
 Windows authentication requires at least version 10.4
 
