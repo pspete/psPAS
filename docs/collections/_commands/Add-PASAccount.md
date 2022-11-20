@@ -58,6 +58,16 @@ Using the Gen1 API, adds account domain.com\domainuser to the Prod_Access Safe u
 
 The contents of $secureString will be set as the password value.
 
+### EXAMPLE 3
+```
+$props = @{SSHCertificate = "yes";} 
+Add-PASAccount -address domain -userName ThisUser -platformID UNIXSSHCERTICATES -SafeName UNIXSafe -secretType Key -secret $key -automaticManagementEnabled $true -manualManagementReason "not applicable"  -plaformAccountProperties $props
+```
+
+Using the Gen2 API, adds an account which using the SSH Certificate platforms
+
+Requires minimum version of 10.4
+
 ## PARAMETERS
 
 ### -name
