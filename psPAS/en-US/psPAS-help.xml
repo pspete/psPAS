@@ -769,7 +769,7 @@
       <command:example>
         <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
         <dev:code>$props = @{SSHCertificate = "yes";}
-Add-PASAccount -address domain -userName ThisUser -platformID UNIXVIASSHCERTICATE -SafeName UNIXSafe -secretType Key -secret $key  -plaformAccountProperties $props</dev:code>
+Add-PASAccount -address domain -userName ThisUser -platformID UNIXVIASSHCERTIFICATE -SafeName UNIXSafe -secretType Key -secret $key  -plaformAccountProperties $props</dev:code>
         <dev:remarks>
           <maml:para>Using the Gen2 API, adds an account configured for the Unix via SSH Certificate platform</maml:para>
           <maml:para>Requires minimum version of 10.4 Unix via SSH Certificate platform is supported in versions 11.2 and above.</maml:para>
