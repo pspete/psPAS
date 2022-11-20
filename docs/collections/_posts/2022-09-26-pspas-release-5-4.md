@@ -1,6 +1,6 @@
 ---
 title:  "psPAS Release 5.4"
-date:   2022-09-29 00:00:00
+date:   2022-11-20 00:00:00
 tags:
   - Release Notes
   - New-PASSession
@@ -10,6 +10,7 @@ tags:
   - Add-PASPersonalAdminAccount
   - Get-PASAccount
   - Get-PASSafe
+  - Get-PASSafeMember
 ---
 
 ## **5.4.94 (September 26th 2022)**
@@ -39,3 +40,12 @@ tags:
     - Corrects ambiguous invocation options (Gen1).
   - Documentation
     - General updates throughout.
+
+## **5.4.101 (November 20th 2022)**
+
+- Fix `Get-PASSafeMember`
+  - Corrects format of URL value when returning many safe members
+    - Thanks [InconstantRO](https://github.com/InconstantRO)!
+- Documentation
+  - Additional example added to `Get-PASAccount` help file
+    - Thanks [rorobig](https://github.com/rorobig)!
