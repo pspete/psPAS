@@ -7,7 +7,7 @@ Function Get-PASComponentDetail {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateSet('PVWA', 'SessionManagement', 'CPM', 'AIM')]
+		[ValidateSet('PVWA', 'SessionManagement', 'CPM', 'AIM', 'PTA')]
 		[string]$ComponentID
 
 	)
@@ -17,6 +17,12 @@ Function Get-PASComponentDetail {
 	}#begin
 
 	PROCESS {
+
+		if ($PSBoundParameters['ComponentID'] -eq 'PTA') {
+
+			Assert-VersionRequirement -RequiredVersion 12.0
+
+		}
 
 		#Create URL for request
 		$URI = "$Script:BaseURI/api/ComponentsMonitoringDetails/$ComponentID"
