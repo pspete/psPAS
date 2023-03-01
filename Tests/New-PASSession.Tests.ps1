@@ -30,6 +30,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 	AfterAll {
 
 		$Script:RequestBody = $null
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 
 	}
 
@@ -789,7 +791,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Get-PASServer -MockWith {
 					[PSCustomObject]@{
-						ExternalVersion = '6.6.6'
+						ExternalVersion = '0.0'
 					}
 				}
 
@@ -837,7 +839,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'Sets expected BaseURI' {
-
 
 				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
 				$Script:BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
