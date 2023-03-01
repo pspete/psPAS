@@ -106,9 +106,22 @@ The Address of the machine where the account will be used
 ```yaml
 Type: String
 Parameter Sets: AccountObject
+Parameter Sets: AccountObject
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: PersonalAdminAccount
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -133,6 +146,7 @@ The CyberArk platform to assign to the account
 ```yaml
 Type: String
 Parameter Sets: AccountObject
+Parameter Sets: AccountObject
 Aliases: PolicyID
 
 Required: True
@@ -147,6 +161,7 @@ The safe where the account will be created
 
 ```yaml
 Type: String
+Parameter Sets: AccountObject
 Parameter Sets: AccountObject
 Aliases: safe
 
@@ -163,6 +178,7 @@ The type of password.
 ```yaml
 Type: String
 Parameter Sets: AccountObject
+Parameter Sets: AccountObject
 Aliases:
 
 Required: False
@@ -178,9 +194,22 @@ The password value
 ```yaml
 Type: SecureString
 Parameter Sets: AccountObject
+Parameter Sets: AccountObject
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: SecureString
+Parameter Sets: PersonalAdminAccount
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -207,6 +236,7 @@ These properties are validated against the mandatory and optional properties of 
 ```yaml
 Type: Hashtable
 Parameter Sets: AccountObject
+Parameter Sets: AccountObject
 Aliases:
 
 Required: False
@@ -221,6 +251,7 @@ Whether CPM Password Management should be enabled
 
 ```yaml
 Type: Boolean
+Parameter Sets: AccountObject
 Parameter Sets: AccountObject
 Aliases:
 
@@ -237,6 +268,7 @@ A reason for disabling CPM Password Management
 ```yaml
 Type: String
 Parameter Sets: AccountObject
+Parameter Sets: AccountObject
 Aliases:
 
 Required: False
@@ -251,6 +283,7 @@ For supported platforms, a list of remote machines the account can connect to.
 
 ```yaml
 Type: String
+Parameter Sets: AccountObject
 Parameter Sets: AccountObject
 Aliases:
 
@@ -267,6 +300,7 @@ Whether access is restricted to the defined remote machines.
 ```yaml
 Type: Boolean
 Parameter Sets: AccountObject
+Parameter Sets: AccountObject
 Aliases:
 
 Required: False
@@ -281,6 +315,7 @@ Group to associate the account with
 
 ```yaml
 Type: String
+Parameter Sets: AccountObject
 Parameter Sets: AccountObject
 Aliases:
 

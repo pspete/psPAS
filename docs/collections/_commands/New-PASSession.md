@@ -87,7 +87,7 @@ Users can also set a new password via the authentication process.
 
 By default, the Gen2 API is used, meaning a recent version of CyberArk is expected.
 
-Use the -UseGen1API switch parameter to target the Gen1 API endpoint when using the module with legacy CyberArk versions.
+Use the -UseGen1API switch parameter to target the Gen1 API endpoint.
 
 Windows authentication requires at least CyberArk PAS version 10.4
 
