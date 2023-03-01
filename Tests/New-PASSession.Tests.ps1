@@ -776,6 +776,76 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'SharedServices' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						'token_type'   = 'Bearer'
+						'access_token' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+					}
+				}
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '6.6.6'
+					}
+				}
+
+				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
+
+				$Script:ExternalVersion = '0.0'
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It 'sends request' {
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://SomeSubDomain.id.cyberark.cloud/oauth2/platformtoken'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends expected request to expected endpoint' {
+
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://SomeSubDomain.id.cyberark.cloud/oauth2/platformtoken'
+					$ContentType -eq 'application/x-www-form-urlencoded'
+					$Body['client_id'] -eq 'SomeUser'
+					$Body['client_secret'] -eq 'SomePassword'
+					$Body['grant_type'] -eq 'client_credentials'
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'Sets expected BaseURI' {
+
+
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				$Script:BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
+
+			}
+
+		}
+
 	}
 
 }

@@ -270,6 +270,27 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'reports privilege cloud errors' {
+				If ($IsCoreCLR) {
+					$targetObject = [pscustomobject]@{'RequestUri' = [pscustomobject]@{'Host' = 'https://subdomain.id.cyberark.cloud' } }
+					$errorDetails = $([pscustomobject]@{'error' = 'access_denied'; 'error_description' = 'invalid client creds or client not allowed' } | ConvertTo-Json)
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+					Mock Invoke-WebRequest { Throw $errorRecord }
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw 'invalid client creds or client not allowed'
+				} Else { Set-ItResult -Inconclusive }
+			}
+
+			It 'reports privilege cloud errors  not returned as json' {
+				If ($IsCoreCLR) {
+					$errorDetails = 'Some Error Message'
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+					Mock Invoke-WebRequest { Throw $errorRecord }
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw 'Some Error Message'
+				} Else { Set-ItResult -Inconclusive }
+			}
+
 		}
 
 	}
