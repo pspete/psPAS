@@ -59,7 +59,7 @@ function Add-PASSafe {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'NumberOfDaysRetention'
 		)]
-		[ValidateRange(1, 3650)]
+		[ValidateRange(0, 3650)]
 		[int]$NumberOfDaysRetention,
 
 		[parameter(
