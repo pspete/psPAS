@@ -41,7 +41,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			$InputObj = [pscustomobject]@{
-				'UserName' = 'SomeUser'
+				'UserName' = 'SomeUser@domain.com'
 				'KeyID'    = 'SomeKeyID'
 
 			}
@@ -76,7 +76,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/SomeUser/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/SomeKeyID/"
+					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/SomeUser%40domain.com/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/SomeKeyID/"
 
 				} -Times 1 -Exactly -Scope It
 

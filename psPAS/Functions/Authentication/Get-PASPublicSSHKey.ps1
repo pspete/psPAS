@@ -6,7 +6,7 @@ function Get-PASPublicSSHKey {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[ValidateScript( { $_ -notmatch '.*(%|\&|\+|\.).*' })]
+		[ValidateScript( { $_ -notmatch '.*(%|\&|\+).*' })]
 		[string]$UserName
 
 	)
