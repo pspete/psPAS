@@ -40,6 +40,45 @@
 								</ItemSelectionCondition>
 								<PropertyName>TargetSafeName</PropertyName>
 							</ListItem>
+							<ListItem>
+								<PropertyName>IsAdminIDFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>MachineTypeFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>SystemTypeFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserNameFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>CreationTime</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>RulePrecedence</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserNameMethod</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AddressFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AddressMethod</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AccountCategoryFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AccountCategoryFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>RuleDescription</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>LastOnboardedTime</PropertyName>
+							</ListItem>
 						</ListItems>
 					</ListEntry>
 				</ListEntries>
