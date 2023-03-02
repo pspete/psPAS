@@ -547,16 +547,22 @@ function New-PASSession {
 
 					#Prepare auth request
 					switch ( $true ) {
+
 						($PSCmdlet.ParameterSetName -match 'Radius$') {
+
 							#RADIUS Secondary auth
 							$LogonRequest['Uri'] = "$Uri/api/Auth/RADIUS/Logon"
 							break
 						}
+
 						($type -eq 'PKI') {
+
 							#LDAP Secondary auth
 							$LogonRequest['Uri'] = "$Uri/api/Auth/LDAP/Logon"
 							break
+
 						}
+
 					}
 
 					#Submit secondary auth request
@@ -602,41 +608,45 @@ function New-PASSession {
 				#If Logon Result
 				If ($PASSession) {
 
-					If ($null -ne $PASSession.UserName) {
+					switch ($PASSession) {
 
-						throw "No Session Token for user $($PASSession.UserName)"
+						( { $null -ne $PSItem.UserName } ) {
 
-					}
+							throw "No Session Token for user $($PASSession.UserName)"
 
-					#Version 10
-					If ($PASSession.length -ge 180) {
+						}
 
-						#V10 Auth Token.
-						$CyberArkLogonResult = $PASSession
+						( { $null -ne $PSItem.access_token } ) {
 
-					}
+							#Shared Service access_token.
+							$CyberArkLogonResult = "$($PASSession.token_type) $($PASSession.access_token)"
 
-					#Shared Services
-					ElseIf ($PASSession.access_token) {
+						}
 
-						#Shared Service access_token.
-						$CyberArkLogonResult = "$($PASSession.token_type) $($PASSession.access_token)"
+						( { $null -ne $PSItem.LogonResult } ) {
 
-					}
+							#Shared Auth LogonResult.
+							$CyberArkLogonResult = $PASSession.LogonResult
 
-					#Shared Auth
-					ElseIf ($PASSession.LogonResult) {
+						}
 
-						#Shared Auth LogonResult.
-						$CyberArkLogonResult = $PASSession.LogonResult
+						( { $null -ne $PSItem.CyberArkLogonResult } ) {
 
-					}
+							#Classic CyberArkLogonResult
+							$CyberArkLogonResult = $PASSession.CyberArkLogonResult
 
-					#Classic
-					Else {
+						}
 
-						#Classic CyberArkLogonResult
-						$CyberArkLogonResult = $PASSession.CyberArkLogonResult
+						default {
+
+							If ($PASSession.length -ge 180) {
+
+								#V10 Auth Token.
+								$CyberArkLogonResult = $PASSession
+
+							}
+
+						}
 
 					}
 

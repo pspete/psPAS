@@ -244,6 +244,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sets expected authorization header' {
+
+				$RandomString = 'ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7'
+
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+					$RandomString
+
+				}
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI'
+				$Script:WebSession.Headers['Authorization'] | Should -Be $RandomString
+
+			}
+
 			It 'sends request to v10 URL for CyberArk Authentication by default' {
 
 				$Credentials | New-PASSession -BaseURI 'https://P_URI'
@@ -374,6 +390,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sets expected shared authentication authorization header' {
+
+				$RandomString = 'ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7'
+
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+					$RandomString
+
+				}
+
+				New-PASSession -BaseURI 'https://P_URI' -UseSharedAuthentication
+				$Script:WebSession.Headers['Authorization'] | Should -Be $RandomString
+
+			}
+
 			It 'includes expected certificate thumbprint in request' {
 
 				New-PASSession -BaseURI 'https://P_URI' -UseSharedAuthentication -CertificateThumbprint 'SomeCertificateThumbprint'
@@ -432,6 +464,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type LDAP -SkipVersionCheck
 				Assert-MockCalled Get-PASServer -Times 0 -Exactly -Scope It
+
+			}
+
+			It 'sets expected authorization header' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI'
+				$Script:WebSession.Headers['Authorization'] | Should -Be 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
 
 			}
 
@@ -801,6 +840,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sets expected authorization header' {
+
+				New-PASSession -BaseURI 'https://P_URI' -SAMLResponse 'SomeSAMLResponse'
+				$Script:WebSession.Headers['Authorization'] | Should -Be 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+
+			}
+
 		}
 
 		Context 'SharedServices' {
@@ -863,10 +909,17 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'Sets expected BaseURI' {
+			It 'sets expected BaseURI' {
 
 				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
 				$Script:BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
+
+			}
+
+			It 'sets expected authorization header' {
+
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				$Script:WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
 
 			}
 
