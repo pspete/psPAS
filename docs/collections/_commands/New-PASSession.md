@@ -290,6 +290,13 @@ New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred
 
 Authenticates to Privilege Cloud Shared Services.
 
+### EXAMPLE 24
+```
+New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Append -OTPDelimiter $null
+```
+
+Logon to using RADIUS & provide password appended with OTP, with no delimiter separating the password & OTP values.
+
 ## PARAMETERS
 
 ### -Credential

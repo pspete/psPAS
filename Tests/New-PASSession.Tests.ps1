@@ -185,6 +185,31 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sends request with password value when null OTPDelimiter is specified' {
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append -OTPDelimiter $null
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					$Script:RequestBody.password -eq 'SomePassword987654'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with password value when empty OTPDelimiter is specified' {
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append -OTPDelimiter ''
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					$Script:RequestBody.password -eq 'SomePassword987654'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+
 			It 'sends request with concurrentSession value when specified' {
 
 

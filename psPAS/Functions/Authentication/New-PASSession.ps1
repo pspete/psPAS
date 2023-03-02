@@ -218,7 +218,7 @@ function New-PASSession {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
 		)]
-		[ValidateLength(1, 1)]
+		[AllowEmptyString()]
 		[string]$OTPDelimiter,
 
 		[Parameter(
