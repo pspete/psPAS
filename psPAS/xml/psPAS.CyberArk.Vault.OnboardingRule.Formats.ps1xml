@@ -53,7 +53,8 @@
 								<PropertyName>UserNameFilter</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>CreationTime</PropertyName>
+								<Label>CreationTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.CreationTime)</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>RulePrecedence</PropertyName>
@@ -77,7 +78,11 @@
 								<PropertyName>RuleDescription</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>LastOnboardedTime</PropertyName>
+								<PropertyName>ReconcileAccountId</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>LastOnboardedTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.LastOnboardedTime)</ScriptBlock>
 							</ListItem>
 						</ListItems>
 					</ListEntry>
