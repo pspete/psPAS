@@ -201,6 +201,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Extended Account Overview][Extended Account Overview]                                               | [Get-PASAccountDetail][Get-PASAccountDetail]
 [Enable User][Enable User]                                                                           | [Enable-PASUser][Enable-PASUser]
 [Disable User][Disable User]                                                                         | [Disable-PASUser][Disable-PASUser]
+[Get Global Catalog connectivity details][Get Global Catalog connectivity details]                   | [Get-PASPTAGlobalCatalog][Get-PASPTAGlobalCatalog]
+[Add Global Catalog connectivity details][Add Global Catalog connectivity details]                   | [Add-PASPTAGlobalCatalog][Add-PASPTAGlobalCatalog]
 
 [Get-PASDiscoveredAccount]:/commands/Get-PASDiscoveredAccount
 [Start-PASAccountImportJob]:/commands/Start-PASAccountImportJob
@@ -345,7 +347,11 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get-PASAccountDetail]:/commands/Get-PASAccountDetail
 [Enable-PASUser]:/commands/Enable-PASUser
 [Disable-PASUser]:/commands/Disable-PASUser
+[Get-PASPTAGlobalCatalog]:/commands/Get-PASPTAGlobalCatalog
+[Add-PASPTAGlobalCatalog]:/commands/Add-PASPTAGlobalCatalog
 
+[Get Global Catalog connectivity details]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-Global-Catalog.htm
+[Add Global Catalog connectivity details]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Add-Global-Catalog.htm
 [Enable User]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Enable-user.htm?tocpath=Developer%7CREST%20APIs%7CUser%20management%7CUsers%7C_____8
 [Disable User]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Disable-user.htm?tocpath=Developer%7CREST%20APIs%7CUser%20management%7CUsers%7C_____9
 [Extended Account Overview]:https://documenter.getpostman.com/view/998920/RzZ9Gz1U#d20c01c2-f7fc-4717-bf10-d8c51cb11411

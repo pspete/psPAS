@@ -95,7 +95,7 @@ If version requirement criteria are not met, operations may be prevented.
 [`Get-PASSafeShareLogo`][Get-PASSafeShareLogo]                                           | **9.7**                                            |Returns details of SafeShare Logo
 [`Get-PASServer`][Get-PASServer]                                                         | **9.7**                                            |Returns details of the Web Service Server
 [`Get-PASServerWebService`][Get-PASServerWebService]                                     | **9.7**                                            |Returns details of the Web Service
-[`Get-PASComponentDetail`][Get-PASComponentDetail]                                       | **10.1**                                           |Returns details about component instances.
+[`Get-PASComponentDetail`][Get-PASComponentDetail]                                       | **10.1** ([Notes](#get-pascomponentdetail))        |Returns details about component instances.
 [`Get-PASComponentSummary`][Get-PASComponentSummary]                                     | **10.1**                                           |Returns consolidated information about components.
 [`Add-PASGroupMember`][Add-PASGroupMember]                                               | **9.7** ([Notes](#add-pasgroupmember))             |Adds a user as a group member
 [`Get-PASLoggedOnUser`][Get-PASLoggedOnUser]                                             | **9.7**                                            |Returns details of the logged on user
@@ -604,3 +604,7 @@ If version requirement criteria are not met, operations may be prevented.
 ### Set-PASSafe
 
 - Version 12.2 introduced new API endpoint
+
+### Get-PASComponentDetail
+
+- Version 12 adds pta as target component
