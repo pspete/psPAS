@@ -7,6 +7,8 @@ category: PSPAS
 title: Get-PASPTAGlobalCatalog
 ---
 
+# Get-PASPTAGlobalCatalog
+
 ## SYNOPSIS
 Get Global Catalog connectivity details from PTA.
 

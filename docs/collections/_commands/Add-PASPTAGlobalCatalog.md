@@ -7,6 +7,8 @@ category: PSPAS
 title: Add-PASPTAGlobalCatalog
 ---
 
+# Add-PASPTAGlobalCatalog
+
 ## SYNOPSIS
 
 Adds Global Catalog connectivity details to the PTA.
