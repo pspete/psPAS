@@ -2,7 +2,7 @@
 title: "Authentication"
 permalink: /docs/authentication/
 excerpt: "psPAS Authentication"
-last_modified_at: 2022-09-24T01:23:45-00:00
+last_modified_at: 2023-03-06T01:23:45-00:00
 ---
 
 _Everything begins with a **Logon**:_
