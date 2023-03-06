@@ -2,7 +2,7 @@
 title: "Authentication"
 permalink: /docs/authentication/
 excerpt: "psPAS Authentication"
-last_modified_at: 2022-09-24T01:23:45-00:00
+last_modified_at: 2023-03-06T01:23:45-00:00
 ---
 
 _Everything begins with a **Logon**:_
@@ -117,3 +117,10 @@ $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
 ```
 
+## Shared Services Authentication
+
+Provide tenant ID and credentials for authentication via CyberArk Identity for Privilege Cloud Shared Services:
+
+```
+New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $PCloudCreds
+```

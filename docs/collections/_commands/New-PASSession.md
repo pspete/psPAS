@@ -16,62 +16,67 @@ Authenticates a user to CyberArk Vault/API.
 
 ### Gen2 (Default)
 ```
-New-PASSession -Credential <PSCredential> [-newPassword <SecureString>] [-type <String>]
- [-concurrentSession <Boolean>] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
+New-PASSession -Credential <PSCredential> -BaseURI <String> [-newPassword <SecureString>] [-type <String>]
+ [-concurrentSession <Boolean>] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
+ [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### SharedServices
+```
+New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-PVWAAppName <String>] [-SkipVersionCheck]
  [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1Radius
 ```
-New-PASSession -Credential <PSCredential> [-UseGen1API] -useRadiusAuthentication <Boolean> [-OTP <String>]
- [-OTPMode <String>] [-OTPDelimiter <String>] [-RadiusChallenge <String>] [-connectionNumber <Int32>]
- -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
+New-PASSession -Credential <PSCredential> -BaseURI <String> [-UseGen1API] -useRadiusAuthentication <Boolean>
+ [-OTP <String>] [-OTPMode <String>] [-OTPDelimiter <String>] [-RadiusChallenge <String>]
+ [-connectionNumber <Int32>] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
  [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1
 ```
-New-PASSession -Credential <PSCredential> [-UseGen1API] [-newPassword <SecureString>]
- [-connectionNumber <Int32>] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
- [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+New-PASSession -Credential <PSCredential> -BaseURI <String> [-UseGen1API] [-newPassword <SecureString>]
+ [-connectionNumber <Int32>] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
+ [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen2Radius
 ```
-New-PASSession -Credential <PSCredential> [-type <String>] [-OTP <String>] [-OTPMode <String>]
- [-OTPDelimiter <String>] [-RadiusChallenge <String>] [-concurrentSession <Boolean>] -BaseURI <String>
+New-PASSession -Credential <PSCredential> -BaseURI <String> [-type <String>] [-OTP <String>]
+ [-OTPMode <String>] [-OTPDelimiter <String>] [-RadiusChallenge <String>] [-concurrentSession <Boolean>]
  [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
  [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Gen1SAML
+### integrated
 ```
-New-PASSession [-UseGen1API] -SAMLResponse <String> -BaseURI <String> [-PVWAAppName <String>]
- [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
- [-WhatIf] [-Confirm] [<CommonParameters>]
-```
-
-### Gen2SAML
-```
-New-PASSession [-SAMLAuth] [-SAMLResponse <String>] [-concurrentSession <Boolean>] -BaseURI <String>
+New-PASSession -BaseURI <String> [-UseDefaultCredentials] [-concurrentSession <Boolean>]
  [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
  [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### shared
 ```
-New-PASSession [-UseSharedAuthentication] -BaseURI <String> [-PVWAAppName <String>] [-SkipVersionCheck]
+New-PASSession -BaseURI <String> [-UseSharedAuthentication] [-PVWAAppName <String>] [-SkipVersionCheck]
  [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
 
-### integrated
+### Gen2SAML
 ```
-New-PASSession [-UseDefaultCredentials] [-concurrentSession <Boolean>] -BaseURI <String>
+New-PASSession -BaseURI <String> [-SAMLAuth] [-SAMLResponse <String>] [-concurrentSession <Boolean>]
  [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
  [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### Gen1SAML
+```
+New-PASSession -BaseURI <String> [-UseGen1API] -SAMLResponse <String> [-PVWAAppName <String>]
+ [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -80,16 +85,16 @@ session data to be used in future API calls.
 
 Users can also set a new password via the authentication process.
 
-By default, the Gen2 API is used, and version 10 is expected.
+By default, the Gen2 API is used, meaning a recent version of CyberArk is expected.
 
 Use the -UseGen1API switch parameter to target the Gen1 API endpoint.
 
-Windows authentication requires at least version 10.4
+Windows authentication requires at least CyberArk PAS version 10.4
 
-LDAP, RADIUS, SAML, and shared authentication all require a minimum version of 9.7.
+LDAP, RADIUS, SAML, and shared authentication all require a minimum CyberArk version of 9.7.
 
 Versions of CyberArk prior to 9.7:
-- The only authentication mechanism supported is CyberArk.
+- only the CyberArk authentication mechanism is supported.
 - newPassword Parameter is not supported.
 - useRadiusAuthentication Parameter is not supported.
 - connectionNumber Parameter is not supported.
@@ -101,7 +106,7 @@ Versions of CyberArk prior to 9.7:
 New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 ```
 
-Logon to Version 10 with LDAP credential
+Logon with LDAP credential
 
 ### EXAMPLE 2
 ```
@@ -115,14 +120,14 @@ Establish a concurrent session
 New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
 ```
 
-Logon to Version 10 with CyberArk credential
+Logon with local CyberArk user credential
 
 ### EXAMPLE 4
 ```
 New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
 ```
 
-Logon to Version 10 with Windows Integrated Authentication
+Logon using Windows Integrated Authentication
 
 ### EXAMPLE 5
 ```
@@ -159,7 +164,7 @@ Perform saml sso authentication from version 11.4
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
 ```
 
-Logon to Version 10 using RADIUS
+Logon using RADIUS
 
 ### EXAMPLE 10
 ```
@@ -173,7 +178,7 @@ Logon using RADIUS via the Gen1 API
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456
 ```
 
-Logon to Version 10 using RADIUS (Challenge) & OTP (Response)
+Logon using RADIUS (Challenge) & OTP (Response)
 
 ### EXAMPLE 12
 ```
@@ -199,7 +204,7 @@ Logon with PKI auth, using a selected certificate stored on local machine or sma
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append
 ```
 
-Logon to Version 10 using RADIUS & DUO Push Authentication (working with DUO 2FA Append Mode Configuration)
+Logon to using RADIUS & DUO Push Authentication (working with DUO 2FA Append Mode Configuration)
 
 ### EXAMPLE 14
 ```
@@ -221,7 +226,7 @@ $Certificate = Get-ChildItem -Path Cert:\CurrentUser\My | Where-Object {$PSItem.
 New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
 ```
 
-Logon to Version 10 with LDAP credential & Client Certificate
+Logon using LDAP credential & Client Certificate
 
 ### EXAMPLE 17
 ```
@@ -278,6 +283,20 @@ New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain
 
 Authenticates to a CyberArk Vault using SAML authentication & Gen1 API.
 
+### EXAMPLE 23
+```
+New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred
+```
+
+Authenticates to Privilege Cloud Shared Services.
+
+### EXAMPLE 24
+```
+New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Append -OTPDelimiter $null
+```
+
+Logon to using RADIUS & provide password appended with OTP, with no delimiter separating the password & OTP values.
+
 ## PARAMETERS
 
 ### -Credential
@@ -285,7 +304,7 @@ A Valid PSCredential object.
 
 ```yaml
 Type: PSCredential
-Parameter Sets: Gen2, Gen2Radius
+Parameter Sets: Gen2, SharedServices, Gen2Radius
 Aliases:
 
 Required: True
@@ -346,10 +365,10 @@ The PS-SAML-Interactive can be used to get this value (see related links).
 
 ```yaml
 Type: String
-Parameter Sets: Gen1SAML
+Parameter Sets: Gen2SAML
 Aliases: SAMLToken
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -358,10 +377,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Gen2SAML
+Parameter Sets: Gen1SAML
 Aliases: SAMLToken
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -399,7 +418,7 @@ Accept wildcard characters: False
 ```
 
 ### -type
-When using the version 10 API endpoint, specify the type of authentication to use.
+When using the Gen2 API, specify the type of authentication to use.
 
 Valid values are:
 - CyberArk
@@ -511,7 +530,7 @@ Minimum version required 11.3
 
 ```yaml
 Type: Boolean
-Parameter Sets: Gen2, Gen2Radius, Gen2SAML, integrated
+Parameter Sets: Gen2, Gen2Radius, integrated, Gen2SAML
 Aliases:
 
 Required: False
@@ -548,7 +567,7 @@ Do not include "/PasswordVault/"
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1Radius, Gen1, Gen2Radius, integrated, shared, Gen2SAML, Gen1SAML
 Aliases:
 
 Required: True
@@ -698,6 +717,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -TenantSubdomain
+The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant
+
+```yaml
+Type: String
+Parameter Sets: SharedServices
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -710,6 +744,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/New-PASSession](https://pspas.pspete.dev/commands/New-PASSession)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PrivCloud-SS/Latest/en/Content/ISPSS/ISPSS-API-Authentication.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PrivCloud-SS/Latest/en/Content/ISPSS/ISPSS-API-Authentication.htm)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/CyberArk%20Authentication%20-%20Logon_v10.htm#CyberArkLDAPRadiusWindows](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/CyberArk%20Authentication%20-%20Logon_v10.htm#CyberArkLDAPRadiusWindows)
 

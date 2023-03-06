@@ -36,6 +36,8 @@ function Remove-PASUser {
 
 				$URI = "$Script:BaseURI/api/Users/$id"
 
+				$User = $id
+
 				break
 
 			}
@@ -47,13 +49,15 @@ function Remove-PASUser {
 				#Create URL for request
 				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 
+				$User = $UserName
+
 				break
 
 			}
 
 		}
 
-		if ($PSCmdlet.ShouldProcess($UserName, 'Delete User')) {
+		if ($PSCmdlet.ShouldProcess($User, 'Delete User')) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession

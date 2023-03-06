@@ -24,8 +24,72 @@ function New-PASSession {
 			ValueFromPipeline = $true,
 			ParameterSetName = 'Gen1Radius'
 		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'SharedServices'
+		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,
+
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'SharedServices'
+		)]
+		[string]$TenantSubdomain,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1Radius'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2Radius'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1SAML'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2SAML'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'shared'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'integrated'
+		)]
+		[string]$BaseURI,
 
 		[parameter(
 			Mandatory = $true,
@@ -154,7 +218,7 @@ function New-PASSession {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
 		)]
-		[ValidateLength(1, 1)]
+		[AllowEmptyString()]
 		[string]$OTPDelimiter,
 
 		[Parameter(
@@ -222,13 +286,6 @@ function New-PASSession {
 		[int]$connectionNumber,
 
 		[parameter(
-			Mandatory = $true,
-			ValueFromPipeline = $false,
-			ValueFromPipelinebyPropertyName = $true
-		)]
-		[string]$BaseURI,
-
-		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true
@@ -267,12 +324,16 @@ function New-PASSession {
 
 	BEGIN {
 
-		#Ensure URL is in expected format
-		#Remove trailing space and PasswordVault if provided in BaseUri
-		$baseURI = $baseURI -replace '/$', ''
-		$baseURI = $baseURI -replace '/PasswordVault$', ''
-		#Build URL
-		$Uri = "$baseURI/$PVWAAppName"
+		if ($baseURI) {
+
+			#Ensure URL is in expected format
+			#Remove trailing space and PasswordVault if provided in BaseUri
+			$baseURI = $baseURI -replace '/$', ''
+			$baseURI = $baseURI -replace '/PasswordVault$', ''
+			#Build URL
+			$Uri = "$baseURI/$PVWAAppName"
+
+		}
 
 		#Hashtable to hold Logon Request
 		$LogonRequest = @{ }
@@ -306,6 +367,30 @@ function New-PASSession {
 	PROCESS {
 
 		Switch ($PSCmdlet.ParameterSetName) {
+
+			'SharedServices' {
+
+				$LogonRequest['Uri'] = "https://${TenantSubdomain}.id.cyberark.cloud/oauth2/platformtoken"  #hardcode Shared Services auth
+
+				#Build URL
+				$Uri = "https://${TenantSubdomain}.privilegecloud.cyberark.cloud/$PVWAAppName"
+
+				$Body = @{
+
+					grant_type    = 'client_credentials'
+					#Add user name from credential object
+					client_id     = $($Credential.UserName)
+					#Add decoded password value from credential object
+					client_secret = $($Credential.GetNetworkCredential().Password)
+
+				}
+
+				$LogonRequest['Body'] = $Body
+				$LogonRequest['ContentType'] = 'application/x-www-form-urlencoded'
+
+				break
+
+			}
 
 			'integrated' {
 
@@ -462,16 +547,22 @@ function New-PASSession {
 
 					#Prepare auth request
 					switch ( $true ) {
+
 						($PSCmdlet.ParameterSetName -match 'Radius$') {
+
 							#RADIUS Secondary auth
 							$LogonRequest['Uri'] = "$Uri/api/Auth/RADIUS/Logon"
 							break
 						}
+
 						($type -eq 'PKI') {
+
 							#LDAP Secondary auth
 							$LogonRequest['Uri'] = "$Uri/api/Auth/LDAP/Logon"
 							break
+
 						}
+
 					}
 
 					#Submit secondary auth request
@@ -517,33 +608,45 @@ function New-PASSession {
 				#If Logon Result
 				If ($PASSession) {
 
-					If ($null -ne $PASSession.UserName) {
+					switch ($PASSession) {
 
-						throw "No Session Token for user $($PASSession.UserName)"
+						( { $null -ne $PSItem.UserName } ) {
 
-					}
+							throw "No Session Token for user $($PASSession.UserName)"
 
-					#Version 10
-					If ($PASSession.length -ge 180) {
+						}
 
-						#V10 Auth Token.
-						$CyberArkLogonResult = $PASSession
+						( { $null -ne $PSItem.access_token } ) {
 
-					}
+							#Shared Service access_token.
+							$CyberArkLogonResult = "$($PASSession.token_type) $($PASSession.access_token)"
 
-					#Shared Auth
-					ElseIf ($PASSession.LogonResult) {
+						}
 
-						#Shared Auth LogonResult.
-						$CyberArkLogonResult = $PASSession.LogonResult
+						( { $null -ne $PSItem.LogonResult } ) {
 
-					}
+							#Shared Auth LogonResult.
+							$CyberArkLogonResult = $PASSession.LogonResult
 
-					#Classic
-					Else {
+						}
 
-						#Classic CyberArkLogonResult
-						$CyberArkLogonResult = $PASSession.CyberArkLogonResult
+						( { $null -ne $PSItem.CyberArkLogonResult } ) {
+
+							#Classic CyberArkLogonResult
+							$CyberArkLogonResult = $PASSession.CyberArkLogonResult
+
+						}
+
+						default {
+
+							If ($PASSession.length -ge 180) {
+
+								#V10 Auth Token.
+								$CyberArkLogonResult = $PASSession
+
+							}
+
+						}
 
 					}
 

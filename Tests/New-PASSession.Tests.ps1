@@ -30,6 +30,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 	AfterAll {
 
 		$Script:RequestBody = $null
+		$Script:BaseURI = 'https://SomeURL/SomeApp'
+		$Script:ExternalVersion = '0.0'
 
 	}
 
@@ -183,6 +185,31 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sends request with password value when null OTPDelimiter is specified' {
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append -OTPDelimiter $null
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					$Script:RequestBody.password -eq 'SomePassword987654'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with password value when empty OTPDelimiter is specified' {
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append -OTPDelimiter ''
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					$Script:RequestBody.password -eq 'SomePassword987654'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+
 			It 'sends request with concurrentSession value when specified' {
 
 
@@ -214,6 +241,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					$URI -eq 'https://P_URI/PasswordVault/api/AUTH/CyberArk/Logon'
 
 				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets expected authorization header' {
+
+				$RandomString = 'ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7'
+
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+					$RandomString
+
+				}
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI'
+				$Script:WebSession.Headers['Authorization'] | Should -Be $RandomString
 
 			}
 
@@ -347,6 +390,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sets expected shared authentication authorization header' {
+
+				$RandomString = 'ZDE0YTY3MzYtNTk5Ni00YjFiLWFhMWUtYjVjMGFhNjM5MmJiOzY0MjY0NkYyRkE1NjY3N0M7MDAwMDAwMDI4ODY3MDkxRDUzMjE3NjcxM0ZBODM2REZGQTA2MTQ5NkFCRTdEQTAzNzQ1Q0JDNkRBQ0Q0NkRBMzRCODcwNjA0MDAwMDAwMDA7'
+
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+					$RandomString
+
+				}
+
+				New-PASSession -BaseURI 'https://P_URI' -UseSharedAuthentication
+				$Script:WebSession.Headers['Authorization'] | Should -Be $RandomString
+
+			}
+
 			It 'includes expected certificate thumbprint in request' {
 
 				New-PASSession -BaseURI 'https://P_URI' -UseSharedAuthentication -CertificateThumbprint 'SomeCertificateThumbprint'
@@ -405,6 +464,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type LDAP -SkipVersionCheck
 				Assert-MockCalled Get-PASServer -Times 0 -Exactly -Scope It
+
+			}
+
+			It 'sets expected authorization header' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI'
+				$Script:WebSession.Headers['Authorization'] | Should -Be 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
 
 			}
 
@@ -771,6 +837,89 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					$Body['apiUse'] -eq $true
 
 				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets expected authorization header' {
+
+				New-PASSession -BaseURI 'https://P_URI' -SAMLResponse 'SomeSAMLResponse'
+				$Script:WebSession.Headers['Authorization'] | Should -Be 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+
+			}
+
+		}
+
+		Context 'SharedServices' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						'token_type'   = 'Bearer'
+						'access_token' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+					}
+				}
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '0.0'
+					}
+				}
+
+				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
+
+				$Script:ExternalVersion = '0.0'
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It 'sends request' {
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://SomeSubDomain.id.cyberark.cloud/oauth2/platformtoken'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends expected request to expected endpoint' {
+
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://SomeSubDomain.id.cyberark.cloud/oauth2/platformtoken'
+					$ContentType -eq 'application/x-www-form-urlencoded'
+					$Body['client_id'] -eq 'SomeUser'
+					$Body['client_secret'] -eq 'SomePassword'
+					$Body['grant_type'] -eq 'client_credentials'
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets expected BaseURI' {
+
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				$Script:BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
+
+			}
+
+			It 'sets expected authorization header' {
+
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				$Script:WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
 
 			}
 

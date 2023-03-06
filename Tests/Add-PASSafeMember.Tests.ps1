@@ -217,6 +217,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					'SafeName'                               = 'SomeSafe'
 					'MemberName'                             = 'SomeUser'
 					'SearchIn'                               = 'SomePlace'
+					'MemberType'                             = 'Group'
 					'UseAccounts'                            = $true
 					'RetrieveAccounts'                       = $true
 					'ListAccounts'                           = $true
@@ -283,7 +284,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'has a request body with expected number of properties' {
 
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 4
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 5
 
 			}
 

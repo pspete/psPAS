@@ -6,9 +6,9 @@
 
 # **psPAS: PowerShell Module for the CyberArk API**
 
-Through the PVWA REST API, administer CyberArk with PowerShell.
+Through the PVWA REST API, administer CyberArk PAS with PowerShell.
 
-contains all of the documented API capabilities up to CyberArk v12.6.
+contains all of the documented API capabilities up to CyberArk v13.0.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -938,7 +938,13 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Publish-PASDiscoveredAccount`][Publish-PASDiscoveredAccount]                           |**12.6**            |Onboard Discovered Accounts
 [`Get-PASLinkedAccount`][Get-PASLinkedAccount]                                           |**12.2**            |Get details of linked accounts
 [`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                             |**12.6**            |Add Personal Admin Account (Privilege Cloud Only).
+[`Get-PASPTAGlobalCatalog`][Get-PASPTAGlobalCatalog]                                     |**13.0**            |Get Global Catalog connectivity details for PTA.
+[`Add-PASPTAGlobalCatalog`][Add-PASPTAGlobalCatalog]                                     |**13.0**            |Add Global Catalog connectivity details to PTA.
 
+[Get-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Get-PASPTAGlobalCatalog
+[Add-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Add-PASPTAGlobalCatalog
+[Disable-PASUser]:/psPAS/Functions/User/Disable-PASUser
+[Enable-PASUser]:/psPAS/Functions/User/Enable-PASUser
 [Get-PASLinkedAccount]:/psPAS/Functions/Accounts/Get-PASLinkedAccount
 [Add-PASPersonalAdminAccount]:/psPAS/Functions/Accounts/Add-PASPersonalAdminAccount
 [Publish-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Publish-PASDiscoveredAccount

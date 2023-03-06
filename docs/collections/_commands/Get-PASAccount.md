@@ -64,7 +64,7 @@ Get-PASAccount -search XUser -searchType startswith
 
 Returns all accounts starting with "XUser".
 
-Requires minimum version of 10.4
+Requires minimum version of 11.2
 
 ### EXAMPLE 3
 ```
@@ -179,7 +179,7 @@ Accept wildcard characters: False
 ### -searchType
 Get accounts that either contain or start with the value specified in the Search parameter.
 
-Requires minimum version of 10.4
+Requires minimum version of 11.2
 
 ```yaml
 Type: String

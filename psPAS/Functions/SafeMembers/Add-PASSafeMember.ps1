@@ -187,6 +187,16 @@ function Add-PASSafeMember {
 		[boolean]$MoveAccountsAndFolders,
 
 		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[ValidateNotNullOrEmpty()]
+		[ValidateSet('User', 'Group')]
+
+		[string]$memberType,
+
+		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = 'Gen1'
@@ -198,7 +208,7 @@ function Add-PASSafeMember {
 
 		#array for parameter names which appear in the top-tier of the JSON object
 		$keysToKeep = [Collections.Generic.List[String]]@(
-			'MemberName', 'SearchIn', 'MembershipExpirationDate', 'Permissions'
+			'MemberName', 'SearchIn', 'MembershipExpirationDate', 'Permissions', 'MemberType'
 		)
 
 	}#begin
@@ -249,6 +259,12 @@ function Add-PASSafeMember {
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)/Members"
+
+				If ($PSBoundParameters.ContainsKey('MemberType')) {
+
+					Assert-VersionRequirement -RequiredVersion 12.6
+
+				}
 
 				If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
 
