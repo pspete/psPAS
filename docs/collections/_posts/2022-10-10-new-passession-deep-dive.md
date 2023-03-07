@@ -2,7 +2,7 @@
 title:  "New-PASSession Deep Dive"
 date:   2022-10-10 00:00:00
 tags:
-  - pspAS Article
+  - psPAS Article
   - New-PASSession
   - Deep Dive
   - Invoke-PASRestMethod
