@@ -233,61 +233,90 @@
 
 		} catch {
 
-			$ErrorID = $null
-			$StatusCode = $($PSItem.Exception.Response).StatusCode.value__
-			$ErrorMessage = $($PSItem.Exception.Message)
+			#Privilege Cloud Shared Services Error Handling
+			If ($PSitem.TargetObject.RequestUri.Host -match 'cyberark.cloud') {
 
-			$Response = $PSItem.Exception | Select-Object -ExpandProperty 'Response' -ErrorAction Ignore
-			if ( $Response ) {
+				$ResponseException = $($PSItem.ErrorDetails.Message)
 
-				$ErrorDetails = $($PSItem.ErrorDetails)
-			}
-
-			# Not an exception making the request or the failed request didn't have a response body.
-			if ( $null -eq $ErrorDetails ) {
-
-				throw $PSItem
-
-			} Else {
-
-				If (-not($StatusCode)) {
-
-					#Generic failure message if no status code/response
-					$ErrorMessage = "Error contacting $($PSItem.TargetObject.RequestUri.AbsoluteUri)"
-
-				} ElseIf ($ErrorDetails) {
+				If ($null -ne $($ResponseException)) {
 
 					try {
 
-						#Convert ErrorDetails JSON to Object
-						$Response = $ErrorDetails | ConvertFrom-Json
-
-						#API Error Message
-						$ErrorMessage = "[$StatusCode] $($Response.ErrorMessage)"
-
-						#API Error Code
-						$ErrorID = $Response.ErrorCode
-
-						#Inner error details are present
-						if ($Response.Details) {
-
-							#Join Inner Error Text to Error Message
-							$ErrorMessage = $ErrorMessage, $(($Response.Details | Select-Object -ExpandProperty ErrorMessage) -join ', ') -join ': '
-
-							#Join Inner Error Codes to ErrorID
-							$ErrorID = $ErrorID, $(($Response.Details | Select-Object -ExpandProperty ErrorCode) -join ',') -join ','
-
-						}
+						$ResponseException = $ResponseException | ConvertFrom-Json
+						$ErrorMessage = $ResponseException | Select-Object -ExpandProperty error_description
+						$ErrorID = $($ResponseException | Select-Object -ExpandProperty error)
 
 					} catch {
 
-						#If error converting JSON, return $ErrorDetails
-						#replace any new lines or whitespace with single spaces
-						$ErrorMessage = $ErrorDetails -replace "(`n|\W+)", ' '
-						#Use $StatusCode as ErrorID
-						$ErrorID = $StatusCode
+						$ErrorMessage = $ResponseException
+						$ErrorID = $null
 
 					}
+
+				}
+
+			}
+
+			#Original Flavour Error Handling
+			Else {
+
+				$ErrorID = $null
+				$StatusCode = $($PSItem.Exception.Response).StatusCode.value__
+				$ErrorMessage = $($PSItem.Exception.Message)
+
+				$Response = $PSItem.Exception | Select-Object -ExpandProperty 'Response' -ErrorAction Ignore
+				if ( $Response ) {
+
+					$ErrorDetails = $($PSItem.ErrorDetails)
+				}
+
+				# Not an exception making the request or the failed request didn't have a response body.
+				if ( $null -eq $ErrorDetails ) {
+
+					throw $PSItem
+
+				} Else {
+
+					If (-not($StatusCode)) {
+
+						#Generic failure message if no status code/response
+						$ErrorMessage = "Error contacting $($PSItem.TargetObject.RequestUri.AbsoluteUri)"
+
+					} ElseIf ($ErrorDetails) {
+
+						try {
+
+							#Convert ErrorDetails JSON to Object
+							$Response = $ErrorDetails | ConvertFrom-Json
+
+							#API Error Message
+							$ErrorMessage = "[$StatusCode] $($Response.ErrorMessage)"
+
+							#API Error Code
+							$ErrorID = $Response.ErrorCode
+
+							#Inner error details are present
+							if ($Response.Details) {
+
+								#Join Inner Error Text to Error Message
+								$ErrorMessage = $ErrorMessage, $(($Response.Details | Select-Object -ExpandProperty ErrorMessage) -join ', ') -join ': '
+
+								#Join Inner Error Codes to ErrorID
+								$ErrorID = $ErrorID, $(($Response.Details | Select-Object -ExpandProperty ErrorCode) -join ',') -join ','
+
+							}
+
+						} catch {
+
+							#If error converting JSON, return $ErrorDetails
+							#replace any new lines or whitespace with single spaces
+							$ErrorMessage = $ErrorDetails -replace "(`n|\W+)", ' '
+							#Use $StatusCode as ErrorID
+							$ErrorID = $StatusCode
+
+						}
+					}
+
 				}
 
 			}

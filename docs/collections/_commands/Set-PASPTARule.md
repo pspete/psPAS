@@ -15,7 +15,7 @@ Updates an existing Risky Activity rule to PTA
 ## SYNTAX
 
 ```
-Set-PASPTARule [-id] <Int32> [-category] <String> [-regex] <String> [-score] <Int32> [-description] <String>
+Set-PASPTARule [-id] <String> [-category] <String> [-regex] <String> [-score] <Int32> [-description] <String>
  [-response] <String> [-active] <Boolean> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -37,7 +37,7 @@ Updates rule 66 in PTA
 The unique ID of the rule.
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
 

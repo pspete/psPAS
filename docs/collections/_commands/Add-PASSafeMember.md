@@ -24,7 +24,7 @@ Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
  [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-requestsAuthorizationLevel1 <Boolean>]
  [-requestsAuthorizationLevel2 <Boolean>] [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>]
- [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [<CommonParameters>]
+ [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [-memberType <String>] [<CommonParameters>]
 ```
 
 ### Gen1
@@ -611,6 +611,25 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -memberType
+The member type.
+
+Accepts Values: User, Group
+
+Minimum required version 12.6
+
+```yaml
+Type: String
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

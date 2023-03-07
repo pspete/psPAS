@@ -211,6 +211,9 @@
 								<PropertyName>memberName</PropertyName>
 							</ListItem>
 							<ListItem>
+								<PropertyName>memberType</PropertyName>
+							</ListItem>
+							<ListItem>
 								<PropertyName>safeUrlId</PropertyName>
 							</ListItem>
 							<ListItem>

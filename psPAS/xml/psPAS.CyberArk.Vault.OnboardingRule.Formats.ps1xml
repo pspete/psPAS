@@ -40,6 +40,50 @@
 								</ItemSelectionCondition>
 								<PropertyName>TargetSafeName</PropertyName>
 							</ListItem>
+							<ListItem>
+								<PropertyName>IsAdminIDFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>MachineTypeFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>SystemTypeFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserNameFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>CreationTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.CreationTime)</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>RulePrecedence</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserNameMethod</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AddressFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AddressMethod</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AccountCategoryFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AccountCategoryFilter</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>RuleDescription</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>ReconcileAccountId</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>LastOnboardedTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.LastOnboardedTime)</ScriptBlock>
+							</ListItem>
 						</ListItems>
 					</ListEntry>
 				</ListEntries>

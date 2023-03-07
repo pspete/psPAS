@@ -6,7 +6,8 @@ Function Set-PASPTARule {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[int]$id,
+		[ValidateRange(1, [int]::MaxValue)]
+		[string]$id,
 
 		[parameter(
 			Mandatory = $true,

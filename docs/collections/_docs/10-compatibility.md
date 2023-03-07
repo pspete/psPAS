@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2022-09-25T01:23:45-00:00
+last_modified_at: 2023-03-06T01:23:45-00:00
 toc: false
 ---
 
@@ -95,7 +95,7 @@ If version requirement criteria are not met, operations may be prevented.
 [`Get-PASSafeShareLogo`][Get-PASSafeShareLogo]                                           | **9.7**                                            |Returns details of SafeShare Logo
 [`Get-PASServer`][Get-PASServer]                                                         | **9.7**                                            |Returns details of the Web Service Server
 [`Get-PASServerWebService`][Get-PASServerWebService]                                     | **9.7**                                            |Returns details of the Web Service
-[`Get-PASComponentDetail`][Get-PASComponentDetail]                                       | **10.1**                                           |Returns details about component instances.
+[`Get-PASComponentDetail`][Get-PASComponentDetail]                                       | **10.1** ([Notes](#get-pascomponentdetail))        |Returns details about component instances.
 [`Get-PASComponentSummary`][Get-PASComponentSummary]                                     | **10.1**                                           |Returns consolidated information about components.
 [`Add-PASGroupMember`][Add-PASGroupMember]                                               | **9.7** ([Notes](#add-pasgroupmember))             |Adds a user as a group member
 [`Get-PASLoggedOnUser`][Get-PASLoggedOnUser]                                             | **9.7**                                            |Returns details of the logged on user
@@ -178,7 +178,11 @@ If version requirement criteria are not met, operations may be prevented.
 [`Publish-PASDiscoveredAccount`][Publish-PASDiscoveredAccount]                           |**12.6**                                            |Onboard Discovered Accounts
 [`Get-PASLinkedAccount`][Get-PASLinkedAccount]                                           |**12.2**                                            |Get details of linked accounts
 [`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                             |**12.6**                                            |Add Personal Admin Account (Privilege Cloud Only).
+[`Get-PASPTAGlobalCatalog`][Get-PASPTAGlobalCatalog]                                     |**13.0**                                            |Get Global Catalog connectivity details for PTA.
+[`Add-PASPTAGlobalCatalog`][Add-PASPTAGlobalCatalog]                                     |**13.0**                                            |Add Global Catalog connectivity details to PTA.
 
+[Get-PASPTAGlobalCatalog]:/commands/Get-PASPTAGlobalCatalog
+[Add-PASPTAGlobalCatalog]:/commands/Add-PASPTAGlobalCatalog
 [Get-PASLinkedAccount]:/commands/Get-PASLinkedAccount
 [Add-PASPersonalAdminAccount]:/commands/Add-PASPersonalAdminAccount
 [Publish-PASDiscoveredAccount]:/commands/Publish-PASDiscoveredAccount
@@ -600,3 +604,7 @@ If version requirement criteria are not met, operations may be prevented.
 ### Set-PASSafe
 
 - Version 12.2 introduced new API endpoint
+
+### Get-PASComponentDetail
+
+- Version 12 adds pta as target component
