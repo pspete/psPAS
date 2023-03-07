@@ -16,7 +16,9 @@ tags:
   - Remove-PASPublicSSHKey
 ---
 
-## **5.5 (March 2023)
+## **5.5.110 (March 7th 2023)
+
+### Module update to cover all CyberArk 13.0 API features
 
 - New
   - Adds `Get-PASPTAGlobalCatalog` & `Add-PASPTAGlobalCatalog` commands, available for v13.
