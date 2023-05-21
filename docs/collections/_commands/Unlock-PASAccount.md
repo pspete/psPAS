@@ -10,16 +10,22 @@ title: Unlock-PASAccount
 # Unlock-PASAccount
 
 ## SYNOPSIS
-Checks in an exclusive account in to the Vault.
+Checks-in an exclusive access account, or unlocks an account checked-out or locked by another user.
 
 ## SYNTAX
 
+### CheckIn (Default)
 ```
-Unlock-PASAccount [-AccountID] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Unlock-PASAccount [-AccountID] <String> [-CheckIn] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### Unlock
+```
+Unlock-PASAccount [-AccountID] <String> [-Unlock] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Checks in an account, locked due to an exclusive account policy, to the Vault.
+Unlocks or Checks in an account, locked due to an exclusive account policy, to the Vault.
 
 If the account is managed automatically by the CPM, after it is checked in,the password is changed immediately.
 
@@ -28,6 +34,8 @@ If the account is managed manually, a notification is sent to a user who is auth
 The account is checked in automatically after it has been changed.
 
 Requires Initiate CPM password management operations on the Safe where the account is stored.
+
+Where a user holds the "Unlock Account" permission on a safe, they may use this function to issue an "Unlock" command on an account checked out or locked by another user.
 
 ## EXAMPLES
 
@@ -44,6 +52,13 @@ Get-PASAccount xAccount | Unlock-PASAccount
 ```
 
 Will check-in exclusive access account xAccount
+
+### EXAMPLE 3
+```
+Unlock-PASAccount -AccountID 21_3 -Unlock
+```
+
+Unlocks account with ID of "21_3" when locked by another user.
 
 ## PARAMETERS
 
@@ -92,6 +107,36 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CheckIn
+Specifies that the account should be Checked-In
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: CheckIn
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Unlock
+Specifies that the account should be unlocked
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Unlock
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
