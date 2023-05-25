@@ -769,7 +769,7 @@
       <command:example>
         <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
         <dev:code>$props = @{SSHCertificate = "yes";}
-Add-PASAccount -address domain -userName ThisUser -platformID UNIXVIASSHCERTIFICATE -SafeName UNIXSafe -secretType Key -secret $key  -plaformAccountProperties $props</dev:code>
+Add-PASAccount -address domain -userName ThisUser -platformID UNIXVIASSHCERTIFICATE -SafeName UNIXSafe -secretType Key -secret $key -platformAccountProperties $props</dev:code>
         <dev:remarks>
           <maml:para>Using the Gen2 API, adds an account configured for the Unix via SSH Certificate platform</maml:para>
           <maml:para>Requires minimum version of 10.4 Unix via SSH Certificate platform is supported in versions 11.2 and above.</maml:para>
@@ -36750,15 +36750,16 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
       <command:verb>Unlock</command:verb>
       <command:noun>PASAccount</command:noun>
       <maml:description>
-        <maml:para>Checks in an exclusive account in to the Vault.</maml:para>
+        <maml:para>Checks-in an exclusive access account, or unlocks an account checked-out or locked by another user.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Checks in an account, locked due to an exclusive account policy, to the Vault.</maml:para>
+      <maml:para>Unlocks or Checks in an account, locked due to an exclusive account policy, to the Vault.</maml:para>
       <maml:para>If the account is managed automatically by the CPM, after it is checked in,the password is changed immediately.</maml:para>
       <maml:para>If the account is managed manually, a notification is sent to a user who is authorised to change the password.</maml:para>
       <maml:para>The account is checked in automatically after it has been changed.</maml:para>
       <maml:para>Requires Initiate CPM password management operations on the Safe where the account is stored.</maml:para>
+      <maml:para>Where a user holds the "Unlock Account" permission on a safe, they may use this function to issue an "Unlock" command on an account checked out or locked by another user.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -36791,6 +36792,66 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
           <maml:name>Confirm</maml:name>
           <maml:description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>CheckIn</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the account should be Checked-In</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Unlock-PASAccount</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
+          <maml:name>AccountID</maml:name>
+          <maml:description>
+            <maml:para>The unique ID of the account.</maml:para>
+            <maml:para>This is retrieved by the Get-PASAccount function.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>Unlock</maml:name>
+          <maml:description>
+            <maml:para>Specifies that the account should be unlocked</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -36838,6 +36899,30 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>CheckIn</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the account should be Checked-In</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>Unlock</maml:name>
+        <maml:description>
+          <maml:para>Specifies that the account should be unlocked</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -36859,6 +36944,13 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
         <dev:code>Get-PASAccount xAccount | Unlock-PASAccount</dev:code>
         <dev:remarks>
           <maml:para>Will check-in exclusive access account xAccount</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Unlock-PASAccount -AccountID 21_3 -Unlock</dev:code>
+        <dev:remarks>
+          <maml:para>Unlocks account with ID of "21_3" when locked by another user.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
