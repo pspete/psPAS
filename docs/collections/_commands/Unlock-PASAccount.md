@@ -148,10 +148,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Minimum CyberArk version 9.10
+Minimum CyberArk version 9.10 (Check-In Account)
+Minimum CyberArk version 11.6 (Unlock Account)
 
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Unlock-PASAccount](https://pspas.pspete.dev/commands/Unlock-PASAccount)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Checkin-account.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Checkin-account.htm)
+
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/pas/Latest/en/Content/PASIMP/AutoUnlockinPSM.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/pas/Latest/en/Content/PASIMP/AutoUnlockinPSM.htm)

@@ -1,5 +1,7 @@
 # .ExternalHelp psPAS-help.xml
 function Unlock-PASAccount {
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'CheckIn', Justification = 'Parameter used for ParameterSet function logic')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Unlock', Justification = 'Parameter used for ParameterSet function logic')]
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'CheckIn')]
 	param(
 		[parameter(
@@ -41,8 +43,8 @@ function Unlock-PASAccount {
 
 			'Unlock' {
 
-				#Tested but not verified/documented
-				Assert-VersionRequirement -RequiredVersion 12.2
+				#*Assumed working for 11.6+ (not verified/tested for all versions)
+				Assert-VersionRequirement -RequiredVersion 11.6
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/API/Accounts/$AccountID/Unlock"
