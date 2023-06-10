@@ -3,7 +3,7 @@ function New-PASSession {
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Gen2')]
 	param(
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipeline = $true,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
@@ -174,7 +174,7 @@ function New-PASSession {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Radius'
 		)]
-		[ValidateSet('CyberArk', 'LDAP', 'Windows', 'RADIUS', 'PKI')]
+		[ValidateSet('CyberArk', 'LDAP', 'Windows', 'RADIUS', 'PKI', 'PKIPN')]
 		[string]$type = 'CyberArk',
 
 		[Parameter(
@@ -468,10 +468,28 @@ function New-PASSession {
 				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, SkipCertificateCheck,
 				UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge, Certificate
 
-				#Add user name from credential object
-				$boundParameters['username'] = $($Credential.UserName)
-				#Add decoded password value from credential object
-				$boundParameters['password'] = $($Credential.GetNetworkCredential().Password)
+				#deal with newPassword SecureString
+				If ($PSBoundParameters.ContainsKey('newPassword')) {
+
+					#Include decoded password in request
+					$boundParameters['newPassword'] = $(ConvertTo-InsecureString -SecureString $newPassword)
+
+				}
+
+				if ($type -ne 'PKIPN') {
+
+					if ($PSBoundParameters.Keys.Contains('Credential')) {
+						#Add user name from credential object
+						$boundParameters['username'] = $($Credential.UserName)
+						#Add decoded password value from credential object
+						$boundParameters['password'] = $($Credential.GetNetworkCredential().Password)
+					}
+
+				} Else {
+					#PKIPN Auth
+					$boundParameters['secureMode'] = $true
+					$boundParameters['type'] = 'pkipn'
+				}
 
 				#RADIUS Auth
 				If ($PSCmdlet.ParameterSetName -match 'Radius$') {
@@ -508,14 +526,6 @@ function New-PASSession {
 						}
 
 					}
-
-				}
-
-				#deal with newPassword SecureString
-				If ($PSBoundParameters.ContainsKey('newPassword')) {
-
-					#Include decoded password in request
-					$boundParameters['newPassword'] = $(ConvertTo-InsecureString -SecureString $newPassword)
 
 				}
 
