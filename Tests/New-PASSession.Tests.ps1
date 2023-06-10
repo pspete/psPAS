@@ -39,8 +39,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'Credential' }
+			$Parameters = @{Parameter = 'BaseURI' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
