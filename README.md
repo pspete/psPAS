@@ -8,7 +8,7 @@
 
 Through the PVWA REST API, administer CyberArk PAS with PowerShell.
 
-contains all of the documented API capabilities up to CyberArk v13.0.
+contains all of the documented API capabilities up to CyberArk v13.2.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
