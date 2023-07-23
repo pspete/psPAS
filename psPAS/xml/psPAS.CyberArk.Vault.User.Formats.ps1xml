@@ -84,6 +84,15 @@
 								<PropertyName>Location</PropertyName>
 							</ListItem>
 							<ListItem>
+								<PropertyName>userActivityLogRetentionDays</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>loginFromHour</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>loginToHour</PropertyName>
+							</ListItem>
+							<ListItem>
 								<PropertyName>Suspended</PropertyName>
 							</ListItem>
 							<ListItem>

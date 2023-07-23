@@ -129,14 +129,17 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$InputObj = [pscustomobject]@{
-					'UserName'        = 'SomeUser'
-					'InitialPassword' = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
-					'FirstName'       = 'Some'
-					'LastName'        = 'User'
-					'ExpiryDate'      = '10/31/2018'
-					'workStreet'      = 'SomeStreet'
-					'homePage'        = 'www.geocities.com'
-					'faxNumber'       = '1979'
+					'UserName'                     = 'SomeUser'
+					'InitialPassword'              = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
+					'FirstName'                    = 'Some'
+					'LastName'                     = 'User'
+					'ExpiryDate'                   = '10/31/2018'
+					'workStreet'                   = 'SomeStreet'
+					'homePage'                     = 'www.geocities.com'
+					'faxNumber'                    = '1979'
+					'userActivityLogRetentionDays' = 30
+					'loginFromHour'                = 8
+					'loginToHour'                  = 18
 
 				}
 
@@ -180,7 +183,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'has a request body with expected number of properties' {
 
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 7
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 10
 
 			}
 
