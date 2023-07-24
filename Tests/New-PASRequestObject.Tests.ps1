@@ -46,8 +46,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                     'TicketingSystemName'    = 'SomeITSM'
                     'TicketID'               = '1234'
                     'MultipleAccessRequired' = $false
-                    'FromDate'               = $(Get-Date -Month 1 -Date 22 -Year 2023)
-                    'ToDate'                 = $(Get-Date -Month 1 -Date 23 -Year 2023)
+                    'FromDate'               = $(Get-Date -Month 1 -Day 22 -Year 2023 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
+                    'ToDate'                 = $(Get-Date -Month 1 -Day 23 -Year 2023 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
                     'AdditionalInfo'         = $props
                     'PSMRemoteMachine'       = 'SomeMachine'
                 }
