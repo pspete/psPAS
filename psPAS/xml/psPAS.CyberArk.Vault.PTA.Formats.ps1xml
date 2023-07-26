@@ -99,5 +99,66 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.PTA.Event.Risk</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PTA.Event.Risk</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>entities</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>totalEntities</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>totalEntities</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>sort</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>page</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>size</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>totalPages</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.PTA.Event.Risk.Summary</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PTA.Event.Risk.Summary</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>data</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>type</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>score</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>attributes</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

@@ -226,7 +226,10 @@
 		'Add-PASPersonalAdminAccount',
 		'Add-PASPTAGlobalCatalog',
 		'Get-PASPTAGlobalCatalog',
-		'New-PASRequestObject'
+		'New-PASRequestObject',
+		'Get-PASPTARiskEvent',
+		'Set-PASPTARiskEvent',
+		'Get-PASPTARiskSummary'
 	)
 
 	#AliasesToExport   = @()
