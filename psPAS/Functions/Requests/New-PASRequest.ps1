@@ -27,11 +27,7 @@ function New-PASRequest {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'BulkFilter'
 		)]
-		[ValidateSet('Regular', 'Recently', 'New', 'Link', 'Deleted', 'PolicyFailures',
-			'AccessedByUsers', 'ModifiedByUsers', 'ModifiedByCPM', 'DisabledPasswordByUser',
-			'DisabledPasswordByCPM', 'ScheduledForChange', 'ScheduledForVerify', 'ScheduledForReconcile',
-			'SuccessfullyReconciled', 'FailedChange', 'FailedVerify', 'FailedReconcile', 'LockedOrNew',
-			'Locked', 'Favorites')]
+		[ValidateSet('Regular', 'Recently', 'Locked', 'Favorites')]
 		[string]$SavedFilter,
 
 		[parameter(
@@ -210,16 +206,6 @@ function New-PASRequest {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ManualParams'
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkFilter'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkSearch'
-		)]
 		[boolean]$UseConnect,
 
 		[parameter(
@@ -232,32 +218,12 @@ function New-PASRequest {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ManualParams'
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkFilter'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkSearch'
-		)]
 		[string]$ConnectionComponent,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ConnectionParams'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkFilter'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkSearch'
 		)]
 		[ValidateSet('Yes', 'No')]
 		[string]$AllowMappingLocalDrives,
@@ -267,16 +233,6 @@ function New-PASRequest {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ConnectionParams'
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkFilter'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkSearch'
-		)]
 		[ValidateSet('Yes', 'No')]
 		[string]$AllowConnectToConsole,
 
@@ -284,16 +240,6 @@ function New-PASRequest {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ConnectionParams'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkFilter'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkSearch'
 		)]
 		[ValidateSet('Yes', 'No')]
 		[string]$RedirectSmartCards,
@@ -303,16 +249,6 @@ function New-PASRequest {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ConnectionParams'
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkFilter'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkSearch'
-		)]
 		[string]$PSMRemoteMachine,
 
 		[parameter(
@@ -320,32 +256,12 @@ function New-PASRequest {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ConnectionParams'
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkFilter'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkSearch'
-		)]
 		[string]$LogonDomain,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ConnectionParams'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkFilter'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'BulkSearch'
 		)]
 		[ValidateSet('Yes', 'No')]
 		[string]$AllowSelectHTML5,
@@ -368,6 +284,7 @@ function New-PASRequest {
 
 	BEGIN {
 		Assert-VersionRequirement -RequiredVersion 9.10
+		$Target = $PSCmdlet.ParameterSetName
 	}#begin
 
 	PROCESS {
@@ -382,6 +299,7 @@ function New-PASRequest {
 
 			'BulkSearch' {
 
+				#Filter Parameters for Bulk Search Request
 				$FilterParams = @{
 					'SearchParam' = $boundParameters | Get-PASParameter -ParametersToKeep Search
 				}
@@ -390,6 +308,7 @@ function New-PASRequest {
 
 			'BulkFilter' {
 
+				#Filter Parameters for Saved Filter Request
 				$FilterParams = @{
 					'AccountsFilters' = $boundParameters | Get-PASParameter -ParametersToKeep SavedFilter
 				}
@@ -399,13 +318,15 @@ function New-PASRequest {
 
 				Assert-VersionRequirement -RequiredVersion 13.2
 
+				#request for bulk search/filter request
 				$Item = $boundParameters | Get-PASParameter -ParametersToRemove Search, SavedFilter, ExcludedEntities
 
+				#Format Request
 				$Request = @{
-					'BulkFilter' = @{
+					'BulkFilter' = [ordered]@{
 						'CommonEntityProperties' = @{
 							'Operation' = 'Add'
-							'Item'      = New-PASRequestObject @Item
+							'Item'      = New-PASRequestObject @Item | ConvertTo-BulkFilterItem
 						}
 						'ExcludedEntities'       = $ExcludedEntities
 						'FilterParams'           = $FilterParams
@@ -443,22 +364,32 @@ function New-PASRequest {
 
 				#create request object
 				$Request = New-PASRequestObject @boundParameters
-
+				$Target = $AccountId
 			}
 
 		}
 
 		#Create body of request
-		$body = $Request | ConvertTo-Json -Depth 6
+		$body = $Request | ConvertTo-Json -Depth 3
 
-		if ($PSCmdlet.ShouldProcess($AccountId, 'Create Request for Account Access')) {
+		if ($PSCmdlet.ShouldProcess($Target, 'Request Account Access')) {
 
 			#send request to PAS web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 			If ($null -ne $result) {
+				switch ($PSCmdlet.ParameterSetName) {
 
-				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request
+					{ $PSItem -match '^Bulk' } {
+						[pscustomobject]@{'Id' = $result } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Bulk
+						break
+					}
+
+					default {
+						$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request
+						break
+					}
+				}
 
 			}
 

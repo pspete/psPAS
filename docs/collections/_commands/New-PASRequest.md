@@ -35,20 +35,16 @@ New-PASRequest -AccountId <String> [-Reason <String>] [-TicketingSystemName <Str
 ```
 New-PASRequest -Search <String> [-ExcludedEntities <String[]>] [-Reason <String>]
  [-TicketingSystemName <String>] [-TicketID <String>] [-MultipleAccessRequired <Boolean>]
- [-FromDate <DateTime>] [-ToDate <DateTime>] [-AdditionalInfo <Hashtable>] [-UseConnect <Boolean>]
- [-ConnectionComponent <String>] [-AllowMappingLocalDrives <String>] [-AllowConnectToConsole <String>]
- [-RedirectSmartCards <String>] [-PSMRemoteMachine <String>] [-LogonDomain <String>]
- [-AllowSelectHTML5 <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-FromDate <DateTime>] [-ToDate <DateTime>] [-AdditionalInfo <Hashtable>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### BulkFilter
 ```
 New-PASRequest -SavedFilter <String> [-ExcludedEntities <String[]>] [-Reason <String>]
  [-TicketingSystemName <String>] [-TicketID <String>] [-MultipleAccessRequired <Boolean>]
- [-FromDate <DateTime>] [-ToDate <DateTime>] [-AdditionalInfo <Hashtable>] [-UseConnect <Boolean>]
- [-ConnectionComponent <String>] [-AllowMappingLocalDrives <String>] [-AllowConnectToConsole <String>]
- [-RedirectSmartCards <String>] [-PSMRemoteMachine <String>] [-LogonDomain <String>]
- [-AllowSelectHTML5 <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-FromDate <DateTime>] [-ToDate <DateTime>] [-AdditionalInfo <Hashtable>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### BulkItems
@@ -93,6 +89,15 @@ New-PASRequest -BulkItems $Requests
 
 Submits a list of request objects.
 Request objects are created with the New-PASRequestObject command.
+
+### EXAMPLE 5
+```
+New-PASRequest -MultipleAccessRequired $true -FromDate (Get-Date) -ToDate (Get-Date).AddDays(1) -SavedFilter Favorites -ExcludedEntities 50_3 -Reason "Some Reason"
+```
+
+Requests multiple access over 24 hours to multiple accounts matching saved filter.
+
+Multiple access requests must include ToDate and FromDate values
 
 ## PARAMETERS
 
@@ -221,7 +226,7 @@ Whether or not the request is for connection through the PSM.
 
 ```yaml
 Type: Boolean
-Parameter Sets: ConnectionParams, ManualParams, BulkSearch, BulkFilter
+Parameter Sets: ConnectionParams, ManualParams
 Aliases:
 
 Required: False
@@ -237,7 +242,7 @@ as defined in the configuration.
 
 ```yaml
 Type: String
-Parameter Sets: ConnectionParams, ManualParams, BulkSearch, BulkFilter
+Parameter Sets: ConnectionParams, ManualParams
 Aliases:
 
 Required: False
@@ -252,7 +257,7 @@ Whether or not to redirect their local hard drives to the remote server.
 
 ```yaml
 Type: String
-Parameter Sets: ConnectionParams, BulkSearch, BulkFilter
+Parameter Sets: ConnectionParams
 Aliases:
 
 Required: False
@@ -267,7 +272,7 @@ Whether or not to connect to the administrative console of the remote machine.
 
 ```yaml
 Type: String
-Parameter Sets: ConnectionParams, BulkSearch, BulkFilter
+Parameter Sets: ConnectionParams
 Aliases:
 
 Required: False
@@ -282,7 +287,7 @@ Whether or not to redirect Smart Card so that the certificate stored on the card
 
 ```yaml
 Type: String
-Parameter Sets: ConnectionParams, BulkSearch, BulkFilter
+Parameter Sets: ConnectionParams
 Aliases:
 
 Required: False
@@ -297,7 +302,7 @@ Address of the remote machine to connect to.
 
 ```yaml
 Type: String
-Parameter Sets: ConnectionParams, BulkSearch, BulkFilter
+Parameter Sets: ConnectionParams
 Aliases:
 
 Required: False
@@ -312,7 +317,7 @@ The NetBIOS domain name of the account being used.
 
 ```yaml
 Type: String
-Parameter Sets: ConnectionParams, BulkSearch, BulkFilter
+Parameter Sets: ConnectionParams
 Aliases:
 
 Required: False
@@ -327,7 +332,7 @@ Specify which connection method, HTML5-based or RDP-file, to use when connecting
 
 ```yaml
 Type: String
-Parameter Sets: ConnectionParams, BulkSearch, BulkFilter
+Parameter Sets: ConnectionParams
 Aliases:
 
 Required: False
@@ -420,6 +425,8 @@ Accept wildcard characters: False
 ### -SavedFilter
 Request access to multiple accounts which match a savedFilter.
 
+Accepts account view  filter names 'Regular', 'Recently', 'Locked' & 'Favorites'
+
 Requires minimum version of 13.2
 
 ```yaml
@@ -467,4 +474,4 @@ Minimum CyberArk Version 9.10
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/CreateRequest.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/CreateRequest.htm)
 
-[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Create-multiple-requests.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Create-multiple-requests.htm)
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Create-multiple-requests.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/13.2/en/Content/WebServices/Create-multiple-requests.htm)
