@@ -41,6 +41,7 @@ Encloses value of the key/value pair in quotes.
 
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilterList', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
 	[CmdletBinding()]
 	[OutputType('System.Hashtable')]
 	param(
