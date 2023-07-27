@@ -18667,6 +18667,53 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-PASUserTypeInfo</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>PASUserTypeInfo</command:noun>
+      <maml:description>
+        <maml:para>Output information about user types</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Returns information about user types.</maml:para>
+      <maml:para>Requires the Audit Users permission.</maml:para>
+      <maml:para>Requires minimum version 13.2</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-PASUserTypeInfo</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Get-PASUserTypeInfo</dev:code>
+        <dev:remarks>
+          <maml:para>Output information about available user types</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASUserTypeInfo</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Get-PASUserTypeInfo</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/PAS/13.2/en/Content/SDK/API-GetUserTypes.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/PAS/13.2/en/Content/SDK/API-GetUserTypes.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Import-PASConnectionComponent</command:name>
       <command:verb>Import</command:verb>
       <command:noun>PASConnectionComponent</command:noun>
