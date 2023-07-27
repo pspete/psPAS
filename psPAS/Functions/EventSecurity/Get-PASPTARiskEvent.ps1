@@ -20,7 +20,7 @@ Function Get-PASPTARiskEvent {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet('riskType', 'detectionTime', 'riskAccount', 'riskService', 'score', 'mStatus')]
+        [ValidateSet('detectionTime', 'score')]
         [string]$sort,
 
         [parameter(
@@ -50,7 +50,7 @@ Function Get-PASPTARiskEvent {
 
         $filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
-        $FilterString = $filterParameters | ConvertTo-FilterString
+        $FilterString = $filterParameters | ConvertTo-FilterString -QuoteValue
 
         If ($null -ne $FilterString) {
 

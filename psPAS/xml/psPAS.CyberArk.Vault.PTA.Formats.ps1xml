@@ -115,7 +115,7 @@
 								<PropertyName>totalEntities</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>totalEntities</PropertyName>
+								<PropertyName>filter</PropertyName>
 							</ListItem>
 							<ListItem>
 								<PropertyName>sort</PropertyName>
