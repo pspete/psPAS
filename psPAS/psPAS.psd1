@@ -229,7 +229,8 @@
 		'New-PASRequestObject',
 		'Get-PASPTARiskEvent',
 		'Set-PASPTARiskEvent',
-		'Get-PASPTARiskSummary'
+		'Get-PASPTARiskSummary',
+		'Get-PASUserTypeInfo'
 	)
 
 	#AliasesToExport   = @()

@@ -313,5 +313,56 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.User.Type</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.User.Type</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>UserTypeId</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UserTypeName</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AllowedClientInterfaces</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.User.Type</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.User.Type</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>UserTypeId</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>UserTypeName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AllowedClientInterfaces</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>
