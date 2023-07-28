@@ -1,7 +1,7 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version:
+online version: https://pspas.pspete.dev/commands/Get-PASUserTypeInfo
 schema: 2.0.0
 title: Get-PASUserTypeInfo
 ---
