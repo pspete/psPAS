@@ -4,7 +4,8 @@ function Get-PASRequest {
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Requests'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[ValidateSet('MyRequests', 'IncomingRequests')]
@@ -12,15 +13,31 @@ function Get-PASRequest {
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'bulkactions'
+		)]
+		[int]$id,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Requests'
 		)]
 		[boolean]$OnlyWaiting,
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Requests'
 		)]
-		[boolean]$Expired
+		[boolean]$Expired,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'bulkactions'
+		)]
+		[boolean]$DisplayExtendedItems
 	)
 
 	BEGIN {
@@ -29,10 +46,36 @@ function Get-PASRequest {
 
 	PROCESS {
 
-		$QueryString = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestType | ConvertTo-QueryString
-
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/$($RequestType)?$QueryString"
+		switch ($PSCmdlet.ParameterSetName) {
+
+			'bulkactions' {
+
+				Assert-VersionRequirement -RequiredVersion 13.2
+
+				$URI = "$Script:BaseURI/API/$($PSCmdlet.ParameterSetName)/$id"
+				break
+
+			}
+
+			'Requests' {
+
+				$URI = "$Script:BaseURI/API/$($RequestType)"
+				break
+
+			}
+
+		}
+
+		#Create QueryString
+		$queryString = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestType, id | ConvertTo-QueryString
+
+		if ($null -ne $queryString) {
+
+			#Add QueryString to URL
+			$URI = "$URI`?$queryString"
+
+		}
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
@@ -40,7 +83,23 @@ function Get-PASRequest {
 		If ($null -ne $result) {
 
 			#Return Results
-			$result.$RequestType | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Details
+			switch ($PSCmdlet.ParameterSetName) {
+
+				'bulkactions' {
+
+					$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.BulkAction
+					break
+
+				}
+
+				'Requests' {
+
+					$result.$RequestType | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Details
+					break
+
+				}
+
+			}
 
 		}
 

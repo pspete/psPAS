@@ -135,6 +135,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Script:ExternalVersion = '0.0'
 			}
 
+			It 'throws error if version 13.2 requirement not met' {
+				$Script:ExternalVersion = '1.0'
+				{ Get-PASUser -UserStatus Suspended -source LDAP } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+			}
+
 		}
 
 		Context 'Output' {

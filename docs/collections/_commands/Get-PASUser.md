@@ -16,8 +16,8 @@ Returns details of vault users
 
 ### Gen2 (Default)
 ```
-Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [-sort <String[]>]
- [-UserName <String>] [<CommonParameters>]
+Get-PASUser [-Search <String>] [-UserType <String>] [-UserStatus <String>] [-source <String>]
+ [-ComponentUser <Boolean>] [-sort <String[]>] [-UserName <String>] [<CommonParameters>]
 ```
 
 ### Gen2ID
@@ -27,8 +27,9 @@ Get-PASUser -id <Int32> [<CommonParameters>]
 
 ### Gen2-ExtendedDetails
 ```
-Get-PASUser [-Search <String>] [-UserType <String>] [-ComponentUser <Boolean>] [-sort <String[]>]
- [-ExtendedDetails <Boolean>] [-UserName <String>] [<CommonParameters>]
+Get-PASUser [-Search <String>] [-UserType <String>] [-UserStatus <String>] [-source <String>]
+ [-ComponentUser <Boolean>] [-sort <String[]>] [-ExtendedDetails <Boolean>] [-UserName <String>]
+ [<CommonParameters>]
 ```
 
 ### Gen1
@@ -85,6 +86,15 @@ Get-PASUser -ExtendedDetails $true -Search SomeSearchTerm
 Returns extended information for all matching Users
 
 Minimum required version 12.1
+
+### EXAMPLE 6
+```
+Get-PASUser -UserStatus Suspended -source LDAP
+```
+
+Returns all currently suspended LDAP users
+
+Minimum required version 13.2
 
 ## PARAMETERS
 
@@ -238,6 +248,40 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -source
+Specify "CyberArk" to return local CyberArk users, or "LDAP" to return users from an integrated directory.
+
+Requires minimum version of 13.2
+
+```yaml
+Type: String
+Parameter Sets: Gen2, Gen2-ExtendedDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UserStatus
+Accepts "Active", "Disabled" or "Suspended" as possible filter values.
+
+Requires minimum version of 13.2
+
+```yaml
+Type: String
+Parameter Sets: Gen2, Gen2-ExtendedDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

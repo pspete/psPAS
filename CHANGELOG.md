@@ -5,7 +5,37 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
-## **5.5.110 (March 7th 2023)
+## **5.6.?? (July ?? 2023)**
+
+### Module update to cover all CyberArk 13.2 API features
+
+- New
+  - `Get-PASUserTypeInfo`
+    - Output information on User Types
+  - `Get-PASPTARiskEvent`
+    - Output PTA Risk Events
+  - `Set-PASPTARiskEvent`
+    - Update PTA Risk Events
+  - `Get-PASPTARiskSummary`
+    - Output PTA Risk Summary
+  - `New-PASRequestObject`
+    - Enables creation of request objects for bulk account access requests using `New-PASRequest`.
+- Updates
+  - `Unlock-PASAccount`
+    - Adds Unlock capability, in addition to the existing check-in capability.
+      - Thanks & Credit to ([Qrelis](https://github.com/Qrelis))for this!
+  - `Get-PASUser`
+    - Adds `source` parameter (allows filter by cyberark or ldap source).
+    - Adds `userStatus` parameter (allows filter by active, disabled, or suspended status).
+  - `New-PASUser` & `Set-PASUser`
+    - Adds parameters `userActivityLogRetentionDays`, `loginFromHour` & `loginToHour`
+  - `New-PASRequest`
+    - Adds new ParameterSets `BulkSearch`, `BulkFilter` & `BulkItems`.
+  - `Get-PASRequest`
+    - Adds `id` parameter to support get status bulk request actions.
+- Other
+
+## **5.5.110 (March 7th 2023)**
 
 ### Module update to cover all CyberArk 13.0 API features
 

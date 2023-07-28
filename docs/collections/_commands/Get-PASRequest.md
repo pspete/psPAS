@@ -10,20 +10,24 @@ title: Get-PASRequest
 # Get-PASRequest
 
 ## SYNOPSIS
-Gets requests
+Gets and displays status for incoming, outgoing or bulk action requests
+
+Getting bulk action requests requires Add accounts, Update account content, and Update account properties authorization on at least one Safe.
 
 ## SYNTAX
 
+### Requests
 ```
 Get-PASRequest [-RequestType] <String> [-OnlyWaiting] <Boolean> [-Expired] <Boolean> [<CommonParameters>]
 ```
 
+### bulkactions
+```
+Get-PASRequest -id <Int32> [-DisplayExtendedItems <Boolean>] [<CommonParameters>]
+```
+
 ## DESCRIPTION
-Gets Requests
-
-Officially supported from version 9.10.
-
-Reports received that function works in 9.9 also.
+Check the status of the bulk account access, incoming or outgoing request
 
 ## EXAMPLES
 
@@ -41,6 +45,13 @@ Get-PASRequest -RequestType MyRequests -Expired $false
 
 Lists your none expired (outgoing) requests.
 
+### EXAMPLE 3
+```
+Get-PASRequest -id 1234 -DisplayExtendedItems $true
+```
+
+Gets status of bulk action request
+
 ## PARAMETERS
 
 ### -RequestType
@@ -48,7 +59,7 @@ Specify whether outgoing or incoming requests will be searched for
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Requests
 Aliases:
 
 Required: True
@@ -63,7 +74,7 @@ Only requests waiting for approval will be listed
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Requests
 Aliases:
 
 Required: True
@@ -78,12 +89,48 @@ Expired requests will be included in the list
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Requests
 Aliases:
 
 Required: True
 Position: 3
 Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -DisplayExtendedItems
+Determines whether the succeededItems or failedItems parameters return data for the items, in addition to the index.
+
+When this parameter is set to True, the API throughput may be higher.
+
+Requires minimum version of 13.2
+
+```yaml
+Type: Boolean
+Parameter Sets: bulkactions
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -id
+The id of a bulk action request.
+
+Requires minimum version of 13.2
+
+```yaml
+Type: Int32
+Parameter Sets: bulkactions
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```

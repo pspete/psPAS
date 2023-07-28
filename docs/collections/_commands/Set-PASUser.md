@@ -20,12 +20,13 @@ Set-PASUser -id <Int32> -username <String> [-NewPassword <SecureString>] [-userT
  [-suspended <Boolean>] [-unAuthorizedInterfaces <String[]>] [-enableUser <Boolean>]
  [-authenticationMethod <String[]>] [-ChangePassOnNextLogon <Boolean>] [-passwordNeverExpires <Boolean>]
  [-distinguishedName <String>] [-vaultAuthorization <String[]>] [-ExpiryDate <DateTime>] [-Location <String>]
- [-workStreet <String>] [-workCity <String>] [-workState <String>] [-workZip <String>] [-workCountry <String>]
- [-homePage <String>] [-homeEmail <String>] [-businessEmail <String>] [-otherEmail <String>]
- [-homeNumber <String>] [-businessNumber <String>] [-cellularNumber <String>] [-faxNumber <String>]
- [-pagerNumber <String>] [-description <String>] [-FirstName <String>] [-MiddleName <String>]
- [-LastName <String>] [-street <String>] [-city <String>] [-state <String>] [-zip <String>] [-country <String>]
- [-title <String>] [-organization <String>] [-department <String>] [-profession <String>] [-WhatIf] [-Confirm]
+ [-userActivityLogRetentionDays <Int32>] [-loginFromHour <Int32>] [-loginToHour <Int32>] [-workStreet <String>]
+ [-workCity <String>] [-workState <String>] [-workZip <String>] [-workCountry <String>] [-homePage <String>]
+ [-homeEmail <String>] [-businessEmail <String>] [-otherEmail <String>] [-homeNumber <String>]
+ [-businessNumber <String>] [-cellularNumber <String>] [-faxNumber <String>] [-pagerNumber <String>]
+ [-description <String>] [-FirstName <String>] [-MiddleName <String>] [-LastName <String>] [-street <String>]
+ [-city <String>] [-state <String>] [-zip <String>] [-country <String>] [-title <String>]
+ [-organization <String>] [-department <String>] [-profession <String>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -876,6 +877,69 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -loginFromHour
+The start of the timeframe the user account is permitted to authenticate.
+
+Provide an hour of the day in 24-hour format (0-23)
+
+Minimum required version 13.2
+
+
+```yaml
+Type: Int32
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -loginToHour
+The end of the timeframe the user account is permitted to authenticate.
+
+Provide an hour of the day in 24-hour format (0-23)
+
+Minimum required version 13.2
+
+
+```yaml
+Type: Int32
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -userActivityLogRetentionDays
+The number of days that a user's account activity records are stored before being deleted.
+These activity records includes logon, logoff, and user management.
+
+If this parameter is set to zero, user activities in the Vault will not be written in the audit log.
+
+Default value: 90 days
+
+Minimum required version 13.2
+
+
+```yaml
+Type: Int32
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

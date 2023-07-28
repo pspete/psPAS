@@ -12,6 +12,9 @@ this will be converted to unixtime, the operator for the filter value will be 'g
 .PARAMETER Parameters
 Hashtable containing parameter names and values to include in output
 
+.PARAMETER QuoteValue
+Specify this switch to enclose the value of a key value pair in quotes when converting to a filter string
+
 .EXAMPLE
 $input | ConvertTo-FilterString
 
@@ -27,8 +30,18 @@ Output: @{"filter" = "Key eq Value AND Key eq Value"}
 
 Returns datetime as unixtime, with `gte` operator.
 
+.EXAMPLE
+$ht | ConvertTo-FilterString -QuoteValue
+
+Name                           Value
+----                           -----
+filter                         Some eq "Value"
+
+Encloses value of the key/value pair in quotes.
+
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilterList', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
 	[CmdletBinding()]
 	[OutputType('System.Hashtable')]
 	param(
@@ -36,7 +49,13 @@ Returns datetime as unixtime, with `gte` operator.
 			Mandatory = $false,
 			ValueFromPipeline = $true
 		)]
-		[hashtable]$Parameters
+		[hashtable]$Parameters,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[switch]$QuoteValue
 	)
 
 	Begin {
@@ -62,7 +81,11 @@ Returns datetime as unixtime, with `gte` operator.
 
 					default {
 
-						$null = $FilterList.Add("$PSItem eq $($Parameters[$PSItem])")
+						$value = $($Parameters[$PSItem])
+
+						if ($QuoteValue) { $value = """$value""" }
+
+						$null = $FilterList.Add("$PSItem eq $value")
 
 					}
 

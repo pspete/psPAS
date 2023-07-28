@@ -136,6 +136,48 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Input - bulkactions' {
+
+			BeforeEach {
+				Get-PASRequest -id 123
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match "$($Script:BaseURI)/API/bulkactions/123"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with no body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '13.0'
+				{ Get-PASRequest -id 123 -DisplayExtendedItems $true } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+			}
+
+		}
+
 		Context 'Output - MyRequests' {
 			BeforeEach {
 				$response = Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $false

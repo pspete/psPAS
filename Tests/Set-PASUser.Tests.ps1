@@ -105,15 +105,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$InputObj = [pscustomobject]@{
-					'id'          = 1234
-					'UserName'    = 'SomeUser'
-					'NewPassword' = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
-					'FirstName'   = 'Some'
-					'LastName'    = 'User'
-					'ExpiryDate'  = '10/31/2018'
-					'workStreet'  = 'SomeStreet'
-					'homePage'    = 'www.geocities.com'
-					'faxNumber'   = '1979'
+					'id'                           = 1234
+					'UserName'                     = 'SomeUser'
+					'NewPassword'                  = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
+					'FirstName'                    = 'Some'
+					'LastName'                     = 'User'
+					'ExpiryDate'                   = '10/31/2018'
+					'workStreet'                   = 'SomeStreet'
+					'homePage'                     = 'www.geocities.com'
+					'faxNumber'                    = '1979'
+					'userActivityLogRetentionDays' = 30
+					'loginFromHour'                = 8
+					'loginToHour'                  = 18
 
 				}
 

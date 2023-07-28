@@ -1,9 +1,9 @@
 ---
+category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
 online version: https://pspas.pspete.dev/commands/Get-PASPTAGlobalCatalog
 schema: 2.0.0
-category: PSPAS
 title: Get-PASPTAGlobalCatalog
 ---
 
