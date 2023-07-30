@@ -21,6 +21,9 @@
   - `New-PASRequestObject`
     - Enables creation of request objects for bulk account access requests using `New-PASRequest`.
 - Updates
+  - `New-PASSession`
+    - Adds option for PKIPN authentication.
+      - Thanks ([JesseMcWilliamss](https://github.com/JesseMcWilliamss))!
   - `Unlock-PASAccount`
     - Adds Unlock capability, in addition to the existing check-in capability.
       - Thanks & Credit to ([Qrelis](https://github.com/Qrelis))for this!

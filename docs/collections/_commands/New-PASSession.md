@@ -16,7 +16,7 @@ Authenticates a user to CyberArk Vault/API.
 
 ### Gen2 (Default)
 ```
-New-PASSession -Credential <PSCredential> -BaseURI <String> [-newPassword <SecureString>] [-type <String>]
+New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-newPassword <SecureString>] [-type <String>]
  [-concurrentSession <Boolean>] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
  [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -80,8 +80,7 @@ New-PASSession -BaseURI <String> [-UseGen1API] -SAMLResponse <String> [-PVWAAppN
 ```
 
 ## DESCRIPTION
-Facilitates user authentication to a CyberArk Vault and retains an authentication token as well as webrequest
-session data to be used in future API calls.
+Facilitates user authentication to a CyberArk Vault and retains an authentication token as well as webrequest session data to be used in future API calls.
 
 Users can also set a new password via the authentication process.
 
@@ -93,8 +92,8 @@ Windows authentication requires at least CyberArk PAS version 10.4
 
 LDAP, RADIUS, SAML, and shared authentication all require a minimum CyberArk version of 9.7.
 
-Versions of CyberArk prior to 9.7:
-- only the CyberArk authentication mechanism is supported.
+Versions of CyberArk prior to 9.7: - only the CyberArk authentication mechanism is supported.
+
 - newPassword Parameter is not supported.
 - useRadiusAuthentication Parameter is not supported.
 - connectionNumber Parameter is not supported.
@@ -134,16 +133,14 @@ Logon using Windows Integrated Authentication
 New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API
 ```
 
-Logon to Version 9 with credential
-Request would be sent to PVWA URL https://PVWA/PasswordVault/
+Logon to Version 9 with credential Request would be sent to PVWA URL https://PVWA/PasswordVault/
 
 ### EXAMPLE 6
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseGen1API
 ```
 
-Logon to Version 9 where PVWA Virtual Directory has non-default name
-Request would be sent to PVWA URL https://PVWA/CustomVault/
+Logon to Version 9 where PVWA Virtual Directory has non-default name Request would be sent to PVWA URL https://PVWA/CustomVault/
 
 ### EXAMPLE 7
 ```
@@ -297,6 +294,23 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 
 
 Logon to using RADIUS & provide password appended with OTP, with no delimiter separating the password & OTP values.
 
+### EXAMPLE 25
+```
+Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert
+```
+Logon with PKIPN auth, using a selected certificate stored on smart card.
+
 ## PARAMETERS
 
 ### -Credential
@@ -304,7 +318,19 @@ A Valid PSCredential object.
 
 ```yaml
 Type: PSCredential
-Parameter Sets: Gen2, SharedServices, Gen2Radius
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: PSCredential
+Parameter Sets: SharedServices, Gen2Radius
 Aliases:
 
 Required: True
@@ -420,13 +446,13 @@ Accept wildcard characters: False
 ### -type
 When using the Gen2 API, specify the type of authentication to use.
 
-Valid values are:
-- CyberArk
+Valid values are: - CyberArk
+
 - LDAP
 - Windows
-  - Minimum version required 10.4
-- RADIUS
+- Minimum version required 10.4 - RADIUS
 - PKI
+- PKIPN
 
 ```yaml
 Type: String
@@ -541,8 +567,7 @@ Accept wildcard characters: False
 ```
 
 ### -connectionNumber
-In order to allow more than one connection for the same user simultaneously, each request
-should be sent with different 'connectionNumber'.
+In order to allow more than one connection for the same user simultaneously, each request should be sent with different 'connectionNumber'.
 
 Valid values: 1-100
 
@@ -595,8 +620,7 @@ Accept wildcard characters: False
 ```
 
 ### -SkipVersionCheck
-If the SkipVersionCheck switch is specified, Get-PASServer will not be called after
-successfully authenticating.
+If the SkipVersionCheck switch is specified, Get-PASServer will not be called after successfully authenticating.
 
 Get-PASServer is not supported before version 9.7.
 
@@ -680,7 +704,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -695,7 +719,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -712,7 +736,7 @@ Aliases: UseClassicAPI
 
 Required: True
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
