@@ -24445,9 +24445,157 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>IdentityTenantURL</maml:name>
+          <maml:description>
+            <maml:para>Specify the URL value of the CyberArk Identity Portal to authenticate against.</maml:para>
+            <maml:para>E.G.: - https://&lt;identity-tenant-id&gt;.id.cyberark.cloud</maml:para>
+            <maml:para>- https://&lt;identity-tenant-id&gt;.my.idaptive.app</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>PrivilegeCloudURL</maml:name>
+          <maml:description>
+            <maml:para>Specify the URL value used to access the CyberArk Privilege Cloud API.</maml:para>
+            <maml:para>E.G.: - https://&lt;subdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-PASSession</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+          <maml:name>Credential</maml:name>
+          <maml:description>
+            <maml:para>A Valid PSCredential object.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+          <dev:type>
+            <maml:name>PSCredential</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>PVWAAppName</maml:name>
+          <maml:description>
+            <maml:para>The name of the CyberArk PVWA Virtual Directory.</maml:para>
+            <maml:para>Defaults to PasswordVault</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>PasswordVault</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>SkipVersionCheck</maml:name>
+          <maml:description>
+            <maml:para>If the SkipVersionCheck switch is specified, Get-PASServer will not be called after successfully authenticating.</maml:para>
+            <maml:para>Get-PASServer is not supported before version 9.7.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Certificate</maml:name>
+          <maml:description>
+            <maml:para>See Invoke-WebRequest</maml:para>
+            <maml:para>Specifies the client certificate that is used for a secure web request.</maml:para>
+            <maml:para>Enter a variable that contains a certificate or a command or expression that gets the certificate.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate</command:parameterValue>
+          <dev:type>
+            <maml:name>X509Certificate</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>See Invoke-WebRequest</maml:para>
+            <maml:para>The thumbprint of the certificate to use for client certificate authentication.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SkipCertificateCheck</maml:name>
+          <maml:description>
+            <maml:para>Skips certificate validation checks.</maml:para>
+            <maml:para>Using this parameter is not secure and is not recommended.</maml:para>
+            <maml:para>This switch is only intended to be used against known hosts using a self-signed certificate for testing purposes.</maml:para>
+            <maml:para>Use at your own risk.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>TenantSubdomain</maml:name>
           <maml:description>
-            <maml:para>The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant</maml:para>
+            <maml:para>The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant.</maml:para>
+            <maml:para>Where the Shared Services tenants for both Identity and Privilege Cloud have been configured to share identical subdomain names, use this parameter to specify the subdomain name.</maml:para>
+            <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+            <maml:para>- Authentication will be performed against https://&lt;TenantSubdomain&gt;.id.cyberark.cloud</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>IdentitySubdomain</maml:name>
+          <maml:description>
+            <maml:para>A subdomain name value for the Identity Tenant used for authentication into Privilege Cloud.</maml:para>
+            <maml:para>Where the Shared Services tenants for Identity and Privilege Cloud have not been configured with identical subdomain names, use this parameter to specify the subdomain name for the Identity tenant.</maml:para>
+            <maml:para>- Authentication will be performed against https://&lt;IdentitySubdomain&gt;.id.cyberark.cloud</maml:para>
+            <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -25840,7 +25988,52 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>TenantSubdomain</maml:name>
         <maml:description>
-          <maml:para>The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant</maml:para>
+          <maml:para>The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant.</maml:para>
+          <maml:para>Where the Shared Services tenants for both Identity and Privilege Cloud have been configured to share identical subdomain names, use this parameter to specify the subdomain name.</maml:para>
+          <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+          <maml:para>- Authentication will be performed against https://&lt;TenantSubdomain&gt;.id.cyberark.cloud</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>IdentitySubdomain</maml:name>
+        <maml:description>
+          <maml:para>A subdomain name value for the Identity Tenant used for authentication into Privilege Cloud.</maml:para>
+          <maml:para>Where the Shared Services tenants for Identity and Privilege Cloud have not been configured with identical subdomain names, use this parameter to specify the subdomain name for the Identity tenant.</maml:para>
+          <maml:para>- Authentication will be performed against https://&lt;IdentitySubdomain&gt;.id.cyberark.cloud</maml:para>
+          <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>IdentityTenantURL</maml:name>
+        <maml:description>
+          <maml:para>Specify the URL value of the CyberArk Identity Portal to authenticate against.</maml:para>
+          <maml:para>E.G.: - https://&lt;identity-tenant-id&gt;.id.cyberark.cloud</maml:para>
+          <maml:para>- https://&lt;identity-tenant-id&gt;.my.idaptive.app</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>PrivilegeCloudURL</maml:name>
+        <maml:description>
+          <maml:para>Specify the URL value used to access the CyberArk Privilege Cloud API.</maml:para>
+          <maml:para>E.G.: - https://&lt;subdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -26039,7 +26232,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
         <maml:title>-------------------------- EXAMPLE 23 --------------------------</maml:title>
         <dev:code>New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred</dev:code>
         <dev:remarks>
-          <maml:para>Authenticates to Privilege Cloud Shared Services.</maml:para>
+          <maml:para>Authenticates to Privilege Cloud Shared Services, where 'PCloudTenantID' is a Subdomain configured for both Identity &amp; Privilege Cloud portals.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -26065,6 +26258,20 @@ $Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::Sele
 New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
         <dev:remarks>
           <maml:para>Logon with PKIPN auth, using a selected certificate stored on smart card.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 26 --------------------------</maml:title>
+        <dev:code>New-PASSession -TenantSubdomain PCloudTenantID -IdentitySubdomain IdentityTenantID -Credential $cred</dev:code>
+        <dev:remarks>
+          <maml:para>Authenticates to Privilege Cloud Shared Services, where subdomains for Identity &amp; Privilege Cloud portals have not been configured to share the same value.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 27 --------------------------</maml:title>
+        <dev:code>New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred</dev:code>
+        <dev:remarks>
+          <maml:para>Authenticates to Privilege Cloud Shared Services, specifying individual URL values for Identity &amp; Privilege Cloud tenants.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

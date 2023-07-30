@@ -21,11 +21,18 @@ New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-newPassword <Sec
  [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### SharedServices
+### SharedServices-URL
 ```
-New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-PVWAAppName <String>] [-SkipVersionCheck]
- [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+New-PASSession -Credential <PSCredential> -IdentityTenantURL <String> -PrivilegeCloudURL <String>
+ [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
+ [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### SharedServices-Subdomain
+```
+New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-IdentitySubdomain <String>]
+ [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
+ [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1Radius
@@ -285,7 +292,7 @@ Authenticates to a CyberArk Vault using SAML authentication & Gen1 API.
 New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred
 ```
 
-Authenticates to Privilege Cloud Shared Services.
+Authenticates to Privilege Cloud Shared Services, where 'PCloudTenantID' is a Subdomain configured for both Identity & Privilege Cloud portals.
 
 ### EXAMPLE 24
 ```
@@ -309,7 +316,22 @@ $Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::Sele
 
 New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert
 ```
+
 Logon with PKIPN auth, using a selected certificate stored on smart card.
+
+### EXAMPLE 26
+```
+New-PASSession -TenantSubdomain PCloudTenantID -IdentitySubdomain IdentityTenantID -Credential $cred
+```
+
+Authenticates to Privilege Cloud Shared Services, where subdomains for Identity & Privilege Cloud portals have not been configured to share the same value.
+
+### EXAMPLE 27
+```
+New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred
+```
+
+Authenticates to Privilege Cloud Shared Services, specifying individual URL values for Identity & Privilege Cloud tenants.
 
 ## PARAMETERS
 
@@ -330,7 +352,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: PSCredential
-Parameter Sets: SharedServices, Gen2Radius
+Parameter Sets: SharedServices-URL, SharedServices-Subdomain, Gen2Radius
 Aliases:
 
 Required: True
@@ -742,11 +764,73 @@ Accept wildcard characters: False
 ```
 
 ### -TenantSubdomain
-The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant
+The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant.
+
+Where the Shared Services tenants for both Identity and Privilege Cloud have been configured to share identical subdomain names, use this parameter to specify the subdomain name.
+
+- API operations will target URL: https://<TenantSubdomain>.privilegecloud.cyberark.cloud
+- Authentication will be performed against https://<TenantSubdomain>.id.cyberark.cloud
 
 ```yaml
 Type: String
-Parameter Sets: SharedServices
+Parameter Sets: SharedServices-Subdomain
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -IdentitySubdomain
+A subdomain name value for the Identity Tenant used for authentication into Privilege Cloud.
+
+Where the Shared Services tenants for Identity and Privilege Cloud have not been configured with identical subdomain names, use this parameter to specify the subdomain name for the Identity tenant.
+
+- Authentication will be performed against https://<IdentitySubdomain>.id.cyberark.cloud
+- API operations will target URL: https://<TenantSubdomain>.privilegecloud.cyberark.cloud
+
+```yaml
+Type: String
+Parameter Sets: SharedServices-Subdomain
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -IdentityTenantURL
+Specify the URL value of the CyberArk Identity Portal to authenticate against.
+
+E.G.:
+- https://<identity-tenant-id>.id.cyberark.cloud
+- https://<identity-tenant-id>.my.idaptive.app
+
+```yaml
+Type: String
+Parameter Sets: SharedServices-URL
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -PrivilegeCloudURL
+Specify the URL value used to access the CyberArk Privilege Cloud API.
+
+E.G.:
+- https://<subdomain>.privilegecloud.cyberark.cloud
+
+```yaml
+Type: String
+Parameter Sets: SharedServices-URL
 Aliases:
 
 Required: True

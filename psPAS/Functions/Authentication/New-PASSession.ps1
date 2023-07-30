@@ -28,7 +28,13 @@ function New-PASSession {
 			Mandatory = $true,
 			ValueFromPipeline = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'SharedServices'
+			ParameterSetName = 'SharedServices-Subdomain'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'SharedServices-URL'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,
@@ -37,7 +43,7 @@ function New-PASSession {
 			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'SharedServices'
+			ParameterSetName = 'SharedServices-Subdomain'
 		)]
 		[string]$TenantSubdomain,
 
@@ -90,6 +96,30 @@ function New-PASSession {
 			ParameterSetName = 'integrated'
 		)]
 		[string]$BaseURI,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'SharedServices-Subdomain'
+		)]
+		[string]$IdentitySubdomain,
+
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'SharedServices-URL'
+		)]
+		[string]$IdentityTenantURL,
+
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'SharedServices-URL'
+		)]
+		[string]$PrivilegeCloudURL,
 
 		[parameter(
 			Mandatory = $true,
@@ -368,12 +398,38 @@ function New-PASSession {
 
 		Switch ($PSCmdlet.ParameterSetName) {
 
-			'SharedServices' {
+			'SharedServices-URL' {
 
-				$LogonRequest['Uri'] = "https://${TenantSubdomain}.id.cyberark.cloud/oauth2/platformtoken"  #hardcode Shared Services auth
+				#Ensure URLs are in expected format
+				#Remove trailing space and PasswordVault (if provided in PrivilegeCloudURL)
+				$IdentityTenantURL = $IdentityTenantURL -replace '/$', ''
+				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/$', ''
+				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/PasswordVault$', ''
+
+				#Set Required URL Values for Request
+				$LogonRequest['Uri'] = "$IdentityTenantURL/oauth2/platformtoken"
+				$Uri = "$PrivilegeCloudURL/$PVWAAppName"
+
+			}
+
+			'SharedServices-Subdomain' {
+
+				#Most Shared Services subdomains for Identity & Privilege Cloud tenants will be identical
+				If ($PSBoundParameters.Keys -notcontains 'IdentitySubdomain') {
+					$IDSubdomain = $TenantSubdomain
+				} Else {
+					#If different, use specified subdomain for Identity
+					$IDSubdomain = $IdentitySubdomain
+				}
+
+				$LogonRequest['Uri'] = "https://${IDSubdomain}.id.cyberark.cloud/oauth2/platformtoken"  #hardcode Shared Services auth
 
 				#Build URL
 				$Uri = "https://${TenantSubdomain}.privilegecloud.cyberark.cloud/$PVWAAppName"
+
+			}
+
+			( { $PSItem -match '^SharedServices-' } ) {
 
 				$Body = @{
 
@@ -387,7 +443,6 @@ function New-PASSession {
 
 				$LogonRequest['Body'] = $Body
 				$LogonRequest['ContentType'] = 'application/x-www-form-urlencoded'
-
 				break
 
 			}

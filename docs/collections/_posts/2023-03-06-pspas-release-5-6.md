@@ -36,6 +36,7 @@ tags:
   - `New-PASSession`
     - Adds option for PKIPN authentication.
       - Thanks ([JesseMcWilliamss](https://github.com/JesseMcWilliamss))!
+    - Shared Services Authentication
   - `Unlock-PASAccount`
     - Adds Unlock capability, in addition to the existing check-in capability.
       - Thanks & Credit to ([Qrelis](https://github.com/Qrelis)) for this!

@@ -136,8 +136,24 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 
 ## Shared Services Authentication
 
-Provide tenant ID and credentials for authentication via CyberArk Identity for Privilege Cloud Shared Services:
+Provide tenant ID and non-interactive API User credentials for authentication via CyberArk Identity for Privilege Cloud Shared Services:
 
 ```
 New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $PCloudCreds
 ```
+
+Most Shared Services implementations will be configured so that Identity and Privileged Cloud portal addresses share a common subdomain.
+
+Where this is not the case, and Identity and Privilege Cloud portals do not share an identical subdomain, these can be specified independently:
+
+```
+New-PASSession -TenantSubdomain PCloudTenantID -IdentitySubdomain IdentityTenantID -Credential $cred
+```
+
+For scenarios where Identity and Privilege Cloud portals are accessed using different URLs (i.e. 1st generation systems), the URLs can be specified instead on subdomain values:
+
+```
+New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred
+```
+
+Consult the vendor documentation for guidance on setting up a dedicated API Service user for non-interactive API use.
