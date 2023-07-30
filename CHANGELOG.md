@@ -24,6 +24,9 @@
   - `New-PASSession`
     - Adds option for PKIPN authentication.
       - Thanks ([JesseMcWilliamss](https://github.com/JesseMcWilliamss))!
+    - Adds options to Shared Services Authentication capability
+      - Supports different subdomains for Identity & Privilege Cloud tenants
+      - Supports ability to provide tenant URLs for Identity & Privilege Cloud systems.
   - `Unlock-PASAccount`
     - Adds Unlock capability, in addition to the existing check-in capability.
       - Thanks & Credit to ([Qrelis](https://github.com/Qrelis))for this!
