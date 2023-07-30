@@ -24184,7 +24184,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
     <command:syntax>
       <command:syntaxItem>
         <maml:name>New-PASSession</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
           <maml:name>Credential</maml:name>
           <maml:description>
             <maml:para>A Valid PSCredential object.</maml:para>
@@ -24215,8 +24215,9 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
             <maml:para>Valid values are: - CyberArk</maml:para>
             <maml:para>- LDAP</maml:para>
             <maml:para>- Windows</maml:para>
-            <maml:para>  - Minimum version required 10.4 - RADIUS</maml:para>
+            <maml:para>- Minimum version required 10.4 - RADIUS</maml:para>
             <maml:para>- PKI</maml:para>
+            <maml:para>- PKIPN</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -24477,8 +24478,9 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
             <maml:para>Valid values are: - CyberArk</maml:para>
             <maml:para>- LDAP</maml:para>
             <maml:para>- Windows</maml:para>
-            <maml:para>  - Minimum version required 10.4 - RADIUS</maml:para>
+            <maml:para>- Minimum version required 10.4 - RADIUS</maml:para>
             <maml:para>- PKI</maml:para>
+            <maml:para>- PKIPN</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -25534,7 +25536,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
         <maml:name>Credential</maml:name>
         <maml:description>
           <maml:para>A Valid PSCredential object.</maml:para>
@@ -25615,8 +25617,9 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:para>Valid values are: - CyberArk</maml:para>
           <maml:para>- LDAP</maml:para>
           <maml:para>- Windows</maml:para>
-          <maml:para>  - Minimum version required 10.4 - RADIUS</maml:para>
+          <maml:para>- Minimum version required 10.4 - RADIUS</maml:para>
           <maml:para>- PKI</maml:para>
+          <maml:para>- PKIPN</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -26044,6 +26047,24 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
         <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Append -OTPDelimiter $null</dev:code>
         <dev:remarks>
           <maml:para>Logon to using RADIUS &amp; provide password appended with OTP, with no delimiter separating the password &amp; OTP values.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 25 --------------------------</maml:title>
+        <dev:code>Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
+        <dev:remarks>
+          <maml:para>Logon with PKIPN auth, using a selected certificate stored on smart card.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

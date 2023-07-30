@@ -1241,6 +1241,10 @@ Priority support could be considered for <a href="https://github.com/sponsors/ps
 
 Hat Tips:
 
+**Jesse McWilliams**
+([JesseMcWilliamss](https://github.com/JesseMcWilliamss))
+For the infomration needed to add PKIPN authentication into `New-PASSession`
+
 **Wojciech Ossowski**
 ([Qrelis](https://github.com/Qrelis))
 For sharing the details of the account unlock API.

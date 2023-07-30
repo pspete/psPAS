@@ -14,6 +14,7 @@ tags:
   - Set-PASUser
   - New-PASRequest
   - Get-PASRequest
+  - New-PASSession
 ---
 
 ## **5.6.?? (July ?? 2023)**
@@ -32,9 +33,12 @@ tags:
   - `New-PASRequestObject`
     - Enables creation of request objects for bulk account access requests using `New-PASRequest`.
 - Updates
+  - `New-PASSession`
+    - Adds option for PKIPN authentication.
+      - Thanks ([JesseMcWilliamss](https://github.com/JesseMcWilliamss))!
   - `Unlock-PASAccount`
     - Adds Unlock capability, in addition to the existing check-in capability.
-      - Thanks & Credit to ([Qrelis](https://github.com/Qrelis))for this!
+      - Thanks & Credit to ([Qrelis](https://github.com/Qrelis)) for this!
   - `Get-PASUser`
     - Adds `source` parameter (allows filter by cyberark or ldap source).
     - Adds `userStatus` parameter (allows filter by active, disabled, or suspended status).

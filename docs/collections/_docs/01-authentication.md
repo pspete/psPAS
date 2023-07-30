@@ -96,7 +96,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
 
 - Where PVWA/IIS requires client certificates, 'psPAS' will use any specified certificates for the duration of the session.
 
-PKI Authentication Example:
+### PKI Authentication Example
 ```powershell
 Add-Type -AssemblyName System.Security
 # Get Valid Certs
@@ -111,7 +111,24 @@ $Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::Sele
 
 New-PASSession -Credential $cred -BaseURI $url -type PKI -Certificate $Cert
 ```
-Shared Authentication Example:
+
+### PKIPN Authentication Example
+```powershell
+Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert
+```
+
+### Shared Authentication Example
 ```powershell
 $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
