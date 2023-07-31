@@ -1,6 +1,6 @@
 ---
 title:  "psPAS Release 5.6"
-date:   2023-07-28 00:00:00
+date:   2023-07-31 00:00:00
 tags:
   - Release Notes
   - Get-PASUserTypeInfo
@@ -17,7 +17,7 @@ tags:
   - New-PASSession
 ---
 
-## **5.6.?? (July ?? 2023)**
+## **5.6.135 (July ?? 2023)**
 
 ### Module update to cover all CyberArk 13.2 API features
 

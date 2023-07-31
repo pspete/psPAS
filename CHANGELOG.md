@@ -5,9 +5,11 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v6.0...
 
-## **5.6.?? (July ?? 2023)**
+## **5.6.135 (July 31st 2023)**
 
 ### Module update to cover all CyberArk 13.2 API features
+
+**psPAS Year 6**
 
 - New
   - `Get-PASUserTypeInfo`
@@ -39,7 +41,6 @@
     - Adds new ParameterSets `BulkSearch`, `BulkFilter` & `BulkItems`.
   - `Get-PASRequest`
     - Adds `id` parameter to support get status bulk request actions.
-- Other
 
 ## **5.5.110 (March 7th 2023)**
 
