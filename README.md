@@ -8,7 +8,7 @@
 
 Through the PVWA REST API, administer CyberArk PAS with PowerShell.
 
-contains all of the documented API capabilities up to CyberArk v13.0.
+Contains all of the documented API capabilities up to CyberArk v13.2.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -71,7 +71,7 @@ _Everything begins with a **Logon**:_
 
 To submit a logon request to the CyberArk API, use the psPAS `New-PASSession` command.
 
-All subsequent operations are carried out by `psPAS` utilising the input data provided for the `New-PASSession` request (URL, Certificate), as well as data received from the API after successful authentication (Authentication Token, PVWA Version).
+All subsequent operations are carried out by `psPAS` utilises the input data provided for the `New-PASSession` request (URL, Certificate), as well as data received from the API after successful authentication (Authentication Token, PVWA Version).
 
 #### CyberArk Authentication
 
@@ -940,7 +940,17 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                             |**12.6**            |Add Personal Admin Account (Privilege Cloud Only).
 [`Get-PASPTAGlobalCatalog`][Get-PASPTAGlobalCatalog]                                     |**13.0**            |Get Global Catalog connectivity details for PTA.
 [`Add-PASPTAGlobalCatalog`][Add-PASPTAGlobalCatalog]                                     |**13.0**            |Add Global Catalog connectivity details to PTA.
+[`Get-PASUserTypeInfo`][Get-PASUserTypeInfo]                                             |**13.2**            |Get User Type Info
+[`Get-PASPTARiskEvent`][Get-PASPTARiskEvent]                                             |**13.2**            |Get PTA Risk Events
+[`Set-PASPTARiskEvent`][Set-PASPTARiskEvent]                                             |**13.2**            |Update PTA Risk Events
+[`Get-PASPTARiskSummary`][Get-PASPTARiskSummary]                                         |**13.2**            |Get PTA Risk Summary
+[`New-PASRequestObject`][New-PASRequestObject]                                           |**---**             |Format an object to include in an request list
 
+[New-PASRequestObject]:/psPAS/Functions/Requests/New-PASRequestObject
+[Get-PASUserTypeInfo]:/psPAS/Functions/User/Get-PASUserTypeInfo
+[Get-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Get-PASPTARiskEvent
+[Set-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Set-PASPTARiskEvent
+[Get-PASPTARiskSummary]:/psPAS/Functions/EventSecurity/Get-PASPTARiskSummary
 [Get-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Get-PASPTAGlobalCatalog
 [Add-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Add-PASPTAGlobalCatalog
 [Disable-PASUser]:/psPAS/Functions/User/Disable-PASUser
@@ -1230,6 +1240,14 @@ Priority support could be considered for <a href="https://github.com/sponsors/ps
 ## Acknowledgements
 
 Hat Tips:
+
+**Jesse McWilliams**
+([JesseMcWilliamss](https://github.com/JesseMcWilliams))
+For the infomration needed to add PKIPN authentication into `New-PASSession`
+
+**Wojciech Ossowski**
+([Qrelis](https://github.com/Qrelis))
+For sharing the details of the account unlock API.
 
 **Allyn Lindsay**
 ([allynl93](https://github.com/allynl93))

@@ -16,16 +16,23 @@ Authenticates a user to CyberArk Vault/API.
 
 ### Gen2 (Default)
 ```
-New-PASSession -Credential <PSCredential> -BaseURI <String> [-newPassword <SecureString>] [-type <String>]
+New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-newPassword <SecureString>] [-type <String>]
  [-concurrentSession <Boolean>] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
  [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### SharedServices
+### SharedServices-URL
 ```
-New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-PVWAAppName <String>] [-SkipVersionCheck]
- [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+New-PASSession -Credential <PSCredential> -IdentityTenantURL <String> -PrivilegeCloudURL <String>
+ [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
+ [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### SharedServices-Subdomain
+```
+New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-IdentitySubdomain <String>]
+ [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
+ [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1Radius
@@ -80,8 +87,7 @@ New-PASSession -BaseURI <String> [-UseGen1API] -SAMLResponse <String> [-PVWAAppN
 ```
 
 ## DESCRIPTION
-Facilitates user authentication to a CyberArk Vault and retains an authentication token as well as webrequest
-session data to be used in future API calls.
+Facilitates user authentication to a CyberArk Vault and retains an authentication token as well as webrequest session data to be used in future API calls.
 
 Users can also set a new password via the authentication process.
 
@@ -93,8 +99,8 @@ Windows authentication requires at least CyberArk PAS version 10.4
 
 LDAP, RADIUS, SAML, and shared authentication all require a minimum CyberArk version of 9.7.
 
-Versions of CyberArk prior to 9.7:
-- only the CyberArk authentication mechanism is supported.
+Versions of CyberArk prior to 9.7: - only the CyberArk authentication mechanism is supported.
+
 - newPassword Parameter is not supported.
 - useRadiusAuthentication Parameter is not supported.
 - connectionNumber Parameter is not supported.
@@ -134,16 +140,14 @@ Logon using Windows Integrated Authentication
 New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API
 ```
 
-Logon to Version 9 with credential
-Request would be sent to PVWA URL https://PVWA/PasswordVault/
+Logon to Version 9 with credential Request would be sent to PVWA URL https://PVWA/PasswordVault/
 
 ### EXAMPLE 6
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseGen1API
 ```
 
-Logon to Version 9 where PVWA Virtual Directory has non-default name
-Request would be sent to PVWA URL https://PVWA/CustomVault/
+Logon to Version 9 where PVWA Virtual Directory has non-default name Request would be sent to PVWA URL https://PVWA/CustomVault/
 
 ### EXAMPLE 7
 ```
@@ -288,7 +292,7 @@ Authenticates to a CyberArk Vault using SAML authentication & Gen1 API.
 New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred
 ```
 
-Authenticates to Privilege Cloud Shared Services.
+Authenticates to Privilege Cloud Shared Services, where 'PCloudTenantID' is a Subdomain configured for both Identity & Privilege Cloud portals.
 
 ### EXAMPLE 24
 ```
@@ -297,6 +301,38 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 
 
 Logon to using RADIUS & provide password appended with OTP, with no delimiter separating the password & OTP values.
 
+### EXAMPLE 25
+```
+Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert
+```
+
+Logon with PKIPN auth, using a selected certificate stored on smart card.
+
+### EXAMPLE 26
+```
+New-PASSession -TenantSubdomain PCloudTenantID -IdentitySubdomain IdentityTenantID -Credential $cred
+```
+
+Authenticates to Privilege Cloud Shared Services, where subdomains for Identity & Privilege Cloud portals have not been configured to share the same value.
+
+### EXAMPLE 27
+```
+New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred
+```
+
+Authenticates to Privilege Cloud Shared Services, specifying individual URL values for Identity & Privilege Cloud tenants.
+
 ## PARAMETERS
 
 ### -Credential
@@ -304,7 +340,19 @@ A Valid PSCredential object.
 
 ```yaml
 Type: PSCredential
-Parameter Sets: Gen2, SharedServices, Gen2Radius
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: PSCredential
+Parameter Sets: SharedServices-URL, SharedServices-Subdomain, Gen2Radius
 Aliases:
 
 Required: True
@@ -420,13 +468,13 @@ Accept wildcard characters: False
 ### -type
 When using the Gen2 API, specify the type of authentication to use.
 
-Valid values are:
-- CyberArk
+Valid values are: - CyberArk
+
 - LDAP
 - Windows
-  - Minimum version required 10.4
-- RADIUS
+- Minimum version required 10.4 - RADIUS
 - PKI
+- PKIPN
 
 ```yaml
 Type: String
@@ -541,8 +589,7 @@ Accept wildcard characters: False
 ```
 
 ### -connectionNumber
-In order to allow more than one connection for the same user simultaneously, each request
-should be sent with different 'connectionNumber'.
+In order to allow more than one connection for the same user simultaneously, each request should be sent with different 'connectionNumber'.
 
 Valid values: 1-100
 
@@ -595,8 +642,7 @@ Accept wildcard characters: False
 ```
 
 ### -SkipVersionCheck
-If the SkipVersionCheck switch is specified, Get-PASServer will not be called after
-successfully authenticating.
+If the SkipVersionCheck switch is specified, Get-PASServer will not be called after successfully authenticating.
 
 Get-PASServer is not supported before version 9.7.
 
@@ -680,7 +726,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -695,7 +741,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -712,17 +758,79 @@ Aliases: UseClassicAPI
 
 Required: True
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
 ### -TenantSubdomain
-The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant
+The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant.
+
+Where the Shared Services tenants for both Identity and Privilege Cloud have been configured to share identical subdomain names, use this parameter to specify the subdomain name.
+
+- API operations will target URL: https://<TenantSubdomain>.privilegecloud.cyberark.cloud
+- Authentication will be performed against https://<TenantSubdomain>.id.cyberark.cloud
 
 ```yaml
 Type: String
-Parameter Sets: SharedServices
+Parameter Sets: SharedServices-Subdomain
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -IdentitySubdomain
+A subdomain name value for the Identity Tenant used for authentication into Privilege Cloud.
+
+Where the Shared Services tenants for Identity and Privilege Cloud have not been configured with identical subdomain names, use this parameter to specify the subdomain name for the Identity tenant.
+
+- Authentication will be performed against https://<IdentitySubdomain>.id.cyberark.cloud
+- API operations will target URL: https://<TenantSubdomain>.privilegecloud.cyberark.cloud
+
+```yaml
+Type: String
+Parameter Sets: SharedServices-Subdomain
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -IdentityTenantURL
+Specify the URL value of the CyberArk Identity Portal to authenticate against.
+
+E.G.:
+- https://<identity-tenant-id>.id.cyberark.cloud
+- https://<identity-tenant-id>.my.idaptive.app
+
+```yaml
+Type: String
+Parameter Sets: SharedServices-URL
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -PrivilegeCloudURL
+Specify the URL value used to access the CyberArk Privilege Cloud API.
+
+E.G.:
+- https://<subdomain>.privilegecloud.cyberark.cloud
+
+```yaml
+Type: String
+Parameter Sets: SharedServices-URL
 Aliases:
 
 Required: True

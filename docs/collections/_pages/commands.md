@@ -154,7 +154,9 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Add a public SSH key][Add a public SSH key]                                                | [Add-PASPublicSSHKey][Add-PASPublicSSHKey]
 [Delete Public SSH Key][Delete Public SSH Key]                                              | [Remove-PASPublicSSHKey][Remove-PASPublicSSHKey]
 [Get my requests][Get my requests]                                                          | [Get-PASRequest][Get-PASRequest]
+[Get incoming request list][Get incoming request list]                                      | [Get-PASRequest][Get-PASRequest]
 [Create a request][Create a request]                                                        | [New-PASRequest][New-PASRequest]
+[Create access request for multiple accounts][Create access request for multiple accounts]  | [New-PASRequest][New-PASRequest]
 [Delete my request][Delete my request]                                                      | [Remove-PASRequest][Remove-PASRequest]
 [Get incoming request list][Get incoming request list]                                      | [Get-PASRequest][Get-PASRequest]
 [Confirm request][Confirm request]                                                          | [Approve-PASRequest][Approve-PASRequest]
@@ -203,7 +205,15 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Disable User][Disable User]                                                                         | [Disable-PASUser][Disable-PASUser]
 [Get Global Catalog connectivity details][Get Global Catalog connectivity details]                   | [Get-PASPTAGlobalCatalog][Get-PASPTAGlobalCatalog]
 [Add Global Catalog connectivity details][Add Global Catalog connectivity details]                   | [Add-PASPTAGlobalCatalog][Add-PASPTAGlobalCatalog]
+[Get user types][Get user types]                                                                     | [Get-PASUserTypeInfo][Get-PASUserTypeInfo]
+[Get risk events][Get risk events]                                                                   | [Get-PASPTARiskEvent][Get-PASPTARiskEvent]
+[Update risk event][Update risk event]                                                               | [Set-PASPTARiskEvent][Set-PASPTARiskEvent]
+[Get risk summary][Get risk summary]                                                                 | [Get-PASPTARiskSummary][Get-PASPTARiskSummary]
 
+[Get-PASUserTypeInfo]:/commands/Get-PASUserTypeInfo
+[Get-PASPTARiskEvent]:/commands/Get-PASPTARiskEvent
+[Set-PASPTARiskEvent]:/commands/Set-PASPTARiskEvent
+[Get-PASPTARiskSummary]:/commands/Get-PASPTARiskSummary
 [Get-PASDiscoveredAccount]:/commands/Get-PASDiscoveredAccount
 [Start-PASAccountImportJob]:/commands/Start-PASAccountImportJob
 [Get-PASAccountImportJob]:/commands/Get-PASAccountImportJob
@@ -350,6 +360,12 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get-PASPTAGlobalCatalog]:/commands/Get-PASPTAGlobalCatalog
 [Add-PASPTAGlobalCatalog]:/commands/Add-PASPTAGlobalCatalog
 
+[Get incoming request list]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetIncomingRequestList.htm
+[Create access request for multiple accounts]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/13.2/en/Content/WebServices/Create-multiple-requests.htm
+[Get risk events]:https://docs.cyberark.com/PAS/Latest/en/Content/WebServices/GetRiskEvents.htm
+[Get risk summary]:https://docs.cyberark.com/PAS/Latest/en/Content/WebServices/GetRisks.htm
+[Update risk event]:https://docs.cyberark.com/PAS/Latest/en/Content/WebServices/CloseOpenRiskEvent.htm
+[Get user types]:https://docs.cyberark.com/PAS/13.2/en/Content/SDK/API-GetUserTypes.htm
 [Get Global Catalog connectivity details]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-Global-Catalog.htm
 [Add Global Catalog connectivity details]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Add-Global-Catalog.htm
 [Enable User]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Enable-user.htm?tocpath=Developer%7CREST%20APIs%7CUser%20management%7CUsers%7C_____8

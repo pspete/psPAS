@@ -178,6 +178,12 @@ commands:
         url: /commands/Add-PASPTAGlobalCatalog
       - title: "Get-PASPTAGlobalCatalog"
         url: /commands/Get-PASPTAGlobalCatalog
+      - title: "Get-PASPTARiskEvent"
+        url: /commands/Get-PASPTARiskEvent
+      - title: "Set-PASPTARiskEvent"
+        url: /commands/Set-PASPTARiskEvent
+      - title: "Get-PASPTARiskSummary"
+        url: /commands/Get-PASPTARiskSummary
 
   - title: "General"
     children:
@@ -291,6 +297,8 @@ commands:
         url: /commands/New-PASRequest
       - title: "Remove-PASRequest"
         url: /commands/Remove-PASRequest
+      - title: "New-PASRequestObject"
+        url: /commands/New-PASRequestObject
 
   - title: "Safes"
     children:
@@ -366,6 +374,8 @@ commands:
         url: /commands/Enable-PASUser
       - title: "Disable-PASUser"
         url: /commands/Disable-PASUser
+      - title: "Get-PASUserTypeInfo"
+        url: /commands/Get-PASUserTypeInfo
 
 # documentation links
 docs:

@@ -39,8 +39,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'BaseURI' },
-			@{Parameter = 'Credential' }
+			$Parameters = @{Parameter = 'BaseURI' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
@@ -849,7 +848,83 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
-		Context 'SharedServices' {
+		Context 'SharedServices-URL' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						'token_type'   = 'Bearer'
+						'access_token' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+					}
+				}
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '0.0'
+					}
+				}
+
+				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
+
+				$Script:ExternalVersion = '0.0'
+				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It 'sends request' {
+				$Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault'
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+				$Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal' -PrivilegeCloudURL 'https://Some.PCloud.Portal/'
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://Some.Identity.Portal/oauth2/platformtoken'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+				$Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault'
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends expected request to expected endpoint' {
+
+				$Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault'
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://Some.Identity.Portal/oauth2/platformtoken'
+					$ContentType -eq 'application/x-www-form-urlencoded'
+					$Body['client_id'] -eq 'SomeUser'
+					$Body['client_secret'] -eq 'SomePassword'
+					$Body['grant_type'] -eq 'client_credentials'
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets expected BaseURI' {
+
+				$Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault'
+				$Script:BaseURI | Should -Be 'https://Some.PCloud.Portal/PasswordVault'
+
+			}
+
+			It 'sets expected authorization header' {
+
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				$Script:WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+
+			}
+
+		}
+
+		Context 'SharedServices-Subdomain' {
 
 			BeforeEach {
 
@@ -889,6 +964,17 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sends request to expected identity endpoint' {
+
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain -IdentitySubdomain SomeIDDomain
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://SomeIDDomain.id.cyberark.cloud/oauth2/platformtoken'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'uses expected method' {
 				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
@@ -912,6 +998,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sets expected BaseURI' {
 
 				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain
+				$Script:BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
+
+			}
+
+			It 'sets expected BaseURI when identity subdomain specified' {
+
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain -IdentitySubdomain SomeIDDomain
 				$Script:BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
 
 			}

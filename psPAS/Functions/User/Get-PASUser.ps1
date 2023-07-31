@@ -44,6 +44,32 @@ function Get-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2-ExtendedDetails'
 		)]
+		[ValidateSet('Active', 'Disabled', 'Suspended')]
+		[string]$UserStatus,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-ExtendedDetails'
+		)]
+		[ValidateSet('CyberArk', 'LDAP')]
+		[string]$source,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-ExtendedDetails'
+		)]
 		[boolean]$ComponentUser,
 
 		[parameter(
@@ -106,7 +132,7 @@ function Get-PASUser {
 				#Create URL for request
 				$URI = "$URI/$id"
 
-				break;
+				break
 
 			}
 
@@ -127,6 +153,13 @@ function Get-PASUser {
 
 					}
 
+					{ $_ -match 'UserStatus|source' } {
+
+						#Gen2 UserName & Sort parameters require 13.2
+						Assert-VersionRequirement -RequiredVersion 13.2
+
+					}
+
 				}
 
 				Assert-VersionRequirement -RequiredVersion 10.9
@@ -144,7 +177,7 @@ function Get-PASUser {
 
 				}
 
-				break;
+				break
 
 			}
 
@@ -157,7 +190,7 @@ function Get-PASUser {
 
 				$TypeName = 'psPAS.CyberArk.Vault.User'
 
-				break;
+				break
 
 			}
 

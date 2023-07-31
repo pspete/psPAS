@@ -70,6 +70,17 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'converts hashtable to expected filter string with quoted values' {
+
+				$Value = $InputObj | ConvertTo-FilterString -QuoteValue
+
+				$Value['filter'] | Should -Match ' AND '
+				$Value['filter'] | Should -Match 'Property1 eq "Value"'
+				$Value['filter'] | Should -Match 'Property2 eq "Another Value"'
+				$Value['filter'] | Should -Match 'modificationTime gte 1577836800'
+
+			}
+
 		}
 
 	}

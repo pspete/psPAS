@@ -61,7 +61,7 @@ The contents of $secureString will be set as the password value.
 ### EXAMPLE 3
 ```
 $props = @{SSHCertificate = "yes";}
-Add-PASAccount -address domain -userName ThisUser -platformID UNIXVIASSHCERTIFICATE -SafeName UNIXSafe -secretType Key -secret $key  -plaformAccountProperties $props
+Add-PASAccount -address domain -userName ThisUser -platformID UNIXVIASSHCERTIFICATE -SafeName UNIXSafe -secretType Key -secret $key -platformAccountProperties $props
 ```
 
 Using the Gen2 API, adds an account configured for the Unix via SSH Certificate platform

@@ -146,6 +146,29 @@ function New-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
+		[int]$userActivityLogRetentionDays,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[ValidateRange(0, 23)]
+		[int]$loginFromHour,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[ValidateRange(0, 23)]
+		[int]$loginToHour,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
 		[ValidateLength(0, 29)]
 		[string]$workStreet,
 
@@ -398,6 +421,12 @@ function New-PASUser {
 			'Gen2' {
 
 				Assert-VersionRequirement -RequiredVersion 10.9
+
+				If ($PSBoundParameters.Keys -match 'userActivityLogRetentionDays|loginFromHour|loginToHour') {
+
+					Assert-VersionRequirement -RequiredVersion 13.2
+
+				}
 
 				#Create URL for request
 				$URI = "$Script:BaseURI/api/Users"

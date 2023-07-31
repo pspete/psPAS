@@ -2,7 +2,7 @@
 title: "Authentication"
 permalink: /docs/authentication/
 excerpt: "psPAS Authentication"
-last_modified_at: 2023-03-06T01:23:45-00:00
+last_modified_at: 2023-07-31T01:23:45-00:00
 ---
 
 _Everything begins with a **Logon**:_
@@ -96,7 +96,7 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
 
 - Where PVWA/IIS requires client certificates, 'psPAS' will use any specified certificates for the duration of the session.
 
-PKI Authentication Example:
+### PKI Authentication Example
 ```powershell
 Add-Type -AssemblyName System.Security
 # Get Valid Certs
@@ -111,7 +111,24 @@ $Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::Sele
 
 New-PASSession -Credential $cred -BaseURI $url -type PKI -Certificate $Cert
 ```
-Shared Authentication Example:
+
+### PKIPN Authentication Example
+```powershell
+Add-Type -AssemblyName System.Security
+# Get Valid Certs
+$MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
+# Select Cert
+$Cert = [System.Security.Cryptography.X509Certificates.X509Certificate2UI]::SelectFromCollection(
+    $MyCerts,
+    'Choose a certificate',
+    'Choose a certificate',
+    'SingleSelection'
+) | select -First 1
+
+New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert
+```
+
+### Shared Authentication Example
 ```powershell
 $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
@@ -119,8 +136,24 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 
 ## Shared Services Authentication
 
-Provide tenant ID and credentials for authentication via CyberArk Identity for Privilege Cloud Shared Services:
+Provide tenant ID and non-interactive API User credentials for authentication via CyberArk Identity for Privilege Cloud Shared Services:
 
 ```
 New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $PCloudCreds
 ```
+
+Most Shared Services implementations will be configured so that Identity and Privileged Cloud portal addresses share a common subdomain.
+
+Where this is not the case, and Identity and Privilege Cloud portals do not share an identical subdomain, these can be specified independently:
+
+```
+New-PASSession -TenantSubdomain PCloudTenantID -IdentitySubdomain IdentityTenantID -Credential $cred
+```
+
+For scenarios where Identity and Privilege Cloud portals are accessed using different URLs (i.e. 1st generation systems), the URLs can be specified instead on subdomain values:
+
+```
+New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred
+```
+
+Consult the vendor documentation for guidance on setting up a dedicated API Service user for non-interactive API use.

@@ -4,62 +4,219 @@ function New-PASRequest {
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ConnectionParams'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ManualParams'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$AccountId,
 
 		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkSearch'
+		)]
+		[string]$Search,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkFilter'
+		)]
+		[ValidateSet('Regular', 'Recently', 'Locked', 'Favorites')]
+		[string]$SavedFilter,
+
+		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkFilter'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkSearch'
+		)]
+		[string[]]$ExcludedEntities,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ConnectionParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ManualParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkFilter'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkSearch'
 		)]
 		[string]$Reason,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ConnectionParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ManualParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkFilter'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkSearch'
 		)]
 		[string]$TicketingSystemName,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ConnectionParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ManualParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkFilter'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkSearch'
 		)]
 		[string]$TicketID,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ConnectionParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ManualParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkFilter'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkSearch'
 		)]
 		[boolean]$MultipleAccessRequired,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ConnectionParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ManualParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkFilter'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkSearch'
 		)]
 		[datetime]$FromDate,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ConnectionParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ManualParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkFilter'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkSearch'
 		)]
 		[datetime]$ToDate,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ConnectionParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ManualParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkFilter'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkSearch'
 		)]
 		[hashtable]$AdditionalInfo,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ConnectionParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ManualParams'
 		)]
 		[boolean]$UseConnect,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ConnectionParams'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ManualParams'
 		)]
 		[string]$ConnectionComponent,
 
@@ -114,11 +271,20 @@ function New-PASRequest {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ManualParams'
 		)]
-		[hashtable]$ConnectionParams
+		[hashtable]$ConnectionParams,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BulkItems'
+		)]
+		[object[]]$BulkItems
+
 	)
 
 	BEGIN {
 		Assert-VersionRequirement -RequiredVersion 9.10
+		$Target = $PSCmdlet.ParameterSetName
 	}#begin
 
 	PROCESS {
@@ -126,37 +292,104 @@ function New-PASRequest {
 		#Create URL for Request
 		$URI = "$Script:BaseURI/API/MyRequests"
 
+		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		if ($boundParameters.ContainsKey('FromDate')) {
+		switch ($PSCmdlet.ParameterSetName) {
 
-			#convert to unix time
-			$boundParameters['FromDate'] = $FromDate | ConvertTo-UnixTime
+			'BulkSearch' {
+
+				#Filter Parameters for Bulk Search Request
+				$FilterParams = @{
+					'SearchParam' = $boundParameters | Get-PASParameter -ParametersToKeep Search
+				}
+			}
+
+
+			'BulkFilter' {
+
+				#Filter Parameters for Saved Filter Request
+				$FilterParams = @{
+					'AccountsFilters' = $boundParameters | Get-PASParameter -ParametersToKeep SavedFilter
+				}
+			}
+
+			{ $PSItem -match 'BulkSearch|BulkFilter' } {
+
+				Assert-VersionRequirement -RequiredVersion 13.2
+
+				#request for bulk search/filter request
+				$Item = $boundParameters | Get-PASParameter -ParametersToRemove Search, SavedFilter, ExcludedEntities
+
+				#Format Request
+				$Request = @{
+					'BulkFilter' = [ordered]@{
+						'CommonEntityProperties' = @{
+							'Operation' = 'Add'
+							'Item'      = New-PASRequestObject @Item | ConvertTo-BulkFilterItem
+						}
+						'ExcludedEntities'       = $ExcludedEntities
+						'FilterParams'           = $FilterParams
+					}
+				}
+
+				break
+
+			}
+
+			'BulkItems' {
+
+				Assert-VersionRequirement -RequiredVersion 13.2
+
+				#New Bulk Item Array
+				$Items = [Collections.Generic.List[Object]]::New()
+
+				$BulkItems | ForEach-Object {
+
+					#Add Operation and Item details For each Bulk Item
+					$Items.Add(
+						@{
+							'Operation' = 'Add'
+							'Item'      = $PSItem
+						}
+					)
+				}
+
+				$Request = @{'BulkItems' = $Items }
+				break
+
+			}
+
+			default {
+
+				#create request object
+				$Request = New-PASRequestObject @boundParameters
+				$Target = $AccountId
+			}
 
 		}
-
-		if ($boundParameters.ContainsKey('ToDate')) {
-
-			#convert to unix time
-			$boundParameters['ToDate'] = $ToDate | ConvertTo-UnixTime
-
-		}
-
-		#Nest parameters "AllowMappingLocalDrives", "AllowConnectToConsole","RedirectSmartCards",
-		#"PSMRemoteMachine", "LogonDomain" & "AllowSelectHTML5" under ConnectionParams Property
-		$boundParameters = $boundParameters | ConvertTo-ConnectionParam
 
 		#Create body of request
-		$body = $boundParameters | ConvertTo-Json
+		$body = $Request | ConvertTo-Json -Depth 3
 
-		if ($PSCmdlet.ShouldProcess($AccountId, 'Create Request for Account Access')) {
+		if ($PSCmdlet.ShouldProcess($Target, 'Request Account Access')) {
 
 			#send request to PAS web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
 
 			If ($null -ne $result) {
+				switch ($PSCmdlet.ParameterSetName) {
 
-				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request
+					{ $PSItem -match '^Bulk' } {
+						[pscustomobject]@{'Id' = $result } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Bulk
+						break
+					}
+
+					default {
+						$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request
+						break
+					}
+				}
 
 			}
 

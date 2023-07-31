@@ -55,7 +55,7 @@ If version requirement criteria are not met, operations may be prevented.
 [`Remove-PASAccount`][Remove-PASAccount]                                                 |**9.3** ([Notes](#remove-pasaccount))               |Deletes an account
 [`Set-PASAccount`][Set-PASAccount]                                                       |**9.5** ([Notes](#set-pasaccount))                  |Updates details of an account.
 [`Invoke-PASCPMOperation`][Invoke-PASCPMOperation]                                       |**9.7** ([Notes](#invoke-pascpmoperation))          |Invoke CPM verify, change & reconcile tasks.
-[`Unlock-PASAccount`][Unlock-PASAccount]                                                 |**9.10**                                            |Checks in an exclusive-use account.
+[`Unlock-PASAccount`][Unlock-PASAccount]                                                 |**9.10**([Notes](#unlock-pasaccount))               |Checks-in / Unlocks an exclusive-use account.
 [`Add-PASApplication`][Add-PASApplication]                                               |**9.1**                                             |Adds a new application
 [`Add-PASApplicationAuthenticationMethod`][Add-PASApplicationAuthenticationMethod]       |**9.1**                                             |Add authentication method to an application
 [`Get-PASApplication`][Get-PASApplication]                                               |**9.1**                                             |Returns details of applications
@@ -180,7 +180,17 @@ If version requirement criteria are not met, operations may be prevented.
 [`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                             |**12.6**                                            |Add Personal Admin Account (Privilege Cloud Only).
 [`Get-PASPTAGlobalCatalog`][Get-PASPTAGlobalCatalog]                                     |**13.0**                                            |Get Global Catalog connectivity details for PTA.
 [`Add-PASPTAGlobalCatalog`][Add-PASPTAGlobalCatalog]                                     |**13.0**                                            |Add Global Catalog connectivity details to PTA.
+[`Get-PASUserTypeInfo`][Get-PASUserTypeInfo]                                             |**13.2**                                            |Get User Type Info
+[`Get-PASPTARiskEvent`][Get-PASPTARiskEvent]                                             |**13.2**                                            |Get PTA Risk Events
+[`Set-PASPTARiskEvent`][Set-PASPTARiskEvent]                                             |**13.2**                                            |Update PTA Risk Events
+[`Get-PASPTARiskSummary`][Get-PASPTARiskSummary]                                         |**13.2**                                            |Get PTA Risk Summary
+[`New-PASRequestObject`][New-PASRequestObject]                                           |**---**                                             |Format an object to include in an request list
 
+[New-PASRequestObject]:/commands/New-PASRequestObject
+[Get-PASUserTypeInfo]:/commands/Get-PASUserTypeInfo
+[Get-PASPTARiskEvent]:/commands/Get-PASPTARiskEvent
+[Set-PASPTARiskEvent]:/commands/Set-PASPTARiskEvent
+[Get-PASPTARiskSummary]:/commands/Get-PASPTARiskSummary
 [Get-PASPTAGlobalCatalog]:/commands/Get-PASPTAGlobalCatalog
 [Add-PASPTAGlobalCatalog]:/commands/Add-PASPTAGlobalCatalog
 [Get-PASLinkedAccount]:/commands/Get-PASLinkedAccount
@@ -446,6 +456,14 @@ If version requirement criteria are not met, operations may be prevented.
 
 - The functions related to requests (`Approve-PASRequest`, `Deny-PASRequest`, `Get-PASRequest`, `Get-PASRequestDetail`, `New-PASRequest` & `Remove-PASRequest`), are documented as supported from version 9.10.
   - Reports received from `psPAS` users, observing that these functions also work in version 9.9.
+- `New-PASRequest`
+  - Version 13.2 introduced a new API endpoint.
+  - Supports:
+    - Requests to access multiple accounts
+- `Get-PASRequest`
+  - Version 13.2 introduced a new API endpoint.
+  - Supports:
+    - Get status of requests to access multiple accounts
 
 ### Add-PASGroupMember
 
@@ -467,6 +485,7 @@ If version requirement criteria are not met, operations may be prevented.
 - Version 11.5 returns additional group membership  detail for user accounts.
 - Version 12.1 introduced new parameter to request `ExtendedDetails` for a user.
 - Version 12.2 introduced new `sort` parameter and ability to filter by UserName.
+- Version 13.2 introduced new `source` & `userStatus` parameters.
 
 ### New-PASUser
 
@@ -474,6 +493,7 @@ If version requirement criteria are not met, operations may be prevented.
   - Supports:
     - Additional property parameters.
 - Gen1 API depreciated from 12.3
+- Version 13.2 introduced new parameters: `userActivityLogRetentionDays`, `loginFromHour` & `loginToHour`
 
 ### Unblock-PASUser
 
@@ -547,6 +567,7 @@ If version requirement criteria are not met, operations may be prevented.
   - Supports:
     - Additional parameters for updating users.
 - Gen1 API depreciated from 12.3
+- Version 13.2 introduced new parameters: `userActivityLogRetentionDays`, `loginFromHour` & `loginToHour`
 
 ### Get-PASPTAEvent
 
@@ -608,3 +629,7 @@ If version requirement criteria are not met, operations may be prevented.
 ### Get-PASComponentDetail
 
 - Version 12 adds pta as target component
+
+### Unlock-PASAccount
+
+- Unlock (not check-in) assumed to work from 11.6
