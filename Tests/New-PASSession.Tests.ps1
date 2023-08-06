@@ -1027,11 +1027,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					param($tenant_url,
 						$Credential)
 				}
-				$mockResult = [PSCustomObject] @{
-					Property1 = 'Value1'
-					Property2 = 'Value2'
-					Headers   = @{}
-				}
+				$mockResult = New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession
 
 				$mockGetWebSessionMethod = {
 					# count the invocation and store it on the mock object
@@ -1116,11 +1112,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					param($tenant_url,
 						$Credential)
 				}
-				$mockResult = [PSCustomObject] @{
-					Property1 = 'Value1'
-					Property2 = 'Value2'
-					Headers   = @{}
-				}
+				$mockResult = New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession
+
 
 				$mockGetWebSessionMethod = {
 					# count the invocation and store it on the mock object
