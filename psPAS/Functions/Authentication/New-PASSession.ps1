@@ -28,13 +28,25 @@ function New-PASSession {
 			Mandatory = $true,
 			ValueFromPipeline = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'SharedServices-Subdomain'
+			ParameterSetName = 'ISPSS-Subdomain-IdentityUser'
 		)]
 		[Parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $true,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'SharedServices-URL'
+			ParameterSetName = 'ISPSS-URL-IdentityUser'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-Subdomain-ServiceUser'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-URL-ServiceUser'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[PSCredential]$Credential,
@@ -43,7 +55,13 @@ function New-PASSession {
 			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'SharedServices-Subdomain'
+			ParameterSetName = 'ISPSS-Subdomain-IdentityUser'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-Subdomain-ServiceUser'
 		)]
 		[string]$TenantSubdomain,
 
@@ -101,7 +119,13 @@ function New-PASSession {
 			Mandatory = $false,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'SharedServices-Subdomain'
+			ParameterSetName = 'ISPSS-Subdomain-IdentityUser'
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-Subdomain-ServiceUser'
 		)]
 		[string]$IdentitySubdomain,
 
@@ -109,17 +133,57 @@ function New-PASSession {
 			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'SharedServices-URL'
+			ParameterSetName = 'ISPSS-URL-IdentityUser'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-URL-ServiceUser'
 		)]
 		[string]$IdentityTenantURL,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-URL-IdentityUser'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-URL-ServiceUser'
+		)]
+		[string]$PrivilegeCloudURL,
 
 		[Parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'SharedServices-URL'
+			ParameterSetName = 'ISPSS-Subdomain-IdentityUser'
 		)]
-		[string]$PrivilegeCloudURL,
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-URL-IdentityUser'
+		)]
+		[switch]$IdentityUser,
+
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-Subdomain-ServiceUser'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-URL-ServiceUser'
+		)]
+		[switch]$ServiceUser,
 
 		[parameter(
 			Mandatory = $true,
@@ -398,7 +462,7 @@ function New-PASSession {
 
 		Switch ($PSCmdlet.ParameterSetName) {
 
-			'SharedServices-URL' {
+			( { $PSItem -match '^ISPSS-URL' } ) {
 
 				#Ensure URLs are in expected format
 				#Remove trailing space and PasswordVault (if provided in PrivilegeCloudURL)
@@ -407,12 +471,32 @@ function New-PASSession {
 				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/PasswordVault$', ''
 
 				#Set Required URL Values for Request
-				$LogonRequest['Uri'] = "$IdentityTenantURL/oauth2/platformtoken"
+				if ($PSCmdlet.ParameterSetName -match '-ServiceUser$') {
+
+					#Service User authentication against oAuth endpoint
+					$LogonRequest['Uri'] = "$IdentityTenantURL/oauth2/platformtoken"
+
+				} Else {
+					#IdentityUser
+					#Identity Tenant_Url for New-IDSession
+					$LogonRequest['Uri'] = $IdentityTenantURL
+
+					If ($PSBoundParameters.Keys -notcontains 'PrivilegeCloudURL') {
+
+						#Unless specified, assume https://subdomain.privilegecloud.cyberark.cloud
+						#*Users Must specify own Privilege Cloud API URL if this pattern is not followed
+						$PrivilegeCloudURL = $IdentityTenantURL.replace('.id.', '.privilegecloud.')
+
+					}
+
+				}
+
+				#Uri for module operations
 				$Uri = "$PrivilegeCloudURL/$PVWAAppName"
 
 			}
 
-			'SharedServices-Subdomain' {
+			( { $PSItem -match '^ISPSS-SubDomain' } ) {
 
 				#Most Shared Services subdomains for Identity & Privilege Cloud tenants will be identical
 				If ($PSBoundParameters.Keys -notcontains 'IdentitySubdomain') {
@@ -422,15 +506,26 @@ function New-PASSession {
 					$IDSubdomain = $IdentitySubdomain
 				}
 
-				$LogonRequest['Uri'] = "https://${IDSubdomain}.id.cyberark.cloud/oauth2/platformtoken"  #hardcode Shared Services auth
+				if ($PSCmdlet.ParameterSetName -match '-ServiceUser$') {
 
-				#Build URL
+					#ServiceUser authentiction URL
+					$LogonRequest['Uri'] = "https://${IDSubdomain}.id.cyberark.cloud/oauth2/platformtoken"  #hardcode Shared Services auth
+
+				} Else {
+
+					#Identity Tenant_Url for New-IDSession Authentication
+					$LogonRequest['Uri'] = "https://${IDSubdomain}.id.cyberark.cloud"
+
+				}
+
+				#Build URL for P Cloud API Operations
 				$Uri = "https://${TenantSubdomain}.privilegecloud.cyberark.cloud/$PVWAAppName"
 
 			}
 
-			( { $PSItem -match '^SharedServices-' } ) {
+			( { $PSItem -match '^ISPSS-.*-ServiceUser$' } ) {
 
+				#Request body & parameters for service user authentication
 				$Body = @{
 
 					grant_type    = 'client_credentials'
@@ -443,6 +538,14 @@ function New-PASSession {
 
 				$LogonRequest['Body'] = $Body
 				$LogonRequest['ContentType'] = 'application/x-www-form-urlencoded'
+				break
+
+			}
+
+			( { $PSItem -match '^ISPSS-.*-IdentityUser$' } ) {
+
+				#Identity user credentials for New-IDSession Authentication
+				$LogonRequest['Credential'] = $Credential
 				break
 
 			}
@@ -597,9 +700,21 @@ function New-PASSession {
 
 			try {
 
-				#Send Logon Request
-				$PASSession = Invoke-PASRestMethod @LogonRequest
+				if ($PSCmdlet.ParameterSetName -match '^ISPSS-.*-IdentityUser$') {
 
+					#Check IdentityCommand module available
+					if (-not (Get-Module IdentityCommand)) {
+						try { Import-Module IdentityCommand -ErrorAction Stop }
+						catch { throw 'Failed to import IdentityCommand: Install the IdentityCommand Module and try again.' }
+					}
+
+					#Perform Identity User Authentication using IdentityCommand module
+					$PASSession = New-IDSession -tenant_url $LogonRequest['Uri'] -Credential $LogonRequest['Credential']
+
+				} Else {
+					#Send Logon Request
+					$PASSession = Invoke-PASRestMethod @LogonRequest
+				}
 				If ($null -ne $PASSession.UserName) {
 
 					#*$PASSession is expected to be a string value
@@ -685,6 +800,16 @@ function New-PASSession {
 
 							#Shared Service access_token.
 							$CyberArkLogonResult = "$($PASSession.token_type) $($PASSession.access_token)"
+
+						}
+
+						( { $null -ne $PSItem.Token } ) {
+
+							#Shared Services Identity User Bearer Token
+							$CyberArkLogonResult = "Bearer $($PASSession.Token)"
+
+							#Make the IdentityCommand WebSession available in the psPAS module scope
+							Set-Variable -Name WebSession -Value $($PSItem.GetWebSession()) -Scope Script
 
 						}
 
