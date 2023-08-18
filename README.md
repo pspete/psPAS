@@ -186,7 +186,13 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 Provide Identity User credentials and tenant details for authentication to CyberArk Identity for Privilege Cloud Shared Services:
 
 ```
-New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred -IdentityUser
+#using URL
+New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL https://SomeTenant.privilegecloud.cyberark.cloud -Credential $Cred -IdentityUser
+```
+
+```
+#using subdomain
+New-PASSession -TenantSubdomain SomeTenantName -Credential $Cred -IdentityUser
 ```
 
 This authentication flow requires use of the psPete `IdentityCommand` module, available from the Powershell Gallery & GitHub.
@@ -1262,6 +1268,9 @@ Priority support could be considered for <a href="https://github.com/sponsors/ps
 
 Hat Tips:
 
+**Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg))
+for the unofficial API documentation, general API wizardry & knowledge sharing.
+
 **Jesse McWilliams**
 ([JesseMcWilliamss](https://github.com/JesseMcWilliams))
 For the infomration needed to add PKIPN authentication into `New-PASSession`
@@ -1280,9 +1289,6 @@ For the JSON formatting assistance.
 
 **Warren Frame**
 ([RamblingCookieMonster](https://github.com/RamblingCookieMonster)) for [Add-ObjectDetail.ps1](https://github.com/RamblingCookieMonster/PowerShell/blob/master/Add-ObjectDetail.ps1).
-
-**Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg))
-for the unofficial API documentation.
 
 Chapeau!
 

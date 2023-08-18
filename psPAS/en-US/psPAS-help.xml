@@ -24588,25 +24588,10 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>TenantSubdomain</maml:name>
           <maml:description>
-            <maml:para>The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant.</maml:para>
-            <maml:para>Where the Shared Services tenants for both Identity and Privilege Cloud have been configured to share identical subdomain names, use this parameter to specify the subdomain name.</maml:para>
+            <maml:para>The subdomain name value of the Shared Services Privilege Cloud Tenant.</maml:para>
+            <maml:para>The value provided for the subdomain parameter will be used to discover the identity tenant api URL.</maml:para>
             <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
-            <maml:para>- Authentication will be performed against https://&lt;TenantSubdomain&gt;.id.cyberark.cloud</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>IdentitySubdomain</maml:name>
-          <maml:description>
-            <maml:para>A subdomain name value for the Identity Tenant used for authentication into Privilege Cloud.</maml:para>
-            <maml:para>Where the Shared Services tenants for Identity and Privilege Cloud have been configured with different subdomain names, use this parameter to specify the subdomain name for the Identity tenant.</maml:para>
-            <maml:para>- Authentication will be performed against https://&lt;IdentitySubdomain&gt;.id.cyberark.cloud</maml:para>
-            <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+            <maml:para>- Authentication will be performed against https://&lt;DiscoveredIdentitySubdomain&gt;.id.cyberark.cloud</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -24743,7 +24728,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>PrivilegeCloudURL</maml:name>
           <maml:description>
             <maml:para>Specify the URL value used to access the CyberArk Privilege Cloud API.</maml:para>
@@ -24875,25 +24860,10 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>TenantSubdomain</maml:name>
           <maml:description>
-            <maml:para>The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant.</maml:para>
-            <maml:para>Where the Shared Services tenants for both Identity and Privilege Cloud have been configured to share identical subdomain names, use this parameter to specify the subdomain name.</maml:para>
+            <maml:para>The subdomain name value of the Shared Services Privilege Cloud Tenant.</maml:para>
+            <maml:para>The value provided for the subdomain parameter will be used to discover the identity tenant api URL.</maml:para>
             <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
-            <maml:para>- Authentication will be performed against https://&lt;TenantSubdomain&gt;.id.cyberark.cloud</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>IdentitySubdomain</maml:name>
-          <maml:description>
-            <maml:para>A subdomain name value for the Identity Tenant used for authentication into Privilege Cloud.</maml:para>
-            <maml:para>Where the Shared Services tenants for Identity and Privilege Cloud have been configured with different subdomain names, use this parameter to specify the subdomain name for the Identity tenant.</maml:para>
-            <maml:para>- Authentication will be performed against https://&lt;IdentitySubdomain&gt;.id.cyberark.cloud</maml:para>
-            <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+            <maml:para>- Authentication will be performed against https://&lt;DiscoveredIdentitySubdomain&gt;.id.cyberark.cloud</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -26299,25 +26269,10 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>TenantSubdomain</maml:name>
         <maml:description>
-          <maml:para>The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant.</maml:para>
-          <maml:para>Where the Shared Services tenants for both Identity and Privilege Cloud have been configured to share identical subdomain names, use this parameter to specify the subdomain name.</maml:para>
+          <maml:para>The subdomain name value of the Shared Services Privilege Cloud Tenant.</maml:para>
+          <maml:para>The value provided for the subdomain parameter will be used to discover the identity tenant api URL.</maml:para>
           <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
-          <maml:para>- Authentication will be performed against https://&lt;TenantSubdomain&gt;.id.cyberark.cloud</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>IdentitySubdomain</maml:name>
-        <maml:description>
-          <maml:para>A subdomain name value for the Identity Tenant used for authentication into Privilege Cloud.</maml:para>
-          <maml:para>Where the Shared Services tenants for Identity and Privilege Cloud have been configured with different subdomain names, use this parameter to specify the subdomain name for the Identity tenant.</maml:para>
-          <maml:para>- Authentication will be performed against https://&lt;IdentitySubdomain&gt;.id.cyberark.cloud</maml:para>
-          <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+          <maml:para>- Authentication will be performed against https://&lt;DiscoveredIdentitySubdomain&gt;.id.cyberark.cloud</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -26569,7 +26524,8 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
         <maml:title>-------------------------- EXAMPLE 23 --------------------------</maml:title>
         <dev:code>New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred</dev:code>
         <dev:remarks>
-          <maml:para>Authenticates to Privilege Cloud Shared Services, where 'PCloudTenantID' is a Subdomain configured for both Identity &amp; Privilege Cloud portals.</maml:para>
+          <maml:para>Authenticates to Privilege Cloud Shared Services, where 'PCloudTenantID' is the Subdomain configured for the Privilege Cloud portal.</maml:para>
+          <maml:para>The subdomain value provided will be used to discover the identity portal URL.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -26599,9 +26555,9 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 26 --------------------------</maml:title>
-        <dev:code>New-PASSession -TenantSubdomain PCloudTenantID -IdentitySubdomain IdentityTenantID -Credential $cred -ServiceUser</dev:code>
+        <dev:code>New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred -ServiceUser</dev:code>
         <dev:remarks>
-          <maml:para>Authenticates to Privilege Cloud Shared Services using an API Service User, where subdomains for Identity &amp; Privilege Cloud portals have not been configured to share the same value.</maml:para>
+          <maml:para>Authenticates to Privilege Cloud Shared Services using an API Service User.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -26613,10 +26569,9 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 28 --------------------------</maml:title>
-        <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred -IdentityUser</dev:code>
+        <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $Cred -IdentityUser</dev:code>
         <dev:remarks>
           <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privileged Cloud environment.</maml:para>
-          <maml:para>Assumes a Privileged Cloud API URL of https://SomeTenantName.privilegecloud.cyberark.cloud</maml:para>
           <maml:para>Requires IdentityCommand module to be installed for authentication flow to complete.</maml:para>
           <maml:para>See: Get-Help IdentityCommand</maml:para>
         </dev:remarks>
@@ -26633,7 +26588,7 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 30 --------------------------</maml:title>
-        <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred --PrivilegeCloudURL https://SomeName.privilegecloud.cyberark.cloud -IdentityUser</dev:code>
+        <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred -PrivilegeCloudURL https://SomeName.privilegecloud.cyberark.cloud -IdentityUser</dev:code>
         <dev:remarks>
           <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to specified Privileged Cloud environment.</maml:para>
           <maml:para>Requires IdentityCommand module to be installed for authentication flow to complete.</maml:para>
@@ -26665,6 +26620,10 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
       <maml:navigationLink>
         <maml:linkText>https://github.com/allynl93/PS-SAML-Interactive</maml:linkText>
         <maml:uri>https://github.com/allynl93/PS-SAML-Interactive</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://github.com/pspete/IdentityCommand</maml:linkText>
+        <maml:uri>https://github.com/pspete/IdentityCommand</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>

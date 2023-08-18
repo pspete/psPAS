@@ -141,7 +141,7 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 Provide Identity User credentials and tenant details for authentication to CyberArk Identity for Privilege Cloud Shared Services:
 
 ```
-New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred -IdentityUser
+New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL https://SomeTenant.privilegecloud.cyberark.cloud -Credential $Cred -IdentityUser
 ```
 
 This authentication flow requires use of the psPete `IdentityCommand` module, available from the Powershell Gallery & GitHub.
@@ -156,15 +156,13 @@ New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $ServiceU
 Consult the vendor documentation for guidance on setting up a dedicated API Service user for non-interactive API user.
 
 ### Tenant Subdomains & Portal URLs
-Most Shared Services implementations will be configured so that Identity and Privileged Cloud portal addresses share a common subdomain.
-
-Where this is not the case, and Identity and Privilege Cloud portals do not share an identical subdomain, these can be specified independently:
+When providing a value for a privilege cloud tenant subdomain, this value is used to discover the identity tenant with which to authenticate:
 
 ```
-New-PASSession -TenantSubdomain PCloudTenantID -IdentitySubdomain IdentityTenantID -Credential $cred -ServiceUser
+New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred -ServiceUser
 ```
 
-For scenarios where Identity and Privilege Cloud portals are accessed using different URLs (i.e. 1st generation systems), the URLs can be specified instead on subdomain values:
+If you encounter any issue authenticating with the module when providing a subdomain value, you can alternatively specify URL values for both your Identity portal, and Privilege Cloud API:
 
 ```
 New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred -ServiceUser

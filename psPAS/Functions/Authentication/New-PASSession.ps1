@@ -116,20 +116,6 @@ function New-PASSession {
 		[string]$BaseURI,
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'ISPSS-Subdomain-IdentityUser'
-		)]
-		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'ISPSS-Subdomain-ServiceUser'
-		)]
-		[string]$IdentitySubdomain,
-
-		[Parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
@@ -144,7 +130,7 @@ function New-PASSession {
 		[string]$IdentityTenantURL,
 
 		[Parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-IdentityUser'
@@ -474,20 +460,13 @@ function New-PASSession {
 				if ($PSCmdlet.ParameterSetName -match '-ServiceUser$') {
 
 					#Service User authentication against oAuth endpoint
-					$LogonRequest['Uri'] = "$IdentityTenantURL/oauth2/platformtoken"
+					$LogonRequest['Uri'] = "${IdentityTenantURL}/oauth2/platformtoken"
 
 				} Else {
+
 					#IdentityUser
 					#Identity Tenant_Url for New-IDSession
 					$LogonRequest['Uri'] = $IdentityTenantURL
-
-					If ($PSBoundParameters.Keys -notcontains 'PrivilegeCloudURL') {
-
-						#Unless specified, assume https://subdomain.privilegecloud.cyberark.cloud
-						#*Users Must specify own Privilege Cloud API URL if this pattern is not followed
-						$PrivilegeCloudURL = $IdentityTenantURL.replace('.id.', '.privilegecloud.')
-
-					}
 
 				}
 
@@ -498,28 +477,25 @@ function New-PASSession {
 
 			( { $PSItem -match '^ISPSS-SubDomain' } ) {
 
-				#Most Shared Services subdomains for Identity & Privilege Cloud tenants will be identical
-				If ($PSBoundParameters.Keys -notcontains 'IdentitySubdomain') {
-					$IDSubdomain = $TenantSubdomain
-				} Else {
-					#If different, use specified subdomain for Identity
-					$IDSubdomain = $IdentitySubdomain
-				}
+				$SharedServicesURLs = Find-SharedServicesURL -subdomain $TenantSubdomain
+
+				$IdentityURL = $SharedServicesURLs | Select-Object -ExpandProperty identity_user_portal | Select-Object -ExpandProperty api
+				$PCloudURL = $SharedServicesURLs | Select-Object -ExpandProperty pcloud | Select-Object -ExpandProperty api
 
 				if ($PSCmdlet.ParameterSetName -match '-ServiceUser$') {
 
 					#ServiceUser authentiction URL
-					$LogonRequest['Uri'] = "https://${IDSubdomain}.id.cyberark.cloud/oauth2/platformtoken"  #hardcode Shared Services auth
+					$LogonRequest['Uri'] = "${IdentityURL}/oauth2/platformtoken" #hardcode Shared Services auth
 
 				} Else {
 
 					#Identity Tenant_Url for New-IDSession Authentication
-					$LogonRequest['Uri'] = "https://${IDSubdomain}.id.cyberark.cloud"
+					$LogonRequest['Uri'] = $IdentityURL
 
 				}
 
 				#Build URL for P Cloud API Operations
-				$Uri = "https://${TenantSubdomain}.privilegecloud.cyberark.cloud/$PVWAAppName"
+				$Uri = "${PCloudURL}/$PVWAAppName"
 
 			}
 
