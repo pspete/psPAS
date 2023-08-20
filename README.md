@@ -205,7 +205,7 @@ Provide tenant ID and non-interactive API User credentials for authentication vi
 New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $ServiceUserCreds -ServiceUser
 ```
 
-Consult the vendor documentation for guidance on setting up a dedicated API Service user for non-interactive API user.
+Consult the vendor documentation for guidance on setting up a dedicated API Service user for non-interactive API use.
 
 ### Basic Operations
 
