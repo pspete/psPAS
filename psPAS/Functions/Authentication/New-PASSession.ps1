@@ -456,74 +456,27 @@ function New-PASSession {
 				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/$', ''
 				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/PasswordVault$', ''
 
-				#Set Required URL Values for Request
-				if ($PSCmdlet.ParameterSetName -match '-ServiceUser$') {
-
-					#Service User authentication against oAuth endpoint
-					$LogonRequest['Uri'] = "${IdentityTenantURL}/oauth2/platformtoken"
-
-				} Else {
-
-					#IdentityUser
-					#Identity Tenant_Url for New-IDSession
-					$LogonRequest['Uri'] = $IdentityTenantURL
-
-				}
-
-				#Uri for module operations
-				$Uri = "$PrivilegeCloudURL/$PVWAAppName"
-
 			}
 
 			( { $PSItem -match '^ISPSS-SubDomain' } ) {
 
 				$SharedServicesURLs = Find-SharedServicesURL -subdomain $TenantSubdomain
 
-				$IdentityURL = $SharedServicesURLs | Select-Object -ExpandProperty identity_user_portal | Select-Object -ExpandProperty api
-				$PCloudURL = $SharedServicesURLs | Select-Object -ExpandProperty pcloud | Select-Object -ExpandProperty api
-
-				if ($PSCmdlet.ParameterSetName -match '-ServiceUser$') {
-
-					#ServiceUser authentiction URL
-					$LogonRequest['Uri'] = "${IdentityURL}/oauth2/platformtoken" #hardcode Shared Services auth
-
-				} Else {
-
-					#Identity Tenant_Url for New-IDSession Authentication
-					$LogonRequest['Uri'] = $IdentityURL
-
-				}
-
-				#Build URL for P Cloud API Operations
-				$Uri = "${PCloudURL}/$PVWAAppName"
+				$IdentityTenantURL = $SharedServicesURLs | Select-Object -ExpandProperty identity_user_portal | Select-Object -ExpandProperty api
+				$PrivilegeCloudURL = $SharedServicesURLs | Select-Object -ExpandProperty pcloud | Select-Object -ExpandProperty api
 
 			}
 
-			( { $PSItem -match '^ISPSS-.*-ServiceUser$' } ) {
+			( { $PSItem -match '^ISPSS-.*-.*User$' } ) {
 
-				#Request body & parameters for service user authentication
-				$Body = @{
-
-					grant_type    = 'client_credentials'
-					#Add user name from credential object
-					client_id     = $($Credential.UserName)
-					#Add decoded password value from credential object
-					client_secret = $($Credential.GetNetworkCredential().Password)
-
-				}
-
-				$LogonRequest['Body'] = $Body
-				$LogonRequest['ContentType'] = 'application/x-www-form-urlencoded'
-				break
-
-			}
-
-			( { $PSItem -match '^ISPSS-.*-IdentityUser$' } ) {
-
-				#Identity user credentials for New-IDSession Authentication
+				#IdentityUser/ServiceUser LogonRequest for New-IDSession/New-IDPlatformToken
+				$LogonRequest['Uri'] = $IdentityTenantURL
 				$LogonRequest['Credential'] = $Credential
-				break
 
+				#URL for P Cloud API Operations
+				$Uri = "${PrivilegeCloudURL}/$PVWAAppName"
+
+				break
 			}
 
 			'integrated' {
@@ -676,21 +629,31 @@ function New-PASSession {
 
 			try {
 
-				if ($PSCmdlet.ParameterSetName -match '^ISPSS-.*-IdentityUser$') {
-
-					#Check IdentityCommand module available
-					if (-not (Get-Module IdentityCommand)) {
-						try { Import-Module IdentityCommand -ErrorAction Stop }
-						catch { throw 'Failed to import IdentityCommand: Install the IdentityCommand Module and try again.' }
+				switch ($PSCmdlet.ParameterSetName) {
+					( { $PSItem -match '^ISPSS' } ) {
+						#Check IdentityCommand module available
+						if (-not (Get-Module IdentityCommand)) {
+							try { Import-Module IdentityCommand -ErrorAction Stop }
+							catch { throw 'Failed to import IdentityCommand: Install the IdentityCommand Module and try again.' }
+						}
 					}
-
-					#Perform Identity User Authentication using IdentityCommand module
-					$PASSession = New-IDSession -tenant_url $LogonRequest['Uri'] -Credential $LogonRequest['Credential']
-
-				} Else {
-					#Send Logon Request
-					$PASSession = Invoke-PASRestMethod @LogonRequest
+					( { $PSItem -match '^ISPSS-.*-IdentityUser$' } ) {
+						#Perform Identity User Authentication using IdentityCommand module
+						$PASSession = New-IDSession -tenant_url $LogonRequest['Uri'] -Credential $LogonRequest['Credential']
+						break
+					}
+					( { $PSItem -match '^ISPSS-.*-ServiceUser$' } ) {
+						#Perform Identity User Authentication using IdentityCommand module
+						$PASSession = New-IDPlatformToken -tenant_url $LogonRequest['Uri'] -Credential $LogonRequest['Credential']
+						break
+					}
+					default {
+						#Send Logon Request
+						$PASSession = Invoke-PASRestMethod @LogonRequest
+						break
+					}
 				}
+
 				If ($null -ne $PASSession.UserName) {
 
 					#*$PASSession is expected to be a string value
@@ -776,6 +739,9 @@ function New-PASSession {
 
 							#Shared Service access_token.
 							$CyberArkLogonResult = "$($PASSession.token_type) $($PASSession.access_token)"
+
+							#Make the IdentityCommand WebSession available in the psPAS module scope
+							Set-Variable -Name WebSession -Value $($PSItem.GetWebSession()) -Scope Script
 
 						}
 
