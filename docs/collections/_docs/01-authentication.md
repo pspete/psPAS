@@ -2,7 +2,7 @@
 title: "Authentication"
 permalink: /docs/authentication/
 excerpt: "psPAS Authentication"
-last_modified_at: 2023-08-06T01:23:45-00:00
+last_modified_at: 2023-08-20T01:23:45-00:00
 ---
 
 _Everything begins with a **Logon**:_
@@ -136,6 +136,8 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 
 ## Shared Services Authentication
 
+Privilege Cloud Shared Services authentication flows require use of the psPete `IdentityCommand` module, available from the Powershell Gallery & GitHub.
+
 ### Identity User
 
 Provide Identity User credentials and tenant details for authentication to CyberArk Identity for Privilege Cloud Shared Services:
@@ -144,8 +146,6 @@ Provide Identity User credentials and tenant details for authentication to Cyber
 New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL https://SomeTenant.privilegecloud.cyberark.cloud -Credential $Cred -IdentityUser
 ```
 
-This authentication flow requires use of the psPete `IdentityCommand` module, available from the Powershell Gallery & GitHub.
-
 ### Service User
 
 Provide tenant ID and non-interactive API User credentials for authentication via CyberArk Identity for Privilege Cloud Shared Services:
@@ -153,6 +153,7 @@ Provide tenant ID and non-interactive API User credentials for authentication vi
 ```
 New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $ServiceUserCreds -ServiceUser
 ```
+
 Consult the vendor documentation for guidance on setting up a dedicated API Service user for non-interactive API user.
 
 ### Tenant Subdomains & Portal URLs
