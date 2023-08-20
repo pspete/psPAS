@@ -884,6 +884,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					}
 				}
 
+				Mock Get-Module -MockWith {}
+
+				Mock Import-Module -MockWith {}
+
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
 				$Script:ExternalVersion = '0.0'
@@ -967,6 +971,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					}
 
 				}
+
+				Mock Get-Module -MockWith {}
+
+				Mock Import-Module -MockWith {}
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
