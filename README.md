@@ -974,18 +974,18 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Get-PASPTARiskSummary`][Get-PASPTARiskSummary]                                         |**13.2**            |Get PTA Risk Summary
 [`New-PASRequestObject`][New-PASRequestObject]                                           |**---**             |Format an object to include in an request list
 
-[New-PASRequestObject]:/psPAS/Functions/Requests/New-PASRequestObject
-[Get-PASUserTypeInfo]:/psPAS/Functions/User/Get-PASUserTypeInfo
-[Get-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Get-PASPTARiskEvent
-[Set-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Set-PASPTARiskEvent
-[Get-PASPTARiskSummary]:/psPAS/Functions/EventSecurity/Get-PASPTARiskSummary
-[Get-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Get-PASPTAGlobalCatalog
-[Add-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Add-PASPTAGlobalCatalog
-[Disable-PASUser]:/psPAS/Functions/User/Disable-PASUser
-[Enable-PASUser]:/psPAS/Functions/User/Enable-PASUser
-[Get-PASLinkedAccount]:/psPAS/Functions/Accounts/Get-PASLinkedAccount
-[Add-PASPersonalAdminAccount]:/psPAS/Functions/Accounts/Add-PASPersonalAdminAccount
-[Publish-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Publish-PASDiscoveredAccount
+[New-PASRequestObject]:/psPAS/Functions/Requests/New-PASRequestObject.ps1
+[Get-PASUserTypeInfo]:/psPAS/Functions/User/Get-PASUserTypeInfo.ps1
+[Get-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Get-PASPTARiskEvent.ps1
+[Set-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Set-PASPTARiskEvent.ps1
+[Get-PASPTARiskSummary]:/psPAS/Functions/EventSecurity/Get-PASPTARiskSummary.ps1
+[Get-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Get-PASPTAGlobalCatalog.ps1
+[Add-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Add-PASPTAGlobalCatalog.ps1
+[Disable-PASUser]:/psPAS/Functions/User/Disable-PASUser.ps1
+[Enable-PASUser]:/psPAS/Functions/User/Enable-PASUser.ps1
+[Get-PASLinkedAccount]:/psPAS/Functions/Accounts/Get-PASLinkedAccount.ps1
+[Add-PASPersonalAdminAccount]:/psPAS/Functions/Accounts/Add-PASPersonalAdminAccount.ps1
+[Publish-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Publish-PASDiscoveredAccount.ps1
 [Get-PASPlatformSummary]:/psPAS/Functions/Platforms/Get-PASPlatformSummary.ps1
 [Add-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider.ps1
 [Get-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Get-PASOpenIDConnectProvider.ps1
