@@ -179,6 +179,34 @@ $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
 ```
 
+#### Shared Services Authentication
+
+**Privilege Cloud Shared Services authentication flows require use of the pspete `IdentityCommand` module, available from the Powershell Gallery & GitHub.**
+
+##### Identity User
+
+Provide Identity User credentials and tenant details for authentication to CyberArk Identity for Privilege Cloud Shared Services:
+
+```
+#using URL
+New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL https://SomeTenant.privilegecloud.cyberark.cloud -Credential $Cred -IdentityUser
+```
+
+```
+#using subdomain
+New-PASSession -TenantSubdomain SomeTenantName -Credential $Cred -IdentityUser
+```
+
+##### Service User
+
+Provide tenant ID and non-interactive API User credentials for authentication via CyberArk Identity for Privilege Cloud Shared Services:
+
+```
+New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $ServiceUserCreds -ServiceUser
+```
+
+Consult the vendor documentation for guidance on setting up a dedicated API Service user for non-interactive API use.
+
 ### Basic Operations
 
 ![Logo][Logo]
@@ -1241,6 +1269,9 @@ Priority support could be considered for <a href="https://github.com/sponsors/ps
 
 Hat Tips:
 
+**Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg))
+for the unofficial API documentation, general API wizardry & knowledge sharing.
+
 **Jesse McWilliams**
 ([JesseMcWilliamss](https://github.com/JesseMcWilliams))
 For the infomration needed to add PKIPN authentication into `New-PASSession`
@@ -1259,9 +1290,6 @@ For the JSON formatting assistance.
 
 **Warren Frame**
 ([RamblingCookieMonster](https://github.com/RamblingCookieMonster)) for [Add-ObjectDetail.ps1](https://github.com/RamblingCookieMonster/PowerShell/blob/master/Add-ObjectDetail.ps1).
-
-**Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg))
-for the unofficial API documentation.
 
 Chapeau!
 

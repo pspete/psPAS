@@ -242,9 +242,9 @@
 
 					try {
 
-						$ResponseException = $ResponseException | ConvertFrom-Json
-						$ErrorMessage = $ResponseException | Select-Object -ExpandProperty error_description
-						$ErrorID = $($ResponseException | Select-Object -ExpandProperty error)
+						$ThisException = $ResponseException | ConvertFrom-Json -ErrorAction Stop
+						$ErrorMessage = $ThisException | Select-Object -ExpandProperty error_description -ErrorAction Stop
+						$ErrorID = $($ThisException | Select-Object -ExpandProperty error -ErrorAction Stop)
 
 					} catch {
 

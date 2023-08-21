@@ -21,18 +21,32 @@ New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-newPassword <Sec
  [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### SharedServices-URL
+### ISPSS-URL-ServiceUser
 ```
 New-PASSession -Credential <PSCredential> -IdentityTenantURL <String> -PrivilegeCloudURL <String>
- [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
- [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-ServiceUser] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
+ [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### SharedServices-Subdomain
+### ISPSS-Subdomain-ServiceUser
 ```
-New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-IdentitySubdomain <String>]
- [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
- [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-ServiceUser] [-PVWAAppName <String>]
+ [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### ISPSS-URL-IdentityUser
+```
+New-PASSession -Credential <PSCredential> -IdentityTenantURL <String> -PrivilegeCloudURL <String>
+ [-IdentityUser] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
+ [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### ISPSS-Subdomain-IdentityUser
+```
+New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-IdentityUser] [-PVWAAppName <String>]
+ [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1Radius
@@ -292,7 +306,9 @@ Authenticates to a CyberArk Vault using SAML authentication & Gen1 API.
 New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred
 ```
 
-Authenticates to Privilege Cloud Shared Services, where 'PCloudTenantID' is a Subdomain configured for both Identity & Privilege Cloud portals.
+Authenticates to Privilege Cloud Shared Services, where 'PCloudTenantID' is the Subdomain configured for the Privilege Cloud portal.
+
+The subdomain value provided will be used to discover the identity portal URL.
 
 ### EXAMPLE 24
 ```
@@ -321,17 +337,52 @@ Logon with PKIPN auth, using a selected certificate stored on smart card.
 
 ### EXAMPLE 26
 ```
-New-PASSession -TenantSubdomain PCloudTenantID -IdentitySubdomain IdentityTenantID -Credential $cred
+New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred -ServiceUser
 ```
 
-Authenticates to Privilege Cloud Shared Services, where subdomains for Identity & Privilege Cloud portals have not been configured to share the same value.
+Authenticates to Privilege Cloud Shared Services using an API Service User.
 
 ### EXAMPLE 27
 ```
-New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred
+New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred -ServiceUser
 ```
 
-Authenticates to Privilege Cloud Shared Services, specifying individual URL values for Identity & Privilege Cloud tenants.
+Authenticates to Privilege Cloud Shared Services using an API Service User, specifying individual URL values for Identity & Privilege Cloud tenants.
+
+### Example 28
+```
+New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $Cred -IdentityUser
+```
+
+Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privileged Cloud environment.
+
+Requires IdentityCommand module to be installed for authentication flow to complete.
+
+See: Get-Help IdentityCommand
+
+### Example 29
+```
+New-PASSession -TenantSubdomain YourTenantName -Credential $Cred -IdentityUser
+```
+
+Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privileged Cloud environment.
+
+Assumes a Shared Services URL of https://YourTenantName.id.cyberark.cloud
+
+Requires IdentityCommand module to be installed for authentication flow to complete.
+
+See: Get-Help IdentityCommand
+
+### Example 30
+```
+New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred -PrivilegeCloudURL https://SomeName.privilegecloud.cyberark.cloud -IdentityUser
+```
+
+Authenticates to Identity Shared Services using an Identity User and provides authenticated session to specified Privileged Cloud environment.
+
+Requires IdentityCommand module to be installed for authentication flow to complete.
+
+See: Get-Help IdentityCommand
 
 ## PARAMETERS
 
@@ -352,7 +403,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: PSCredential
-Parameter Sets: SharedServices-URL, SharedServices-Subdomain, Gen2Radius
+Parameter Sets: ISPSS-URL-ServiceUser, ISPSS-Subdomain-ServiceUser, ISPSS-URL-IdentityUser, ISPSS-Subdomain-IdentityUser, Gen2Radius
 Aliases:
 
 Required: True
@@ -764,39 +815,19 @@ Accept wildcard characters: False
 ```
 
 ### -TenantSubdomain
-The subdomain name value of the Identity Shared Services / Privilege Cloud Tenant.
+The subdomain name value of the Shared Services Privilege Cloud Tenant.
 
-Where the Shared Services tenants for both Identity and Privilege Cloud have been configured to share identical subdomain names, use this parameter to specify the subdomain name.
+The value provided for the subdomain parameter will be used to discover the identity tenant api URL.
 
 - API operations will target URL: https://<TenantSubdomain>.privilegecloud.cyberark.cloud
-- Authentication will be performed against https://<TenantSubdomain>.id.cyberark.cloud
+- Authentication will be performed against https://<DiscoveredIdentitySubdomain>.id.cyberark.cloud
 
 ```yaml
 Type: String
-Parameter Sets: SharedServices-Subdomain
+Parameter Sets: ISPSS-Subdomain-ServiceUser, ISPSS-Subdomain-IdentityUser
 Aliases:
 
 Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -IdentitySubdomain
-A subdomain name value for the Identity Tenant used for authentication into Privilege Cloud.
-
-Where the Shared Services tenants for Identity and Privilege Cloud have not been configured with identical subdomain names, use this parameter to specify the subdomain name for the Identity tenant.
-
-- Authentication will be performed against https://<IdentitySubdomain>.id.cyberark.cloud
-- API operations will target URL: https://<TenantSubdomain>.privilegecloud.cyberark.cloud
-
-```yaml
-Type: String
-Parameter Sets: SharedServices-Subdomain
-Aliases:
-
-Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -812,7 +843,7 @@ E.G.:
 
 ```yaml
 Type: String
-Parameter Sets: SharedServices-URL
+Parameter Sets: ISPSS-URL-ServiceUser, ISPSS-URL-IdentityUser
 Aliases:
 
 Required: True
@@ -830,7 +861,41 @@ E.G.:
 
 ```yaml
 Type: String
-Parameter Sets: SharedServices-URL
+Parameter Sets: ISPSS-URL-ServiceUser, ISPSS-URL-IdentityUser
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -IdentityUser
+Specify switch parameter to authenticate with standard Interactive Identity User.
+
+Authentication process will require use of the IdentityCommand module.
+
+See: Get-Help IdentityCommand.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: ISPSS-URL-IdentityUser, ISPSS-Subdomain-IdentityUser
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ServiceUser
+Specify switch parameter to authenticate with Identity API Oauth Service User
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: ISPSS-URL-ServiceUser, ISPSS-Subdomain-ServiceUser
 Aliases:
 
 Required: True
@@ -862,3 +927,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Shared%20Logon%20Authentication%20-%20Logon.htm#Sharedlogonauthentication](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Shared%20Logon%20Authentication%20-%20Logon.htm#Sharedlogonauthentication)
 
 [https://github.com/allynl93/PS-SAML-Interactive](https://github.com/allynl93/PS-SAML-Interactive)
+
+[https://github.com/pspete/IdentityCommand](https://github.com/pspete/IdentityCommand)

@@ -68,7 +68,7 @@ function Get-PASResponse {
 
 				}
 
-				'application/json; charset=utf-8' {
+				({ $PSItem -match 'application/json' }) {
 
 					#application/json content expected for most responses.
 
