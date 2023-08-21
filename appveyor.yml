@@ -11,6 +11,8 @@ environment:
     secure: cWv4+OPfqRLSt7I4f+p3lEixKoYZzi42IDc7C4Kf+2WZW/dO+H+RBCM7m0Si2uuP
   github_email:
     secure: x5ljenzXfYXkzpEu9eX7AQvb3AkFbiXG2NndMzw9Zc4=
+  CODECOV_TOKEN:
+    secure: bLnfnH8+QlpeQgvoOrgrCLkOrgpOBMwfnjwtdVphoUE0YEeEdzP9/7dILfzpFGFg
   #sig_key:
     #secure: LPEv2aGCLb1WPw89OFF8gmhk5tVZtOAPaUJ9cAATBnD1+qREYmvh/fH53NbJSNP
   #PfxSecure:
