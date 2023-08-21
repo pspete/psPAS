@@ -26,7 +26,7 @@ $result = Invoke-Pester -Configuration $configuration
 
 $res = $result | ConvertTo-Pester4Result
 
-Write-Host 'Uploading Test Results'
+Write-Host 'Uploading Test Results.'
 $null = (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $(Resolve-Path .\TestResults.xml))
 
 Remove-Item -Path $(Resolve-Path .\TestResults.xml) -Force
