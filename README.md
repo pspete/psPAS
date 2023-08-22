@@ -179,6 +179,34 @@ $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
 ```
 
+#### Shared Services Authentication
+
+**Privilege Cloud Shared Services authentication flows require the pspete `IdentityCommand` module, available from the [Powershell Gallery](https://www.powershellgallery.com/packages/IdentityCommand) & [GitHub](https://github.com/pspete/IdentityCommand).**
+
+##### Identity User
+
+Provide Identity User credentials and tenant details for authentication to CyberArk Identity for Privilege Cloud Shared Services:
+
+```
+#using URL
+New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL https://SomeTenant.privilegecloud.cyberark.cloud -Credential $Cred -IdentityUser
+```
+
+```
+#using subdomain
+New-PASSession -TenantSubdomain SomeTenantName -Credential $Cred -IdentityUser
+```
+
+##### Service User
+
+Provide tenant ID and non-interactive API User credentials for authentication via CyberArk Identity for Privilege Cloud Shared Services:
+
+```
+New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $ServiceUserCreds -ServiceUser
+```
+
+Consult the vendor documentation for guidance on setting up a dedicated API Service user for non-interactive API use.
+
 ### Basic Operations
 
 ![Logo][Logo]
@@ -946,18 +974,18 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Get-PASPTARiskSummary`][Get-PASPTARiskSummary]                                         |**13.2**            |Get PTA Risk Summary
 [`New-PASRequestObject`][New-PASRequestObject]                                           |**---**             |Format an object to include in an request list
 
-[New-PASRequestObject]:/psPAS/Functions/Requests/New-PASRequestObject
-[Get-PASUserTypeInfo]:/psPAS/Functions/User/Get-PASUserTypeInfo
-[Get-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Get-PASPTARiskEvent
-[Set-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Set-PASPTARiskEvent
-[Get-PASPTARiskSummary]:/psPAS/Functions/EventSecurity/Get-PASPTARiskSummary
-[Get-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Get-PASPTAGlobalCatalog
-[Add-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Add-PASPTAGlobalCatalog
-[Disable-PASUser]:/psPAS/Functions/User/Disable-PASUser
-[Enable-PASUser]:/psPAS/Functions/User/Enable-PASUser
-[Get-PASLinkedAccount]:/psPAS/Functions/Accounts/Get-PASLinkedAccount
-[Add-PASPersonalAdminAccount]:/psPAS/Functions/Accounts/Add-PASPersonalAdminAccount
-[Publish-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Publish-PASDiscoveredAccount
+[New-PASRequestObject]:/psPAS/Functions/Requests/New-PASRequestObject.ps1
+[Get-PASUserTypeInfo]:/psPAS/Functions/User/Get-PASUserTypeInfo.ps1
+[Get-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Get-PASPTARiskEvent.ps1
+[Set-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Set-PASPTARiskEvent.ps1
+[Get-PASPTARiskSummary]:/psPAS/Functions/EventSecurity/Get-PASPTARiskSummary.ps1
+[Get-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Get-PASPTAGlobalCatalog.ps1
+[Add-PASPTAGlobalCatalog]:/psPAS/Functions/EventSecurity/Add-PASPTAGlobalCatalog.ps1
+[Disable-PASUser]:/psPAS/Functions/User/Disable-PASUser.ps1
+[Enable-PASUser]:/psPAS/Functions/User/Enable-PASUser.ps1
+[Get-PASLinkedAccount]:/psPAS/Functions/Accounts/Get-PASLinkedAccount.ps1
+[Add-PASPersonalAdminAccount]:/psPAS/Functions/Accounts/Add-PASPersonalAdminAccount.ps1
+[Publish-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Publish-PASDiscoveredAccount.ps1
 [Get-PASPlatformSummary]:/psPAS/Functions/Platforms/Get-PASPlatformSummary.ps1
 [Add-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider.ps1
 [Get-PASOpenIDConnectProvider]:/psPAS/Functions/Authentication/Get-PASOpenIDConnectProvider.ps1
@@ -1241,6 +1269,9 @@ Priority support could be considered for <a href="https://github.com/sponsors/ps
 
 Hat Tips:
 
+**Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg))
+for the unofficial API documentation, general API wizardry & knowledge sharing.
+
 **Jesse McWilliams**
 ([JesseMcWilliamss](https://github.com/JesseMcWilliams))
 For the infomration needed to add PKIPN authentication into `New-PASSession`
@@ -1259,9 +1290,6 @@ For the JSON formatting assistance.
 
 **Warren Frame**
 ([RamblingCookieMonster](https://github.com/RamblingCookieMonster)) for [Add-ObjectDetail.ps1](https://github.com/RamblingCookieMonster/PowerShell/blob/master/Add-ObjectDetail.ps1).
-
-**Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg))
-for the unofficial API documentation.
 
 Chapeau!
 

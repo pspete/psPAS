@@ -3,7 +3,18 @@
 ## Planned Updates / Unreleased
 
 - Continued development to encompass any new documented features of the CyberArk API.
-- psPAS v6.0...
+- psPAS v7.0...
+
+## **6.0.0**
+
+- Update & Breaking Change
+  - `New-PASSession`
+    - **All Privilege Cloud Shared Services Authentication via the CyberArk Identity Platform now depends on the pspete `IdentityCommand` module.**
+    - Adds Identity User Authentication, using the `IdentityCommand` module to satisfy Identity MFA challenges and obtain required authentication token to use against Privileged Cloud Shared Services.
+    - Adds logic to determine correct Identity tenant URL based on provided Privileged Cloud Subdomain value.
+    - Both Privileged Cloud API URL & Identity Portal URL are required to be specified if subdomain value is not provided.
+    - Service User authentication for Shared Services introduced in recent previous versions requires installation of `IdentityCommand` module and specification of additional attribute.
+    - See [the docs](https://pspas.pspete.dev/docs/authentication/#shared-services-authentication) & [New-PASSession](https://pspas.pspete.dev/commands/New-PASSession) for full details.
 
 ## **5.6.135 (July 31st 2023)**
 
