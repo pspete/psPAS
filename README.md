@@ -181,7 +181,7 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 
 #### Shared Services Authentication
 
-**Privilege Cloud Shared Services authentication flows require use of the pspete `IdentityCommand` module, available from the Powershell Gallery & GitHub.**
+**Privilege Cloud Shared Services authentication flows require the pspete `IdentityCommand` module, available from the [Powershell Gallery](https://www.powershellgallery.com/packages/IdentityCommand) & [GitHub](https://github.com/pspete/IdentityCommand).**
 
 ##### Identity User
 
