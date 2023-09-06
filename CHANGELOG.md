@@ -5,6 +5,12 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v7.0...
 
+## **6.0.4**
+
+- Updated
+  - `Add-PASSafeMember`
+    - Adds 'Role' to acceptable values in ParameterSet for `memberType` parameter
+
 ## **6.0.0**
 
 - Update & Breaking Change

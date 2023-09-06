@@ -7936,7 +7936,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           <maml:name>memberType</maml:name>
           <maml:description>
             <maml:para>The member type.</maml:para>
-            <maml:para>Accepts Values: User, Group</maml:para>
+            <maml:para>Accepts Values: User, Group, Role</maml:para>
             <maml:para>Minimum required version 12.6</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -8318,7 +8318,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
         <maml:name>memberType</maml:name>
         <maml:description>
           <maml:para>The member type.</maml:para>
-          <maml:para>Accepts Values: User, Group</maml:para>
+          <maml:para>Accepts Values: User, Group, Role</maml:para>
           <maml:para>Minimum required version 12.6</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>

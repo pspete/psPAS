@@ -617,7 +617,7 @@ Accept wildcard characters: False
 ### -memberType
 The member type.
 
-Accepts Values: User, Group
+Accepts Values: User, Group, Role
 
 Minimum required version 12.6
 
