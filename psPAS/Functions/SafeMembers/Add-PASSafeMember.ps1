@@ -192,7 +192,7 @@ function Add-PASSafeMember {
 			ParameterSetName = 'Gen2'
 		)]
 		[ValidateNotNullOrEmpty()]
-		[ValidateSet('User', 'Group')]
+		[ValidateSet('User', 'Group', 'Role')]
 
 		[string]$memberType,
 
