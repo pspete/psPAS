@@ -5,7 +5,7 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v7.0...
 
-## **6.0.X**
+## **6.0.4**
 
 - Updated
   - `Add-PASSafeMember`
