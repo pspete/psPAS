@@ -37,14 +37,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		BeforeEach {
 			Mock Invoke-PASRestMethod -MockWith {
 				[PSCustomObject]@{
-					'ServerName'            = 'Val1';
-					'ServerID'              = 'Val2';
-					'ApplicationName'       = 'AppName';
+					'ServerName'            = 'Val1'
+					'ServerID'              = 'Val2'
+					'ApplicationName'       = 'AppName'
 					'AuthenticationMethods' = 'SomeThing'
 				}
 			}
 
-			$response = Get-PASServerWebService -BaseURI 'https://SomeURL' -PVWAAppName SomeApp
+			$response = Get-PASServerWebService -BaseURI 'https://SomeURL' -PVWAAppName SomeApp -UseGen1API
 		}
 		Context 'Input' {
 
@@ -59,6 +59,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
 					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Verify"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected Gen2 endpoint' {
+
+				Get-PASServerWebService -BaseURI 'https://SomeURL' -PVWAAppName SomeApp
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/API/verify/"
 
 				} -Times 1 -Exactly -Scope It
 
