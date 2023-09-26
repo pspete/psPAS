@@ -138,7 +138,10 @@ function Add-PASPendingAccount {
 		[string]$MachineOSFamily
 	)
 
-	BEGIN { }#begin
+	BEGIN {
+		#!Depreciated above 13.2
+		Assert-VersionRequirement -MaximumVersion 13.2
+	}#begin
 
 	PROCESS {
 

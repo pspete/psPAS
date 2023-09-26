@@ -127,6 +127,9 @@ function Invoke-PASCPMOperation {
 
 			'ChangeCredentials' {
 
+				#!Depreciated above 13.2
+				Assert-VersionRequirement -MaximumVersion 13.2
+
 				#add ImmediateChangeByCPM to header as key=value pair
 				$ThisRequest['WebSession'].Headers['ImmediateChangeByCPM'] = $ImmediateChangeByCPM
 
