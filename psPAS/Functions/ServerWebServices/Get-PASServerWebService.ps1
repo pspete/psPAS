@@ -21,9 +21,8 @@ function Get-PASServerWebService {
 		[string]$PVWAAppName = 'PasswordVault',
 
 		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'VerifyCredentials'
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
 		)]
 		[Alias('UseClassicAPI')]
 		[switch]$UseGen1API
@@ -43,7 +42,7 @@ function Get-PASServerWebService {
 				#Create URL for request
 				$URI = "$BaseURI/$PVWAAppName/WebServices/PIMServices.svc/Verify"
 
-				Break
+				break
 			}
 
 			default {
