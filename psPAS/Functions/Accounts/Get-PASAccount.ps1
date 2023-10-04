@@ -280,8 +280,11 @@ function Get-PASAccount {
 
 				default {
 
+					#Get default parameters to pass to Get-NextLink
+					$DefaultParams = $PSBoundParameters | Get-PASParameter -ParametersToKeep SavedFilter, TimeoutSec
+
 					#return list
-					$return = $Result | Get-NextLink -TimeoutSec $TimeoutSec
+					$return = $Result | Get-NextLink @DefaultParams
 
 					break
 

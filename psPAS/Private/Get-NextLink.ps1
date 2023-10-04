@@ -11,6 +11,9 @@ Function Get-NextLink {
 	.PARAMETER InitialResult
 	The value of the initial result containing the `nextLink` property
 
+	.PARAMETER SavedFilter
+	A value matching a configured Saved Filters
+
 	.PARAMETER TimeoutSec
 	See Invoke-WebRequest
 	Specify a timeout value in seconds
@@ -27,6 +30,12 @@ Function Get-NextLink {
 			ValueFromPipeline = $true
 		)]
 		$InitialResult,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$SavedFilter,
 
 		[parameter(
 			Mandatory = $false,
@@ -47,9 +56,22 @@ Function Get-NextLink {
 			#iterate any nextLinks
 			$NextLink = $InitialResult.nextLink
 
+			#!SavedFilter is not inclduded in NextLink value.
+			#* Create a query parameter for SavedFilter to include in URL
+			$queryString = $PSBoundParameters | Get-PASParameter -ParametersToKeep SavedFilter | ConvertTo-QueryString
+
 			While ( $null -ne $NextLink ) {
 
 				$URI = "$Script:BaseURI/$NextLink"
+
+				#*If there is a SavedFilter querystring, append it to the URL
+				If ($null -ne $queryString) {
+
+					#Build URL from base URL/NextLink
+					$URI = "$URI`&$queryString"
+
+				}
+
 				$NextResult = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
 				$NextLink = $NextResult.nextLink
 				$null = $Result.AddRange(($NextResult.value))
