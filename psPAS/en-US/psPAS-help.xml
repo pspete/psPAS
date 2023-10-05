@@ -5288,6 +5288,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     <maml:description>
       <maml:para>Enables an account or SSH key that is discovered by an external scanner to be added as a pending account to the Accounts Feed.</maml:para>
       <maml:para>Users can identify privileged accounts and determine which are on-boarded to the vault.</maml:para>
+      <maml:para>Depreciated from version 13.2</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -11616,6 +11617,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Returns activities for a specific account identified by its AccountID.</maml:para>
+      <maml:para>Depreciated from version 13.2</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -17858,6 +17860,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Gets configuration details of logo displayed in the SafeShare WebGUI</maml:para>
+      <maml:para>Depreciated from version 13.2</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -18018,6 +18021,17 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>PasswordVault</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Force use of Gen1 API for request.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -18058,6 +18072,18 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:uri />
         </dev:type>
         <dev:defaultValue>PasswordVault</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UseClassicAPI">
+        <maml:name>UseGen1API</maml:name>
+        <maml:description>
+          <maml:para>Force use of Gen1 API for request.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -19097,6 +19123,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:description>
             <maml:para>Yes/No value, dictating if the account will be scheduled for immediate change.</maml:para>
             <maml:para>Specify Yes to initiate a password change by CPM - Relevant for Gen1 API only.</maml:para>
+            <maml:para>Depreciated from version 13.2</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -19510,6 +19537,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:description>
           <maml:para>Yes/No value, dictating if the account will be scheduled for immediate change.</maml:para>
           <maml:para>Specify Yes to initiate a password change by CPM - Relevant for Gen1 API only.</maml:para>
+          <maml:para>Depreciated from version 13.2</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -19598,6 +19626,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <dev:code>Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ImmediateChangeByCPM Yes</dev:code>
         <dev:remarks>
           <maml:para>Marks an account for immediate change using the Gen1 API</maml:para>
+          <maml:para>Depreciated from version 13.2</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>

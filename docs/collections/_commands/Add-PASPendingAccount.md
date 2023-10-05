@@ -30,6 +30,8 @@ as a pending account to the Accounts Feed.
 
 Users can identify privileged accounts and determine which are on-boarded to the vault.
 
+Depreciated from version 13.2
+
 ## EXAMPLES
 
 ### EXAMPLE 1

@@ -21,6 +21,8 @@ Get-PASAccountActivity [-AccountID] <String> [<CommonParameters>]
 ## DESCRIPTION
 Returns activities for a specific account identified by its AccountID.
 
+Depreciated from version 13.2
+
 ## EXAMPLES
 
 ### EXAMPLE 1
