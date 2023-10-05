@@ -35458,7 +35458,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:name>NumberOfDaysRetention</maml:name>
           <maml:description>
             <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>
-            <maml:para>- Minimum Value: 1</maml:para>
+            <maml:para>- Minimum Value: 0</maml:para>
             <maml:para>- Maximum Value: 3650</maml:para>
             <maml:para>Specify either this parameter or NumberOfVersionsRetention</maml:para>
           </maml:description>
@@ -35577,7 +35577,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:name>NumberOfDaysRetention</maml:name>
           <maml:description>
             <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>
-            <maml:para>- Minimum Value: 1</maml:para>
+            <maml:para>- Minimum Value: 0</maml:para>
             <maml:para>- Maximum Value: 3650</maml:para>
             <maml:para>Specify either this parameter or NumberOfVersionsRetention</maml:para>
           </maml:description>
@@ -35707,7 +35707,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <maml:name>NumberOfDaysRetention</maml:name>
         <maml:description>
           <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>
-          <maml:para>- Minimum Value: 1</maml:para>
+          <maml:para>- Minimum Value: 0</maml:para>
           <maml:para>- Maximum Value: 3650</maml:para>
           <maml:para>Specify either this parameter or NumberOfVersionsRetention</maml:para>
         </maml:description>

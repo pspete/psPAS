@@ -194,7 +194,7 @@ Accept wildcard characters: False
 ### -NumberOfDaysRetention
 The number of days for which password versions are saved in the Safe.
 
-- Minimum Value: 1
+- Minimum Value: 0
 - Maximum Value: 3650
 Specify either this parameter or NumberOfVersionsRetention
 
