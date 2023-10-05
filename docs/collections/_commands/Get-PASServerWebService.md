@@ -16,7 +16,7 @@ Returns details of the Web Service
 
 ```
 Get-PASServerWebService [[-WebSession] <WebRequestSession>] [-BaseURI] <String> [[-PVWAAppName] <String>]
- [<CommonParameters>]
+ [-UseGen1API] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -80,6 +80,21 @@ Aliases:
 Required: False
 Position: 3
 Default value: PasswordVault
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UseGen1API
+Force use of Gen1 API for request.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: UseClassicAPI
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```

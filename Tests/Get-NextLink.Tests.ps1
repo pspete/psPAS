@@ -83,6 +83,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'includes SavedFilter in request' {
+
+				$InputObj | Get-NextLink -SavedFilter SomeFilter
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:BaseURI)/SomeLink&SavedFilter=SomeFilter"
+
+				} -Times 10 -Exactly -Scope It
+			}
+
 			It 'outputs expected number of results' {
 
 				$results = $InputObj | Get-NextLink

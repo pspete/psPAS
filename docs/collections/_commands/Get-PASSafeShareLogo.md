@@ -21,6 +21,8 @@ Get-PASSafeShareLogo [-ImageType] <String> [<CommonParameters>]
 ## DESCRIPTION
 Gets configuration details of logo displayed in the SafeShare WebGUI
 
+Depreciated from version 13.2
+
 ## EXAMPLES
 
 ### EXAMPLE 1

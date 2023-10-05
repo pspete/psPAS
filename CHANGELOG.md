@@ -5,6 +5,29 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v7.0...
 
+## **6.0.18**
+
+### Added
+- N/A
+
+### Changed
+- `Set-PASSafe`
+  - Allows `0` as valid value for parameter `NumberOfDaysRetention`
+- `Get-PASServerWebService`
+  - Depreciates Gen1 endpoint from 13.2. Adds Gen2 endpoint as default.
+- `Get-PASSafeShareLogo`
+  - Depreciates command from 13.2.
+- `Invoke-PASCPMOperation`
+  - Depreciates Gen1 endpoint from 13.2.
+- `Get-PASAccountActivity`
+  - Depreciates command from 13.2.
+- `Add-PASPendingAccount`
+  - Depreciates command from 13.2.
+
+### Fixed
+- `Get-PASAccount`
+  - Resolves issue where, if number of results of a `SavedFilter` are greater than the page size (either default or set via the `limit` parameter), only the URL of the first request sent would include the SavedFilter value.
+
 ## **6.0.4**
 
 - Updated

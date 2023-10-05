@@ -75,7 +75,7 @@ function Set-PASSafe {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1-NumberOfDaysRetention'
 		)]
-		[ValidateRange(1, 3650)]
+		[ValidateRange(0, 3650)]
 		[int]$NumberOfDaysRetention,
 
 		[parameter(
