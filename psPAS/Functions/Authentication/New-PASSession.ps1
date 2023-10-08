@@ -608,7 +608,7 @@ function New-PASSession {
 
 							#Send OTP first + then Password
 							$boundParameters['password'] = $OTP
-							$OTP = $($Credential.GetNetworkCredential().Password)
+							$($Credential.GetNetworkCredential().Password) | Set-Variable -Name OTP
 
 						}
 

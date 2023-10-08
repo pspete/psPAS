@@ -5,6 +5,18 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v7.0...
 
+## [6.0.unreleased]
+
+### Added
+ - N/A
+
+ ### Updated
+ - N/A
+
+ ### Fixed
+ - Debug Trace Output
+   - Resolves condition where authentication password value might be revealed in debug trace output in a scenario where  `Set-PSDebug -Trace 2` is active in the console host.
+
 ## **6.0.18**
 
 ### Added

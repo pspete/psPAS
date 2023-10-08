@@ -81,14 +81,14 @@
 
 	PROCESS {
 
-		$OutputValue = $InputValue
+		$InputValue | Set-Variable -Name OutputValue
 
 		#Combine base parameters and any additional parameters to remove
 		($SecretsToRemove + $Secrets) |
 
 			ForEach-Object {
 
-				$OutputValue = $OutputValue -replace "(`"$_`":).+(`",?)", "`$1  `"******`$2"
+				$OutputValue -replace "(`"$_`":).+(`",?)", "`$1  `"******`$2" | Set-Variable -Name OutputValue
 
 			}
 

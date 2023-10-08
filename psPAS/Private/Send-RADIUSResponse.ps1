@@ -65,8 +65,8 @@ Function Send-RADIUSResponse {
         }
 
         #Construct Request Body with $OTP value as RADIUS response
-        $Body = $LogonRequest['Body'] | ConvertFrom-Json
-        $Body.Password = $OTP
+        $Body = $LogonRequest['Body'] | ConvertFrom-Json | Select-Object username
+        $Body | Add-Member -MemberType NoteProperty -Name 'Password' -Value $OTP -Force
         $LogonRequest['Body'] = $Body | ConvertTo-Json
 
         try {
