@@ -16,7 +16,7 @@ tags:
   - Remove-PASPublicSSHKey
 ---
 
-## **5.5.110 (March 7th 2023)
+## **5.5.110 (March 7th 2023)**
 
 ### Module update to cover all CyberArk 13.0 API features
 

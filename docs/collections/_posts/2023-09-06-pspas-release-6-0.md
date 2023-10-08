@@ -1,6 +1,6 @@
 ---
 title:  "psPAS Release 6.0"
-date:   2023-10-06 00:00:00
+date:   2023-10-08 00:00:00
 tags:
   - Release Notes
   - New-PASSession
@@ -15,6 +15,18 @@ tags:
   - Get-PASAccount
 
 ---
+
+## **6.0.21**
+
+### Added
+ - N/A
+
+ ### Updated
+ - N/A
+
+ ### Fixed
+ - Debug Trace Output
+   - Resolves condition where authentication password value might be revealed in debug trace output in a scenario where  `Set-PSDebug -Trace 2` is active in the console host.
 
 ## **6.0.18**
 
