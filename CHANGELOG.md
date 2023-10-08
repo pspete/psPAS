@@ -5,7 +5,18 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v7.0...
 
-## [6.0.unreleased]
+## [unreleased]
+
+### Added
+ - N/A
+
+ ### Updated
+ - N/A
+
+ ### Fixed
+ - N/A
+
+## **6.0.21**
 
 ### Added
  - N/A
