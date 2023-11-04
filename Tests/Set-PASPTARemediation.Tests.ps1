@@ -100,25 +100,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		Context 'Output' {
 
-			It 'provides output' {
+			It 'provides no output' {
 
-				$response | Should -Not -BeNullOrEmpty
-
-			}
-
-			It 'has output with expected number of properties' {
-
-				($response | Get-Member -MemberType NoteProperty).length | Should -Be 4
+				$response | Should -BeNullOrEmpty
 
 			}
-
-			It 'outputs object with expected typename' {
-
-				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Remediation
-
-			}
-
-
 
 		}
 
