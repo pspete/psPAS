@@ -33,6 +33,9 @@
 							<ListItem>
 								<PropertyName>additionalData</PropertyName>
 							</ListItem>
+							<ListItem>
+								<PropertyName>mStatus</PropertyName>
+							</ListItem>
 						</ListItems>
 					</ListEntry>
 				</ListEntries>
