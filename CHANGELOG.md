@@ -14,7 +14,8 @@
  - N/A
 
  ### Fixed
- - N/A
+ - `Add-PASApplication`
+   - Updates date format of `ExpirationDate` to `MM/dd/yyyy`. Resolves issue observed when sending date format of `MM-dd-yyyy`
 
 ## **6.0.21**
 
