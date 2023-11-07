@@ -11,14 +11,15 @@
  - N/A
 
  ### Updated
- - N/A
+- `Add-PASPTARule` & `Set-PASPTARule`
+  - Adds scope parameters `vaultUsersMode`, `vaultUsersList`, `machinesMode` & `machinesList`
+  - Includes scope property in output by default
 
  ### Fixed
 - `Add-PASApplication`
    - Updates date format of `ExpirationDate` to `MM/dd/yyyy`. Resolves issue observed when sending date format of `MM-dd-yyyy`
-- `Add-PASPTARule` & `Set-PASPTARule`
-  - Adds scope parameters `vaultUsersMode`, `vaultUsersList`, `machinesMode` & `machinesList`
-  - Includes scope property in output by default
+- `Set-PASPTAEvent` & `Set-PASPTARiskEvent`
+Fixes issue where websession object and auth header were not being sent with the request
 
 ## **6.0.21**
 
