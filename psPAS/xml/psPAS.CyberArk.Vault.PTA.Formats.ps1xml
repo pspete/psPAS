@@ -71,6 +71,9 @@
 							<ListItem>
 								<PropertyName>active</PropertyName>
 							</ListItem>
+							<ListItem>
+								<PropertyName>scope</PropertyName>
+							</ListItem>
 						</ListItems>
 					</ListEntry>
 				</ListEntries>

@@ -38,24 +38,27 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		BeforeEach {
 
 			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{'addsaferesult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+				[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 
 			}
 
 			$InputObj = [pscustomobject]@{
-				'category'    = 'KEYSTROKES'
-				'regex'       = '(.*)Some Pattern(.*)'
-				'score'       = 80
-				'description' = 'Some String'
-				'response'    = 'NONE'
-				'active'      = $true
+				'category'       = 'KEYSTROKES'
+				'regex'          = '(.*)Some Pattern(.*)'
+				'score'          = 80
+				'description'    = 'Some String'
+				'response'       = 'NONE'
+				'active'         = $true
+				'vaultUsersMode' = 'INCLUDE'
+				'vaultUsersList' = 'User1', 'User2'
+				'machinesMode'   = 'EXCLUDE'
+				'machinesList'   = 'Machine1'
 
 			}
 
 			$response = $InputObj | Add-PASPTARule
 
 		}
-
 
 
 		Context 'Mandatory Parameters' {
@@ -115,8 +118,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'has a request body with expected number of properties' {
 
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 6
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 7
 
+			}
+
+			It 'has a request body with expected scope properties' {
+
+				$Script:RequestBody.scope.vaultUsers.mode | Should -Be 'INCLUDE'
+				$Script:RequestBody.scope.machines.mode | Should -Be 'EXCLUDE'
+				$Script:RequestBody.scope.vaultUsers.list | Should -HaveCount 2
+				$Script:RequestBody.scope.vaultUsers.list | Should -Contain User1
+				$Script:RequestBody.scope.vaultUsers.list | Should -Contain User2
+				$Script:RequestBody.scope.machines.list | Should -HaveCount 1
+				$Script:RequestBody.scope.machines.list | Should -Contain Machine1
 			}
 
 			It 'throws error if version requirement not met' {
@@ -140,7 +154,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'has output with expected number of properties' {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should -Be 1
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
 			}
 
@@ -149,8 +163,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Rule
 
 			}
-
-
 
 		}
 
