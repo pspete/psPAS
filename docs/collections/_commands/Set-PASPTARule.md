@@ -16,7 +16,8 @@ Updates an existing Risky Activity rule to PTA
 
 ```
 Set-PASPTARule [-id] <String> [-category] <String> [-regex] <String> [-score] <Int32> [-description] <String>
- [-response] <String> [-active] <Boolean> [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-response] <String> [-active] <Boolean> [-vaultUsersMode <String>] [-vaultUsersList <String[]>]
+ [-machinesMode <String>] [-machinesList <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,6 +31,13 @@ Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 
 ```
 
 Updates rule 66 in PTA
+
+### EXAMPLE 2
+```
+Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 -description "Updated Rule" -response SUSPEND -active $true -vaultUsersList UserA,UserB,UserC -machinesMode INCLUDE Computer1,Computer2,Computer3
+```
+
+Updates rule 66 in PTA, scoped to exclude listed users, and include listed machines
 
 ## PARAMETERS
 
@@ -175,6 +183,76 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -machinesList
+List of machines to be included or excluded for detection
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -machinesMode
+Indicates whether the list of machines will be processed for Suspicious Activity detection
+Valid values:
+- INCLUDE
+  - Only machines on the list will be processed for detection
+- EXCLUDE
+  - Machines on the list will not be processed for detection
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -vaultUsersList
+List of accounts to be included or excluded for detection
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -vaultUsersMode
+Indicates whether the list of accounts will be processed for Suspicious Activity detection
+Valid values:
+- INCLUDE
+  - Only accounts on the list will be processed for detection
+- EXCLUDE
+  - Accounts on the list will not be processed for detection
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
