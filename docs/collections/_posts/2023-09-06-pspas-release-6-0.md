@@ -18,7 +18,6 @@ tags:
   - Add-PASApplication
   - Set-PASPTAEvent
   - Set-PASPTARiskEvent
-
 ---
 
 ## **6.0.30**

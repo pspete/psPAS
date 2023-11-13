@@ -17,7 +17,7 @@ tags:
   - New-PASSession
 ---
 
-## **5.6.135 (July ?? 2023)**
+## **5.6.135 (July 31st 2023)**
 
 ### Module update to cover all CyberArk 13.2 API features
 
