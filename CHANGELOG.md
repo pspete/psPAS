@@ -5,7 +5,7 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v7.0...
 
-## [unreleased]
+## **6.0.30**
 
 ### Added
  - N/A
@@ -19,7 +19,7 @@
 - `Add-PASApplication`
    - Updates date format of `ExpirationDate` to `MM/dd/yyyy`. Resolves issue observed when sending date format of `MM-dd-yyyy`
 - `Set-PASPTAEvent` & `Set-PASPTARiskEvent`
-Fixes issue where websession object and auth header were not being sent with the request
+  - Fixes issue where websession object and auth header were not being sent with the request
 
 ## **6.0.21**
 

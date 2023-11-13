@@ -1,6 +1,6 @@
 ---
 title:  "psPAS Release 6.0"
-date:   2023-10-08 00:00:00
+date:   2023-11-14 00:00:00
 tags:
   - Release Notes
   - New-PASSession
@@ -13,8 +13,29 @@ tags:
   - Get-PASAccountActivity
   - Add-PASPendingAccount
   - Get-PASAccount
+  - Add-PASPTARule
+  - Set-PASPTARule
+  - Add-PASApplication
+  - Set-PASPTAEvent
+  - Set-PASPTARiskEvent
 
 ---
+
+## **6.0.30**
+
+### Added
+ - N/A
+
+ ### Updated
+- `Add-PASPTARule` & `Set-PASPTARule`
+  - Adds scope parameters `vaultUsersMode`, `vaultUsersList`, `machinesMode` & `machinesList`
+  - Includes scope property in output by default
+
+ ### Fixed
+- `Add-PASApplication`
+   - Updates date format of `ExpirationDate` to `MM/dd/yyyy`. Resolves issue observed when sending date format of `MM-dd-yyyy`
+- `Set-PASPTAEvent` & `Set-PASPTARiskEvent`
+  - Fixes issue where websession object and auth header were not being sent with the request
 
 ## **6.0.21**
 
