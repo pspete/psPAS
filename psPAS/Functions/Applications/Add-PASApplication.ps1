@@ -91,7 +91,7 @@ function Add-PASApplication {
 		If ($PSBoundParameters.ContainsKey('ExpirationDate')) {
 
 			#Convert ExpiryDate to string in Required format
-			$Date = (Get-Date $ExpirationDate -Format MM-dd-yyyy).ToString()
+			$Date = (Get-Date $ExpirationDate -Format MM/dd/yyyy).ToString()
 
 			#Include date string in request
 			$boundParameters['ExpirationDate'] = $Date

@@ -6454,6 +6454,54 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>machinesList</maml:name>
+          <maml:description>
+            <maml:para>List of machines to be included or excluded for detection</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>machinesMode</maml:name>
+          <maml:description>
+            <maml:para>Indicates whether the list of machines will be processed for Suspicious Activity detection Valid values: - INCLUDE   - Only machines on the list will be processed for detection - EXCLUDE   - Machines on the list will not be processed for detection</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>vaultUsersList</maml:name>
+          <maml:description>
+            <maml:para>List of accounts to be included or excluded for detection</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>vaultUsersMode</maml:name>
+          <maml:description>
+            <maml:para>Indicates whether the list of accounts will be processed for Suspicious Activity detection Valid values: - INCLUDE   - Only accounts on the list will be processed for detection - EXCLUDE   - Accounts on the list will not be processed for detection</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -6534,6 +6582,54 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>machinesList</maml:name>
+        <maml:description>
+          <maml:para>List of machines to be included or excluded for detection</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>machinesMode</maml:name>
+        <maml:description>
+          <maml:para>Indicates whether the list of machines will be processed for Suspicious Activity detection Valid values: - INCLUDE   - Only machines on the list will be processed for detection - EXCLUDE   - Machines on the list will not be processed for detection</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>vaultUsersList</maml:name>
+        <maml:description>
+          <maml:para>List of accounts to be included or excluded for detection</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>vaultUsersMode</maml:name>
+        <maml:description>
+          <maml:para>Indicates whether the list of accounts will be processed for Suspicious Activity detection Valid values: - INCLUDE   - Only accounts on the list will be processed for detection - EXCLUDE   - Accounts on the list will not be processed for detection</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -6547,7 +6643,14 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Add-PASPTARule -category KEYSTROKES -regex '(*.)risky command(.*)' -score 60 -description "Example Rule" -response NONE -active $true</dev:code>
         <dev:remarks>
-          <maml:para>Adds a new rule to PTA</maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Add-PASPTARule -category KEYSTROKES -regex '(*.)risky command(.*)' -score 60 -description "Example Rule" -response NONE -active $true -vaultUsersMode EXCLUDE -vaultUsersList UserA,UserB,UserC -machinesMode INCLUDE Computer1,Computer2,Computer3</dev:code>
+        <dev:remarks>
+          <maml:para>Adds a new rule to PTA, scoped to exclude listed users, and include listed machines</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -29455,8 +29558,8 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Deletes a user group.</maml:para>
-      <maml:para>To delete a user group, the following authorizations are required: - Add/Update Users</maml:para>
+      <maml:para>Deletes a vault group.</maml:para>
+      <maml:para>To delete a vault group, the following authorizations are required: - Add/Update Users</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -29464,7 +29567,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>GroupID</maml:name>
           <maml:description>
-            <maml:para>The unique ID of the group to delete.</maml:para>
+            <maml:para>The unique ID of the vault group to delete.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -29501,7 +29604,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>GroupID</maml:name>
         <maml:description>
-          <maml:para>The unique ID of the group to delete.</maml:para>
+          <maml:para>The unique ID of the vault group to delete.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -29545,9 +29648,9 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Delete-PASGroup -GroupID 3</dev:code>
+        <dev:code>Remove-PASGroup -GroupID 3</dev:code>
         <dev:remarks>
-          <maml:para>Deletes Group with ID of 3</maml:para>
+          <maml:para>Deletes vault group with ID of 3</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -34999,6 +35102,54 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>machinesList</maml:name>
+          <maml:description>
+            <maml:para>List of machines to be included or excluded for detection</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>machinesMode</maml:name>
+          <maml:description>
+            <maml:para>Indicates whether the list of machines will be processed for Suspicious Activity detection Valid values: - INCLUDE   - Only machines on the list will be processed for detection - EXCLUDE   - Machines on the list will not be processed for detection</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>vaultUsersList</maml:name>
+          <maml:description>
+            <maml:para>List of accounts to be included or excluded for detection</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>vaultUsersMode</maml:name>
+          <maml:description>
+            <maml:para>Indicates whether the list of accounts will be processed for Suspicious Activity detection Valid values: - INCLUDE   - Only accounts on the list will be processed for detection - EXCLUDE   - Accounts on the list will not be processed for detection</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -35114,6 +35265,54 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>machinesList</maml:name>
+        <maml:description>
+          <maml:para>List of machines to be included or excluded for detection</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>machinesMode</maml:name>
+        <maml:description>
+          <maml:para>Indicates whether the list of machines will be processed for Suspicious Activity detection Valid values: - INCLUDE   - Only machines on the list will be processed for detection - EXCLUDE   - Machines on the list will not be processed for detection</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>vaultUsersList</maml:name>
+        <maml:description>
+          <maml:para>List of accounts to be included or excluded for detection</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>vaultUsersMode</maml:name>
+        <maml:description>
+          <maml:para>Indicates whether the list of accounts will be processed for Suspicious Activity detection Valid values: - INCLUDE   - Only accounts on the list will be processed for detection - EXCLUDE   - Accounts on the list will not be processed for detection</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -35128,6 +35327,13 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <dev:code>Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 -description "Updated Rule" -response SUSPEND -active $true</dev:code>
         <dev:remarks>
           <maml:para>Updates rule 66 in PTA</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 -description "Updated Rule" -response SUSPEND -active $true -vaultUsersList UserA,UserB,UserC -machinesMode INCLUDE Computer1,Computer2,Computer3</dev:code>
+        <dev:remarks>
+          <maml:para>Updates rule 66 in PTA, scoped to exclude listed users, and include listed machines</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

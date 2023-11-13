@@ -19,24 +19,24 @@ Remove-PASGroup [-GroupID] <Int32> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Deletes a user group.
+Deletes a vault group.
 
-To delete a user group, the following authorizations are required:
+To delete a vault group, the following authorizations are required:
 - Add/Update Users
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Delete-PASGroup -GroupID 3
+Remove-PASGroup -GroupID 3
 ```
 
-Deletes Group with ID of 3
+Deletes vault group with ID of 3
 
 ## PARAMETERS
 
 ### -GroupID
-The unique ID of the group to delete.
+The unique ID of the vault group to delete.
 
 ```yaml
 Type: Int32

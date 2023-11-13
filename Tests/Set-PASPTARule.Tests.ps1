@@ -41,13 +41,17 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			$InputObj = [pscustomobject]@{
-				'id'          = 99
-				'category'    = 'KEYSTROKES'
-				'regex'       = '(.*)Some Pattern(.*)'
-				'score'       = 80
-				'description' = 'Some String'
-				'response'    = 'NONE'
-				'active'      = $true
+				'id'             = 99
+				'category'       = 'KEYSTROKES'
+				'regex'          = '(.*)Some Pattern(.*)'
+				'score'          = 80
+				'description'    = 'Some String'
+				'response'       = 'NONE'
+				'active'         = $true
+				'vaultUsersMode' = 'INCLUDE'
+				'vaultUsersList' = 'User1', 'User2'
+				'machinesMode'   = 'EXCLUDE'
+				'machinesList'   = 'Machine1'
 
 			}
 
@@ -114,8 +118,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'has a request body with expected number of properties' {
 
-				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 7
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 8
 
+			}
+
+			It 'has a request body with expected scope properties' {
+
+				$Script:RequestBody.scope.vaultUsers.mode | Should -Be 'INCLUDE'
+				$Script:RequestBody.scope.machines.mode | Should -Be 'EXCLUDE'
+				$Script:RequestBody.scope.vaultUsers.list | Should -HaveCount 2
+				$Script:RequestBody.scope.vaultUsers.list | Should -Contain User1
+				$Script:RequestBody.scope.vaultUsers.list | Should -Contain User2
+				$Script:RequestBody.scope.machines.list | Should -HaveCount 1
+				$Script:RequestBody.scope.machines.list | Should -Contain Machine1
 			}
 
 			It 'throws error if version requirement not met' {

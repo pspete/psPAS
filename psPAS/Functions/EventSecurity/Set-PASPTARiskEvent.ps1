@@ -27,12 +27,12 @@ Function Set-PASPTARiskEvent {
         $URI = "$Script:BaseURI/API/pta/API/Risks/RiskEvents/$EventID"
 
         #Get Parameters to include in request
-        $body = $PSBoundParameters | Get-PASParameter -ParametersToRemove EventID | ConvertTo-Json
+        $Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove EventID | ConvertTo-Json
 
         if ($PSCmdlet.ShouldProcess($EventID, 'Update Event Status')) {
 
             #Send request to web service
-            $result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $body
+            $result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $Script:WebSession
 
         }
 
