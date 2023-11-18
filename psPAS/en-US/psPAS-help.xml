@@ -11720,7 +11720,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Returns activities for a specific account identified by its AccountID.</maml:para>
-      <maml:para>Depreciated from version 13.2</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -11737,6 +11736,18 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Specify to force use of the Gen1 API</maml:para>
+            <maml:para>Gen1 API is Depreciated from version 13.2</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -11752,6 +11763,19 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="UseClassicAPI">
+        <maml:name>UseGen1API</maml:name>
+        <maml:description>
+          <maml:para>Specify to force use of the Gen1 API</maml:para>
+          <maml:para>Gen1 API is Depreciated from version 13.2</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -11766,6 +11790,13 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASAccount -Keywords root -Safe UNIXSafe | Get-PASAccountActivity</dev:code>
         <dev:remarks>
           <maml:para>Will return the account activity for the account output by Get-PASAccount</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Get-PASAccountActivity -id 123_4 -useGen1API</dev:code>
+        <dev:remarks>
+          <maml:para>Will return the account activity for the account using the Gen1 API</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

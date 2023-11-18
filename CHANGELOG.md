@@ -5,6 +5,19 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v7.0...
 
+## [Unreleased]
+
+### Added
+- N/A
+
+ ### Updated
+- `Get-PASAccountActivity`
+  - Adds Gen2 replacement for deprecated Gen1 API.
+  - Updates default operation to target Gen2 API.
+
+ ### Fixed
+- N/A
+
 ## **6.0.30**
 
 ### Added
