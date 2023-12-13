@@ -240,16 +240,19 @@
 
 				If ($null -ne $($ResponseException)) {
 
-					try {
+					$ErrorMessage = $ResponseException
+					$ErrorID = $null
+					$ThisException = $ResponseException | ConvertFrom-Json -ErrorAction SilentlyContinue
 
-						$ThisException = $ResponseException | ConvertFrom-Json -ErrorAction Stop
-						$ErrorMessage = $ThisException | Select-Object -ExpandProperty error_description -ErrorAction Stop
-						$ErrorID = $($ThisException | Select-Object -ExpandProperty error -ErrorAction Stop)
+					switch ($ThisException) {
 
-					} catch {
+						{ $null -ne $PSItem.error_description } {
+							$ErrorMessage = $ThisException | Select-Object -ExpandProperty error_description
+						}
 
-						$ErrorMessage = $ResponseException
-						$ErrorID = $null
+						{ $null -ne $PSItem.error } {
+							$ErrorMessage = $ThisException | Select-Object -ExpandProperty error
+						}
 
 					}
 
