@@ -251,7 +251,7 @@
 						}
 
 						{ $null -ne $PSItem.error } {
-							$ErrorMessage = $ThisException | Select-Object -ExpandProperty error
+							$ErrorID = $ThisException | Select-Object -ExpandProperty error
 						}
 
 					}
