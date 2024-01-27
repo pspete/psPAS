@@ -7,6 +7,8 @@
 
 ## [Unreleased]
 
+### Module update to cover all CyberArk 14.0 API features
+
 ### Added
 - N/A
 
