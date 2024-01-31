@@ -66,7 +66,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
 
             It 'uses expected date filter - date range' {
-                Get-PASPTARiskEvent -FromTime (Get-Date -Year 1979 -Month 11 -Day 12 -Hour 0 -Minute 0 -Second 0) -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0)
+                Get-PASPTARiskEvent -FromTime (Get-Date -Year 1979 -Month 11 -Day 12 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
                 #311212800000 1674345600000
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
                     $URI -eq "$($Script:BaseURI)/API/pta/API/Risks/RisksEvents/?filter=detectionTime%20BETWEEN%20%22311212800000%22%20TO%20%221674345600000%22"
@@ -76,7 +76,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
 
             It 'uses expected date filter - before date' {
-                Get-PASPTARiskEvent -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0) #1674345600000
+                Get-PASPTARiskEvent -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) #1674345600000
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
                     $URI -eq "$($Script:BaseURI)/API/pta/API/Risks/RisksEvents/?filter=detectionTime%20lte%20%221674345600000%22"
 
@@ -84,7 +84,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
 
             It 'uses expected date filter - after date' {
-                Get-PASPTARiskEvent -FromTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0) #1674345600000
+                Get-PASPTARiskEvent -FromTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) #1674345600000
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
                     $URI -eq "$($Script:BaseURI)/API/pta/API/Risks/RisksEvents/?filter=detectionTime%20gte%20%221674345600000%22"
 
