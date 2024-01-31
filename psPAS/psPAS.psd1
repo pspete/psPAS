@@ -16,7 +16,7 @@
 	# CompanyName       = ''
 
 	# Copyright statement for this module
-	Copyright         = '(c) 2017-2023 Pete Maan. All rights reserved.'
+	Copyright         = '(c) 2017-2024 Pete Maan. All rights reserved.'
 
 	# Description of the functionality provided by this module
 	Description       = 'Module for CyberArk Privileged Access Security Web Service REST API'
@@ -230,7 +230,19 @@
 		'Get-PASPTARiskEvent',
 		'Set-PASPTARiskEvent',
 		'Get-PASPTARiskSummary',
-		'Get-PASUserTypeInfo'
+		'Get-PASUserTypeInfo',
+		'Get-PASPTAPrivilegedUser',
+		'Get-PASPTAPrivilegedGroup',
+		'Remove-PASPTAPrivilegedUser',
+		'Remove-PASPTAPrivilegedGroup',
+		'Add-PASPTAPrivilegedUser',
+		'Add-PASPTAPrivilegedGroup',
+		'Get-PASPTAIncludedTarget',
+		'Get-PASPTAExcludedTarget',
+		'Add-PASPTAIncludedTarget',
+		'Add-PASPTAExcludedTarget',
+		'Remove-PASPTAIncludedTarget',
+		'Remove-PASPTAExcludedTarget'
 	)
 
 	#AliasesToExport   = @()

@@ -118,6 +118,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Script:ExternalVersion = '0.0'
 			}
 
+			It 'throws error if version requirement not met' {
+				$Script:ExternalVersion = '13.9'
+				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes, BackupAllSafes -VaultGroups 'Group1', 'Group2' -UserActivityLogPeriod 10 -UsedQuota 10 } | Should -Throw
+				$Script:ExternalVersion = '0.0'
+			}
+
 		}
 
 	}

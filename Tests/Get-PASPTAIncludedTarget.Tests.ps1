@@ -35,47 +35,46 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
     InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-        Context 'Input' {
-
-            BeforeEach {
-
-                Mock Invoke-PASRestMethod -MockWith {
-                    [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+        BeforeEach {
+            Mock Invoke-PASRestMethod -MockWith {
+                [PSCustomObject]@{
+                    'propertykey' = 'CidrInclusionList'
+                    'categorykey' = 'MonitoredTargets'
+                    'actualValue' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
                 }
-
-                $Script:BaseURI = 'https://SomeURL/SomeApp'
-                $Script:ExternalVersion = '0.0'
-                $Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-
             }
 
+            $response = Get-PASPTAIncludedTarget
+        }
+        Context 'Input' {
+
             It 'sends request' {
-                Set-PASPTARiskEvent -ID 1234 -Status CLOSED
+
                 Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request to expected endpoint' {
-                Set-PASPTARiskEvent -ID 1234 -Status CLOSED
+
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -match "$($Script:BaseURI)/api/pta/API/Risks/RisksEvents/1234"
+                    $URI -eq "$($Script:BaseURI)/API/pta/API/administration"
 
                 } -Times 1 -Exactly -Scope It
 
             }
 
             It 'uses expected method' {
-                Set-PASPTARiskEvent -ID 1234 -Status CLOSED
-                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PATCH' } -Times 1 -Exactly -Scope It
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
             }
 
-            It 'sends request with expected body' {
-                Set-PASPTARiskEvent -ID 1234 -Status CLOSED
+            It 'sends request with no body' {
+
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $Body -ne $null
+                    $Body -eq $null
 
                 } -Times 1 -Exactly -Scope It
 
@@ -83,17 +82,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'throws error if version requirement not met' {
                 $Script:ExternalVersion = '1.0'
-                { Set-PASPTARiskEvent -ID 1234 -Status CLOSED } | Should -Throw
+                { Get-PASPTAIncludedTarget } | Should -Throw
                 $Script:ExternalVersion = '0.0'
             }
 
         }
 
         Context 'Output' {
+
             BeforeEach {
 
                 Mock Invoke-PASRestMethod -MockWith {
-                    [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val2'; 'Prop4' = 'Val2'; 'Prop5' = 'Val2' }
+                    [PSCustomObject]@{
+                        'propertykey' = 'CidrInclusionList'
+                        'categorykey' = 'MonitoredTargets'
+                        'actualValue' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+                    }
                 }
 
                 $Script:BaseURI = 'https://SomeURL/SomeApp'
@@ -103,23 +107,21 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
             It 'provides output' {
 
-                Set-PASPTARiskEvent -ID 1234 -Status CLOSED | Should -Not -BeNullOrEmpty
+                Get-PASPTAIncludedTarget | Should -Not -BeNullOrEmpty
 
             }
 
             It 'has output with expected number of properties' {
 
-				(Set-PASPTARiskEvent -ID 1234 -Status CLOSED | Get-Member -MemberType NoteProperty).length | Should -Be 5
+				(Get-PASPTAIncludedTarget | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
             }
 
             It 'outputs object with expected typename' {
 
-                Set-PASPTARiskEvent -ID 1234 -Status CLOSED | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Event.Risk
+                Get-PASPTAIncludedTarget | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.MonitoredTarget
 
             }
-
-
 
         }
 

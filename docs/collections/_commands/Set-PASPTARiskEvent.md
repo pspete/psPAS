@@ -12,8 +12,15 @@ Update PTA Risk Events
 
 ## SYNTAX
 
+### 13.2 (Default)
 ```
-Set-PASPTARiskEvent [-EventID] <String> [-Status] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-PASPTARiskEvent -ID <String> [-status] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### 14.0
+```
+Set-PASPTARiskEvent -ID <String> [-status] <String> [-closeReason <String>] [-reasonText <String>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,36 +38,6 @@ Set-PASPTARiskEvent -EventID 123 -Status CLOSED
 Close PTA Risk Event with id 1234
 
 ## PARAMETERS
-
-### -EventID
-The ID of the risk event
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -Status
-The status to update on the risk event
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 2
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
 
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
@@ -90,6 +67,75 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -closeReason
+The close reason for the risk event
+Valid Values:
+- HANDLED
+- NOTREAL
+- OTHER
+- NONE
+
+Requires version 14.0
+
+```yaml
+Type: String
+Parameter Sets: 14.0
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ID
+The ID of the PTA Risk Event
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -reasonText
+Free text close reason
+
+Requires version 14.0
+
+```yaml
+Type: String
+Parameter Sets: 14.0
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -status
+The status to update on the risk event
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

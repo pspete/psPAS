@@ -158,3 +158,6 @@ Minimum CyberArk version 11.6 (Unlock Account)
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Checkin-account.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Checkin-account.htm)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/pas/Latest/en/Content/PASIMP/AutoUnlockinPSM.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/pas/Latest/en/Content/PASIMP/AutoUnlockinPSM.htm)
+
+[https://docs.cyberark.com/PAS/Latest/en/Content/SDK/Unlock-account.htm](https://docs.cyberark.com/PAS/Latest/en/Content/SDK/Unlock-account.htm)
+
