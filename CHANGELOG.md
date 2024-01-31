@@ -10,7 +10,30 @@
 ### Module update to cover all CyberArk 14.0 API features
 
 ### Added
-- N/A
+- `Add-PASPTAExcludedTarget`
+  - New command, supported from 14.0
+- `Add-PASPTAIncludedTarget`
+  - New command, supported from 14.0
+- `Add-PASPTAPrivilegedGroup`
+  - New command, supported from 14.0
+- `Add-PASPTAPrivilegedUser`
+  - New command, supported from 14.0
+- `Get-PASPTAExcludedTarget`
+  - New command, supported from 14.0
+- `Get-PASPTAIncludedTarget`
+  - New command, supported from 14.0
+- `Get-PASPTAPrivilegedGroup`
+  - New command, supported from 14.0
+- `Get-PASPTAPrivilegedUser`
+  - New command, supported from 14.0
+- `Remove-PASPTAExcludedTarget`
+  - New command, supported from 14.0
+- `Remove-PASPTAIncludedTarget`
+  - New command, supported from 14.0
+- `Remove-PASPTAPrivilegedGroup`
+  - New command, supported from 14.0
+- `Remove-PASPTAPrivilegedUser`
+  - New command, supported from 14.0
 
 ### Updated
 - N/A
