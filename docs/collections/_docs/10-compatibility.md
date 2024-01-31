@@ -181,11 +181,35 @@ If version requirement criteria are not met, operations may be prevented.
 [`Get-PASPTAGlobalCatalog`][Get-PASPTAGlobalCatalog]                                     |**13.0**                                            |Get Global Catalog connectivity details for PTA.
 [`Add-PASPTAGlobalCatalog`][Add-PASPTAGlobalCatalog]                                     |**13.0**                                            |Add Global Catalog connectivity details to PTA.
 [`Get-PASUserTypeInfo`][Get-PASUserTypeInfo]                                             |**13.2**                                            |Get User Type Info
-[`Get-PASPTARiskEvent`][Get-PASPTARiskEvent]                                             |**13.2**                                            |Get PTA Risk Events
-[`Set-PASPTARiskEvent`][Set-PASPTARiskEvent]                                             |**13.2**                                            |Update PTA Risk Events
+[`Get-PASPTARiskEvent`][Get-PASPTARiskEvent]                                             |**13.2** ([Notes](#get-pasptariskevent))            |Get PTA Risk Events
+[`Set-PASPTARiskEvent`][Set-PASPTARiskEvent]                                             |**13.2** ([Notes](#set-pasptariskevent))            |Update PTA Risk Events
 [`Get-PASPTARiskSummary`][Get-PASPTARiskSummary]                                         |**13.2**                                            |Get PTA Risk Summary
 [`New-PASRequestObject`][New-PASRequestObject]                                           |**---**                                             |Format an object to include in an request list
+[`Add-PASPTAExcludedTarget`][Add-PASPTAExcludedTarget]                                   |**14.0**                                             |Excludes a PTA Monitored Target
+[`Add-PASPTAIncludedTarget`][Add-PASPTAIncludedTarget]                                   |**14.0**                                             |Includes a PTA Monitored Target
+[`Add-PASPTAPrivilegedGroup`][Add-PASPTAPrivilegedGroup]                                 |**14.0**                                             |Configures a PTA Privileged Group
+[`Add-PASPTAPrivilegedUser`][Add-PASPTAPrivilegedUser]                                   |**14.0**                                             |Configures a PTA Privileged User
+[`Get-PASPTAExcludedTarget`][Get-PASPTAExcludedTarget]                                   |**14.0**                                             |Get PTA Excluded Target
+[`Get-PASPTAIncludedTarget`][Get-PASPTAIncludedTarget]                                   |**14.0**                                             |Get PTA Included target
+[`Get-PASPTAPrivilegedGroup`][Get-PASPTAPrivilegedGroup]                                 |**14.0**                                             |Get PTA Privileged Group
+[`Get-PASPTAPrivilegedUser`][Get-PASPTAPrivilegedUser]                                   |**14.0**                                             |Get PTA Privileged User
+[`Remove-PASPTAExcludedTarget`][Remove-PASPTAExcludedTarget]                             |**14.0**                                             |Remove PTA Excluded Target
+[`Remove-PASPTAIncludedTarget`][Remove-PASPTAIncludedTarget]                             |**14.0**                                             |Remove PTA Included Target
+[`Remove-PASPTAPrivilegedGroup`][Remove-PASPTAPrivilegedGroup]                           |**14.0**                                             |Remove PTA Privileged Group
+[`Remove-PASPTAPrivilegedUser`][Remove-PASPTAPrivilegedUser]                             |**14.0**                                             |Remove PTA Privileged User
 
+[Add-PASPTAExcludedTarget]:/commands/Add-PASPTAExcludedTarget
+[Add-PASPTAIncludedTarget]:/commands/Add-PASPTAIncludedTarget
+[Add-PASPTAPrivilegedGroup]:/commands/Add-PASPTAPrivilegedGroup
+[Add-PASPTAPrivilegedUser]:/commands/Add-PASPTAPrivilegedUser
+[Get-PASPTAExcludedTarget]:/commands/Get-PASPTAExcludedTarget
+[Get-PASPTAIncludedTarget]:/commands/Get-PASPTAIncludedTarget
+[Get-PASPTAPrivilegedGroup]:/commands/Get-PASPTAPrivilegedGroup
+[Get-PASPTAPrivilegedUser]:/commands/Get-PASPTAPrivilegedUser
+[Remove-PASPTAExcludedTarget]:/commands/Remove-PASPTAExcludedTarget
+[Remove-PASPTAIncludedTarget]:/commands/Remove-PASPTAIncludedTarget
+[Remove-PASPTAPrivilegedGroup]:/commands/Remove-PASPTAPrivilegedGroup
+[Remove-PASPTAPrivilegedUser]:/commands/Remove-PASPTAPrivilegedUser
 [New-PASRequestObject]:/commands/New-PASRequestObject
 [Get-PASUserTypeInfo]:/commands/Get-PASUserTypeInfo
 [Get-PASPTARiskEvent]:/commands/Get-PASPTARiskEvent
@@ -527,11 +551,23 @@ If version requirement criteria are not met, operations may be prevented.
   - Supports:
     - `UserActivityLogPeriod`.
 
+- Version 14.0 introduced new API parameters.
+  - Supports:
+    - `UsedQuota`
+    - `AuthorizedInterfaces`
+    - `EnableENEWhenDisconnected`
+
 ### Set-PASDirectoryMapping
 
 - Version 10.10 introduced a new API endpoint.
   - Supports:
     - `UserActivityLogPeriod`.
+
+- Version 14.0 introduced new API parameters.
+  - Supports:
+    - `UsedQuota`
+    - `AuthorizedInterfaces`
+    - `EnableENEWhenDisconnected`
 
 ### Add-PASDiscoveredAccount
 
@@ -632,4 +668,16 @@ If version requirement criteria are not met, operations may be prevented.
 
 ### Unlock-PASAccount
 
-- Unlock (not check-in) assumed to work from 11.6
+- Unlock (not check-in) assumed to work from 11.6 (officially supported from 14.0)
+
+### Get-PASPTARiskEvent
+
+- Version 14 introduced new filter parameters
+  - `FromTime`
+  - `ToTime`
+
+### Set-PASPTARiskEvent
+
+- Version 14 introduced new parameters
+  - `closeReason`
+  - `reasonText`

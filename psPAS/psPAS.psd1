@@ -230,7 +230,19 @@
 		'Get-PASPTARiskEvent',
 		'Set-PASPTARiskEvent',
 		'Get-PASPTARiskSummary',
-		'Get-PASUserTypeInfo'
+		'Get-PASUserTypeInfo',
+		'Get-PASPTAPrivilegedUser',
+		'Get-PASPTAPrivilegedGroup',
+		'Remove-PASPTAPrivilegedUser',
+		'Remove-PASPTAPrivilegedGroup',
+		'Add-PASPTAPrivilegedUser',
+		'Add-PASPTAPrivilegedGroup',
+		'Get-PASPTAIncludedTarget',
+		'Get-PASPTAExcludedTarget',
+		'Add-PASPTAIncludedTarget',
+		'Add-PASPTAExcludedTarget',
+		'Remove-PASPTAIncludedTarget',
+		'Remove-PASPTAExcludedTarget'
 	)
 
 	#AliasesToExport   = @()

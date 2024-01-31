@@ -56,7 +56,27 @@ function New-PASDirectoryMapping {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateRange(1, 3650)]
-		[int]$UserActivityLogPeriod
+		[int]$UserActivityLogPeriod,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[int]$UsedQuota,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
+			'EVD', 'PIMSu', 'AIMApp', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
+		[string[]]$AuthorizedInterfaces,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[boolean]$EnableENEWhenDisconnected
 
 	)
 
@@ -92,6 +112,14 @@ function New-PASDirectoryMapping {
 
 				#v10.7
 				Assert-VersionRequirement -RequiredVersion 10.7
+				Continue
+
+			}
+
+			{ $_ -match 'UsedQuota|AuthorizedInterfaces|EnableENEWhenDisconnected' } {
+
+				#v10.7
+				Assert-VersionRequirement -RequiredVersion 14.0
 				Continue
 
 			}
