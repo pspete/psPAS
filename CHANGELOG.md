@@ -51,7 +51,8 @@
   - New parameters `UsedQuota`, `AuthorizedInterfaces` & `EnableENEWhenDisconnected`
 
  ### Fixed
-- N/A
+- `Invoke-PASRestMethod`
+  - Avoids potential error condition when handling errors in ISPSS environments
 
 ## **6.0.30**
 
