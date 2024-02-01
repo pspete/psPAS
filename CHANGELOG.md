@@ -34,6 +34,8 @@
   - New command, supported from 14.0
 - `Remove-PASPTAPrivilegedUser`
   - New command, supported from 14.0
+- `Get-PASLinkedGroup`
+  - New experimental command based on undocumented API.
 
 ### Updated
 - N/A
