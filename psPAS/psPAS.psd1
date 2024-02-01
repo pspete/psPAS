@@ -242,7 +242,8 @@
 		'Add-PASPTAIncludedTarget',
 		'Add-PASPTAExcludedTarget',
 		'Remove-PASPTAIncludedTarget',
-		'Remove-PASPTAExcludedTarget'
+		'Remove-PASPTAExcludedTarget',
+		'Get-PASLinkedGroup'
 	)
 
 	#AliasesToExport   = @()

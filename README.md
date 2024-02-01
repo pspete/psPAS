@@ -965,6 +965,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Disable-PASUser`][Disable-PASUser]                                                     |**12.6**            |Disable CyberArk Users
 [`Publish-PASDiscoveredAccount`][Publish-PASDiscoveredAccount]                           |**12.6**            |Onboard Discovered Accounts
 [`Get-PASLinkedAccount`][Get-PASLinkedAccount]                                           |**12.2**            |Get details of linked accounts
+[`Get-PASLinkedGroup`][Get-PASLinkedGroup]                                               |**12.2**            |Get details of linked groups
 [`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                             |**12.6**            |Add Personal Admin Account (Privilege Cloud Only).
 [`Get-PASPTAGlobalCatalog`][Get-PASPTAGlobalCatalog]                                     |**13.0**            |Get Global Catalog connectivity details for PTA.
 [`Add-PASPTAGlobalCatalog`][Add-PASPTAGlobalCatalog]                                     |**13.0**            |Add Global Catalog connectivity details to PTA.
@@ -1008,6 +1009,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [Disable-PASUser]:/psPAS/Functions/User/Disable-PASUser.ps1
 [Enable-PASUser]:/psPAS/Functions/User/Enable-PASUser.ps1
 [Get-PASLinkedAccount]:/psPAS/Functions/Accounts/Get-PASLinkedAccount.ps1
+[Get-PASLinkedGroup]:/psPAS/Functions/Accounts/Get-PASLinkedGroup.ps1
 [Add-PASPersonalAdminAccount]:/psPAS/Functions/Accounts/Add-PASPersonalAdminAccount.ps1
 [Publish-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Publish-PASDiscoveredAccount.ps1
 [Get-PASPlatformSummary]:/psPAS/Functions/Platforms/Get-PASPlatformSummary.ps1
