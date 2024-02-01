@@ -40,7 +40,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             BeforeEach {
 
                 Mock Invoke-PASRestMethod -MockWith {
-                    [PSCustomObject]@{'addsaferesult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+
                 }
 
                 $Script:BaseURI = 'https://SomeURL/SomeApp'
@@ -63,6 +63,32 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 } -Times 1 -Exactly -Scope It
 
+            }
+
+            It 'uses expected date filter - date range' {
+                Get-PASPTARiskEvent -FromTime (Get-Date -Year 1979 -Month 11 -Day 12 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
+                #311212800000 1674345600000
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+                    $URI -eq "$($Script:BaseURI)/API/pta/API/Risks/RisksEvents/?filter=detectionTime%20BETWEEN%20%22311212800000%22%20TO%20%221674345600000%22"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'uses expected date filter - before date' {
+                Get-PASPTARiskEvent -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) #1674345600000
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+                    $URI -eq "$($Script:BaseURI)/API/pta/API/Risks/RisksEvents/?filter=detectionTime%20lte%20%221674345600000%22"
+
+                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'uses expected date filter - after date' {
+                Get-PASPTARiskEvent -FromTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) #1674345600000
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+                    $URI -eq "$($Script:BaseURI)/API/pta/API/Risks/RisksEvents/?filter=detectionTime%20gte%20%221674345600000%22"
+
+                } -Times 1 -Exactly -Scope It
             }
 
             It 'uses expected method' {
@@ -93,7 +119,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             BeforeEach {
 
                 Mock Invoke-PASRestMethod -MockWith {
-                    [PSCustomObject]@{'addsaferesult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+                    [PSCustomObject]@{
+                        'totalEntities' = 1
+                        'totalpages'    = 0
+                        'entities'      = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+                    }
                 }
 
                 $Script:BaseURI = 'https://SomeURL/SomeApp'
@@ -109,7 +139,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'has output with expected number of properties' {
 
-				(Get-PASPTARiskEvent | Get-Member -MemberType NoteProperty).length | Should -Be 1
+				(Get-PASPTARiskEvent | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
             }
 
@@ -119,7 +149,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'processes NextLink' {
+                Mock Invoke-PASRestMethod -MockWith {
+                    [PSCustomObject]@{
+                        'totalEntities' = 799
+                        'totalpages'    = 10
+                        'entities'      = @([PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }, [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }, [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' })
+                    }
+                }
+                #$script:iteration = 1
+                Get-PASPTARiskEvent
+                Assert-MockCalled Invoke-PASRestMethod -Times 10 -Exactly -Scope It
 
+            }
 
         }
 

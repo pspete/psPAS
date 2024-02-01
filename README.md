@@ -8,7 +8,7 @@
 
 Through the PVWA REST API, administer CyberArk PAS with PowerShell.
 
-Contains all of the documented API capabilities up to CyberArk v13.2.
+Contains all of the documented API capabilities up to CyberArk v14.0.
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -965,6 +965,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Disable-PASUser`][Disable-PASUser]                                                     |**12.6**            |Disable CyberArk Users
 [`Publish-PASDiscoveredAccount`][Publish-PASDiscoveredAccount]                           |**12.6**            |Onboard Discovered Accounts
 [`Get-PASLinkedAccount`][Get-PASLinkedAccount]                                           |**12.2**            |Get details of linked accounts
+[`Get-PASLinkedGroup`][Get-PASLinkedGroup]                                               |**12.2**            |Get details of linked groups
 [`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                             |**12.6**            |Add Personal Admin Account (Privilege Cloud Only).
 [`Get-PASPTAGlobalCatalog`][Get-PASPTAGlobalCatalog]                                     |**13.0**            |Get Global Catalog connectivity details for PTA.
 [`Add-PASPTAGlobalCatalog`][Add-PASPTAGlobalCatalog]                                     |**13.0**            |Add Global Catalog connectivity details to PTA.
@@ -973,7 +974,31 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Set-PASPTARiskEvent`][Set-PASPTARiskEvent]                                             |**13.2**            |Update PTA Risk Events
 [`Get-PASPTARiskSummary`][Get-PASPTARiskSummary]                                         |**13.2**            |Get PTA Risk Summary
 [`New-PASRequestObject`][New-PASRequestObject]                                           |**---**             |Format an object to include in an request list
+[`Add-PASPTAIncludedTarget`][Add-PASPTAIncludedTarget]                                   |**14.0**            |Includes a PTA Monitored Target
+[`Add-PASPTAExcludedTarget`][Add-PASPTAExcludedTarget]                                   |**14.0**            |Excludes a PTA Monitored Target
+[`Add-PASPTAPrivilegedGroup`][Add-PASPTAPrivilegedGroup]                                 |**14.0**            |Configures a PTA Privileged Group
+[`Add-PASPTAPrivilegedUser`][Add-PASPTAPrivilegedUser]                                   |**14.0**            |Configures a PTA Privileged User
+[`Get-PASPTAExcludedTarget`][Get-PASPTAExcludedTarget]                                   |**14.0**            |Get PTA Excluded Target
+[`Get-PASPTAIncludedTarget`][Get-PASPTAIncludedTarget]                                   |**14.0**            |Get PTA Included target
+[`Get-PASPTAPrivilegedGroup`][Get-PASPTAPrivilegedGroup]                                 |**14.0**            |Get PTA Privileged Group
+[`Get-PASPTAPrivilegedUser`][Get-PASPTAPrivilegedUser]                                   |**14.0**            |Get PTA Privileged User
+[`Remove-PASPTAExcludedTarget`][Remove-PASPTAExcludedTarget]                             |**14.0**            |Remove PTA Excluded Target
+[`Remove-PASPTAIncludedTarget`][Remove-PASPTAIncludedTarget]                             |**14.0**            |Remove PTA Included Target
+[`Remove-PASPTAPrivilegedGroup`][Remove-PASPTAPrivilegedGroup]                           |**14.0**            |Remove PTA Privileged Group
+[`Remove-PASPTAPrivilegedUser`][Remove-PASPTAPrivilegedUser]                             |**14.0**            |Remove PTA Privileged User
 
+[Add-PASPTAExcludedTarget]:/psPAS/Functions/EventSecurity/Add-PASPTAExcludedTarget.ps1
+[Add-PASPTAIncludedTarget]:/psPAS/Functions/EventSecurity/Add-PASPTAIncludedTarget.ps1
+[Add-PASPTAPrivilegedGroup]:/psPAS/Functions/EventSecurity/Add-PASPTAPrivilegedGroup.ps1
+[Add-PASPTAPrivilegedUser]:/psPAS/Functions/EventSecurity/Add-PASPTAPrivilegedUser.ps1
+[Get-PASPTAExcludedTarget]:/psPAS/Functions/EventSecurity/Get-PASPTAExcludedTarget.ps1
+[Get-PASPTAIncludedTarget]:/psPAS/Functions/EventSecurity/Get-PASPTAIncludedTarget.ps1
+[Get-PASPTAPrivilegedGroup]:/psPAS/Functions/EventSecurity/Get-PASPTAPrivilegedGroup.ps1
+[Get-PASPTAPrivilegedUser]:/psPAS/Functions/EventSecurity/Get-PASPTAPrivilegedUser.ps1
+[Remove-PASPTAExcludedTarget]:/psPAS/Functions/EventSecurity/Remove-PASPTAExcludedTarget.ps1
+[Remove-PASPTAIncludedTarget]:/psPAS/Functions/EventSecurity/Remove-PASPTAIncludedTarget.ps1
+[Remove-PASPTAPrivilegedGroup]:/psPAS/Functions/EventSecurity/Remove-PASPTAPrivilegedGroup.ps1
+[Remove-PASPTAPrivilegedUser]:/psPAS/Functions/EventSecurity/Remove-PASPTAPrivilegedUser.ps1
 [New-PASRequestObject]:/psPAS/Functions/Requests/New-PASRequestObject.ps1
 [Get-PASUserTypeInfo]:/psPAS/Functions/User/Get-PASUserTypeInfo.ps1
 [Get-PASPTARiskEvent]:/psPAS/Functions/EventSecurity/Get-PASPTARiskEvent.ps1
@@ -984,6 +1009,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [Disable-PASUser]:/psPAS/Functions/User/Disable-PASUser.ps1
 [Enable-PASUser]:/psPAS/Functions/User/Enable-PASUser.ps1
 [Get-PASLinkedAccount]:/psPAS/Functions/Accounts/Get-PASLinkedAccount.ps1
+[Get-PASLinkedGroup]:/psPAS/Functions/Accounts/Get-PASLinkedGroup.ps1
 [Add-PASPersonalAdminAccount]:/psPAS/Functions/Accounts/Add-PASPersonalAdminAccount.ps1
 [Publish-PASDiscoveredAccount]:/psPAS/Functions/Accounts/Publish-PASDiscoveredAccount.ps1
 [Get-PASPlatformSummary]:/psPAS/Functions/Platforms/Get-PASPlatformSummary.ps1

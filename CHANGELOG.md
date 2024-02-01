@@ -5,6 +5,68 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v7.0...
 
+## [unreleased]
+
+### Added
+- N/A
+
+### Updated
+- N/A
+
+### Fixed
+- N/A
+
+## **6.1.47**
+
+### Module update to cover all CyberArk 14.0 API features
+
+### Added
+- `Add-PASPTAExcludedTarget`
+  - New command, supported from 14.0
+- `Add-PASPTAIncludedTarget`
+  - New command, supported from 14.0
+- `Add-PASPTAPrivilegedGroup`
+  - New command, supported from 14.0
+- `Add-PASPTAPrivilegedUser`
+  - New command, supported from 14.0
+- `Get-PASPTAExcludedTarget`
+  - New command, supported from 14.0
+- `Get-PASPTAIncludedTarget`
+  - New command, supported from 14.0
+- `Get-PASPTAPrivilegedGroup`
+  - New command, supported from 14.0
+- `Get-PASPTAPrivilegedUser`
+  - New command, supported from 14.0
+- `Remove-PASPTAExcludedTarget`
+  - New command, supported from 14.0
+- `Remove-PASPTAIncludedTarget`
+  - New command, supported from 14.0
+- `Remove-PASPTAPrivilegedGroup`
+  - New command, supported from 14.0
+- `Remove-PASPTAPrivilegedUser`
+  - New command, supported from 14.0
+- `Get-PASLinkedGroup`
+  - New experimental command based on undocumented API.
+
+ ### Updated
+- `Get-PASAccountActivity`
+  - Adds Gen2 replacement for deprecated Gen1 API.
+  - Updates default operation to target Gen2 API.
+- `Get-PASPTARiskEvent`
+  - New filter parameters `FromTime` & `ToTime`
+  - Fixes output and result paging
+- `Set-PASPTARiskEvent`
+  - New parameters `closeReason` & `reasonText`
+  - General Fixes
+- `New-PASDirectoryMapping`
+  - New parameters `UsedQuota`, `AuthorizedInterfaces` & `EnableENEWhenDisconnected`
+- `Set-PASDirectoryMapping`
+  - New parameters `UsedQuota`, `AuthorizedInterfaces` & `EnableENEWhenDisconnected`
+
+ ### Fixed
+- `Invoke-PASRestMethod`
+  - Avoids potential error condition when handling errors in ISPSS environments
+
 ## **6.0.30**
 
 ### Added

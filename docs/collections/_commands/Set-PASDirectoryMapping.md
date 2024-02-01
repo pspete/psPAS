@@ -18,7 +18,8 @@ Updates an existing Directory Mapping for a directory
 Set-PASDirectoryMapping [-DirectoryName] <String> [-MappingID] <String> [-MappingName] <String>
  [-LDAPBranch] <String> [[-DomainGroups] <String[]>] [[-VaultGroups] <String[]>] [[-Location] <String>]
  [[-LDAPQuery] <String>] [[-MappingAuthorizations] <Authorizations>] [[-UserActivityLogPeriod] <Int32>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-UsedQuota <Int32>] [-AuthorizedInterfaces <String[]>] [-EnableENEWhenDisconnected <Boolean>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -258,6 +259,57 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AuthorizedInterfaces
+Sets the authorized interface from the available interfaces defined by the license.
+
+Requires 14.0
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -EnableENEWhenDisconnected
+Whether or not to monitor this user type's activity.
+
+Requires 14.0
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UsedQuota
+Sets the disk quota allocated to the user in MB.
+
+Requires 14.0
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

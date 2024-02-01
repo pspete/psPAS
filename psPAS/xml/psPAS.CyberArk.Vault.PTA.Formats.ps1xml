@@ -115,25 +115,32 @@
 					<ListEntry>
 						<ListItems>
 							<ListItem>
-								<PropertyName>entities</PropertyName>
+								<PropertyName>id</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>totalEntities</PropertyName>
+								<PropertyName>type</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>filter</PropertyName>
+								<PropertyName>status</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>sort</PropertyName>
+								<PropertyName>closeReason</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>page</PropertyName>
+								<PropertyName>reasonText</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>size</PropertyName>
+								<Label>detectionTime</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.detectionTime/1000)</ScriptBlock>
 							</ListItem>
 							<ListItem>
-								<PropertyName>totalPages</PropertyName>
+								<PropertyName>score</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>riskAccount</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>riskService</PropertyName>
 							</ListItem>
 						</ListItems>
 					</ListEntry>

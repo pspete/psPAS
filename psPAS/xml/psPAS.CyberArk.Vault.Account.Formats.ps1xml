@@ -149,6 +149,56 @@
 			</TableControl>
 		</View>
 		<View>
+			<Name>psPAS.CyberArk.Vault.Account.Activity.Gen2</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Account.Activity.Gen2</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Label>Date</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.Date)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Alert</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>User</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Action</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>ActionID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>ClientID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>MoreInfo</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Reason</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
 			<Name>psPAS.CyberArk.Vault.Account.LinkedAccount</Name>
 			<ViewSelectedBy>
 				<TypeName>psPAS.CyberArk.Vault.Account.LinkedAccount</TypeName>

@@ -40,7 +40,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             BeforeEach {
 
                 Mock Invoke-PASRestMethod -MockWith {
-                    [PSCustomObject]@{'addsaferesult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+                    [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
                 }
 
                 $Script:BaseURI = 'https://SomeURL/SomeApp'
@@ -50,29 +50,29 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
 
             It 'sends request' {
-                Set-PASPTARiskEvent -EventID 1234 -Status CLOSED
+                Set-PASPTARiskEvent -ID 1234 -Status CLOSED
                 Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request to expected endpoint' {
-                Set-PASPTARiskEvent -EventID 1234 -Status CLOSED
+                Set-PASPTARiskEvent -ID 1234 -Status CLOSED
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -match "$($Script:BaseURI)/API/pta/API/Risks/RiskEvents/1234"
+                    $URI -match "$($Script:BaseURI)/api/pta/API/Risks/RisksEvents/1234"
 
                 } -Times 1 -Exactly -Scope It
 
             }
 
             It 'uses expected method' {
-                Set-PASPTARiskEvent -EventID 1234 -Status CLOSED
+                Set-PASPTARiskEvent -ID 1234 -Status CLOSED
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PATCH' } -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request with expected body' {
-                Set-PASPTARiskEvent -EventID 1234 -Status CLOSED
+                Set-PASPTARiskEvent -ID 1234 -Status CLOSED
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $Body -ne $null
@@ -83,7 +83,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'throws error if version requirement not met' {
                 $Script:ExternalVersion = '1.0'
-                { Set-PASPTARiskEvent -EventID 1234 -Status CLOSED } | Should -Throw
+                { Set-PASPTARiskEvent -ID 1234 -Status CLOSED } | Should -Throw
                 $Script:ExternalVersion = '0.0'
             }
 
@@ -93,7 +93,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             BeforeEach {
 
                 Mock Invoke-PASRestMethod -MockWith {
-                    [PSCustomObject]@{'addsaferesult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+                    [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val2'; 'Prop4' = 'Val2'; 'Prop5' = 'Val2' }
                 }
 
                 $Script:BaseURI = 'https://SomeURL/SomeApp'
@@ -103,19 +103,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
             It 'provides output' {
 
-                Set-PASPTARiskEvent -EventID 1234 -Status CLOSED | Should -Not -BeNullOrEmpty
+                Set-PASPTARiskEvent -ID 1234 -Status CLOSED | Should -Not -BeNullOrEmpty
 
             }
 
             It 'has output with expected number of properties' {
 
-				(Set-PASPTARiskEvent -EventID 1234 -Status CLOSED | Get-Member -MemberType NoteProperty).length | Should -Be 1
+				(Set-PASPTARiskEvent -ID 1234 -Status CLOSED | Get-Member -MemberType NoteProperty).length | Should -Be 5
 
             }
 
             It 'outputs object with expected typename' {
 
-                Set-PASPTARiskEvent -EventID 1234 -Status CLOSED | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Event.Risk
+                Set-PASPTARiskEvent -ID 1234 -Status CLOSED | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PTA.Event.Risk
 
             }
 

@@ -40,7 +40,7 @@ Adds Global Catalog to PTA configuration
 ## PARAMETERS
 
 ### -ldap_certificate
-Base-64 encoded X.509 SSL certificate of the Global Catalog server - without cert header/footer --BEGIN/END.
+Base-64 encoded X.509 SSL certificate of the Global Catalog server.
 Must be specified if `ssl` parameter is specified as `true`.
 
 ```yaml

@@ -1,8 +1,10 @@
 ---
+category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
 online version: https://pspas.pspete.dev/commands/Get-PASPTARiskEvent
 schema: 2.0.0
+title: Get-PASPTARiskEvent
 ---
 
 # Get-PASPTARiskEvent
@@ -12,9 +14,16 @@ Output all PTA Risk Events
 
 ## SYNTAX
 
+### 13.2 (Default)
 ```
-Get-PASPTARiskEvent [[-type] <String>] [[-status] <String>] [[-sort] <String>] [[-page] <Int32>]
- [[-size] <Int32>] [<CommonParameters>]
+Get-PASPTARiskEvent [[-type] <String>] [[-status] <String>] [[-sort] <String>] [[-size] <Int32>]
+ [<CommonParameters>]
+```
+
+### 14.0
+```
+Get-PASPTARiskEvent [[-type] <String>] [[-status] <String>] [-FromTime <DateTime>] [-ToTime <DateTime>]
+ [[-sort] <String>] [[-size] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -84,21 +93,6 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -page
-The page number, starting with 0
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -size
 The maximum number of returned events in a given page.
 
@@ -114,6 +108,40 @@ Aliases:
 Required: False
 Position: 5
 Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -FromTime
+Filter by start time of a detection time window
+
+Requires 14.0
+
+```yaml
+Type: DateTime
+Parameter Sets: 14.0
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ToTime
+Filter by end time of a detection time window
+
+Requires 14.0
+
+```yaml
+Type: DateTime
+Parameter Sets: 14.0
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```

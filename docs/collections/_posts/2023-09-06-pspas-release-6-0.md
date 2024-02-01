@@ -18,7 +18,6 @@ tags:
   - Add-PASApplication
   - Set-PASPTAEvent
   - Set-PASPTARiskEvent
-
 ---
 
 ## **6.0.30**
@@ -88,3 +87,4 @@ tags:
     - Both Privileged Cloud API URL & Identity Portal URL are required to be specified if subdomain value is not provided.
     - Service User authentication for Shared Services introduced in recent previous versions requires installation of `IdentityCommand` module and specification of additional attribute.
     - See [the docs](https://pspas.pspete.dev/docs/authentication/#shared-services-authentication) & [New-PASSession](https://pspas.pspete.dev/commands/New-PASSession) for full details.
+

@@ -157,6 +157,7 @@
 					<TableColumnHeader />
 					<TableColumnHeader />
 					<TableColumnHeader />
+					<TableColumnHeader />
 				</TableHeaders>
 				<TableRowEntries>
 					<TableRowEntry>
@@ -179,7 +180,9 @@
 							<TableColumnItem>
 								<PropertyName>MappingAuthorizations</PropertyName>
 							</TableColumnItem>
-
+							<TableColumnItem>
+								<PropertyName>UsedQuota</PropertyName>
+							</TableColumnItem>
 						</TableColumnItems>
 					</TableRowEntry>
 				</TableRowEntries>
@@ -238,6 +241,15 @@
 							</ListItem>
 							<ListItem>
 								<PropertyName>LogonToHour</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>UsedQuota</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AuthorizedInterfaces</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>EnableENEWhenDisconnected</PropertyName>
 							</ListItem>
 						</ListItems>
 					</ListEntry>

@@ -1,38 +1,89 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASAccountActivity {
-	[CmdletBinding()]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = 'False Positive')]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen1'
 		)]
 		[Alias('id')]
-		[string]$AccountID
+		[string]$AccountID,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Gen1'
+		)]
+		[Alias('UseClassicAPI')]
+		[switch]$UseGen1API
 
 
 	)
 
-	BEGIN {
-		#!Depreciated above 13.2
-		Assert-VersionRequirement -MaximumVersion 13.2
-	}#begin
+	BEGIN {	}#begin
 
 	PROCESS {
 
-		#Create request URL
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$($AccountID |
+		switch ($PSCmdlet.ParameterSetName) {
 
-            Get-EscapedString)/Activities"
+			'Gen1' {
+
+				#!Depreciated above 13.2
+				Assert-VersionRequirement -MaximumVersion 13.2
+				#URL for Request
+				$URI = "$Script:BaseURI/WebServices/PIMServices.svc"
+
+				break
+
+			}
+
+			default {
+
+				Assert-VersionRequirement -RequiredVersion 13.2
+				#URL for Request
+				$URI = "$Script:BaseURI/api"
+
+			}
+
+		}
+
+		#Create request URL
+		$URI = "$URI/Accounts/$($AccountID | Get-EscapedString)/Activities"
 
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
 
 		If ($null -ne $result) {
 
-			#Return Results
-			$result.GetAccountActivitiesResult |
+			switch ($PSCmdlet.ParameterSetName) {
 
-				Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Activity
+				'Gen1' {
+
+					$result = $result.GetAccountActivitiesResult
+					$typename = 'psPAS.CyberArk.Vault.Account.Activity'
+
+					break
+
+				}
+
+				default {
+
+					$result = $result.Activities
+					$typename = 'psPAS.CyberArk.Vault.Account.Activity.Gen2'
+
+				}
+
+			}
+
+			#Return Results
+			$result | Add-ObjectDetail -typename $typename
 
 		}
 

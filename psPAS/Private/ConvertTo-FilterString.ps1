@@ -79,6 +79,12 @@ Encloses value of the key/value pair in quotes.
 
 					}
 
+					detectionTime {
+
+						$null = $FilterList.Add("$PSItem $($Parameters[$PSItem])")
+
+					}
+
 					default {
 
 						$value = $($Parameters[$PSItem])
