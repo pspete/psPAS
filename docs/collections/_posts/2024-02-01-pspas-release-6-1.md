@@ -23,7 +23,7 @@ tags:
   - Invoke-PASRestMethod
 ---
 
-## **6.1.47**
+## **6.1.48**
 
 ### Module update to cover all CyberArk 14.0 API features
 
