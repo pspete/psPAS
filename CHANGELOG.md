@@ -16,7 +16,7 @@
 ### Fixed
 - N/A
 
-## **6.1.48**
+## **6.1.50**
 
 ### Module update to cover all CyberArk 14.0 API features
 
