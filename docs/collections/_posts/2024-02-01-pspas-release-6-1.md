@@ -44,7 +44,7 @@ tags:
 - `Get-PASLinkedGroup`
   - New experimental command based on undocumented API.
 
- ### Updated
+### Updated
 - `Get-PASAccountActivity`
   - Adds Gen2 replacement for deprecated Gen1 API.
   - Updates default operation to target Gen2 API.
@@ -59,6 +59,6 @@ tags:
 - `Set-PASDirectoryMapping`
   - New parameters `UsedQuota`, `AuthorizedInterfaces` & `EnableENEWhenDisconnected`
 
- ### Fixed
+### Fixed
 - `Invoke-PASRestMethod`
   - Avoids potential error condition when handling errors in ISPSS environments
