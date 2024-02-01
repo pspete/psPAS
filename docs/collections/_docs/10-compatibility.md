@@ -177,6 +177,7 @@ If version requirement criteria are not met, operations may be prevented.
 [`Disable-PASUser`][Disable-PASUser]                                                     |**12.6**                                            |Disable CyberArk Users
 [`Publish-PASDiscoveredAccount`][Publish-PASDiscoveredAccount]                           |**12.6**                                            |Onboard Discovered Accounts
 [`Get-PASLinkedAccount`][Get-PASLinkedAccount]                                           |**12.2**                                            |Get details of linked accounts
+[`Get-PASLinkedGroup`][Get-PASLinkedGroup]                                               |**12.2**                                            |Get details of linked groups
 [`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                             |**12.6**                                            |Add Personal Admin Account (Privilege Cloud Only).
 [`Get-PASPTAGlobalCatalog`][Get-PASPTAGlobalCatalog]                                     |**13.0**                                            |Get Global Catalog connectivity details for PTA.
 [`Add-PASPTAGlobalCatalog`][Add-PASPTAGlobalCatalog]                                     |**13.0**                                            |Add Global Catalog connectivity details to PTA.
@@ -218,6 +219,7 @@ If version requirement criteria are not met, operations may be prevented.
 [Get-PASPTAGlobalCatalog]:/commands/Get-PASPTAGlobalCatalog
 [Add-PASPTAGlobalCatalog]:/commands/Add-PASPTAGlobalCatalog
 [Get-PASLinkedAccount]:/commands/Get-PASLinkedAccount
+[Get-PASLinkedGroup]:/commands/Get-PASLinkedGroup
 [Add-PASPersonalAdminAccount]:/commands/Add-PASPersonalAdminAccount
 [Publish-PASDiscoveredAccount]:/commands/Publish-PASDiscoveredAccount
 [Enable-PASUser]:/commands/Enable-PASUser
