@@ -20,7 +20,6 @@ Get-PASSession [<CommonParameters>]
 
 ## DESCRIPTION
 For the current session, returns data from the module scope:
-- Username relating to the session.
 - BaseURI: URL value used for sending requests to the API.
 - ExternalVersion: PAS version information.
 - Websession: Contains Authorization Header, Cookie & Certificate data related to the current session.
