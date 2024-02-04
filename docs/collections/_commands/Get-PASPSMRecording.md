@@ -16,8 +16,8 @@ Get details of PSM Recording
 
 ### byQuery (Default)
 ```
-Get-PASPSMRecording [-Limit <Int32>] [-Sort <String>] [-Offset <Int32>] [-Search <String>] [-Safe <String>]
- [-FromTime <Int32>] [-ToTime <Int32>] [-Activities <String>] [<CommonParameters>]
+Get-PASPSMRecording [-Limit <Int32>] [-Sort <String>] [-Search <String>] [-Safe <String>]
+ [-FromTime <DateTime>] [-ToTime <DateTime>] [-Activities <String>] [<CommonParameters>]
 ```
 
 ### byRecordingID
@@ -32,10 +32,10 @@ Returns the details of recordings of PSM, PSMP or OPM sessions.
 
 ### EXAMPLE 1
 ```
-Get-PASPSMRecording -Limit 10 -Safe PSMRecordings -Sort -FileName
+Get-PASPSMRecording -Sort -FileName
 ```
 
-Lists the first 10 recordings from the PSMRecordings safe, sorted by descending filename.
+Lists all PSM recordings, sorted by descending filename.
 
 ### EXAMPLE 2
 ```
@@ -45,6 +45,13 @@ Get-PASPSMRecording -RecordingID $Id
 Gets details of specified PSM recording
 
 Minimum required version 10.6
+
+### EXAMPLE 3
+```
+Get-PASPSMRecording -FromTime (Get-Date).AddDays(-7)
+```
+
+Lists all PSM recordings from the last week.
 
 ## PARAMETERS
 
@@ -112,23 +119,6 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Offset
-Determines which recording results will be returned, according to a specific place in the returned list.
-
-This value defines the recording's place in the list and how many results will be skipped.
-
-```yaml
-Type: Int32
-Parameter Sets: byQuery
-Aliases:
-
-Required: False
-Position: Named
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -Search
 Returns recordings that are filtered by properties that contain the specified search text.
 
@@ -163,7 +153,7 @@ Accept wildcard characters: False
 Returns recordings from a specific date
 
 ```yaml
-Type: Int32
+Type: DateTime
 Parameter Sets: byQuery
 Aliases:
 
@@ -178,7 +168,7 @@ Accept wildcard characters: False
 Returns recordings from a specific date
 
 ```yaml
-Type: Int32
+Type: DateTime
 Parameter Sets: byQuery
 Aliases:
 
