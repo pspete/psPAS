@@ -7,41 +7,26 @@
 
 ## [unreleased]
 
-### Module update to cover all CyberArk 14.0 API features
-
 ### Added
-- `Add-PASPTAExcludedTarget`
-  - New command, supported from 14.0
-- `Add-PASPTAIncludedTarget`
-  - New command, supported from 14.0
-- `Add-PASPTAPrivilegedGroup`
-  - New command, supported from 14.0
-- `Add-PASPTAPrivilegedUser`
-  - New command, supported from 14.0
-- `Get-PASPTAExcludedTarget`
-  - New command, supported from 14.0
-- `Get-PASPTAIncludedTarget`
-  - New command, supported from 14.0
-- `Get-PASPTAPrivilegedGroup`
-  - New command, supported from 14.0
-- `Get-PASPTAPrivilegedUser`
-  - New command, supported from 14.0
-- `Remove-PASPTAExcludedTarget`
-  - New command, supported from 14.0
-- `Remove-PASPTAIncludedTarget`
-  - New command, supported from 14.0
-- `Remove-PASPTAPrivilegedGroup`
-  - New command, supported from 14.0
-- `Remove-PASPTAPrivilegedUser`
-  - New command, supported from 14.0
-- `Get-PASLinkedGroup`
-  - New experimental command based on undocumented API.
+- N/A
 
 ### Updated
-- N/A
+- `Get-PASPSMRecording`
+  - Removes `Offset` Parameter
+  - Updates `FromTime` & `ToTime` parameters to `[datetime]` types
+  - Returns all pages of results instead of only the first page of results
+- `Get-PASPSMSession`
+  - Removes `Offset` Parameter
+  - Updates `FromTime` & `ToTime` parameters to `[datetime]` types
+  - Returns all pages of results instead of only the first page of results
+- `Get-PASAccount`
+  - Removes `Offset` Parameter
+- `Get-PASDiscoveredAccount`
+  - Removes `Offset` Parameter
 
 ### Fixed
-- N/A
+- `Get-PASSession`
+  - Removes `UserName` from command output, avoiding error condition on expired session.
 
 ## **6.1.50**
 
