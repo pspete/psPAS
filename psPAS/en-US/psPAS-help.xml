@@ -14962,6 +14962,19 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>Search</maml:name>
+          <maml:description>
+            <maml:para>Filter platform by search pattern</maml:para>
+            <maml:para>Minimum required version 11.1</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>SystemType</maml:name>
           <maml:description>
             <maml:para>Filter target platforms for specific system type</maml:para>
@@ -18968,8 +18981,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>For the current session, returns data from the module scope: - Username relating to the session.</maml:para>
-      <maml:para>- BaseURI: URL value used for sending requests to the API.</maml:para>
+      <maml:para>For the current session, returns data from the module scope: - BaseURI: URL value used for sending requests to the API.</maml:para>
       <maml:para>- ExternalVersion: PAS version information.</maml:para>
       <maml:para>- Websession: Contains Authorization Header, Cookie &amp; Certificate data related to the current session.</maml:para>
       <maml:para></maml:para>

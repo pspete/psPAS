@@ -16,7 +16,7 @@ Retrieves details of Vault platforms.
 
 ### targets (Default)
 ```
-Get-PASPlatform [-Active <Boolean>] [-SystemType <String>] [-PeriodicVerify <Boolean>]
+Get-PASPlatform [-Active <Boolean>] [-Search <String>] [-SystemType <String>] [-PeriodicVerify <Boolean>]
  [-ManualVerify <Boolean>] [-PeriodicChange <Boolean>] [-ManualChange <Boolean>]
  [-AutomaticReconcile <Boolean>] [-ManualReconcile <Boolean>] [<CommonParameters>]
 ```
@@ -212,7 +212,7 @@ Minimum required version 11.1
 
 ```yaml
 Type: String
-Parameter Sets: platforms
+Parameter Sets: targets, platforms
 Aliases:
 
 Required: False

@@ -27,6 +27,11 @@ function Get-PASPlatform {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'platforms'
 		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'targets'
+		)]
 		[string]$Search,
 
 		[parameter(
@@ -156,10 +161,22 @@ function Get-PASPlatform {
 
 				$URI = "$Script:BaseURI/API/Platforms/$($PSCmdlet.ParameterSetName)"
 
-				#Get Parameters to include in request
-				$boundParameters = $PSBoundParameters | Get-PASParameter
+				#Parameter to include parameter value in url
+				$Parameters = [Collections.Generic.List[Object]]::New(@('Search'))
 
-				$queryString = $boundParameters | ConvertTo-FilterString | ConvertTo-QueryString
+				#Get Parameters to include in request filter string
+				$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
+				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
+				$FilterString = $filterParameters | ConvertTo-FilterString
+
+				If ($null -ne $FilterString) {
+
+					$boundParameters = $boundParameters + $FilterString
+
+				}
+
+				#Create Query String, escaped for inclusion in request URL
+				$queryString = $boundParameters | ConvertTo-QueryString
 
 				If ($null -ne $queryString) {
 
@@ -189,7 +206,7 @@ function Get-PASPlatform {
 		If ($null -ne $result) {
 
 			#11.1+ returns result under "platforms" property
-			If ($result.Platforms) {
+			If ($null -ne $result.Platforms) {
 
 				$result = $result | Select-Object -ExpandProperty Platforms
 
@@ -268,9 +285,7 @@ function Get-PASPlatform {
 			}
 
 			#Return Results
-			$result |
-
-				Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Platform'
+			$result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Platform'
 
 		}
 
