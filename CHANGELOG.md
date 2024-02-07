@@ -11,6 +11,17 @@
 - N/A
 
 ### Updated
+- N/A
+
+### Fixed
+- N/A
+
+## **6.1.62**
+
+### Added
+- N/A
+
+### Updated
 - `Get-PASPSMRecording`
   - Removes `Offset` Parameter
   - Updates `FromTime` & `ToTime` parameters to `[datetime]` types
