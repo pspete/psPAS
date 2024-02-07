@@ -18,8 +18,7 @@ Returns information about a single account. (Version 9.3 - 10.3)
 ### Gen2Query (Default)
 ```
 Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] [-savedFilter <String>]
- [-modificationTime <DateTime>] [-sort <String[]>] [-offset <Int32>] [-limit <Int32>] [-TimeoutSec <Int32>]
- [<CommonParameters>]
+ [-modificationTime <DateTime>] [-sort <String[]>] [-limit <Int32>] [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
 ### Gen2ID
@@ -127,16 +126,6 @@ Get-PASAccount -limit 1000
 ```
 
 Returns all accounts, in page sizes of 1000.
-
-Requires minimum version of 10.4
-
-### EXAMPLE 10
-
-```
-Get-PASAccount -limit 500 -offset 1500
-```
-
-Returns all accounts, skipping the first 1500 results, in page sizes of 500.
 
 Requires minimum version of 10.4
 
@@ -328,21 +317,6 @@ Accept wildcard characters: False
 The maximum page size of accounts to return per request.
 Specify a number up to 1000.
 Each page of results will be limited in size to the number provided.
-
-```yaml
-Type: Int32
-Parameter Sets: Gen2Query
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -offset
-Offset of the first account that is returned in the collection of results.
 
 ```yaml
 Type: Int32

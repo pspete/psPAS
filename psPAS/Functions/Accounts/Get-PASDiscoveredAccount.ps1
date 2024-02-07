@@ -51,13 +51,6 @@ Function Get-PASDiscoveredAccount {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'byQuery'
 		)]
-		[int]$offset,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'byQuery'
-		)]
 		[ValidateRange(1, 1000)]
 		[int]$limit
 
