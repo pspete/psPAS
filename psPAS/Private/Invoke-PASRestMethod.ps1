@@ -240,22 +240,33 @@
 
 				If ($null -ne $($ResponseException)) {
 
-					$ErrorMessage = $ResponseException
-					$ErrorID = $null
-					$ThisException = $ResponseException | ConvertFrom-Json -ErrorAction SilentlyContinue
+					try {
 
-					switch ($ThisException) {
+						$ThisException = $ResponseException | ConvertFrom-Json
 
-						{ $null -ne $PSItem.error_description } {
-							$ErrorMessage = $ThisException | Select-Object -ExpandProperty error_description
+						switch ($ThisException) {
+
+							{ $null -ne $PSItem.ErrorMessage } {
+								$ErrorMessage = $ThisException | Select-Object -ExpandProperty ErrorMessage
+							}
+
+							{ $null -ne $PSItem.ErrorCode } {
+								$ErrorID = $ThisException | Select-Object -ExpandProperty ErrorCode
+							}
+
+							{ $null -ne $PSItem.error_description } {
+								$ErrorMessage = $ThisException | Select-Object -ExpandProperty error_description
+							}
+
+							{ $null -ne $PSItem.error } {
+								$ErrorID = $ThisException | Select-Object -ExpandProperty error
+							}
+
 						}
-
-						{ $null -ne $PSItem.error } {
-							$ErrorID = $ThisException | Select-Object -ExpandProperty error
-						}
-
+					} catch {
+						$ErrorMessage = $ResponseException
+						$ErrorID = $null
 					}
-
 				}
 
 			}

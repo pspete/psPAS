@@ -63,13 +63,6 @@ function Get-PASAccount {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Query'
 		)]
-		[int]$offset,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen2Query'
-		)]
 		[ValidateRange(1, 1000)]
 		[int]$limit,
 

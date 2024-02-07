@@ -71,6 +71,26 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'uses expected FromTime value' {
+				Get-PASPSMSession -FromTime (Get-Date -Year 1979 -Month 11 -Day 12 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
+				#311212800 1674345600
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+					$URI -eq "$($Script:BaseURI)/API/LiveSessions?fromTime=311212800"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected ToTime value' {
+				Get-PASPSMSession -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
+				#311212800 1674345600
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+					$URI -eq "$($Script:BaseURI)/API/LiveSessions?ToTime=1674345600"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'uses expected method' {
 				$InputObj | Get-PASPSMSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
@@ -146,7 +166,25 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'processes NextLink expected number of times' {
+				Mock Invoke-PASRestMethod -MockWith {
+					If ($script:iteration -le 4) {
+						[PSCustomObject]@{
+							'LiveSessions'    = @(1..25)
+							$script:iteration = $script:iteration++
+						}
+					} else {
+						[PSCustomObject]@{
+							'LiveSessions' = @(1..24)
+						}
+					}
+				}
+				$script:iteration = 1
 
+				Get-PASPSMSession
+				Assert-MockCalled Invoke-PASRestMethod -Times 5 -Exactly -Scope It
+
+			}
 
 		}
 

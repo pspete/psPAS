@@ -17,7 +17,7 @@ Returns discovered accounts from the Pending Accounts list.
 ### byQuery (Default)
 ```
 Get-PASDiscoveredAccount [-platformType <String>] [-privileged <Boolean>] [-AccountEnabled <Boolean>]
- [-search <String>] [-searchType <String>] [-offset <Int32>] [-limit <Int32>] [<CommonParameters>]
+ [-search <String>] [-searchType <String>] [-limit <Int32>] [<CommonParameters>]
 ```
 
 ### byID
@@ -161,21 +161,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -offset
-The offset of the first returned accounts into the list of results.
-
-```yaml
-Type: Int32
-Parameter Sets: byQuery
-Aliases:
-
-Required: False
-Position: Named
-Default value: 0
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```

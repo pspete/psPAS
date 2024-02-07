@@ -16,8 +16,8 @@ Get details of Live PSM Sessions
 
 ### byQuery (Default)
 ```
-Get-PASPSMSession [-Limit <Int32>] [-Sort <String>] [-Offset <Int32>] [-Search <String>] [-Safe <String>]
- [-FromTime <Int32>] [-ToTime <Int32>] [-Activities <String>] [<CommonParameters>]
+Get-PASPSMSession [-Limit <Int32>] [-Sort <String>] [-Search <String>] [-Safe <String>] [-FromTime <DateTime>]
+ [-ToTime <DateTime>] [-Activities <String>] [<CommonParameters>]
 ```
 
 ### bySessionID
@@ -112,23 +112,6 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Offset
-Determines which recording results will be returned, according to a specific place in the returned list.
-
-This value defines the recording's place in the list and how many results will be skipped.
-
-```yaml
-Type: Int32
-Parameter Sets: byQuery
-Aliases:
-
-Required: False
-Position: Named
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -Search
 Returns recordings that are filtered by properties that contain the specified search text.
 
@@ -163,7 +146,7 @@ Accept wildcard characters: False
 Returns recordings from a specific date
 
 ```yaml
-Type: Int32
+Type: DateTime
 Parameter Sets: byQuery
 Aliases:
 
@@ -178,7 +161,7 @@ Accept wildcard characters: False
 Returns recordings from a specific date
 
 ```yaml
-Type: Int32
+Type: DateTime
 Parameter Sets: byQuery
 Aliases:
 

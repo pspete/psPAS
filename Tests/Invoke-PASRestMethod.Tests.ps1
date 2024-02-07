@@ -43,8 +43,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Response | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
 				$Response | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'application/json; charset=utf-8' } -Force
 				$Response | Add-Member -MemberType NoteProperty -Name Content -Value (@{
-						'prop1'   = 'value1';
-						'prop2'   = 'value2';
+						'prop1'   = 'value1'
+						'prop2'   = 'value2'
 						'prop123' = 123
 						'test'    = 321
 					} | ConvertTo-Json) -Force
@@ -270,10 +270,21 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'reports privilege cloud errors' {
+			It 'reports privilege cloud errors with error + error_description properties' {
 				If ($IsCoreCLR) {
 					$targetObject = [pscustomobject]@{'RequestUri' = [pscustomobject]@{'Host' = 'https://subdomain.id.cyberark.cloud' } }
 					$errorDetails = $([pscustomobject]@{'error' = 'access_denied'; 'error_description' = 'invalid client creds or client not allowed' } | ConvertTo-Json)
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+					Mock Invoke-WebRequest { Throw $errorRecord }
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw 'invalid client creds or client not allowed'
+				} Else { Set-ItResult -Inconclusive }
+			}
+
+			It 'reports privilege cloud errors with ErrorMessage + ErrorCode properties' {
+				If ($IsCoreCLR) {
+					$targetObject = [pscustomobject]@{'RequestUri' = [pscustomobject]@{'Host' = 'https://subdomain.id.cyberark.cloud' } }
+					$errorDetails = $([pscustomobject]@{'ErrorCode' = 'access_denied'; 'ErrorMessage' = 'invalid client creds or client not allowed' } | ConvertTo-Json)
 					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
 					$errorRecord.ErrorDetails = $errorDetails
 					Mock Invoke-WebRequest { Throw $errorRecord }
