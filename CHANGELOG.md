@@ -27,6 +27,10 @@
 ### Fixed
 - `Get-PASSession`
   - Removes `UserName` from command output, avoiding error condition on expired session.
+- `Get-PASPlatform`
+  - Adds `search` parameter to the default `targets` parameterset
+- ISPSS Error Handling
+  - Fixes issue where error returned from ISPSS solution may not be handled properly
 
 ## **6.1.50**
 
