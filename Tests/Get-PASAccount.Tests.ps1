@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -75,7 +85,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Accounts?search=SearchTerm"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts?search=SearchTerm"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -87,7 +97,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Accounts?filter=safeName%20eq%20SomeSafe"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts?filter=safeName%20eq%20SomeSafe"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -99,7 +109,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Accounts?filter=modificationTime%20gte%201577836800"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts?filter=modificationTime%20gte%201577836800"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -111,8 +121,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($URI -eq "$($Script:BaseURI)/api/Accounts?filter=modificationTime%20gte%201577836800%20AND%20safeName%20eq%20SomeSafe") -or
-					($URI -eq "$($Script:BaseURI)/api/Accounts?filter=safeName%20eq%20SomeSafe%20AND%20modificationTime%20gte%201577836800")
+					($URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts?filter=modificationTime%20gte%201577836800%20AND%20safeName%20eq%20SomeSafe") -or
+					($URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts?filter=safeName%20eq%20SomeSafe%20AND%20modificationTime%20gte%201577836800")
 
 				} -Times 1 -Exactly -Scope It
 
@@ -123,7 +133,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Get-PASAccount -id 'SomeID'
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$URI -eq "$($Script:BaseURI)/api/Accounts/SomeID"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts/SomeID"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -134,8 +144,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Get-PASAccount -Keywords SomeValue -Safe SomeSafe
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					(($URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Accounts?Keywords=SomeValue&Safe=SomeSafe") -or
-						($URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Accounts?Safe=SomeSafe&Keywords=SomeValue"))
+					(($URI -eq "$($Script:psPASSession.BaseURI)/WebServices/PIMServices.svc/Accounts?Keywords=SomeValue&Safe=SomeSafe") -or
+						($URI -eq "$($Script:psPASSession.BaseURI)/WebServices/PIMServices.svc/Accounts?Safe=SomeSafe&Keywords=SomeValue"))
 
 				} -Times 1 -Exactly -Scope It
 
@@ -159,9 +169,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'throws error if version requirement not met' {
 
-				$Script:ExternalVersion = '1.0'
+				$psPASSession.ExternalVersion = '1.0'
 				{ Get-PASAccount -id 'SomeID' } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 
 			}
 

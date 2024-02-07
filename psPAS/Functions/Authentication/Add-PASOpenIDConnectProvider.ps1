@@ -99,7 +99,7 @@ Function Add-PASOpenIDConnectProvider {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/OIDC/Providers"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/OIDC/Providers"
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -116,7 +116,7 @@ Function Add-PASOpenIDConnectProvider {
 		$body = $boundParameters | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body
 
 		If ($null -ne $result) {
 

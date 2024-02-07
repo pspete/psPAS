@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -60,7 +70,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Get-PASDiscoveredAccount
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts"
 
 				} -Times 1 -Exactly -Scope It
 			}
@@ -69,7 +79,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Get-PASDiscoveredAccount -id 456
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts/456"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts/456"
 
 				} -Times 1 -Exactly -Scope It
 			}
@@ -77,8 +87,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sends expected filter' {
 				Get-PASDiscoveredAccount -privileged $true -AccountEnabled $true
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					($URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?filter=privileged%20eq%20True%20AND%20AccountEnabled%20eq%20True" -or
-					$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?filter=AccountEnabled%20eq%20True%20AND%20privileged%20eq%20True")
+					($URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts?filter=privileged%20eq%20True%20AND%20AccountEnabled%20eq%20True" -or
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts?filter=AccountEnabled%20eq%20True%20AND%20privileged%20eq%20True")
 
 				} -Times 1 -Exactly -Scope It
 			}
@@ -86,8 +96,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sends expected query' {
 				Get-PASDiscoveredAccount -search something -searchType startswith
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					($URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?search=something&searchType=startswith" -or
-					$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?searchType=startswith&search=something")
+					($URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts?search=something&searchType=startswith" -or
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts?searchType=startswith&search=something")
 
 				} -Times 1 -Exactly -Scope It
 			}
@@ -95,8 +105,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sends expected query & filter' {
 				Get-PASDiscoveredAccount -search something -privileged $true
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					($URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?search=something&filter=privileged%20eq%20True" -or
-					$URI -eq "$($Script:BaseURI)/api/DiscoveredAccounts?filter=privileged%20eq%20True&search=something")
+					($URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts?search=something&filter=privileged%20eq%20True" -or
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts?filter=privileged%20eq%20True&search=something")
 
 				} -Times 1 -Exactly -Scope It
 			}
@@ -112,10 +122,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '11.5'
+				$psPASSession.ExternalVersion = '11.5'
 
 				{ Get-PASDiscoveredAccount } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}

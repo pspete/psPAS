@@ -62,7 +62,7 @@ Function Get-NextLink {
 
 			While ( $null -ne $NextLink ) {
 
-				$URI = "$Script:BaseURI/$NextLink"
+				$URI = "$($psPASSession.BaseURI)/$NextLink"
 
 				#*If there is a SavedFilter querystring, append it to the URL
 				If ($null -ne $queryString) {
@@ -72,7 +72,7 @@ Function Get-NextLink {
 
 				}
 
-				$NextResult = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
+				$NextResult = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
 				$NextLink = $NextResult.nextLink
 				$null = $Result.AddRange(($NextResult.value))
 

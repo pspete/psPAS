@@ -67,7 +67,7 @@ function Add-PASAccountACL {
 	PROCESS {
 
 		#URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account/$($AccountAddress |
+		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Account/$($AccountAddress |
 
             Get-EscapedString)|$($AccountUserName |
 
@@ -83,7 +83,7 @@ function Add-PASAccountACL {
 			ConvertTo-Json
 
 		#Send Request
-		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
 		If ($null -ne $result) {
 

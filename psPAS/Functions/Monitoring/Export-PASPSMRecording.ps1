@@ -24,10 +24,10 @@ function Export-PASPSMRecording {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/Recordings/$($RecordingID | Get-EscapedString)/Play"
+		$URI = "$($psPASSession.BaseURI)/API/Recordings/$($RecordingID | Get-EscapedString)/Play"
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST
 
 		#if we get a byte array
 		If ($null -ne $result) {

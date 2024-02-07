@@ -21,7 +21,7 @@ function Find-PASSafe {
 		Assert-VersionRequirement -RequiredVersion 10.1 -MaximumVersion 11.7
 
 		#Create base URL for request
-		$URI = "$Script:BaseURI/api/Safes"
+		$URI = "$($psPASSession.BaseURI)/api/Safes"
 		$SearchQuery = $null
 		$Limit = 25   #default if you call the API with no value
 
@@ -35,7 +35,7 @@ function Find-PASSafe {
 
 		}
 
-		$InitialResponse = Invoke-PASRestMethod -Uri "$URI`?limit=$Limit$SearchQuery" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
+		$InitialResponse = Invoke-PASRestMethod -Uri "$URI`?limit=$Limit$SearchQuery" -Method GET -TimeoutSec $TimeoutSec
 
 		$Total = $InitialResponse.Total
 
@@ -45,7 +45,7 @@ function Find-PASSafe {
 
 			For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
 
-				$Null = $Safes.AddRange((Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec).Safes)
+				$Null = $Safes.AddRange((Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -TimeoutSec $TimeoutSec).Safes)
 
 			}
 

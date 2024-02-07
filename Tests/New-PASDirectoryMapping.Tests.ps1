@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -54,22 +64,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'does not throw - v10.4 parameterset' {
-				$Script:ExternalVersion = '10.4'
+				$psPASSession.ExternalVersion = '10.4'
 				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes } | Should -Not -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 
 			It 'does not throw - v10.7 parameterset' {
-				$Script:ExternalVersion = '10.7'
+				$psPASSession.ExternalVersion = '10.7'
 				{ $InputObj | New-PASDirectoryMapping -VaultGroups Group1, Group2 } | Should -Not -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'does not throw - v10.10 parameterset' {
-				$Script:ExternalVersion = '10.10'
+				$psPASSession.ExternalVersion = '10.10'
 				{ $InputObj | New-PASDirectoryMapping -UserActivityLogPeriod 10 } | Should -Not -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'sends request' {
@@ -82,7 +92,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Configuration/LDAP/Directories/SomeDirectory/Mappings/"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Configuration/LDAP/Directories/SomeDirectory/Mappings/"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -95,33 +105,33 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '1.0'
+				$psPASSession.ExternalVersion = '1.0'
 				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes, BackupAllSafes } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '10.6'
+				$psPASSession.ExternalVersion = '10.6'
 				{ $InputObj | New-PASDirectoryMapping -VaultGroups 'Group1', 'Group2' } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '10.9'
+				$psPASSession.ExternalVersion = '10.9'
 				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes, BackupAllSafes -VaultGroups 'Group1', 'Group2' -UserActivityLogPeriod 10 } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'does not throw if version requirement met' {
-				$Script:ExternalVersion = '10.10'
+				$psPASSession.ExternalVersion = '10.10'
 				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes, BackupAllSafes -VaultGroups 'Group1', 'Group2' -UserActivityLogPeriod 10 } | Should -Not -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '13.9'
+				$psPASSession.ExternalVersion = '13.9'
 				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes, BackupAllSafes -VaultGroups 'Group1', 'Group2' -UserActivityLogPeriod 10 -UsedQuota 10 } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}

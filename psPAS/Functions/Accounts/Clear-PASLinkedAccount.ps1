@@ -26,12 +26,12 @@ Function Clear-PASLinkedAccount {
     PROCESS {
 
         #Create URL for Request
-        $URI = "$Script:BaseURI/api/Accounts/$AccountID/LinkAccount/$extraPasswordIndex"
+        $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/LinkAccount/$extraPasswordIndex"
 
         if ($PSCmdlet.ShouldProcess($AccountID, "Clear extraPass$extraPasswordIndex Linked Account")) {
 
             #Send request to web service
-            Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method DELETE
 
         }
 

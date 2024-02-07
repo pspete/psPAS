@@ -18,7 +18,7 @@ function Remove-PASPrivateSSHKey {
 
     PROCESS {
 
-        $URI = "$Script:BaseURI/api/Users"
+        $URI = "$($psPASSession.BaseURI)/api/Users"
 
         If ($PSBoundParameters.ContainsKey('UserID')) {
 
@@ -37,7 +37,7 @@ function Remove-PASPrivateSSHKey {
         if ($PSCmdlet.ShouldProcess($user, 'Delete Private SSH Key')) {
 
             #send request to webservice
-            Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method DELETE
 
         }
 

@@ -18,10 +18,10 @@ Function Get-PASPlatformPSMConfig {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/Platforms/Targets/$ID/PrivilegedSessionManagement"
+		$URI = "$($psPASSession.BaseURI)/API/Platforms/Targets/$ID/PrivilegedSessionManagement"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

@@ -38,28 +38,28 @@ function Close-PASSession {
 
 			'Gen1' {
 
-				$URI = "$Script:BaseURI/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
+				$URI = "$($psPASSession.BaseURI)/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logoff"
 				break
 
 			}
 
 			'saml' {
 
-				$URI = "$Script:BaseURI/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
+				$URI = "$($psPASSession.BaseURI)/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logoff"
 				break
 
 			}
 
 			'shared' {
 
-				$URI = "$Script:BaseURI/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logoff"
+				$URI = "$($psPASSession.BaseURI)/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logoff"
 				break
 
 			}
 
 			'Gen2' {
 
-				$URI = "$Script:BaseURI/API/Auth/Logoff"
+				$URI = "$($psPASSession.BaseURI)/API/Auth/Logoff"
 				break
 
 			}
@@ -71,19 +71,18 @@ function Close-PASSession {
 	PROCESS {
 
 		#Send Logoff Request
-		Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession | Out-Null
+		Invoke-PASRestMethod -Uri $URI -Method POST | Out-Null
 
 	}#process
 
 	END {
 
 		#Set ExternalVersion to 0.0
-		[System.Version]$Version = '0.0'
-		Set-Variable -Name ExternalVersion -Value $Version -Scope Script -ErrorAction SilentlyContinue
+		$psPASSession.ExternalVersion = [System.Version]'0.0'
 
 		#Clear Module scope variables on logoff
-		Clear-Variable -Name BaseURI -Scope Script -ErrorAction SilentlyContinue
-		Clear-Variable -Name WebSession -Scope Script -ErrorAction SilentlyContinue
+		$psPASSession.BaseURI = $null
+		$psPASSession.WebSession = $null
 
 	}#end
 }

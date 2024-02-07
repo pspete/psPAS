@@ -91,7 +91,7 @@ Function Set-PASPTARule {
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/pta/API/Settings/RiskyActivity/"
+		$URI = "$($psPASSession.BaseURI)/API/pta/API/Settings/RiskyActivity/"
 
 		switch ($PSBoundParameters.keys) {
 
@@ -134,7 +134,7 @@ Function Set-PASPTARule {
 		if ($PSCmdlet.ShouldProcess($id, 'Update Risky Activity Rule')) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
 		}
 

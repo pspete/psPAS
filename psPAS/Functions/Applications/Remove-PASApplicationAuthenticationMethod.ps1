@@ -22,14 +22,14 @@ function Remove-PASApplicationAuthenticationMethod {
 	PROCESS {
 
 		#request URL
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID |
+		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Applications/$($AppID |
 
             Get-EscapedString)/Authentications/$($AuthID | Get-EscapedString)"
 
 		if ($PSCmdlet.ShouldProcess($AppID, "Delete Authentication Method '$AuthID'")) {
 
 			#Send Request
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

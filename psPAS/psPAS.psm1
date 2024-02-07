@@ -55,5 +55,17 @@ Get-ChildItem $PSScriptRoot\ -Recurse -Include '*.ps1' -Exclude '*.ps1xml' |
 
 	}
 
-[System.Version]$Version = '0.0'
-Set-Variable -Name ExternalVersion -Value $Version -Scope Script
+# Script scope session object for session data
+$psPASSession = [ordered]@{
+	BaseURI            = $null
+	User               = $null
+	ExternalVersion    = [System.Version]'0.0'
+	WebSession         = $null
+	StartTime          = $null
+	ElapsedTime        = $null
+	LastCommand        = $null
+	LastCommandTime    = $null
+	LastCommandResults = $null
+} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Session
+
+New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force

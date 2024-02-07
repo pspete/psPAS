@@ -79,7 +79,7 @@ Function Get-PASPTARiskEvent {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/API/pta/API/Risks/RisksEvents/"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents/"
 
         $filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove @($Parameters + $TimeParameters)
@@ -143,7 +143,7 @@ Function Get-PASPTARiskEvent {
         }
 
         #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
         $Total = $result.totalEntities
 
@@ -173,7 +173,7 @@ Function Get-PASPTARiskEvent {
 
 
                 #Request nextLink. Add Risk Events to output collection.
-                $Null = $Events.AddRange((Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET -WebSession $Script:WebSession).entities)
+                $Null = $Events.AddRange((Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET).entities)
 
             }
 

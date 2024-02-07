@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -54,9 +64,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
-				$Script:BaseURI = 'https://SomeURL/SomeApp'
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 				Mock Invoke-PASRestMethod -MockWith {
 
@@ -82,7 +92,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$InputObj | Connect-PASPSMSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/LiveSessions/SomeSession/monitor"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/LiveSessions/SomeSession/monitor"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -127,9 +137,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '9.8'
+				$psPASSession.ExternalVersion = '9.8'
 				{ $InputObj | Connect-PASPSMSession -ConnectionMethod RDP } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}
@@ -138,9 +148,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
-				$Script:BaseURI = 'https://SomeURL/SomeApp'
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 				Mock Invoke-PASRestMethod -MockWith {
 

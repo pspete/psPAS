@@ -24,13 +24,13 @@ Function Add-PASAllowedReferrer {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/AccessRestriction/AllowedReferrers"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/AccessRestriction/AllowedReferrers"
 
 		#Create request body
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		If ($null -ne $result) {
 

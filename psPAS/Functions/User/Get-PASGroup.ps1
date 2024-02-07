@@ -62,7 +62,7 @@ function Get-PASGroup {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/UserGroups"
+		$URI = "$($psPASSession.BaseURI)/API/UserGroups"
 
 		#Get Parameters to include in request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
@@ -129,7 +129,7 @@ function Get-PASGroup {
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

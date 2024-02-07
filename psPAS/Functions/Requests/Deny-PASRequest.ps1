@@ -23,7 +23,7 @@ function Deny-PASRequest {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/IncomingRequests/$($RequestID)/Reject"
+		$URI = "$($psPASSession.BaseURI)/API/IncomingRequests/$($RequestID)/Reject"
 
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestId | ConvertTo-Json
@@ -31,7 +31,7 @@ function Deny-PASRequest {
 		if ($PSCmdlet.ShouldProcess($RequestId, 'Reject Request for Account Access')) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		}
 

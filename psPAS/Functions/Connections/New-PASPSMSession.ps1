@@ -212,7 +212,7 @@ function New-PASPSMSession {
 				Assert-VersionRequirement -RequiredVersion 9.10
 
 				#Create URL for Request
-				$URI = "$Script:BaseURI/API/Accounts/$($AccountID)/PSMConnect"
+				$URI = "$($psPASSession.BaseURI)/API/Accounts/$($AccountID)/PSMConnect"
 
 				#Create body of request
 				$body = $boundParameters | ConvertTo-Json
@@ -227,7 +227,7 @@ function New-PASPSMSession {
 				Assert-VersionRequirement -RequiredVersion 10.5
 
 				#Create URL for Request
-				$URI = "$Script:BaseURI/API/Accounts/AdHocConnect"
+				$URI = "$($psPASSession.BaseURI)/API/Accounts/AdHocConnect"
 
 				#Include decoded password in request
 				$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
@@ -262,7 +262,7 @@ function New-PASPSMSession {
 
 		}
 
-		$ThisSession = $Script:WebSession
+		$ThisSession = $psPASSession.WebSession
 
 		#if a connection method is specified
 		If ($PSBoundParameters.ContainsKey('ConnectionMethod')) {

@@ -17,12 +17,12 @@ function Remove-PASRequest {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/MyRequests/$($RequestID)"
+		$URI = "$($psPASSession.BaseURI)/API/MyRequests/$($RequestID)"
 
 		if ($PSCmdlet.ShouldProcess($RequestID, 'Delete Request')) {
 
 			#Send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

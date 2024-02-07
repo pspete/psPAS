@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -74,8 +84,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -match ("$($Script:BaseURI)/API/MyRequests?OnlyWaiting=True&Expired=True" -or
-						"$($Script:BaseURI)/API/MyRequests?Expired=True&OnlyWaiting=True")
+					$URI -match ("$($Script:psPASSession.BaseURI)/API/MyRequests?OnlyWaiting=True&Expired=True" -or
+						"$($Script:psPASSession.BaseURI)/API/MyRequests?Expired=True&OnlyWaiting=True")
 
 				} -Times 1 -Exactly -Scope It
 
@@ -94,9 +104,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '1.0'
+				$psPASSession.ExternalVersion = '1.0'
 				{ Get-PASRequest -RequestType MyRequests -OnlyWaiting $true -Expired $true } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}
@@ -115,8 +125,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -match ("$($Script:BaseURI)/API/IncomingRequests?OnlyWaiting=True&Expired=True" -or
-						"$($Script:BaseURI)/API/IncomingRequests?Expired=True&OnlyWaiting=True")
+					$URI -match ("$($Script:psPASSession.BaseURI)/API/IncomingRequests?OnlyWaiting=True&Expired=True" -or
+						"$($Script:psPASSession.BaseURI)/API/IncomingRequests?Expired=True&OnlyWaiting=True")
 
 				} -Times 1 -Exactly -Scope It
 
@@ -152,7 +162,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -match "$($Script:BaseURI)/API/bulkactions/123"
+					$URI -match "$($Script:psPASSession.BaseURI)/API/bulkactions/123"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -171,9 +181,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '13.0'
+				$psPASSession.ExternalVersion = '13.0'
 				{ Get-PASRequest -id 123 -DisplayExtendedItems $true } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}

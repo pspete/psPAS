@@ -264,7 +264,7 @@ function Add-PASDiscoveredAccount {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/api/DiscoveredAccounts"
+		$URI = "$($psPASSession.BaseURI)/api/DiscoveredAccounts"
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -302,7 +302,7 @@ function Add-PASDiscoveredAccount {
 		$Body = $boundParameters | Get-PASParameter -ParametersToRemove $AccountProperties | ConvertTo-Json
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		If ($null -ne $result) {
 

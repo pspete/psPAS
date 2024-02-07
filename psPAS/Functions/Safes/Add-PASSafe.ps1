@@ -98,7 +98,7 @@ function Add-PASSafe {
 			( { $PSItem -match '^Gen1-' } ) {
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes"
 
 				#create request body
 				$body = @{
@@ -117,7 +117,7 @@ function Add-PASSafe {
 				Assert-VersionRequirement -RequiredVersion 12.0
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/API/Safes"
+				$URI = "$($psPASSession.BaseURI)/API/Safes"
 
 				$typename = "$typename.Gen2"
 
@@ -130,7 +130,7 @@ function Add-PASSafe {
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		If ($null -ne $result) {
 

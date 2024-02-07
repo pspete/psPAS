@@ -36,7 +36,7 @@ function Unlock-PASAccount {
 			'CheckIn' {
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/API/Accounts/$AccountID/CheckIn"
+				$URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/CheckIn"
 				break
 
 			}
@@ -47,7 +47,7 @@ function Unlock-PASAccount {
 				Assert-VersionRequirement -RequiredVersion 11.6
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/API/Accounts/$AccountID/Unlock"
+				$URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/Unlock"
 				break
 
 			}
@@ -58,7 +58,7 @@ function Unlock-PASAccount {
 		if ($PSCmdlet.ShouldProcess($AccountID, "$($PSCmdlet.ParameterSetName) Account")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST
 
 		}
 

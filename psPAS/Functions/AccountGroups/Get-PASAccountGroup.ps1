@@ -33,7 +33,7 @@ function Get-PASAccountGroup {
 
 				Assert-VersionRequirement -RequiredVersion 10.5 -MaximumVersion 12.3
 				#Create URL for Request
-				$URI = "$Script:BaseURI/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
+				$URI = "$($psPASSession.BaseURI)/API/Safes/$($Safe | Get-EscapedString)/AccountGroups"
 
 				break
 
@@ -43,7 +43,7 @@ function Get-PASAccountGroup {
 
 				Assert-VersionRequirement -RequiredVersion 9.10
 				#Create URL for Request
-				$URI = "$Script:BaseURI/API/AccountGroups?$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
+				$URI = "$($psPASSession.BaseURI)/API/AccountGroups?$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
 
 			}
 
@@ -51,7 +51,7 @@ function Get-PASAccountGroup {
 
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

@@ -23,7 +23,7 @@ function Add-PASAccountGroupMember {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/AccountGroups/$($GroupID |
+		$URI = "$($psPASSession.BaseURI)/API/AccountGroups/$($GroupID |
 
             Get-EscapedString)/Members"
 
@@ -33,7 +33,7 @@ function Add-PASAccountGroupMember {
 			Get-PASParameter -ParametersToRemove GroupID | ConvertTo-Json
 
 		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 	}#process
 

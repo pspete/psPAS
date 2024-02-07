@@ -121,7 +121,7 @@ function New-PASOnboardingRule {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules"
+		$URI = "$($psPASSession.BaseURI)/api/AutomaticOnboardingRules"
 
 		#create request body
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
@@ -148,7 +148,7 @@ function New-PASOnboardingRule {
 		if ($PSCmdlet.ShouldProcess($SafeName, "Add On-Boarding Rule Using '$PlatformID'")) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 			If ($null -ne $result) {
 

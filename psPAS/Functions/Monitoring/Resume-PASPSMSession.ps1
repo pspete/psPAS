@@ -18,12 +18,12 @@ function Resume-PASPSMSession {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Resume"
+		$URI = "$($psPASSession.BaseURI)/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Resume"
 
 		if ($PSCmdlet.ShouldProcess($LiveSessionId, 'Resume PSM Session')) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST
 
 		}
 

@@ -13,10 +13,10 @@ Function Get-PASConnectionComponent {
 
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/PSM/Connectors"
+		$URI = "$($psPASSession.BaseURI)/API/PSM/Connectors"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		if ($null -ne $result.PSMConnectors) {
 

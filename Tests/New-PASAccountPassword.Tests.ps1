@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
         }
 
         $Script:RequestBody = $null
-        $Script:BaseURI = 'https://SomeURL/SomeApp'
-        $Script:ExternalVersion = '0.0'
-        $Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+        $psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
     }
 
@@ -37,9 +47,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
         Context 'Input' {
 
-            $Script:BaseURI = 'https://SomeURL/SomeApp'
-            $Script:ExternalVersion = '0.0'
-            $Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+            $Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+            $psPASSession.ExternalVersion = '0.0'
+            $psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
             BeforeEach {
 
@@ -63,7 +73,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:BaseURI)/api/Accounts/12_3/Secret/Generate"
+                    $URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts/12_3/Secret/Generate"
 
                 } -Times 1 -Exactly -Scope It
 
@@ -82,9 +92,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
 
             It 'throws error if version requirement not met' {
-                $Script:ExternalVersion = '1.0'
+                $psPASSession.ExternalVersion = '1.0'
                 { New-PASAccountPassword -AccountID 12_3 } | Should -Throw
-                $Script:ExternalVersion = '0.0'
+                $psPASSession.ExternalVersion = '0.0'
             }
 
         }

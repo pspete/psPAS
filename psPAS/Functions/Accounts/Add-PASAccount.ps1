@@ -238,7 +238,7 @@ function Add-PASAccount {
 				Assert-VersionRequirement -RequiredVersion 10.4
 
 				#Create URL for Request
-				$URI = "$Script:BaseURI/api/Accounts"
+				$URI = "$($psPASSession.BaseURI)/api/Accounts"
 
 				$Account = New-PASAccountObject @boundParameters
 
@@ -251,7 +251,7 @@ function Add-PASAccount {
 			'Gen1' {
 
 				#Create URL for Request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Account"
 
 				#deal with Password SecureString
 				If ($PSBoundParameters.ContainsKey('password')) {
@@ -320,7 +320,7 @@ function Add-PASAccount {
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		if ($PSCmdlet.ParameterSetName -eq 'Gen2') {
 

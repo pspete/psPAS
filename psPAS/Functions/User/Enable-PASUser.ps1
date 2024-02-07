@@ -18,12 +18,12 @@ function Enable-PASUser {
 
     PROCESS {
 
-        $URI = "$Script:BaseURI/API/Users/$id/enable/"
+        $URI = "$($psPASSession.BaseURI)/API/Users/$id/enable/"
 
         if ($PSCmdlet.ShouldProcess($id, 'Enable User')) {
 
             #send request to web service
-            Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method POST
 
         }
 

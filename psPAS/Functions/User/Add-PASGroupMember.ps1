@@ -59,7 +59,7 @@ function Add-PASGroupMember {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Groups/$($GroupName | Get-EscapedString)/Users/"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Groups/$($GroupName | Get-EscapedString)/Users/"
 
 				break
 
@@ -70,7 +70,7 @@ function Add-PASGroupMember {
 				Assert-VersionRequirement -RequiredVersion 10.6
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/API/UserGroups/$groupId/Members"
+				$URI = "$($psPASSession.BaseURI)/API/UserGroups/$groupId/Members"
 
 				break
 
@@ -82,7 +82,7 @@ function Add-PASGroupMember {
 		$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove GroupName, groupId | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		If ($null -ne $result) {
 

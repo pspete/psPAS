@@ -12,10 +12,10 @@ Function Get-PASComponentSummary {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/ComponentsMonitoringSummary"
+		$URI = "$($psPASSession.BaseURI)/api/ComponentsMonitoringSummary"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

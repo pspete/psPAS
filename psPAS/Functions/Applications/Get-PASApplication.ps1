@@ -43,7 +43,7 @@ function Get-PASApplication {
 	PROCESS {
 
 		#Base URL for Request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications"
+		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Applications"
 
 		#If AppID specified
 		If ($($PSCmdlet.ParameterSetName) -eq 'byAppID') {
@@ -72,7 +72,7 @@ function Get-PASApplication {
 		}
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

@@ -13,11 +13,11 @@ function Get-PASApplicationAuthenticationMethod {
 
 	PROCESS {
 
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications/$($AppID |
+		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Applications/$($AppID |
 
             Get-EscapedString)/Authentications/"
 
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

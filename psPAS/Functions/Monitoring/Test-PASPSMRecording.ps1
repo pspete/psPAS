@@ -16,10 +16,10 @@ function Test-PASPSMRecording {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/Recordings/$SessionID/valid"
+		$URI = "$($psPASSession.BaseURI)/API/Recordings/$SessionID/valid"
 
 		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		Invoke-PASRestMethod -Uri $URI -Method GET
 
 	} #process
 

@@ -42,7 +42,7 @@ function Publish-PASDiscoveredAccount {
 
     PROCESS {
 
-        $URI = "$Script:BaseURI/api/DiscoveredAccounts/$id/Onboard"
+        $URI = "$($psPASSession.BaseURI)/api/DiscoveredAccounts/$id/Onboard"
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove id
@@ -59,7 +59,7 @@ function Publish-PASDiscoveredAccount {
 
         if ($PSCmdlet.ShouldProcess($id, 'Onboard Discovered Account')) {
 
-            Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
         }
 

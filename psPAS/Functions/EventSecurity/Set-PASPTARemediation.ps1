@@ -40,7 +40,7 @@ Function Set-PASPTARemediation {
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/pta/API/Settings/AutomaticRemediations/"
+		$URI = "$($psPASSession.BaseURI)/API/pta/API/Settings/AutomaticRemediations/"
 
 
 		#Create body of request
@@ -49,7 +49,7 @@ Function Set-PASPTARemediation {
 		if ($PSCmdlet.ShouldProcess('PTA', 'Update Automatic Remediation Config')) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $Script:WebSession | Out-Null
+			Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body | Out-Null
 
 		}
 

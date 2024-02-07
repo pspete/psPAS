@@ -24,9 +24,9 @@ function Connect-PASPSMSession {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$($Script:BaseURI)/API/LiveSessions/$($SessionId | Get-EscapedString)/monitor"
+		$URI = "$($($psPASSession.BaseURI))/API/LiveSessions/$($SessionId | Get-EscapedString)/monitor"
 
-		$ThisSession = $Script:WebSession
+		$ThisSession = $psPASSession.WebSession
 
 		#if a connection method is specified
 		If ($PSBoundParameters.ContainsKey('ConnectionMethod')) {

@@ -225,7 +225,7 @@ function Add-PASSafeMember {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/$($SafeName |
 				Get-EscapedString)/Members"
 
 				If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
@@ -258,7 +258,7 @@ function Add-PASSafeMember {
 				Assert-VersionRequirement -RequiredVersion 12.1
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)/Members"
+				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)/Members"
 
 				If ($PSBoundParameters.ContainsKey('MemberType')) {
 
@@ -289,7 +289,7 @@ function Add-PASSafeMember {
 		}
 
 		#Send request to Web Service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		If ($null -ne $result) {
 

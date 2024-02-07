@@ -140,7 +140,7 @@ function Set-PASAccount {
 				Assert-VersionRequirement -RequiredVersion 10.4
 
 				#Create URL for Request
-				$URI = "$Script:BaseURI/api/Accounts/$AccountID"
+				$URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID"
 
 				#Define method for request
 				$Method = 'PATCH'
@@ -163,7 +163,7 @@ function Set-PASAccount {
 			'Gen1' {
 
 				#Create URL for Request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Accounts/$AccountID"
 
 				#Define method for request
 				$Method = 'PUT'
@@ -238,7 +238,7 @@ function Set-PASAccount {
 		if ($PSCmdlet.ShouldProcess($AccountID, 'Update Account Properties')) {
 
 			#send request to PAS web service
-			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body -WebSession $Script:WebSession
+			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body
 
 			If ($null -ne $result) {
 

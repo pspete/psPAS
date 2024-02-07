@@ -27,7 +27,7 @@ function Get-PASAccountPasswordVersion {
     PROCESS {
 
         #Create URL for request
-        $URI = "$Script:BaseURI/api/Accounts/$AccountID/Secret/Versions"
+        $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/Secret/Versions"
 
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID
 
@@ -42,7 +42,7 @@ function Get-PASAccountPasswordVersion {
         }
 
         #Send request to webservice
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
         If ($null -ne $result) {
 

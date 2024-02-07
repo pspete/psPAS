@@ -19,10 +19,10 @@ function Revoke-PASJustInTimeAccess {
     PROCESS {
 
         #Create URL for request
-        $URI = "$Script:BaseURI/api/Accounts/$AccountID/RevokeAdministrativeAccess"
+        $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/RevokeAdministrativeAccess"
 
         #Send request to webservice
-        Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
+        Invoke-PASRestMethod -Uri $URI -Method POST
 
     }#process
 

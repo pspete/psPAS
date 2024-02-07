@@ -115,7 +115,7 @@ function Set-PASSafe {
 				$typename = "$typename.Gen2"
 
 				#Create URL for Request
-				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)"
+				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)"
 
 				#Create Request Body
 				$body = $BoundParameters | ConvertTo-Json
@@ -129,7 +129,7 @@ function Set-PASSafe {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for Request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName | Get-EscapedString)"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/$($SafeName | Get-EscapedString)"
 
 				#Create Request Body
 				$body = @{
@@ -147,7 +147,7 @@ function Set-PASSafe {
 		if ($PSCmdlet.ShouldProcess($SafeName, 'Update Safe Properties')) {
 
 			#Send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
 			If ($null -ne $result) {
 

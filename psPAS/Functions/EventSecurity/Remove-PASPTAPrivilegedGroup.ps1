@@ -16,12 +16,12 @@ Function Remove-PASPTAPrivilegedGroup {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/API/pta/API/configuration/properties/PrivilegedDomainGroupsList/$ID"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/PrivilegedDomainGroupsList/$ID"
 
         if ($PSCmdlet.ShouldProcess($ID, 'Delete PTA Privileged Domain Group Configuration')) {
 
             #send request to web service
-            Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method DELETE
 
         }
 

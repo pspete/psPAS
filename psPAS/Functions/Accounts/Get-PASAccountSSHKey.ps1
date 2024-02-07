@@ -60,13 +60,13 @@ Function Get-PASAccountSSHKey {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Accounts/$($AccountID | Get-EscapedString)/Secret/Retrieve"
+		$URI = "$($psPASSession.BaseURI)/api/Accounts/$($AccountID | Get-EscapedString)/Secret/Retrieve"
 
 		#Create request body
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		If ($null -ne $result) {
 

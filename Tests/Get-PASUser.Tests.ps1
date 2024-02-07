@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -70,7 +80,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Users/SomeUser"
+					$URI -eq "$($Script:psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/SomeUser"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -82,8 +92,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					(($URI -eq "$($Script:BaseURI)/api/Users?Search=SomeUser&ComponentUser=True") -or
-						($URI -eq "$($Script:BaseURI)/api/Users?ComponentUser=True&Search=SomeUser"))
+					(($URI -eq "$($Script:psPASSession.BaseURI)/api/Users?Search=SomeUser&ComponentUser=True") -or
+						($URI -eq "$($Script:psPASSession.BaseURI)/api/Users?ComponentUser=True&Search=SomeUser"))
 
 				} -Times 1 -Exactly -Scope It
 
@@ -95,7 +105,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Users/123"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Users/123"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -114,31 +124,31 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '1.0'
+				$psPASSession.ExternalVersion = '1.0'
 
 				{ $InputObjV10 | Get-PASUser } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 
 			}
 
 			It 'throws error if version 10.9 requirement not met' {
-				$Script:ExternalVersion = '10.9'
+				$psPASSession.ExternalVersion = '10.9'
 
 				{ Get-PASUser -id 123 } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 
 			}
 
 			It 'throws error if version 12.1 requirement not met' {
-				$Script:ExternalVersion = '1.0'
+				$psPASSession.ExternalVersion = '1.0'
 				{ Get-PASUser -id 123 -ExtendedDetails $true } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'throws error if version 13.2 requirement not met' {
-				$Script:ExternalVersion = '1.0'
+				$psPASSession.ExternalVersion = '1.0'
 				{ Get-PASUser -UserStatus Suspended -source LDAP } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}

@@ -20,12 +20,12 @@ Function Remove-PASAuthenticationMethod {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/AuthenticationMethods/$($id | Get-EscapedString)"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/AuthenticationMethods/$($id | Get-EscapedString)"
 
 		if ($PSCmdlet.ShouldProcess($id, 'Delete Authentication Method')) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 			If ($null -ne $result) {
 

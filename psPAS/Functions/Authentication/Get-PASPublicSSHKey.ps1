@@ -16,12 +16,12 @@ function Get-PASPublicSSHKey {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
+		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/$($UserName |
 
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/"
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

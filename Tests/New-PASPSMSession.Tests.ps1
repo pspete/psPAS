@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -73,9 +83,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				}
 
-				$Script:BaseURI = 'https://SomeURL/SomeApp'
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 				Mock Out-PASFile -MockWith { }
 			}
@@ -98,7 +108,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Accounts/99_9/PSMConnect"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/99_9/PSMConnect"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -159,16 +169,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met for RDP connection method' {
-				$Script:ExternalVersion = '9.8'
+				$psPASSession.ExternalVersion = '9.8'
 				{ $InputObj | New-PASPSMSession -ConnectionMethod RDP } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'throws error if version requirement not met for PSMGW connection method' {
 
-				$Script:ExternalVersion = '9.10'
+				$psPASSession.ExternalVersion = '9.10'
 				{ $InputObj | New-PASPSMSession -ConnectionMethod PSMGW } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'sends request to expected endpoint for AdHocConnect' {
@@ -176,7 +186,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$AdHocObj | New-PASPSMSession -ConnectionMethod RDP -PSMRemoteMachine 'SomeServer'
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Accounts/AdHocConnect"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/AdHocConnect"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -203,9 +213,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met for AdHocConnect' {
-				$Script:ExternalVersion = '10.4'
+				$psPASSession.ExternalVersion = '10.4'
 				{ $AdHocObj | New-PASPSMSession -ConnectionMethod PSMGW } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}
@@ -225,9 +235,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				}
 
-				$Script:BaseURI = 'https://SomeURL/SomeApp'
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 				Mock Out-PASFile -MockWith { }
 			}

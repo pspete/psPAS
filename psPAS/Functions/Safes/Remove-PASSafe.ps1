@@ -36,7 +36,7 @@ function Remove-PASSafe {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/$($SafeName |
 				Get-EscapedString)"
 
 				break
@@ -48,7 +48,7 @@ function Remove-PASSafe {
 				Assert-VersionRequirement -RequiredVersion 12.1
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)"
+				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)"
 
 				break
 
@@ -59,7 +59,7 @@ function Remove-PASSafe {
 		if ($PSCmdlet.ShouldProcess($SafeName, 'Delete Safe')) {
 
 			#Send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

@@ -50,12 +50,12 @@ Function Remove-PASPlatform {
 	Process {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/Platforms/$($PSCmdLet.ParameterSetName)/$ID"
+		$URI = "$($psPASSession.BaseURI)/API/Platforms/$($PSCmdLet.ParameterSetName)/$ID"
 
 		if ($PSCmdlet.ShouldProcess($ID, "Delete $($PSCmdLet.ParameterSetName) Platform")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

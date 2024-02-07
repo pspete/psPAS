@@ -13,10 +13,10 @@ Function Get-PASPSMServer {
 
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/PSM/Servers"
+		$URI = "$($psPASSession.BaseURI)/API/PSM/Servers"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		if ($null -ne $result.PSMServers) {
 

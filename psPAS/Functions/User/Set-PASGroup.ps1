@@ -24,7 +24,7 @@ Function Set-PASGroup {
     Process {
 
         #Create URL for request
-        $URI = "$Script:BaseURI/API/UserGroups/$GroupID"
+        $URI = "$($psPASSession.BaseURI)/API/UserGroups/$GroupID"
 
         #Get request parameters
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove GroupID
@@ -35,7 +35,7 @@ Function Set-PASGroup {
         if ($PSCmdlet.ShouldProcess($GroupID, 'Update Group')) {
 
             #send request to web service
-            $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+            $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
         }
 

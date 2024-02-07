@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -53,7 +63,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Get-PASGroup
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/UserGroups"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/UserGroups"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -63,7 +73,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Get-PASGroup -id 666
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/UserGroups/666/"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/UserGroups/666/"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -73,7 +83,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Get-PASGroup -groupType Vault -search 'Search Term'
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($URI -eq "$($Script:BaseURI)/API/UserGroups?search=Search%20Term&filter=groupType%20eq%20Vault") -or ($URI -eq "$($Script:BaseURI)/API/UserGroups?filter=groupType%20eq%20Vault&search=Search%20Term")
+					($URI -eq "$($Script:psPASSession.BaseURI)/API/UserGroups?search=Search%20Term&filter=groupType%20eq%20Vault") -or ($URI -eq "$($Script:psPASSession.BaseURI)/API/UserGroups?filter=groupType%20eq%20Vault&search=Search%20Term")
 
 				} -Times 1 -Exactly -Scope It
 
@@ -92,11 +102,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '1.2'
+				$psPASSession.ExternalVersion = '1.2'
 
 				{ Get-PASGroup } | Should -Throw
 
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 
 			}
 

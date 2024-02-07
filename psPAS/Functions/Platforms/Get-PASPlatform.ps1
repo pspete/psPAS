@@ -127,7 +127,7 @@ function Get-PASPlatform {
 				Assert-VersionRequirement -RequiredVersion 11.1
 
 				#Create request URL
-				$URI = "$Script:BaseURI/API/Platforms"
+				$URI = "$($psPASSession.BaseURI)/API/Platforms"
 
 				#Get Parameters to include in request
 				$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -149,7 +149,7 @@ function Get-PASPlatform {
 				Assert-VersionRequirement -RequiredVersion 9.10
 
 				#Create request URL
-				$URI = "$Script:BaseURI/API/Platforms/$($PlatformID | Get-EscapedString)/"
+				$URI = "$($psPASSession.BaseURI)/API/Platforms/$($PlatformID | Get-EscapedString)/"
 
 				break
 
@@ -159,7 +159,7 @@ function Get-PASPlatform {
 
 				Assert-VersionRequirement -RequiredVersion 11.4
 
-				$URI = "$Script:BaseURI/API/Platforms/$($PSCmdlet.ParameterSetName)"
+				$URI = "$($psPASSession.BaseURI)/API/Platforms/$($PSCmdlet.ParameterSetName)"
 
 				#Parameter to include parameter value in url
 				$Parameters = [Collections.Generic.List[Object]]::New(@('Search'))
@@ -192,7 +192,7 @@ function Get-PASPlatform {
 
 				Assert-VersionRequirement -RequiredVersion 11.4
 
-				$URI = "$Script:BaseURI/API/Platforms/$($PSCmdlet.ParameterSetName)"
+				$URI = "$($psPASSession.BaseURI)/API/Platforms/$($PSCmdlet.ParameterSetName)"
 
 				break
 
@@ -201,7 +201,7 @@ function Get-PASPlatform {
 		}
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

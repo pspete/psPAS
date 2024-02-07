@@ -10,10 +10,10 @@ function Get-PASPlatformSummary {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/API/Platforms/Targets/SystemTypes"
+        $URI = "$($psPASSession.BaseURI)/API/Platforms/Targets/SystemTypes"
 
         #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
         #$result
         If ($null -ne $result) {

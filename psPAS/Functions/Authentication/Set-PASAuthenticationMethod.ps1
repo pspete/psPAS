@@ -74,7 +74,7 @@ Function Set-PASAuthenticationMethod {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/AuthenticationMethods/$($ID | Get-EscapedString)"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/AuthenticationMethods/$($ID | Get-EscapedString)"
 
 		#Request body
 		$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove ID | ConvertTo-Json
@@ -82,7 +82,7 @@ Function Set-PASAuthenticationMethod {
 		if ($PSCmdlet.ShouldProcess($ID, 'Update Authentication Method')) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
 		}
 

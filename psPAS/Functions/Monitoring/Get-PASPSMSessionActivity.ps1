@@ -17,10 +17,10 @@ function Get-PASPSMSessionActivity {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/LiveSessions/$($LiveSessionId | Get-EscapedString)/activities"
+		$URI = "$($psPASSession.BaseURI)/API/LiveSessions/$($LiveSessionId | Get-EscapedString)/activities"
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

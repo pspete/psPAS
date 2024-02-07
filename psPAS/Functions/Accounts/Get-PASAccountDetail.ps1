@@ -19,10 +19,10 @@ function Get-PASAccountDetail {
     PROCESS {
 
         #define base URL
-        $URI = "$Script:BaseURI/api/ExtendedAccounts/$id/overview"
+        $URI = "$($psPASSession.BaseURI)/api/ExtendedAccounts/$id/overview"
 
         #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
         If ($null -ne $result) {
             $result

@@ -34,7 +34,7 @@ function Remove-PASUser {
 
 			'Gen2' {
 
-				$URI = "$Script:BaseURI/api/Users/$id"
+				$URI = "$($psPASSession.BaseURI)/api/Users/$id"
 
 				$User = $id
 
@@ -47,7 +47,7 @@ function Remove-PASUser {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 
 				$User = $UserName
 
@@ -60,7 +60,7 @@ function Remove-PASUser {
 		if ($PSCmdlet.ShouldProcess($User, 'Delete User')) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

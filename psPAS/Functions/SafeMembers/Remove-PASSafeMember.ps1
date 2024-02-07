@@ -35,7 +35,7 @@ function Remove-PASSafeMember {
 			'Gen1' {
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName |
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/$($SafeName |
 					Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 
 			}
@@ -45,7 +45,7 @@ function Remove-PASSafeMember {
 				Assert-VersionRequirement -RequiredVersion 12.2
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/api/Safes/$($SafeName |
+				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName |
 					Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 
 			}
@@ -55,7 +55,7 @@ function Remove-PASSafeMember {
 		if ($PSCmdlet.ShouldProcess($SafeName, "Remove Safe Member '$MemberName'")) {
 
 			#Send Delete request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

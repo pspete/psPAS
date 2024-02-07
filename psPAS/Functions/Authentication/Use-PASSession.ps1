@@ -14,9 +14,7 @@ function Use-PASSession {
 
 	PROCESS {
 
-		Set-Variable -Name BaseURI -Value $Session.BaseURI -Scope Script
-		Set-Variable -Name ExternalVersion -Value $Session.ExternalVersion -Scope Script
-		Set-Variable -Name WebSession -Value $Session.WebSession -Scope Script
+		New-Variable -Name psPASSession -Value $Session -Scope Script -Force
 
 	}#process
 

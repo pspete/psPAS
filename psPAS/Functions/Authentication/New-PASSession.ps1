@@ -662,7 +662,7 @@ function New-PASSession {
 
 					#Use WebSession from initial request
 					$LogonRequest.Remove('SessionVariable')
-					$LogonRequest['WebSession'] = $Script:WebSession
+					$LogonRequest['WebSession'] = $psPASSession.WebSession
 
 					#Prepare auth request
 					switch ( $true ) {
@@ -702,7 +702,7 @@ function New-PASSession {
 
 					#Use WebSession from initial request
 					$LogonRequest.Remove('SessionVariable')
-					$LogonRequest['WebSession'] = $Script:WebSession
+					$LogonRequest['WebSession'] = $psPASSession.WebSession
 
 					#Collect values required to respond to the challenge
 					$RADIUSResponse = @{}
@@ -741,7 +741,7 @@ function New-PASSession {
 							$CyberArkLogonResult = "$($PASSession.token_type) $($PASSession.access_token)"
 
 							#Make the IdentityCommand WebSession available in the psPAS module scope
-							Set-Variable -Name WebSession -Value $($PSItem.GetWebSession()) -Scope Script
+							$psPASSession.WebSession = $($PSItem.GetWebSession())
 
 						}
 
@@ -751,7 +751,7 @@ function New-PASSession {
 							$CyberArkLogonResult = "Bearer $($PASSession.Token)"
 
 							#Make the IdentityCommand WebSession available in the psPAS module scope
-							Set-Variable -Name WebSession -Value $($PSItem.GetWebSession()) -Scope Script
+							$psPASSession.WebSession = $($PSItem.GetWebSession())
 
 						}
 
@@ -782,11 +782,14 @@ function New-PASSession {
 
 					}
 
+					#Record Session Start Time
+					$psPASSession.StartTime = Get-Date
+
 					#BaseURI set in Module Scope
-					Set-Variable -Name BaseURI -Value $Uri -Scope Script
+					$psPASSession.BaseURI = $Uri
 
 					#Auth token added to WebSession
-					$Script:WebSession.Headers['Authorization'] = [string]$CyberArkLogonResult
+					$psPASSession.WebSession.Headers['Authorization'] = [string]$CyberArkLogonResult
 
 					#Initial Value for Version variable
 					[System.Version]$Version = '0.0'
@@ -804,7 +807,15 @@ function New-PASSession {
 					}
 
 					#Version information available in module scope.
-					Set-Variable -Name ExternalVersion -Value $Version -Scope Script
+					$psPASSession.ExternalVersion = $Version
+
+					Try {
+
+						#Get Authenticated User.
+						$psPASSession.User = Get-PASLoggedOnUser -ErrorAction Stop |
+							Select-Object -ExpandProperty UserName
+
+					} Catch { $psPASSession.User = $null }
 
 				}
 

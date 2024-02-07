@@ -429,7 +429,7 @@ function New-PASUser {
 				}
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/api/Users"
+				$URI = "$($psPASSession.BaseURI)/api/Users"
 
 				$boundParameters = $boundParameters | Format-PASUserObject
 
@@ -444,7 +444,7 @@ function New-PASUser {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Users"
 
 				If ($PSBoundParameters.ContainsKey('ExpiryDate')) {
 
@@ -470,7 +470,7 @@ function New-PASUser {
 		if ($PSCmdlet.ShouldProcess($UserName, 'Create User')) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 			If ($null -ne $result) {
 

@@ -7,11 +7,10 @@ function Get-PASSession {
 
 	PROCESS {
 
-		[PSCustomObject]@{
-			BaseURI         = $Script:BaseURI
-			ExternalVersion = $Script:ExternalVersion
-			WebSession      = $Script:WebSession
-		} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Session
+		if ($null -ne $psPASSession.StartTime) {
+			$psPASSession.ElapsedTime = '{0:HH:mm:ss}' -f ([datetime]$($(Get-Date) - $($psPASSession.StartTime)).Ticks)
+		}
+		$psPASSession
 
 	}#process
 
