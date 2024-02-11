@@ -83,6 +83,9 @@ function Close-PASSession {
 		#Clear Module scope variables on logoff
 		$psPASSession.BaseURI = $null
 		$psPASSession.WebSession = $null
+		$psPASSession.User = $null
+		$psPASSession.StartTime = $null
+
 
 	}#end
 }
