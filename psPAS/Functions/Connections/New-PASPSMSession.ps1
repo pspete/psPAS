@@ -298,13 +298,23 @@ function New-PASPSMSession {
 
 			If (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains 'PSMGWRequest') {
 
-				#Return PSM GW URL Details
-				$result
+				$Path = [System.IO.Path]::GetTempPath()
+				$FileName = "$((Get-PASSession).LastCommandResults.Headers['X-Correlation-ID']).html"
+				$OutputPath = Join-Path $Path $FileName
+
+				#POST PSMGWRequest Details to HTML5 GW via html form
+				$htmlParams = @{
+					Title = 'PSMGWRequest'
+					Body  = '<form action="' + $result.PSMGWURL + '" method="POST"><input name="PSMGWRequest" type="hidden" value="' + $result.PSMGWRequest + '"></form><script>document.forms[0].submit()</script>'
+				}
+
+				ConvertTo-Html @htmlParams | Out-File $OutputPath
+				Get-Item -Path $OutputPath | Invoke-Item
 
 			} Else {
 
-				#Save the RDP file to disk
-				Out-PASFile -InputObject $result -Path $Path
+				#Save the RDP file to disk and automatically open it to spawn the RDP conenction to PSM
+				Out-PASFile -InputObject $result -Path $Path | Invoke-Item
 
 			}
 

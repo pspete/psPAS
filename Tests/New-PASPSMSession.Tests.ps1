@@ -220,33 +220,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
-		Context 'Output' {
-
-
-			BeforeEach {
-				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{'PSMGWRequest' = 'VAL1'; 'PSMGWURL' = 'Val2'; 'Prop3' = 'Val3' }
-				}
-
-				$InputObj = [pscustomobject]@{
-
-					'AccountID'           = '99_9'
-					'ConnectionComponent' = 'SomeConnectionComponent'
-
-				}
-
-				$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
-				$psPASSession.ExternalVersion = '0.0'
-				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-
-				Mock Out-PASFile -MockWith { }
-			}
-
-			It 'outputs PSMGW connection information' {
-				$InputObj | New-PASPSMSession -ConnectionMethod PSMGW | Should -Not -Be Null
-			}
-
-		}
+		#TODO Test RDP/PSMGW Invoke-Item + Related Files
 
 	}
 
