@@ -812,10 +812,25 @@ function New-PASSession {
 					Try {
 
 						#Get Authenticated User.
-						$psPASSession.User = Get-PASLoggedOnUser -ErrorAction Stop |
-							Select-Object -ExpandProperty UserName
+						$User = Get-PASLoggedOnUser -ErrorAction Stop
 
-					} Catch { $psPASSession.User = $null }
+					} Catch {
+
+						if ($PSBoundParameters.ContainsKey('Credential')) {
+							$User = $Credential
+						} else {
+							$User = $null
+						}
+
+					} Finally {
+
+						if ($null -ne $User) {
+							$Username = $User | Select-Object -ExpandProperty UserName
+						} else { $Username = $User }
+
+						$psPASSession.User = $Username
+
+					}
 
 				}
 
