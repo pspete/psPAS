@@ -38,11 +38,9 @@ function Get-SessionClone {
             }
             return $clone
         } else {
-            return [System.Management.Automation.PSSerializer]::Deserialize(
-                [System.Management.Automation.PSSerializer]::Serialize(
-                    $InputObject
-                )
-            )
+
+            return $InputObject
+
         }
     }
 }
