@@ -21,6 +21,36 @@
 ### Added
 - N/A
 
+## **6.2.##**
+
+### Added
+- N/A
+
+### Updated
+- `Get-PASSession`
+  - makes additional information available to users running the command
+    - authentication time
+    - session length
+    - last command and result data
+    - last error details
+- `New-PASPSMSession`
+  - RDP and PSMGW connections will be automatically opened when issuing  connection request.
+- `New-PASSession`
+  - Adds logic around getting the logged on user name for either self-hosted or privilege cloud deployments
+- PSM Session Data Formats
+  - Adds `Start` & `End` to standard table view output
+  - Formats `Start` & `End` as standard datetime instead of unixtime.
+
+### Fixed
+- `Add-PASGroupMember`,`Remove-PASGroup`,`Set-PASGroup`
+  - Standardises name of `ID` parameter.
+  - Adds `GroupID` alias to `ID` parameter.
+
+## **6.1.62**
+
+### Added
+- N/A
+
 ### Updated
 - `Get-PASPSMRecording`
   - Removes `Offset` Parameter
