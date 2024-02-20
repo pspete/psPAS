@@ -11,10 +11,10 @@ function Clear-PASPrivateSSHKey {
 
     PROCESS {
 
-        $URI = "$Script:BaseURI/api/Users/Secret/SSHKeys/ClearCache"
+        $URI = "$($psPASSession.BaseURI)/api/Users/Secret/SSHKeys/ClearCache"
 
         #send request to webservice
-        Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+        Invoke-PASRestMethod -Uri $URI -Method DELETE
 
     }#process
 

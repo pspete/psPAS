@@ -32,7 +32,7 @@ function Remove-PASAccount {
 			'Gen1' {
 
 				#Create URL for request (earlier than 10.4)
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$AccountID"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Accounts/$AccountID"
 				break
 
 			}
@@ -40,7 +40,7 @@ function Remove-PASAccount {
 			default {
 
 				#Create URL for request (Version 10.4 onwards)
-				$URI = "$Script:BaseURI/api/Accounts/$AccountID"
+				$URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID"
 
 			}
 
@@ -49,7 +49,7 @@ function Remove-PASAccount {
 		if ($PSCmdlet.ShouldProcess($AccountID, 'Delete Account')) {
 
 			#Send request to webservice
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

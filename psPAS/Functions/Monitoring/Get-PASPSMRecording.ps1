@@ -73,7 +73,7 @@ function Get-PASPSMRecording {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/Recordings"
+		$URI = "$($psPASSession.BaseURI)/API/Recordings"
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -127,7 +127,7 @@ function Get-PASPSMRecording {
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		$Total = ($result.Recordings).Count
 
@@ -153,7 +153,7 @@ function Get-PASPSMRecording {
 
 				}
 
-				$result = (Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET -WebSession $Script:WebSession).Recordings
+				$result = (Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET).Recordings
 
 				$Total = $result.Count
 

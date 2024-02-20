@@ -96,7 +96,7 @@ function Get-PASAccountPassword {
 				#For Version 10.1+
 				$Request = @{
 
-					'URI'    = "$Script:BaseURI/api/Accounts/$($AccountID | Get-EscapedString)/Password/Retrieve"
+					'URI'    = "$($psPASSession.BaseURI)/api/Accounts/$($AccountID | Get-EscapedString)/Password/Retrieve"
 
 					'Method' = 'POST'
 
@@ -114,7 +114,7 @@ function Get-PASAccountPassword {
 				#For Version 9.7+
 				$Request = @{
 
-					'URI'    = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts/$($AccountID | Get-EscapedString)/Credentials"
+					'URI'    = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Accounts/$($AccountID | Get-EscapedString)/Credentials"
 
 					'Method' = 'GET'
 
@@ -127,7 +127,7 @@ function Get-PASAccountPassword {
 		}
 
 		#Add default Request parameters
-		$Request.Add('WebSession', $Script:WebSession)
+		$Request.Add('WebSession', $($psPASSession.WebSession))
 
 		#splat request to web service
 		$result = Invoke-PASRestMethod @Request

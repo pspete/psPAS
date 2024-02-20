@@ -24,10 +24,10 @@ function Get-PASRequestDetail {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/$($RequestType)/$($RequestID)"
+		$URI = "$($psPASSession.BaseURI)/API/$($RequestType)/$($RequestID)"
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

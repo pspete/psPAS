@@ -134,14 +134,14 @@ function New-PASDirectoryMapping {
 		}
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/"
 
 		$body = $boundParameters | ConvertTo-Json
 
 		if ($PSCmdlet.ShouldProcess($MappingName, 'Create Directory Mapping')) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 			If ($null -ne $result) {
 

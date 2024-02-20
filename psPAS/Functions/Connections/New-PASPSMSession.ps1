@@ -212,7 +212,7 @@ function New-PASPSMSession {
 				Assert-VersionRequirement -RequiredVersion 9.10
 
 				#Create URL for Request
-				$URI = "$Script:BaseURI/API/Accounts/$($AccountID)/PSMConnect"
+				$URI = "$($psPASSession.BaseURI)/API/Accounts/$($AccountID)/PSMConnect"
 
 				#Create body of request
 				$body = $boundParameters | ConvertTo-Json
@@ -227,7 +227,7 @@ function New-PASPSMSession {
 				Assert-VersionRequirement -RequiredVersion 10.5
 
 				#Create URL for Request
-				$URI = "$Script:BaseURI/API/Accounts/AdHocConnect"
+				$URI = "$($psPASSession.BaseURI)/API/Accounts/AdHocConnect"
 
 				#Include decoded password in request
 				$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
@@ -262,7 +262,7 @@ function New-PASPSMSession {
 
 		}
 
-		$ThisSession = $Script:WebSession
+		$ThisSession = $psPASSession.WebSession
 
 		#if a connection method is specified
 		If ($PSBoundParameters.ContainsKey('ConnectionMethod')) {
@@ -298,13 +298,23 @@ function New-PASPSMSession {
 
 			If (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains 'PSMGWRequest') {
 
-				#Return PSM GW URL Details
-				$result
+				$Path = [System.IO.Path]::GetTempPath()
+				$FileName = "$((Get-PASSession).LastCommandResults.Headers['X-Correlation-ID']).html"
+				$OutputPath = Join-Path $Path $FileName
+
+				#POST PSMGWRequest Details to HTML5 GW via html form
+				$htmlParams = @{
+					Title = 'PSMGWRequest'
+					Body  = '<form action="' + $result.PSMGWURL + '" method="POST"><input name="PSMGWRequest" type="hidden" value="' + $result.PSMGWRequest + '"></form><script>document.forms[0].submit()</script>'
+				}
+
+				ConvertTo-Html @htmlParams | Out-File $OutputPath
+				Get-Item -Path $OutputPath | Invoke-Item
 
 			} Else {
 
-				#Save the RDP file to disk
-				Out-PASFile -InputObject $result -Path $Path
+				#Save the RDP file to disk and automatically open it to spawn the RDP conenction to PSM
+				Out-PASFile -InputObject $result -Path $Path | Invoke-Item
 
 			}
 

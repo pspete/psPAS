@@ -58,7 +58,7 @@ Function Copy-PASPlatform {
 	Process {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/Platforms/$($PSCmdLet.ParameterSetName)/$ID/duplicate"
+		$URI = "$($psPASSession.BaseURI)/API/Platforms/$($PSCmdLet.ParameterSetName)/$ID/duplicate"
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove ID, TargetPlatform,
@@ -69,7 +69,7 @@ Function Copy-PASPlatform {
 		if ($PSCmdlet.ShouldProcess($ID, "Duplicate $($PSCmdLet.ParameterSetName) Platform")) {
 
 			#send request
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $Script:WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body
 
 			If ($null -ne $result) {
 

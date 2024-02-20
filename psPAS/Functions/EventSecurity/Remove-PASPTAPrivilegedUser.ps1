@@ -16,12 +16,12 @@ Function Remove-PASPTAPrivilegedUser {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/API/pta/API/configuration/properties/PrivilegedUsersList/$ID"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/PrivilegedUsersList/$ID"
 
         if ($PSCmdlet.ShouldProcess($ID, 'Delete PTA Privileged User Configuration')) {
 
             #send request to web service
-            Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method DELETE
 
         }
 

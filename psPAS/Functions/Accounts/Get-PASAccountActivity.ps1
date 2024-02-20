@@ -38,7 +38,7 @@ function Get-PASAccountActivity {
 				#!Depreciated above 13.2
 				Assert-VersionRequirement -MaximumVersion 13.2
 				#URL for Request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc"
 
 				break
 
@@ -48,7 +48,7 @@ function Get-PASAccountActivity {
 
 				Assert-VersionRequirement -RequiredVersion 13.2
 				#URL for Request
-				$URI = "$Script:BaseURI/api"
+				$URI = "$($psPASSession.BaseURI)/api"
 
 			}
 
@@ -58,7 +58,7 @@ function Get-PASAccountActivity {
 		$URI = "$URI/Accounts/$($AccountID | Get-EscapedString)/Activities"
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

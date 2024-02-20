@@ -19,10 +19,10 @@ function Request-PASJustInTimeAccess {
 	PROCESS {
 
 		#Create URL for request (Version 10.4 onwards)
-		$URI = "$Script:BaseURI/api/Accounts/$AccountID/grantAdministrativeAccess"
+		$URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/grantAdministrativeAccess"
 
 		#Send request to webservice
-		Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
+		Invoke-PASRestMethod -Uri $URI -Method POST
 
 	}#process
 

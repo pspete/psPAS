@@ -16,7 +16,7 @@ Function Add-PASPTAIncludedTarget {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/api/pta/API/Administration/properties/CidrInclusionList"
+        $URI = "$($psPASSession.BaseURI)/api/pta/API/Administration/properties/CidrInclusionList"
 
         #Create body of request
         $Body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
@@ -24,7 +24,7 @@ Function Add-PASPTAIncludedTarget {
         if ($PSCmdlet.ShouldProcess($cidr, 'Add PTA Included Monitored Target')) {
 
             #send request to web service
-            Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body
 
         }
 

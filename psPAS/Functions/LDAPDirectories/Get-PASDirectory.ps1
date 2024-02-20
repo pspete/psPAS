@@ -21,7 +21,7 @@ function Get-PASDirectory {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories"
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -49,7 +49,7 @@ function Get-PASDirectory {
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

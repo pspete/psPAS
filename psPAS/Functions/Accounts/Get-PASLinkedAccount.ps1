@@ -21,10 +21,10 @@ Function Get-PASLinkedAccount {
     PROCESS {
 
         #Create URL for Request
-        $URI = "$Script:BaseURI/api/ExtendedAccounts/$id/LinkedAccounts"
+        $URI = "$($psPASSession.BaseURI)/api/ExtendedAccounts/$id/LinkedAccounts"
 
         #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
         If ($null -ne $result) {
 

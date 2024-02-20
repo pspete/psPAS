@@ -10,10 +10,10 @@ Function Get-PASPTARiskSummary {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/API/pta/API/Risks/Summary/"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/Risks/Summary/"
 
         #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
         If ($null -ne $result) {
 

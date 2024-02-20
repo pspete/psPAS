@@ -36,7 +36,7 @@ function Remove-PASAccountACL {
 	PROCESS {
 
 		#URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Account/$($AccountAddress |
+		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Account/$($AccountAddress |
 
             Get-EscapedString)|$($AccountUserName |
 
@@ -51,7 +51,7 @@ function Remove-PASAccountACL {
 				"Delete Privileged Command '$Id'")) {
 
 			#Send Request to Web Service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -Body $Body -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE -Body $Body
 
 		}
 

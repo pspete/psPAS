@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -140,7 +150,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Safes/SomeSafe/Members"
+					$URI -eq "$($Script:psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/SomeSafe/Members"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -183,9 +193,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version exceeds 12.2' {
-				$Script:ExternalVersion = '12.3'
+				$psPASSession.ExternalVersion = '12.3'
 				{ Find-PASSafe } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}
@@ -258,7 +268,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -289,9 +299,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '1.0'
+				$psPASSession.ExternalVersion = '1.0'
 				{ $InputObj | Add-PASSafeMember } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}

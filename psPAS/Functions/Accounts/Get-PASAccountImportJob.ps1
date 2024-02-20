@@ -19,7 +19,7 @@ Function Get-PASAccountImportJob {
 	Process {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/api/bulkactions/accounts"
+		$URI = "$($psPASSession.BaseURI)/api/bulkactions/accounts"
 
 		If ($PSCmdlet.ParameterSetName -eq 'byID') {
 
@@ -28,7 +28,7 @@ Function Get-PASAccountImportJob {
 		}
 
 		#send request
-		$Result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$Result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $Result) {
 

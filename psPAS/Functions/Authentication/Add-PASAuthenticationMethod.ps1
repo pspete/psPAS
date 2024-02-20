@@ -74,13 +74,13 @@ Function Add-PASAuthenticationMethod {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/AuthenticationMethods"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/AuthenticationMethods"
 
 		#Request body
 		$Body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 
 		If ($null -ne $result) {

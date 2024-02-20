@@ -42,12 +42,12 @@ Function Enable-PASPlatform {
 	Process {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/platforms/$($PSCmdLet.ParameterSetName)/$ID/activate"
+		$URI = "$($psPASSession.BaseURI)/api/platforms/$($PSCmdLet.ParameterSetName)/$ID/activate"
 
 		if ($PSCmdlet.ShouldProcess($ID, "Activate $($PSCmdLet.ParameterSetName) Platform")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST
 
 		}
 

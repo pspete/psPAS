@@ -15,7 +15,7 @@ Deletes a user group
 ## SYNTAX
 
 ```
-Remove-PASGroup [-GroupID] <Int32> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-PASGroup -ID <Int32> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,21 +34,6 @@ Remove-PASGroup -GroupID 3
 Deletes vault group with ID of 3
 
 ## PARAMETERS
-
-### -GroupID
-The unique ID of the vault group to delete.
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
 
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
@@ -78,6 +63,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ID
+{{ Fill ID Description }}
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases: GroupID
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

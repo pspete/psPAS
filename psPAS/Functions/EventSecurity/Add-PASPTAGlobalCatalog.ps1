@@ -49,7 +49,7 @@ Function Add-PASPTAGlobalCatalog {
     PROCESS {
 
         #Create URL for Request
-        $URI = "$Script:BaseURI/API/pta/API/Administration/GCConnectivity"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/Administration/GCConnectivity"
 
         #Get Parameters for request body
         $boundParameters = $PSBoundParameters | Get-PASParameter
@@ -68,7 +68,7 @@ Function Add-PASPTAGlobalCatalog {
         $body = $boundParameters | Get-PASParameter -ParametersToKeep ldap_certificate, properties | ConvertTo-Json
 
         #send request to PAS web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+        $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
         If ($null -ne $result) {
 

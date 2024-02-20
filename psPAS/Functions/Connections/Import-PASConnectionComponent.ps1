@@ -19,7 +19,7 @@ function Import-PASConnectionComponent {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/ConnectionComponents/Import"
+		$URI = "$($psPASSession.BaseURI)/API/ConnectionComponents/Import"
 
 		#Convert File to byte array
 		$FileBytes = $ImportFile | Get-ByteArray
@@ -30,7 +30,7 @@ function Import-PASConnectionComponent {
 		if ($PSCmdlet.ShouldProcess($ImportFile, 'Imports Connection Component')) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession -Debug:$false
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Debug:$false
 
 		}
 

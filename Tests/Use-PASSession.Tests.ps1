@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -30,6 +40,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 	AfterAll {
 
 		$Script:RequestBody = $null
+		$Script:psPASSession.ExternalVersion = [System.Version]'0.0'
 
 	}
 
@@ -47,14 +58,29 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					BaseURI         = 'SomeURL'
 					ExternalVersion = '6.6'
 					WebSession      = $session
+					#NewProp         = "New Property"
 				}
-
+				Use-PASSession -Session $InputObject
 			}
 
-			It 'invokes set-variable the expected number of times' {
-				Mock Set-Variable -MockWith { }
-				Use-PASSession -Session $InputObject
-				Assert-MockCalled Set-Variable -Times 3 -Exactly -Scope It
+			It 'sets expected User' {
+				$psPASSession.User | Should -Be 'SomeUser'
+			}
+
+			It 'sets expected BaseURI' {
+				$psPASSession.BaseURI | Should -Be 'SomeURL'
+			}
+
+			It 'sets expected ExternalVersion' {
+				$psPASSession.ExternalVersion | Should -Be '6.6'
+			}
+
+			It 'sets expected WebSession' {
+				$psPASSession.WebSession.Headers['Test'] | Should -Be 'SomeValue'
+			}
+
+			It 'sets expected Other property' -Skip {
+
 			}
 
 		}

@@ -22,7 +22,7 @@ Function Add-PASPTAPrivilegedGroup {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/API/pta/API/configuration/properties/PrivilegedDomainGroupsList"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/PrivilegedDomainGroupsList"
 
         #Create body of request
         $Body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
@@ -30,7 +30,7 @@ Function Add-PASPTAPrivilegedGroup {
         if ($PSCmdlet.ShouldProcess($group, 'Add PTA Privileged Domain Group Configuration')) {
 
             #send request to web service
-            Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body
 
         }
 

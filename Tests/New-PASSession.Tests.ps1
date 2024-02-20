@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -30,8 +40,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 	AfterAll {
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
+		$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+		$psPASSession.ExternalVersion = '0.0'
 
 	}
 
@@ -67,14 +77,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					}
 				}
 
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
+
 				Mock Set-Variable -MockWith { }
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
 				$NewPass = ConvertTo-SecureString 'SomeNewPassword' -AsPlainText -Force
 
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
 
@@ -255,7 +269,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$Credentials | New-PASSession -BaseURI 'https://P_URI'
-				$Script:WebSession.Headers['Authorization'] | Should -Be $RandomString
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be $RandomString
 
 			}
 
@@ -401,7 +415,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				New-PASSession -BaseURI 'https://P_URI' -UseSharedAuthentication
-				$Script:WebSession.Headers['Authorization'] | Should -Be $RandomString
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be $RandomString
 
 			}
 
@@ -442,13 +456,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It "`$Script:ExternalVersion has expected value on Get-PASServer error" {
+			It 'ExternalVersion has expected value on Get-PASServer error' {
 				Mock Get-PASServer -MockWith {
 					throw 'Some Error'
 				}
 
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -PVWAAppName 'SomeApp' -WarningAction SilentlyContinue
-				$Script:ExternalVersion | Should -Be '0.0'
+				$psPASSession.ExternalVersion | Should -Be '0.0'
 
 			}
 
@@ -469,7 +483,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sets expected authorization header' {
 
 				$Credentials | New-PASSession -BaseURI 'https://P_URI'
-				$Script:WebSession.Headers['Authorization'] | Should -Be 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
 
 			}
 
@@ -491,7 +505,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					$errorRecord.ErrorDetails = $errorDetails
 				}
 				Mock -CommandName Invoke-WebRequest -ParameterFilter { $SessionVariable -eq 'PASSession' } -MockWith { Throw $errorRecord }
-				Mock -CommandName Invoke-WebRequest -ParameterFilter { $WebSession -eq $Script:WebSession } -MockWith { [PSCustomObject]@{'CyberArkLogonResult' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN' } }
+				Mock -CommandName Invoke-WebRequest -ParameterFilter { $WebSession -eq $psPASSession.WebSession } -MockWith { [PSCustomObject]@{'CyberArkLogonResult' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN' } }
 
 				Mock Read-Host -MockWith {
 					return '123456'
@@ -503,10 +517,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					}
 				}
 
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
+
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
 
@@ -638,6 +656,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		Context 'Windows + Radius' {
 
 			BeforeEach {
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
+
 				if ($IsCoreCLR) {
 					$errorDetails1 = $([pscustomobject]@{'ErrorCode' = 'ITATS542I'; 'ErrorMessage' = 'Some Radius Message' } | ConvertTo-Json)
 					$errorDetails2 = $([pscustomobject]@{'ErrorCode' = 'ITATS555E'; 'ErrorMessage' = 'Some Error Message' } | ConvertTo-Json)
@@ -681,8 +704,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
 
@@ -748,6 +771,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
+
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
 						'CyberArkLogonResult' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
@@ -762,8 +789,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Set-Variable -MockWith { }
 
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 				Mock Get-PASSAMLResponse -MockWith {
 
@@ -842,7 +869,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sets expected authorization header' {
 
 				New-PASSession -BaseURI 'https://P_URI' -SAMLResponse 'SomeSAMLResponse'
-				$Script:WebSession.Headers['Authorization'] | Should -Be 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
 
 			}
 
@@ -851,6 +878,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		Context 'SharedServices-URL-ServiceUser' {
 
 			BeforeEach {
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
 
 				function New-IDPlatformToken {
 					[CmdletBinding()]
@@ -890,8 +921,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
 
@@ -914,14 +945,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sets expected BaseURI' {
 
 				$Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault' -ServiceUser
-				$Script:BaseURI | Should -Be 'https://Some.PCloud.Portal/PasswordVault'
+				$Script:psPASSession.BaseURI | Should -Be 'https://Some.PCloud.Portal/PasswordVault'
 
 			}
 
 			It 'sets expected authorization header' {
 
 				$Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault' -ServiceUser
-				$Script:WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
 
 			}
 
@@ -930,6 +961,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		Context 'SharedServices-Subdomain-ServiceUser' {
 
 			BeforeEach {
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
 
 				function New-IDPlatformToken {
 					[CmdletBinding()]
@@ -978,8 +1013,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
 
@@ -1002,21 +1037,21 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sets expected BaseURI' {
 
 				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain -ServiceUser
-				$Script:BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
+				$Script:psPASSession.BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
 
 			}
 
 			It 'sets expected BaseURI when identity subdomain specified' {
 
 				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain -ServiceUser
-				$Script:BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
+				$Script:psPASSession.BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
 
 			}
 
 			It 'sets expected authorization header' {
 
 				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain -ServiceUser
-				$Script:WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
 
 			}
 
@@ -1025,6 +1060,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		Context 'SharedServices-URL-IdentityUser' {
 
 			BeforeEach {
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
 
 				function New-IDSession {
 					[CmdletBinding()]
@@ -1062,8 +1101,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
 
@@ -1087,21 +1126,21 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sets expected default BaseURI' {
 
 				$Credentials | New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://SomeIdentityPortal.privilegecloud.cyberark.cloud/' -IdentityUser
-				$Script:BaseURI | Should -Be 'https://SomeIdentityPortal.privilegecloud.cyberark.cloud/PasswordVault'
+				$Script:psPASSession.BaseURI | Should -Be 'https://SomeIdentityPortal.privilegecloud.cyberark.cloud/PasswordVault'
 
 			}
 
 			It 'sets expected custom BaseURI' {
 
 				$Credentials | New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -IdentityUser
-				$Script:BaseURI | Should -Be 'https://Some.PCloud.Portal/PasswordVault'
+				$Script:psPASSession.BaseURI | Should -Be 'https://Some.PCloud.Portal/PasswordVault'
 
 			}
 
 			It 'sets expected authorization header' {
 
 				$Credentials | New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -IdentityUser
-				$Script:WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
 
 			}
 
@@ -1110,6 +1149,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		Context 'SharedServices-Subdomain-IdentityUser' {
 
 			BeforeEach {
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
 
 				function New-IDSession {
 					[CmdletBinding()]
@@ -1157,8 +1200,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
 
@@ -1181,14 +1224,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sets expected BaseURI' {
 
 				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain -IdentityUser
-				$Script:BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
+				$Script:psPASSession.BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
 
 			}
 
 			It 'sets expected authorization header' {
 
 				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain -IdentityUser
-				$Script:WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
 
 			}
 

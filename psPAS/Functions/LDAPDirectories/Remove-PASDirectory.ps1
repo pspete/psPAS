@@ -18,12 +18,12 @@ function Remove-PASDirectory {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$id/"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories/$id/"
 
 		if ($PSCmdlet.ShouldProcess($id, 'Delete Directory')) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

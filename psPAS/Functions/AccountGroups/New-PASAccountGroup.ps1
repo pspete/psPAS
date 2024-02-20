@@ -29,7 +29,7 @@ function New-PASAccountGroup {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/AccountGroups/"
+		$URI = "$($psPASSession.BaseURI)/API/AccountGroups/"
 
 		#Create body of request
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
@@ -37,7 +37,7 @@ function New-PASAccountGroup {
 		if ($PSCmdlet.ShouldProcess($GroupName, 'Define New Account Group')) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		}
 

@@ -18,7 +18,7 @@ function Get-PASOnboardingRule {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/AutomaticOnboardingRules"
+		$URI = "$($psPASSession.BaseURI)/api/AutomaticOnboardingRules"
 
 		If ($PSBoundParameters.ContainsKey('Names')) {
 
@@ -41,7 +41,7 @@ function Get-PASOnboardingRule {
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

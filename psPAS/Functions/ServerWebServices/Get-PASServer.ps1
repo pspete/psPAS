@@ -8,10 +8,10 @@ function Get-PASServer {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Server"
+		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Server"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '11.4'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'11.4'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -80,7 +90,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Platforms/targets/1234/duplicate"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/targets/1234/duplicate"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -90,7 +100,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$response = $InputObj | Copy-PASPlatform -DependentPlatform
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Platforms/dependents/1234/duplicate"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/dependents/1234/duplicate"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -101,7 +111,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$response = $InputObj | Copy-PASPlatform -RotationalGroup
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Platforms/rotationalGroups/1234/duplicate"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/rotationalGroups/1234/duplicate"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -112,7 +122,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$response = $InputObj | Copy-PASPlatform -GroupPlatform
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Platforms/groups/1234/duplicate"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/groups/1234/duplicate"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -143,9 +153,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '11.0'
+				$psPASSession.ExternalVersion = '11.0'
 				{ $InputObj | Copy-PASPlatform -GroupPlatform } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}
@@ -154,7 +164,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
-				$Script:ExternalVersion = '11.4'
+				$psPASSession.ExternalVersion = '11.4'
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 				}

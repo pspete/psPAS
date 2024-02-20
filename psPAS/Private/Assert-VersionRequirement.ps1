@@ -36,7 +36,7 @@ General notes
 			ValueFromPipelineByPropertyName = $true
 		)]
 		[System.Version]
-		$ExternalVersion = $Script:ExternalVersion,
+		$ExternalVersion = $psPASSession.ExternalVersion,
 
 		# The Required Software Version
 		[Parameter(

@@ -10,10 +10,10 @@ Function Get-PASPTAPrivilegedGroup {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/API/pta/API/configuration"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration"
 
         #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
         If ($null -ne $result) {
 

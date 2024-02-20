@@ -73,7 +73,7 @@ function Get-PASPSMSession {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/LiveSessions"
+		$URI = "$($psPASSession.BaseURI)/API/LiveSessions"
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -109,6 +109,7 @@ function Get-PASPSMSession {
 					}
 
 				}
+
 				#Create Query String, escaped for inclusion in request URL
 				$queryString = $boundParameters | ConvertTo-QueryString
 
@@ -126,7 +127,7 @@ function Get-PASPSMSession {
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		$Total = ($result.LiveSessions).Count
 
@@ -152,7 +153,7 @@ function Get-PASPSMSession {
 
 				}
 
-				$result = (Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET -WebSession $Script:WebSession).LiveSessions
+				$result = (Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET).LiveSessions
 
 				$Total = $result.Count
 

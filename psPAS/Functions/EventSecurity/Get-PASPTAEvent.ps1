@@ -50,12 +50,12 @@ Function Get-PASPTAEvent {
 	PROCESS {
 
 		#Create request URL
-		$URI = "$Script:BaseURI/API/pta/API/Events/"
+		$URI = "$($psPASSession.BaseURI)/API/pta/API/Events/"
 
 		#Get Parameters to include in request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		$ThisSession = $Script:WebSession
+		$ThisSession = $psPASSession.WebSession
 
 		switch ($PSCmdlet.ParameterSetName) {
 

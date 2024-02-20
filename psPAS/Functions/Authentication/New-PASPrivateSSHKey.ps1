@@ -44,7 +44,7 @@ function New-PASPrivateSSHKey {
 
     PROCESS {
 
-        $URI = "$Script:BaseURI/api/Users"
+        $URI = "$($psPASSession.BaseURI)/api/Users"
 
         switch ($PSCmdlet.ParameterSetName) {
 
@@ -81,7 +81,7 @@ function New-PASPrivateSSHKey {
         if ($PSCmdlet.ShouldProcess($user, 'Generate Private SSH Key')) {
 
             #send request to webservice
-            $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+            $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
             If ($null -ne $result) {
 

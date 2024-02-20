@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -60,7 +70,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Safes/SomeSafe/Members"
+					$URI -eq "$($Script:psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/SomeSafe/Members"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -72,7 +82,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/WebServices/PIMServices.svc/Safes/SomeSafe/Members/SomeMember/"
+					$URI -eq "$($Script:psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/SomeSafe/Members/SomeMember/"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -94,9 +104,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'throws for PUT method if version exceeds 12.3' {
 
-				$Script:ExternalVersion = '12.4'
+				$psPASSession.ExternalVersion = '12.4'
 				{ Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember -UseGen1API } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 
 			}
 
@@ -133,7 +143,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -145,7 +155,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members/SomeMember/"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members/SomeMember/"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -157,8 +167,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members?filter=memberType%20eq%20user&search=SomeMember") -or
-					($URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members?search=SomeMember&filter=memberType%20eq%20user")
+					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?filter=memberType%20eq%20user&search=SomeMember") -or
+					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?search=SomeMember&filter=memberType%20eq%20user")
 
 				} -Times 1 -Exactly -Scope It
 			}
@@ -176,21 +186,21 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version 12.0 requirement not met' {
-				$Script:ExternalVersion = '1.0'
+				$psPASSession.ExternalVersion = '1.0'
 				{ Get-PASSafeMember -SafeName SomeSafe } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'throws error if version 12.1 requirement not met' {
-				$Script:ExternalVersion = '12.0'
+				$psPASSession.ExternalVersion = '12.0'
 				{ Get-PASSafeMember -SafeName SomeSafe -search SomeMember } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'throws error if version 12.2 requirement not met' {
-				$Script:ExternalVersion = '12.0'
+				$psPASSession.ExternalVersion = '12.0'
 				{ Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'corrctly formats nexLink, Limit & Offset URL values' {
@@ -384,19 +394,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True")
+					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True")
 
 				} -Times 1 -Exactly -Scope It
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True&limit=25&OffSet=25")
+					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True&limit=25&OffSet=25")
 
 				} -Times 1 -Exactly -Scope It
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($URI -eq "$($Script:BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True&limit=25&OffSet=50")
+					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True&limit=25&OffSet=50")
 
 				} -Times 1 -Exactly -Scope It
 

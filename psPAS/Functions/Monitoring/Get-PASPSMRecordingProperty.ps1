@@ -17,10 +17,10 @@ function Get-PASPSMRecordingProperty {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/Recordings/$($RecordingID | Get-EscapedString)/properties"
+		$URI = "$($psPASSession.BaseURI)/API/Recordings/$($RecordingID | Get-EscapedString)/properties"
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

@@ -20,7 +20,7 @@ Function Start-PASAccountImportJob {
 		Assert-VersionRequirement -RequiredVersion 11.6
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/api/bulkactions/accounts"
+		$URI = "$($psPASSession.BaseURI)/api/bulkactions/accounts"
 
 	}
 
@@ -35,7 +35,7 @@ Function Start-PASAccountImportJob {
 		if ($PSCmdlet.ShouldProcess("List of $($accountsList.count) account(s)", 'Start Bulk Account Import Job')) {
 
 			#send request
-			$Result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+			$Result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 			If ($null -ne $Result) {
 

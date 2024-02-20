@@ -15,6 +15,12 @@
 					<TableColumnHeader/>
 					<TableColumnHeader/>
 					<TableColumnHeader/>
+					<TableColumnHeader>
+						<Label>Start</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>End</Label>
+					</TableColumnHeader>
 				</TableHeaders>
 				<TableRowEntries>
 					<TableRowEntry>
@@ -36,6 +42,16 @@
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>ConnectionComponentID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									(get-date 1/1/1970).addseconds($_.Start)
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									(get-date 1/1/1970).addseconds($_.End)
+								</ScriptBlock>
 							</TableColumnItem>
 						</TableColumnItems>
 					</TableRowEntry>
@@ -105,10 +121,12 @@
 								<PropertyName>FileName</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>Start</PropertyName>
+								<Label>Start</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.Start)</ScriptBlock>
 							</ListItem>
 							<ListItem>
-								<PropertyName>End</PropertyName>
+								<Label>End</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.End)</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>Duration</PropertyName>
@@ -242,10 +260,12 @@
 								<PropertyName>FileName</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>Start</PropertyName>
+								<Label>Start</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.Start)</ScriptBlock>
 							</ListItem>
 							<ListItem>
-								<PropertyName>End</PropertyName>
+								<Label>End</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.End)</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>Duration</PropertyName>
@@ -367,10 +387,12 @@
 								<PropertyName>FileName</PropertyName>
 							</ListItem>
 							<ListItem>
-								<PropertyName>Start</PropertyName>
+								<Label>Start</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.Start)</ScriptBlock>
 							</ListItem>
 							<ListItem>
-								<PropertyName>End</PropertyName>
+								<Label>End</Label>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.End)</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>Duration</PropertyName>

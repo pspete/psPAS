@@ -22,14 +22,14 @@ function Remove-PASPolicyACL {
 	PROCESS {
 
 		#Create base URL for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Policy/$($PolicyID |
+		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Policy/$($PolicyID |
 
             Get-EscapedString)/PrivilegedCommands/$($Id | Get-EscapedString)/"
 
 		if ($PSCmdlet.ShouldProcess($PolicyID, "Delete Rule $Id")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

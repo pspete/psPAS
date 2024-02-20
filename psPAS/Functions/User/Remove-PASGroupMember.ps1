@@ -24,12 +24,12 @@ function Remove-PASGroupMember {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/UserGroups/$GroupID/members/$Member/"
+		$URI = "$($psPASSession.BaseURI)/API/UserGroups/$GroupID/members/$Member/"
 
 		if ($PSCmdlet.ShouldProcess($GroupID, "Remove Group Member $Member")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

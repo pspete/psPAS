@@ -113,7 +113,7 @@ function Add-PASDirectory {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories"
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -129,7 +129,7 @@ function Add-PASDirectory {
 		$body = $boundParameters | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		If ($null -ne $result) {
 

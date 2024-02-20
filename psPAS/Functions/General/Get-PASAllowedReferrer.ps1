@@ -12,10 +12,10 @@ Function Get-PASAllowedReferrer {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/AccessRestriction/AllowedReferrers"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/AccessRestriction/AllowedReferrers"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

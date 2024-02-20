@@ -10,10 +10,10 @@ function Get-PASUserLoginInfo {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/LoginsInfo"
+		$URI = "$($psPASSession.BaseURI)/api/LoginsInfo"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

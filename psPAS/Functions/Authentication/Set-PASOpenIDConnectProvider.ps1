@@ -99,7 +99,7 @@ Function Set-PASOpenIDConnectProvider {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/OIDC/Providers/$($id | Get-EscapedString)"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/OIDC/Providers/$($id | Get-EscapedString)"
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove id
@@ -118,7 +118,7 @@ Function Set-PASOpenIDConnectProvider {
 		if ($PSCmdlet.ShouldProcess($id, 'Update OIDC Provider')) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body -WebSession $Script:WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body
 
 			If ($null -ne $result) {
 

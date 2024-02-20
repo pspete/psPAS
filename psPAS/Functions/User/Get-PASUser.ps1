@@ -121,7 +121,7 @@ function Get-PASUser {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Users"
+		$URI = "$($psPASSession.BaseURI)/api/Users"
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -186,7 +186,7 @@ function Get-PASUser {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 
 				$TypeName = 'psPAS.CyberArk.Vault.User'
 
@@ -197,7 +197,7 @@ function Get-PASUser {
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		#Handle return
 		if ($PSCmdlet.ParameterSetName -match 'Gen2') {

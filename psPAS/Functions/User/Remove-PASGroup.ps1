@@ -6,7 +6,8 @@ Function Remove-PASGroup {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[int]$GroupID
+		[Alias('GroupID')]
+		[int]$ID
 	)
 
 	BEGIN {
@@ -18,12 +19,12 @@ Function Remove-PASGroup {
 	Process {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/UserGroups/$GroupID"
+		$URI = "$($psPASSession.BaseURI)/API/UserGroups/$ID"
 
-		if ($PSCmdlet.ShouldProcess($GroupID, 'Delete Group')) {
+		if ($PSCmdlet.ShouldProcess($ID, 'Delete Group')) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 		}
 

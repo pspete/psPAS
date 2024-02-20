@@ -16,12 +16,12 @@ Function Remove-PASPTAExcludedTarget {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/api/pta/API/Administration/properties/CidrExclusionList/$ID"
+        $URI = "$($psPASSession.BaseURI)/api/pta/API/Administration/properties/CidrExclusionList/$ID"
 
         if ($PSCmdlet.ShouldProcess($ID, 'Delete PTA Excluded Monitored Target')) {
 
             #send request to web service
-            Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method DELETE
 
         }
 

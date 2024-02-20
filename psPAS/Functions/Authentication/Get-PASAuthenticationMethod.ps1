@@ -21,10 +21,10 @@ Function Get-PASAuthenticationMethod {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/AuthenticationMethods/$($ID | Get-EscapedString)"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/AuthenticationMethods/$($ID | Get-EscapedString)"
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 
 		If ($null -ne $result) {

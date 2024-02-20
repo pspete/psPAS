@@ -112,7 +112,7 @@ function Invoke-PASCPMOperation {
 
 		#Create hashtable for splatting
 		$ThisRequest = @{ }
-		$ThisRequest['WebSession'] = $Script:WebSession
+		$ThisRequest['WebSession'] = $psPASSession.WebSession
 		$ThisRequest['Method'] = 'PUT'
 
 	}#Begin
@@ -147,7 +147,7 @@ function Invoke-PASCPMOperation {
 
 			{ $PSItem -match 'Credentials$' } {
 
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc"
 				break
 
 			}
@@ -158,7 +158,7 @@ function Invoke-PASCPMOperation {
 				#At least version 9.10 required to verify/change/reconcile
 				Assert-VersionRequirement -RequiredVersion 9.10
 
-				$URI = "$Script:BaseURI/API"
+				$URI = "$($psPASSession.BaseURI)/API"
 
 				#verify/change/reconcile method
 				$ThisRequest['Method'] = 'POST'

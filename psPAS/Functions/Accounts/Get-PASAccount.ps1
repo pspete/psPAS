@@ -139,7 +139,7 @@ function Get-PASAccount {
 				$typeName = 'psPAS.CyberArk.Vault.Account.V10'
 
 				#define base URL
-				$URI = "$Script:BaseURI/api/Accounts"
+				$URI = "$($psPASSession.BaseURI)/api/Accounts"
 
 			}
 
@@ -149,7 +149,7 @@ function Get-PASAccount {
 				$typeName = 'psPAS.CyberArk.Vault.Account'
 
 				#Create request URL
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Accounts"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Accounts"
 
 			}
 
@@ -187,7 +187,7 @@ function Get-PASAccount {
 		}
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
 
 		If ($null -ne $result) {
 

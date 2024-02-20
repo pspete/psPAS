@@ -18,12 +18,12 @@ function Disable-PASUser {
 
     PROCESS {
 
-        $URI = "$Script:BaseURI/API/Users/$id/disable/"
+        $URI = "$($psPASSession.BaseURI)/API/Users/$id/disable/"
 
         if ($PSCmdlet.ShouldProcess($id, 'Disable User')) {
 
             #send request to web service
-            Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method POST
 
         }
 

@@ -129,7 +129,7 @@ function Get-PASSafeMember {
 			( { $PSItem -match '^Gen1-' } ) {
 
 				#Create URL for Gen1 API requests
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Safes/$($SafeName | Get-EscapedString)/Members"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/$($SafeName | Get-EscapedString)/Members"
 
 			}
 
@@ -139,7 +139,7 @@ function Get-PASSafeMember {
 				Assert-VersionRequirement -RequiredVersion 12.0
 
 				#Create URL for Gen2 API requests
-				$URI = "$Script:BaseURI/api/Safes/$($SafeName | Get-EscapedString)/Members"
+				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)/Members"
 
 			}
 
@@ -224,7 +224,7 @@ function Get-PASSafeMember {
 		#Build Request Parameters
 		$Request['URI'] = $URI
 		$Request['Method'] = $Method
-		$Request['WebSession'] = $Script:WebSession
+		$Request['WebSession'] = $psPASSession.WebSession
 
 		#Send request to webservice
 		$result = Invoke-PASRestMethod @Request
@@ -310,7 +310,7 @@ function Get-PASSafeMember {
 
 
 										#Request nextLink. Add memberlist to output collection.
-										$Null = $Members.AddRange((Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET -WebSession $Script:WebSession -TimeoutSec $TimeoutSec).value)
+										$Null = $Members.AddRange((Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET -TimeoutSec $TimeoutSec).value)
 
 									}
 

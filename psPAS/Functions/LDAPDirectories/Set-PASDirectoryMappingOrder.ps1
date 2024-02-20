@@ -24,7 +24,7 @@ function Set-PASDirectoryMappingOrder {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/Reorder/"
+		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/Reorder/"
 
 		#Get request parameters
 		$body = $($PSBoundParameters | Get-PASParameter -ParametersToRemove DirectoryName) | ConvertTo-Json
@@ -32,7 +32,7 @@ function Set-PASDirectoryMappingOrder {
 		if ($PSCmdlet.ShouldProcess($DirectoryName, 'Update Directory Mapping Order')) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		}
 

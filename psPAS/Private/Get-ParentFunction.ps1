@@ -44,9 +44,15 @@ Function Get-ParentFunction {
 	)
 
 	Process {
+
+		#Get MyInvocation details from required scope
+		$CommandData = (Get-Variable MyInvocation -Scope $Scope).Value
 		[PSCustomObject]@{
-			FunctionName     = (Get-Variable MyInvocation -Scope $Scope).Value.MyCommand.Name
+			CommandData      = $CommandData
+			FunctionName     = $CommandData.MyCommand.Name
 			ParameterSetName = (Get-Variable PSCmdlet -Scope $Scope -ErrorAction SilentlyContinue).Value.ParameterSetName
 		}
+
 	}
+
 }

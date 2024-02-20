@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -49,9 +59,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				}
 
-				$Script:BaseURI = 'https://SomeURL/SomeApp'
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
 
@@ -65,7 +75,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$InputObj | Get-PASPSMSession
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/LiveSessions?Limit=9"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/LiveSessions?Limit=9"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -73,9 +83,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'uses expected FromTime value' {
 				Get-PASPSMSession -FromTime (Get-Date -Year 1979 -Month 11 -Day 12 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
-				#311212800 1674345600
+				#311212800 1674345600 311212800
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$URI -eq "$($Script:BaseURI)/API/LiveSessions?fromTime=311212800"
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/LiveSessions?FromTime=311212800"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -85,7 +96,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Get-PASPSMSession -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
 				#311212800 1674345600
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$URI -eq "$($Script:BaseURI)/API/LiveSessions?ToTime=1674345600"
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/LiveSessions?ToTime=1674345600"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -109,23 +121,23 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/LiveSessions/SomeID"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/LiveSessions/SomeID"
 
 				} -Times 1 -Exactly -Scope It
 
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '1.0'
+				$psPASSession.ExternalVersion = '1.0'
 				{ $InputObj | Get-PASPSMSession } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 			It 'throws error if version requirement not met when querying by ID' {
-				$Script:ExternalVersion = '10.5'
+				$psPASSession.ExternalVersion = '10.5'
 				{ Get-PASPSMSession -liveSessionId SomeID } | Should -Throw
 
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}
@@ -143,9 +155,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				}
 
-				$Script:BaseURI = 'https://SomeURL/SomeApp'
-				$Script:ExternalVersion = '0.0'
-				$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 			}
 			It 'provides output' {

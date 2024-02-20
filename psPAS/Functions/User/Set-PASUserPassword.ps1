@@ -34,7 +34,7 @@ function Set-PASUserPassword {
 		$boundParameters['NewPassword'] = $Password
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/api/Users/$id/ResetPassword"
+		$URI = "$($psPASSession.BaseURI)/api/Users/$id/ResetPassword"
 
 		#create request body
 		$body = $boundParameters | ConvertTo-Json
@@ -42,7 +42,7 @@ function Set-PASUserPassword {
 		if ($PSCmdlet.ShouldProcess($id, 'Reset Password')) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		}
 

@@ -19,7 +19,7 @@ function Import-PASPlatform {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/Platforms/Import"
+		$URI = "$($psPASSession.BaseURI)/API/Platforms/Import"
 
 		#Convert File to byte array
 		$FileBytes = $ImportFile | Get-ByteArray
@@ -29,7 +29,7 @@ function Import-PASPlatform {
 		if ($PSCmdlet.ShouldProcess($ImportFile, 'Imports Platform Package')) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession -Debug:$false
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -Debug:$false
 
 		}
 

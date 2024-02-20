@@ -83,7 +83,7 @@ function Add-PASApplication {
 	PROCESS {
 
 		#WebService URL
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Applications"
+		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Applications"
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -106,7 +106,7 @@ function Add-PASApplication {
 		} | ConvertTo-Json
 
 		#Send Request
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 	}#process
 

@@ -28,7 +28,7 @@ function Unblock-PASUser {
 
 	BEGIN {
 
-		$Request = @{'WebSession' = $Script:WebSession }
+		$Request = @{'WebSession' = $psPASSession.WebSession }
 
 	}#begin
 
@@ -41,7 +41,7 @@ function Unblock-PASUser {
 				Assert-VersionRequirement -RequiredVersion 10.10
 
 				#Create request
-				$Request['URI'] = "$Script:BaseURI/api/Users/$id/Activate"
+				$Request['URI'] = "$($psPASSession.BaseURI)/api/Users/$id/Activate"
 				$Request['Method'] = 'POST'
 
 				break
@@ -53,7 +53,7 @@ function Unblock-PASUser {
 				Assert-VersionRequirement -MaximumVersion 12.3
 
 				#Create request
-				$Request['URI'] = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
+				$Request['URI'] = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 				$Request['Method'] = 'PUT'
 				$Request['Body'] = $PSBoundParameters | Get-PASParameter -ParametersToRemove UserName | ConvertTo-Json
 

@@ -6,7 +6,8 @@ Function Set-PASGroup {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [int]$GroupID,
+        [Alias('GroupID')]
+        [int]$ID,
 
         [parameter(
             Mandatory = $true,
@@ -24,18 +25,18 @@ Function Set-PASGroup {
     Process {
 
         #Create URL for request
-        $URI = "$Script:BaseURI/API/UserGroups/$GroupID"
+        $URI = "$($psPASSession.BaseURI)/API/UserGroups/$ID"
 
         #Get request parameters
-        $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove GroupID
+        $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove ID
 
         #Construct Request Body
         $Body = $boundParameters | ConvertTo-Json
 
-        if ($PSCmdlet.ShouldProcess($GroupID, 'Update Group')) {
+        if ($PSCmdlet.ShouldProcess($ID, 'Update Group')) {
 
             #send request to web service
-            $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+            $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
         }
 

@@ -46,7 +46,7 @@ Function Set-PASLinkedAccount {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/api/Accounts/$AccountID/LinkAccount"
+		$URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/LinkAccount"
 
 		#Get Parameters to include in request
 		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
@@ -54,7 +54,7 @@ Function Set-PASLinkedAccount {
 		if ($PSCmdlet.ShouldProcess($AccountID, 'Set Linked Account')) {
 
 			#Send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $body -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $body
 
 		}
 

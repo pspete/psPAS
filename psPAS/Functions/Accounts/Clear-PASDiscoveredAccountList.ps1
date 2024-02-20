@@ -11,11 +11,11 @@ function Clear-PASDiscoveredAccountList {
 
     PROCESS {
 
-        $URI = "$Script:BaseURI/api/DiscoveredAccounts"
+        $URI = "$($psPASSession.BaseURI)/api/DiscoveredAccounts"
 
         if ($PSCmdlet.ShouldProcess('Discovered/Pending Account List', 'Delete')) {
 
-            Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method DELETE
 
         }
 

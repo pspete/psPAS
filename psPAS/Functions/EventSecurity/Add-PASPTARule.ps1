@@ -84,7 +84,7 @@ Function Add-PASPTARule {
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/API/pta/API/Settings/RiskyActivity/"
+		$URI = "$($psPASSession.BaseURI)/API/pta/API/Settings/RiskyActivity/"
 
 		switch ($PSBoundParameters.keys) {
 
@@ -125,7 +125,7 @@ Function Add-PASPTARule {
 		$Body = $boundParameters | Get-PASParameter -ParametersToRemove $scopeParams | ConvertTo-Json -Depth 3
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		If ($null -ne $result) {
 

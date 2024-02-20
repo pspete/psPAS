@@ -23,7 +23,7 @@ Function Add-PASPTAPrivilegedUser {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/API/pta/API/configuration/properties/PrivilegedUsersList"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/PrivilegedUsersList"
 
         #Create body of request
         $Body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
@@ -31,7 +31,7 @@ Function Add-PASPTAPrivilegedUser {
         if ($PSCmdlet.ShouldProcess($user, 'Add PTA Privileged User Configuration')) {
 
             #send request to web service
-            Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $Script:WebSession
+            Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body
 
         }
 

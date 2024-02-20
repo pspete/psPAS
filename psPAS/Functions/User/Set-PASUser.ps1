@@ -442,7 +442,7 @@ function Set-PASUser {
 				}
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/api/Users/$id"
+				$URI = "$($psPASSession.BaseURI)/api/Users/$id"
 
 				$boundParameters = $boundParameters | Format-PASUserObject
 
@@ -467,7 +467,7 @@ function Set-PASUser {
 				}
 
 				#Create URL for request
-				$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/$($UserName | Get-EscapedString)"
 
 				$TypeName = 'psPAS.CyberArk.Vault.User'
 
@@ -493,7 +493,7 @@ function Set-PASUser {
 
 		if ($PSCmdlet.ShouldProcess($UserName, 'Update User Properties')) {
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body -WebSession $Script:WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
 			If ($null -ne $result) {
 

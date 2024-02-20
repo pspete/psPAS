@@ -9,7 +9,7 @@
 	queried and acted on.
 	All requests are sent with ContentType=application/json.
 	If the sessionVariable parameter is passed, the function will return the WebSession
-	object to the $Script:WebSession variable.
+	object to the $($psPASSession.WebSession) variable.
 
 	.PARAMETER Method
 	The method for the REST Method.
@@ -27,7 +27,7 @@
 	.PARAMETER SessionVariable
 	If passed, will be sent to invoke-webrequest which in turn will create a websession
 	variable using the string value as the name. This variable will only exist in the current scope
-	so will be set as the value of $Script:WebSession to be available in a modules scope.
+	so will be set as the value of $($psPASSession.WebSession) to be available in a modules scope.
 	Cannot be specified with WebSession
 
 	.PARAMETER WebSession
@@ -58,7 +58,7 @@
 	Skips certificate validation checks.
 
 	.EXAMPLE
-	Invoke-PASRestMethod -Uri $URI -Method DELETE -WebSession $Script:WebSession
+	Invoke-PASRestMethod -Uri $URI -Method DELETE
 
 	Send request to web service
 	#>
@@ -121,6 +121,17 @@
 		if ( -not ($PSBoundParameters.ContainsKey('ContentType'))) {
 
 			$PSBoundParameters.Add('ContentType', 'application/json')
+
+		}
+
+		if (($PSCmdlet.ParameterSetName -ne 'SessionVariable') -and ($null -ne $psPASSession.WebSession)) {
+
+			#use the WebSession if it exists in the module scope, and alternate session or SessionVariable is not specified.
+			if ( -not ($PSBoundParameters.ContainsKey('WebSession'))) {
+
+				$PSBoundParameters.Add('WebSession', $psPASSession.WebSession)
+
+			}
 
 		}
 
@@ -217,7 +228,7 @@
 
 		} catch [System.UriFormatException] {
 
-			#Catch URI Format errors. Likely $Script:BaseURI is not set; New-PASSession should be run.
+			#Catch URI Format errors. Likely $($psPASSession.BaseURI) is not set; New-PASSession should be run.
 			$PSCmdlet.ThrowTerminatingError(
 
 				[System.Management.Automation.ErrorRecord]::new(
@@ -232,6 +243,9 @@
 			)
 
 		} catch {
+
+			$psPASSession.LastError = $PSItem
+			$psPASSession.LastErrorTime = Get-Date
 
 			#Privilege Cloud Shared Services Error Handling
 			If ($PSitem.TargetObject.RequestUri.Host -match 'cyberark.cloud') {
@@ -351,11 +365,16 @@
 
 		} finally {
 
+			#Add Command Data to $psPASSession module scope variable
+			$psPASSession.LastCommand = Get-ParentFunction | Select-Object -ExpandProperty CommandData
+			$psPASSession.LastCommandResults = $APIResponse
+			$psPASSession.LastCommandTime = Get-Date
+
 			#If Session Variable passed as argument
 			If ($PSCmdlet.ParameterSetName -eq 'SessionVariable') {
 
 				#Make the WebSession available in the module scope
-				Set-Variable -Name WebSession -Value $(Get-Variable $(Get-Variable sessionVariable).Value).Value -Scope Script
+				$psPASSession.WebSession = $(Get-Variable $(Get-Variable sessionVariable).Value).Value
 
 			}
 

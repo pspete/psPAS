@@ -53,14 +53,14 @@ function Get-PASRequest {
 
 				Assert-VersionRequirement -RequiredVersion 13.2
 
-				$URI = "$Script:BaseURI/API/$($PSCmdlet.ParameterSetName)/$id"
+				$URI = "$($psPASSession.BaseURI)/API/$($PSCmdlet.ParameterSetName)/$id"
 				break
 
 			}
 
 			'Requests' {
 
-				$URI = "$Script:BaseURI/API/$($RequestType)"
+				$URI = "$($psPASSession.BaseURI)/API/$($RequestType)"
 				break
 
 			}
@@ -78,7 +78,7 @@ function Get-PASRequest {
 		}
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 		If ($null -ne $result) {
 

@@ -18,12 +18,12 @@ function Suspend-PASPSMSession {
 	PROCESS {
 
 		#Create URL for Request
-		$URI = "$Script:BaseURI/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Suspend"
+		$URI = "$($psPASSession.BaseURI)/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Suspend"
 
 		if ($PSCmdlet.ShouldProcess($LiveSessionId, 'Suspend PSM Session')) {
 
 			#send request to PAS web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession
+			Invoke-PASRestMethod -Uri $URI -Method POST
 
 		}
 

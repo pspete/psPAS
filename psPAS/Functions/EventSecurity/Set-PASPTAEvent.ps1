@@ -24,7 +24,7 @@ Function Set-PASPTAEvent {
 	PROCESS {
 
 		#Create request URL
-		$URI = "$Script:BaseURI/API/pta/API/Events/$EventID"
+		$URI = "$($psPASSession.BaseURI)/API/pta/API/Events/$EventID"
 
 		#Get Parameters to include in request
 		$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove EventID | ConvertTo-Json
@@ -32,7 +32,7 @@ Function Set-PASPTAEvent {
 		if ($PSCmdlet.ShouldProcess($EventID, 'Update Event Status')) {
 
 			#Send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body -WebSession $Script:WebSession
+			$result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body
 
 		}
 

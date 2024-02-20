@@ -23,7 +23,7 @@ function Add-PASPublicSSHKey {
 	PROCESS {
 
 		#Create URL to endpoint for request
-		$URI = "$Script:BaseURI/WebServices/PIMServices.svc/Users/$($UserName |
+		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/$($UserName |
 
             Get-EscapedString)/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/"
 
@@ -35,7 +35,7 @@ function Add-PASPublicSSHKey {
 		} | ConvertTo-Json
 
 		#send request to webservice
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body -WebSession $Script:WebSession
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		If ($null -ne $result) {
 

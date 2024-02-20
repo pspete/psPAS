@@ -20,9 +20,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 
 		$Script:RequestBody = $null
-		$Script:BaseURI = 'https://SomeURL/SomeApp'
-		$Script:ExternalVersion = '0.0'
-		$Script:WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+		$psPASSession = [ordered]@{
+			BaseURI            = 'https://SomeURL/SomeApp'
+			User               = $null
+			ExternalVersion    = [System.Version]'0.0'
+			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime          = $null
+			ElapsedTime        = $null
+			LastCommand        = $null
+			LastCommandTime    = $null
+			LastCommandResults = $null
+		}
+
+		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
 	}
 
@@ -64,7 +74,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Platforms/SomeName/"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/SomeName/"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -83,9 +93,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '1.0'
+				$psPASSession.ExternalVersion = '1.0'
 				{ $InputObj | Get-PASPlatform } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}
@@ -132,9 +142,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '10.0'
+				$psPASSession.ExternalVersion = '10.0'
 				{ $InputObj | Get-PASPlatform } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}
@@ -172,7 +182,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Platforms/targets"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/targets"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -184,7 +194,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Platforms/dependents"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/dependents"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -196,7 +206,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Platforms/groups"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/groups"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -208,7 +218,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:BaseURI)/API/Platforms/rotationalGroups"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/rotationalGroups"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -221,9 +231,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'throws error if version requirement not met' {
-				$Script:ExternalVersion = '11.3'
+				$psPASSession.ExternalVersion = '11.3'
 				{ Get-PASPlatform } | Should -Throw
-				$Script:ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}

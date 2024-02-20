@@ -23,12 +23,12 @@ function Export-PASPlatform {
 	PROCESS {
 
 		#Create URL for request
-		$URI = "$Script:BaseURI/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
+		$URI = "$($psPASSession.BaseURI)/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
 
 		if ($PSCmdlet.ShouldProcess($PlatformID, 'Exports Platform Package')) {
 
 			#send request to web service
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -WebSession $Script:WebSession -Debug:$false
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Debug:$false
 
 			#if we get a platform byte array
 			If ($null -ne $result) {

@@ -10,10 +10,10 @@ Function Get-PASPTAIncludedTarget {
     PROCESS {
 
         #Create request URL
-        $URI = "$Script:BaseURI/API/pta/API/administration"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/administration"
 
         #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $Script:WebSession
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
         If ($null -ne $result) {
 
