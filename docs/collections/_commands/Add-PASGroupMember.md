@@ -65,7 +65,7 @@ Minimum required version 10.6
 ```yaml
 Type: Int32
 Parameter Sets: Gen2
-Aliases:
+Aliases: ID
 
 Required: True
 Position: Named

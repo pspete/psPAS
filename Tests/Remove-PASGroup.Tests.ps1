@@ -58,7 +58,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'GroupID' }
+			$Parameters = @{Parameter = 'ID' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 

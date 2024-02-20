@@ -15,7 +15,7 @@ Renames a Vault group
 ## SYNTAX
 
 ```
-Set-PASGroup [-GroupID] <Int32> [-GroupName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-PASGroup -ID <Int32> [-GroupName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,21 +35,6 @@ PS C:\> Set-PASGroup -GroupID 420 -GroupName SomeName
 Renames group with id 420 to "SomeName"
 
 ## PARAMETERS
-
-### -GroupID
-The ID of the group to update
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
 
 ### -GroupName
 A new name for the group
@@ -94,6 +79,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ID
+{{ Fill ID Description }}
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases: GroupID
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

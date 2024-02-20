@@ -7,6 +7,7 @@ function Add-PASGroupMember {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
+		[Alias('ID')]
 		[int]$groupId,
 
 		[parameter(
