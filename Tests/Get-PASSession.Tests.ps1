@@ -30,6 +30,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			LastCommand        = $null
 			LastCommandTime    = $null
 			LastCommandResults = $null
+			LastError          = $null
+			LastErrorTime      = $null
 		}
 
 		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
@@ -58,7 +60,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'has output with expected number of properties' {
 
-				$response.Keys.Count | Should -Be 9
+				$response.Keys.Count | Should -Be 11
 
 			}
 

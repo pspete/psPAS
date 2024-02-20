@@ -244,6 +244,9 @@
 
 		} catch {
 
+			$psPASSession.LastError = $PSItem
+			$psPASSession.LastErrorTime = Get-Date
+
 			#Privilege Cloud Shared Services Error Handling
 			If ($PSitem.TargetObject.RequestUri.Host -match 'cyberark.cloud') {
 

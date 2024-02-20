@@ -66,6 +66,8 @@ $psPASSession = [ordered]@{
 	LastCommand        = $null
 	LastCommandTime    = $null
 	LastCommandResults = $null
+	LastError          = $null
+	LastErrorTime      = $null
 } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Session
 
 New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
