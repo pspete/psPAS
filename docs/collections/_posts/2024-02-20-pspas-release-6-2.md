@@ -12,7 +12,7 @@ tags:
   - New-PASSession
 ---
 
-## **6.2.##**
+## **6.2.68**
 
 Introducing enhancements to psPAS session related data.
 
