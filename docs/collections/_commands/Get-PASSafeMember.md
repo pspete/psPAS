@@ -135,7 +135,7 @@ Get-PASSafeMember -SafeName Target_Safe -MemberName SomeUser -UseGen1API
 
 Lists all permissions for member SomeUser on Target_Safe using Gen1 API
 
-Depreciated from CyberArk Version 12.3
+Deprecated from CyberArk Version 12.3
 
 ## PARAMETERS
 
@@ -163,7 +163,7 @@ Operation against Gen2 API requires minimum version of 12.2
 - `-UseGen1API` parameter must be specified.
 - You cannot report on the permissions of the user authenticated to the API.
 - Reporting on the permissions of the Quota Owner is expected to fail.
-- Depreciated from CyberArk Version 12.3
+- Deprecated from CyberArk Version 12.3
 
 ```yaml
 Type: String

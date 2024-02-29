@@ -58,7 +58,7 @@ tags:
 - Updated Functions For CyberArk Version 12.0:
   - `Get-PASSafeMember`
     - Updated to use the new Gen2 API endpoint available from version 12.0
-    - `MemberName` Parameter depreciated past 12.2
+    - `MemberName` Parameter deprecated past 12.2
   - `Add-PASSafe`
     - Updated to use the new Gen2 API endpoint available from version 12.0
   - `Get-PASSafe`
@@ -80,5 +80,5 @@ tags:
     - Additional Gen2 Parameter available
 - Other
   - `Get-PASAccount`
-    - Removed depreciated Parameter `offset`
-    - Removed depreciated Parameter `limit`
+    - Removed deprecated Parameter `offset`
+    - Removed deprecated Parameter `limit`

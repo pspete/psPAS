@@ -5288,7 +5288,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     <maml:description>
       <maml:para>Enables an account or SSH key that is discovered by an external scanner to be added as a pending account to the Accounts Feed.</maml:para>
       <maml:para>Users can identify privileged accounts and determine which are on-boarded to the vault.</maml:para>
-      <maml:para>Depreciated from version 13.2</maml:para>
+      <maml:para>Deprecated from version 13.2</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -7866,7 +7866,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
       <maml:para>Default operation uses the Gen 2 API and requires version 12.1+ - Earlier versions must specify the `-UseGen1API` switch to force use of the Gen1 API. Note when using the Gen1 API:</maml:para>
       <maml:para>Unless otherwise specified, the default permissions applied to a safe member will include: - ListAccounts, RetrieveAccounts, UseAccounts, ViewAuditLog &amp; ViewSafeMembers.</maml:para>
       <maml:para>If these permissions should not be granted to the safe member, they must be explicitly set to `$false` in the request.</maml:para>
-      <maml:para>Gen1 API is depreciated from version 12.3</maml:para>
+      <maml:para>Gen1 API is deprecated from version 12.3</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -8136,7 +8136,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
             <maml:para>Integer value defining level assigned to RequestsAuthorizationLevel for safe member.</maml:para>
             <maml:para>Valid Values: 0, 1 or 2</maml:para>
             <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-            <maml:para>Depreciated from version 12.3</maml:para>
+            <maml:para>Deprecated from version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -8201,7 +8201,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           <maml:description>
             <maml:para>Force use of Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.1</maml:para>
-            <maml:para>Depreciated from version 12.3</maml:para>
+            <maml:para>Deprecated from version 12.3</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -8830,7 +8830,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           <maml:para>Integer value defining level assigned to RequestsAuthorizationLevel for safe member.</maml:para>
           <maml:para>Valid Values: 0, 1 or 2</maml:para>
           <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -8921,7 +8921,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
         <maml:description>
           <maml:para>Force use of Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.1</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -11527,12 +11527,12 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:verb>Find</command:verb>
       <command:noun>PASSafe</command:noun>
       <maml:description>
-        <maml:para>(Depreciated) Returns safe list from the vault.</maml:para>
+        <maml:para>(Deprecated) Returns safe list from the vault.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
       <maml:para>Minimum required version 10.1</maml:para>
-      <maml:para>Depreciated from 11.7</maml:para>
+      <maml:para>Deprecated from 11.7</maml:para>
       <maml:para>Returns abbreviated details for all safes</maml:para>
     </maml:description>
     <command:syntax>
@@ -11596,7 +11596,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Find-PASSafe is depreciated from 11.7</maml:para>
+        <maml:para>Find-PASSafe is deprecated from 11.7</maml:para>
         <maml:para>Function was based on undocumented features available since V10</maml:para>
         <maml:para>It returns results faster than the Gen1 API (invoked with Get-PASSafe) but has a vastly different return object</maml:para>
         <maml:para>Now documented since version 12.0, this is the Gen2 API for Get-PASafe.</maml:para>
@@ -12220,7 +12220,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:name>UseGen1API</maml:name>
           <maml:description>
             <maml:para>Specify to force use of the Gen1 API</maml:para>
-            <maml:para>Gen1 API is Depreciated from version 13.2</maml:para>
+            <maml:para>Gen1 API is Deprecated from version 13.2</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -12247,7 +12247,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:name>UseGen1API</maml:name>
         <maml:description>
           <maml:para>Specify to force use of the Gen1 API</maml:para>
-          <maml:para>Gen1 API is Depreciated from version 13.2</maml:para>
+          <maml:para>Gen1 API is Deprecated from version 13.2</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -12394,7 +12394,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:name>UseGen1API</maml:name>
           <maml:description>
             <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
-            <maml:para>This is based on the Get Account Groups By Safe API, introduced in PAS 10.5, depreciated in 12.6</maml:para>
+            <maml:para>This is based on the Get Account Groups By Safe API, introduced in PAS 10.5, deprecated in 12.6</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -12421,7 +12421,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:name>UseGen1API</maml:name>
         <maml:description>
           <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
-          <maml:para>This is based on the Get Account Groups By Safe API, introduced in PAS 10.5, depreciated in 12.6</maml:para>
+          <maml:para>This is based on the Get Account Groups By Safe API, introduced in PAS 10.5, deprecated in 12.6</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -17768,7 +17768,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:para>Gets safe by SafeName, by search query string, or, by default will return all safes. - Minimum required version for default operation using Gen2 API is 12.0.</maml:para>
       <maml:para>- Minimum required version for operation using Gen2-byName ParameterSet is 12.2.</maml:para>
       <maml:para>- For PAS versions earlier than 12.0, the Gen1 API parameters must be used.</maml:para>
-      <maml:para>- Gen1 API parameters are depreciated for versions higher than 12.3.</maml:para>
+      <maml:para>- Gen1 API parameters are deprecated for versions higher than 12.3.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -17862,7 +17862,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:para>The name of a specific safe to get details of.</maml:para>
             <maml:para>Gen2 API operation requires minimum version 12.2</maml:para>
             <maml:para>When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.</maml:para>
-            <maml:para>Gen1 operation depreciated from version 12.3</maml:para>
+            <maml:para>Gen1 operation deprecated from version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -17905,7 +17905,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:para>The name of a specific safe to get details of.</maml:para>
             <maml:para>Gen2 API operation requires minimum version 12.2</maml:para>
             <maml:para>When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.</maml:para>
-            <maml:para>Gen1 operation depreciated from version 12.3</maml:para>
+            <maml:para>Gen1 operation deprecated from version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -17946,7 +17946,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:description>
             <maml:para>Query String for safe search in the vault using Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-            <maml:para>Depreciated from version 12.3</maml:para>
+            <maml:para>Deprecated from version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -17976,7 +17976,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:description>
             <maml:para>Specify to find all safes using Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-            <maml:para>Depreciated from version 12.3</maml:para>
+            <maml:para>Deprecated from version 12.3</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -18070,7 +18070,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:para>The name of a specific safe to get details of.</maml:para>
           <maml:para>Gen2 API operation requires minimum version 12.2</maml:para>
           <maml:para>When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.</maml:para>
-          <maml:para>Gen1 operation depreciated from version 12.3</maml:para>
+          <maml:para>Gen1 operation deprecated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -18084,7 +18084,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:description>
           <maml:para>Query String for safe search in the vault using Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -18098,7 +18098,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:description>
           <maml:para>Specify to find all safes using Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -18182,7 +18182,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASSafe -query SAFE1</dev:code>
         <dev:remarks>
           <maml:para>Returns details of safes matching query "Safe1" using Gen1 API.</maml:para>
-          <maml:para>Depreciated from version 12.2</maml:para>
+          <maml:para>Deprecated from version 12.2</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -18190,7 +18190,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASSafe -FindAll -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Returns details of all safes using Gen1 API.</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -18198,7 +18198,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASSafe -SafeName SAFE1 -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Returns details of "Safe1" using Gen1 API.</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -18306,7 +18306,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:para>Operation against Gen2 API requires minimum version of 12.2 NOTE for Gen1 Operation : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - `-UseGen1API` parameter must be specified.</maml:para>
             <maml:para>- You cannot report on the permissions of the user authenticated to the API.</maml:para>
             <maml:para>- Reporting on the permissions of the Quota Owner is expected to fail.</maml:para>
-            <maml:para>- Depreciated from CyberArk Version 12.3</maml:para>
+            <maml:para>- Deprecated from CyberArk Version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -18350,7 +18350,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:para>Operation against Gen2 API requires minimum version of 12.2 NOTE for Gen1 Operation : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - `-UseGen1API` parameter must be specified.</maml:para>
             <maml:para>- You cannot report on the permissions of the user authenticated to the API.</maml:para>
             <maml:para>- Reporting on the permissions of the Quota Owner is expected to fail.</maml:para>
-            <maml:para>- Depreciated from CyberArk Version 12.3</maml:para>
+            <maml:para>- Deprecated from CyberArk Version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -18542,7 +18542,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:para>Operation against Gen2 API requires minimum version of 12.2 NOTE for Gen1 Operation : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - `-UseGen1API` parameter must be specified.</maml:para>
           <maml:para>- You cannot report on the permissions of the user authenticated to the API.</maml:para>
           <maml:para>- Reporting on the permissions of the Quota Owner is expected to fail.</maml:para>
-          <maml:para>- Depreciated from CyberArk Version 12.3</maml:para>
+          <maml:para>- Deprecated from CyberArk Version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -18692,7 +18692,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASSafeMember -SafeName Target_Safe -MemberName SomeUser -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Lists all permissions for member SomeUser on Target_Safe using Gen1 API</maml:para>
-          <maml:para>Depreciated from CyberArk Version 12.3</maml:para>
+          <maml:para>Deprecated from CyberArk Version 12.3</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -18718,7 +18718,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Gets configuration details of logo displayed in the SafeShare WebGUI</maml:para>
-      <maml:para>Depreciated from version 13.2</maml:para>
+      <maml:para>Deprecated from version 13.2</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -19980,7 +19980,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:description>
             <maml:para>Yes/No value, dictating if the account will be scheduled for immediate change.</maml:para>
             <maml:para>Specify Yes to initiate a password change by CPM - Relevant for Gen1 API only.</maml:para>
-            <maml:para>Depreciated from version 13.2</maml:para>
+            <maml:para>Deprecated from version 13.2</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -20394,7 +20394,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:description>
           <maml:para>Yes/No value, dictating if the account will be scheduled for immediate change.</maml:para>
           <maml:para>Specify Yes to initiate a password change by CPM - Relevant for Gen1 API only.</maml:para>
-          <maml:para>Depreciated from version 13.2</maml:para>
+          <maml:para>Deprecated from version 13.2</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -20483,7 +20483,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <dev:code>Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ImmediateChangeByCPM Yes</dev:code>
         <dev:remarks>
           <maml:para>Marks an account for immediate change using the Gen1 API</maml:para>
-          <maml:para>Depreciated from version 13.2</maml:para>
+          <maml:para>Deprecated from version 13.2</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>

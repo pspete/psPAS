@@ -41,7 +41,7 @@ tags:
     - Added `id` parameter, supported from 12.6
     - Added `groupName` parameter, supported from 12.2.
   - `Get-PASAccountGroup`
-    - Depreciated use of "Get Safe account groups" API
+    - Deprecated use of "Get Safe account groups" API
     - Makes ParameterSet based on `Get account group by Safe` API the default.
   - Updates URL formatting to include a forward slash (/) to end of URL for functions which may include a dot (.) via provided parameter values.
   - Updated documentation and help text.

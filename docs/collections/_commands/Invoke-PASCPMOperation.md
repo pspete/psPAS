@@ -90,7 +90,7 @@ Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ImmediateChangeByCPM Yes
 
 Marks an account for immediate change using the Gen1 API
 
-Depreciated from version 13.2
+Deprecated from version 13.2
 
 ### EXAMPLE 4
 ```
@@ -262,7 +262,7 @@ Yes/No value, dictating if the account will be scheduled for immediate change.
 
 Specify Yes to initiate a password change by CPM - Relevant for Gen1 API only.
 
-Depreciated from version 13.2
+Deprecated from version 13.2
 
 ```yaml
 Type: String

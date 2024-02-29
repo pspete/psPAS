@@ -1300,7 +1300,7 @@ for the unofficial API documentation, general API wizardry & knowledge sharing.
 
 **Jesse McWilliams**
 ([JesseMcWilliamss](https://github.com/JesseMcWilliams))
-For the infomration needed to add PKIPN authentication into `New-PASSession`
+For the information needed to add PKIPN authentication into `New-PASSession`
 
 **Wojciech Ossowski**
 ([Qrelis](https://github.com/Qrelis))
