@@ -73,7 +73,25 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$InputObj | Get-PASPSMRecording
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/Recordings?Limit=9"
+					$URI -match "$($Script:psPASSession.BaseURI)/API/Recordings?"
+
+				} -Times 1 -Exactly -Scope It
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match 'Limit=9'
+
+				} -Times 1 -Exactly -Scope It
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match 'ToTime=\d{10}'
+
+				} -Times 1 -Exactly -Scope It
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match 'FromTime=\d{10}'
 
 				} -Times 1 -Exactly -Scope It
 
@@ -84,7 +102,29 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				#311212800 1674345600
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/Recordings?ToTime=1674345600"
+					$URI -match 'ToTime=1674345600'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected default ToTime value when ToTime not specified' {
+				Get-PASPSMRecording
+				#311212800 1674345600
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match 'ToTime=\d{10}'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected default FromTime value when FromTime not specified' {
+				Get-PASPSMRecording -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
+				#311212800 1674345600
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match 'FromTime=1674259200'
 
 				} -Times 1 -Exactly -Scope It
 
@@ -94,7 +134,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Get-PASPSMRecording -FromTime (Get-Date -Year 1979 -Month 11 -Day 12 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
 				#311212800 1674345600
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/Recordings?fromTime=311212800"
+
+					$URI -match 'fromTime=311212800'
 
 				} -Times 1 -Exactly -Scope It
 

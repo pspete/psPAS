@@ -15750,6 +15750,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Returns the details of recordings of PSM, PSMP or OPM sessions.</maml:para>
+      <maml:para>By default, recordings from the last 24 hours are returned. - When specifying `ToTime` without `FromTime`, recordings from the 24 hours before `ToTime` are returned.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -15834,7 +15835,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>ToTime</maml:name>
           <maml:description>
-            <maml:para>Returns recordings from a specific date</maml:para>
+            <maml:para>Returns recordings from a specific date - When specifying `ToTime` without `FromTime`, recordings from the 24 hours prior to `ToTime` are returned.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
           <dev:type>
@@ -15935,7 +15936,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>ToTime</maml:name>
         <maml:description>
-          <maml:para>Returns recordings from a specific date</maml:para>
+          <maml:para>Returns recordings from a specific date - When specifying `ToTime` without `FromTime`, recordings from the 24 hours prior to `ToTime` are returned.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
         <dev:type>
@@ -15969,7 +15970,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPSMRecording -Sort -FileName</dev:code>
         <dev:remarks>
-          <maml:para>Lists all PSM recordings, sorted by descending filename.</maml:para>
+          <maml:para>Lists PSM recordings from the last 24 hours, sorted by descending filename.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>

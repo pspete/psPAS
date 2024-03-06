@@ -11,7 +11,9 @@
 - N/A
 
 ### Updated
-- N/A
+- `Get-PASPSMRecording`
+  - Updated to return recordings from the last 24 hours by default when `FromTime` & `ToTime` parameters are not specified.
+  - When specifying `ToTime` without `FromTime`, recordings from the 24 hours before `ToTime` are returned.
 
 ### Fixed
 - N/A
