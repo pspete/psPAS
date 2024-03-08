@@ -38525,8 +38525,6 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
     </command:details>
     <maml:description>
       <maml:para>Updates an existing user in the vault.</maml:para>
-      <maml:para>Appears to require all properties set on a user to be passed with the request.</maml:para>
-      <maml:para>Not passing a value to an already set property will result in it being cleared.</maml:para>
       <maml:para>Default operation using the Gen2 API requires minimum version of 11.1</maml:para>
     </maml:description>
     <command:syntax>
@@ -39995,9 +39993,44 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Set-PASUser -id 41 -username Bill -ExpiryDate (get-date).AddDays(5)</dev:code>
+        <dev:remarks>
+          <maml:para>Sets ExpiryDate on Bill's vault user</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Set-PASUser -id 41 -username Bill -unAuthorizedInterfaces PACLI,GUI</dev:code>
+        <dev:remarks>
+          <maml:para>Sets unAuthorizedInterfaces on Bill's vault user</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Set-PASUser -id 41 -username Bill -pagerNumber ""</dev:code>
+        <dev:remarks>
+          <maml:para>Clears the pagerNumber property on Bill's vault user</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Set-PASUser -id 41 -username Bill -unAuthorizedInterfaces @()</dev:code>
+        <dev:remarks>
+          <maml:para>Clears the unAuthorizedInterfaces property on Bill's vault user</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
         <dev:code>Set-PASUser -UserName Bill -Disabled $true</dev:code>
         <dev:remarks>
           <maml:para>Disables vault user Bill</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
+        <dev:code>Set-PASUser -id 41 -username Bill -ExpiryDate (get-date 1/1/1970)</dev:code>
+        <dev:remarks>
+          <maml:para>Clear ExpiryDate on Bill's vault user</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

@@ -41,20 +41,51 @@ Set-PASUser -username <String> [-NewPassword <SecureString>] [-Email <String>]
 ## DESCRIPTION
 Updates an existing user in the vault.
 
-Appears to require all properties set on a user to be passed with the request.
-
-Not passing a value to an already set property will result in it being cleared.
-
 Default operation using the Gen2 API requires minimum version of 11.1
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
+Set-PASUser -id 41 -username Bill -ExpiryDate (get-date).AddDays(5)
+```
+
+Sets ExpiryDate on Bill's vault user
+
+### EXAMPLE 2
+```
+Set-PASUser -id 41 -username Bill -unAuthorizedInterfaces PACLI,GUI
+```
+
+Sets unAuthorizedInterfaces on Bill's vault user
+
+### EXAMPLE 3
+```
+Set-PASUser -id 41 -username Bill -pagerNumber ""
+```
+
+Clears the pagerNumber property on Bill's vault user
+
+### EXAMPLE 4
+```
+Set-PASUser -id 41 -username Bill -unAuthorizedInterfaces @()
+```
+
+Clears the unAuthorizedInterfaces property on Bill's vault user
+
+### EXAMPLE 5
+```
 Set-PASUser -UserName Bill -Disabled $true
 ```
 
 Disables vault user Bill
+
+### EXAMPLE 6
+```
+Set-PASUser -id 41 -username Bill -ExpiryDate (get-date 1/1/1970)
+```
+
+Clear ExpiryDate on Bill's vault user
 
 ## PARAMETERS
 

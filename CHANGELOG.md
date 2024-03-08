@@ -14,13 +14,18 @@
 - `Get-PASPSMRecording`
   - Updated to return recordings from the last 24 hours by default when `FromTime` & `ToTime` parameters are not specified.
   - When specifying `ToTime` without `FromTime`, recordings from the 24 hours before `ToTime` are returned.
+- `Set-PASUser`
+  - Updated to send any existing user properties, which are not being specifically updated, with the request `Set-PASUser`.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the user object.
+    - This update allows single properties to be updated without having to specify all properties.
+  - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters to enable set values to be cleared.
+  - Corrects ValidateSet for `unAuthorizedInterfaces` parameter.
+- `New-PASUser`
+  - In-line with update to `Set-PASUser`
+    - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters.
+    - Corrects ValidateSet for `unAuthorizedInterfaces` parameter.
 
 ### Fixed
-- N/A
-
-## **6.1.62**
-
-### Added
 - N/A
 
 ## **6.2.68**

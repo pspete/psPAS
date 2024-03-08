@@ -115,18 +115,33 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$InputObj = [pscustomobject]@{
-					'id'                           = 1234
-					'UserName'                     = 'SomeUser'
-					'NewPassword'                  = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
-					'FirstName'                    = 'Some'
-					'LastName'                     = 'User'
-					'ExpiryDate'                   = '10/31/2018'
-					'workStreet'                   = 'SomeStreet'
-					'homePage'                     = 'www.geocities.com'
-					'faxNumber'                    = '1979'
-					'userActivityLogRetentionDays' = 30
-					'loginFromHour'                = 8
-					'loginToHour'                  = 18
+					'id'            = 1234
+					'UserName'      = 'SomeUser'
+					'NewPassword'   = $('P_Password' | ConvertTo-SecureString -AsPlainText -Force)
+					'ExpiryDate'    = '10/31/2018'
+					'workStreet'    = 'SomeStreet'
+					#'homePage'                     = 'www.geocities.com'
+					'faxNumber'     = '1979'
+					#'userActivityLogRetentionDays' = 30
+					'loginFromHour' = 8
+					'loginToHour'   = 18
+
+				}
+
+				Mock Get-PASUser -MockWith {
+					[pscustomobject]@{
+						'id'                           = 1234
+						'UserName'                     = 'SomeUser'
+						'FirstName'                    = 'Some'
+						'LastName'                     = 'User'
+						'ExpiryDate'                   = $null
+						'workStreet'                   = $null
+						'homePage'                     = 'www.geocities.com'
+						'faxNumber'                    = $null
+						'userActivityLogRetentionDays' = 30
+						'loginFromHour'                = $null
+						'loginToHour'                  = $null
+					}
 
 				}
 
@@ -156,6 +171,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'gets existing user settings' {
+				Assert-MockCalled Get-PASUser -ParameterFilter { $id -eq 1234 } -Times 1 -Exactly -Scope It
+			}
+
 			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -166,6 +185,34 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				} -Times 1 -Exactly -Scope It
 
+			}
+
+			It 'sends request with expected existing personal details' {
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody).personalDetails.LastName -eq 'User'
+
+				} -Times 1 -Exactly -Scope It
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody).personalDetails.FirstName -eq 'Some'
+
+				} -Times 1 -Exactly -Scope It
+			}
+
+			It 'sends request with expected existing internet details' {
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody).internet.homepage -eq 'www.geocities.com'
+
+				} -Times 1 -Exactly -Scope It
 			}
 
 			It 'throws error if version requirement not met' {
