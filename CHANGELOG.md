@@ -12,8 +12,11 @@
 
 ### Updated
 - `Get-PASPSMRecording`
-  - Updated to return recordings from the last 24 hours by default when `FromTime` & `ToTime` parameters are not specified.
-  - When specifying `ToTime` without `FromTime`, recordings from the 24 hours before `ToTime` are returned.
+  - In-line with PVWA default operation:
+    - Changed the default limit for each page of results to 100, in-line with PVWA default values
+    - Updated to return recordings from the last 48 hours by default when `FromTime` & `ToTime` parameters are not specified.
+  - When specifying `ToTime` without `FromTime`, recordings from the 48 hours before `ToTime` are returned.
+    - This avoids potential for unintentionally long running queries which return details of many recording from the vault.
 - `Set-PASUser`
   - Updated to send any existing user properties, which are not being specifically updated, with the request `Set-PASUser`.
     - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the user object.

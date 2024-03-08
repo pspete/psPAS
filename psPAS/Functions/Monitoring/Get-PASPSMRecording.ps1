@@ -110,14 +110,14 @@ function Get-PASPSMRecording {
 					$boundParameters['FromTime'] = $FromTime | ConvertTo-UnixTime
 				} Else {
 					#If ToTime specified get previous 24 hours
-					$boundParameters['FromTime'] = (Get-Date $boundParameters['ToTime']).AddDays(-1) | ConvertTo-UnixTime
+					$boundParameters['FromTime'] = (Get-Date $boundParameters['ToTime']).AddDays(-2) | ConvertTo-UnixTime
 				}
 
 				#Convert ToTime to UnixTime
 				$boundParameters['ToTime'] = $boundParameters['ToTime'] | ConvertTo-UnixTime
 
 				If ($PSBoundParameters.Keys -notcontains 'Limit') {
-					$Limit = 25   #default if you call the API with no value
+					$Limit = 100   #default if you call the API with no value
 				}
 
 				#Create Query String, escaped for inclusion in request URL

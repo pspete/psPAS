@@ -124,7 +124,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				#311212800 1674345600
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -match 'FromTime=1674259200'
+					$URI -match 'FromTime=1674172800'
 
 				} -Times 1 -Exactly -Scope It
 
@@ -217,12 +217,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Mock Invoke-PASRestMethod -MockWith {
 					If ($script:iteration -le 4) {
 						[PSCustomObject]@{
-							'Recordings'      = @(1..25)
+							'Recordings'      = @(1..100)
 							$script:iteration = $script:iteration++
 						}
 					} else {
 						[PSCustomObject]@{
-							'Recordings' = @(1..24)
+							'Recordings' = @(1..99)
 						}
 					}
 				}
