@@ -36,7 +36,7 @@ function Get-PASServerWebService {
 		switch ($PSBoundParameters.Keys) {
 
 			'UseGen1API' {
-				#!Depreciated above 13.2
+				#!Depracated above 13.2
 				Assert-VersionRequirement -MaximumVersion 13.2
 
 				#Create URL for request

@@ -301,7 +301,6 @@ function Set-PASUser {
 		[ValidateLength(0, 99)]
 		[string]$description,
 
-
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
@@ -446,7 +445,7 @@ function Set-PASUser {
 				$URI = "$($psPASSession.BaseURI)/api/Users/$id"
 
 				$UserObject = Get-PASUser -id $id
-				#$UserProperties = $UserObject | Get-PASUserPropertyObject
+
 				$ExistingProperties = @{}
 				$UserObject | Get-PASUserPropertyObject | ForEach-Object {
 					$ExistingProperties[$($PSItem.Key)] = $($PSItem.Value)

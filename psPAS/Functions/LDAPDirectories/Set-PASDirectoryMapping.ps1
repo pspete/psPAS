@@ -74,8 +74,9 @@ function Set-PASDirectoryMapping {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[AllowEmptyCollection()]
 		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
-			'EVD', 'PIMSu', 'AIMApp', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
+			'EVD', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
 		[string[]]$AuthorizedInterfaces,
 
 		[parameter(

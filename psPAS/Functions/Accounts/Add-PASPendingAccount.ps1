@@ -139,7 +139,7 @@ function Add-PASPendingAccount {
 	)
 
 	BEGIN {
-		#!Depreciated above 13.2
+		#!Depracated above 13.2
 		Assert-VersionRequirement -MaximumVersion 13.2
 	}#begin
 

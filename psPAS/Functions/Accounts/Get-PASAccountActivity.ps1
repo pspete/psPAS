@@ -35,7 +35,7 @@ function Get-PASAccountActivity {
 
 			'Gen1' {
 
-				#!Depreciated above 13.2
+				#!Depracated above 13.2
 				Assert-VersionRequirement -MaximumVersion 13.2
 				#URL for Request
 				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc"
