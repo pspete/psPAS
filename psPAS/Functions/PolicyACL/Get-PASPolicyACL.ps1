@@ -11,7 +11,9 @@ function Get-PASPolicyACL {
 
 	)
 
-	BEGIN { }#begin
+	BEGIN {
+		Assert-VersionRequirement -SelfHosted
+	}#begin
 
 	PROCESS {
 

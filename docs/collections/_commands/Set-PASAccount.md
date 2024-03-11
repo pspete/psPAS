@@ -41,6 +41,7 @@ Default operation using the Gen2 API requires minimum version fo 10.4
 
 When using the Gen1 API:
 
+- It is not supported in Privilege Cloud
 - All of the account's property details MUST be passed to the function.
 - Any current properties of the account not sent as part of the request will be removed
 from the account.
@@ -102,6 +103,8 @@ Set-PASAccount -AccountID 21_3 -Folder Root -AccountName NewName `
 Will set the AccountName of account with AccountID of 21_3 to "NewName".
 
 **Any/All additional properties of the account which are not specified via parameters will be cleared**
+
+Not supported in Privilege Cloud
 
 ### EXAMPLE 6
 

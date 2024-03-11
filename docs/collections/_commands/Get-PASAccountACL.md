@@ -22,6 +22,8 @@ Get-PASAccountACL [-AccountPolicyId] <String> [-AccountAddress] <String> [-Accou
 ## DESCRIPTION
 Gets list of all privileged commands associated with an account
 
+Not supported in Privilege Cloud
+
 ## EXAMPLES
 
 ### EXAMPLE 1

@@ -798,6 +798,7 @@ Add-PASAccount -address domain -userName ThisUser -platformID UNIXVIASSHCERTIFIC
     </command:details>
     <maml:description>
       <maml:para>Adds a new privileged command rule to an account.</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5989,6 +5990,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </command:details>
     <maml:description>
       <maml:para>Adds a new privileged command rule to a policy.</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -9455,6 +9457,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Performs Logoff and removes the Vault session.</maml:para>
+      <maml:para>Shared authentication is supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -12082,6 +12085,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Gets list of all privileged commands associated with an account</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -15680,6 +15684,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Gets a list of the privileged commands (OPM Rules) associated with this policy</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -19841,6 +19846,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <maml:para>Accounts Can be flagged for immediate verification, change or reconcile.</maml:para>
       <maml:para>CPM Change Options: - Flags a managed account credentials for an immediate CPM password change.   - The "Initiate CPM password management operations" permission is required. - Sets a password to use for an account's next CPM change.   - The "Initiate CPM password management operations" &amp; "Specify next password value" permission is required. - Updates the account's password only in the Vault (without affecting the credentials on the target device).   - The "Update password value" permission is required.</maml:para>
       <maml:para>Verify &amp; Reconcile both require "Initiate CPM password management operations"</maml:para>
+      <maml:para>Gen 1 Verify is not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -19943,6 +19949,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:description>
             <maml:para>Specify to force verification via Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 10.1</maml:para>
+            <maml:para>Gen 1 Verify is not supported in Privilege Cloud</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -20448,6 +20455,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:description>
           <maml:para>Specify to force verification via Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 10.1</maml:para>
+          <maml:para>Gen 1 Verify is not supported in Privilege Cloud</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -25141,6 +25149,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <maml:para>Use the -UseGen1API switch parameter to target the Gen1 API endpoint.</maml:para>
       <maml:para>Windows authentication requires at least CyberArk PAS version 10.4</maml:para>
       <maml:para>LDAP, RADIUS, SAML, and shared authentication all require a minimum CyberArk version of 9.7.</maml:para>
+      <maml:para>Shared authentication is not supported in Privilege Cloud.</maml:para>
       <maml:para>Versions of CyberArk prior to 9.7: - only the CyberArk authentication mechanism is supported.</maml:para>
       <maml:para>- newPassword Parameter is not supported.</maml:para>
       <maml:para>- useRadiusAuthentication Parameter is not supported.</maml:para>
@@ -29416,6 +29425,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </command:details>
     <maml:description>
       <maml:para>Deletes privileged commands rule associated with account</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -31234,6 +31244,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </command:details>
     <maml:description>
       <maml:para>Deletes all privileged command rules associated with the policy</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -32440,6 +32451,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
           <maml:description>
             <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.2</maml:para>
+            <maml:para>Is not supported for Privilege Cloud</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -32503,6 +32515,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
         <maml:description>
           <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.2</maml:para>
+          <maml:para>Is not supported for Privilege Cloud</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -32997,6 +33010,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <maml:para>Updates an existing accounts details.</maml:para>
       <maml:para>Default operation using the Gen2 API requires minimum version fo 10.4</maml:para>
       <maml:para>When using the Gen1 API:</maml:para>
+      <maml:para>- It is not supported in Privilege Cloud</maml:para>
       <maml:para>- All of the account's property details MUST be passed to the function.</maml:para>
       <maml:para>- Any current properties of the account not sent as part of the request will be removed</maml:para>
       <maml:para>from the account. - To change a property value not exposed via a named parameter, pass the property name and updated value to the function via the Properties parameter. - If changing the name or folder of a service account that has multiple dependencies (usages), the connection between it and its dependencies will be automatically maintained. - If changing the name or folder of an account that is linked to another account (whether logon, reconciliation or verification), the links will be automatically updated.</maml:para>
@@ -33590,7 +33604,7 @@ Set-PASAccount -AccountID 27_4 -operations $actions</dev:code>
         <dev:code>Set-PASAccount -AccountID 21_3 -Folder Root -AccountName NewName `
 -DeviceType Database -PlatformID Oracle -Address dbServer.domain.com -UserName DBUser</dev:code>
         <dev:remarks>
-          <maml:para>Will set the AccountName of account with AccountID of 21_3 to "NewName". Any/All additional properties of the account which are not specified via parameters will be cleared</maml:para>
+          <maml:para>Will set the AccountName of account with AccountID of 21_3 to "NewName". Any/All additional properties of the account which are not specified via parameters will be cleared Not supported in Privilege Cloud</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>

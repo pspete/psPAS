@@ -22,6 +22,8 @@ Remove-PASAccountACL [-AccountPolicyId] <String> [-AccountAddress] <String> [-Ac
 ## DESCRIPTION
 Deletes privileged commands rule associated with account
 
+Not supported in Privilege Cloud
+
 ## EXAMPLES
 
 ### EXAMPLE 1

@@ -113,6 +113,8 @@ Windows authentication requires at least CyberArk PAS version 10.4
 
 LDAP, RADIUS, SAML, and shared authentication all require a minimum CyberArk version of 9.7.
 
+Shared authentication is not supported in Privilege Cloud.
+
 Versions of CyberArk prior to 9.7: - only the CyberArk authentication mechanism is supported.
 
 - newPassword Parameter is not supported.

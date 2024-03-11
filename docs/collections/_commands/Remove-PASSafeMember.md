@@ -112,6 +112,8 @@ Specify to force usage the Gen1 API endpoint.
 
 Should be specified for versions earlier than 12.2
 
+Is not supported for Privilege Cloud
+
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)

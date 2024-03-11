@@ -162,6 +162,8 @@ function Set-PASAccount {
 
 			'Gen1' {
 
+				Assert-VersionRequirement -SelfHosted
+
 				#Create URL for Request
 				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Accounts/$AccountID"
 

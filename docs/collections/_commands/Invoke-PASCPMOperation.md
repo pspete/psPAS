@@ -67,6 +67,8 @@ CPM Change Options:
 
 Verify & Reconcile both require "Initiate CPM password management operations"
 
+Gen 1 Verify is not supported in Privilege Cloud
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -333,6 +335,8 @@ Accept wildcard characters: False
 Specify to force verification via Gen1 API.
 
 Should be specified for versions earlier than 10.1
+
+Gen 1 Verify is not supported in Privilege Cloud
 
 ```yaml
 Type: SwitchParameter

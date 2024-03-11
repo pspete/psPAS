@@ -34,6 +34,8 @@ function Remove-PASSafeMember {
 
 			'Gen1' {
 
+				Assert-VersionRequirement -SelfHosted
+
 				#Create URL for request
 				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/$($SafeName |
 					Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"

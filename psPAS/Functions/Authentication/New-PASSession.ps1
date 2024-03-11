@@ -493,6 +493,8 @@ function New-PASSession {
 
 			'shared' {
 
+				Assert-VersionRequirement -SelfHosted
+
 				$LogonRequest['Uri'] = "$Uri/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logon"
 				break
 

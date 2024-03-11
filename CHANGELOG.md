@@ -27,6 +27,30 @@
   - In-line with update to `Set-PASUser`
     - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters.
     - Corrects ValidateSet for `unAuthorizedInterfaces` parameter.
+- `Add-PASAccountACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Get-PASAccountACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Remove-PASAccountACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Invoke-PASCPMOperation`
+  - Adds assertion that Gen1 verify task must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Set-PASAccount`
+  - Adds assertion that Gen1 task must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Close-PASSession`
+  - Adds assertion that Shared Authentication logoff request is executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `New-PASSession`
+  - Adds assertion that Shared Authentication logon request is executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Add-PASPolicyACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Get-PASPolicyACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Remove-PASPolicyACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Remove-PASSafeMember`
+  - Adds assertion that command using Gen1 parameters must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Assert-VersionRequirement`
+  - Updates helper function to provide ability to assert if command is being run against self-hosted or privilege cloud implementation.
 
 ### Fixed
 - N/A
