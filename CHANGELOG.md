@@ -23,6 +23,8 @@
     - This update allows single properties to be updated without having to specify all properties.
   - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters to enable set values to be cleared.
   - Corrects ValidateSet for `unAuthorizedInterfaces` parameter.
+- `Set-PASSafe`
+  - Updated to send any existing properties, which are not being specifically updated, with the request.
 - `New-PASUser`
   - In-line with update to `Set-PASUser`
     - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters.
