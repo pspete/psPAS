@@ -445,20 +445,8 @@ function Set-PASUser {
 				$URI = "$($psPASSession.BaseURI)/api/Users/$id"
 
 				$UserObject = Get-PASUser -id $id
-
-				$ExistingProperties = @{}
-				$UserObject | Get-PASUserPropertyObject | ForEach-Object {
-					$ExistingProperties[$($PSItem.Key)] = $($PSItem.Value)
-				}
-
-				$userParameters = $ExistingProperties | Get-PASParameter -ParametersToRemove id, lastSuccessfulLoginDate,
+				Format-PutRequestObject -InputObject $UserObject -boundParameters $BoundParameters -ParametersToRemove id, lastSuccessfulLoginDate,
 				source, componentUser, groupsMembership, authenticationMethod
-
-				$userParameters.Keys | ForEach-Object {
-					If (-not($boundParameters.ContainsKey($PSItem))) {
-						$boundParameters.Add($PSItem, $userParameters[$PSItem])
-					}
-				}
 
 				$boundParameters = $boundParameters | Format-PASUserObject
 

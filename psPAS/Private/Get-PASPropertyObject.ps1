@@ -1,14 +1,14 @@
-Function Get-PASUserPropertyObject {
+Function Get-PASPropertyObject {
     <#
     .SYNOPSIS
-    Designed to flatten objects returned from Get-PASUser
+    Designed to flatten objects returned from psPAS commands
 
     .DESCRIPTION
-    Get-PASUser output contains levels of nested properties, all with unique names.
+    psPAS output can contain multiple levels of nested properties.
 
     This function returns all property values as root level properties of the output object.
 
-    Facilitates sending existing property values as parametes for Set-PASUser
+    Facilitates sending existing property values as parametes for Set-PAS* commands.
 
     .PARAMETER InputObject
     The input object to flatten
@@ -21,7 +21,7 @@ Function Get-PASUserPropertyObject {
 
     }
 
-    $object | Get-PASUserPropertyObject
+    $object | Get-PASPropertyObject
 
     Name                           Value
     ----                           -----
@@ -48,32 +48,34 @@ Function Get-PASUserPropertyObject {
     }
     Process {
 
+        #Iterate each property
         $InputObject.psobject.Properties | ForEach-Object {
 
-
             If ($null -ne $PSItem.value) {
+
+                #save the property name
                 $property = $PSItem.name
+
                 switch ($PSItem) {
 
+                    #where property value is another (nested) object, recursivley call the function for the object
                     { ($PSItem.value.gettype() | Select-Object -ExpandProperty Name) -match 'PSCustomObject' } {
-                        $PSItem.value | Get-PASUserPropertyObject
+                        $PSItem.value | Get-PASPropertyObject
                     }
                     default {
+                        #add property name/value to hastable
                         $Properties.Add($Property, $PSItem.value)
                     }
 
                 }
             }
 
-
-
         }
-
-
 
     }
     End {
 
+        #output hashtable elements
         $Properties.GetEnumerator()
 
     }

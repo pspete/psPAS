@@ -48,22 +48,32 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
         Context	'General Tests' {
             BeforeEach {
 
-                $object = [PSCustomObject]@{
-
-                    Prop1 = 'testvalue1'
-                    Nest1 = [PSCustomObject]@{nestedproperty1 = 'nested value1' }
-                    Prop2 = 'testvalue2'
-                    Nest2 = [PSCustomObject]@{nestedproperty2 = 'nested value2' }
-                    Nest3 = [PSCustomObject]@{nestedproperty3 = 'nested value3' }
-
+                $InputObject = [pscustomobject]@{'prop1' = 'value1' ; 'prop2' = 'value2' ; 'prop9' = 'value9' }
+                $BoundParameters = @{
+                    'prop3' = 'value 3'
+                    'prop4' = 'value 4'
                 }
-
-                $ReturnData = $object | Get-PASUserPropertyObject
+                Format-PutRequestObject -InputObject $InputObject -boundParameters $BoundParameters -ParametersToRemove prop1, prop2
             }
 
-            It 'returns a expected number of properties' {
+            AfterEach {
+                $BoundParameters = $null
+            }
+            It 'sets expected number of keys for BoundParameters' {
 
-                $ReturnData.Length | Should -Be 5
+                ($BoundParameters.Keys).Count | Should -Be 3
+
+            }
+
+            It 'sets expected expected value for prop9' {
+
+                $BoundParameters['prop9'] | Should -Be 'value9'
+
+            }
+
+            It 'sets expected expected value for prop1' {
+
+                $BoundParameters['prop1'] | Should -BeNullOrEmpty
 
             }
 
