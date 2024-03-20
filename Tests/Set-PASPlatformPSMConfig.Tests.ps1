@@ -49,14 +49,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			Mock Invoke-PASRestMethod -MockWith {
 				[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 			}
-
+			Mock Get-PASPlatformPSMConfig -MockWith {
+				[PSCustomObject]@{'PSMServerID' = 'SomePSMServer' }
+			}
 			$response = Set-PASPlatformPSMConfig -ID 42 -PSMServerID SomePSMServer
 		}
 		Context 'Input' {
 
 			It 'sends request' {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -Scope It
 
 			}
 
@@ -66,7 +68,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/Targets/42/PrivilegedSessionManagement"
 
-				} -Times 1 -Exactly -Scope It
+				} -Scope It
 
 			}
 
@@ -79,8 +81,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$($Body | ConvertFrom-Json | Select-Object -ExpandProperty PSMServerID) -eq 'SomePSMServer'
-				} -Times 1 -Exactly -Scope It
+					If ($null -ne $Body) {
+						$($Body | ConvertFrom-Json | Select-Object -ExpandProperty PSMServerID) -eq 'SomePSMServer'
+					}
+				} -Scope It -Times 1
 
 			}
 

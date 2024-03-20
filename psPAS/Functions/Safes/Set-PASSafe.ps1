@@ -101,8 +101,10 @@ function Set-PASSafe {
 		$BoundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove NewSafeName
 
 		$SafeObject = Get-PASSafe -SafeName $SafeName
-		Format-PutRequestObject -InputObject $SafeObject -boundParameters $BoundParameters -ParametersToKeep ManagingCPM, location, Description,
-		NumberOfVersionsRetention, NumberOfDaysRetention
+		if ($null -ne $SafeObject) {
+			Format-PutRequestObject -InputObject $SafeObject -boundParameters $BoundParameters -ParametersToKeep ManagingCPM, location, Description,
+			NumberOfVersionsRetention, NumberOfDaysRetention
+		}
 
 		switch ($PSBoundParameters.Keys) {
 			'NewSafeName' {

@@ -34001,7 +34001,7 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
           <maml:name>MappingName</maml:name>
           <maml:description>
             <maml:para>The name of the PAS role that will be created.</maml:para>
@@ -34013,7 +34013,7 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
           <maml:name>LDAPBranch</maml:name>
           <maml:description>
             <maml:para>The LDAP branch that will be used for external directory queries</maml:para>
@@ -34194,7 +34194,7 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
         <maml:name>MappingName</maml:name>
         <maml:description>
           <maml:para>The name of the PAS role that will be created.</maml:para>
@@ -34206,7 +34206,7 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
         <maml:name>LDAPBranch</maml:name>
         <maml:description>
           <maml:para>The LDAP branch that will be used for external directory queries</maml:para>
@@ -35001,7 +35001,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>TargetPlatformId</maml:name>
           <maml:description>
             <maml:para>The ID of the platform that will be associated to the on-boarded account.</maml:para>
@@ -35013,7 +35013,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
           <maml:name>TargetSafeName</maml:name>
           <maml:description>
             <maml:para>The name of the Safe where the on-boarded account will be stored.</maml:para>
@@ -35051,7 +35051,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
           <maml:name>SystemTypeFilter</maml:name>
           <maml:description>
             <maml:para>The System Type by which to filter.</maml:para>
@@ -35137,7 +35137,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>TargetPlatformId</maml:name>
         <maml:description>
           <maml:para>The ID of the platform that will be associated to the on-boarded account.</maml:para>
@@ -35149,7 +35149,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
         <maml:name>TargetSafeName</maml:name>
         <maml:description>
           <maml:para>The name of the Safe where the on-boarded account will be stored.</maml:para>
@@ -35187,7 +35187,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
         <maml:name>SystemTypeFilter</maml:name>
         <maml:description>
           <maml:para>The System Type by which to filter.</maml:para>
@@ -35413,7 +35413,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>discoveryEndpointUrl</maml:name>
           <maml:description>
             <maml:para>OIDC defines a discovery mechanism, called OpenID Connect Discovery, where an OIDC Identity provider publishes its metadata at a well-known URL.</maml:para>
@@ -35439,7 +35439,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>clientId</maml:name>
           <maml:description>
             <maml:para>The unique identifier for the client application. This ID is created by the provider, and assigned to each client application upon registration.</maml:para>
@@ -35463,7 +35463,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>clientSecretMethod</maml:name>
           <maml:description>
             <maml:para>The client authentication method for the client secret.</maml:para>
@@ -35572,7 +35572,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>discoveryEndpointUrl</maml:name>
         <maml:description>
           <maml:para>OIDC defines a discovery mechanism, called OpenID Connect Discovery, where an OIDC Identity provider publishes its metadata at a well-known URL.</maml:para>
@@ -35598,7 +35598,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>clientId</maml:name>
         <maml:description>
           <maml:para>The unique identifier for the client application. This ID is created by the provider, and assigned to each client application upon registration.</maml:para>
@@ -35622,7 +35622,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>clientSecretMethod</maml:name>
         <maml:description>
           <maml:para>The client authentication method for the client secret.</maml:para>
@@ -35725,7 +35725,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>PSMServerID</maml:name>
           <maml:description>
             <maml:para>PSM server ID linked to the platform</maml:para>
@@ -35786,7 +35786,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>PSMServerID</maml:name>
         <maml:description>
           <maml:para>PSM server ID linked to the platform</maml:para>
@@ -35848,7 +35848,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         <dev:code>$PSMConfig = Get-PASPlatformPSMConfig -ID 23
 
 $PSMConfig.PSMConnectors += (\[PSCustomObject\]@{"PSMConnectorID"="PSM-RDP";"Enabled"=$true})
-$PSMConfig | Set-PASPlatformPSMConfig -ID 23</dev:code>
+Set-PASPlatformPSMConfig -ID 23 -PSMConnectors $PSMConfig.PSMConnectors</dev:code>
         <dev:remarks>
           <maml:para>Adds PSM-RDP as an additional connection component configured on platform with id of 23</maml:para>
         </dev:remarks>
@@ -36453,7 +36453,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>category</maml:name>
           <maml:description>
             <maml:para>The Category of the risky activity - Valid values: SSH, WINDOWS, SCP, KEYSTROKES or SQL</maml:para>
@@ -36465,7 +36465,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
           <maml:name>regex</maml:name>
           <maml:description>
             <maml:para>Risky activity in regex form.</maml:para>
@@ -36478,7 +36478,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
           <maml:name>score</maml:name>
           <maml:description>
             <maml:para>Activity score.</maml:para>
@@ -36491,7 +36491,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
           <maml:name>description</maml:name>
           <maml:description>
             <maml:para>Activity description.</maml:para>
@@ -36504,7 +36504,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
           <maml:name>response</maml:name>
           <maml:description>
             <maml:para>Automatic response to be executed</maml:para>
@@ -36517,7 +36517,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="7" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="7" aliases="none">
           <maml:name>active</maml:name>
           <maml:description>
             <maml:para>Indicate if the rule should be active or disabled</maml:para>
@@ -36614,7 +36614,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>category</maml:name>
         <maml:description>
           <maml:para>The Category of the risky activity - Valid values: SSH, WINDOWS, SCP, KEYSTROKES or SQL</maml:para>
@@ -36626,7 +36626,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
         <maml:name>regex</maml:name>
         <maml:description>
           <maml:para>Risky activity in regex form.</maml:para>
@@ -36639,7 +36639,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
         <maml:name>score</maml:name>
         <maml:description>
           <maml:para>Activity score.</maml:para>
@@ -36652,7 +36652,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
         <maml:name>description</maml:name>
         <maml:description>
           <maml:para>Activity description.</maml:para>
@@ -36665,7 +36665,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
         <maml:name>response</maml:name>
         <maml:description>
           <maml:para>Automatic response to be executed</maml:para>
@@ -36678,7 +36678,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="7" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="7" aliases="none">
         <maml:name>active</maml:name>
         <maml:description>
           <maml:para>Indicate if the rule should be active or disabled</maml:para>
@@ -36878,7 +36878,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>NumberOfVersionsRetention</maml:name>
           <maml:description>
             <maml:para>The number of retained versions of every password that is stored in the Safe. - Max value = 999 Specify either this parameter or NumberOfDaysRetention.</maml:para>
@@ -37109,7 +37109,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>NumberOfDaysRetention</maml:name>
           <maml:description>
             <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>
@@ -37346,7 +37346,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>NumberOfVersionsRetention</maml:name>
         <maml:description>
           <maml:para>The number of retained versions of every password that is stored in the Safe. - Max value = 999 Specify either this parameter or NumberOfDaysRetention.</maml:para>
@@ -37358,7 +37358,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>NumberOfDaysRetention</maml:name>
         <maml:description>
           <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>

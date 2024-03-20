@@ -15,8 +15,8 @@ Updates an existing Directory Mapping for a directory
 ## SYNTAX
 
 ```
-Set-PASDirectoryMapping [-DirectoryName] <String> [-MappingID] <String> [-MappingName] <String>
- [-LDAPBranch] <String> [[-DomainGroups] <String[]>] [[-VaultGroups] <String[]>] [[-Location] <String>]
+Set-PASDirectoryMapping [-DirectoryName] <String> [-MappingID] <String> [[-MappingName] <String>]
+ [[-LDAPBranch] <String>] [[-DomainGroups] <String[]>] [[-VaultGroups] <String[]>] [[-Location] <String>]
  [[-LDAPQuery] <String>] [[-MappingAuthorizations] <Authorizations>] [[-UserActivityLogPeriod] <Int32>]
  [-UsedQuota <Int32>] [-AuthorizedInterfaces <String[]>] [-EnableENEWhenDisconnected <Boolean>] [-WhatIf]
  [-Confirm] [<CommonParameters>]
@@ -102,7 +102,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -117,7 +117,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 4
 Default value: None
 Accept pipeline input: True (ByPropertyName)

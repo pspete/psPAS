@@ -52,6 +52,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
 			}
 
+			Mock Get-PASOpenIDConnectProvider -MockWith {}
 			$clientSecret = $('SomeClientSecret' | ConvertTo-SecureString -AsPlainText -Force)
 
 			$InputObject = [PSCustomObject]@{
@@ -72,7 +73,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'sends request' {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It
 
 			}
 
@@ -82,7 +83,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					$URI -eq "$($Script:psPASSession.BaseURI)/api/Configuration/OIDC/Providers/idValue"
 
-				} -Times 1 -Exactly -Scope It
+				} -Times 1 -Scope It
 
 			}
 

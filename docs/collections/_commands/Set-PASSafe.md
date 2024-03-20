@@ -17,14 +17,14 @@ Updates a safe in the Vault
 ### Gen2-NumberOfDaysRetention (Default)
 ```
 Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-location <String>]
- [-OLACEnabled <Boolean>] [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-WhatIf] [-Confirm]
+ [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfDaysRetention <Int32>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ### Gen2-NumberOfVersionsRetention
 ```
 Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-location <String>]
- [-OLACEnabled <Boolean>] [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-WhatIf] [-Confirm]
+ [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfVersionsRetention <Int32>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -169,19 +169,7 @@ Specify either this parameter or NumberOfDaysRetention.
 
 ```yaml
 Type: Int32
-Parameter Sets: Gen2-NumberOfVersionsRetention
-Aliases:
-
-Required: True
-Position: Named
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-```yaml
-Type: Int32
-Parameter Sets: Gen1-NumberOfVersionsRetention
+Parameter Sets: Gen2-NumberOfVersionsRetention, Gen1-NumberOfVersionsRetention
 Aliases:
 
 Required: False
@@ -200,19 +188,7 @@ Specify either this parameter or NumberOfVersionsRetention
 
 ```yaml
 Type: Int32
-Parameter Sets: Gen2-NumberOfDaysRetention
-Aliases:
-
-Required: True
-Position: Named
-Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-```yaml
-Type: Int32
-Parameter Sets: Gen1-NumberOfDaysRetention
+Parameter Sets: Gen2-NumberOfDaysRetention, Gen1-NumberOfDaysRetention
 Aliases:
 
 Required: False

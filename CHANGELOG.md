@@ -18,13 +18,48 @@
   - When specifying `ToTime` without `FromTime`, recordings from the 48 hours before `ToTime` are returned.
     - This avoids potential for unintentionally long running queries which return details of many recording from the vault.
 - `Set-PASUser`
-  - Updated to send any existing user properties, which are not being specifically updated, with the request `Set-PASUser`.
+  - Updated to query for, and send, any existing user properties, which are not being specifically updated, with the request.
     - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the user object.
     - This update allows single properties to be updated without having to specify all properties.
   - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters to enable set values to be cleared.
   - Corrects ValidateSet for `unAuthorizedInterfaces` parameter.
 - `Set-PASSafe`
   - Updated to send any existing properties, which are not being specifically updated, with the request.
+- `Set-PASOpenIDConnectProvider`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+    - Number of mandatory parameters required to be specified has been reduced
+- `Set-PASPTARule`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+    - Number of mandatory parameters required to be specified has been reduced
+- `Set-PASDirectoryMapping`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+    - Number of mandatory parameters required to be specified has been reduced
+- `New-PASOnboardingRule`
+  - Reordered parameters to simplify tab completion options
+- `Set-PASOnboardingRule`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+    - Number of mandatory parameters required to be specified has been reduced
+- `Set-PASPlatformPSMConfig`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+    - Number of mandatory parameters required to be specified has been reduced
+- `Set-PASSafeMember`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+- `Set-PASSafe`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
 - `New-PASUser`
   - In-line with update to `Set-PASUser`
     - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters.

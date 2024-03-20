@@ -15,8 +15,8 @@ Updates an automatic onboarding rule.
 ## SYNTAX
 
 ```
-Set-PASOnboardingRule [-Id] <Int32> [-TargetPlatformId] <String> [-TargetSafeName] <String>
- [[-IsAdminIDFilter] <Boolean>] [[-MachineTypeFilter] <String>] [-SystemTypeFilter] <String>
+Set-PASOnboardingRule [-Id] <Int32> [[-TargetPlatformId] <String>] [[-TargetSafeName] <String>]
+ [[-IsAdminIDFilter] <Boolean>] [[-MachineTypeFilter] <String>] [[-SystemTypeFilter] <String>]
  [[-UserNameFilter] <String>] [[-UserNameMethod] <String>] [[-AddressFilter] <String>]
  [[-AddressMethod] <String>] [[-AccountCategoryFilter] <String>] [[-RuleName] <String>]
  [[-RuleDescription] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -59,7 +59,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -74,7 +74,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -124,7 +124,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 6
 Default value: None
 Accept pipeline input: True (ByPropertyName)

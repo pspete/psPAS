@@ -65,7 +65,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'sends request' {
 				$InputObj | Set-PASDirectoryMapping -MappingAuthorizations AddUpdateUsers ActivateUsers
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It
 
 			}
 
@@ -75,7 +75,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					$URI -eq "$($Script:psPASSession.BaseURI)/api/Configuration/LDAP/Directories/SomeDirectory/Mappings/SomeMappingID/"
 
-				} -Times 1 -Exactly -Scope It
+				} -Times 1 -Scope It
 
 			}
 

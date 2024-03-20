@@ -445,8 +445,10 @@ function Set-PASUser {
 				$URI = "$($psPASSession.BaseURI)/api/Users/$id"
 
 				$UserObject = Get-PASUser -id $id
-				Format-PutRequestObject -InputObject $UserObject -boundParameters $BoundParameters -ParametersToRemove id, lastSuccessfulLoginDate,
-				source, componentUser, groupsMembership, authenticationMethod
+				if ($null -ne $UserObject) {
+					Format-PutRequestObject -InputObject $UserObject -boundParameters $BoundParameters -ParametersToRemove id, lastSuccessfulLoginDate,
+					source, componentUser, groupsMembership, authenticationMethod
+				}
 
 				$boundParameters = $boundParameters | Format-PASUserObject
 

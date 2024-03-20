@@ -243,6 +243,12 @@ function Set-PASSafeMember {
 
 				Assert-VersionRequirement -RequiredVersion 12.2
 
+				$safeMember = Get-PASSafeMember -SafeName $SafeName -MemberName $MemberName
+				if ($null -ne $safeMember) {
+					Format-PutRequestObject -InputObject $safeMember -boundParameters $BoundParameters -ParametersToRemove safeNumber, memberId,
+					UserName, safeName, isExpiredMembershipEnable, memberName, memberType, safeUrlId, memberType, isPredefinedUser
+				}
+
 				#Create URL for request
 				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 

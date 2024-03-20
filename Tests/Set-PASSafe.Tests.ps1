@@ -72,7 +72,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					'SafeName' = 'SomeName'
 
 				}
-
+				Mock Get-PASSafe -MockWith {}
 				$response = $InputObj | Set-PASSafe -NumberOfDaysRetention 1 -ManagingCPM SomeCPM -NewSafeName SomeNewName -UseGen1API
 
 			}
@@ -89,13 +89,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					$URI -eq "$($Script:psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/SomeName"
 
-				} -Times 1 -Exactly -Scope It
+				} -Times 1 -Scope It
 
 			}
 
 			It 'uses expected method' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Scope It
 
 			}
 
@@ -155,7 +155,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'uses expected method' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Scope It
 
 			}
 
@@ -167,7 +167,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					$Script:RequestBody -ne $null
 
-				} -Times 1 -Exactly -Scope It
+				} -Times 1 -Scope It
 
 			}
 
@@ -228,7 +228,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					'SafeName' = 'SomeName'
 
 				}
-
+				Mock Get-PASSafe -MockWith {}
 				$response = $InputObj | Set-PASSafe -NumberOfDaysRetention 1 -ManagingCPM SomeCPM -NewSafeName SomeNewName
 
 			}

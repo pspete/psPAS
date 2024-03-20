@@ -47,10 +47,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'Id' },
-			@{Parameter = 'TargetPlatformId' },
-			@{Parameter = 'TargetSafeName' },
-			@{Parameter = 'SystemTypeFilter' }
+			$Parameters = @{Parameter = 'Id' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
@@ -65,7 +62,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		Context 'Input' {
 
 			BeforeEach {
-
+				Mock Get-PASOnboardingRule -MockWith {}
 				Mock Invoke-PASRestMethod -MockWith { }
 
 				$InputObj = [pscustomobject]@{
@@ -80,7 +77,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'sends request' {
 				$InputObj | Set-PASOnboardingRule
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It
 
 			}
 
@@ -104,7 +101,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$InputObj | Set-PASOnboardingRule
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 					($Body) -ne $null
-				} -Times 1 -Exactly -Scope It
+				} -Times 1 -Scope It
 
 			}
 
@@ -140,11 +137,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 						'Prop4' = 'Value4'
 					}
 
-
-
 				}
 
-
+				Mock Get-PASOnboardingRule -MockWith {}
 				$InputObj = [pscustomobject]@{
 					'SystemTypeFilter' = 'Windows'
 					'TargetSafeName'   = 'SomeSafe'
@@ -166,8 +161,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.OnboardingRule
 
 			}
-
-
 
 		}
 

@@ -9,14 +9,14 @@ function Set-PASOnboardingRule {
 		[int]$Id,
 
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateLength(1, 99)]
 		[string]$TargetPlatformId,
 
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateLength(1, 28)]
@@ -36,7 +36,7 @@ function Set-PASOnboardingRule {
 		[string]$MachineTypeFilter,
 
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateSet('Windows', 'Unix')]
@@ -101,8 +101,18 @@ function Set-PASOnboardingRule {
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/AutomaticOnboardingRules/$Id/"
 
+		#request parameters
+		$BoundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Id
+
+		$OnboardingRule = Get-PASOnboardingRule | Where-Object { $PSItem.RuleId -eq $Id }
+		if ($null -ne $OnboardingRule) {
+			Format-PutRequestObject -InputObject $OnboardingRule -boundParameters $BoundParameters -ParametersToKeep SystemTypeFilter,
+			TargetPlatformId, TargetSafeName, AccountCategoryFilter, AddressFilter, AddressMethod, IsAdminIDFilter, MachineTypeFilter,
+			RuleDescription, RuleName, UserNameFilter, UserNameMethod
+		}
+
 		#create request body
-		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove Id | ConvertTo-Json
+		$body = $BoundParameters | ConvertTo-Json
 
 		if ($PSCmdlet.ShouldProcess($TargetPlatformId, "Update On-Boarding Rule $ID")) {
 
