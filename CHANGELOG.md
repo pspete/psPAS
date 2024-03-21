@@ -11,6 +11,17 @@
 - N/A
 
 ### Updated
+- N/A
+
+### Fixed
+- N/A
+
+## **6.3.77**
+
+### Added
+- N/A
+
+### Updated
 - `Get-PASPSMRecording`
   - In-line with PVWA default operation:
     - Changed the default limit for each page of results to 100, in-line with PVWA default values
@@ -24,7 +35,9 @@
   - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters to enable set values to be cleared.
   - Corrects ValidateSet for `unAuthorizedInterfaces` parameter.
 - `Set-PASSafe`
-  - Updated to send any existing properties, which are not being specifically updated, with the request.
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
 - `Set-PASOpenIDConnectProvider`
   - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
     - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
@@ -53,10 +66,6 @@
     - This update allows single properties to be updated without having to specify all properties.
     - Number of mandatory parameters required to be specified has been reduced
 - `Set-PASSafeMember`
-  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
-    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
-    - This update allows single properties to be updated without having to specify all properties.
-- `Set-PASSafe`
   - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
     - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
     - This update allows single properties to be updated without having to specify all properties.
