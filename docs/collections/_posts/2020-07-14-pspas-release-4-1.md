@@ -55,7 +55,7 @@ tags:
   - `New-PASSession`
     - OTP can now be omitted entirely from used parameters in scenarios where the value is unknown.
     - Response from RADIUS now used as message for Read-Host prompt for OTP.
-    - Depreciated need for use of OTPMode parameter when a prompt for the OTP is required.
+    - Deprecated need for use of OTPMode parameter when a prompt for the OTP is required.
 
 - Other Fixes & Updates
   - Documentation updated.

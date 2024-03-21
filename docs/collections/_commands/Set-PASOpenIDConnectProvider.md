@@ -16,8 +16,8 @@ Updates an existing OIDC Identity Provider.
 
 ```
 Set-PASOpenIDConnectProvider -id <String> [-authenticationFlow <String>] [-authenticationEndpointUrl <String>]
- [-issuer <String>] [-description <String>] -discoveryEndpointUrl <String> [-jwkSet <String>]
- -clientId <String> [-clientSecret <SecureString>] -clientSecretMethod <String> [-userNameClaim <String>]
+ [-issuer <String>] [-description <String>] [-discoveryEndpointUrl <String>] [-jwkSet <String>]
+ [-clientId <String>] [-clientSecret <SecureString>] [-clientSecretMethod <String>] [-userNameClaim <String>]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -123,7 +123,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -156,7 +156,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -187,7 +187,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

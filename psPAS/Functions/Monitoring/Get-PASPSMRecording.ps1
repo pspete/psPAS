@@ -87,27 +87,37 @@ function Get-PASPSMRecording {
 			}
 
 			'byQuery' {
+
 				#Get Parameters to include in request
 				$boundParameters = $PSBoundParameters | Get-PASParameter
 
-				switch ($PSBoundParameters) {
+				#If no arguments initialise boundparameters
+				if ($null -eq $boundparameters) {
+					$boundparameters = @{ }
+				}
 
-					{ $PSItem.ContainsKey('FromTime') } {
+				#* fetch last 24 hours by default.
+				#Set ToTime to provided value or now
+				If ($PSBoundParameters.ContainsKey('ToTime')) {
+					$boundParameters['ToTime'] = $ToTime
+				} Else {
+					#ToTime is now
+					$boundParameters['ToTime'] = Get-Date
+				}
 
-						$boundParameters['FromTime'] = $FromTime | ConvertTo-UnixTime
+				#Set FromTime to provided value or 24 hours before ToTime
+				If ($PSBoundParameters.ContainsKey('FromTime')) {
+					$boundParameters['FromTime'] = $FromTime | ConvertTo-UnixTime
+				} Else {
+					#If ToTime specified get previous 24 hours
+					$boundParameters['FromTime'] = (Get-Date $boundParameters['ToTime']).AddDays(-2) | ConvertTo-UnixTime
+				}
 
-					}
+				#Convert ToTime to UnixTime
+				$boundParameters['ToTime'] = $boundParameters['ToTime'] | ConvertTo-UnixTime
 
-					{ $PSItem.ContainsKey('ToTime') } {
-
-						$boundParameters['ToTime'] = $ToTime | ConvertTo-UnixTime
-
-					}
-
-					{ $PSBoundParameters.Keys -notcontains 'Limit' } {
-						$Limit = 25   #default if you call the API with no value
-					}
-
+				If ($PSBoundParameters.Keys -notcontains 'Limit') {
+					$Limit = 100   #default if you call the API with no value
 				}
 
 				#Create Query String, escaped for inclusion in request URL

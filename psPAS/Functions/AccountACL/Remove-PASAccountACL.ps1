@@ -31,7 +31,9 @@ function Remove-PASAccountACL {
 		[string]$Id
 	)
 
-	BEGIN { }#begin
+	BEGIN {
+		Assert-VersionRequirement -SelfHosted
+	}#begin
 
 	PROCESS {
 

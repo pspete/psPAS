@@ -21,6 +21,8 @@ Get-PASPolicyACL [-PolicyID] <String> [<CommonParameters>]
 ## DESCRIPTION
 Gets a list of the privileged commands (OPM Rules) associated with this policy
 
+Not supported in Privilege Cloud
+
 ## EXAMPLES
 
 ### EXAMPLE 1

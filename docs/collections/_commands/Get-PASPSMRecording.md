@@ -28,6 +28,9 @@ Get-PASPSMRecording [-RecordingID <String>] [<CommonParameters>]
 ## DESCRIPTION
 Returns the details of recordings of PSM, PSMP or OPM sessions.
 
+By default, recordings from the last 48 hours are returned.
+- When specifying `ToTime` without `FromTime`, recordings from the 48 hours before `ToTime` are returned.
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -35,7 +38,7 @@ Returns the details of recordings of PSM, PSMP or OPM sessions.
 Get-PASPSMRecording -Sort -FileName
 ```
 
-Lists all PSM recordings, sorted by descending filename.
+Lists PSM recordings from the last 24 hours, sorted by descending filename.
 
 ### EXAMPLE 2
 ```
@@ -166,6 +169,7 @@ Accept wildcard characters: False
 
 ### -ToTime
 Returns recordings from a specific date
+- When specifying `ToTime` without `FromTime`, recordings from the 48 hours prior to `ToTime` are returned.
 
 ```yaml
 Type: DateTime

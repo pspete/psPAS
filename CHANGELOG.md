@@ -16,9 +16,91 @@
 ### Fixed
 - N/A
 
-## **6.1.62**
+## **6.3.77**
 
 ### Added
+- N/A
+
+### Updated
+- `Get-PASPSMRecording`
+  - In-line with PVWA default operation:
+    - Changed the default limit for each page of results to 100, in-line with PVWA default values
+    - Updated to return recordings from the last 48 hours by default when `FromTime` & `ToTime` parameters are not specified.
+  - When specifying `ToTime` without `FromTime`, recordings from the 48 hours before `ToTime` are returned.
+    - This avoids potential for unintentionally long running queries which return details of many recording from the vault.
+- `Set-PASUser`
+  - Updated to query for, and send, any existing user properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the user object.
+    - This update allows single properties to be updated without having to specify all properties.
+  - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters to enable set values to be cleared.
+  - Corrects ValidateSet for `unAuthorizedInterfaces` parameter.
+- `Set-PASSafe`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+- `Set-PASOpenIDConnectProvider`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+    - Number of mandatory parameters required to be specified has been reduced
+- `Set-PASPTARule`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+    - Number of mandatory parameters required to be specified has been reduced
+- `Set-PASDirectoryMapping`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+    - Number of mandatory parameters required to be specified has been reduced
+- `New-PASOnboardingRule`
+  - Reordered parameters to simplify tab completion options
+- `Set-PASOnboardingRule`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+    - Number of mandatory parameters required to be specified has been reduced
+- `Set-PASPlatformPSMConfig`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+    - Number of mandatory parameters required to be specified has been reduced
+- `Set-PASSafeMember`
+  - Updated to query for, and send, any existing properties, which are not being specifically updated, with the request.
+    - Previously, due to the PUT operation used by the API, any properties not specified in a request would be cleared on the object.
+    - This update allows single properties to be updated without having to specify all properties.
+- `New-PASUser`
+  - In-line with update to `Set-PASUser`
+    - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters.
+    - Corrects ValidateSet for `unAuthorizedInterfaces` parameter.
+- `Get-PASComponentDetail`
+  - Adds assertion that command specifying `PTA` component  must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Add-PASAccountACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Get-PASAccountACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Remove-PASAccountACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Invoke-PASCPMOperation`
+  - Adds assertion that Gen1 verify task must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Set-PASAccount`
+  - Adds assertion that Gen1 task must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Close-PASSession`
+  - Adds assertion that Shared Authentication logoff request is executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `New-PASSession`
+  - Adds assertion that Shared Authentication logon request is executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Add-PASPolicyACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Get-PASPolicyACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Remove-PASPolicyACL`
+  - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Remove-PASSafeMember`
+  - Adds assertion that command using Gen1 parameters must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+- `Assert-VersionRequirement`
+  - Updates helper function to provide ability to assert if command is being run against self-hosted or privilege cloud implementation.
+
+### Fixed
 - N/A
 
 ## **6.2.68**

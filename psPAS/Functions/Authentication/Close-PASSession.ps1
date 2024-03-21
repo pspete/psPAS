@@ -52,6 +52,8 @@ function Close-PASSession {
 
 			'shared' {
 
+				Assert-VersionRequirement -SelfHosted
+
 				$URI = "$($psPASSession.BaseURI)/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logoff"
 				break
 

@@ -10,7 +10,7 @@ title: Find-PASSafe
 # Find-PASSafe
 
 ## SYNOPSIS
-(Depreciated) Returns safe list from the vault.
+(Deprecated) Returns safe list from the vault.
 
 ## SYNTAX
 
@@ -21,7 +21,7 @@ Find-PASSafe [[-search] <String>] [[-TimeoutSec] <Int32>] [<CommonParameters>]
 ## DESCRIPTION
 Minimum required version 10.1
 
-Depreciated from 11.7
+Deprecated from 11.7
 
 Returns abbreviated details for all safes
 
@@ -83,7 +83,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Find-PASSafe is depreciated from 11.7
+Find-PASSafe is deprecated from 11.7
 
 Function was based on undocumented features available since V10
 

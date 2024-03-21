@@ -26,7 +26,9 @@ function Get-PASAccountACL {
 		[string]$AccountUserName
 	)
 
-	BEGIN { }#begin
+	BEGIN {
+		Assert-VersionRequirement -SelfHosted
+	}#begin
 
 	PROCESS {
 

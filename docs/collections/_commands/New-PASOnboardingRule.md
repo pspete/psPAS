@@ -24,7 +24,7 @@ New-PASOnboardingRule -TargetPlatformId <String> -TargetSafeName <String> [-IsAd
 
 ### Gen1
 ```
-New-PASOnboardingRule -DecisionPlatformId <String> -DecisionSafeName <String> [-IsAdminUIDFilter <String>]
+New-PASOnboardingRule -DecisionSafeName <String> -DecisionPlatformId <String> [-IsAdminUIDFilter <String>]
  [-MachineTypeFilter <String>] -SystemTypeFilter <String> [-UserNameFilter <String>] [-AddressFilter <String>]
  [-RuleName <String>] [-RuleDescription <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```

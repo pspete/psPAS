@@ -39,8 +39,9 @@ function New-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
+		[AllowEmptyCollection()]
 		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
-			'EVD', 'PIMSu', 'AIMApp', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
+			'EVD', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
 		[string[]]$unAuthorizedInterfaces,
 
 		[parameter(
@@ -98,9 +99,9 @@ function New-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet('AddSafes', 'AuditUsers', 'AddUpdateUsers', 'ResetUsersPasswords', 'ActivateUsers',
-			'AddNetworkAreas', 'ManageDirectoryMapping', 'ManageServerFileCategories', 'BackupAllSafes',
-			'RestoreAllSafes')]
+		[ValidateSet('AddSafes', 'AuditUsers', 'AddUpdateUsers', 'ResetUsersPasswords', 'ActivateUsers', 'AddNetworkAreas',
+			'ManageDirectoryMapping', 'ManageServerFileCategories', 'BackupAllSafes', 'RestoreAllSafes')]
+		[AllowEmptyCollection()]
 		[string[]]$vaultAuthorization,
 
 		[parameter(

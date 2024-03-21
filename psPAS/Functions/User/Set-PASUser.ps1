@@ -54,8 +54,9 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
+		[AllowEmptyCollection()]
 		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
-			'EVD', 'PIMSu', 'AIMApp', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
+			'EVD', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
 		[string[]]$unAuthorizedInterfaces,
 
 		[parameter(
@@ -113,9 +114,9 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet('AddSafes', 'AuditUsers', 'AddUpdateUsers', 'ResetUsersPasswords', 'ActivateUsers',
-			'AddNetworkAreas', 'ManageDirectoryMapping', 'ManageServerFileCategories', 'BackupAllSafes',
-			'RestoreAllSafes')]
+		[AllowEmptyCollection()]
+		[ValidateSet('AddSafes', 'AuditUsers', 'AddUpdateUsers', 'ResetUsersPasswords', 'ActivateUsers', 'AddNetworkAreas',
+			'ManageDirectoryMapping', 'ManageServerFileCategories', 'BackupAllSafes', 'RestoreAllSafes')]
 		[string[]]$vaultAuthorization,
 
 		[parameter(
@@ -300,7 +301,6 @@ function Set-PASUser {
 		[ValidateLength(0, 99)]
 		[string]$description,
 
-
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
@@ -443,6 +443,12 @@ function Set-PASUser {
 
 				#Create URL for request
 				$URI = "$($psPASSession.BaseURI)/api/Users/$id"
+
+				$UserObject = Get-PASUser -id $id
+				if ($null -ne $UserObject) {
+					Format-PutRequestObject -InputObject $UserObject -boundParameters $BoundParameters -ParametersToRemove id, lastSuccessfulLoginDate,
+					source, componentUser, groupsMembership, authenticationMethod
+				}
 
 				$boundParameters = $boundParameters | Format-PASUserObject
 

@@ -37,6 +37,8 @@ Close-PASSession [-SAMLAuthentication] [<CommonParameters>]
 ## DESCRIPTION
 Performs Logoff and removes the Vault session.
 
+Shared authentication is supported in Privilege Cloud
+
 ## EXAMPLES
 
 ### EXAMPLE 1

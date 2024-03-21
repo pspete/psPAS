@@ -67,6 +67,8 @@ CPM Change Options:
 
 Verify & Reconcile both require "Initiate CPM password management operations"
 
+Gen 1 Verify is not supported in Privilege Cloud
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -90,7 +92,7 @@ Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ImmediateChangeByCPM Yes
 
 Marks an account for immediate change using the Gen1 API
 
-Depreciated from version 13.2
+Deprecated from version 13.2
 
 ### EXAMPLE 4
 ```
@@ -262,7 +264,7 @@ Yes/No value, dictating if the account will be scheduled for immediate change.
 
 Specify Yes to initiate a password change by CPM - Relevant for Gen1 API only.
 
-Depreciated from version 13.2
+Deprecated from version 13.2
 
 ```yaml
 Type: String
@@ -333,6 +335,8 @@ Accept wildcard characters: False
 Specify to force verification via Gen1 API.
 
 Should be specified for versions earlier than 10.1
+
+Gen 1 Verify is not supported in Privilege Cloud
 
 ```yaml
 Type: SwitchParameter

@@ -55,7 +55,7 @@ Unless otherwise specified, the default permissions applied to a safe member wil
 
 If these permissions should not be granted to the safe member, they must be explicitly set to `$false` in the request.
 
-Gen1 API is depreciated from version 12.3
+Gen1 API is deprecated from version 12.3
 
 ## EXAMPLES
 
@@ -477,7 +477,7 @@ Valid Values: 0, 1 or 2
 
 Get-PASSafeMember (Gen1) may not return details of this permission
 
-Depreciated from version 12.3
+Deprecated from version 12.3
 
 ```yaml
 Type: Int32
@@ -600,7 +600,7 @@ Force use of Gen1 API.
 
 Should be specified for versions earlier than 12.1
 
-Depreciated from version 12.3
+Deprecated from version 12.3
 
 ```yaml
 Type: SwitchParameter

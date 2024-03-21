@@ -63,7 +63,7 @@ Accept wildcard characters: False
 ### -UseGen1API
 Specify to force use of the Gen1 API
 
-Gen1 API is Depreciated from version 13.2
+Gen1 API is Deprecated from version 13.2
 
 ```yaml
 Type: SwitchParameter

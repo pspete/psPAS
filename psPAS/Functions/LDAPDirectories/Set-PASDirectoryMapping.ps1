@@ -16,13 +16,13 @@ function Set-PASDirectoryMapping {
 		[string]$MappingID,
 
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$MappingName,
 
 		[parameter(
-			Mandatory = $true,
+			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$LDAPBranch,
@@ -74,8 +74,9 @@ function Set-PASDirectoryMapping {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[AllowEmptyCollection()]
 		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
-			'EVD', 'PIMSu', 'AIMApp', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
+			'EVD', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
 		[string[]]$AuthorizedInterfaces,
 
 		[parameter(
@@ -129,6 +130,16 @@ function Set-PASDirectoryMapping {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID/"
+
+		$DirectoryMapping = Get-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID
+		if ($null -ne $DirectoryMapping) {
+			Format-PutRequestObject -InputObject $DirectoryMapping -boundParameters $BoundParameters -ParametersToRemove MappingID, DirectoryMappingOrder,
+			LogonToHour, LogonFromHour, UserExpiration, DisableUser, UserType, AuthenticationMethod
+		}
+
+		$boundParameters['DomainGroups'] = $boundParameters['DomainGroups'] -as [array]
+		$boundParameters['AuthorizedInterfaces'] = $boundParameters['AuthorizedInterfaces'] -as [array]
+		$boundParameters['MappingAuthorizations'] = $boundParameters['MappingAuthorizations'] -as [array]
 
 		$body = $boundParameters | ConvertTo-Json
 

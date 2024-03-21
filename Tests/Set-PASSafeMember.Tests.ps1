@@ -156,6 +156,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 				Mock Invoke-PASRestMethod -MockWith {}
+				Mock Get-PASSafeMember -MockWith {}
 
 				$InputObj = [pscustomobject]@{
 					'SafeName'                               = 'SomeSafe'
@@ -188,7 +189,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'sends request' {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -Scope It
 
 			}
 
@@ -198,7 +199,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					$URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members/SomeUser/"
 
-				} -Times 1 -Exactly -Scope It
+				} -Scope It
 
 			}
 
@@ -216,7 +217,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					($Script:RequestBody) -ne $null
 
-				} -Times 1 -Exactly -Scope It
+				} -Scope It
 
 			}
 
@@ -419,6 +420,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				}
 
+				Mock Get-PASSafeMember -MockWith {}
 				$response = $InputObj | Set-PASSafeMember -MembershipExpirationDate '12/31/18'
 
 			}

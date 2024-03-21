@@ -21,6 +21,8 @@ Remove-PASPolicyACL [-PolicyID] <String> [-Id] <String> [-WhatIf] [-Confirm] [<C
 ## DESCRIPTION
 Deletes all privileged command rules associated with the policy
 
+Not supported in Privilege Cloud
+
 ## EXAMPLES
 
 ### EXAMPLE 1

@@ -1,5 +1,5 @@
 # version format
-version: 6.2.{build}
+version: 6.3.{build}
 
 environment:
   #GIT_TRACE: 1

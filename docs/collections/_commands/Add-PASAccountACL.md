@@ -23,6 +23,8 @@ Add-PASAccountACL [-AccountPolicyId] <String> [-AccountAddress] <String> [-Accou
 ## DESCRIPTION
 Adds a new privileged command rule to an account.
 
+Not supported in Privilege Cloud
+
 ## EXAMPLES
 
 ### EXAMPLE 1

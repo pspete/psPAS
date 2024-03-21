@@ -57,15 +57,15 @@ tags:
 - `Set-PASSafe`
   - Allows `0` as valid value for parameter `NumberOfDaysRetention`
 - `Get-PASServerWebService`
-  - Depreciates Gen1 endpoint from 13.2. Adds Gen2 endpoint as default.
+  - Deprecates Gen1 endpoint from 13.2. Adds Gen2 endpoint as default.
 - `Get-PASSafeShareLogo`
-  - Depreciates command from 13.2.
+  - Deprecates command from 13.2.
 - `Invoke-PASCPMOperation`
-  - Depreciates Gen1 endpoint from 13.2.
+  - Deprecates Gen1 endpoint from 13.2.
 - `Get-PASAccountActivity`
-  - Depreciates command from 13.2.
+  - Deprecates command from 13.2.
 - `Add-PASPendingAccount`
-  - Depreciates command from 13.2.
+  - Deprecates command from 13.2.
 
 ### Fixed
 - `Get-PASAccount`

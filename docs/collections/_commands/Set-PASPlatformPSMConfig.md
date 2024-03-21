@@ -15,7 +15,7 @@ Update target platform PSM Policy details.
 ## SYNTAX
 
 ```
-Set-PASPlatformPSMConfig [-ID] <Int32> [-PSMServerID] <String> [[-PSMConnectors] <PSObject[]>] [-WhatIf]
+Set-PASPlatformPSMConfig [-ID] <Int32> [[-PSMServerID] <String>] [[-PSMConnectors] <PSObject[]>] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
 
@@ -29,7 +29,7 @@ Allows Vault admins to update the PSM Policy Section of a target platform.
 $PSMConfig = Get-PASPlatformPSMConfig -ID 23
 
 $PSMConfig.PSMConnectors += (\[PSCustomObject\]@{"PSMConnectorID"="PSM-RDP";"Enabled"=$true})
-$PSMConfig | Set-PASPlatformPSMConfig -ID 23
+Set-PASPlatformPSMConfig -ID 23 -PSMConnectors $PSMConfig.PSMConnectors
 ```
 
 Adds PSM-RDP as an additional connection component configured on platform with id of 23
@@ -86,7 +86,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: True (ByPropertyName)

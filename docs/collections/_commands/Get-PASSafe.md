@@ -46,7 +46,7 @@ Gets safe by SafeName, by search query string, or, by default will return all sa
 - Minimum required version for default operation using Gen2 API is 12.0.
 - Minimum required version for operation using Gen2-byName ParameterSet is 12.2.
 - For PAS versions earlier than 12.0, the Gen1 API parameters must be used.
-- Gen1 API parameters are depreciated for versions higher than 12.3.
+- Gen1 API parameters are deprecated for versions higher than 12.3.
 
 ## EXAMPLES
 
@@ -84,7 +84,7 @@ Get-PASSafe -query SAFE1
 
 Returns details of safes matching query "Safe1" using Gen1 API.
 
-Depreciated from version 12.2
+Deprecated from version 12.2
 
 ### EXAMPLE 5
 ```
@@ -93,7 +93,7 @@ Get-PASSafe -FindAll -UseGen1API
 
 Returns details of all safes using Gen1 API.
 
-Depreciated from version 12.3
+Deprecated from version 12.3
 
 ### EXAMPLE 6
 ```
@@ -102,7 +102,7 @@ Get-PASSafe -SafeName SAFE1 -UseGen1API
 
 Returns details of "Safe1" using Gen1 API.
 
-Depreciated from version 12.3
+Deprecated from version 12.3
 
 ## PARAMETERS
 
@@ -183,7 +183,7 @@ Gen2 API operation requires minimum version 12.2
 
 When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.
 
-Gen1 operation depreciated from version 12.3
+Gen1 operation deprecated from version 12.3
 
 ```yaml
 Type: String
@@ -202,7 +202,7 @@ Query String for safe search in the vault using Gen1 API.
 
 Should be specified for versions earlier than 12.0
 
-Depreciated from version 12.3
+Deprecated from version 12.3
 
 ```yaml
 Type: String
@@ -221,7 +221,7 @@ Specify to find all safes using Gen1 API.
 
 Should be specified for versions earlier than 12.0
 
-Depreciated from version 12.3
+Deprecated from version 12.3
 
 ```yaml
 Type: SwitchParameter

@@ -798,6 +798,7 @@ Add-PASAccount -address domain -userName ThisUser -platformID UNIXVIASSHCERTIFIC
     </command:details>
     <maml:description>
       <maml:para>Adds a new privileged command rule to an account.</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5288,7 +5289,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     <maml:description>
       <maml:para>Enables an account or SSH key that is discovered by an external scanner to be added as a pending account to the Accounts Feed.</maml:para>
       <maml:para>Users can identify privileged accounts and determine which are on-boarded to the vault.</maml:para>
-      <maml:para>Depreciated from version 13.2</maml:para>
+      <maml:para>Deprecated from version 13.2</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5989,6 +5990,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </command:details>
     <maml:description>
       <maml:para>Adds a new privileged command rule to a policy.</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -7866,7 +7868,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
       <maml:para>Default operation uses the Gen 2 API and requires version 12.1+ - Earlier versions must specify the `-UseGen1API` switch to force use of the Gen1 API. Note when using the Gen1 API:</maml:para>
       <maml:para>Unless otherwise specified, the default permissions applied to a safe member will include: - ListAccounts, RetrieveAccounts, UseAccounts, ViewAuditLog &amp; ViewSafeMembers.</maml:para>
       <maml:para>If these permissions should not be granted to the safe member, they must be explicitly set to `$false` in the request.</maml:para>
-      <maml:para>Gen1 API is depreciated from version 12.3</maml:para>
+      <maml:para>Gen1 API is deprecated from version 12.3</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -8136,7 +8138,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
             <maml:para>Integer value defining level assigned to RequestsAuthorizationLevel for safe member.</maml:para>
             <maml:para>Valid Values: 0, 1 or 2</maml:para>
             <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-            <maml:para>Depreciated from version 12.3</maml:para>
+            <maml:para>Deprecated from version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -8201,7 +8203,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           <maml:description>
             <maml:para>Force use of Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.1</maml:para>
-            <maml:para>Depreciated from version 12.3</maml:para>
+            <maml:para>Deprecated from version 12.3</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -8830,7 +8832,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           <maml:para>Integer value defining level assigned to RequestsAuthorizationLevel for safe member.</maml:para>
           <maml:para>Valid Values: 0, 1 or 2</maml:para>
           <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -8921,7 +8923,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
         <maml:description>
           <maml:para>Force use of Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.1</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -9455,6 +9457,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Performs Logoff and removes the Vault session.</maml:para>
+      <maml:para>Shared authentication is supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -11527,12 +11530,12 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:verb>Find</command:verb>
       <command:noun>PASSafe</command:noun>
       <maml:description>
-        <maml:para>(Depreciated) Returns safe list from the vault.</maml:para>
+        <maml:para>(Deprecated) Returns safe list from the vault.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
       <maml:para>Minimum required version 10.1</maml:para>
-      <maml:para>Depreciated from 11.7</maml:para>
+      <maml:para>Deprecated from 11.7</maml:para>
       <maml:para>Returns abbreviated details for all safes</maml:para>
     </maml:description>
     <command:syntax>
@@ -11596,7 +11599,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Find-PASSafe is depreciated from 11.7</maml:para>
+        <maml:para>Find-PASSafe is deprecated from 11.7</maml:para>
         <maml:para>Function was based on undocumented features available since V10</maml:para>
         <maml:para>It returns results faster than the Gen1 API (invoked with Get-PASSafe) but has a vastly different return object</maml:para>
         <maml:para>Now documented since version 12.0, this is the Gen2 API for Get-PASafe.</maml:para>
@@ -12082,6 +12085,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Gets list of all privileged commands associated with an account</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -12220,7 +12224,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:name>UseGen1API</maml:name>
           <maml:description>
             <maml:para>Specify to force use of the Gen1 API</maml:para>
-            <maml:para>Gen1 API is Depreciated from version 13.2</maml:para>
+            <maml:para>Gen1 API is Deprecated from version 13.2</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -12247,7 +12251,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:name>UseGen1API</maml:name>
         <maml:description>
           <maml:para>Specify to force use of the Gen1 API</maml:para>
-          <maml:para>Gen1 API is Depreciated from version 13.2</maml:para>
+          <maml:para>Gen1 API is Deprecated from version 13.2</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -12394,7 +12398,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:name>UseGen1API</maml:name>
           <maml:description>
             <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
-            <maml:para>This is based on the Get Account Groups By Safe API, introduced in PAS 10.5, depreciated in 12.6</maml:para>
+            <maml:para>This is based on the Get Account Groups By Safe API, introduced in PAS 10.5, deprecated in 12.6</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -12421,7 +12425,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:name>UseGen1API</maml:name>
         <maml:description>
           <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
-          <maml:para>This is based on the Get Account Groups By Safe API, introduced in PAS 10.5, depreciated in 12.6</maml:para>
+          <maml:para>This is based on the Get Account Groups By Safe API, introduced in PAS 10.5, deprecated in 12.6</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -15680,6 +15684,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Gets a list of the privileged commands (OPM Rules) associated with this policy</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -15750,6 +15755,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Returns the details of recordings of PSM, PSMP or OPM sessions.</maml:para>
+      <maml:para>By default, recordings from the last 48 hours are returned. - When specifying `ToTime` without `FromTime`, recordings from the 48 hours before `ToTime` are returned.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -15834,7 +15840,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>ToTime</maml:name>
           <maml:description>
-            <maml:para>Returns recordings from a specific date</maml:para>
+            <maml:para>Returns recordings from a specific date - When specifying `ToTime` without `FromTime`, recordings from the 48 hours prior to `ToTime` are returned.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
           <dev:type>
@@ -15935,7 +15941,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>ToTime</maml:name>
         <maml:description>
-          <maml:para>Returns recordings from a specific date</maml:para>
+          <maml:para>Returns recordings from a specific date - When specifying `ToTime` without `FromTime`, recordings from the 48 hours prior to `ToTime` are returned.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
         <dev:type>
@@ -15969,7 +15975,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPSMRecording -Sort -FileName</dev:code>
         <dev:remarks>
-          <maml:para>Lists all PSM recordings, sorted by descending filename.</maml:para>
+          <maml:para>Lists PSM recordings from the last 24 hours, sorted by descending filename.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -17768,7 +17774,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:para>Gets safe by SafeName, by search query string, or, by default will return all safes. - Minimum required version for default operation using Gen2 API is 12.0.</maml:para>
       <maml:para>- Minimum required version for operation using Gen2-byName ParameterSet is 12.2.</maml:para>
       <maml:para>- For PAS versions earlier than 12.0, the Gen1 API parameters must be used.</maml:para>
-      <maml:para>- Gen1 API parameters are depreciated for versions higher than 12.3.</maml:para>
+      <maml:para>- Gen1 API parameters are deprecated for versions higher than 12.3.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -17862,7 +17868,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:para>The name of a specific safe to get details of.</maml:para>
             <maml:para>Gen2 API operation requires minimum version 12.2</maml:para>
             <maml:para>When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.</maml:para>
-            <maml:para>Gen1 operation depreciated from version 12.3</maml:para>
+            <maml:para>Gen1 operation deprecated from version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -17905,7 +17911,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:para>The name of a specific safe to get details of.</maml:para>
             <maml:para>Gen2 API operation requires minimum version 12.2</maml:para>
             <maml:para>When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.</maml:para>
-            <maml:para>Gen1 operation depreciated from version 12.3</maml:para>
+            <maml:para>Gen1 operation deprecated from version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -17946,7 +17952,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:description>
             <maml:para>Query String for safe search in the vault using Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-            <maml:para>Depreciated from version 12.3</maml:para>
+            <maml:para>Deprecated from version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -17976,7 +17982,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:description>
             <maml:para>Specify to find all safes using Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-            <maml:para>Depreciated from version 12.3</maml:para>
+            <maml:para>Deprecated from version 12.3</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -18070,7 +18076,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:para>The name of a specific safe to get details of.</maml:para>
           <maml:para>Gen2 API operation requires minimum version 12.2</maml:para>
           <maml:para>When using Gen1 API in versions earlier than 12.0, must be specified with the `-UseGen1API` parameter.</maml:para>
-          <maml:para>Gen1 operation depreciated from version 12.3</maml:para>
+          <maml:para>Gen1 operation deprecated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -18084,7 +18090,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:description>
           <maml:para>Query String for safe search in the vault using Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -18098,7 +18104,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:description>
           <maml:para>Specify to find all safes using Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.0</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -18182,7 +18188,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASSafe -query SAFE1</dev:code>
         <dev:remarks>
           <maml:para>Returns details of safes matching query "Safe1" using Gen1 API.</maml:para>
-          <maml:para>Depreciated from version 12.2</maml:para>
+          <maml:para>Deprecated from version 12.2</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -18190,7 +18196,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASSafe -FindAll -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Returns details of all safes using Gen1 API.</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -18198,7 +18204,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASSafe -SafeName SAFE1 -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Returns details of "Safe1" using Gen1 API.</maml:para>
-          <maml:para>Depreciated from version 12.3</maml:para>
+          <maml:para>Deprecated from version 12.3</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -18306,7 +18312,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:para>Operation against Gen2 API requires minimum version of 12.2 NOTE for Gen1 Operation : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - `-UseGen1API` parameter must be specified.</maml:para>
             <maml:para>- You cannot report on the permissions of the user authenticated to the API.</maml:para>
             <maml:para>- Reporting on the permissions of the Quota Owner is expected to fail.</maml:para>
-            <maml:para>- Depreciated from CyberArk Version 12.3</maml:para>
+            <maml:para>- Deprecated from CyberArk Version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -18350,7 +18356,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:para>Operation against Gen2 API requires minimum version of 12.2 NOTE for Gen1 Operation : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - `-UseGen1API` parameter must be specified.</maml:para>
             <maml:para>- You cannot report on the permissions of the user authenticated to the API.</maml:para>
             <maml:para>- Reporting on the permissions of the Quota Owner is expected to fail.</maml:para>
-            <maml:para>- Depreciated from CyberArk Version 12.3</maml:para>
+            <maml:para>- Deprecated from CyberArk Version 12.3</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -18542,7 +18548,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:para>Operation against Gen2 API requires minimum version of 12.2 NOTE for Gen1 Operation : An empty PUT request (update) is sent to retrieve full safe permissions for a user: - `-UseGen1API` parameter must be specified.</maml:para>
           <maml:para>- You cannot report on the permissions of the user authenticated to the API.</maml:para>
           <maml:para>- Reporting on the permissions of the Quota Owner is expected to fail.</maml:para>
-          <maml:para>- Depreciated from CyberArk Version 12.3</maml:para>
+          <maml:para>- Deprecated from CyberArk Version 12.3</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -18692,7 +18698,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Get-PASSafeMember -SafeName Target_Safe -MemberName SomeUser -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Lists all permissions for member SomeUser on Target_Safe using Gen1 API</maml:para>
-          <maml:para>Depreciated from CyberArk Version 12.3</maml:para>
+          <maml:para>Deprecated from CyberArk Version 12.3</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -18718,7 +18724,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Gets configuration details of logo displayed in the SafeShare WebGUI</maml:para>
-      <maml:para>Depreciated from version 13.2</maml:para>
+      <maml:para>Deprecated from version 13.2</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -19840,6 +19846,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <maml:para>Accounts Can be flagged for immediate verification, change or reconcile.</maml:para>
       <maml:para>CPM Change Options: - Flags a managed account credentials for an immediate CPM password change.   - The "Initiate CPM password management operations" permission is required. - Sets a password to use for an account's next CPM change.   - The "Initiate CPM password management operations" &amp; "Specify next password value" permission is required. - Updates the account's password only in the Vault (without affecting the credentials on the target device).   - The "Update password value" permission is required.</maml:para>
       <maml:para>Verify &amp; Reconcile both require "Initiate CPM password management operations"</maml:para>
+      <maml:para>Gen 1 Verify is not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -19942,6 +19949,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:description>
             <maml:para>Specify to force verification via Gen1 API.</maml:para>
             <maml:para>Should be specified for versions earlier than 10.1</maml:para>
+            <maml:para>Gen 1 Verify is not supported in Privilege Cloud</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -19980,7 +19988,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:description>
             <maml:para>Yes/No value, dictating if the account will be scheduled for immediate change.</maml:para>
             <maml:para>Specify Yes to initiate a password change by CPM - Relevant for Gen1 API only.</maml:para>
-            <maml:para>Depreciated from version 13.2</maml:para>
+            <maml:para>Deprecated from version 13.2</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -20394,7 +20402,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:description>
           <maml:para>Yes/No value, dictating if the account will be scheduled for immediate change.</maml:para>
           <maml:para>Specify Yes to initiate a password change by CPM - Relevant for Gen1 API only.</maml:para>
-          <maml:para>Depreciated from version 13.2</maml:para>
+          <maml:para>Deprecated from version 13.2</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -20447,6 +20455,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:description>
           <maml:para>Specify to force verification via Gen1 API.</maml:para>
           <maml:para>Should be specified for versions earlier than 10.1</maml:para>
+          <maml:para>Gen 1 Verify is not supported in Privilege Cloud</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -20483,7 +20492,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <dev:code>Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ImmediateChangeByCPM Yes</dev:code>
         <dev:remarks>
           <maml:para>Marks an account for immediate change using the Gen1 API</maml:para>
-          <maml:para>Depreciated from version 13.2</maml:para>
+          <maml:para>Deprecated from version 13.2</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -25140,6 +25149,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <maml:para>Use the -UseGen1API switch parameter to target the Gen1 API endpoint.</maml:para>
       <maml:para>Windows authentication requires at least CyberArk PAS version 10.4</maml:para>
       <maml:para>LDAP, RADIUS, SAML, and shared authentication all require a minimum CyberArk version of 9.7.</maml:para>
+      <maml:para>Shared authentication is not supported in Privilege Cloud.</maml:para>
       <maml:para>Versions of CyberArk prior to 9.7: - only the CyberArk authentication mechanism is supported.</maml:para>
       <maml:para>- newPassword Parameter is not supported.</maml:para>
       <maml:para>- useRadiusAuthentication Parameter is not supported.</maml:para>
@@ -29415,6 +29425,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </command:details>
     <maml:description>
       <maml:para>Deletes privileged commands rule associated with account</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -31233,6 +31244,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </command:details>
     <maml:description>
       <maml:para>Deletes all privileged command rules associated with the policy</maml:para>
+      <maml:para>Not supported in Privilege Cloud</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -32439,6 +32451,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
           <maml:description>
             <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
             <maml:para>Should be specified for versions earlier than 12.2</maml:para>
+            <maml:para>Is not supported for Privilege Cloud</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -32502,6 +32515,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
         <maml:description>
           <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
           <maml:para>Should be specified for versions earlier than 12.2</maml:para>
+          <maml:para>Is not supported for Privilege Cloud</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -32996,6 +33010,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <maml:para>Updates an existing accounts details.</maml:para>
       <maml:para>Default operation using the Gen2 API requires minimum version fo 10.4</maml:para>
       <maml:para>When using the Gen1 API:</maml:para>
+      <maml:para>- It is not supported in Privilege Cloud</maml:para>
       <maml:para>- All of the account's property details MUST be passed to the function.</maml:para>
       <maml:para>- Any current properties of the account not sent as part of the request will be removed</maml:para>
       <maml:para>from the account. - To change a property value not exposed via a named parameter, pass the property name and updated value to the function via the Properties parameter. - If changing the name or folder of a service account that has multiple dependencies (usages), the connection between it and its dependencies will be automatically maintained. - If changing the name or folder of an account that is linked to another account (whether logon, reconciliation or verification), the links will be automatically updated.</maml:para>
@@ -33589,7 +33604,7 @@ Set-PASAccount -AccountID 27_4 -operations $actions</dev:code>
         <dev:code>Set-PASAccount -AccountID 21_3 -Folder Root -AccountName NewName `
 -DeviceType Database -PlatformID Oracle -Address dbServer.domain.com -UserName DBUser</dev:code>
         <dev:remarks>
-          <maml:para>Will set the AccountName of account with AccountID of 21_3 to "NewName". Any/All additional properties of the account which are not specified via parameters will be cleared</maml:para>
+          <maml:para>Will set the AccountName of account with AccountID of 21_3 to "NewName". Any/All additional properties of the account which are not specified via parameters will be cleared Not supported in Privilege Cloud</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -33986,7 +34001,7 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
           <maml:name>MappingName</maml:name>
           <maml:description>
             <maml:para>The name of the PAS role that will be created.</maml:para>
@@ -33998,7 +34013,7 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
           <maml:name>LDAPBranch</maml:name>
           <maml:description>
             <maml:para>The LDAP branch that will be used for external directory queries</maml:para>
@@ -34179,7 +34194,7 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
         <maml:name>MappingName</maml:name>
         <maml:description>
           <maml:para>The name of the PAS role that will be created.</maml:para>
@@ -34191,7 +34206,7 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
         <maml:name>LDAPBranch</maml:name>
         <maml:description>
           <maml:para>The LDAP branch that will be used for external directory queries</maml:para>
@@ -34986,7 +35001,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>TargetPlatformId</maml:name>
           <maml:description>
             <maml:para>The ID of the platform that will be associated to the on-boarded account.</maml:para>
@@ -34998,7 +35013,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
           <maml:name>TargetSafeName</maml:name>
           <maml:description>
             <maml:para>The name of the Safe where the on-boarded account will be stored.</maml:para>
@@ -35036,7 +35051,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
           <maml:name>SystemTypeFilter</maml:name>
           <maml:description>
             <maml:para>The System Type by which to filter.</maml:para>
@@ -35122,7 +35137,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>TargetPlatformId</maml:name>
         <maml:description>
           <maml:para>The ID of the platform that will be associated to the on-boarded account.</maml:para>
@@ -35134,7 +35149,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
         <maml:name>TargetSafeName</maml:name>
         <maml:description>
           <maml:para>The name of the Safe where the on-boarded account will be stored.</maml:para>
@@ -35172,7 +35187,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
         <maml:name>SystemTypeFilter</maml:name>
         <maml:description>
           <maml:para>The System Type by which to filter.</maml:para>
@@ -35398,7 +35413,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>discoveryEndpointUrl</maml:name>
           <maml:description>
             <maml:para>OIDC defines a discovery mechanism, called OpenID Connect Discovery, where an OIDC Identity provider publishes its metadata at a well-known URL.</maml:para>
@@ -35424,7 +35439,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>clientId</maml:name>
           <maml:description>
             <maml:para>The unique identifier for the client application. This ID is created by the provider, and assigned to each client application upon registration.</maml:para>
@@ -35448,7 +35463,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>clientSecretMethod</maml:name>
           <maml:description>
             <maml:para>The client authentication method for the client secret.</maml:para>
@@ -35557,7 +35572,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>discoveryEndpointUrl</maml:name>
         <maml:description>
           <maml:para>OIDC defines a discovery mechanism, called OpenID Connect Discovery, where an OIDC Identity provider publishes its metadata at a well-known URL.</maml:para>
@@ -35583,7 +35598,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>clientId</maml:name>
         <maml:description>
           <maml:para>The unique identifier for the client application. This ID is created by the provider, and assigned to each client application upon registration.</maml:para>
@@ -35607,7 +35622,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>clientSecretMethod</maml:name>
         <maml:description>
           <maml:para>The client authentication method for the client secret.</maml:para>
@@ -35710,7 +35725,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>PSMServerID</maml:name>
           <maml:description>
             <maml:para>PSM server ID linked to the platform</maml:para>
@@ -35771,7 +35786,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>PSMServerID</maml:name>
         <maml:description>
           <maml:para>PSM server ID linked to the platform</maml:para>
@@ -35833,7 +35848,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         <dev:code>$PSMConfig = Get-PASPlatformPSMConfig -ID 23
 
 $PSMConfig.PSMConnectors += (\[PSCustomObject\]@{"PSMConnectorID"="PSM-RDP";"Enabled"=$true})
-$PSMConfig | Set-PASPlatformPSMConfig -ID 23</dev:code>
+Set-PASPlatformPSMConfig -ID 23 -PSMConnectors $PSMConfig.PSMConnectors</dev:code>
         <dev:remarks>
           <maml:para>Adds PSM-RDP as an additional connection component configured on platform with id of 23</maml:para>
         </dev:remarks>
@@ -36438,7 +36453,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>category</maml:name>
           <maml:description>
             <maml:para>The Category of the risky activity - Valid values: SSH, WINDOWS, SCP, KEYSTROKES or SQL</maml:para>
@@ -36450,7 +36465,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
           <maml:name>regex</maml:name>
           <maml:description>
             <maml:para>Risky activity in regex form.</maml:para>
@@ -36463,7 +36478,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
           <maml:name>score</maml:name>
           <maml:description>
             <maml:para>Activity score.</maml:para>
@@ -36476,7 +36491,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
           <maml:name>description</maml:name>
           <maml:description>
             <maml:para>Activity description.</maml:para>
@@ -36489,7 +36504,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
           <maml:name>response</maml:name>
           <maml:description>
             <maml:para>Automatic response to be executed</maml:para>
@@ -36502,7 +36517,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="7" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="7" aliases="none">
           <maml:name>active</maml:name>
           <maml:description>
             <maml:para>Indicate if the rule should be active or disabled</maml:para>
@@ -36599,7 +36614,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>category</maml:name>
         <maml:description>
           <maml:para>The Category of the risky activity - Valid values: SSH, WINDOWS, SCP, KEYSTROKES or SQL</maml:para>
@@ -36611,7 +36626,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
         <maml:name>regex</maml:name>
         <maml:description>
           <maml:para>Risky activity in regex form.</maml:para>
@@ -36624,7 +36639,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
         <maml:name>score</maml:name>
         <maml:description>
           <maml:para>Activity score.</maml:para>
@@ -36637,7 +36652,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
         <maml:name>description</maml:name>
         <maml:description>
           <maml:para>Activity description.</maml:para>
@@ -36650,7 +36665,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
         <maml:name>response</maml:name>
         <maml:description>
           <maml:para>Automatic response to be executed</maml:para>
@@ -36663,7 +36678,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="7" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="7" aliases="none">
         <maml:name>active</maml:name>
         <maml:description>
           <maml:para>Indicate if the rule should be active or disabled</maml:para>
@@ -36863,7 +36878,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>NumberOfVersionsRetention</maml:name>
           <maml:description>
             <maml:para>The number of retained versions of every password that is stored in the Safe. - Max value = 999 Specify either this parameter or NumberOfDaysRetention.</maml:para>
@@ -37094,7 +37109,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>NumberOfDaysRetention</maml:name>
           <maml:description>
             <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>
@@ -37331,7 +37346,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>NumberOfVersionsRetention</maml:name>
         <maml:description>
           <maml:para>The number of retained versions of every password that is stored in the Safe. - Max value = 999 Specify either this parameter or NumberOfDaysRetention.</maml:para>
@@ -37343,7 +37358,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>NumberOfDaysRetention</maml:name>
         <maml:description>
           <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>
@@ -38524,8 +38539,6 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
     </command:details>
     <maml:description>
       <maml:para>Updates an existing user in the vault.</maml:para>
-      <maml:para>Appears to require all properties set on a user to be passed with the request.</maml:para>
-      <maml:para>Not passing a value to an already set property will result in it being cleared.</maml:para>
       <maml:para>Default operation using the Gen2 API requires minimum version of 11.1</maml:para>
     </maml:description>
     <command:syntax>
@@ -39994,9 +40007,44 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Set-PASUser -id 41 -username Bill -ExpiryDate (get-date).AddDays(5)</dev:code>
+        <dev:remarks>
+          <maml:para>Sets ExpiryDate on Bill's vault user</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Set-PASUser -id 41 -username Bill -unAuthorizedInterfaces PACLI,GUI</dev:code>
+        <dev:remarks>
+          <maml:para>Sets unAuthorizedInterfaces on Bill's vault user</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Set-PASUser -id 41 -username Bill -pagerNumber ""</dev:code>
+        <dev:remarks>
+          <maml:para>Clears the pagerNumber property on Bill's vault user</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Set-PASUser -id 41 -username Bill -unAuthorizedInterfaces @()</dev:code>
+        <dev:remarks>
+          <maml:para>Clears the unAuthorizedInterfaces property on Bill's vault user</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
         <dev:code>Set-PASUser -UserName Bill -Disabled $true</dev:code>
         <dev:remarks>
           <maml:para>Disables vault user Bill</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
+        <dev:code>Set-PASUser -id 41 -username Bill -ExpiryDate (get-date 1/1/1970)</dev:code>
+        <dev:remarks>
+          <maml:para>Clear ExpiryDate on Bill's vault user</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

@@ -127,7 +127,7 @@ function Invoke-PASCPMOperation {
 
 			'ChangeCredentials' {
 
-				#!Depreciated above 13.2
+				#!Depracated above 13.2
 				Assert-VersionRequirement -MaximumVersion 13.2
 
 				#add ImmediateChangeByCPM to header as key=value pair
@@ -139,6 +139,8 @@ function Invoke-PASCPMOperation {
 			}
 
 			'VerifyCredentials' {
+
+				Assert-VersionRequirement -SelfHosted
 
 				#Empty Body
 				$ThisRequest['Body'] = @{ } | ConvertTo-Json

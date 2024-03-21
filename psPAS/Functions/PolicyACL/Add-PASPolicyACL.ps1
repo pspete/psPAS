@@ -44,7 +44,9 @@ function Add-PASPolicyACL {
 		[string]$UserName
 	)
 
-	BEGIN { }#begin
+	BEGIN {
+		Assert-VersionRequirement -SelfHosted
+	}#begin
 
 	PROCESS {
 

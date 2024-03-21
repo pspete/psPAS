@@ -15,9 +15,10 @@ Updates an existing Risky Activity rule to PTA
 ## SYNTAX
 
 ```
-Set-PASPTARule [-id] <String> [-category] <String> [-regex] <String> [-score] <Int32> [-description] <String>
- [-response] <String> [-active] <Boolean> [-vaultUsersMode <String>] [-vaultUsersList <String[]>]
- [-machinesMode <String>] [-machinesList <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-PASPTARule [-id] <String> [[-category] <String>] [[-regex] <String>] [[-score] <Int32>]
+ [[-description] <String>] [[-response] <String>] [[-active] <Boolean>] [-vaultUsersMode <String>]
+ [-vaultUsersList <String[]>] [-machinesMode <String>] [-machinesList <String[]>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,7 +66,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -82,7 +83,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -99,7 +100,7 @@ Type: Int32
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 4
 Default value: 0
 Accept pipeline input: True (ByPropertyName)
@@ -116,7 +117,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 5
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -133,7 +134,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 6
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -148,7 +149,7 @@ Type: Boolean
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 7
 Default value: False
 Accept pipeline input: True (ByPropertyName)

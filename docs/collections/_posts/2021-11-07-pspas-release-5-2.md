@@ -99,4 +99,4 @@ tags:
     - `GetDetails()`
       - New method using `Get-PASAccountDetail`
   - Alias Removal
-    - Removed alias values for previously depreciated command names
+    - Removed alias values for previously deprecated command names

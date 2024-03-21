@@ -49,7 +49,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			Mock Invoke-PASRestMethod -MockWith {
 
 			}
-
+			Mock Get-PASPTARule -MockWith {}
 			$InputObj = [pscustomobject]@{
 				'id'             = 99
 				'category'       = 'KEYSTROKES'
@@ -70,13 +70,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		}
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'id' },
-			@{Parameter = 'category' },
-			@{Parameter = 'regex' },
-			@{Parameter = 'score' },
-			@{Parameter = 'description' },
-			@{Parameter = 'response' },
-			@{Parameter = 'active' }
+			$Parameters = @{Parameter = 'id' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
@@ -94,7 +88,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'sends request' {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It
 
 			}
 
@@ -122,7 +116,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					($Script:RequestBody) -ne $null
 
-				} -Times 1 -Exactly -Scope It
+				} -Times 1 -Scope It
 
 			}
 

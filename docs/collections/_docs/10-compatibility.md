@@ -391,7 +391,7 @@ If version requirement criteria are not met, operations may be prevented.
 ### Get-PASAccountGroup
 
 - Version 10.5 introduced a new API endpoint, "Get Safe account groups".
-  - This API is depreciated from version 12.6.
+  - This API is deprecated from version 12.6.
   - The "Get Safe account groups" API endpoint can be used by specifying the `-UseGen1API` parameter.
 
 ### Add-PASAccount
@@ -498,7 +498,7 @@ If version requirement criteria are not met, operations may be prevented.
     - `GroupID`
     - `memberID`
 - The Gen1 API endpoint can be used by using the `GroupName` & `UserName` parameters.
-- Gen1 API depreciated from 12.3
+- Gen1 API deprecated from 12.3
 
 ### Get-PASUser
 
@@ -518,7 +518,7 @@ If version requirement criteria are not met, operations may be prevented.
 - Version 10.9 introduced a new API endpoint.
   - Supports:
     - Additional property parameters.
-- Gen1 API depreciated from 12.3
+- Gen1 API deprecated from 12.3
 - Version 13.2 introduced new parameters: `userActivityLogRetentionDays`, `loginFromHour` & `loginToHour`
 
 ### Unblock-PASUser
@@ -527,7 +527,7 @@ If version requirement criteria are not met, operations may be prevented.
   - Requires Parameters:
     - `userID`
 - The Gen1 API endpoint can be used by using the `userName` parameter.
-- Gen1 API depreciated from 12.3
+- Gen1 API deprecated from 12.3
 
 ### Get-PASDirectory
 
@@ -597,14 +597,14 @@ If version requirement criteria are not met, operations may be prevented.
 - Version 11.1 introduced a new API endpoint.
   - Supports:
     - Delete User by ID
-- Gen1 API depreciated from 12.3
+- Gen1 API deprecated from 12.3
 
 ### Set-PASUser
 
 - Version 11.1 introduced a new API endpoint.
   - Supports:
     - Additional parameters for updating users.
-- Gen1 API depreciated from 12.3
+- Gen1 API deprecated from 12.3
 - Version 13.2 introduced new parameters: `userActivityLogRetentionDays`, `loginFromHour` & `loginToHour`
 
 ### Get-PASPTAEvent

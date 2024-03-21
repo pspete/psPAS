@@ -22,6 +22,8 @@ Add-PASPolicyACL [-Command] <String> [-CommandGroup] <Boolean> [-PermissionType]
 ## DESCRIPTION
 Adds a new privileged command rule to a policy.
 
+Not supported in Privilege Cloud
+
 ## EXAMPLES
 
 ### EXAMPLE 1
