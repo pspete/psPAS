@@ -64,6 +64,8 @@
   - In-line with update to `Set-PASUser`
     - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters.
     - Corrects ValidateSet for `unAuthorizedInterfaces` parameter.
+- `Get-PASComponentDetail`
+  - Adds assertion that command specifying `PTA` component  must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
 - `Add-PASAccountACL`
   - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
 - `Get-PASAccountACL`

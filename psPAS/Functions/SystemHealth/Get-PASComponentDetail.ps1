@@ -21,6 +21,7 @@ Function Get-PASComponentDetail {
 		if ($PSBoundParameters['ComponentID'] -eq 'PTA') {
 
 			Assert-VersionRequirement -RequiredVersion 12.0
+			Assert-VersionRequirement -SelfHosted
 
 		}
 
