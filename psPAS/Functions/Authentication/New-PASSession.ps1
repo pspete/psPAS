@@ -790,6 +790,9 @@ function New-PASSession {
 					#BaseURI set in Module Scope
 					$psPASSession.BaseURI = $Uri
 
+					#API URL for non PasswordVault operations
+					$psPASSession.ApiURI = $PrivilegeCloudURL
+
 					#Auth token added to WebSession
 					$psPASSession.WebSession.Headers['Authorization'] = [string]$CyberArkLogonResult
 
