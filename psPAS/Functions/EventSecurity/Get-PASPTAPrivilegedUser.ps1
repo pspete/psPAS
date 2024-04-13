@@ -11,6 +11,7 @@ Function Get-PASPTAPrivilegedUser {
     )
 
     BEGIN {
+        Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.0
         $ReturnValue = 'ActualValue'
     }#begin

@@ -105,7 +105,7 @@ function Add-PASDirectory {
 	)
 
 	BEGIN {
-
+		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 
 	}#begin

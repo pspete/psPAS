@@ -29,7 +29,7 @@ Function Set-PASPTARemediation {
 	)
 
 	BEGIN {
-
+		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.4
 
 	}#begin

@@ -82,7 +82,7 @@ function New-PASDirectoryMapping {
 	)
 
 	BEGIN {
-
+		Assert-VersionRequirement -SelfHosted
 	}#begin
 
 	PROCESS {

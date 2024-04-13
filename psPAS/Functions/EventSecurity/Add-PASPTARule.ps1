@@ -70,7 +70,7 @@ Function Add-PASPTARule {
 	)
 
 	BEGIN {
-
+		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.4
 		$userScopeParams = [Collections.Generic.List[String]]@('vaultUsersMode', 'vaultUsersList')
 		$machineScopeParams = [Collections.Generic.List[String]]@('machinesMode', 'machinesList')

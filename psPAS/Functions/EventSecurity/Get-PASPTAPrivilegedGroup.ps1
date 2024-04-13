@@ -4,6 +4,7 @@ Function Get-PASPTAPrivilegedGroup {
     param( )
 
     BEGIN {
+        Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.0
     }#begin
 

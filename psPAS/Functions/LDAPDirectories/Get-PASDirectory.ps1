@@ -13,7 +13,7 @@ function Get-PASDirectory {
 	)
 
 	BEGIN {
-
+		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.4
 
 	}#begin
