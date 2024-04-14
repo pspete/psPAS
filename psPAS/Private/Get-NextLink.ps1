@@ -11,6 +11,10 @@ Function Get-NextLink {
 	.PARAMETER InitialResult
 	The value of the initial result containing the `nextLink` property
 
+	.PARAMETER BaseURI
+	The BaseURI to use for the relative NextLink query.
+	If not specified defaults to $psPASSession.BaseURI
+
 	.PARAMETER SavedFilter
 	A value matching a configured Saved Filters
 
@@ -39,22 +43,61 @@ Function Get-NextLink {
 
 		[parameter(
 			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'BaseURI'
+		)]
+		[string]$BaseURI,
+
+		[parameter(
+			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false
 		)]
 		[int]$TimeoutSec
 	)
 
-	Begin {}
+	Begin {
+		Switch ($PSCmdlet.ParameterSetName) {
+			'BaseURI' {
+				#SH & PCloud BaseURI is sometimes different
+				#*Allow PCloud to be specified via parameter
+			}
+			default {
+				#*but default here to the standard
+				$BaseURI = $psPASSession.BaseURI
+			}
+		}
+	}
 
 	Process {
 
-		If ($null -ne $InitialResult.value) {
+		switch ($InitialResult) {
+			#SH & PCloud result and nextLink proprty names differ
+			#*Figure out what properties we are dealing with here
+			{ $null -ne $PSItem.value } {
+				$ResultProperty = 'value'
+			}
 
-			#store list of query results
-			$Result = [Collections.Generic.List[Object]]::New(($InitialResult.value))
+			{ $null -ne $PSItem.nextLink } {
+				$LinkProperty = 'NextLink'
+			}
+
+			{ $null -ne $PSItem.items } {
+				$ResultProperty = 'items'
+			}
+
+			{ $null -ne $PSItem.nextCursor } {
+				$LinkProperty = 'nextCursor'
+			}
+		}
+
+		#Proceed if there are results
+		If (($null -ne $InitialResult.${ResultProperty}) -and ($InitialResult.${ResultProperty}.Count -gt 0)) {
+
+			#store list of initial query results
+			$Result = [Collections.Generic.List[Object]]::New(($InitialResult.${ResultProperty}))
 
 			#iterate any nextLinks
-			$NextLink = $InitialResult.nextLink
+			$NextLink = $InitialResult.$LinkProperty
 
 			#!SavedFilter is not inclduded in NextLink value.
 			#* Create a query parameter for SavedFilter to include in URL
@@ -62,7 +105,7 @@ Function Get-NextLink {
 
 			While ( $null -ne $NextLink ) {
 
-				$URI = "$($psPASSession.BaseURI)/$NextLink"
+				$URI = "$BaseURI/$NextLink"
 
 				#*If there is a SavedFilter querystring, append it to the URL
 				If ($null -ne $queryString) {
@@ -73,8 +116,8 @@ Function Get-NextLink {
 				}
 
 				$NextResult = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
-				$NextLink = $NextResult.nextLink
-				$null = $Result.AddRange(($NextResult.value))
+				$NextLink = $NextResult.$LinkProperty
+				$null = $Result.AddRange(($NextResult.$ResultProperty))
 
 			}
 
