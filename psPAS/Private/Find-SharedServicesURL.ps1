@@ -97,7 +97,7 @@ function Find-SharedServicesURL {
 
                 Else {
 
-                    $Result | Select-Object -ExpandProperty $service | Select-Object -ExpandProperty api
+                    $Result | Select-Object -ExpandProperty $service
 
                 }
 
