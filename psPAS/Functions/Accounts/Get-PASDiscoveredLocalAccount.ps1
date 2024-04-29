@@ -86,7 +86,7 @@ Function Get-PASDiscoveredLocalAccount {
     Process {
 
         #Create URL for Request
-        $URI = "$($psPASSession.ApiURI)/api/discovered-accounts/"
+        $URI = "$($psPASSession.ApiURI)/api/discovered-accounts"
 
         switch ($PSCmdlet.ParameterSetName) {
 
