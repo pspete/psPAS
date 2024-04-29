@@ -118,6 +118,7 @@ function Get-PASPSMRecording {
 
 				If ($PSBoundParameters.Keys -notcontains 'Limit') {
 					$Limit = 100   #default if you call the API with no value
+					$boundParameters.Add('Limit', $Limit) # Add to boundparameters for inclusion in query string
 				}
 
 				#Create Query String, escaped for inclusion in request URL
@@ -139,7 +140,7 @@ function Get-PASPSMRecording {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		$Total = ($result.Recordings).Count
+		$Total = $result.Total
 
 		If ($Total -gt 0) {
 
@@ -151,9 +152,9 @@ function Get-PASPSMRecording {
 			$URI = $URLString[0]
 			$queryString = $URLString[1]
 
-			For ( $Offset = $Limit ; $Limit -eq $Total ; $Offset += $Limit ) {
+			For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
 
-				#While more risk events to return, create nextLink query value
+				#While more recordings to return, create nextLink query value
 				$nextLink = "OffSet=$Offset"
 
 				if ($null -ne $queryString) {
@@ -162,14 +163,10 @@ function Get-PASPSMRecording {
 					$nextLink = "$queryString&$nextLink"
 
 				}
-
 				$result = (Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET).Recordings
 
-				$Total = $result.Count
-
-				#Request nextLink. Add Risk Events to output collection.
+				#Request nextLink. Add recordingss to output collection.
 				$Null = $Recordings.AddRange($result)
-
 			}
 
 			$Output = $Recordings
