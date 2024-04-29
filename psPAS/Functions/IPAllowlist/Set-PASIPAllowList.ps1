@@ -7,7 +7,7 @@ Function Set-PASIPAllowList {
             ValueFromPipelinebyPropertyName = $true
         )]
         [AllowEmptyCollection()]
-        [ValidatePattern('(?:[\d{1,3}\.]+)\/(?:2[2-9]|3[0-2])')]
+        [ValidatePattern('^(?:(25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}\/(?:2[2-9]|3[0-2])$')]
         [string[]]$customerPublicIPs
     )
 
@@ -20,10 +20,12 @@ Function Set-PASIPAllowList {
         #Create URL for request
         $URI = "$($psPASSession.ApiURI)/api/advanced-settings/ip-allowlist"
 
+        $body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
+
         if ($PSCmdlet.ShouldProcess($($customerPublicIPs -join ','), 'Set IP AllowList Properties')) {
 
             #send request to web service
-            $result = Invoke-PASRestMethod -Uri $URI -Method PUT
+            $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body
 
             If ($null -ne $result) {
 
