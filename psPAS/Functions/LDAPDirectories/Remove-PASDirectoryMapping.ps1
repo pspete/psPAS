@@ -16,6 +16,7 @@ function Remove-PASDirectoryMapping {
 	)
 
 	BEGIN {
+		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 11.1
 	}#begin
 

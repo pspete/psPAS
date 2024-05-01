@@ -83,10 +83,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'uses expected FromTime value' {
 				Get-PASPSMSession -FromTime (Get-Date -Year 1979 -Month 11 -Day 12 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
-				#311212800 1674345600 311212800
+				#311212800 1674345600 311212800 311212800
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/LiveSessions?FromTime=311212800"
+					$URI -like "$($Script:psPASSession.BaseURI)/API/LiveSessions?*FromTime=311212800*"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -97,7 +97,29 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				#311212800 1674345600
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/LiveSessions?ToTime=1674345600"
+					$URI -like "$($Script:psPASSession.BaseURI)/API/LiveSessions?*ToTime=1674345600*"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected Limit value' {
+				Get-PASPSMSession -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -like "$($Script:psPASSession.BaseURI)/API/LiveSessions?*Limit=25*"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses specified Limit value' {
+				Get-PASPSMSession -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) -Limit 50
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -like "$($Script:psPASSession.BaseURI)/API/LiveSessions?*Limit=50*"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -146,7 +168,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{'LiveSessions' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
+					[PSCustomObject]@{
+						'LiveSessions' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' }
+						'Total'        = 1
+					}
 				}
 
 				$InputObj = [pscustomobject]@{
@@ -184,10 +209,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 						[PSCustomObject]@{
 							'LiveSessions'    = @(1..25)
 							$script:iteration = $script:iteration++
+							'Total'           = 124
 						}
 					} else {
 						[PSCustomObject]@{
 							'LiveSessions' = @(1..24)
+							'Total'        = 124
 						}
 					}
 				}

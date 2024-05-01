@@ -23,7 +23,7 @@ Adds an user to PrivilegedUsersList in PTA configuration
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Add-PASPTAPrivilegedUser -platform WINDOWS -user AdminUser
 ```

@@ -27,7 +27,7 @@ Requires CyberArk Version 12.1 or higher.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> Clear-PASPrivateSSHKey
 ```

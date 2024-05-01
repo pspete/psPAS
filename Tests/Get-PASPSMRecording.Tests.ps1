@@ -182,7 +182,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		Context 'Output' {
 			BeforeEach {
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{'Recordings' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
+					[PSCustomObject]@{
+						'Recordings' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' }
+						'Total'      = 1
+					}
 				}
 
 				$InputObj = [pscustomobject]@{
@@ -218,11 +221,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					If ($script:iteration -le 4) {
 						[PSCustomObject]@{
 							'Recordings'      = @(1..100)
+							'Total'           = 499
 							$script:iteration = $script:iteration++
 						}
 					} else {
 						[PSCustomObject]@{
 							'Recordings' = @(1..99)
+							'Total'      = 499
 						}
 					}
 				}

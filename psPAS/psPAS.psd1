@@ -243,7 +243,16 @@
 		'Add-PASPTAExcludedTarget',
 		'Remove-PASPTAIncludedTarget',
 		'Remove-PASPTAExcludedTarget',
-		'Get-PASLinkedGroup'
+		'Get-PASLinkedGroup',
+		'Set-PASIPAllowList',
+		'Get-PASIPAllowList',
+		'Get-PASBYOKConfig',
+		'Get-PASDiscoveredLocalAccount',
+		'Get-PASDiscoveredLocalAccountActivity',
+		'Publish-PASDiscoveredLocalAccount',
+		'Add-PASDiscoveredLocalAccount',
+		'Clear-PASDiscoveredLocalAccount',
+		'Remove-PASDiscoveredLocalAccount'
 	)
 
 	#AliasesToExport   = @()

@@ -46,6 +46,7 @@ Function Set-PASPTARiskEvent {
     )
 
     BEGIN {
+        Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
     }#begin
 

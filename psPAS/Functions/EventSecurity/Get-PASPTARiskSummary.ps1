@@ -4,6 +4,7 @@ Function Get-PASPTARiskSummary {
     param( )
 
     BEGIN {
+        Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 13.2
     }#begin
 

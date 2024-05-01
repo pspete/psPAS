@@ -17,6 +17,7 @@ function Set-PASDirectoryMappingOrder {
 
 	BEGIN {
 
+		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.10
 
 	}#begin

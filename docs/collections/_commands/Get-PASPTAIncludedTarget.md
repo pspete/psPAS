@@ -23,7 +23,7 @@ Returns included target property from PTA security configuration
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Get-PASPTAIncludedTarget
 ```

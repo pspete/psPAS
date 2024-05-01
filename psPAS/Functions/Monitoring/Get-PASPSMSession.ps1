@@ -106,6 +106,7 @@ function Get-PASPSMSession {
 
 					{ $PSBoundParameters.Keys -notcontains 'Limit' } {
 						$Limit = 25   #default if you call the API with no value
+						$boundParameters.Add('Limit', $Limit) # Add to boundparameters for inclusion in query string
 					}
 
 				}
@@ -129,7 +130,7 @@ function Get-PASPSMSession {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		$Total = ($result.LiveSessions).Count
+		$Total = $result.Total
 
 		If ($Total -gt 0) {
 
@@ -141,9 +142,9 @@ function Get-PASPSMSession {
 			$URI = $URLString[0]
 			$queryString = $URLString[1]
 
-			For ( $Offset = $Limit ; $Limit -eq $Total ; $Offset += $Limit ) {
+			For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
 
-				#While more risk events to return, create nextLink query value
+				#While more Live PSM Sessions to return, create nextLink query value
 				$nextLink = "OffSet=$Offset"
 
 				if ($null -ne $queryString) {
@@ -155,9 +156,7 @@ function Get-PASPSMSession {
 
 				$result = (Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET).LiveSessions
 
-				$Total = $result.Count
-
-				#Request nextLink. Add Risk Events to output collection.
+				#Request nextLink. Add Live PSM Sessions to output collection.
 				$Null = $LiveSessions.AddRange($result)
 
 			}

@@ -10,6 +10,7 @@ Function Remove-PASPTAIncludedTarget {
     )
 
     BEGIN {
+        Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.0
     }#begin
 

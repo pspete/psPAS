@@ -276,6 +276,19 @@
 								$ErrorID = $ThisException | Select-Object -ExpandProperty error
 							}
 
+							{ $null -ne $PSItem.message } {
+								$ErrorMessage = $ThisException | Select-Object -ExpandProperty message
+							}
+
+							{ $null -ne $PSItem.code } {
+								$ErrorID = $ThisException | Select-Object -ExpandProperty code
+							}
+
+							default {
+								$ErrorMessage = $ResponseException
+								$ErrorID = $null
+							}
+
 						}
 					} catch {
 						$ErrorMessage = $ResponseException

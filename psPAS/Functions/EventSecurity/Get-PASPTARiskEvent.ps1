@@ -71,6 +71,7 @@ Function Get-PASPTARiskEvent {
     )
 
     BEGIN {
+        Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
         $Parameters = [Collections.Generic.List[Object]]::New(@('type', 'status'))
         $TimeParameters = [Collections.Generic.List[Object]]::New(@('FromTime', 'ToTime'))

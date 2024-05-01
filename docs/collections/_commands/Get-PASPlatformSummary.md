@@ -23,7 +23,7 @@ Retrieve basic information on all existing platform system types.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> Get-PASPlatformSummary
 ```

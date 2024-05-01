@@ -27,7 +27,7 @@ Requires CyberArk Version 12.0+
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> Set-PASGroup -GroupID 420 -GroupName SomeName
 ```

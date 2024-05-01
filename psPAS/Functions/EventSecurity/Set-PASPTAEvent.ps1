@@ -18,6 +18,7 @@ Function Set-PASPTAEvent {
 	)
 
 	BEGIN {
+		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 11.3
 	}#begin
 

@@ -22,7 +22,7 @@ Sets the status of an enabled vault user to disabled
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Disable-PASUser -id 1234
 ```

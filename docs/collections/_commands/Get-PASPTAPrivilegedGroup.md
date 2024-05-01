@@ -23,7 +23,7 @@ Return PrivilegedDomainGroupsList from PTA
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Get-PASPTAPrivilegedGroup
 ```

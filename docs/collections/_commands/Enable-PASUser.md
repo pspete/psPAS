@@ -22,7 +22,7 @@ Reenables a disabled vault user
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Enable-PASUser -id 1234
 ```

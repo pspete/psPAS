@@ -58,6 +58,7 @@ Get-ChildItem $PSScriptRoot\ -Recurse -Include '*.ps1' -Exclude '*.ps1xml' |
 # Script scope session object for session data
 $psPASSession = [ordered]@{
 	BaseURI            = $null
+	ApiURI             = $null
 	User               = $null
 	ExternalVersion    = [System.Version]'0.0'
 	WebSession         = $null

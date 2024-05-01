@@ -4,6 +4,7 @@ Function Get-PASPTAGlobalCatalog {
     param(	)
 
     BEGIN {
+        Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 13.0
     }#begin
 

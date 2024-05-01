@@ -24,14 +24,14 @@ Requires membership of Vault Admins group.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> Get-PASOpenIDConnectProvider
 ```
 
 Returns details of all configured OIDC Providers.
 
-### Example 2
+### EXAMPLE 2
 ```powershell
 PS C:\> Get-PASOpenIDConnectProvider -id SomeOIDCProvider
 ```

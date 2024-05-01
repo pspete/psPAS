@@ -89,6 +89,7 @@ function Set-PASDirectoryMapping {
 
 	BEGIN {
 
+		Assert-VersionRequirement -SelfHosted
 		#10.7 functionality
 		Assert-VersionRequirement -RequiredVersion 10.7
 

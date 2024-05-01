@@ -12,6 +12,7 @@ function Remove-PASDirectory {
 	)
 
 	BEGIN {
+		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.7
 	}#begin
 

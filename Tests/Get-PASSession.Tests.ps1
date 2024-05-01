@@ -60,7 +60,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'has output with expected number of properties' {
 
-				$response.Keys.Count | Should -Be 11
+				$response.Keys.Count | Should -Be 12
 
 			}
 

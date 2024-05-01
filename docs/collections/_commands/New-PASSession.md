@@ -351,7 +351,7 @@ New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeC
 
 Authenticates to Privilege Cloud Shared Services using an API Service User, specifying individual URL values for Identity & Privilege Cloud tenants.
 
-### Example 28
+### EXAMPLE 28
 ```
 New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $Cred -IdentityUser
 ```
@@ -362,7 +362,7 @@ Requires IdentityCommand module to be installed for authentication flow to compl
 
 See: Get-Help IdentityCommand
 
-### Example 29
+### EXAMPLE 29
 ```
 New-PASSession -TenantSubdomain YourTenantName -Credential $Cred -IdentityUser
 ```
@@ -375,7 +375,7 @@ Requires IdentityCommand module to be installed for authentication flow to compl
 
 See: Get-Help IdentityCommand
 
-### Example 30
+### EXAMPLE 30
 ```
 New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred -PrivilegeCloudURL https://SomeName.privilegecloud.cyberark.cloud -IdentityUser
 ```

@@ -24,7 +24,7 @@ Requires CyberArk Version 12.2 or higher.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Get-PASLinkedAccount -id 66_6
 ```

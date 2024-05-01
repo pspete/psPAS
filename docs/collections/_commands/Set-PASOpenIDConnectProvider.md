@@ -27,7 +27,7 @@ Requires membership of Vault Admins group.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> Set-PASOpenIDConnectProvider -id SomeOIDCProvider -discoveryEndpointUrl https://SomeURL -clientId SomeIDValue -clientSecretMethod POST
 ```

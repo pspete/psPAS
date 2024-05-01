@@ -23,7 +23,7 @@ Return PrivilegedUsersList from PTA
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Get-PASPTAPrivilegedUser
 ```

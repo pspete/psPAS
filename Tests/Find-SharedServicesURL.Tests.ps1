@@ -66,7 +66,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
 
             It 'outputs filtered results when service is specified' {
-                Find-SharedServicesURL -subdomain somedomain -service pcloud | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud'
+                Find-SharedServicesURL -subdomain somedomain -service pcloud | Select-Object -ExpandProperty api | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud'
             }
 
             It 'throws if specifed service detail is not included in results' {
