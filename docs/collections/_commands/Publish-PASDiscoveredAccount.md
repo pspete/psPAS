@@ -26,7 +26,7 @@ Optionally set the account to be reconciled, and/or with a default password.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 $password = Read-Host -AsSecureString -Prompt "defaultPassword value"
 Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -defaultPassword $password

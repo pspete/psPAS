@@ -26,14 +26,14 @@ Requires CyberArk Version 12.1 or higher.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> Remove-PASPrivateSSHKey
 ```
 
 Deletes your MFA caching SSH key.
 
-### Example 2
+### EXAMPLE 2
 ```powershell
 PS C:\> Remove-PASPrivateSSHKey -UserID 646
 ```

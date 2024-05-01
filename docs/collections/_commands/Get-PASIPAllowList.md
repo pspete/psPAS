@@ -24,7 +24,7 @@ Requires one of the following roles:
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Get-PASIPAllowList
 ```

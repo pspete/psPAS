@@ -33,7 +33,7 @@ Requires minimum version of 13.2
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Get-PASPTARiskEvent -type RISK_UNCONSTRAINED_DELEGATION -status OPEN
 ```

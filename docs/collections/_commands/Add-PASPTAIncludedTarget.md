@@ -23,7 +23,7 @@ Adds Included target IP/subnet value in PTA administration configuration
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Add-PASPTAIncludedTarget -cidr 192.168.60.10/24
 ```

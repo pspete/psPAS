@@ -30,7 +30,7 @@ Requires minimum version of 13.0.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Add-PASPTAGlobalCatalog -ldap_certificate $Base64Cert -ldap_server GC.domain.com -ssl $true -ldap_port 3269 -upn user@domain.com -ldapPassword $SecureString
 ```

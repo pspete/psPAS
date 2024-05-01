@@ -25,7 +25,7 @@ Requires minimum version of 13.0.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Get-PASPTAGlobalCatalog
 ```

@@ -30,7 +30,7 @@ The following Safe authorizations are required on the Safe where the source acco
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3
 ```

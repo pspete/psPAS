@@ -23,7 +23,7 @@ Adds an AD group to PrivilegedDomainGroupsList in PTA configuration
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Add-PASPTAPrivilegedGroup -domain SomeDomain.com -group SomeGroup
 ```

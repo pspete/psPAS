@@ -23,7 +23,7 @@ Gets extended details of an account, including data on compliance, activities, d
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> Get-PASAccountDetail -id 123_45
 ```

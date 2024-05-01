@@ -23,7 +23,7 @@ Deletes configured privileged user from PTA
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Remove-PASPTAPrivilegedUser -ID 65b6aa31721d9b5f3a56ca7e
 ```

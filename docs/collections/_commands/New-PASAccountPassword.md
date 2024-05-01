@@ -26,7 +26,7 @@ Requires CyberArk Version 12.0 or higher.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> New-PASAccountPassword -AccountID 12_3
 ```

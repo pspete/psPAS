@@ -37,14 +37,14 @@ Requires one of the following roles:
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Get-PASDiscoveredLocalAccount
 ```
 
 Get all discovered local accounts
 
-### Example 2
+### EXAMPLE 2
 ```powershell
 Get-PASDiscoveredLocalAccount -id SomeID
 ```

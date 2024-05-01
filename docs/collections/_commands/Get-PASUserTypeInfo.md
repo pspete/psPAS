@@ -26,7 +26,7 @@ Requires minimum version 13.2
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Get-PASUserTypeInfo
 ```

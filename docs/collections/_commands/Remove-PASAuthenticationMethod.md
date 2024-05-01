@@ -24,7 +24,7 @@ Membership of the Vault admins group required.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> Remove-PASAuthenticationMethod -id SomeID
 ```

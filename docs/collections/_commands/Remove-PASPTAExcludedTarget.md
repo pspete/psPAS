@@ -23,7 +23,7 @@ Remove configured excluded target
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Remove-PASPTAExcludedTarget -ID 65b6aa31721d9b5f3a56ca7e
 ```

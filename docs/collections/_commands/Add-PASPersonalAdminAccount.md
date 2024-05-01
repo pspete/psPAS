@@ -27,7 +27,7 @@ This capability is currently in Beta phase and will be undergoing future changes
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Add-PASPersonalAdminAccount -address somedomain -userName someUser -secret $SomePassword
 ```

@@ -34,7 +34,7 @@ Requires one of the following roles:
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```
 Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID SomePlatform
 ```

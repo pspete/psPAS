@@ -23,7 +23,7 @@ Returns excluded target properties from PTA security configuration
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 Get-PASPTAExcludedTarget
 ```

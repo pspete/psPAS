@@ -35,28 +35,28 @@ Requires CyberArk Version 12.1 or higher.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> New-PASPrivateSSHKey
 ```
 
 Generates an MFA caching SSH key for you, to be used connecting to targets via PSM for SSH.
 
-### Example 2
+### EXAMPLE 2
 ```powershell
 PS C:\> New-PASPrivateSSHKey -formats OpenSSH, PEM, PPK
 ```
 
 Generates an MFA caching SSH key in OpenSSH, PEM & PPK formats.
 
-### Example 3
+### EXAMPLE 3
 ```powershell
 PS C:\> New-PASPrivateSSHKey -UserID 646
 ```
 
 Generates an MFA caching SSH key for user with id 646.
 
-### Example 4
+### EXAMPLE 4
 ```powershell
 PS C:\> New-PASPrivateSSHKey -keyPassword $cred.Password -UserID 646
 ```

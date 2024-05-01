@@ -28,7 +28,7 @@ Requires one of the following roles:
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```
 Set-PASIPAllowList -customerPublicIPs '10.66.19.45/32','19.79.19.79/22','194.2.192.5/32','201.3.201.3/24'
 ```

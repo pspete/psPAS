@@ -29,14 +29,14 @@ Requires CyberArk Version 12.1 or higher.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
 PS C:\> Get-PASAccountPasswordVersion -AccountID 32_1
 ```
 
 Get password versions for account with ID 32_1
 
-### Example 2
+### EXAMPLE 2
 ```powershell
 PS C:\> Get-PASAccountPasswordVersion -AccountID 32_1 -showTemporary $true
 ```
