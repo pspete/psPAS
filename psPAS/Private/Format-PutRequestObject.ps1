@@ -2,10 +2,10 @@ Function Format-PutRequestObject {
     <#
     .SYNOPSIS
     Give source object properties, and request parameters,
-    where a property is not presnt in a request, adds the current value from the source object.
+    where a property is not present in a request, adds the current value from the source object.
 
     .DESCRIPTION
-    Long description
+    Updates a source object with additional properties from another object.
 
     .PARAMETER InputObject
     The object representing current property values of an object to be updated
@@ -22,7 +22,7 @@ Function Format-PutRequestObject {
     .EXAMPLE
     Format-PutRequestObject -InputObject $UserObject -boundParameters $BoundParameters -ParametersToRemove id
 
-    updates the bound paramter value with key/values not already included, but present in InputObject
+    updates the boundparameter value with key/values not already included, but present in InputObject
 
     .NOTES
     Pete Maan 2024
