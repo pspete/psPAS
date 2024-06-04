@@ -30,12 +30,17 @@ Get-Date | ConvertTo-UnixTime
 	)
 	begin {
 		$currentCulture = [System.Threading.Thread]::CurrentThread.CurrentCulture
+		$epoch = Get-Date 1/1/1970
 	}
 	process {
 		[System.Threading.Thread]::CurrentThread.CurrentCulture = 'en-US'
-
-		$UnixTime = [math]::Round($(Get-Date $Date.ToUniversalTime() -UFormat %s))
-
+		if ($Date -ne $epoch) {
+			#Convert Date with timezone offset
+			$UnixTime = [math]::Round($(Get-Date $Date.ToUniversalTime() -UFormat %s))
+		} Else {
+			#no timezone offset for epoch date
+			$UnixTime = [math]::Round($(Get-Date $Date -UFormat %s))
+		}
 		If ($Milliseconds) {
 			$UnixTime = $UnixTime * 1000
 		}
