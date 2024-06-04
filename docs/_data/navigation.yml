@@ -131,6 +131,18 @@ commands:
         url: /commands/Publish-PASDiscoveredAccount
       - title: "Add-PASPersonalAdminAccount"
         url: /commands/Add-PASPersonalAdminAccount
+      - title: "Publish-PASDiscoveredLocalAccount"
+        url: /commands/Publish-PASDiscoveredLocalAccount
+      - title: "Get-PASDiscoveredLocalAccountActivity"
+        url: /commands/Get-PASDiscoveredLocalAccountActivity
+      - title: "Get-PASDiscoveredLocalAccount"
+        url: /commands/Get-PASDiscoveredLocalAccount
+      - title: "Clear-PASDiscoveredLocalAccount"
+        url: /commands/Clear-PASDiscoveredLocalAccount
+      - title: "Add-PASDiscoveredLocalAccount"
+        url: /commands/Add-PASDiscoveredLocalAccount
+      - title: "Remove-PASDiscoveredLocalAccount"
+        url: /commands/Remove-PASDiscoveredLocalAccount
 
   - title: "Applications"
     children:
@@ -377,6 +389,18 @@ commands:
       - title: "Get-PASUserTypeInfo"
         url: /commands/Get-PASUserTypeInfo
 
+  - title: "BYOK"
+    children:
+      - title: "Get-PASBYOKConfig"
+        url: /commands/Get-PASBYOKConfig
+
+  - title: "IP Allow List"
+    children:
+      - title: "Get-PASIPAllowList"
+        url: /commands/Get-PASIPAllowList
+      - title: "Set-PASIPAllowList"
+        url: /commands/Set-PASIPAllowLists
+
 # documentation links
 docs:
   - title: Installation
@@ -435,3 +459,7 @@ docs:
         url: https://www.powershellgallery.com/packages/VaultControl/
       - title: "PSMPSession"
         url: https://www.powershellgallery.com/packages/PSMPSession/
+      - title: "IdentityCommand"
+        url: https://www.powershellgallery.com/packages/IdentityCommand/
+      - title: "IdentityCommand.DPA"
+        url: https://www.powershellgallery.com/packages/IdentityCommand.DPA/

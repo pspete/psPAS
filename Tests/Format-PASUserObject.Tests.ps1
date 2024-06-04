@@ -53,7 +53,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					'UserName'   = 'SomeUser'
 					'FirstName'  = 'Some'
 					'LastName'   = 'User'
-					'ExpiryDate' = '10/31/2018'
+					'ExpiryDate' = $(Get-Date -Day 31 -Month 10 -Year 2018 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
 					'workStreet' = 'SomeStreet'
 					'homePage'   = 'www.geocities.com'
 					'faxNumber'  = '1979'

@@ -198,7 +198,25 @@ If version requirement criteria are not met, operations may be prevented.
 [`Remove-PASPTAIncludedTarget`][Remove-PASPTAIncludedTarget]                             |**14.0**                                             |Remove PTA Included Target
 [`Remove-PASPTAPrivilegedGroup`][Remove-PASPTAPrivilegedGroup]                           |**14.0**                                             |Remove PTA Privileged Group
 [`Remove-PASPTAPrivilegedUser`][Remove-PASPTAPrivilegedUser]                             |**14.0**                                             |Remove PTA Privileged User
+[`Set-PASIPAllowList`][Set-PASIPAllowList]                                               |**P Cloud Only**                                     |Set P Cloud IP Allow List
+[`Get-PASIPAllowList`][Get-PASIPAllowList]                                               |**P Cloud Only**                                     |Get P Cloud IP Allow List
+[`Get-PASBYOKConfig`][Get-PASBYOKConfig]                                                 |**P Cloud Only**                                     |Get P Cloud BYOK Config
+[`Publish-PASDiscoveredLocalAccount`][Publish-PASDiscoveredLocalAccount]                 |**P Cloud Only**                                     |Publish P Cloud Discovered Local Account
+[`Remove-PASDiscoveredLocalAccount`][Remove-PASDiscoveredLocalAccount]                   |**P Cloud Only**                                     |Delete  P Cloud Discovered Local Account
+[`Get-PASDiscoveredLocalAccountActivity`][Get-PASDiscoveredLocalAccountActivity]         |**P Cloud Only**                                     |Get  P Cloud Discovered Local Account Activity
+[`Get-PASDiscoveredLocalAccount`][Get-PASDiscoveredLocalAccount]                         |**P Cloud Only**                                     |Get  P Cloud Discovered Local Account
+[`Clear-PASDiscoveredLocalAccount`][Clear-PASDiscoveredLocalAccount]                     |**P Cloud Only**                                     |Clear all  P Cloud Discovered Local Accounts
+[`Add-PASDiscoveredLocalAccount`][Add-PASDiscoveredLocalAccount]                         |**P Cloud Only**                                     |Add  P Cloud Discovered Local Account
 
+[Get-PASIPAllowList]:/commands/Get-PASIPAllowList
+[Set-PASIPAllowList]:/commands/Set-PASIPAllowList
+[Get-PASBYOKConfig]:/commands/Get-PASBYOKConfig
+[Publish-PASDiscoveredLocalAccount]:/commands/Publish-PASDiscoveredLocalAccount
+[Get-PASDiscoveredLocalAccountActivity]:/commands/Get-PASDiscoveredLocalAccountActivity
+[Get-PASDiscoveredLocalAccount]:/commands/Get-PASDiscoveredLocalAccount
+[Clear-PASDiscoveredLocalAccount]:/commands/Clear-PASDiscoveredLocalAccount
+[Add-PASDiscoveredLocalAccount]:/commands/Add-PASDiscoveredLocalAccount
+[Remove-PASDiscoveredLocalAccount]:/commands/Remove-PASDiscoveredLocalAccount
 [Add-PASPTAExcludedTarget]:/commands/Add-PASPTAExcludedTarget
 [Add-PASPTAIncludedTarget]:/commands/Add-PASPTAIncludedTarget
 [Add-PASPTAPrivilegedGroup]:/commands/Add-PASPTAPrivilegedGroup

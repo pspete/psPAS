@@ -986,7 +986,25 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Remove-PASPTAIncludedTarget`][Remove-PASPTAIncludedTarget]                             |**14.0**            |Remove PTA Included Target
 [`Remove-PASPTAPrivilegedGroup`][Remove-PASPTAPrivilegedGroup]                           |**14.0**            |Remove PTA Privileged Group
 [`Remove-PASPTAPrivilegedUser`][Remove-PASPTAPrivilegedUser]                             |**14.0**            |Remove PTA Privileged User
+[`Set-PASIPAllowList`][Set-PASIPAllowList]                                               |**P Cloud Only**    |Set P Cloud IP Allow List
+[`Get-PASIPAllowList`][Get-PASIPAllowList]                                               |**P Cloud Only**    |Get P Cloud IP Allow List
+[`Get-PASBYOKConfig`][Get-PASBYOKConfig]                                                 |**P Cloud Only**    |Get P Cloud BYOK Config
+[`Publish-PASDiscoveredLocalAccount`][Publish-PASDiscoveredLocalAccount]                 |**P Cloud Only**    |Publish P Cloud Discovered Local Account
+[`Remove-PASDiscoveredLocalAccount`][Remove-PASDiscoveredLocalAccount]                   |**P Cloud Only**    |Delete  P Cloud Discovered Local Account
+[`Get-PASDiscoveredLocalAccountActivity`][Get-PASDiscoveredLocalAccountActivity]         |**P Cloud Only**    |Get  P Cloud Discovered Local Account Activity
+[`Get-PASDiscoveredLocalAccount`][Get-PASDiscoveredLocalAccount]                         |**P Cloud Only**    |Get  P Cloud Discovered Local Account
+[`Clear-PASDiscoveredLocalAccount`][Clear-PASDiscoveredLocalAccount]                     |**P Cloud Only**    |Clear all  P Cloud Discovered Local Accounts
+[`Add-PASDiscoveredLocalAccount`][Add-PASDiscoveredLocalAccount]                         |**P Cloud Only**    |Add  P Cloud Discovered Local Account
 
+[Get-PASIPAllowList]:/psPAS/Functions/IPALlowList/Get-PASIPAllowList
+[Set-PASIPAllowList]:/psPAS/Functions/IPALlowList/Set-PASIPAllowList
+[Get-PASBYOKConfig]:/psPAS/Functions/BYOK/Get-PASBYOKConfig
+[Publish-PASDiscoveredLocalAccount]:/psPAS/Functions/Accounts/Publish-PASDiscoveredLocalAccount
+[Get-PASDiscoveredLocalAccountActivity]:/psPAS/Functions/Accounts/Get-PASDiscoveredLocalAccountActivity
+[Get-PASDiscoveredLocalAccount]:/psPAS/Functions/Accounts/Get-PASDiscoveredLocalAccount
+[Clear-PASDiscoveredLocalAccount]:/psPAS/Functions/Accounts/Clear-PASDiscoveredLocalAccount
+[Add-PASDiscoveredLocalAccount]:/psPAS/Functions/Accounts/Add-PASDiscoveredLocalAccount
+[Remove-PASDiscoveredLocalAccount]:/psPAS/Functions/Accounts/Remove-PASDiscoveredLocalAccount
 [Add-PASPTAExcludedTarget]:/psPAS/Functions/EventSecurity/Add-PASPTAExcludedTarget.ps1
 [Add-PASPTAIncludedTarget]:/psPAS/Functions/EventSecurity/Add-PASPTAIncludedTarget.ps1
 [Add-PASPTAPrivilegedGroup]:/psPAS/Functions/EventSecurity/Add-PASPTAPrivilegedGroup.ps1
