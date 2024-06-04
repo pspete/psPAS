@@ -840,8 +840,8 @@ Accept wildcard characters: False
 Specify the URL value of the CyberArk Identity Portal to authenticate against.
 
 E.G.:
-- https://<identity-tenant-id>.id.cyberark.cloud
-- https://<identity-tenant-id>.my.idaptive.app
+- https://identity-tenant-id.id.cyberark.cloud
+- https://identity-tenant-id.my.idaptive.app
 
 ```yaml
 Type: String
@@ -859,7 +859,7 @@ Accept wildcard characters: False
 Specify the URL value used to access the CyberArk Privilege Cloud API.
 
 E.G.:
-- https://<subdomain>.privilegecloud.cyberark.cloud
+- https://subdomain.privilegecloud.cyberark.cloud
 
 ```yaml
 Type: String
