@@ -1,6 +1,6 @@
 ---
 title: "psPAS Release 6.4"
-date: 2024-05-01 00:00:00
+date: 2024-06-04 00:00:00
 tags:
   - Release Notes
   - Get-PASPSMRecording
@@ -15,7 +15,21 @@ tags:
   - Remove-PASDiscoveredLocalAccount
   - Invoke-PASRestMethod
   - Get-PASPSMSession
+  - Set-PASUser
 ---
+
+## **6.4.85**
+
+### Added
+- N/A
+
+### Updated
+- N/A
+
+### Fixed
+- `Set-PASUser`
+  - Adds logic to not attempt conversion to unix time if expiry date is not a valid datetime object, this resolves an issue where an error was raised when updating an account with an existing value for the `expirydate` property
+  - Adds logic to not apply time zone offset when specifying Unix epoch time to remove an expiry date from an account which could previously result in an invalid time value in non-GMT time zones.
 
 ## **6.4.80**
 
