@@ -40,8 +40,11 @@ Function Format-PASUserObject {
 		switch ($UserProperties.keys) {
 
 			'ExpiryDate' {
-				#Include date string in required format
-				$UserObject['ExpiryDate'] = $UserProperties['ExpiryDate'] | ConvertTo-UnixTime
+
+				If ($($UserProperties['ExpiryDate']).GetType().FullName -eq 'System.DateTime') {
+					#Include datetime object converted into required unixtime string format
+					$UserObject['ExpiryDate'] = $UserProperties['ExpiryDate'] | ConvertTo-UnixTime
+				}
 
 			}
 
