@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASPersonalAdminAccount {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
 
         [parameter(
@@ -40,13 +40,15 @@ function Add-PASPersonalAdminAccount {
         $Body = $Account | ConvertTo-Json
 
         #send request to PAS web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+        if ($PSCmdlet.ShouldProcess("$userName@$address", "Add Personal Admin Account")) {
+            $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-        If ($null -ne $result) {
+            If ($null -ne $result) {
 
-            #Return Results
-            $result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Account.V10'
+                #Return Results
+                $result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Account.V10'
 
+            }
         }
 
     }#process

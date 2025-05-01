@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Enable-PASCPMAutoManagement {
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -32,7 +32,10 @@ function Enable-PASCPMAutoManagement {
 
 	PROCESS {
 
-		Set-PASAccount -AccountID $AccountID -operations $ops
+		# Only proceed with the operation if ShouldProcess returns true
+		if ($PSCmdlet.ShouldProcess($AccountID, "Enable CPM Auto Management")) {
+			Set-PASAccount -AccountID $AccountID -operations $ops
+		}
 
 	}#process
 

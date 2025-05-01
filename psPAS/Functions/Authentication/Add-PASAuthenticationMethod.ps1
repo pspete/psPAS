@@ -2,7 +2,7 @@
 Function Add-PASAuthenticationMethod {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = 'passwordFieldLabel not related to password value')]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUsernameAndPasswordParams', '', Justification = 'usernameFieldLabel & passwordFieldLabel not related to password value')]
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -80,13 +80,14 @@ Function Add-PASAuthenticationMethod {
 		$Body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess($id, "Add Authentication Method")) {
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
+			If ($null -ne $result) {
 
-		If ($null -ne $result) {
+				$result
 
-			$result
-
+			}
 		}
 
 	}#process

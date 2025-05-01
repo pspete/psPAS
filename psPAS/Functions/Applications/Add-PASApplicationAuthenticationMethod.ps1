@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASApplicationAuthenticationMethod {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
             Mandatory = $true,
@@ -149,7 +149,10 @@ function Add-PASApplicationAuthenticationMethod {
 
         } | ConvertTo-Json
 
-        Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+        # Add ShouldProcess to check before making changes
+        if ($PSCmdlet.ShouldProcess($AppID, "Add Authentication Method $($PSCmdlet.ParameterSetName)")) {
+            Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+        }
 
     }#process
 

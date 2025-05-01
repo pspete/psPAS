@@ -1,7 +1,7 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASDirectory {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlaintextForPassword', '', Justification = "It's a path to password object")]
-	[CmdletBinding(DefaultParameterSetName = '10.4')]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = '10.4')]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -129,13 +129,15 @@ function Add-PASDirectory {
 		$body = $boundParameters | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess("$DomainName", "Add LDAP Directory")) {
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-		If ($null -ne $result) {
+			If ($null -ne $result) {
 
-			#Return Results
-			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Extended
+				#Return Results
+				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Extended
 
+			}
 		}
 
 	}#process

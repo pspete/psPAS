@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASAccountGroupMember {
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -32,8 +32,11 @@ function Add-PASAccountGroupMember {
 
 			Get-PASParameter -ParametersToRemove GroupID | ConvertTo-Json
 
-		#send request to PAS web service
-		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		# Only proceed with the operation if ShouldProcess returns true
+		if ($PSCmdlet.ShouldProcess($AccountID, "Add to Account Group $GroupID")) {
+			#send request to PAS web service
+			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		}
 
 	}#process
 
