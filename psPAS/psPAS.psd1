@@ -252,7 +252,9 @@
 		'Publish-PASDiscoveredLocalAccount',
 		'Add-PASDiscoveredLocalAccount',
 		'Clear-PASDiscoveredLocalAccount',
-		'Remove-PASDiscoveredLocalAccount'
+		'Remove-PASDiscoveredLocalAccount',
+		"Set-PASTheme",
+		"Remove-PASTheme"
 	)
 
 	#AliasesToExport   = @()
