@@ -11,7 +11,7 @@ Function Remove-PASTheme {
     )
 
     BEGIN {
-
+        Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.4
 
     }#begin
