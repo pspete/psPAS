@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASSafeMember {
-	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Gen2')]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -289,44 +289,42 @@ function Add-PASSafeMember {
 		}
 
 		#Send request to Web Service
-		if ($PSCmdlet.ShouldProcess("$SafeName", "Add Safe Member $MemberName")) {
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-			If ($null -ne $result) {
+		If ($null -ne $result) {
 
-				switch ($PSCmdlet.ParameterSetName) {
+			switch ($PSCmdlet.ParameterSetName) {
 
-					( { $PSItem -match '^Gen1' } ) {
-						#format output
-						$result.member | Select-Object MemberName, MembershipExpirationDate, SearchIn,
+				( { $PSItem -match '^Gen1' } ) {
+					#format output
+					$result.member | Select-Object MemberName, MembershipExpirationDate, SearchIn,
 
-						@{Name = 'Permissions'; 'Expression' = {
+					@{Name = 'Permissions'; 'Expression' = {
 
-								$result.member.permissions | ConvertFrom-KeyValuePair }
+							$result.member.permissions | ConvertFrom-KeyValuePair }
 
-						} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Extended -PropertyToAdd @{
+					} | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Extended -PropertyToAdd @{
 
-							'SafeName' = $SafeName
-
-						}
-
-						break
+						'SafeName' = $SafeName
 
 					}
 
-					( { $PSItem -match '^Gen2' } ) {
+					break
 
-						$result |
-							Select-Object *, @{Name = 'UserName'; 'Expression' = { $PSItem.MemberName } } |
-							Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Gen2
+				}
 
-						break
+				( { $PSItem -match '^Gen2' } ) {
 
-					}
+					$result |
+						Select-Object *, @{Name = 'UserName'; 'Expression' = { $PSItem.MemberName } } |
+						Add-ObjectDetail -typename psPAS.CyberArk.Vault.Safe.Member.Gen2
+
+					break
 
 				}
 
 			}
+
 		}
 
 	}#process

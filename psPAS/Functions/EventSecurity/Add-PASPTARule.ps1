@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 Function Add-PASPTARule {
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding()]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -125,15 +125,13 @@ Function Add-PASPTARule {
 		$Body = $boundParameters | Get-PASParameter -ParametersToRemove $scopeParams | ConvertTo-Json -Depth 3
 
 		#send request to PAS web service
-		if ($PSCmdlet.ShouldProcess($description, "Add PTA Rule for category $category")) {
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-			If ($null -ne $result) {
+		If ($null -ne $result) {
 
-				#Return Results
-				$result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.PTA.Rule'
+			#Return Results
+			$result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.PTA.Rule'
 
-			}
 		}
 
 	}#process

@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 Function Add-PASAllowedReferrer {
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding()]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -30,14 +30,12 @@ Function Add-PASAllowedReferrer {
 		$body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
 		#send request to web service
-		if ($PSCmdlet.ShouldProcess($referrerURL, "Add Allowed Referrer")) {
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-			If ($null -ne $result) {
+		If ($null -ne $result) {
 
-				$result
+			$result
 
-			}
 		}
 
 	}#process

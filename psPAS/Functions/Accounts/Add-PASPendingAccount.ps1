@@ -2,7 +2,7 @@
 function Add-PASPendingAccount {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = 'Username not used for authentication')]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'LastPasswordSet', Justification = 'Parameter does not hold password')]
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding()]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -171,9 +171,7 @@ function Add-PASPendingAccount {
 		} | ConvertTo-Json
 
 		#send request to PAS web service
-		if ($PSCmdlet.ShouldProcess("$UserName@$Address", "Add Pending Account")) {
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
-		}
+		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 	}#process
 

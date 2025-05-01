@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASAccountACL {
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding()]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -85,16 +85,14 @@ function Add-PASAccountACL {
 			ConvertTo-Json
 
 		#Send Request
-		if ($PSCmdlet.ShouldProcess("$AccountUserName@$AccountAddress", "Add Account ACL for command '$Command'")) {
-			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
+		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
-			If ($null -ne $result) {
+		If ($null -ne $result) {
 
-				$result.AddAccountPrivilegedCommandResult |
+			$result.AddAccountPrivilegedCommandResult |
 
-					Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Account
+				Add-ObjectDetail -typename psPAS.CyberArk.Vault.ACL.Account
 
-			}
 		}
 
 	}#process

@@ -1,6 +1,6 @@
 ﻿# .ExternalHelp psPAS-help.xml
 function Add-PASDiscoveredLocalAccount {
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding()]
     param(
         [parameter(
             Mandatory = $true,
@@ -54,15 +54,13 @@ function Add-PASDiscoveredLocalAccount {
         $Body = $boundParameters | ConvertTo-Json
 
         #send request to PAS web service
-        if ($PSCmdlet.ShouldProcess("$($identifiers | ConvertTo-Json -Compress)", "Add Discovered Local Account of type $type")) {
-            $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
+        $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
-            If ($null -ne $result) {
+        If ($null -ne $result) {
 
-                #Return Results
-                $result
+            #Return Results
+            $result
 
-            }
         }
 
     }#process

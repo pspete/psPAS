@@ -1,7 +1,7 @@
 # .ExternalHelp psPAS-help.xml
 Function Add-PASOpenIDConnectProvider {
 
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding()]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -116,14 +116,12 @@ Function Add-PASOpenIDConnectProvider {
 		$body = $boundParameters | ConvertTo-Json
 
 		#send request to web service
-		if ($PSCmdlet.ShouldProcess($id, "Add OpenID Connect Provider")) {
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body
 
-			If ($null -ne $result) {
+		If ($null -ne $result) {
 
-				$result
+			$result
 
-			}
 		}
 
 	}#process

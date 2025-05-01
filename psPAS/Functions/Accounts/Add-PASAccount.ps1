@@ -1,6 +1,6 @@
 ﻿# .ExternalHelp psPAS-help.xml
 function Add-PASAccount {
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding()]
 	param(
 
 		[parameter(
@@ -320,19 +320,17 @@ function Add-PASAccount {
 		}
 
 		#send request to PAS web service
-		if ($PSCmdlet.ShouldProcess("$SafeName", "Add Account $(if($name){$name}elseif($accountName){$accountName}else{$userName})")) {
-			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-			if ($PSCmdlet.ParameterSetName -eq 'Gen2') {
+		if ($PSCmdlet.ParameterSetName -eq 'Gen2') {
 
-				If ($null -ne $result) {
+			If ($null -ne $result) {
 
-					#Return Results
-					$result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Account.V10'
-
-				}
+				#Return Results
+				$result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Account.V10'
 
 			}
+
 		}
 
 	}#process

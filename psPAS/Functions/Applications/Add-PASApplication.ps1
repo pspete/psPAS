@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASApplication {
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding()]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -106,9 +106,7 @@ function Add-PASApplication {
 		} | ConvertTo-Json
 
 		#Send Request
-		if ($PSCmdlet.ShouldProcess($AppID, "Add Application")) {
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
-		}
+		Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 	}#process
 
