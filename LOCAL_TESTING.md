@@ -330,24 +330,27 @@ The workflow uses a bulletproof 4-layer fallback approach for psPAS module impor
 - Detailed troubleshooting guidance for CI environment issues
 - Graceful degradation with meaningful error messages
 
-### Cache Strategy
+### Cache Strategy (Current Implementation)
 ```yaml
-# Intelligent cache key generation
-key: ${{ runner.os }}-ps-modules-v1-${{ hashFiles('**/psPAS.psd1') }}
+# Basic cache key generation (to be enhanced in Task I1)
+key: ${{ runner.os }}-ps-modules-${{ hashFiles('**/psPAS.psd1') }}
 
-# Cache paths include both PowerShell editions
+# Current cache paths (simplified for now)
 paths:
   - ~\Documents\PowerShell\Modules          # PowerShell Core
   - ~\Documents\WindowsPowerShell\Modules   # Windows PowerShell
-  - C:\Program Files\PowerShell\Modules     # System PowerShell Core
-  - C:\Program Files\WindowsPowerShell\Modules  # System Windows PowerShell
 ```
 
-**Cache Benefits:**
-- Reduced workflow execution time through module reuse
-- Network resilience by avoiding repeated downloads
+**Current Cache Benefits:**
+- Basic module reuse for performance improvement
 - Automatic invalidation when module manifest changes
-- Fallback cache keys for partial cache hits
+
+**Planned Enhancements (Task I1 - Performance Optimization):**
+- Intelligent cache keys with version prefixes (`-v1-`) and fallback strategies
+- Additional cache paths for system-wide modules (`C:\Program Files\...`)
+- Comprehensive cache monitoring and hit/miss reporting
+- Retry logic integration with caching strategy
+- Performance benchmarking and cache optimization
 
 ### Troubleshooting Dependencies
 
@@ -802,10 +805,167 @@ A minimal test workflow was created at `.github/workflows/test-minimal.yml` for 
 
 ---
 
+## Complete Workflow Test Execution (Task H1 - 2025-06-17)
+
+### Test Execution Integration ✅
+**Status**: Complete  
+**Deliverable**: Full test execution workflow with Pester integration and artifact handling
+
+**Complete Workflow Steps:**
+1. **Environment Setup** (Steps 1-2): Repository checkout and structure verification
+2. **Dependency Management** (Steps 3-6): Caching, installation, verification, and psPAS import
+3. **Test Execution** (Steps 7-9): Basic functionality tests, full Pester suite, and result artifacts
+
+### Test Execution Features (Steps 8-9) ✅
+
+**Step 8: Run Pester Tests**
+- **Pester Configuration**: Uses `New-PesterConfiguration` for v5+ compatibility
+- **Test Discovery**: Automatically discovers all tests in `./Tests` directory
+- **Output Format**: Generates NUnitXml format for GitHub Actions integration
+- **Results Reporting**: Displays test counts (Total, Passed, Failed, Skipped)
+- **Error Handling**: Comprehensive error recovery and workflow continuation
+- **Module Re-import**: Ensures fresh module state for testing
+
+**Step 9: Upload Test Results**
+- **Artifact Upload**: Uses `actions/upload-artifact@v4` for test result preservation
+- **Conditional Execution**: Runs even if tests fail (`if: always()`)
+- **Unique Naming**: Artifacts named with run ID: `test-results-${{ github.run_id }}`
+- **Retention Policy**: 30-day retention for test result analysis
+- **Format**: Standard NUnitXml format compatible with GitHub Actions test reporting
+
+### Complete Workflow Testing Procedures
+
+**Local Validation Sequence:**
+```bash
+# 1. Workflow Detection
+./test-workflow-local.sh --list
+# Expected: Shows "PowerShell Tests (Fork-Friendly)" workflow
+
+# 2. Syntax Validation (Docker-dependent)
+./test-workflow-local.sh --dry-run
+# Expected: Platform warning for windows-2022, syntax validation passes
+
+# 3. Component Verification
+./bin/act -l
+# Expected: Lists test-powershell-51 job with all 9 steps
+```
+
+**GitHub Actions Validation Sequence:**
+1. **Feature Branch Creation**: `git checkout -b feature/test-execution`
+2. **Workflow Trigger**: Push to branch triggers workflow execution
+3. **Execution Monitoring**: Watch GitHub Actions run through complete 9-step process
+4. **Test Results Review**: Download and analyze test result artifacts
+5. **Performance Analysis**: Monitor execution time and resource usage
+
+### Test Execution Strategy
+
+**Workflow Execution Philosophy:**
+- **Focus**: Workflow execution success, not individual test pass/fail rates
+- **Success Criteria**: All 1870+ tests are discovered and executed
+- **Artifact Generation**: Test results captured regardless of outcomes
+- **Performance**: Target <20 minutes for complete test suite execution
+
+**Expected Test Behavior:**
+```powershell
+# Test Configuration
+$config = New-PesterConfiguration
+$config.Run.Path = './Tests'                    # All tests in Tests directory
+$config.TestResult.Enabled = $true              # Enable result capture
+$config.TestResult.OutputFormat = 'NUnitXml'    # GitHub Actions compatible
+$config.TestResult.OutputPath = './TestResults.xml'  # Artifact file
+$config.Output.Verbosity = 'Normal'             # Balanced output
+
+# Expected Results Display
+Write-Host "Test Results:"
+Write-Host "  Total: $($result.TotalCount)"     # ~1870+ tests
+Write-Host "  Passed: $($result.PassedCount)"   # Variable (informational)
+Write-Host "  Failed: $($result.FailedCount)"   # Variable (informational)
+Write-Host "  Skipped: $($result.SkippedCount)" # Variable (informational)
+```
+
+### Troubleshooting Test Execution
+
+**Common Test Execution Issues:**
+
+#### Module Import Before Testing
+```
+Error: No modules named 'psPAS' are currently loaded
+```
+**Solution**: Workflow re-imports modules in Step 8 before test execution:
+```powershell
+Import-Module Pester -Force
+Import-Module .\psPAS\psPAS.psd1 -Force
+```
+
+#### Test Discovery Issues
+```
+Warning: No tests found in ./Tests directory
+```
+**Solution**: Workflow validates repository structure in Step 2 before proceeding
+
+#### Pester Configuration Errors
+```
+Error: New-PesterConfiguration not found
+```
+**Solution**: Workflow ensures Pester v5+ installation in Step 4 with verification in Step 5
+
+#### Artifact Upload Failures
+```
+Error: Upload artifact failed
+```
+**Solution**: Upload runs conditionally (`if: always()`) and handles missing TestResults.xml gracefully
+
+### Performance Optimization Notes
+
+**Current Performance Characteristics:**
+- **Dependency Installation**: ~2-3 minutes (cached runs: ~30 seconds)
+- **Module Import**: ~30-60 seconds (with comprehensive verification)
+- **Test Execution**: ~15-18 minutes (estimated for 1870+ tests)
+- **Artifact Upload**: ~10-30 seconds (depends on result file size)
+- **Total Estimated**: <20 minutes for complete workflow
+
+**Future Optimization Opportunities (Task I1):**
+- Enhanced caching strategies with intelligent cache keys
+- Parallel test execution where possible
+- Module preloading optimizations
+- Artifact compression for faster uploads
+
+### Local Testing Limitations for Complete Workflow
+
+**Docker Dependency for Full Testing:**
+The complete workflow requires Docker configuration for local testing:
+
+```bash
+# First time setup (Interactive)
+./test-workflow-local.sh --dry-run
+# Prompts for Docker image selection: Large/Medium/Micro
+
+# After Docker setup
+./test-workflow-local.sh push
+# Can execute complete workflow locally (Linux simulation)
+```
+
+**Recommended Local Testing Approach:**
+1. **Syntax Validation**: Use `--dry-run` for YAML validation
+2. **Selective Testing**: Focus on specific steps/jobs when troubleshooting
+3. **GitHub Actions**: Use strategic commits for full Windows testing
+4. **Manual Testing**: Use PowerShell directly for psPAS module testing:
+   ```powershell
+   # Manual local testing (same as Step 8)
+   Import-Module .\psPAS\psPAS.psd1 -Force
+   $config = New-PesterConfiguration
+   $config.Run.Path = './Tests'
+   Invoke-Pester -Configuration $config
+   ```
+
+---
+
 ## Support and Resources
 
 - [nektos/act GitHub Repository](https://github.com/nektos/act)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Act Binary Documentation](https://nektosact.com/)
+- [Pester Testing Framework](https://pester.dev/)
+- [PowerShell Gallery](https://www.powershellgallery.com/)
 
 For project-specific issues, refer to the main project documentation and issue tracker.
