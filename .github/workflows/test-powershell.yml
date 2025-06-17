@@ -157,6 +157,11 @@ jobs:
           Write-Host "Running Pester test suite"
           
           try {
+            # Re-import modules for test execution
+            Import-Module Pester -Force
+            Import-Module .\psPAS\psPAS.psd1 -Force
+            Write-Host "Modules re-imported for testing"
+            
             # Configure Pester
             $config = New-PesterConfiguration
             $config.Run.Path = './Tests'
