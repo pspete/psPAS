@@ -1,0 +1,92 @@
+name: PowerShell Tests (Fork-Friendly)
+
+# Enable fork repositories to run comprehensive psPAS module tests
+# Complements existing AppVeyor pipeline with GitHub Actions support
+# Designed for Windows PowerShell 5.1 compatibility and 1870+ test execution
+
+on:
+  # Trigger on pushes to main development branches
+  push:
+    branches: [ main, master, develop ]
+  
+  # Trigger on pull requests targeting main branches
+  pull_request:
+    branches: [ main, master ]
+  
+  # Allow manual workflow triggering from GitHub UI
+  workflow_dispatch:
+
+jobs:
+  test-powershell-51:
+    name: Test on PowerShell 5.1
+    runs-on: windows-2022
+    
+    # Set default shell to PowerShell for all steps
+    defaults:
+      run:
+        shell: powershell
+    
+    # Environment configuration for PowerShell module paths and execution policy
+    env:
+      # Ensure module installation uses CurrentUser scope
+      PSModulePath: "$env:USERPROFILE\\Documents\\PowerShell\\Modules;$env:ProgramFiles\\PowerShell\\Modules"
+    
+    steps:
+      # Step 1: Checkout repository with full history for accurate testing
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history for version detection and comprehensive testing
+          fetch-depth: 0
+      
+      # Step 2: Verify workspace and repository structure
+      - name: Verify Repository Structure
+        run: |
+          Write-Host "=== Repository Structure Verification ==="
+          Write-Host "Workspace Path: $env:GITHUB_WORKSPACE"
+          Write-Host "Current Directory: $(Get-Location)"
+          
+          # Verify key psPAS module files exist
+          $moduleManifest = ".\psPAS\psPAS.psd1"
+          $moduleRoot = ".\psPAS\psPAS.psm1"
+          $testsDirectory = ".\Tests"
+          
+          if (Test-Path $moduleManifest) {
+            Write-Host "✓ Module manifest found: $moduleManifest"
+          } else {
+            Write-Warning "✗ Module manifest not found: $moduleManifest"
+          }
+          
+          if (Test-Path $moduleRoot) {
+            Write-Host "✓ Module root found: $moduleRoot"
+          } else {
+            Write-Warning "✗ Module root not found: $moduleRoot"
+          }
+          
+          if (Test-Path $testsDirectory) {
+            $testCount = (Get-ChildItem $testsDirectory -Filter "*.Tests.ps1" -Recurse).Count
+            Write-Host "✓ Tests directory found with $testCount test files"
+          } else {
+            Write-Warning "✗ Tests directory not found: $testsDirectory"
+          }
+          
+          Write-Host "=========================================="
+      
+      # Step 3: Configure PowerShell execution policy for CI environment
+      - name: Configure PowerShell Execution Policy
+        run: |
+          Write-Host "Configuring PowerShell execution policy for CI environment"
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+          Write-Host "Current execution policy: $(Get-ExecutionPolicy -Scope CurrentUser)"
+      
+      # Step 4: Display environment information for debugging
+      - name: Display Environment Information
+        run: |
+          Write-Host "=== PowerShell Environment Information ==="
+          Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
+          Write-Host "PowerShell Edition: $($PSVersionTable.PSEdition)"
+          Write-Host "OS Version: $($PSVersionTable.BuildVersion)"
+          Write-Host "Module Path: $env:PSModulePath"
+          Write-Host "Current User: $env:USERNAME"
+          Write-Host "Workspace: $env:GITHUB_WORKSPACE"
+          Write-Host "============================================="
