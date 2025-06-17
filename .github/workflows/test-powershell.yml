@@ -79,7 +79,66 @@ jobs:
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
           Write-Host "Current execution policy: $(Get-ExecutionPolicy -Scope CurrentUser)"
       
-      # Step 4: Display environment information for debugging
+      # Step 4: Cache PowerShell Modules for Performance Optimization
+      - name: Cache PowerShell Modules
+        uses: actions/cache@v3
+        id: ps-module-cache
+        with:
+          # Cache PowerShell module directories to avoid repeated downloads
+          # Includes both user and system module paths for comprehensive caching
+          path: |
+            ~\Documents\PowerShell\Modules
+            ~\Documents\WindowsPowerShell\Modules
+            C:\Program Files\PowerShell\Modules
+            C:\Program Files\WindowsPowerShell\Modules
+          
+          # Cache key strategy:
+          # - runner.os: Ensures OS-specific module binaries are cached separately
+          # - hashFiles('**/psPAS.psd1'): Invalidates cache when module manifest changes
+          # - 'ps-modules-v1': Version prefix for cache format changes
+          key: ${{ runner.os }}-ps-modules-v1-${{ hashFiles('**/psPAS.psd1') }}
+          
+          # Fallback cache keys for partial cache hits when exact match fails
+          # Allows reuse of cached modules even if psPAS.psd1 changes
+          restore-keys: |
+            ${{ runner.os }}-ps-modules-v1-
+            ${{ runner.os }}-ps-modules-
+      
+      # Step 5: Log PowerShell Module Cache Status
+      - name: Display Module Cache Status
+        run: |
+          Write-Host "=== PowerShell Module Cache Status ==="
+          
+          # Report cache hit/miss status for performance monitoring
+          if ('${{ steps.ps-module-cache.outputs.cache-hit }}' -eq 'true') {
+            Write-Host "✓ Cache HIT: PowerShell modules restored from cache"
+            Write-Host "  Performance benefit: Skipping module downloads"
+          } else {
+            Write-Host "✗ Cache MISS: PowerShell modules will be downloaded fresh"
+            Write-Host "  Next run will benefit from cached modules"
+          }
+          
+          # Display current module cache paths and sizes
+          $cachePaths = @(
+            "$env:USERPROFILE\Documents\PowerShell\Modules",
+            "$env:USERPROFILE\Documents\WindowsPowerShell\Modules",
+            "C:\Program Files\PowerShell\Modules",
+            "C:\Program Files\WindowsPowerShell\Modules"
+          )
+          
+          foreach ($path in $cachePaths) {
+            if (Test-Path $path) {
+              $moduleCount = (Get-ChildItem $path -Directory -ErrorAction SilentlyContinue).Count
+              Write-Host "  📁 $path ($moduleCount modules)"
+            } else {
+              Write-Host "  📁 $path (not found - will be created)"
+            }
+          }
+          
+          Write-Host "Cache Key: ${{ runner.os }}-ps-modules-v1-${{ hashFiles('**/psPAS.psd1') }}"
+          Write-Host "=============================================="
+      
+      # Step 6: Display environment information for debugging
       - name: Display Environment Information
         run: |
           Write-Host "=== PowerShell Environment Information ==="
@@ -90,3 +149,421 @@ jobs:
           Write-Host "Current User: $env:USERNAME"
           Write-Host "Workspace: $env:GITHUB_WORKSPACE"
           Write-Host "============================================="
+      
+      # Step 5: Install PowerShell Module Dependencies with Retry Logic
+      - name: Install PowerShell Module Dependencies
+        run: |
+          Write-Host "=== Installing PowerShell Module Dependencies ==="
+          
+          # Define modules required for psPAS testing and analysis
+          $requiredModules = @(
+            @{
+              Name = 'Pester'
+              MinimumVersion = '5.0.0'
+              Description = 'PowerShell testing framework for unit and integration tests'
+            },
+            @{
+              Name = 'PSScriptAnalyzer'
+              MinimumVersion = '1.20.0'
+              Description = 'PowerShell code quality and best practices analyzer'
+            }
+          )
+          
+          # Configure retry parameters for network resilience
+          $maxRetries = 3
+          $retryDelaySeconds = 5
+          $installationErrors = @()
+          
+          foreach ($module in $requiredModules) {
+            Write-Host "Installing module: $($module.Name) (>= $($module.MinimumVersion))"
+            Write-Host "Purpose: $($module.Description)"
+            
+            $retryCount = 0
+            $installSuccess = $false
+            
+            while ($retryCount -lt $maxRetries -and -not $installSuccess) {
+              try {
+                $retryCount++
+                if ($retryCount -gt 1) {
+                  Write-Host "Retry attempt $retryCount for $($module.Name)..."
+                  Start-Sleep -Seconds $retryDelaySeconds
+                }
+                
+                # Install module with comprehensive parameters for CI environment
+                Install-Module -Name $module.Name `
+                              -MinimumVersion $module.MinimumVersion `
+                              -Force `
+                              -Scope CurrentUser `
+                              -SkipPublisherCheck `
+                              -AllowClobber `
+                              -Verbose
+                
+                $installSuccess = $true
+                Write-Host "✓ Successfully installed $($module.Name)"
+                
+              } catch {
+                $errorMessage = "Failed to install $($module.Name) on attempt $retryCount : $($_.Exception.Message)"
+                Write-Warning $errorMessage
+                
+                if ($retryCount -eq $maxRetries) {
+                  $installationErrors += $errorMessage
+                  Write-Error "Failed to install $($module.Name) after $maxRetries attempts"
+                }
+              }
+            }
+          }
+          
+          # Report any installation failures
+          if ($installationErrors.Count -gt 0) {
+            Write-Host "=== Installation Errors Summary ==="
+            $installationErrors | ForEach-Object { Write-Error $_ }
+            throw "One or more required modules failed to install"
+          }
+          
+          Write-Host "All required modules installed successfully"
+          Write-Host "================================================"
+      
+      # Step 6: Verify PowerShell Module Installation
+      - name: Verify PowerShell Module Installation
+        run: |
+          Write-Host "=== Verifying PowerShell Module Installation ==="
+          
+          # Define expected modules with their verification commands
+          $moduleVerifications = @(
+            @{
+              Name = 'Pester'
+              ImportTest = { Import-Module Pester -Force; Get-Module Pester }
+              FunctionTest = { Get-Command Invoke-Pester -ErrorAction Stop }
+              VersionCheck = { (Get-Module Pester).Version }
+              RequiredForTests = $true
+            },
+            @{
+              Name = 'PSScriptAnalyzer'
+              ImportTest = { Import-Module PSScriptAnalyzer -Force; Get-Module PSScriptAnalyzer }
+              FunctionTest = { Get-Command Invoke-ScriptAnalyzer -ErrorAction Stop }
+              VersionCheck = { (Get-Module PSScriptAnalyzer).Version }
+              RequiredForTests = $true
+            }
+          )
+          
+          $verificationErrors = @()
+          
+          foreach ($verification in $moduleVerifications) {
+            Write-Host "Verifying module: $($verification.Name)"
+            
+            try {
+              # Test module import
+              Write-Host "  - Testing import capability..."
+              $moduleInfo = & $verification.ImportTest
+              if ($moduleInfo) {
+                Write-Host "  ✓ Module imports successfully"
+                Write-Host "  ✓ Version: $($moduleInfo.Version)"
+                Write-Host "  ✓ Path: $($moduleInfo.ModuleBase)"
+              } else {
+                throw "Module failed to import"
+              }
+              
+              # Test key function availability
+              Write-Host "  - Testing key function availability..."
+              $functionTest = & $verification.FunctionTest
+              if ($functionTest) {
+                Write-Host "  ✓ Key functions are available"
+              } else {
+                throw "Key functions not available"
+              }
+              
+              # Display version information
+              Write-Host "  - Checking version compatibility..."
+              $installedVersion = & $verification.VersionCheck
+              Write-Host "  ✓ Installed version: $installedVersion"
+              
+              Write-Host "✓ $($verification.Name) verification successful"
+              
+            } catch {
+              $errorMessage = "Failed to verify $($verification.Name): $($_.Exception.Message)"
+              Write-Warning $errorMessage
+              
+              if ($verification.RequiredForTests) {
+                $verificationErrors += $errorMessage
+              }
+            }
+            
+            Write-Host ""
+          }
+          
+          # Report verification status
+          if ($verificationErrors.Count -gt 0) {
+            Write-Host "=== Module Verification Errors ==="
+            $verificationErrors | ForEach-Object { Write-Error $_ }
+            throw "Critical modules failed verification and are required for testing"
+          }
+          
+          Write-Host "All required modules verified successfully"
+          Write-Host "Modules are ready for psPAS testing and analysis"
+          Write-Host "==============================================="
+      
+      # Step 7: Import psPAS Module with Comprehensive Error Handling
+      - name: Import psPAS Module
+        run: |
+          Write-Host "=== psPAS Module Import Process ==="
+          
+          # Define module paths for debugging and fallback strategies
+          $moduleManifestPath = ".\psPAS\psPAS.psd1"
+          $moduleRootPath = ".\psPAS\psPAS.psm1"
+          $absoluteModulePath = Join-Path $env:GITHUB_WORKSPACE "psPAS\psPAS.psd1"
+          
+          Write-Host "Attempting to import psPAS module..."
+          Write-Host "Module manifest path: $moduleManifestPath"
+          Write-Host "Module root path: $moduleRootPath"
+          Write-Host "Absolute module path: $absoluteModulePath"
+          
+          # Verify module files exist before import attempt
+          if (-not (Test-Path $moduleManifestPath)) {
+            Write-Error "Module manifest not found at: $moduleManifestPath"
+            exit 1
+          }
+          
+          if (-not (Test-Path $moduleRootPath)) {
+            Write-Error "Module root not found at: $moduleRootPath"
+            exit 1
+          }
+          
+          # Display module file information for debugging
+          Write-Host "Module manifest size: $((Get-Item $moduleManifestPath).Length) bytes"
+          Write-Host "Module root size: $((Get-Item $moduleRootPath).Length) bytes"
+          
+          # Import Strategy 1: Direct relative path import (primary method)
+          Write-Host "--- Import Strategy 1: Direct Relative Path ---"
+          try {
+            # Remove any existing psPAS module to avoid conflicts
+            if (Get-Module -Name psPAS -ErrorAction SilentlyContinue) {
+              Write-Host "Removing existing psPAS module..."
+              Remove-Module -Name psPAS -Force -ErrorAction SilentlyContinue
+            }
+            
+            # Import with -Force to override any existing module
+            Write-Host "Importing psPAS module with: Import-Module $moduleManifestPath -Force"
+            Import-Module $moduleManifestPath -Force -ErrorAction Stop
+            
+            # Verify import success
+            $module = Get-Module -Name psPAS -ErrorAction SilentlyContinue
+            if ($module) {
+              Write-Host "✓ psPAS module imported successfully!"
+              Write-Host "Module Version: $($module.Version)"
+              Write-Host "Module Path: $($module.Path)"
+              Write-Host "Exported Commands: $($module.ExportedCommands.Count)"
+              
+              # Display some key commands to verify functionality
+              $keyCommands = @('New-PASSession', 'Get-PASAccount', 'Add-PASAccount')
+              $foundCommands = @()
+              foreach ($cmd in $keyCommands) {
+                if (Get-Command -Name $cmd -Module psPAS -ErrorAction SilentlyContinue) {
+                  $foundCommands += $cmd
+                }
+              }
+              Write-Host "Key commands available: $($foundCommands -join ', ')"
+              
+              # Success - skip fallback strategies
+              Write-Host "=== Module Import: SUCCESS ==="
+              exit 0
+            } else {
+              throw "Module import appeared successful but module not found in session"
+            }
+          }
+          catch {
+            Write-Warning "Import Strategy 1 failed: $($_.Exception.Message)"
+            Write-Warning "Attempting fallback strategies..."
+          }
+          
+          # Import Strategy 2: Absolute path import (fallback method)
+          Write-Host "--- Import Strategy 2: Absolute Path ---"
+          try {
+            Write-Host "Importing psPAS module with: Import-Module $absoluteModulePath -Force"
+            Import-Module $absoluteModulePath -Force -ErrorAction Stop
+            
+            $module = Get-Module -Name psPAS -ErrorAction SilentlyContinue
+            if ($module) {
+              Write-Host "✓ psPAS module imported successfully via absolute path!"
+              Write-Host "Module Version: $($module.Version)"
+              Write-Host "Module Path: $($module.Path)"
+              Write-Host "=== Module Import: SUCCESS (Fallback Strategy 2) ==="
+              exit 0
+            } else {
+              throw "Module import appeared successful but module not found in session"
+            }
+          }
+          catch {
+            Write-Warning "Import Strategy 2 failed: $($_.Exception.Message)"
+          }
+          
+          # Import Strategy 3: Direct .psm1 import (emergency fallback)
+          Write-Host "--- Import Strategy 3: Direct PSM1 Import ---"
+          try {
+            Write-Host "Importing psPAS module with: Import-Module $moduleRootPath -Force"
+            Import-Module $moduleRootPath -Force -ErrorAction Stop
+            
+            $module = Get-Module -Name psPAS -ErrorAction SilentlyContinue
+            if ($module) {
+              Write-Host "✓ psPAS module imported successfully via direct PSM1!"
+              Write-Host "Module Version: $($module.Version)"
+              Write-Host "Module Path: $($module.Path)"
+              Write-Host "=== Module Import: SUCCESS (Fallback Strategy 3) ==="
+              exit 0
+            } else {
+              throw "Module import appeared successful but module not found in session"
+            }
+          }
+          catch {
+            Write-Warning "Import Strategy 3 failed: $($_.Exception.Message)"
+          }
+          
+          # Import Strategy 4: Manual module path manipulation (last resort)
+          Write-Host "--- Import Strategy 4: Module Path Manipulation ---"
+          try {
+            $moduleDirectory = Split-Path $moduleManifestPath -Parent
+            $absoluteModuleDirectory = Join-Path $env:GITHUB_WORKSPACE "psPAS"
+            
+            # Temporarily add module directory to PSModulePath
+            $originalPSModulePath = $env:PSModulePath
+            $env:PSModulePath = "$absoluteModuleDirectory;$env:PSModulePath"
+            
+            Write-Host "Added to PSModulePath: $absoluteModuleDirectory"
+            Write-Host "Importing psPAS module by name..."
+            Import-Module -Name psPAS -Force -ErrorAction Stop
+            
+            $module = Get-Module -Name psPAS -ErrorAction SilentlyContinue
+            if ($module) {
+              Write-Host "✓ psPAS module imported successfully via PSModulePath manipulation!"
+              Write-Host "Module Version: $($module.Version)"
+              Write-Host "Module Path: $($module.Path)"
+              Write-Host "=== Module Import: SUCCESS (Fallback Strategy 4) ==="
+              
+              # Restore original PSModulePath
+              $env:PSModulePath = $originalPSModulePath
+              exit 0
+            } else {
+              # Restore original PSModulePath
+              $env:PSModulePath = $originalPSModulePath
+              throw "Module import appeared successful but module not found in session"
+            }
+          }
+          catch {
+            Write-Warning "Import Strategy 4 failed: $($_.Exception.Message)"
+            # Restore original PSModulePath in case of error
+            if ($originalPSModulePath) {
+              $env:PSModulePath = $originalPSModulePath
+            }
+          }
+          
+          # All import strategies failed - comprehensive error reporting
+          Write-Host "=== COMPREHENSIVE ERROR DIAGNOSTICS ==="
+          Write-Host "All import strategies failed. Collecting diagnostic information..."
+          
+          # Display detailed module information
+          Write-Host "Module manifest content (first 10 lines):"
+          Get-Content $moduleManifestPath -TotalCount 10 | ForEach-Object { Write-Host "  $_" }
+          
+          # Display module directory structure
+          Write-Host "Module directory structure:"
+          Get-ChildItem ".\psPAS" -Recurse | Select-Object Name, Length, LastWriteTime | ForEach-Object {
+            Write-Host "  $($_.Name) ($($_.Length) bytes, $($_.LastWriteTime))"
+          }
+          
+          # Display current loaded modules
+          Write-Host "Currently loaded modules:"
+          Get-Module | Select-Object Name, Version, Path | ForEach-Object {
+            Write-Host "  $($_.Name) v$($_.Version) - $($_.Path)"
+          }
+          
+          # Final error message with troubleshooting guidance
+          Write-Error @"
+          ========================================
+          CRITICAL: psPAS Module Import Failed
+          ========================================
+          
+          All import strategies have failed. This indicates a fundamental issue with:
+          1. Module file integrity or permissions
+          2. PowerShell execution environment
+          3. Module dependencies or conflicts
+          
+          Troubleshooting steps attempted:
+          ✗ Strategy 1: Direct relative path import
+          ✗ Strategy 2: Absolute path import  
+          ✗ Strategy 3: Direct PSM1 import
+          ✗ Strategy 4: PSModulePath manipulation
+          
+          Next steps for resolution:
+          1. Verify module files are not corrupted
+          2. Check for missing dependencies
+          3. Validate PowerShell execution policy
+          4. Review module manifest syntax
+          5. Check for module conflicts
+          
+          This is a blocking issue that prevents test execution.
+          ========================================
+          "@
+          
+          exit 1
+      
+      # Step 8: Verify psPAS Module Import and Display Module Information
+      - name: Verify psPAS Module Import
+        run: |
+          Write-Host "=== psPAS Module Verification ==="
+          
+          # Verify module is loaded
+          $module = Get-Module -Name psPAS -ErrorAction SilentlyContinue
+          if (-not $module) {
+            Write-Error "CRITICAL: psPAS module not found in session after import"
+            exit 1
+          }
+          
+          Write-Host "✓ psPAS module successfully loaded"
+          Write-Host "Module Name: $($module.Name)"
+          Write-Host "Module Version: $($module.Version)"
+          Write-Host "Module Author: $($module.Author)"
+          Write-Host "Module Description: $($module.Description)"
+          Write-Host "Module Path: $($module.Path)"
+          Write-Host "PowerShell Version Required: $($module.PowerShellVersion)"
+          
+          # Display exported functions count
+          $exportedFunctions = $module.ExportedFunctions
+          Write-Host "Exported Functions: $($exportedFunctions.Count)"
+          
+          # Display key authentication functions
+          $authFunctions = $exportedFunctions.Keys | Where-Object { $_ -like "*Session*" -or $_ -like "*Auth*" }
+          if ($authFunctions) {
+            Write-Host "Authentication Functions: $($authFunctions -join ', ')"
+          }
+          
+          # Display key account management functions
+          $accountFunctions = $exportedFunctions.Keys | Where-Object { $_ -like "*Account*" } | Select-Object -First 5
+          if ($accountFunctions) {
+            Write-Host "Account Management Functions (sample): $($accountFunctions -join ', ')"
+          }
+          
+          # Verify core functionality is available
+          $coreFunctions = @('New-PASSession', 'Get-PASAccount', 'Add-PASAccount', 'Set-PASAccount')
+          $missingFunctions = @()
+          
+          foreach ($func in $coreFunctions) {
+            if (-not (Get-Command -Name $func -Module psPAS -ErrorAction SilentlyContinue)) {
+              $missingFunctions += $func
+            }
+          }
+          
+          if ($missingFunctions.Count -gt 0) {
+            Write-Warning "Missing core functions: $($missingFunctions -join ', ')"
+          } else {
+            Write-Host "✓ All core functions available"
+          }
+          
+          # Test basic function availability
+          try {
+            $help = Get-Help New-PASSession -ErrorAction Stop
+            Write-Host "✓ Function help system working"
+          }
+          catch {
+            Write-Warning "Function help system may have issues: $($_.Exception.Message)"
+          }
+          
+          Write-Host "=== Module Verification: COMPLETE ==="
