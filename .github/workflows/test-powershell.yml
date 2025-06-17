@@ -68,7 +68,7 @@ jobs:
             Write-Warning "✗ Tests directory not found: $testsDirectory"
           }
           
-          Write-Host "========================================"
+          Write-Host "Repository structure verification complete"
       
       # Step 3: Configure PowerShell execution policy for CI environment
       - name: Configure PowerShell Execution Policy
