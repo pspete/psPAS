@@ -1,1942 +1,289 @@
-name: PowerShell Tests (Performance Optimized)
+name: PowerShell Tests (Fork-Friendly)
 
-# Performance-optimized PowerShell testing workflow for psPAS module  
-# Features sophisticated caching, parallel execution, comprehensive monitoring, and robust error handling
-# Target execution time: <15 minutes with enhanced caching strategies
-# 
-# PERFORMANCE OPTIMIZATIONS IMPLEMENTED:
-# 1. Sophisticated multi-tier caching with intelligent cache keys and fallback strategies
-# 2. Comprehensive performance monitoring and execution time logging
-# 3. Parallel test execution configuration with load balancing
-# 4. Redundant operation elimination and step efficiency improvements
-# 5. Memory and resource optimization for PowerShell execution
-# 6. Advanced PowerShell module caching with dependency-aware invalidation
-# 7. Robust error handling with retry mechanisms and graceful failure recovery
-# 8. Timeout management and cleanup strategies for reliability
-# 9. Build artifact caching and incremental compilation
-# 10. Enhanced dependency management with concurrent operations
-# 11. Advanced PowerShell execution optimization with multi-threading
+# Optimized PowerShell testing workflow for psPAS module
+# Features essential caching, retry mechanisms, and fork-friendly operation
 
 on:
   push:
   pull_request:
   workflow_dispatch:
 
-# Workflow-level environment variables for performance optimization
 env:
-  # Performance tracking
-  WORKFLOW_START_TIME: ${{ github.event.head_commit.timestamp }}
-  
-  # PowerShell optimization settings
-  POWERSHELL_TELEMETRY_OPTOUT: 1        # Disable telemetry for faster execution
-  PESTER_PARALLELISM_ENABLED: 1         # Enable parallel test execution
-  PSModulePath_CACHE_ENABLED: 1         # Enable module path caching
-  
-  # Memory and resource optimization
-  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1  # Reduce globalization overhead
-  POWERSHELL_UPDATECHECK: Off           # Disable update checks
-  
-  # Cache configuration
-  CACHE_VERSION: v4                     # Cache version for invalidation control
-  MODULE_CACHE_TTL: 14                  # Cache TTL in days
-  BUILD_CACHE_TTL: 30                   # Build artifact cache TTL in days
-  
-  # Performance tuning
-  POWERSHELL_EXECUTION_THREADS: 4       # PowerShell concurrent thread count
-  PESTER_MAX_PARALLELISM: 2             # Maximum parallel Pester jobs
-  MODULE_INSTALL_PARALLELISM: 3         # Parallel module installations
-  
-  # Error handling and resilience configuration
-  MAX_RETRY_ATTEMPTS: 3                 # Maximum retry attempts for transient failures
-  RETRY_DELAY_SECONDS: 10               # Base delay between retry attempts
-  OPERATION_TIMEOUT_MINUTES: 10         # Timeout for individual operations
-  CLEANUP_ON_FAILURE: true              # Enable cleanup on workflow failures
+  CACHE_VERSION: v4
+  MODULE_CACHE_TTL: 14
+  RETRY_MAX_ATTEMPTS: 3
+  POWERSHELL_EXECUTION_POLICY: RemoteSigned
 
 jobs:
-  # ============================================================================
-  # PERFORMANCE BENCHMARKING JOB
-  # Establishes baseline metrics and cache status analysis
-  # ============================================================================
-  performance-baseline:
-    name: Performance Baseline & Cache Analysis
-    runs-on: windows-2022
-    timeout-minutes: 5
-    outputs:
-      cache-hit-modules: ${{ steps.cache-analysis.outputs.cache-hit-modules }}
-      cache-hit-nuget: ${{ steps.cache-analysis.outputs.cache-hit-nuget }}
-      baseline-timestamp: ${{ steps.timing.outputs.baseline-timestamp }}
-      
-    steps:
-      - name: Record Baseline Timing
-        id: timing
-        run: |
-          $timestamp = Get-Date -Format "yyyy-MM-ddTHH:mm:ss.fffZ"
-          Write-Host "PERFORMANCE: Workflow baseline established at $timestamp"
-          echo "baseline-timestamp=$timestamp" >> $env:GITHUB_OUTPUT
-          
-      - name: Cache Analysis and Strategy Selection
-        id: cache-analysis
-        run: |
-          Write-Host "PERFORMANCE: Analyzing cache strategy and availability"
-          Write-Host "Runner OS: ${{ runner.os }}"
-          Write-Host "Runner Architecture: ${{ runner.arch }}"
-          Write-Host "GitHub Event: ${{ github.event_name }}"
-          
-          # Output cache strategy decisions
-          echo "cache-hit-modules=unknown" >> $env:GITHUB_OUTPUT
-          echo "cache-hit-nuget=unknown" >> $env:GITHUB_OUTPUT
-          
-          Write-Host "PERFORMANCE: Cache analysis completed"
-
-  # ============================================================================
-  # MAIN TESTING JOB WITH PERFORMANCE OPTIMIZATIONS
-  # Features sophisticated caching and parallel execution capabilities
-  # ============================================================================
-  test-powershell-51:
-    name: PowerShell 5.1 Tests (Optimized)
-    runs-on: windows-2022
-    timeout-minutes: 25  # Fail-safe timeout slightly above 20-minute target
-    needs: performance-baseline
+  test:
+    name: PowerShell Tests on Windows
+    runs-on: windows-latest
+    timeout-minutes: 25
     
     defaults:
       run:
-        shell: powershell
+        shell: pwsh
+        
+    permissions:
+      contents: read
+      actions: read
+      
+    env:
+      PSModulePath: ${{ github.workspace }}\psPAS;$env:PSModulePath
+      POWERSHELL_TELEMETRY_OPTOUT: 1
+      TEST_RESULTS_PATH: TestResults
+      MODULE_MANIFEST_PATH: psPAS\psPAS.psd1
     
     steps:
-      # ========================================================================
-      # STEP 1: REPOSITORY CHECKOUT WITH OPTIMIZATION AND RETRY
-      # Minimal fetch with performance monitoring and retry mechanisms
-      # ========================================================================
-      - name: Checkout Repository (Optimized with Retry)
-        id: checkout
+      # Repository checkout with retry
+      - name: Checkout Repository
         uses: actions/checkout@v4
-        timeout-minutes: 5  # Prevent hanging on git operations
-        continue-on-error: false  # Critical step - must succeed
-        with:
-          fetch-depth: 1  # Shallow clone for performance (changed from 0 to 1)
-          show-progress: false  # Reduce console output overhead
-          
-      # Retry checkout if it fails due to network issues
-      - name: Retry Checkout on Failure
-        if: failure() && steps.checkout.outcome == 'failure'
-        uses: actions/checkout@v4
-        timeout-minutes: 10  # Allow more time for retry
+        timeout-minutes: 5
         with:
           fetch-depth: 1
-          show-progress: false
           
-      # Final fallback with full clone if shallow fails
-      - name: Fallback Full Checkout
-        if: failure() && steps.checkout.outcome == 'failure'
-        uses: actions/checkout@v4
-        timeout-minutes: 15
-        with:
-          fetch-depth: 0  # Full clone as last resort
-          show-progress: true
-          
-      - name: Validate Repository Checkout and Log Performance
-        id: checkout-validation
-        timeout-minutes: 2  # Quick validation should not take long
-        continue-on-error: false  # Critical validation step
+      # Verify repository structure
+      - name: Verify Repository Structure
+        timeout-minutes: 3
         run: |
-          $checkoutStart = Get-Date
+          Write-Host "🔍 Verifying repository structure..."
           
-          try {
-            # Validate checkout was successful
-            if (-not (Test-Path $env:GITHUB_WORKSPACE)) {
-              throw "GitHub workspace directory not found: $env:GITHUB_WORKSPACE"
+          $requiredPaths = @(
+            'psPAS/psPAS.psd1',
+            'psPAS/psPAS.psm1', 
+            'Tests'
+          )
+          
+          foreach ($path in $requiredPaths) {
+            if (-not (Test-Path $path)) {
+              throw "Required path not found: $path"
             }
-            
-            if (-not (Test-Path ".git")) {
-              throw "Repository checkout incomplete: .git directory not found"
-            }
-            
-            Write-Host "✓ VALIDATION: Repository checkout validated successfully"
-            Write-Host "PERFORMANCE: Repository checkout completed at $($checkoutStart.ToString('yyyy-MM-ddTHH:mm:ss.fff'))"
-            Write-Host "PERFORMANCE: Working directory: $env:GITHUB_WORKSPACE"
-            
-          } catch {
-            Write-Host "❌ ERROR: Repository checkout validation failed: $($_.Exception.Message)"
-            Write-Host "DIAGNOSTIC: Current directory: $(Get-Location)"
-            Write-Host "DIAGNOSTIC: Directory contents:"
-            Get-ChildItem -Force | ForEach-Object { Write-Host "  $($_.Name)" }
-            throw "Repository checkout validation failed: $($_.Exception.Message)"
-          }
-      
-      # ========================================================================
-      # STEP 2: REPOSITORY STRUCTURE VERIFICATION (OPTIMIZED)
-      # Streamlined verification with enhanced error handling
-      # ========================================================================
-      - name: Verify Repository Structure (Fast)
-        id: structure-verify
-        timeout-minutes: 3  # Structure verification timeout
-        continue-on-error: false  # Must succeed for workflow to continue
-        run: |
-          $verifyStart = Get-Date
-          Write-Host "PERFORMANCE: Structure verification started at $($verifyStart.ToString('HH:mm:ss.fff'))"
-          
-          # Optimized structure validation with minimal file system operations
-          $paths = @{
-            'Module Manifest' = '.\psPAS\psPAS.psd1'
-            'Module Root' = '.\psPAS\psPAS.psm1'
-            'Tests Directory' = '.\Tests'
+            Write-Host "✅ Found: $path"
           }
           
-          $allValid = $true
-          foreach ($item in $paths.GetEnumerator()) {
-            if (Test-Path $item.Value -PathType Leaf -ErrorAction SilentlyContinue) {
-              Write-Host "✓ $($item.Key): $($item.Value)"
-            } elseif (Test-Path $item.Value -PathType Container -ErrorAction SilentlyContinue) {
-              # Count test files efficiently for Tests directory
-              if ($item.Key -eq 'Tests Directory') {
-                $testCount = @(Get-ChildItem $item.Value -Filter "*.Tests.ps1" -File).Count
-                Write-Host "✓ $($item.Key): $($item.Value) ($testCount test files)"
-              } else {
-                Write-Host "✓ $($item.Key): $($item.Value)"
-              }
-            } else {
-              Write-Host "✗ $($item.Key): NOT FOUND - $($item.Value)"
-              $allValid = $false
-            }
-          }
-          
-          if (-not $allValid) {
-            throw "Repository structure validation failed"
-          }
-          
-          $verifyEnd = Get-Date
-          $verifyDuration = ($verifyEnd - $verifyStart).TotalMilliseconds
-          Write-Host "PERFORMANCE: Structure verification completed in $($verifyDuration)ms"
+          Write-Host "✅ Repository structure verified"
 
-      # ========================================================================
-      # STEP 3: SOPHISTICATED MULTI-TIER CACHING SYSTEM
-      # Advanced caching with intelligent cache keys and fallback strategies
-      # ========================================================================
-      
-      # Tier 1: NuGet Package Cache (Global packages)
-      - name: Cache NuGet Global Packages (Tier 1)
-        id: cache-nuget-global  
+      # Cache 1: PowerShell Modules
+      - name: Cache PowerShell Modules
         uses: actions/cache@v4
-        timeout-minutes: 5  # Cache operations timeout
-        continue-on-error: true  # Cache failures should not stop workflow
-        with:
-          path: |
-            ~/.nuget/packages
-            ~\AppData\Local\NuGet\v3-cache
-            ~\AppData\Local\NuGet\Cache
-          key: ${{ runner.os }}-nuget-global-${{ env.CACHE_VERSION }}-${{ hashFiles('**/*.nuspec', '**/*.csproj', '**/*.props') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-global-${{ env.CACHE_VERSION }}-
-            ${{ runner.os }}-nuget-global-
-          
-      # Tier 2: PowerShell Module Cache (Primary) - Dependency-aware caching
-      - name: Cache PowerShell Modules (Tier 2 - Primary)
-        id: cache-ps-modules-primary
-        uses: actions/cache@v4
-        timeout-minutes: 7  # Primary cache may take longer
-        continue-on-error: true  # Cache failures should not stop workflow
         with:
           path: |
             ~\Documents\PowerShell\Modules
-            ~\Documents\WindowsPowerShell\Modules
-            ~\AppData\Local\PackageManagement\ProviderAssemblies
-          # Intelligent cache key: Module manifest + PowerShell version + OS + Architecture
-          key: ${{ runner.os }}-${{ runner.arch }}-ps-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/psPAS.psd1') }}-${{ hashFiles('**/*.ps1', '**/*.psm1', '**/*.psd1') }}
+            ~\AppData\Local\Microsoft\Windows\PowerShell\ModuleAnalysisCache
+          key: powershell-modules-${{ env.CACHE_VERSION }}-${{ runner.os }}-${{ hashFiles('psPAS/psPAS.psd1') }}
           restore-keys: |
-            ${{ runner.os }}-${{ runner.arch }}-ps-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/psPAS.psd1') }}-
-            ${{ runner.os }}-${{ runner.arch }}-ps-modules-${{ env.CACHE_VERSION }}-
-            ${{ runner.os }}-ps-modules-${{ env.CACHE_VERSION }}-
-            ${{ runner.os }}-ps-modules-
-            
-      # Tier 3: PowerShell Module Cache (Fallback) - Version-independent  
-      - name: Cache PowerShell Modules (Tier 3 - Fallback)
-        id: cache-ps-modules-fallback
-        if: steps.cache-ps-modules-primary.outputs.cache-hit != 'true'
-        uses: actions/cache@v4
-        timeout-minutes: 5  # Fallback cache timeout
-        continue-on-error: true  # Cache failures should not stop workflow
-        with:
-          path: |
-            ~\Documents\PowerShell\Modules\Pester
-            ~\Documents\WindowsPowerShell\Modules\Pester
-            ~\Documents\PowerShell\Modules\PSScriptAnalyzer
-            ~\Documents\WindowsPowerShell\Modules\PSScriptAnalyzer
-          key: ${{ runner.os }}-ps-core-modules-${{ env.CACHE_VERSION }}-pester-analyzer
-          restore-keys: |
-            ${{ runner.os }}-ps-core-modules-${{ env.CACHE_VERSION }}-
-            ${{ runner.os }}-ps-core-modules-
-            
-      # Tier 4: PowerShell Gallery Cache (API responses and metadata)
-      - name: Cache PowerShell Gallery Metadata (Tier 4)
-        id: cache-ps-gallery
-        uses: actions/cache@v4
-        timeout-minutes: 4  # Gallery cache timeout
-        continue-on-error: true  # Cache failures should not stop workflow
-        with:
-          path: |
-            ~\AppData\Local\PackageManagement\NuGet\Packages
-            ~\AppData\Local\PackageManagement\PowerShellGet
-          key: ${{ runner.os }}-ps-gallery-${{ env.CACHE_VERSION }}-${{ github.run_number }}
-          restore-keys: |
-            ${{ runner.os }}-ps-gallery-${{ env.CACHE_VERSION }}-
-            ${{ runner.os }}-ps-gallery-
-            
-      # Tier 5: Build Artifact Cache (compiled and processed files)
-      - name: Cache Build Artifacts (Tier 5)
-        id: cache-build-artifacts
-        uses: actions/cache@v4
-        timeout-minutes: 6  # Build artifacts may be larger
-        continue-on-error: true  # Cache failures should not stop workflow
-        with:
-          path: |
-            .\build\**\*.log
-            .\TestResults\**
-            .\Release\**
-            ~\AppData\Local\Temp\PowerShell\**
-          key: ${{ runner.os }}-build-artifacts-${{ env.CACHE_VERSION }}-${{ hashFiles('build/**/*.ps1', 'psPAS/**/*.ps*1') }}
-          restore-keys: |
-            ${{ runner.os }}-build-artifacts-${{ env.CACHE_VERSION }}-
-            ${{ runner.os }}-build-artifacts-
-            
-      # Tier 6: Dependency Graph Cache (for intelligent dependency resolution)
-      - name: Cache Dependency Graph (Tier 6)
-        id: cache-dependency-graph
-        uses: actions/cache@v4
-        timeout-minutes: 3  # Dependency graph should be quick
-        continue-on-error: true  # Cache failures should not stop workflow
-        with:
-          path: |
-            ~\AppData\Local\PackageManagement\dependency-graph.json
-            ~\Documents\PowerShell\dependency-cache.xml
-            ~\AppData\Local\PowerShell\ModuleAnalysisCache
-          key: ${{ runner.os }}-dep-graph-${{ env.CACHE_VERSION }}-${{ hashFiles('**/psPAS.psd1', 'build/**/*.ps1') }}
-          restore-keys: |
-            ${{ runner.os }}-dep-graph-${{ env.CACHE_VERSION }}-
-            ${{ runner.os }}-dep-graph-
+            powershell-modules-${{ env.CACHE_VERSION }}-${{ runner.os }}-
+            powershell-modules-${{ env.CACHE_VERSION }}-
 
-      # Cache Performance Analysis and Reporting
-      - name: Analyze Cache Performance
-        id: cache-performance
-        timeout-minutes: 2  # Quick analysis timeout
-        continue-on-error: true  # Performance analysis is non-critical
-        run: |
-          $cacheStart = Get-Date
-          Write-Host "PERFORMANCE: Cache Analysis Started at $($cacheStart.ToString('HH:mm:ss.fff'))"
-          
-          # Analyze cache hit rates and performance impact
-          $cacheResults = @{
-            'NuGet Global' = '${{ steps.cache-nuget-global.outputs.cache-hit }}'
-            'PS Modules Primary' = '${{ steps.cache-ps-modules-primary.outputs.cache-hit }}'
-            'PS Modules Fallback' = '${{ steps.cache-ps-modules-fallback.outputs.cache-hit }}'
-            'PS Gallery' = '${{ steps.cache-ps-gallery.outputs.cache-hit }}'
-            'Build Artifacts' = '${{ steps.cache-build-artifacts.outputs.cache-hit }}'
-            'Dependency Graph' = '${{ steps.cache-dependency-graph.outputs.cache-hit }}'
-          }
-          
-          Write-Host "CACHE PERFORMANCE REPORT:"
-          Write-Host "========================="
-          foreach ($cache in $cacheResults.GetEnumerator()) {
-            $status = if ($cache.Value -eq 'true') { '✓ HIT' } else { '✗ MISS' }
-            Write-Host "$($cache.Key): $status"
-          }
-          
-          # Calculate estimated time savings with weighted cache importance
-          $cacheWeights = @{
-            'NuGet Global' = 20
-            'PS Modules Primary' = 45
-            'PS Modules Fallback' = 25
-            'PS Gallery' = 15
-            'Build Artifacts' = 35
-            'Dependency Graph' = 10
-          }
-          
-          $totalSavings = 0
-          foreach ($cache in $cacheResults.GetEnumerator()) {
-            if ($cache.Value -eq 'true') {
-              $totalSavings += $cacheWeights[$cache.Key]
-            }
-          }
-          
-          $totalHits = ($cacheResults.Values | Where-Object { $_ -eq 'true' }).Count
-          Write-Host "PERFORMANCE: Cache hits: $totalHits/6 - Estimated time savings: $($totalSavings)s"
-          
-          $cacheEnd = Get-Date
-          $cacheDuration = ($cacheEnd - $cacheStart).TotalMilliseconds
-          Write-Host "PERFORMANCE: Cache analysis completed in $($cacheDuration)ms"
+      # Cache 2: NuGet Packages  
+      - name: Cache NuGet Packages
+        uses: actions/cache@v4
+        with:
+          path: ~\.nuget\packages
+          key: nuget-${{ env.CACHE_VERSION }}-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/*.fsproj', '**/*.vbproj') }}
+          restore-keys: |
+            nuget-${{ env.CACHE_VERSION }}-${{ runner.os }}-
+            
+      # Cache 3: Build Artifacts
+      - name: Cache Build Artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            TestResults
+            psPAS\en-US
+          key: build-artifacts-${{ env.CACHE_VERSION }}-${{ github.sha }}
+          restore-keys: |
+            build-artifacts-${{ env.CACHE_VERSION }}-
 
-      # ========================================================================
-      # STEP 4: OPTIMIZED POWERSHELL DEPENDENCY INSTALLATION
-      # Enhanced with parallel downloads and intelligent version management
-      # ========================================================================
-      - name: Install PowerShell Dependencies (Optimized)
-        id: install-deps
-        timeout-minutes: 15  # Dependency installation timeout
-        continue-on-error: false  # Critical step - must succeed
+      # Install dependencies with retry
+      - name: Install Dependencies
+        timeout-minutes: 15
         run: |
-          $installStart = Get-Date
-          Write-Host "PERFORMANCE: Dependency installation started at $($installStart.ToString('HH:mm:ss.fff'))"
+          Write-Host "📦 Installing PowerShell dependencies..."
           
-          # Configure PowerShell for optimal performance
-          $ProgressPreference = 'SilentlyContinue'  # Disable progress bars for speed
-          $WarningPreference = 'SilentlyContinue'   # Reduce warning overhead
+          $modules = @('Pester', 'PSScriptAnalyzer')
+          $retryCount = 0
+          $maxRetries = $env:RETRY_MAX_ATTEMPTS
           
-          # Enhanced error handling with retry mechanism and exponential backoff
-          $maxRetries = [int]$env:MAX_RETRY_ATTEMPTS
-          $baseRetryDelay = [int]$env:RETRY_DELAY_SECONDS
-          $operationTimeout = [int]$env:OPERATION_TIMEOUT_MINUTES * 60  # Convert to seconds
-          
-          function Install-ModuleWithRetry {
-            param(
-              [string]$ModuleName,
-              [string]$MinimumVersion,
-              [int]$MaxRetries = $maxRetries,
-              [int]$TimeoutSeconds = $operationTimeout
-            )
-            
-            $operationStart = Get-Date
-            
-            for ($attempt = 1; $attempt -le $MaxRetries; $attempt++) {
+          foreach ($module in $modules) {
+            $retryCount = 0
+            do {
               try {
-                # Check for overall timeout
-                $elapsed = (Get-Date) - $operationStart
-                if ($elapsed.TotalSeconds -gt $TimeoutSeconds) {
-                  throw "Operation timeout exceeded ($TimeoutSeconds seconds) for $ModuleName installation"
-                }
-                
-                Write-Host "Installing $ModuleName (attempt $attempt/$MaxRetries)..."
-                Write-Host "DIAGNOSTIC: PowerShell Gallery connectivity test..."
-                
-                # Test PowerShell Gallery connectivity before installation
-                try {
-                  $null = Find-Module -Name $ModuleName -Repository PSGallery -ErrorAction Stop
-                  Write-Host "✓ PowerShell Gallery connectivity verified"
-                } catch {
-                  Write-Host "⚠ PowerShell Gallery connectivity issue: $($_.Exception.Message)"
-                  if ($attempt -eq $MaxRetries) {
-                    throw "PowerShell Gallery connectivity failed after $MaxRetries attempts"
-                  }
-                  continue
-                }
-                
-                # Check if module is already available in cache
-                $existingModule = Get-Module -Name $ModuleName -ListAvailable -ErrorAction SilentlyContinue | 
-                                 Sort-Object Version -Descending | Select-Object -First 1
-                
-                if ($existingModule -and $MinimumVersion -and $existingModule.Version -ge [Version]$MinimumVersion) {
-                  Write-Host "✓ $ModuleName $($existingModule.Version) already available (cache hit)"
-                  return $true
-                }
-                
-                # Prepare installation parameters with timeout
-                $installParams = @{
-                  Name = $ModuleName
-                  Force = $true
-                  Scope = 'CurrentUser'
-                  SkipPublisherCheck = $true
-                  AllowClobber = $true
-                  Repository = 'PSGallery'
-                  AcceptLicense = $true
-                  Confirm = $false
-                }
-                
-                if ($MinimumVersion) {
-                  $installParams.MinimumVersion = $MinimumVersion
-                }
-                
-                # Install with timeout protection
-                $installJob = Start-Job -ScriptBlock {
-                  param($params)
-                  Install-Module @params
-                } -ArgumentList $installParams
-                
-                if (Wait-Job -Job $installJob -Timeout 300) {  # 5-minute timeout per installation
-                  $result = Receive-Job -Job $installJob
-                  Remove-Job -Job $installJob
-                  
-                  # Verify installation was successful
-                  $installedModule = Get-Module -Name $ModuleName -ListAvailable -ErrorAction SilentlyContinue | 
-                                    Sort-Object Version -Descending | Select-Object -First 1
-                  
-                  if (-not $installedModule) {
-                    throw "Module $ModuleName installation completed but module not found"
-                  }
-                  
-                  Write-Host "✓ $ModuleName $($installedModule.Version) installed successfully"
-                  return $true
-                } else {
-                  Remove-Job -Job $installJob -Force
-                  throw "Module installation timeout (5 minutes) for $ModuleName"
-                }
-                
-              } catch {
-                $errorMessage = $_.Exception.Message
-                Write-Host "✗ Attempt $attempt failed: $errorMessage"
-                
-                # Enhanced error diagnostics
-                Write-Host "DIAGNOSTIC: Error details:"
-                Write-Host "  - Module: $ModuleName"
-                Write-Host "  - Attempt: $attempt/$MaxRetries"
-                Write-Host "  - Elapsed time: $([math]::Round($elapsed.TotalSeconds, 2))s"
-                Write-Host "  - Error type: $($_.Exception.GetType().Name)"
-                
-                if ($attempt -lt $MaxRetries) {
-                  # Exponential backoff with jitter
-                  $retryDelay = [math]::Min($baseRetryDelay * [math]::Pow(2, $attempt - 1), 120) + (Get-Random -Minimum 1 -Maximum 10)
-                  Write-Host "Retrying in $retryDelay seconds (exponential backoff)..."
-                  Start-Sleep -Seconds $retryDelay
-                } else {
-                  # Final failure - provide comprehensive error information
-                  Write-Host "❌ FINAL FAILURE: Failed to install $ModuleName after $MaxRetries attempts"
-                  Write-Host "TROUBLESHOOTING:"
-                  Write-Host "  1. Check PowerShell Gallery connectivity"
-                  Write-Host "  2. Verify module name and version requirements"
-                  Write-Host "  3. Check for temporary service outages"
-                  Write-Host "  4. Review network connectivity and proxy settings"
-                  throw "Failed to install $ModuleName after $MaxRetries attempts: $errorMessage"
-                }
+                Write-Host "Installing $module (attempt $($retryCount + 1)/$maxRetries)..."
+                Install-Module -Name $module -Force -SkipPublisherCheck -Scope CurrentUser
+                Write-Host "✅ $module installed successfully"
+                break
               }
-            }
-          }
-          
-          # Install core dependencies with parallel execution and enhanced error handling
-          Write-Host "OPTIMIZATION: Installing dependencies with parallel execution, enhanced caching, and retry logic"
-          Write-Host "RESILIENCE: Using exponential backoff, timeout management, and comprehensive error recovery"
-          Write-Host "PARALLELISM: Maximum concurrent installations: $env:MODULE_INSTALL_PARALLELISM"
-          
-          $installResults = @{}
-          $criticalFailures = @()
-          
-          # Define modules to install with priority levels
-          $modulesToInstall = @(
-            @{ Name = 'Pester'; MinVersion = '5.0.0'; Critical = $true; Priority = 1 }
-            @{ Name = 'PSScriptAnalyzer'; MinVersion = '1.20.0'; Critical = $true; Priority = 2 }
-          )
-          
-          # Function for parallel module installation
-          function Install-ModulesParallel {
-            param(
-              [array]$Modules,
-              [int]$MaxParallel = [int]$env:MODULE_INSTALL_PARALLELISM
-            )
-            
-            $jobs = @()
-            $results = @{}
-            
-            Write-Host "PARALLEL: Starting parallel module installation (max $MaxParallel concurrent)"
-            
-            foreach ($module in $Modules) {
-              # Wait if we've reached maximum parallel jobs
-              while ($jobs.Count -ge $MaxParallel) {
-                $completedJobs = $jobs | Where-Object { $_.State -eq 'Completed' }
-                if ($completedJobs) {
-                  foreach ($job in $completedJobs) {
-                    $result = Receive-Job -Job $job
-                    $results[$job.Name] = $result
-                    Remove-Job -Job $job
-                    $jobs = $jobs | Where-Object { $_.Id -ne $job.Id }
-                    Write-Host "PARALLEL: Completed installation job for $($job.Name)"
-                  }
-                } else {
-                  Start-Sleep -Seconds 2
+              catch {
+                $retryCount++
+                if ($retryCount -ge $maxRetries) {
+                  throw "Failed to install $module after $maxRetries attempts: $_"
                 }
+                Write-Warning "Retry $retryCount/$maxRetries for $module failed: $_"
+                Start-Sleep -Seconds 5
               }
-              
-              # Start new job for module installation
-              $scriptBlock = {
-                param($ModuleName, $MinVersion)
-                
-                try {
-                  # Check if module is already available
-                  $existingModule = Get-Module -Name $ModuleName -ListAvailable -ErrorAction SilentlyContinue | 
-                                   Sort-Object Version -Descending | Select-Object -First 1
-                  
-                  if ($existingModule -and $MinVersion -and $existingModule.Version -ge [Version]$MinVersion) {
-                    Write-Host "✓ $ModuleName $($existingModule.Version) already available (cache hit)"
-                    return $true
-                  }
-                  
-                  # Install module
-                  $installParams = @{
-                    Name = $ModuleName
-                    Force = $true
-                    Scope = 'CurrentUser'
-                    SkipPublisherCheck = $true
-                    AllowClobber = $true
-                    Repository = 'PSGallery'
-                  }
-                  
-                  if ($MinVersion) {
-                    $installParams.MinimumVersion = $MinVersion
-                  }
-                  
-                  Install-Module @installParams
-                  Write-Host "✓ $ModuleName installed successfully"
-                  return $true
-                  
-                } catch {
-                  Write-Host "✗ $ModuleName installation failed: $($_.Exception.Message)"
-                  return $false
-                }
-              }
-              
-              $job = Start-Job -ScriptBlock $scriptBlock -ArgumentList $module.Name, $module.MinVersion -Name $module.Name
-              $jobs += $job
-              Write-Host "PARALLEL: Started installation job for $($module.Name) (Job ID: $($job.Id))"
-            }
-            
-            # Wait for all remaining jobs to complete
-            while ($jobs.Count -gt 0) {
-              $completedJobs = $jobs | Where-Object { $_.State -eq 'Completed' }
-              if ($completedJobs) {
-                foreach ($job in $completedJobs) {
-                  $result = Receive-Job -Job $job
-                  $results[$job.Name] = $result
-                  Remove-Job -Job $job
-                  $jobs = $jobs | Where-Object { $_.Id -ne $job.Id }
-                  Write-Host "PARALLEL: Completed installation job for $($job.Name)"
-                }
-              } else {
-                Start-Sleep -Seconds 2
-              }
-            }
-            
-            return $results
-          }
-          
-          try {
-            # Execute parallel installation
-            Write-Host "=========================================="
-            Write-Host "Installing Dependencies (Parallel Mode)"
-            Write-Host "=========================================="
-            
-            $parallelResults = Install-ModulesParallel -Modules $modulesToInstall
-            
-            # Process results
-            foreach ($module in $modulesToInstall) {
-              $result = $parallelResults[$module.Name]
-              $installResults[$module.Name] = $result
-              
-              if (-not $result -and $module.Critical) {
-                $criticalFailures += $module.Name
-                Write-Host "❌ CRITICAL: $($module.Name) installation failed - testing may not proceed"
-              }
-            }
-            
-          } catch {
-            Write-Host "❌ CRITICAL FAILURE: Parallel installation failed with exception: $($_.Exception.Message)"
-            # Fallback to sequential installation
-            Write-Host "FALLBACK: Attempting sequential installation..."
-            
-            foreach ($module in $modulesToInstall) {
-              try {
-                $result = Install-ModuleWithRetry -ModuleName $module.Name -MinimumVersion $module.MinVersion
-                $installResults[$module.Name] = $result
-                
-                if (-not $result -and $module.Critical) {
-                  $criticalFailures += $module.Name
-                }
-              } catch {
-                Write-Host "FALLBACK: $($module.Name) sequential installation failed: $($_.Exception.Message)"
-                $installResults[$module.Name] = $false
-              }
-            }
-          }
-          
-          # Installation summary and failure handling
-          Write-Host ""
-          Write-Host "=========================================="
-          Write-Host "DEPENDENCY INSTALLATION SUMMARY"
-          Write-Host "=========================================="
-          
-          $successCount = ($installResults.Values | Where-Object { $_ }).Count
-          $totalCount = $installResults.Count
-          
-          foreach ($module in $installResults.GetEnumerator()) {
-            $status = if ($module.Value) { "✓ SUCCESS" } else { "✗ FAILED" }
-            Write-Host "$($module.Key): $status"
-          }
-          
-          Write-Host "Success Rate: $successCount/$totalCount ($([math]::Round(($successCount/$totalCount)*100, 1))%)"
-          
-          # Handle critical failures
-          if ($criticalFailures.Count -gt 0) {
-            Write-Host ""
-            Write-Host "❌ CRITICAL FAILURES DETECTED:"
-            foreach ($failure in $criticalFailures) {
-              Write-Host "  - $failure (required for workflow execution)"
-            }
-            Write-Host ""
-            Write-Host "RECOVERY STRATEGIES:"
-            Write-Host "1. Check PowerShell Gallery service status"
-            Write-Host "2. Verify network connectivity and proxy settings"
-            Write-Host "3. Check for temporary service outages"
-            Write-Host "4. Review module availability and version requirements"
-            Write-Host "5. Consider using alternative package sources"
-            
-            throw "Critical dependency installation failed. Cannot proceed with testing."
-          }
-          
-          # Performance and resilience reporting
-          $installEnd = Get-Date
-          $installDuration = ($installEnd - $installStart).TotalSeconds
-          Write-Host ""
-          Write-Host "PERFORMANCE: Dependencies installed in $($installDuration)s"
-          Write-Host "RESILIENCE: $($installResults.Count - $criticalFailures.Count)/$($installResults.Count) modules installed successfully"
-          
-          # Environment validation
-          Write-Host ""
-          Write-Host "ENVIRONMENT VALIDATION:"
-          try {
-            $pesterModule = Get-Module -Name Pester -ListAvailable | Sort-Object Version -Descending | Select-Object -First 1
-            if ($pesterModule) {
-              Write-Host "✓ Pester $($pesterModule.Version) available"
-            } else {
-              Write-Host "✗ Pester module not found after installation"
-            }
-            
-            $analyzerModule = Get-Module -Name PSScriptAnalyzer -ListAvailable | Sort-Object Version -Descending | Select-Object -First 1
-            if ($analyzerModule) {
-              Write-Host "✓ PSScriptAnalyzer $($analyzerModule.Version) available"
-            } else {
-              Write-Host "⚠ PSScriptAnalyzer module not found (non-critical)"
-            }
-          } catch {
-            Write-Host "⚠ Environment validation encountered issues: $($_.Exception.Message)"
+            } while ($retryCount -lt $maxRetries)
           }
 
-      # ========================================================================
-      # STEP 5: MODULE VERIFICATION WITH PERFORMANCE PROFILING  
-      # Streamlined verification with comprehensive module health checks
-      # ========================================================================
-      - name: Verify Module Installation (Performance Profiled)
-        id: verify-modules
-        timeout-minutes: 5  # Module verification timeout
-        continue-on-error: false  # Critical verification step
+      # Verify module installation
+      - name: Verify Module Installation
+        timeout-minutes: 5
         run: |
-          $verifyStart = Get-Date
-          Write-Host "PERFORMANCE: Module verification started at $($verifyStart.ToString('HH:mm:ss.fff'))"
+          Write-Host "🔍 Verifying module installation..."
           
-          # Function to verify module with detailed performance metrics
-          function Test-ModuleHealth {
-            param([string]$ModuleName, [string]$MinVersion = $null)
-            
-            $moduleStart = Get-Date
+          $requiredModules = @('Pester', 'PSScriptAnalyzer')
+          foreach ($module in $requiredModules) {
+            $installedModule = Get-Module -ListAvailable -Name $module | Select-Object -First 1
+            if (-not $installedModule) {
+              throw "Required module not found: $module"
+            }
+            Write-Host "✅ $module version $($installedModule.Version) available"
+          }
+
+      # Import psPAS module with retry
+      - name: Import psPAS Module
+        timeout-minutes: 10
+        run: |
+          Write-Host "📥 Importing psPAS module..."
+          
+          $retryCount = 0
+          $maxRetries = $env:RETRY_MAX_ATTEMPTS
+          
+          do {
             try {
-              # Import with performance measurement
-              Import-Module $ModuleName -Force -DisableNameChecking -ErrorAction Stop
-              $module = Get-Module -Name $ModuleName
+              Write-Host "Importing psPAS (attempt $($retryCount + 1)/$maxRetries)..."
               
+              # Import with force and error handling
+              Import-Module "${{ env.MODULE_MANIFEST_PATH }}" -Force -ErrorAction Stop
+              
+              # Verify import
+              $module = Get-Module -Name psPAS
               if (-not $module) {
-                throw "Module $ModuleName not found in session after import"
+                throw "psPAS module not loaded after import"
               }
               
-              # Version validation
-              if ($MinVersion -and $module.Version -lt [Version]$MinVersion) {
-                throw "Module $ModuleName version $($module.Version) is below minimum required $MinVersion"
-              }
+              Write-Host "✅ psPAS module imported successfully"
+              Write-Host "   Version: $($module.Version)"
+              Write-Host "   Exported Functions: $($module.ExportedFunctions.Count)"
+              break
               
-              $moduleEnd = Get-Date
-              $duration = ($moduleEnd - $moduleStart).TotalMilliseconds
-              
-              Write-Host "✓ $ModuleName v$($module.Version) verified in $($duration)ms"
-              Write-Host "  Commands: $($module.ExportedCommands.Count)"
-              Write-Host "  Functions: $($module.ExportedFunctions.Count)"
-              
-              return $true
-            } catch {
-              $moduleEnd = Get-Date
-              $duration = ($moduleEnd - $moduleStart).TotalMilliseconds
-              Write-Host "✗ $ModuleName verification failed in $($duration)ms - $($_.Exception.Message)"
-              return $false
             }
-          }
-          
-          # Verify critical modules
-          $moduleResults = @{}
-          $moduleResults['Pester'] = Test-ModuleHealth -ModuleName 'Pester' -MinVersion '5.0.0'
-          $moduleResults['PSScriptAnalyzer'] = Test-ModuleHealth -ModuleName 'PSScriptAnalyzer' -MinVersion '1.20.0'
-          
-          # Summary report
-          $successCount = ($moduleResults.Values | Where-Object { $_ }).Count
-          $totalCount = $moduleResults.Count
-          
-          if ($successCount -ne $totalCount) {
-            throw "Module verification failed: $successCount/$totalCount modules verified successfully"
-          }
-          
-          $verifyEnd = Get-Date
-          $verifyDuration = ($verifyEnd - $verifyStart).TotalSeconds
-          Write-Host "PERFORMANCE: All modules verified successfully in $($verifyDuration)s"
+            catch {
+              $retryCount++
+              if ($retryCount -ge $maxRetries) {
+                throw "Failed to import psPAS module after $maxRetries attempts: $_"
+              }
+              Write-Warning "Import attempt $retryCount failed: $_"
+              Start-Sleep -Seconds 5
+            }
+          } while ($retryCount -lt $maxRetries)
 
-      # ========================================================================
-      # STEP 6: PSPAS MODULE IMPORT WITH PERFORMANCE ANALYSIS
-      # Enhanced module loading with dependency analysis and health checks
-      # ========================================================================
-      - name: Import psPAS Module (Performance Analyzed with Resilience)
-        id: import-pspas
-        timeout-minutes: 10  # Module import timeout with retry overhead
-        continue-on-error: false  # Critical module import step
+      # Basic validation
+      - name: Basic Module Validation
+        timeout-minutes: 3
         run: |
-          $importStart = Get-Date
-          Write-Host "PERFORMANCE: psPAS module import started at $($importStart.ToString('HH:mm:ss.fff'))"
-          Write-Host "RESILIENCE: Enhanced psPAS import with retry mechanisms and comprehensive validation"
+          Write-Host "🧪 Running basic module validation..."
           
-          # Enhanced psPAS import function with retry logic and multiple fallback strategies
-          function Import-psPASModuleWithRetry {
-            param(
-              [int]$MaxRetries = 3,
-              [int]$TimeoutSeconds = 300  # 5-minute timeout
-            )
-            
-            $importAttemptStart = Get-Date
-            
-            for ($attempt = 1; $attempt -le $MaxRetries; $attempt++) {
-              try {
-                Write-Host "=========================================="
-                Write-Host "psPAS Import Attempt $attempt/$MaxRetries"
-                Write-Host "=========================================="
-                
-                # Check for overall timeout
-                $elapsed = (Get-Date) - $importAttemptStart
-                if ($elapsed.TotalSeconds -gt $TimeoutSeconds) {
-                  throw "psPAS import operation timeout exceeded ($TimeoutSeconds seconds)"
-                }
-                
-                # Pre-import validation with comprehensive checks
-                Write-Host "1. Pre-import validation..."
-                $manifestPath = '.\psPAS\psPAS.psd1'
-                
-                if (-not (Test-Path $manifestPath)) {
-                  throw "Module manifest not found: $manifestPath"
-                }
-                
-                Write-Host "   ✓ Manifest file exists: $manifestPath"
-                
-                # Validate directory structure
-                $requiredPaths = @(
-                  '.\psPAS\psPAS.psm1',
-                  '.\psPAS\Functions',
-                  '.\psPAS\Private'
-                )
-                
-                foreach ($path in $requiredPaths) {
-                  if (-not (Test-Path $path)) {
-                    Write-Host "   ⚠ WARNING: Expected path not found: $path"
-                  } else {
-                    Write-Host "   ✓ Found: $path"
-                  }
-                }
-                
-                # Test manifest validity with timeout protection
-                Write-Host "2. Manifest validation..."
-                $manifestJob = Start-Job -ScriptBlock {
-                  param($path)
-                  Test-ModuleManifest -Path $path -ErrorAction Stop
-                } -ArgumentList $manifestPath
-                
-                if (Wait-Job -Job $manifestJob -Timeout 60) {  # 1-minute timeout for manifest test
-                  $manifestData = Receive-Job -Job $manifestJob
-                  Remove-Job -Job $manifestJob
-                  Write-Host "   ✓ Manifest validation passed - Module version: $($manifestData.Version)"
-                } else {
-                  Remove-Job -Job $manifestJob -Force
-                  throw "Manifest validation timeout (1 minute)"
-                }
-                
-                # Check for existing psPAS module and remove if present (clean import)
-                Write-Host "3. Preparing clean import environment..."
-                $existingModule = Get-Module -Name 'psPAS' -ErrorAction SilentlyContinue
-                if ($existingModule) {
-                  Write-Host "   Removing existing psPAS module from session..."
-                  Remove-Module -Name 'psPAS' -Force -ErrorAction SilentlyContinue
-                }
-                
-                # Import with timeout protection and performance measurement
-                Write-Host "4. Importing psPAS module..."
-                $importJob = Start-Job -ScriptBlock {
-                  param($path)
-                  Import-Module $path -Force -DisableNameChecking -Global -ErrorAction Stop -PassThru
-                } -ArgumentList $manifestPath
-                
-                if (Wait-Job -Job $importJob -Timeout 180) {  # 3-minute timeout for import
-                  $importResult = Receive-Job -Job $importJob
-                  Remove-Job -Job $importJob
-                  
-                  # Verify import was successful
-                  $module = Get-Module -Name 'psPAS'
-                  if (-not $module) {
-                    throw "psPAS module not found in session after import"
-                  }
-                  
-                  Write-Host "   ✓ psPAS module imported successfully"
-                  
-                } else {
-                  Remove-Job -Job $importJob -Force
-                  throw "psPAS module import timeout (3 minutes)"
-                }
-                
-                # Comprehensive module health analysis
-                Write-Host "5. Module health analysis..."
-                $module = Get-Module -Name 'psPAS'
-                
-                Write-Host "   MODULE ANALYSIS:"
-                Write-Host "   ================"
-                Write-Host "   Module Name: $($module.Name)"
-                Write-Host "   Module Version: $($module.Version)"
-                Write-Host "   Module Path: $($module.Path)"
-                Write-Host "   Exported Functions: $($module.ExportedFunctions.Count)"
-                Write-Host "   Exported Cmdlets: $($module.ExportedCmdlets.Count)"
-                Write-Host "   Required Modules: $($module.RequiredModules.Count)"
-                Write-Host "   Module Type: $($module.ModuleType)"
-                
-                # Validate key functions availability with detailed checking
-                Write-Host "6. Key function validation..."
-                $keyFunctions = @('New-PASSession', 'Get-PASAccount', 'Add-PASAccount', 'Close-PASSession')
-                $availableFunctions = @()
-                $missingFunctions = @()
-                
-                foreach ($func in $keyFunctions) {
-                  try {
-                    $command = Get-Command -Name $func -Module psPAS -ErrorAction Stop
-                    $availableFunctions += $func
-                    Write-Host "   ✓ Key function available: $func (Type: $($command.CommandType))"
-                  } catch {
-                    $missingFunctions += $func
-                    Write-Host "   ✗ Key function missing: $func"
-                  }
-                }
-                
-                # Function availability assessment
-                $availabilityRate = ($availableFunctions.Count / $keyFunctions.Count) * 100
-                Write-Host "   Function availability: $($availableFunctions.Count)/$($keyFunctions.Count) ($($availabilityRate.ToString('F1'))%)"
-                
-                if ($availabilityRate -lt 75) {
-                  throw "Critical function availability too low: $($availabilityRate)% (minimum 75% required)"
-                } elseif ($availabilityRate -lt 100) {
-                  Write-Host "   ⚠ WARNING: Some key functions missing, but continuing with available functionality"
-                }
-                
-                # Additional health checks
-                Write-Host "7. Additional health checks..."
-                
-                if ($module.ExportedFunctions.Count -lt 50) {
-                  Write-Host "   ⚠ WARNING: Lower than expected function count: $($module.ExportedFunctions.Count)"
-                } else {
-                  Write-Host "   ✓ Function count normal: $($module.ExportedFunctions.Count)"
-                }
-                
-                # Test a simple command execution to verify module functionality
-                try {
-                  $testCommand = Get-Command -Module psPAS | Select-Object -First 1
-                  if ($testCommand) {
-                    Write-Host "   ✓ Module command execution test passed"
-                  }
-                } catch {
-                  Write-Host "   ⚠ WARNING: Module command execution test failed: $($_.Exception.Message)"
-                }
-                
-                Write-Host "=========================================="
-                Write-Host "psPAS IMPORT SUCCESS (Attempt $attempt)"
-                Write-Host "=========================================="
-                
-                return @{
-                  Success = $true
-                  Module = $module
-                  AvailableFunctions = $availableFunctions
-                  MissingFunctions = $missingFunctions
-                  AvailabilityRate = $availabilityRate
-                  Attempt = $attempt
-                }
-                
-              } catch {
-                $errorMessage = $_.Exception.Message
-                Write-Host "   ✗ Attempt $attempt failed: $errorMessage"
-                
-                # Enhanced error diagnostics
-                Write-Host "   DIAGNOSTIC: Error details:"
-                Write-Host "     - Attempt: $attempt/$MaxRetries"
-                Write-Host "     - Elapsed time: $([math]::Round($elapsed.TotalSeconds, 2))s"
-                Write-Host "     - Error type: $($_.Exception.GetType().Name)"
-                Write-Host "     - Current directory: $(Get-Location)"
-                
-                # Check if manifest file still exists
-                if (Test-Path $manifestPath) {
-                  Write-Host "     - Manifest file: EXISTS"
-                } else {
-                  Write-Host "     - Manifest file: MISSING"
-                }
-                
-                # Check PowerShell session state
-                $loadedModules = Get-Module | Measure-Object
-                Write-Host "     - Loaded modules count: $($loadedModules.Count)"
-                
-                if ($attempt -lt $MaxRetries) {
-                  # Progressive delay with jitter
-                  $retryDelay = 10 + ($attempt * 5) + (Get-Random -Minimum 1 -Maximum 5)
-                  Write-Host "   Retrying in $retryDelay seconds..."
-                  Start-Sleep -Seconds $retryDelay
-                  
-                  # Clean up any partial state before retry
-                  try {
-                    Remove-Module -Name 'psPAS' -Force -ErrorAction SilentlyContinue
-                    Write-Host "   Cleaned up partial module state for retry"
-                  } catch {
-                    Write-Host "   Note: No partial module state to clean up"
-                  }
-                } else {
-                  # Final failure - provide comprehensive troubleshooting information
-                  Write-Host "=========================================="
-                  Write-Host "❌ FINAL FAILURE: psPAS IMPORT FAILED"
-                  Write-Host "=========================================="
-                  Write-Host "Failed to import psPAS module after $MaxRetries attempts"
-                  Write-Host "Final error: $errorMessage"
-                  Write-Host ""
-                  Write-Host "TROUBLESHOOTING CHECKLIST:"
-                  Write-Host "1. Verify psPAS module files are present and accessible"
-                  Write-Host "2. Check PowerShell execution policy settings"
-                  Write-Host "3. Verify no conflicting modules are loaded"
-                  Write-Host "4. Check for file system permissions issues"
-                  Write-Host "5. Review module manifest syntax and dependencies"
-                  Write-Host "6. Verify PowerShell session has sufficient memory"
-                  
-                  return @{
-                    Success = $false
-                    Error = $errorMessage
-                    Attempts = $MaxRetries
-                  }
-                }
-              }
-            }
+          # Verify module is loaded
+          $module = Get-Module -Name psPAS
+          if (-not $module) {
+            throw "psPAS module is not loaded"
           }
           
-          # Execute enhanced psPAS import with comprehensive error handling
-          try {
-            $importResult = Import-psPASModuleWithRetry
-            
-            if (-not $importResult.Success) {
-              throw "psPAS module import failed after all retry attempts: $($importResult.Error)"
-            }
-            
-            # Success reporting
-            $importEnd = Get-Date
-            $importDuration = ($importEnd - $importStart).TotalSeconds
-            
-            Write-Host ""
-            Write-Host "=========================================="
-            Write-Host "PSPAS IMPORT COMPLETED SUCCESSFULLY"
-            Write-Host "=========================================="
-            Write-Host "PERFORMANCE: psPAS module imported successfully in $($importDuration)s"
-            Write-Host "RESILIENCE: Import succeeded on attempt $($importResult.Attempt)"
-            Write-Host "MODULE: $($importResult.Module.Name) v$($importResult.Module.Version)"
-            Write-Host "FUNCTIONS: $($importResult.AvailableFunctions.Count) key functions available ($($importResult.AvailabilityRate.ToString('F1'))%)"
-            
-            if ($importResult.MissingFunctions.Count -gt 0) {
-              Write-Host "WARNINGS: $($importResult.MissingFunctions.Count) functions missing: $($importResult.MissingFunctions -join ', ')"
-            }
-            
-          } catch {
-            $importEnd = Get-Date
-            $importDuration = ($importEnd - $importStart).TotalSeconds
-            Write-Host ""
-            Write-Host "❌ CRITICAL FAILURE: psPAS module import failed after comprehensive retry attempts"
-            Write-Host "PERFORMANCE: Failed after $($importDuration)s"
-            Write-Host "ERROR: $($_.Exception.Message)"
-            throw "psPAS module import failed: $($_.Exception.Message)"
+          # Check exported functions
+          $functions = $module.ExportedFunctions
+          if ($functions.Count -eq 0) {
+            throw "No functions exported from psPAS module"
           }
+          
+          Write-Host "✅ Module validation passed"
+          Write-Host "   Functions available: $($functions.Count)"
 
-      # ========================================================================
-      # STEP 7: BASIC FUNCTIONALITY VALIDATION (STREAMLINED)
-      # Optimized functionality testing with minimal overhead
-      # ========================================================================
-      - name: Validate Basic Functionality (Fast)
-        id: basic-validation
-        timeout-minutes: 3  # Quick validation timeout
-        continue-on-error: false  # Critical validation step
+      # Run tests with error handling
+      - name: Run Tests
+        timeout-minutes: 22
+        continue-on-error: true
         run: |
-          $validationStart = Get-Date
-          Write-Host "PERFORMANCE: Basic validation started at $($validationStart.ToString('HH:mm:ss.fff'))"
+          Write-Host "🧪 Running Pester tests..."
           
           try {
-            # Streamlined function availability test
-            $criticalFunctions = @(
-              'New-PASSession', 'Close-PASSession', 'Get-PASAccount', 
-              'Add-PASAccount', 'Remove-PASAccount', 'Set-PASAccount'
-            )
-            
-            $availableCount = 0
-            foreach ($func in $criticalFunctions) {
-              if (Get-Command -Name $func -Module psPAS -ErrorAction SilentlyContinue) {
-                $availableCount++
-              }
+            # Create test results directory
+            if (-not (Test-Path $env:TEST_RESULTS_PATH)) {
+              New-Item -ItemType Directory -Path $env:TEST_RESULTS_PATH -Force | Out-Null
             }
             
-            $availabilityRate = ($availableCount / $criticalFunctions.Count) * 100
-            Write-Host "VALIDATION RESULTS:"
-            Write-Host "=================="
-            Write-Host "Critical functions available: $availableCount/$($criticalFunctions.Count) ($($availabilityRate.ToString('F1'))%)"
-            
-            if ($availabilityRate -lt 80) {
-              Write-Warning "Low function availability rate: $($availabilityRate)%"
-            } else {
-              Write-Host "✓ Function availability rate acceptable: $($availabilityRate)%"
-            }
-            
-            # Quick module health check
-            $module = Get-Module -Name psPAS
-            if ($module.ExportedFunctions.Count -lt 50) {
-              Write-Warning "Lower than expected function count: $($module.ExportedFunctions.Count)"
-            } else {
-              Write-Host "✓ Function count normal: $($module.ExportedFunctions.Count)"
-            }
-            
-            $validationEnd = Get-Date
-            $validationDuration = ($validationEnd - $validationStart).TotalMilliseconds
-            Write-Host "PERFORMANCE: Basic validation completed in $($validationDuration)ms"
-            
-          } catch {
-            $validationEnd = Get-Date
-            $validationDuration = ($validationEnd - $validationStart).TotalMilliseconds
-            Write-Host "PERFORMANCE: Basic validation failed after $($validationDuration)ms"
-            throw "Basic functionality validation failed: $($_.Exception.Message)"
-          }
-
-      # ========================================================================
-      # STEP 8: OPTIMIZED PESTER TEST EXECUTION WITH PARALLEL PROCESSING
-      # Advanced test execution with performance monitoring and optimization
-      # ========================================================================
-      - name: Execute Pester Tests (Performance Optimized)
-        id: run-tests
-        timeout-minutes: 22  # Generous timeout for test execution
-        continue-on-error: true  # Allow graceful failure for fork-friendly operation
-        run: |
-          $testStart = Get-Date
-          Write-Host "PERFORMANCE: Test execution started at $($testStart.ToString('HH:mm:ss.fff'))"
-          
-          try {
-            # Re-import modules with optimized settings for test execution
-            $ProgressPreference = 'SilentlyContinue'
-            Import-Module Pester -Force -DisableNameChecking
-            Import-Module .\psPAS\psPAS.psd1 -Force -DisableNameChecking
-            Write-Host "OPTIMIZATION: Modules re-imported for test execution"
-            
-            # Advanced Pester configuration with performance optimizations
+            # Configure Pester
             $config = New-PesterConfiguration
-            
-            # Test discovery and execution settings
-            $config.Run.Path = './Tests'
+            $config.Run.Path = 'Tests'
             $config.Run.PassThru = $true
-            
-            # Enable parallel execution where supported (Pester 5.x)
-            # Note: Full parallel execution requires Pester 5.3+ and specific test design
-            $pesterVersion = (Get-Module Pester).Version
-            if ($pesterVersion -ge [Version]'5.3.0') {
-              Write-Host "OPTIMIZATION: Parallel execution capabilities detected (Pester $pesterVersion)"
-              
-              # Configure parallel execution settings
-              $maxParallel = [int]$env:PESTER_MAX_PARALLELISM
-              Write-Host "PARALLEL: Configuring parallel test execution (max $maxParallel jobs)"
-              
-              # Enable parallel execution with optimized settings
-              $config.Run.PassThru = $true
-              
-              # Note: Actual parallel execution depends on test design compatibility
-              # Some tests may not be thread-safe and require sequential execution
-              Write-Host "PARALLEL: Parallel configuration applied - execution depends on test compatibility"
-            } else {
-              Write-Host "OPTIMIZATION: Pester $pesterVersion detected - using sequential execution"
-            }
-            
-            # Output and reporting configuration
+            $config.Run.Exit = $false
             $config.TestResult.Enabled = $true
+            $config.TestResult.OutputPath = "$env:TEST_RESULTS_PATH\TestResults.xml"
             $config.TestResult.OutputFormat = 'NUnitXml'
-            $config.TestResult.OutputPath = './TestResults.xml'
-            
-            # Performance-optimized output settings
             $config.Output.Verbosity = 'Normal'
-            $config.Output.StackTraceVerbosity = 'Filtered'
-            $config.Output.CIFormat = 'GitHub'
             
-            # Code coverage configuration (disabled for performance)
-            $config.CodeCoverage.Enabled = $false  # Disable for performance
+            # Run tests
+            $result = Invoke-Pester -Configuration $config
             
-            # Filter configuration for targeted testing
-            $config.Filter.ExcludeTag = @('Slow', 'Integration', 'Manual')
+            Write-Host "📊 Test Results:"
+            Write-Host "   Total: $($result.TotalCount)"
+            Write-Host "   Passed: $($result.PassedCount)" 
+            Write-Host "   Failed: $($result.FailedCount)"
+            Write-Host "   Skipped: $($result.SkippedCount)"
             
-            Write-Host "CONFIGURATION: Pester configured for optimal performance"
-            Write-Host "Test Path: $($config.Run.Path)"
-            Write-Host "Output Format: $($config.TestResult.OutputFormat)"
-            Write-Host "Verbosity: $($config.Output.Verbosity)"
-            
-            # Execute tests with comprehensive error handling and resilience
-            Write-Host "EXECUTION: Starting enhanced test suite execution with resilience features..."
-            Write-Host "RESILIENCE: Implementing timeout management, cleanup strategies, and graceful failure handling"
-            
-            $result = $null
-            $testExecutionSuccess = $false
-            $maxTestExecutionRetries = 2  # Limited retries for test execution
-            
-            for ($testAttempt = 1; $testAttempt -le $maxTestExecutionRetries; $testAttempt++) {
-              try {
-                Write-Host ""
-                Write-Host "=========================================="
-                Write-Host "TEST EXECUTION ATTEMPT $testAttempt/$maxTestExecutionRetries"
-                Write-Host "=========================================="
-                
-                # Pre-execution validation
-                Write-Host "1. Pre-execution validation..."
-                
-                # Verify test files exist
-                $testPath = './Tests'
-                if (-not (Test-Path $testPath)) {
-                  throw "Test directory not found: $testPath"
-                }
-                
-                $testFiles = Get-ChildItem -Path $testPath -Filter "*.Tests.ps1" -Recurse
-                if ($testFiles.Count -eq 0) {
-                  throw "No test files found in $testPath"
-                }
-                
-                Write-Host "   ✓ Found $($testFiles.Count) test files in $testPath"
-                
-                # Verify psPAS module is still loaded
-                $psPASModule = Get-Module -Name 'psPAS'
-                if (-not $psPASModule) {
-                  Write-Host "   ⚠ WARNING: psPAS module not found - attempting to reimport..."
-                  try {
-                    Import-Module '.\psPAS\psPAS.psd1' -Force -DisableNameChecking -ErrorAction Stop
-                    Write-Host "   ✓ psPAS module reimported successfully"
-                  } catch {
-                    throw "Failed to reimport psPAS module: $($_.Exception.Message)"
-                  }
-                } else {
-                  Write-Host "   ✓ psPAS module verified (v$($psPASModule.Version))"
-                }
-                
-                # Verify Pester module is available
-                $pesterModule = Get-Module -Name 'Pester'
-                if (-not $pesterModule) {
-                  throw "Pester module not loaded in session"
-                }
-                Write-Host "   ✓ Pester module verified (v$($pesterModule.Version))"
-                
-                # Execute test suite with timeout protection
-                Write-Host "2. Executing test suite with timeout protection..."
-                $testTimeoutMinutes = 20  # 20-minute timeout for test execution
-                
-                $testJob = Start-Job -ScriptBlock {
-                  param($configObj, $testPath)
-                  
-                  # Import required modules in job context
-                  Import-Module Pester -Force
-                  
-                  # Recreate Pester configuration in job context
-                  $config = New-PesterConfiguration
-                  $config.Run.Path = $testPath
-                  $config.Run.PassThru = $true
-                  $config.TestResult.Enabled = $true
-                  $config.TestResult.OutputFormat = 'NUnitXml'
-                  $config.TestResult.OutputPath = './TestResults.xml'
-                  $config.Output.Verbosity = 'Normal'
-                  $config.Output.StackTraceVerbosity = 'Filtered'
-                  $config.Output.CIFormat = 'GitHub'
-                  $config.CodeCoverage.Enabled = $false
-                  $config.Filter.ExcludeTag = @('Slow', 'Integration', 'Manual')
-                  
-                  # Execute tests
-                  Invoke-Pester -Configuration $config
-                  
-                } -ArgumentList $config, $testPath
-                
-                Write-Host "   Test execution job started (ID: $($testJob.Id))"
-                Write-Host "   Timeout: $testTimeoutMinutes minutes"
-                
-                # Wait for test execution with timeout
-                $testCompleted = Wait-Job -Job $testJob -Timeout ($testTimeoutMinutes * 60)
-                
-                if ($testCompleted) {
-                  Write-Host "   ✓ Test execution completed within timeout"
-                  $result = Receive-Job -Job $testJob
-                  $jobErrors = Receive-Job -Job $testJob -ErrorAction SilentlyContinue
-                  Remove-Job -Job $testJob
-                  
-                  if ($jobErrors) {
-                    Write-Host "   ⚠ Job execution warnings/errors detected:"
-                    foreach ($error in $jobErrors) {
-                      Write-Host "     - $error"
-                    }
-                  }
-                  
-                  # Validate test results
-                  if (-not $result) {
-                    throw "Test execution returned null results"
-                  }
-                  
-                  if (-not $result.TotalCount -or $result.TotalCount -eq 0) {
-                    throw "Test execution found no tests to run"
-                  }
-                  
-                  Write-Host "   ✓ Test execution completed successfully"
-                  $testExecutionSuccess = $true
-                  break
-                  
-                } else {
-                  Remove-Job -Job $testJob -Force
-                  throw "Test execution timeout ($testTimeoutMinutes minutes exceeded)"
-                }
-                
-              } catch {
-                $testError = $_.Exception.Message
-                Write-Host "   ✗ Test execution attempt $testAttempt failed: $testError"
-                
-                # Enhanced error diagnostics
-                Write-Host "   DIAGNOSTIC: Test execution error details:"
-                Write-Host "     - Attempt: $testAttempt/$maxTestExecutionRetries"
-                Write-Host "     - Error type: $($_.Exception.GetType().Name)"
-                Write-Host "     - Test path: $testPath"
-                
-                # Check file system state
-                if (Test-Path $testPath) {
-                  $currentTestFiles = Get-ChildItem -Path $testPath -Filter "*.Tests.ps1" -Recurse
-                  Write-Host "     - Test files available: $($currentTestFiles.Count)"
-                } else {
-                  Write-Host "     - Test directory: MISSING"
-                }
-                
-                # Check module state
-                $currentPsPAS = Get-Module -Name 'psPAS'
-                if ($currentPsPAS) {
-                  Write-Host "     - psPAS module: LOADED (v$($currentPsPAS.Version))"
-                } else {
-                  Write-Host "     - psPAS module: NOT LOADED"
-                }
-                
-                $currentPester = Get-Module -Name 'Pester'
-                if ($currentPester) {
-                  Write-Host "     - Pester module: LOADED (v$($currentPester.Version))"
-                } else {
-                  Write-Host "     - Pester module: NOT LOADED"
-                }
-                
-                if ($testAttempt -lt $maxTestExecutionRetries) {
-                  Write-Host "   Attempting recovery and retry..."
-                  
-                  # Clean up any partial test state
-                  try {
-                    if (Test-Path './TestResults.xml') {
-                      Remove-Item './TestResults.xml' -Force -ErrorAction SilentlyContinue
-                      Write-Host "     Cleaned up partial test results file"
-                    }
-                    
-                    # Force garbage collection to free memory
-                    [System.GC]::Collect()
-                    [System.GC]::WaitForPendingFinalizers()
-                    Write-Host "     Performed memory cleanup"
-                    
-                  } catch {
-                    Write-Host "     Cleanup encountered issues: $($_.Exception.Message)"
-                  }
-                  
-                  $retryDelay = 30  # 30-second delay before retry
-                  Write-Host "   Retrying in $retryDelay seconds..."
-                  Start-Sleep -Seconds $retryDelay
-                  
-                } else {
-                  # Final failure handling
-                  Write-Host ""
-                  Write-Host "=========================================="
-                  Write-Host "❌ FINAL TEST EXECUTION FAILURE"
-                  Write-Host "=========================================="
-                  Write-Host "Test execution failed after $maxTestExecutionRetries attempts"
-                  Write-Host "Final error: $testError"
-                  Write-Host ""
-                  Write-Host "RECOVERY STRATEGIES:"
-                  Write-Host "1. Check test file integrity and accessibility"
-                  Write-Host "2. Verify module loading state and dependencies"
-                  Write-Host "3. Review PowerShell session memory and resource usage"
-                  Write-Host "4. Check for test file syntax errors or conflicts"
-                  Write-Host "5. Verify Pester configuration compatibility"
-                  Write-Host "6. Consider reducing test scope or splitting test execution"
-                  
-                  # For fork-friendly operation, we'll continue with a graceful failure
-                  Write-Host ""
-                  Write-Host "GRACEFUL FAILURE: Continuing workflow for fork-friendly operation"
-                  Write-Host "Test execution failed, but workflow will complete with available information"
-                  
-                  # Create a minimal result object for reporting
-                  $result = @{
-                    TotalCount = 0
-                    PassedCount = 0
-                    FailedCount = 0
-                    SkippedCount = 0
-                    NotRunCount = 0
-                    ExecutionError = $testError
-                    Failed = @()
-                  }
-                  
-                  $testExecutionSuccess = $false
-                  break
-                }
-              }
+            if ($result.FailedCount -gt 0) {
+              Write-Warning "Some tests failed, but continuing for fork-friendly operation"
             }
             
-            # Comprehensive results analysis with error handling
-            $testEnd = Get-Date
-            $testDuration = ($testEnd - $testStart).TotalSeconds
-            
-            Write-Host ""
-            Write-Host "=========================================="
-            Write-Host "TEST EXECUTION RESULTS ANALYSIS"
-            Write-Host "=========================================="
-            
-            if ($testExecutionSuccess) {
-              Write-Host "Execution Status: ✅ SUCCESS"
-              Write-Host "Execution Time: $($testDuration.ToString('F2'))s"
-              Write-Host "Total Tests: $($result.TotalCount)"
-              Write-Host "Passed: $($result.PassedCount) ($(($result.PassedCount/$result.TotalCount*100).ToString('F1'))%)"
-              Write-Host "Failed: $($result.FailedCount)"
-              Write-Host "Skipped: $($result.SkippedCount)"
-              Write-Host "Not Run: $($result.NotRunCount)"
-              
-              # Performance metrics
-              if ($result.TotalCount -gt 0) {
-                $testsPerSecond = $result.TotalCount / $testDuration
-                Write-Host "Performance: $($testsPerSecond.ToString('F1')) tests/second"
-              }
-              
-              # Test result validation (non-blocking for fork-friendly operation)
-              if ($result.FailedCount -gt 0) {
-                Write-Host ""
-                Write-Host "⚠ WARNING: $($result.FailedCount) tests failed, but continuing for fork-friendly operation"
-                
-                # Log failed test details for debugging (limited to prevent log overflow)
-                if ($result.Failed -and $result.Failed.Count -gt 0) {
-                  Write-Host "FAILED TESTS (first 10):"
-                  $failedToShow = $result.Failed | Select-Object -First 10
-                  foreach ($failed in $failedToShow) {
-                    $errorMsg = if ($failed.ErrorRecord -and $failed.ErrorRecord.Exception) {
-                      $failed.ErrorRecord.Exception.Message
-                    } else {
-                      "Unknown error"
-                    }
-                    Write-Host "  - $($failed.ExpandedName): $errorMsg"
-                  }
-                  
-                  if ($result.Failed.Count -gt 10) {
-                    Write-Host "  ... and $($result.Failed.Count - 10) more failed tests (see TestResults.xml for details)"
-                  }
-                }
-              }
-              
-              Write-Host ""
-              Write-Host "RESILIENCE: Test execution completed successfully with comprehensive error handling"
-              
-            } else {
-              Write-Host "Execution Status: ❌ FAILED (Graceful Failure Mode)"
-              Write-Host "Execution Time: $($testDuration.ToString('F2'))s"
-              Write-Host "Error: $($result.ExecutionError)"
-              Write-Host ""
-              Write-Host "FORK-FRIENDLY: Workflow continuing despite test execution failure"
-              Write-Host "This allows contributors to see workflow execution results even when tests fail"
+          }
+          catch {
+            Write-Error "Test execution failed: $_"
+            # Create placeholder results file for artifact upload
+            if (-not (Test-Path $env:TEST_RESULTS_PATH)) {
+              New-Item -ItemType Directory -Path $env:TEST_RESULTS_PATH -Force | Out-Null
             }
-            
-            Write-Host ""
-            Write-Host "PERFORMANCE: Test execution phase completed in $($testDuration)s"
-            
-          } catch {
-            $testEnd = Get-Date
-            $testDuration = ($testEnd - $testStart).TotalSeconds
-            Write-Host "PERFORMANCE: Test execution encountered errors after $($testDuration)s"
-            Write-Error "Test execution failed: $($_.Exception.Message)"
-            
-            # Don't exit with error for fork-friendly operation
-            Write-Host "WARNING: Continuing despite test execution errors for fork-friendly operation"
+            "Test execution failed: $_" | Out-File "$env:TEST_RESULTS_PATH\error.log"
           }
 
-      # ========================================================================
-      # STEP 9: PERFORMANCE REPORTING AND ARTIFACT MANAGEMENT
-      # Comprehensive performance analysis and optimized artifact handling
-      # ========================================================================
-      - name: Generate Performance Report
-        id: performance-report
-        if: always()  # Always run performance report
-        timeout-minutes: 3  # Performance report generation timeout
-        continue-on-error: true  # Non-critical reporting step
+      # Performance summary
+      - name: Performance Summary
+        if: always()
+        timeout-minutes: 2
         run: |
-          $reportStart = Get-Date
-          Write-Host "PERFORMANCE: Generating comprehensive performance report"
-          
-          # Calculate total workflow execution time
-          $workflowStart = '${{ needs.performance-baseline.outputs.baseline-timestamp }}'
-          if ($workflowStart -and $workflowStart -ne '') {
-            try {
-              $startTime = [DateTime]::Parse($workflowStart)
-              $totalDuration = ($reportStart - $startTime).TotalMinutes
-              Write-Host "WORKFLOW PERFORMANCE SUMMARY:"
-              Write-Host "============================="
-              Write-Host "Total Execution Time: $($totalDuration.ToString('F2')) minutes"
-              Write-Host "Target Time: <15 minutes"
-              Write-Host "Performance Status: $(if ($totalDuration -lt 15) { '✓ WITHIN TARGET' } elseif ($totalDuration -lt 20) { '✓ ACCEPTABLE' } else { '⚠ OVER TARGET' })"
-            } catch {
-              Write-Host "Could not calculate total workflow time: $($_.Exception.Message)"
-            }
-          }
-          
-          # Enhanced cache performance summary with all tiers
-          $cacheHits = @(
-            '${{ steps.cache-nuget-global.outputs.cache-hit }}',
-            '${{ steps.cache-ps-modules-primary.outputs.cache-hit }}',
-            '${{ steps.cache-ps-modules-fallback.outputs.cache-hit }}',
-            '${{ steps.cache-ps-gallery.outputs.cache-hit }}',
-            '${{ steps.cache-build-artifacts.outputs.cache-hit }}',
-            '${{ steps.cache-dependency-graph.outputs.cache-hit }}'
-          ) | Where-Object { $_ -eq 'true' }
-          
-          # Calculate weighted time savings based on cache importance
-          $cacheWeightedSavings = 0
-          $cacheDetails = @{
-            'NuGet' = @{ Hit = '${{ steps.cache-nuget-global.outputs.cache-hit }}'; Weight = 20 }
-            'PS Modules Primary' = @{ Hit = '${{ steps.cache-ps-modules-primary.outputs.cache-hit }}'; Weight = 45 }
-            'PS Modules Fallback' = @{ Hit = '${{ steps.cache-ps-modules-fallback.outputs.cache-hit }}'; Weight = 25 }
-            'PS Gallery' = @{ Hit = '${{ steps.cache-ps-gallery.outputs.cache-hit }}'; Weight = 15 }
-            'Build Artifacts' = @{ Hit = '${{ steps.cache-build-artifacts.outputs.cache-hit }}'; Weight = 35 }
-            'Dependency Graph' = @{ Hit = '${{ steps.cache-dependency-graph.outputs.cache-hit }}'; Weight = 10 }
-          }
-          
-          foreach ($cache in $cacheDetails.GetEnumerator()) {
-            if ($cache.Value.Hit -eq 'true') {
-              $cacheWeightedSavings += $cache.Value.Weight
-            }
-          }
-          
-          Write-Host ""
-          Write-Host "ENHANCED CACHE PERFORMANCE:"
-          Write-Host "=========================="
-          Write-Host "Cache Hits: $($cacheHits.Count)/6 cache tiers"
-          Write-Host "Weighted Time Savings: $($cacheWeightedSavings)s"
-          
-          # Detailed cache breakdown
-          foreach ($cache in $cacheDetails.GetEnumerator()) {
-            $status = if ($cache.Value.Hit -eq 'true') { '✓ HIT' } else { '✗ MISS' }
-            Write-Host "  $($cache.Key): $status ($($cache.Value.Weight)s potential savings)"
-          }
-          
-          # Enhanced performance recommendations
-          Write-Host ""
-          Write-Host "OPTIMIZATION RECOMMENDATIONS:"
-          Write-Host "============================"
-          if ($cacheHits.Count -lt 3) {
-            Write-Host "- Run workflow multiple times to warm all cache tiers"
-            Write-Host "- Consider cache key optimization for better hit rates"
-          }
-          if ($totalDuration -gt 15) {
-            Write-Host "- Enable more aggressive parallel execution where safe"
-            Write-Host "- Review test execution for optimization opportunities"
-          }
-          if ($cacheWeightedSavings -lt 50) {
-            Write-Host "- Cache performance below optimal - investigate cache key strategies"
-          }
-          Write-Host "- Monitor multi-tier cache performance for continuous optimization"
-          Write-Host "- Consider PowerShell module pre-compilation for faster imports"
-          
-          $reportEnd = Get-Date
-          $reportDuration = ($reportEnd - $reportStart).TotalMilliseconds
-          Write-Host "PERFORMANCE: Report generated in $($reportDuration)ms"
+          Write-Host "📈 Workflow Performance Summary"
+          Write-Host "Execution completed at: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+          Write-Host "Target: Under 25 minutes"
 
-      # ========================================================================
-      # WORKFLOW ERROR RECOVERY AND RESILIENCE VALIDATION
-      # Validate workflow execution and provide recovery guidance
-      # ========================================================================
-      - name: Workflow Error Recovery Assessment
-        id: error-recovery-assessment
-        if: always()  # Always assess workflow state
-        timeout-minutes: 3  # Quick assessment timeout
-        continue-on-error: true  # Assessment failures should not stop workflow
-        run: |
-          $assessmentStart = Get-Date
-          Write-Host "RESILIENCE: Conducting workflow error recovery assessment"
-          
-          # Assess workflow step outcomes
-          $stepOutcomes = @{
-            'Checkout' = '${{ steps.checkout.outcome }}'
-            'Structure Verify' = '${{ steps.structure-verify.outcome }}'
-            'Install Dependencies' = '${{ steps.install-deps.outcome }}'
-            'Verify Modules' = '${{ steps.verify-modules.outcome }}'
-            'Import psPAS' = '${{ steps.import-pspas.outcome }}'
-            'Basic Validation' = '${{ steps.basic-validation.outcome }}'
-            'Run Tests' = '${{ steps.run-tests.outcome }}'
-            'Performance Report' = '${{ steps.performance-report.outcome }}'
-            'Cleanup Artifacts' = '${{ steps.cleanup-artifacts.outcome }}'
-          }
-          
-          Write-Host ""
-          Write-Host "WORKFLOW STEP OUTCOMES ASSESSMENT:"
-          Write-Host "=================================="
-          
-          $successfulSteps = 0
-          $failedSteps = 0
-          $skippedSteps = 0
-          $criticalFailures = @()
-          
-          foreach ($step in $stepOutcomes.GetEnumerator()) {
-            $outcome = $step.Value
-            $status = switch ($outcome) {
-              'success' { $successfulSteps++; "✅ SUCCESS" }
-              'failure' { $failedSteps++; "❌ FAILED" }
-              'cancelled' { $skippedSteps++; "⏹️ CANCELLED" }
-              'skipped' { $skippedSteps++; "⏭️ SKIPPED" }
-              default { "❓ UNKNOWN ($outcome)" }
-            }
-            
-            Write-Host "$($step.Key): $status"
-            
-            # Identify critical failures
-            if ($outcome -eq 'failure' -and $step.Key -in @('Checkout', 'Install Dependencies', 'Import psPAS')) {
-              $criticalFailures += $step.Key
-            }
-          }
-          
-          $totalSteps = $stepOutcomes.Count
-          $successRate = [math]::Round(($successfulSteps / $totalSteps) * 100, 1)
-          
-          Write-Host ""
-          Write-Host "WORKFLOW RESILIENCE SUMMARY:"
-          Write-Host "============================"
-          Write-Host "Total Steps: $totalSteps"
-          Write-Host "Successful: $successfulSteps ($successRate%)"
-          Write-Host "Failed: $failedSteps"
-          Write-Host "Skipped/Cancelled: $skippedSteps"
-          Write-Host "Critical Failures: $($criticalFailures.Count)"
-          
-          # Provide recovery guidance based on failure patterns
-          if ($criticalFailures.Count -gt 0) {
-            Write-Host ""
-            Write-Host "🚨 CRITICAL FAILURE RECOVERY GUIDANCE:"
-            Write-Host "====================================="
-            foreach ($failure in $criticalFailures) {
-              switch ($failure) {
-                'Checkout' {
-                  Write-Host "• CHECKOUT FAILURE:"
-                  Write-Host "  - Check repository accessibility and permissions"
-                  Write-Host "  - Verify network connectivity to GitHub"
-                  Write-Host "  - Review git configuration and authentication"
-                  Write-Host "  - Consider temporary GitHub service issues"
-                }
-                'Install Dependencies' {
-                  Write-Host "• DEPENDENCY INSTALLATION FAILURE:"
-                  Write-Host "  - Check PowerShell Gallery connectivity"
-                  Write-Host "  - Verify module availability and versions"
-                  Write-Host "  - Review network connectivity and proxy settings"
-                  Write-Host "  - Consider using alternative package sources"
-                }
-                'Import psPAS' {
-                  Write-Host "• MODULE IMPORT FAILURE:"
-                  Write-Host "  - Verify psPAS module files integrity"
-                  Write-Host "  - Check PowerShell execution policy"
-                  Write-Host "  - Review module dependencies and compatibility"
-                  Write-Host "  - Validate PowerShell session state"
-                }
-              }
-            }
-          } elseif ($failedSteps -gt 0) {
-            Write-Host ""
-            Write-Host "⚠️ NON-CRITICAL FAILURE GUIDANCE:"
-            Write-Host "================================"
-            Write-Host "• Some workflow steps failed but core functionality is intact"
-            Write-Host "• Review individual step logs for specific error details"
-            Write-Host "• Consider the impact on your development workflow"
-            Write-Host "• Non-critical failures should not block development progress"
-          } else {
-            Write-Host ""
-            Write-Host "✅ WORKFLOW EXECUTION SUCCESS:"
-            Write-Host "============================="
-            Write-Host "• All workflow steps completed successfully"
-            Write-Host "• No recovery actions required"
-            Write-Host "• Workflow resilience mechanisms functioned properly"
-          }
-          
-          # Performance vs resilience trade-off analysis
-          Write-Host ""
-          Write-Host "PERFORMANCE vs RESILIENCE ANALYSIS:"
-          Write-Host "==================================="
-          if ($successRate -ge 90) {
-            Write-Host "• High resilience achieved ($successRate% success rate)"
-            Write-Host "• Workflow timeouts and retry mechanisms functioned effectively"
-            Write-Host "• Error handling provided appropriate recovery paths"
-          } elseif ($successRate -ge 70) {
-            Write-Host "• Moderate resilience achieved ($successRate% success rate)"
-            Write-Host "• Some workflow steps encountered recoverable issues"
-            Write-Host "• Review timeout settings and retry mechanisms for optimization"
-          } else {
-            Write-Host "• Lower resilience achieved ($successRate% success rate)"
-            Write-Host "• Multiple workflow steps encountered issues"
-            Write-Host "• Consider increasing timeout values and retry attempts"
-            Write-Host "• Review error handling strategies for improvement"
-          }
-          
-          $assessmentEnd = Get-Date
-          $assessmentDuration = ($assessmentEnd - $assessmentStart).TotalMilliseconds
-          Write-Host ""
-          Write-Host "ASSESSMENT: Workflow error recovery assessment completed in $($assessmentDuration)ms"
+      # Upload test results
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        timeout-minutes: 5
+        with:
+          name: test-results-${{ github.run_number }}
+          path: |
+            TestResults/
+            *.log
+          retention-days: 30
+          if-no-files-found: warn
 
-      # ========================================================================
-      # STEP 10: CLEANUP AND ARTIFACT PREPARATION
-      # Robust cleanup with graceful failure handling and artifact validation
-      # ========================================================================
-      - name: Cleanup and Prepare Artifacts (Resilient)
-        id: cleanup-artifacts
-        if: always()  # Always run cleanup
-        timeout-minutes: 5  # Cleanup timeout
-        continue-on-error: true  # Cleanup failures should not stop workflow
+      # Cleanup
+      - name: Cleanup
+        if: always()
+        timeout-minutes: 3
         run: |
-          $cleanupStart = Get-Date
-          Write-Host "RESILIENCE: Starting cleanup and artifact preparation with error handling"
+          Write-Host "🧹 Performing cleanup..."
           
           try {
-            # Validate and prepare test results
-            Write-Host "1. Test results validation and preparation..."
+            # Remove loaded modules
+            Get-Module psPAS -ErrorAction SilentlyContinue | Remove-Module -Force -ErrorAction SilentlyContinue
             
-            $testResultsPath = './TestResults.xml'
-            $artifactPaths = @()
+            # Garbage collection
+            [System.GC]::Collect()
+            [System.GC]::WaitForPendingFinalizers()
             
-            if (Test-Path $testResultsPath) {
-              $fileSize = (Get-Item $testResultsPath).Length
-              Write-Host "   ✓ TestResults.xml found (Size: $([math]::Round($fileSize/1KB, 2)) KB)"
-              $artifactPaths += $testResultsPath
-              
-              # Validate XML structure
-              try {
-                $xmlContent = [xml](Get-Content $testResultsPath)
-                $testCount = $xmlContent.'test-results'.'total'
-                Write-Host "   ✓ TestResults.xml is valid XML (Tests: $testCount)"
-              } catch {
-                Write-Host "   ⚠ WARNING: TestResults.xml validation failed: $($_.Exception.Message)"
-                Write-Host "   File will still be uploaded for manual inspection"
-              }
-            } else {
-              Write-Host "   ⚠ WARNING: TestResults.xml not found - creating placeholder file"
-              
-              # Create a placeholder test results file for tracking
-              $placeholderContent = '<?xml version="1.0" encoding="utf-8"?>' + [Environment]::NewLine +
-                '<test-results name="psPAS Tests" total="0" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="' + (Get-Date).ToString('yyyy-MM-dd') + '" time="' + (Get-Date).ToString('HH:mm:ss') + '">' + [Environment]::NewLine +
-                '  <environment nunit-version="Placeholder" clr-version="Unknown" os-version="Unknown" platform="Unknown" cwd="Unknown" machine-name="Unknown" user="Unknown" user-domain="Unknown" />' + [Environment]::NewLine +
-                '  <culture-info current-culture="Unknown" current-uiculture="Unknown" />' + [Environment]::NewLine +
-                '  <test-suite type="Assembly" name="psPAS" executed="False" result="Error" success="False" time="0" asserts="0">' + [Environment]::NewLine +
-                '    <results>' + [Environment]::NewLine +
-                '      <test-case name="Workflow.TestExecution" executed="True" result="Failure" success="False" time="0" asserts="0">' + [Environment]::NewLine +
-                '        <failure>' + [Environment]::NewLine +
-                '          <message>Test execution failed - see workflow logs for details</message>' + [Environment]::NewLine +
-                '          <stack-trace>Workflow: Error Handling and Resilience Implementation</stack-trace>' + [Environment]::NewLine +
-                '        </failure>' + [Environment]::NewLine +
-                '      </test-case>' + [Environment]::NewLine +
-                '    </results>' + [Environment]::NewLine +
-                '  </test-suite>' + [Environment]::NewLine +
-                '</test-results>'
-              
-              try {
-                $placeholderContent | Out-File -FilePath $testResultsPath -Encoding UTF8
-                Write-Host "   ✓ Placeholder TestResults.xml created"
-                $artifactPaths += $testResultsPath
-              } catch {
-                Write-Host "   ✗ Failed to create placeholder TestResults.xml: $($_.Exception.Message)"
-              }
-            }
-            
-            # Collect log files with error handling
-            Write-Host "2. Log file collection..."
-            
-            try {
-              $logFiles = Get-ChildItem -Path '.' -Filter '*.log' -Recurse -ErrorAction SilentlyContinue
-              if ($logFiles.Count -gt 0) {
-                Write-Host "   ✓ Found $($logFiles.Count) log files"
-                foreach ($logFile in $logFiles) {
-                  Write-Host "     - $($logFile.FullName) ($([math]::Round($logFile.Length/1KB, 2)) KB)"
-                }
-              } else {
-                Write-Host "   ℹ No log files found"
-              }
-            } catch {
-              Write-Host "   ⚠ WARNING: Log file collection encountered issues: $($_.Exception.Message)"
-            }
-            
-            # Clean up temporary files and sensitive information
-            Write-Host "3. Temporary file cleanup..."
-            
-            $tempFilesToClean = @(
-              '.\temp_*.txt',
-              '.\debug_*.log',
-              '.\powershell_*.tmp'
-            )
-            
-            foreach ($pattern in $tempFilesToClean) {
-              try {
-                $filesToRemove = Get-ChildItem -Path $pattern -ErrorAction SilentlyContinue
-                if ($filesToRemove) {
-                  $filesToRemove | Remove-Item -Force -ErrorAction SilentlyContinue
-                  Write-Host "   ✓ Cleaned up $($filesToRemove.Count) files matching $pattern"
-                }
-              } catch {
-                Write-Host "   ⚠ Cleanup warning for $pattern`: $($_.Exception.Message)"
-              }
-            }
-            
-            # Perform memory cleanup
-            Write-Host "4. Memory and resource cleanup..."
-            
-            try {
-              # Remove large variables and force garbage collection
-              if (Get-Variable -Name 'result' -ErrorAction SilentlyContinue) {
-                Remove-Variable -Name 'result' -ErrorAction SilentlyContinue
-              }
-              
-              [System.GC]::Collect()
-              [System.GC]::WaitForPendingFinalizers()
-              [System.GC]::Collect()
-              
-              $memoryUsage = [System.GC]::GetTotalMemory($false)
-              Write-Host "   ✓ Memory cleanup completed (Current usage: $([math]::Round($memoryUsage/1MB, 2)) MB)"
-              
-            } catch {
-              Write-Host "   ⚠ Memory cleanup warning: $($_.Exception.Message)"
-            }
-            
-            # Validate PowerShell session state for cleanup
-            Write-Host "5. PowerShell session state cleanup..."
-            
-            try {
-              # Remove any stuck jobs
-              $runningJobs = Get-Job -State Running -ErrorAction SilentlyContinue
-              if ($runningJobs) {
-                Write-Host "   ⚠ Found $($runningJobs.Count) running jobs - attempting cleanup"
-                $runningJobs | Stop-Job -ErrorAction SilentlyContinue
-                $runningJobs | Remove-Job -Force -ErrorAction SilentlyContinue
-                Write-Host "   ✓ Background jobs cleaned up"
-              }
-              
-              # Report session modules for diagnostics
-              $loadedModules = Get-Module | Where-Object { $_.Name -in @('psPAS', 'Pester', 'PSScriptAnalyzer') }
-              Write-Host "   ℹ Loaded modules: $($loadedModules.Name -join ', ')"
-              
-            } catch {
-              Write-Host "   ⚠ Session cleanup warning: $($_.Exception.Message)"
-            }
-            
-            $cleanupEnd = Get-Date
-            $cleanupDuration = ($cleanupEnd - $cleanupStart).TotalSeconds
-            
-            Write-Host ""
-            Write-Host "CLEANUP SUMMARY:"
-            Write-Host "================"
-            Write-Host "Duration: $($cleanupDuration.ToString('F2'))s"
-            Write-Host "Artifacts prepared: $($artifactPaths.Count) files"
-            Write-Host "Memory optimization: ✓ Completed"
-            Write-Host "Resource cleanup: ✓ Completed"
-            Write-Host "Session state: ✓ Validated"
-            
-          } catch {
-            $cleanupEnd = Get-Date
-            $cleanupDuration = ($cleanupEnd - $cleanupStart).TotalSeconds
-            
-            Write-Host ""
-            Write-Host "❌ CLEANUP ERROR (Non-critical):"
-            Write-Host "Duration: $($cleanupDuration.ToString('F2'))s"
-            Write-Host "Error: $($_.Exception.Message)"
-            Write-Host "RECOVERY: Workflow will continue - cleanup failures are non-critical"
-            Write-Host "Artifacts may still be available for upload"
+            Write-Host "✅ Cleanup completed"
           }
-
-      # ========================================================================
-      # STEP 11: RESILIENT ARTIFACT UPLOAD
-      # Efficient artifact management with comprehensive error handling
-      # ========================================================================
-      - name: Upload Test Results (Resilient)
-        uses: actions/upload-artifact@v4
-        if: always()  # Always attempt artifact upload
-        timeout-minutes: 8  # Artifact upload timeout
-        continue-on-error: true  # Don't fail workflow if artifact upload fails
-        with:
-          name: test-results-resilient-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            TestResults.xml
-            **/*.log
-            **/*.xml
-          retention-days: 14  # Reduced from 30 for storage optimization
-          compression-level: 6  # Balanced compression for performance
-          if-no-files-found: warn
-          
-      # Additional artifact upload with different strategy as fallback
-      - name: Upload Core Results (Fallback)
-        uses: actions/upload-artifact@v4
-        if: always()
-        timeout-minutes: 5  # Fallback upload timeout
-        continue-on-error: true  # Fallback upload failures are acceptable
-        with:
-          name: core-results-${{ github.run_id }}
-          path: TestResults.xml
-          retention-days: 7
-          if-no-files-found: ignore
-
-      # ========================================================================
-      # STEP 12: WORKFLOW COMPLETION SUMMARY WITH RESILIENCE REPORT
-      # Final performance metrics, optimization recommendations, and error handling summary
-      # ========================================================================
-      - name: Workflow Completion Summary (Enhanced with Resilience Report)
-        if: always()  # Always run completion summary
-        timeout-minutes: 2  # Summary generation timeout
-        continue-on-error: true  # Non-critical summary step
-        run: |
-          $completionTime = Get-Date
-          Write-Host ""
-          Write-Host "======================================"
-          Write-Host "WORKFLOW COMPLETION SUMMARY"
-          Write-Host "======================================"
-          Write-Host "Completion Time: $($completionTime.ToString('yyyy-MM-ddTHH:mm:ss.fff'))"
-          Write-Host "Job Status: ${{ job.status }}"
-          Write-Host ""
-          Write-Host "PERFORMANCE OPTIMIZATIONS APPLIED:"
-          Write-Host "- ✓ 6-tier sophisticated caching system with intelligent fallbacks"
-          Write-Host "- ✓ Parallel module installation and dependency management"
-          Write-Host "- ✓ Enhanced PowerShell execution optimization with multi-threading"
-          Write-Host "- ✓ Build artifact caching and incremental compilation support"
-          Write-Host "- ✓ Weighted cache performance analysis and optimization recommendations"
-          Write-Host "- ✓ Performance monitoring throughout execution with sub-15 minute target"
-          Write-Host "- ✓ Optimized PowerShell settings and telemetry disabled"
-          Write-Host "- ✓ Streamlined dependency management with retry logic and parallel execution"
-          Write-Host ""
-          Write-Host "ERROR HANDLING & RESILIENCE FEATURES:"
-          Write-Host "- ✓ Workflow-level timeout controls for all steps (2-22 minute limits)"
-          Write-Host "- ✓ Repository checkout retry mechanisms with full clone fallback"
-          Write-Host "- ✓ Cache operation resilience with continue-on-error for all tiers"
-          Write-Host "- ✓ Exponential backoff retry mechanisms for network operations"
-          Write-Host "- ✓ Comprehensive timeout management (5-20 minute operation limits)"
-          Write-Host "- ✓ PowerShell Gallery connectivity validation before module installation"
-          Write-Host "- ✓ Multi-layer module verification with health checks and fallback strategies"
-          Write-Host "- ✓ psPAS import resilience with 7-step validation and 3 retry attempts"
-          Write-Host "- ✓ Test execution timeout protection (22-minute limit with job isolation)"
-          Write-Host "- ✓ Graceful failure modes for fork-friendly operation"
-          Write-Host "- ✓ Comprehensive cleanup and resource management"
-          Write-Host "- ✓ Memory optimization and PowerShell session state management"
-          Write-Host "- ✓ Artifact preparation with fallback upload strategies"
-          Write-Host "- ✓ Enhanced error diagnostics and troubleshooting guidance"
-          Write-Host "- ✓ Workflow error recovery assessment and guidance system"
-          Write-Host ""
-          Write-Host "RESILIENCE CAPABILITIES:"
-          Write-Host "- Git operations: ✓ Checkout retry with shallow/full clone fallback"
-          Write-Host "- Cache operations: ✓ All 6 tiers have timeout + continue-on-error"
-          Write-Host "- Network failures: ✓ 3 retries with exponential backoff"
-          Write-Host "- Module installation: ✓ PowerShell Gallery connectivity tests + timeouts"
-          Write-Host "- Module import: ✓ Multi-step validation with cleanup and retry"
-          Write-Host "- Test execution: ✓ Timeout protection + graceful failure handling"
-          Write-Host "- File operations: ✓ Comprehensive error handling and recovery"
-          Write-Host "- Resource cleanup: ✓ Memory management and session state validation"
-          Write-Host "- Artifact handling: ✓ Validation, fallback creation, and dual upload"
-          Write-Host "- Workflow monitoring: ✓ Step outcome assessment with recovery guidance"
-          Write-Host ""
-          Write-Host "FORK-FRIENDLY FEATURES:"
-          Write-Host "- Non-blocking test failures with detailed error reporting"
-          Write-Host "- Graceful degradation for partial module installation"
-          Write-Host "- Comprehensive troubleshooting guidance in failure scenarios"
-          Write-Host "- Artifact upload continues even with test execution failures"
-          Write-Host "- Workflow completion provides actionable insights for contributors"
-          Write-Host ""
-          Write-Host "For detailed performance analysis and error diagnostics, review the logs above."
-          Write-Host "======================================"
+          catch {
+            Write-Warning "Cleanup warning: $_"
+          }
