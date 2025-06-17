@@ -5,13 +5,11 @@ name: PowerShell Tests (Fork-Friendly)
 # Designed for Windows PowerShell 5.1 compatibility and 1870+ test execution
 
 on:
-  # Trigger on pushes to main development branches
+  # Trigger on all pushes for development and testing
   push:
-    branches: [ main, master, develop ]
   
-  # Trigger on pull requests targeting main branches
+  # Trigger on all pull requests
   pull_request:
-    branches: [ main, master ]
   
   # Allow manual workflow triggering from GitHub UI
   workflow_dispatch:
@@ -70,7 +68,7 @@ jobs:
             Write-Warning "✗ Tests directory not found: $testsDirectory"
           }
           
-          Write-Host "=========================================="
+          Write-Host "========================================"
       
       # Step 3: Configure PowerShell execution policy for CI environment
       - name: Configure PowerShell Execution Policy
