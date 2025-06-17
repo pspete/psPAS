@@ -1,7 +1,7 @@
 name: PowerShell Tests (Fork-Friendly)
 
 # Fork-friendly PowerShell testing workflow for psPAS module
-# Focuses on dependency management validation and module import testing
+# Focuses on dependency management validation and basic test execution
 
 on:
   push:
@@ -150,3 +150,44 @@ jobs:
             Write-Error "Basic functionality test failed: $($_.Exception.Message)"
             exit 1
           }
+      
+      # Step 8: Run Pester Tests
+      - name: Run Pester Tests
+        run: |
+          Write-Host "Running Pester test suite"
+          
+          try {
+            # Configure Pester
+            $config = New-PesterConfiguration
+            $config.Run.Path = './Tests'
+            $config.TestResult.Enabled = $true
+            $config.TestResult.OutputFormat = 'NUnitXml'
+            $config.TestResult.OutputPath = './TestResults.xml'
+            $config.Output.Verbosity = 'Normal'
+            
+            # Run tests
+            $result = Invoke-Pester -Configuration $config
+            
+            # Show results
+            Write-Host "Test Results:"
+            Write-Host "  Total: $($result.TotalCount)"
+            Write-Host "  Passed: $($result.PassedCount)"
+            Write-Host "  Failed: $($result.FailedCount)"
+            Write-Host "  Skipped: $($result.SkippedCount)"
+            
+            # Note: Don't fail workflow based on test results
+            Write-Host "Test execution completed"
+            
+          } catch {
+            Write-Error "Test execution failed: $($_.Exception.Message)"
+            exit 1
+          }
+      
+      # Step 9: Upload Test Results
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results-${{ github.run_id }}
+          path: TestResults.xml
+          retention-days: 30
