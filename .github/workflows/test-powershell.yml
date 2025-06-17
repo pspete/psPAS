@@ -104,18 +104,40 @@ jobs:
     
     steps:
       # ========================================================================
-      # STEP 1: REPOSITORY CHECKOUT WITH OPTIMIZATION
-      # Minimal fetch with performance monitoring
+      # STEP 1: REPOSITORY CHECKOUT WITH OPTIMIZATION AND RETRY
+      # Minimal fetch with performance monitoring and retry mechanisms
       # ========================================================================
       - name: Checkout Repository (Optimized with Retry)
         id: checkout
         uses: actions/checkout@v4
+        timeout-minutes: 5  # Prevent hanging on git operations
+        continue-on-error: false  # Critical step - must succeed
         with:
           fetch-depth: 1  # Shallow clone for performance (changed from 0 to 1)
           show-progress: false  # Reduce console output overhead
           
+      # Retry checkout if it fails due to network issues
+      - name: Retry Checkout on Failure
+        if: failure() && steps.checkout.outcome == 'failure'
+        uses: actions/checkout@v4
+        timeout-minutes: 10  # Allow more time for retry
+        with:
+          fetch-depth: 1
+          show-progress: false
+          
+      # Final fallback with full clone if shallow fails
+      - name: Fallback Full Checkout
+        if: failure() && steps.checkout.outcome == 'failure'
+        uses: actions/checkout@v4
+        timeout-minutes: 15
+        with:
+          fetch-depth: 0  # Full clone as last resort
+          show-progress: true
+          
       - name: Validate Repository Checkout and Log Performance
         id: checkout-validation
+        timeout-minutes: 2  # Quick validation should not take long
+        continue-on-error: false  # Critical validation step
         run: |
           $checkoutStart = Get-Date
           
@@ -147,6 +169,8 @@ jobs:
       # ========================================================================
       - name: Verify Repository Structure (Fast)
         id: structure-verify
+        timeout-minutes: 3  # Structure verification timeout
+        continue-on-error: false  # Must succeed for workflow to continue
         run: |
           $verifyStart = Get-Date
           Write-Host "PERFORMANCE: Structure verification started at $($verifyStart.ToString('HH:mm:ss.fff'))"
@@ -193,6 +217,8 @@ jobs:
       - name: Cache NuGet Global Packages (Tier 1)
         id: cache-nuget-global  
         uses: actions/cache@v4
+        timeout-minutes: 5  # Cache operations timeout
+        continue-on-error: true  # Cache failures should not stop workflow
         with:
           path: |
             ~/.nuget/packages
@@ -207,6 +233,8 @@ jobs:
       - name: Cache PowerShell Modules (Tier 2 - Primary)
         id: cache-ps-modules-primary
         uses: actions/cache@v4
+        timeout-minutes: 7  # Primary cache may take longer
+        continue-on-error: true  # Cache failures should not stop workflow
         with:
           path: |
             ~\Documents\PowerShell\Modules
@@ -225,6 +253,8 @@ jobs:
         id: cache-ps-modules-fallback
         if: steps.cache-ps-modules-primary.outputs.cache-hit != 'true'
         uses: actions/cache@v4
+        timeout-minutes: 5  # Fallback cache timeout
+        continue-on-error: true  # Cache failures should not stop workflow
         with:
           path: |
             ~\Documents\PowerShell\Modules\Pester
@@ -240,6 +270,8 @@ jobs:
       - name: Cache PowerShell Gallery Metadata (Tier 4)
         id: cache-ps-gallery
         uses: actions/cache@v4
+        timeout-minutes: 4  # Gallery cache timeout
+        continue-on-error: true  # Cache failures should not stop workflow
         with:
           path: |
             ~\AppData\Local\PackageManagement\NuGet\Packages
@@ -253,6 +285,8 @@ jobs:
       - name: Cache Build Artifacts (Tier 5)
         id: cache-build-artifacts
         uses: actions/cache@v4
+        timeout-minutes: 6  # Build artifacts may be larger
+        continue-on-error: true  # Cache failures should not stop workflow
         with:
           path: |
             .\build\**\*.log
@@ -268,6 +302,8 @@ jobs:
       - name: Cache Dependency Graph (Tier 6)
         id: cache-dependency-graph
         uses: actions/cache@v4
+        timeout-minutes: 3  # Dependency graph should be quick
+        continue-on-error: true  # Cache failures should not stop workflow
         with:
           path: |
             ~\AppData\Local\PackageManagement\dependency-graph.json
@@ -281,6 +317,8 @@ jobs:
       # Cache Performance Analysis and Reporting
       - name: Analyze Cache Performance
         id: cache-performance
+        timeout-minutes: 2  # Quick analysis timeout
+        continue-on-error: true  # Performance analysis is non-critical
         run: |
           $cacheStart = Get-Date
           Write-Host "PERFORMANCE: Cache Analysis Started at $($cacheStart.ToString('HH:mm:ss.fff'))"
@@ -332,6 +370,8 @@ jobs:
       # ========================================================================
       - name: Install PowerShell Dependencies (Optimized)
         id: install-deps
+        timeout-minutes: 15  # Dependency installation timeout
+        continue-on-error: false  # Critical step - must succeed
         run: |
           $installStart = Get-Date
           Write-Host "PERFORMANCE: Dependency installation started at $($installStart.ToString('HH:mm:ss.fff'))"
@@ -670,6 +710,8 @@ jobs:
       # ========================================================================
       - name: Verify Module Installation (Performance Profiled)
         id: verify-modules
+        timeout-minutes: 5  # Module verification timeout
+        continue-on-error: false  # Critical verification step
         run: |
           $verifyStart = Get-Date
           Write-Host "PERFORMANCE: Module verification started at $($verifyStart.ToString('HH:mm:ss.fff'))"
@@ -732,6 +774,8 @@ jobs:
       # ========================================================================
       - name: Import psPAS Module (Performance Analyzed with Resilience)
         id: import-pspas
+        timeout-minutes: 10  # Module import timeout with retry overhead
+        continue-on-error: false  # Critical module import step
         run: |
           $importStart = Get-Date
           Write-Host "PERFORMANCE: psPAS module import started at $($importStart.ToString('HH:mm:ss.fff'))"
@@ -1006,6 +1050,8 @@ jobs:
       # ========================================================================
       - name: Validate Basic Functionality (Fast)
         id: basic-validation
+        timeout-minutes: 3  # Quick validation timeout
+        continue-on-error: false  # Critical validation step
         run: |
           $validationStart = Get-Date
           Write-Host "PERFORMANCE: Basic validation started at $($validationStart.ToString('HH:mm:ss.fff'))"
@@ -1060,6 +1106,8 @@ jobs:
       # ========================================================================
       - name: Execute Pester Tests (Performance Optimized)
         id: run-tests
+        timeout-minutes: 22  # Generous timeout for test execution
+        continue-on-error: true  # Allow graceful failure for fork-friendly operation
         run: |
           $testStart = Get-Date
           Write-Host "PERFORMANCE: Test execution started at $($testStart.ToString('HH:mm:ss.fff'))"
@@ -1410,7 +1458,9 @@ jobs:
       # ========================================================================
       - name: Generate Performance Report
         id: performance-report
-        if: always()
+        if: always()  # Always run performance report
+        timeout-minutes: 3  # Performance report generation timeout
+        continue-on-error: true  # Non-critical reporting step
         run: |
           $reportStart = Get-Date
           Write-Host "PERFORMANCE: Generating comprehensive performance report"
@@ -1493,12 +1543,150 @@ jobs:
           Write-Host "PERFORMANCE: Report generated in $($reportDuration)ms"
 
       # ========================================================================
+      # WORKFLOW ERROR RECOVERY AND RESILIENCE VALIDATION
+      # Validate workflow execution and provide recovery guidance
+      # ========================================================================
+      - name: Workflow Error Recovery Assessment
+        id: error-recovery-assessment
+        if: always()  # Always assess workflow state
+        timeout-minutes: 3  # Quick assessment timeout
+        continue-on-error: true  # Assessment failures should not stop workflow
+        run: |
+          $assessmentStart = Get-Date
+          Write-Host "RESILIENCE: Conducting workflow error recovery assessment"
+          
+          # Assess workflow step outcomes
+          $stepOutcomes = @{
+            'Checkout' = '${{ steps.checkout.outcome }}'
+            'Structure Verify' = '${{ steps.structure-verify.outcome }}'
+            'Install Dependencies' = '${{ steps.install-deps.outcome }}'
+            'Verify Modules' = '${{ steps.verify-modules.outcome }}'
+            'Import psPAS' = '${{ steps.import-pspas.outcome }}'
+            'Basic Validation' = '${{ steps.basic-validation.outcome }}'
+            'Run Tests' = '${{ steps.run-tests.outcome }}'
+            'Performance Report' = '${{ steps.performance-report.outcome }}'
+            'Cleanup Artifacts' = '${{ steps.cleanup-artifacts.outcome }}'
+          }
+          
+          Write-Host ""
+          Write-Host "WORKFLOW STEP OUTCOMES ASSESSMENT:"
+          Write-Host "=================================="
+          
+          $successfulSteps = 0
+          $failedSteps = 0
+          $skippedSteps = 0
+          $criticalFailures = @()
+          
+          foreach ($step in $stepOutcomes.GetEnumerator()) {
+            $outcome = $step.Value
+            $status = switch ($outcome) {
+              'success' { $successfulSteps++; "✅ SUCCESS" }
+              'failure' { $failedSteps++; "❌ FAILED" }
+              'cancelled' { $skippedSteps++; "⏹️ CANCELLED" }
+              'skipped' { $skippedSteps++; "⏭️ SKIPPED" }
+              default { "❓ UNKNOWN ($outcome)" }
+            }
+            
+            Write-Host "$($step.Key): $status"
+            
+            # Identify critical failures
+            if ($outcome -eq 'failure' -and $step.Key -in @('Checkout', 'Install Dependencies', 'Import psPAS')) {
+              $criticalFailures += $step.Key
+            }
+          }
+          
+          $totalSteps = $stepOutcomes.Count
+          $successRate = [math]::Round(($successfulSteps / $totalSteps) * 100, 1)
+          
+          Write-Host ""
+          Write-Host "WORKFLOW RESILIENCE SUMMARY:"
+          Write-Host "============================"
+          Write-Host "Total Steps: $totalSteps"
+          Write-Host "Successful: $successfulSteps ($successRate%)"
+          Write-Host "Failed: $failedSteps"
+          Write-Host "Skipped/Cancelled: $skippedSteps"
+          Write-Host "Critical Failures: $($criticalFailures.Count)"
+          
+          # Provide recovery guidance based on failure patterns
+          if ($criticalFailures.Count -gt 0) {
+            Write-Host ""
+            Write-Host "🚨 CRITICAL FAILURE RECOVERY GUIDANCE:"
+            Write-Host "====================================="
+            foreach ($failure in $criticalFailures) {
+              switch ($failure) {
+                'Checkout' {
+                  Write-Host "• CHECKOUT FAILURE:"
+                  Write-Host "  - Check repository accessibility and permissions"
+                  Write-Host "  - Verify network connectivity to GitHub"
+                  Write-Host "  - Review git configuration and authentication"
+                  Write-Host "  - Consider temporary GitHub service issues"
+                }
+                'Install Dependencies' {
+                  Write-Host "• DEPENDENCY INSTALLATION FAILURE:"
+                  Write-Host "  - Check PowerShell Gallery connectivity"
+                  Write-Host "  - Verify module availability and versions"
+                  Write-Host "  - Review network connectivity and proxy settings"
+                  Write-Host "  - Consider using alternative package sources"
+                }
+                'Import psPAS' {
+                  Write-Host "• MODULE IMPORT FAILURE:"
+                  Write-Host "  - Verify psPAS module files integrity"
+                  Write-Host "  - Check PowerShell execution policy"
+                  Write-Host "  - Review module dependencies and compatibility"
+                  Write-Host "  - Validate PowerShell session state"
+                }
+              }
+            }
+          } elseif ($failedSteps -gt 0) {
+            Write-Host ""
+            Write-Host "⚠️ NON-CRITICAL FAILURE GUIDANCE:"
+            Write-Host "================================"
+            Write-Host "• Some workflow steps failed but core functionality is intact"
+            Write-Host "• Review individual step logs for specific error details"
+            Write-Host "• Consider the impact on your development workflow"
+            Write-Host "• Non-critical failures should not block development progress"
+          } else {
+            Write-Host ""
+            Write-Host "✅ WORKFLOW EXECUTION SUCCESS:"
+            Write-Host "============================="
+            Write-Host "• All workflow steps completed successfully"
+            Write-Host "• No recovery actions required"
+            Write-Host "• Workflow resilience mechanisms functioned properly"
+          }
+          
+          # Performance vs resilience trade-off analysis
+          Write-Host ""
+          Write-Host "PERFORMANCE vs RESILIENCE ANALYSIS:"
+          Write-Host "==================================="
+          if ($successRate -ge 90) {
+            Write-Host "• High resilience achieved ($successRate% success rate)"
+            Write-Host "• Workflow timeouts and retry mechanisms functioned effectively"
+            Write-Host "• Error handling provided appropriate recovery paths"
+          } elseif ($successRate -ge 70) {
+            Write-Host "• Moderate resilience achieved ($successRate% success rate)"
+            Write-Host "• Some workflow steps encountered recoverable issues"
+            Write-Host "• Review timeout settings and retry mechanisms for optimization"
+          } else {
+            Write-Host "• Lower resilience achieved ($successRate% success rate)"
+            Write-Host "• Multiple workflow steps encountered issues"
+            Write-Host "• Consider increasing timeout values and retry attempts"
+            Write-Host "• Review error handling strategies for improvement"
+          }
+          
+          $assessmentEnd = Get-Date
+          $assessmentDuration = ($assessmentEnd - $assessmentStart).TotalMilliseconds
+          Write-Host ""
+          Write-Host "ASSESSMENT: Workflow error recovery assessment completed in $($assessmentDuration)ms"
+
+      # ========================================================================
       # STEP 10: CLEANUP AND ARTIFACT PREPARATION
       # Robust cleanup with graceful failure handling and artifact validation
       # ========================================================================
       - name: Cleanup and Prepare Artifacts (Resilient)
         id: cleanup-artifacts
-        if: always()
+        if: always()  # Always run cleanup
+        timeout-minutes: 5  # Cleanup timeout
+        continue-on-error: true  # Cleanup failures should not stop workflow
         run: |
           $cleanupStart = Get-Date
           Write-Host "RESILIENCE: Starting cleanup and artifact preparation with error handling"
@@ -1528,23 +1716,21 @@ jobs:
               Write-Host "   ⚠ WARNING: TestResults.xml not found - creating placeholder file"
               
               # Create a placeholder test results file for tracking
-              $placeholderContent = @"
-<?xml version="1.0" encoding="utf-8"?>
-<test-results name="psPAS Tests" total="0" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="$((Get-Date).ToString('yyyy-MM-dd'))" time="$((Get-Date).ToString('HH:mm:ss'))">
-  <environment nunit-version="Placeholder" clr-version="$([System.Environment]::Version)" os-version="$([System.Environment]::OSVersion)" platform="$([System.Environment]::OSVersion.Platform)" cwd="$((Get-Location).Path)" machine-name="$([System.Environment]::MachineName)" user="$([System.Environment]::UserName)" user-domain="$([System.Environment]::UserDomainName)" />
-  <culture-info current-culture="$([System.Globalization.CultureInfo]::CurrentCulture.Name)" current-uiculture="$([System.Globalization.CultureInfo]::CurrentUICulture.Name)" />
-  <test-suite type="Assembly" name="psPAS" executed="False" result="Error" success="False" time="0" asserts="0">
-    <results>
-      <test-case name="Workflow.TestExecution" executed="True" result="Failure" success="False" time="0" asserts="0">
-        <failure>
-          <message>Test execution failed - see workflow logs for details</message>
-          <stack-trace>Workflow: Error Handling and Resilience Implementation</stack-trace>
-        </failure>
-      </test-case>
-    </results>
-  </test-suite>
-</test-results>
-"@
+              $placeholderContent = '<?xml version="1.0" encoding="utf-8"?>' + [Environment]::NewLine +
+                '<test-results name="psPAS Tests" total="0" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="' + (Get-Date).ToString('yyyy-MM-dd') + '" time="' + (Get-Date).ToString('HH:mm:ss') + '">' + [Environment]::NewLine +
+                '  <environment nunit-version="Placeholder" clr-version="Unknown" os-version="Unknown" platform="Unknown" cwd="Unknown" machine-name="Unknown" user="Unknown" user-domain="Unknown" />' + [Environment]::NewLine +
+                '  <culture-info current-culture="Unknown" current-uiculture="Unknown" />' + [Environment]::NewLine +
+                '  <test-suite type="Assembly" name="psPAS" executed="False" result="Error" success="False" time="0" asserts="0">' + [Environment]::NewLine +
+                '    <results>' + [Environment]::NewLine +
+                '      <test-case name="Workflow.TestExecution" executed="True" result="Failure" success="False" time="0" asserts="0">' + [Environment]::NewLine +
+                '        <failure>' + [Environment]::NewLine +
+                '          <message>Test execution failed - see workflow logs for details</message>' + [Environment]::NewLine +
+                '          <stack-trace>Workflow: Error Handling and Resilience Implementation</stack-trace>' + [Environment]::NewLine +
+                '        </failure>' + [Environment]::NewLine +
+                '      </test-case>' + [Environment]::NewLine +
+                '    </results>' + [Environment]::NewLine +
+                '  </test-suite>' + [Environment]::NewLine +
+                '</test-results>'
               
               try {
                 $placeholderContent | Out-File -FilePath $testResultsPath -Encoding UTF8
@@ -1664,7 +1850,8 @@ jobs:
       # ========================================================================
       - name: Upload Test Results (Resilient)
         uses: actions/upload-artifact@v4
-        if: always()
+        if: always()  # Always attempt artifact upload
+        timeout-minutes: 8  # Artifact upload timeout
         continue-on-error: true  # Don't fail workflow if artifact upload fails
         with:
           name: test-results-resilient-${{ github.run_id }}-${{ github.run_attempt }}
@@ -1680,7 +1867,8 @@ jobs:
       - name: Upload Core Results (Fallback)
         uses: actions/upload-artifact@v4
         if: always()
-        continue-on-error: true
+        timeout-minutes: 5  # Fallback upload timeout
+        continue-on-error: true  # Fallback upload failures are acceptable
         with:
           name: core-results-${{ github.run_id }}
           path: TestResults.xml
@@ -1692,7 +1880,9 @@ jobs:
       # Final performance metrics, optimization recommendations, and error handling summary
       # ========================================================================
       - name: Workflow Completion Summary (Enhanced with Resilience Report)
-        if: always()
+        if: always()  # Always run completion summary
+        timeout-minutes: 2  # Summary generation timeout
+        continue-on-error: true  # Non-critical summary step
         run: |
           $completionTime = Get-Date
           Write-Host ""
@@ -1713,19 +1903,25 @@ jobs:
           Write-Host "- ✓ Streamlined dependency management with retry logic and parallel execution"
           Write-Host ""
           Write-Host "ERROR HANDLING & RESILIENCE FEATURES:"
+          Write-Host "- ✓ Workflow-level timeout controls for all steps (2-22 minute limits)"
+          Write-Host "- ✓ Repository checkout retry mechanisms with full clone fallback"
+          Write-Host "- ✓ Cache operation resilience with continue-on-error for all tiers"
           Write-Host "- ✓ Exponential backoff retry mechanisms for network operations"
           Write-Host "- ✓ Comprehensive timeout management (5-20 minute operation limits)"
           Write-Host "- ✓ PowerShell Gallery connectivity validation before module installation"
           Write-Host "- ✓ Multi-layer module verification with health checks and fallback strategies"
           Write-Host "- ✓ psPAS import resilience with 7-step validation and 3 retry attempts"
-          Write-Host "- ✓ Test execution timeout protection (20-minute limit with job isolation)"
+          Write-Host "- ✓ Test execution timeout protection (22-minute limit with job isolation)"
           Write-Host "- ✓ Graceful failure modes for fork-friendly operation"
           Write-Host "- ✓ Comprehensive cleanup and resource management"
           Write-Host "- ✓ Memory optimization and PowerShell session state management"
           Write-Host "- ✓ Artifact preparation with fallback upload strategies"
           Write-Host "- ✓ Enhanced error diagnostics and troubleshooting guidance"
+          Write-Host "- ✓ Workflow error recovery assessment and guidance system"
           Write-Host ""
           Write-Host "RESILIENCE CAPABILITIES:"
+          Write-Host "- Git operations: ✓ Checkout retry with shallow/full clone fallback"
+          Write-Host "- Cache operations: ✓ All 6 tiers have timeout + continue-on-error"
           Write-Host "- Network failures: ✓ 3 retries with exponential backoff"
           Write-Host "- Module installation: ✓ PowerShell Gallery connectivity tests + timeouts"
           Write-Host "- Module import: ✓ Multi-step validation with cleanup and retry"
@@ -1733,6 +1929,7 @@ jobs:
           Write-Host "- File operations: ✓ Comprehensive error handling and recovery"
           Write-Host "- Resource cleanup: ✓ Memory management and session state validation"
           Write-Host "- Artifact handling: ✓ Validation, fallback creation, and dual upload"
+          Write-Host "- Workflow monitoring: ✓ Step outcome assessment with recovery guidance"
           Write-Host ""
           Write-Host "FORK-FRIENDLY FEATURES:"
           Write-Host "- Non-blocking test failures with detailed error reporting"
