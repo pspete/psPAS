@@ -301,6 +301,80 @@ ls -la appveyor.yml
 ./test-workflow-local.sh --event push --verbose
 ```
 
+## Dependency Management
+
+### PowerShell Module Dependencies
+The GitHub Actions workflow includes comprehensive dependency management for:
+
+**Required Modules:**
+- **Pester (≥5.0.0)**: PowerShell testing framework for unit and integration tests
+- **PSScriptAnalyzer (≥1.20.0)**: PowerShell code quality and best practices analyzer
+
+**Dependency Management Features:**
+- **Intelligent Caching**: OS-specific module caching with manifest-based invalidation
+- **Retry Logic**: 3-attempt installation with network resilience for CI environments
+- **Comprehensive Verification**: Module functionality testing with detailed diagnostics
+- **Performance Optimization**: Cache monitoring and Windows PowerShell path coverage
+
+### psPAS Module Import Strategy
+The workflow uses a bulletproof 4-layer fallback approach for psPAS module import:
+
+1. **Strategy 1**: Direct relative path import (`Import-Module .\psPAS\psPAS.psd1`)
+2. **Strategy 2**: Absolute path import with workspace resolution
+3. **Strategy 3**: Direct PSM1 import for manifest issues
+4. **Strategy 4**: PSModulePath manipulation as last resort
+
+**Error Handling:**
+- Comprehensive diagnostics for failed imports
+- Module structure validation and file integrity checks
+- Detailed troubleshooting guidance for CI environment issues
+- Graceful degradation with meaningful error messages
+
+### Cache Strategy
+```yaml
+# Intelligent cache key generation
+key: ${{ runner.os }}-ps-modules-v1-${{ hashFiles('**/psPAS.psd1') }}
+
+# Cache paths include both PowerShell editions
+paths:
+  - ~\Documents\PowerShell\Modules          # PowerShell Core
+  - ~\Documents\WindowsPowerShell\Modules   # Windows PowerShell
+  - C:\Program Files\PowerShell\Modules     # System PowerShell Core
+  - C:\Program Files\WindowsPowerShell\Modules  # System Windows PowerShell
+```
+
+**Cache Benefits:**
+- Reduced workflow execution time through module reuse
+- Network resilience by avoiding repeated downloads
+- Automatic invalidation when module manifest changes
+- Fallback cache keys for partial cache hits
+
+### Troubleshooting Dependencies
+
+#### Module Installation Issues
+```
+Error: Install-Module failed for Pester
+```
+**Solutions:**
+- Network connectivity issues: Retry logic handles temporary failures
+- Publisher verification: `-SkipPublisherCheck` parameter addresses certificate issues
+- Scope permissions: `-Scope CurrentUser` avoids admin privilege requirements
+
+#### psPAS Import Issues
+```
+Error: No modules named 'psPAS' are currently loaded
+```
+**Solutions:**
+- Module path verification: Check file existence and permissions
+- Import strategy fallback: Workflow automatically tries multiple approaches
+- Diagnostic information: Comprehensive error reporting for troubleshooting
+
+#### Cache Issues
+```
+Warning: Cache miss - modules will be downloaded fresh
+```
+**Normal behavior** - indicates first run or cache invalidation due to changes
+
 ## Known Limitations
 
 ### Act Binary vs GitHub Actions
