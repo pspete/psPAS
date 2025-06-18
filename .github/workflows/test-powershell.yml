@@ -48,26 +48,33 @@ jobs:
       - name: Install PowerShell Dependencies
         timeout-minutes: 15
         run: |
-          Write-Host "📦 Installing PowerShell dependencies on $($env:RUNNER_OS)..."
+          Write-Host "Installing PowerShell dependencies on $($env:RUNNER_OS)..."
           Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
           
-          # PSScriptAnalyzer is the only module we need to install (Pester is pre-installed on GitHub runners)
-          $modules = @('PSScriptAnalyzer')
-          
-          foreach ($module in $modules) {
-            Write-Host "Installing $module..."
-            Install-Module -Name $module -Force -SkipPublisherCheck -Scope CurrentUser
-            Write-Host "✅ $module installed successfully"
+          try {
+            # PSScriptAnalyzer is the only module we need to install (Pester is pre-installed on GitHub runners)
+            $modules = @('PSScriptAnalyzer')
+            
+            foreach ($module in $modules) {
+              Write-Host "Installing $module..."
+              Install-Module -Name $module -Force -SkipPublisherCheck -Scope CurrentUser -ErrorAction Stop
+              Write-Host "$module installed successfully"
+            }
+            
+            # Verify Pester is available
+            Write-Host "Verifying Pester availability..."
+            $pester = Get-Module -Name Pester -ListAvailable
+            if ($pester) {
+              Write-Host "Pester is available: $($pester.Version)"
+            } else {
+              Write-Host "WARNING - Pester not found, installing..."
+              Install-Module -Name Pester -Force -SkipPublisherCheck -Scope CurrentUser -ErrorAction Stop
+              Write-Host "Pester installed successfully"
+            }
           }
-          
-          # Verify Pester is available
-          Write-Host "Verifying Pester availability..."
-          $pester = Get-Module -Name Pester -ListAvailable
-          if ($pester) {
-            Write-Host "✅ Pester is available: $($pester.Version)"
-          } else {
-            Write-Host "⚠️ Pester not found, installing..."
-            Install-Module -Name Pester -Force -SkipPublisherCheck -Scope CurrentUser
+          catch {
+            Write-Error "Failed to install PowerShell dependencies: $_"
+            exit 1
           }
 
 
@@ -75,7 +82,7 @@ jobs:
       - name: Import psPAS Module
         timeout-minutes: 10
         run: |
-          Write-Host "📥 Importing psPAS module on $($env:RUNNER_OS)..."
+          Write-Host "Importing psPAS module on $($env:RUNNER_OS)..."
           Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
           
           $modulePath = if ($env:RUNNER_OS -eq 'Windows') {
@@ -95,7 +102,7 @@ jobs:
             throw "psPAS module not loaded after import"
           }
           
-          Write-Host "✅ psPAS module imported successfully"
+          Write-Host "psPAS module imported successfully"
           Write-Host "   Version: $($module.Version)"
           Write-Host "   Exported Functions: $($module.ExportedFunctions.Count)"
 
@@ -105,11 +112,11 @@ jobs:
         timeout-minutes: 22
         continue-on-error: true
         run: |
-          Write-Host "🧪 Running Pester tests on $($env:RUNNER_OS)..."
+          Write-Host "Running Pester tests on $($env:RUNNER_OS)..."
           Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
           
           # Import psPAS module for this session
-          Write-Host "📥 Importing psPAS module for test session..."
+          Write-Host "Importing psPAS module for test session..."
           $modulePath = if ($env:RUNNER_OS -eq 'Windows') {
             "${{ github.workspace }}\psPAS\psPAS.psd1"
           } else {
@@ -129,7 +136,7 @@ jobs:
             $config.Run.PassThru = $true
             $config.Run.Exit = $false
             $config.TestResult.Enabled = $true
-            $config.TestResult.OutputPath = "TestResults\TestResults.xml"
+            $config.TestResult.OutputPath = Join-Path "TestResults" "TestResults.xml"
             $config.TestResult.OutputFormat = 'NUnitXml'
             $config.Output.Verbosity = 'Normal'
             
@@ -147,7 +154,7 @@ jobs:
             if (-not (Test-Path "TestResults")) {
               New-Item -ItemType Directory -Path "TestResults" -Force | Out-Null
             }
-            "Test execution failed: $_" | Out-File "TestResults\error.log"
+            "Test execution failed: $_" | Out-File (Join-Path "TestResults" "error.log")
           }
 
 
@@ -157,7 +164,7 @@ jobs:
         uses: actions/upload-artifact@v4
         timeout-minutes: 5
         with:
-          name: test-results-${{ github.run_number }}
+          name: test-results-${{ matrix.os }}-${{ matrix.shell }}-${{ github.run_number }}
           path: |
             TestResults/
             *.log
