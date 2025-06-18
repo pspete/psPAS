@@ -31,7 +31,6 @@ jobs:
       PSModulePath: ${{ github.workspace }}/psPAS;$env:PSModulePath
       POWERSHELL_TELEMETRY_OPTOUT: 1
       TEST_RESULTS_PATH: TestResults
-      MODULE_MANIFEST_PATH: psPAS/psPAS.psd1
     
     steps:
       # Repository checkout with retry
@@ -130,7 +129,7 @@ jobs:
           Write-Host "📥 Importing psPAS module..."
           
           # Import with force and error handling
-          Import-Module "${{ env.MODULE_MANIFEST_PATH }}" -Force -ErrorAction Stop
+          Import-Module "psPAS/psPAS.psd1" -Force -ErrorAction Stop
           
           # Verify import
           $module = Get-Module -Name psPAS
