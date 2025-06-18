@@ -74,13 +74,17 @@ Functions organized by CyberArk functionality:
 - Code coverage tracking (when enabled)
 
 ### Build and CI/CD
-- **GitHub Actions**: PowerShell 7.x cross-platform testing on Windows and Linux
-- **AppVeyor**: Legacy Windows PowerShell 5.1 testing and builds
-- **Automated versioning**: Build version must be greater than current manifest version
-- **Testing**: Full Pester test suite execution with NUnit XML output
-- **Packaging**: Creates versioned ZIP releases
-- **Publishing**: Automatic deployment to PowerShell Gallery and GitHub releases
-- **Code signing**: Configured for release builds (when certificates available)
+- **GitHub Actions**: Fork-friendly PowerShell testing workflow for contributors
+  - Cross-platform testing: Windows PowerShell 5.1, PowerShell 7.x on Windows and Ubuntu
+  - Complete test suite execution (1870+ tests across 205+ files)
+  - Self-contained workflow requiring no external setup or secrets
+  - Artifact generation with TestResults.xml for analysis
+- **AppVeyor**: Primary production CI/CD pipeline
+  - Automated versioning: Build version must be greater than current manifest version
+  - Full Pester test suite execution with NUnit XML output
+  - Packaging: Creates versioned ZIP releases
+  - Publishing: Automatic deployment to PowerShell Gallery and GitHub releases
+  - Code signing: Configured for release builds (when certificates available)
 
 ### Key Files for Development
 - `/psPAS/psPAS.psd1`: Module manifest with exported functions and metadata

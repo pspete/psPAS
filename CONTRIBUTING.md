@@ -8,10 +8,20 @@ If you find an error in `psPAS`, or have a question relating to the module, [log
 
 ## Pull Requests
 
-When submitting a Pull Request to psPAS, automated tasks will run in Appveyor.
+When submitting a Pull Request to psPAS, automated testing will run to ensure code quality and functionality.
 
+### Testing Infrastructure
+
+**Fork Contributors**: GitHub Actions workflow provides fork-friendly testing
+- Automatically runs when you push changes to your fork
+- Tests on Windows PowerShell 5.1 and PowerShell 7.x (Windows & Ubuntu)
+- Executes complete test suite (1870+ tests across 205+ test files)
+- No external setup required - completely self-contained
+- Test results available as downloadable artifacts
+
+**Main Repository**: AppVeyor handles production CI/CD
 - Appveyor will increment the version number (there is no need to do this manually)
-- The [`Pester`][pester-repo] tests for the module will run.
+- The [`Pester`][pester-repo] tests for the module will run
 - [Code Coverage][code-coverage] metrics for the module will be determined
 - Once code is merged into the `master` branch, and all tests pass, the module is automatically published to the PowerShell Gallery and tagged as a Release on GitHub
   - No PR's should be submitted to the master branch; submitting to the Dev branch allows for required tests & documentation to be updated prior to any code release.
@@ -20,6 +30,9 @@ When submitting a Pull Request to psPAS, automated tasks will run in Appveyor.
 
 - Fork the repo.
 - Push your changes to your fork.
+  - **Automatic Testing**: GitHub Actions will automatically run the complete test suite when you push changes
+  - **Test Results**: Check the Actions tab in your fork to view test results and download artifacts
+  - **Local Testing**: Run tests locally using `pwsh.exe -File .\build\test.ps1`
 - Write [good commit messages][commit]
 - If no related issue exists already, open a [New Issue][new-issue] describing the problem being fixed or feature.
 - [Update documentation](#updating-documentation) for the command as required.
