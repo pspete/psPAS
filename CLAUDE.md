@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Run all tests**: `pwsh.exe -File .\build\test.ps1` or `Invoke-Pester -Configuration $config` where config points to `.\Tests`
 - **Run specific test**: `Invoke-Pester -Path .\Tests\<FunctionName>.Tests.ps1`
 - **Test framework**: Pester (PowerShell testing framework)
+- **PowerShell compatibility**: Supports PowerShell 5.1+ and PowerShell 7.x cross-platform (Windows, Linux)
 
 ### Development Workflow
 - **Build package**: `pwsh.exe -File .\build\build.ps1`
@@ -72,7 +73,9 @@ Functions organized by CyberArk functionality:
 - Help documentation validation
 - Code coverage tracking (when enabled)
 
-### Build and CI/CD (AppVeyor)
+### Build and CI/CD
+- **GitHub Actions**: PowerShell 7.x cross-platform testing on Windows and Linux
+- **AppVeyor**: Legacy Windows PowerShell 5.1 testing and builds
 - **Automated versioning**: Build version must be greater than current manifest version
 - **Testing**: Full Pester test suite execution with NUnit XML output
 - **Packaging**: Creates versioned ZIP releases

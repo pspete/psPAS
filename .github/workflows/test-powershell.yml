@@ -2,29 +2,37 @@ name: PowerShell Tests (Fork-Friendly)
 
 # Streamlined PowerShell testing workflow for psPAS module
 # Features simple dependency installation and fork-friendly operation
+# Supports PowerShell 5.1+ and PowerShell 7.x cross-platform testing
 
 on:
   push:
   pull_request:
   workflow_dispatch:
 
-
 jobs:
   test:
-    name: PowerShell Tests on Windows
-    runs-on: windows-latest
+    name: PowerShell Tests
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        shell: [pwsh]
+        include:
+          # Test Windows PowerShell 5.1 for backwards compatibility
+          - os: windows-latest
+            shell: powershell
     
     defaults:
       run:
-        shell: pwsh
+        shell: ${{ matrix.shell }}
         
     permissions:
       contents: read
       actions: read
       
     env:
-      PSModulePath: ${{ github.workspace }}/psPAS;$env:PSModulePath
       POWERSHELL_TELEMETRY_OPTOUT: 1
       TEST_RESULTS_PATH: TestResults
     
@@ -36,19 +44,30 @@ jobs:
         with:
           fetch-depth: 1
           
-
       # Install PowerShell Dependencies
       - name: Install PowerShell Dependencies
         timeout-minutes: 15
         run: |
-          Write-Host "📦 Installing PowerShell dependencies..."
+          Write-Host "📦 Installing PowerShell dependencies on $($env:RUNNER_OS)..."
+          Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
           
-          $modules = @('Pester', 'PSScriptAnalyzer')
+          # PSScriptAnalyzer is the only module we need to install (Pester is pre-installed on GitHub runners)
+          $modules = @('PSScriptAnalyzer')
           
           foreach ($module in $modules) {
             Write-Host "Installing $module..."
             Install-Module -Name $module -Force -SkipPublisherCheck -Scope CurrentUser
             Write-Host "✅ $module installed successfully"
+          }
+          
+          # Verify Pester is available
+          Write-Host "Verifying Pester availability..."
+          $pester = Get-Module -Name Pester -ListAvailable
+          if ($pester) {
+            Write-Host "✅ Pester is available: $($pester.Version)"
+          } else {
+            Write-Host "⚠️ Pester not found, installing..."
+            Install-Module -Name Pester -Force -SkipPublisherCheck -Scope CurrentUser
           }
 
 
@@ -56,10 +75,19 @@ jobs:
       - name: Import psPAS Module
         timeout-minutes: 10
         run: |
-          Write-Host "📥 Importing psPAS module..."
+          Write-Host "📥 Importing psPAS module on $($env:RUNNER_OS)..."
+          Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
+          
+          $modulePath = if ($env:RUNNER_OS -eq 'Windows') {
+            "${{ github.workspace }}\psPAS\psPAS.psd1"
+          } else {
+            "${{ github.workspace }}/psPAS/psPAS.psd1"
+          }
+          
+          Write-Host "Module path: $modulePath"
           
           # Import with force and error handling
-          Import-Module "${{ github.workspace }}/psPAS/psPAS.psd1" -Force -ErrorAction Stop
+          Import-Module $modulePath -Force -ErrorAction Stop
           
           # Verify import
           $module = Get-Module -Name psPAS
@@ -77,11 +105,17 @@ jobs:
         timeout-minutes: 22
         continue-on-error: true
         run: |
-          Write-Host "🧪 Running Pester tests..."
+          Write-Host "🧪 Running Pester tests on $($env:RUNNER_OS)..."
+          Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
           
           # Import psPAS module for this session
           Write-Host "📥 Importing psPAS module for test session..."
-          Import-Module "${{ github.workspace }}/psPAS/psPAS.psd1" -Force -ErrorAction Stop
+          $modulePath = if ($env:RUNNER_OS -eq 'Windows') {
+            "${{ github.workspace }}\psPAS\psPAS.psd1"
+          } else {
+            "${{ github.workspace }}/psPAS/psPAS.psd1"
+          }
+          Import-Module $modulePath -Force -ErrorAction Stop
           
           try {
             # Create test results directory
