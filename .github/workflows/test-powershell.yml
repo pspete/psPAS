@@ -158,14 +158,6 @@ jobs:
             "Test execution failed: $_" | Out-File "$env:TEST_RESULTS_PATH\error.log"
           }
 
-      # Performance summary
-      - name: Performance Summary
-        if: always()
-        timeout-minutes: 2
-        run: |
-          Write-Host "📈 Workflow Performance Summary"
-          Write-Host "Execution completed at: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
-          Write-Host "Target: Under 25 minutes"
 
       # Upload test results
       - name: Upload Test Results
