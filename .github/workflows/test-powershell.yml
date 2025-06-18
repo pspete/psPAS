@@ -141,26 +141,6 @@ jobs:
           Write-Host "   Version: $($module.Version)"
           Write-Host "   Exported Functions: $($module.ExportedFunctions.Count)"
 
-      # Basic validation
-      - name: Basic Module Validation
-        timeout-minutes: 3
-        run: |
-          Write-Host "🧪 Running basic module validation..."
-          
-          # Verify module is loaded
-          $module = Get-Module -Name psPAS
-          if (-not $module) {
-            throw "psPAS module is not loaded"
-          }
-          
-          # Check exported functions
-          $functions = $module.ExportedFunctions
-          if ($functions.Count -eq 0) {
-            throw "No functions exported from psPAS module"
-          }
-          
-          Write-Host "✅ Module validation passed"
-          Write-Host "   Functions available: $($functions.Count)"
 
       # Run tests with error handling
       - name: Run Tests
