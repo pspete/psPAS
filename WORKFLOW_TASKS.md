@@ -604,8 +604,39 @@ Import-Module ./psPAS/psPAS.psd1 -Force -Global
 
 ---
 
-## Sequential Task J: Final Integration and Validation
+## Sequential Task J: PowerShell 7.x Testing Support
 *Must complete after Group 5*
+
+**Status**: ⏳ Not Started  
+**Estimated Effort**: 2-3 hours  
+**Dependencies**: All previous tasks completed  
+**Completion Target**: 2025-06-18
+
+### Task J1: Add PowerShell 7.x Testing Matrix
+
+**Objective**: Extend workflow to test on both Windows PowerShell 5.1 and PowerShell 7.x for better compatibility coverage.
+
+**Actions**:
+- [ ] Add matrix strategy to test on multiple PowerShell versions
+- [ ] Configure PowerShell 7.x testing environment  
+- [ ] Ensure psPAS module compatibility with PowerShell 7.x
+- [ ] Validate test execution on both PowerShell versions
+- [ ] Update workflow to handle version-specific differences
+
+**Priority**: High - Better coverage before cleanup phase  
+**Rationale**: PowerShell 7.x testing provides valuable compatibility validation and can be tested locally with act for troubleshooting.
+
+**Notes**: This should be implemented before any local cleanup tasks since act can be used to troubleshoot PowerShell version compatibility issues.
+
+---
+
+## Sequential Task K: Final Integration and Validation
+*Must complete after PowerShell 7.x testing*
+
+**Status**: ⏳ Not Started  
+**Estimated Effort**: 4-6 hours  
+**Dependencies**: PowerShell 7.x testing completed  
+**Completion Target**: 2025-06-18
 
 ### Task K1: Final Workflow Integration
 - **Owner**: Main agent
