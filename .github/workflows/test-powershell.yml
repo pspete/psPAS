@@ -37,7 +37,7 @@ jobs:
           fetch-depth: 1
           
 
-      # Cache PowerShell dependencies (Pester and PSScriptAnalyzer)
+      # Cache and Install PowerShell Dependencies
       - name: Cache PowerShell Dependencies
         uses: actions/cache@v4
         with:
@@ -45,9 +45,8 @@ jobs:
           key: powershell-modules-${{ runner.os }}-pester-psscriptanalyzer
           restore-keys: |
             powershell-modules-${{ runner.os }}-
-
-      # Install dependencies
-      - name: Install Dependencies
+            
+      - name: Install PowerShell Dependencies
         timeout-minutes: 15
         run: |
           Write-Host "📦 Installing PowerShell dependencies..."
