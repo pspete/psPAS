@@ -29,10 +29,10 @@ jobs:
       actions: read
       
     env:
-      PSModulePath: ${{ github.workspace }}\psPAS;$env:PSModulePath
+      PSModulePath: ${{ github.workspace }}/psPAS;$env:PSModulePath
       POWERSHELL_TELEMETRY_OPTOUT: 1
       TEST_RESULTS_PATH: TestResults
-      MODULE_MANIFEST_PATH: psPAS\psPAS.psd1
+      MODULE_MANIFEST_PATH: psPAS/psPAS.psd1
     
     steps:
       # Repository checkout with retry
@@ -68,8 +68,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ~\Documents\PowerShell\Modules
-            ~\AppData\Local\Microsoft\Windows\PowerShell\ModuleAnalysisCache
+            ~/Documents/PowerShell/Modules
+            ~/AppData/Local/Microsoft/Windows/PowerShell/ModuleAnalysisCache
           key: powershell-modules-${{ env.CACHE_VERSION }}-${{ runner.os }}-${{ hashFiles('psPAS/psPAS.psd1') }}
           restore-keys: |
             powershell-modules-${{ env.CACHE_VERSION }}-${{ runner.os }}-
@@ -79,7 +79,7 @@ jobs:
       - name: Cache NuGet Packages
         uses: actions/cache@v4
         with:
-          path: ~\.nuget\packages
+          path: ~/.nuget/packages
           key: nuget-${{ env.CACHE_VERSION }}-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/*.fsproj', '**/*.vbproj') }}
           restore-keys: |
             nuget-${{ env.CACHE_VERSION }}-${{ runner.os }}-
@@ -90,7 +90,7 @@ jobs:
         with:
           path: |
             TestResults
-            psPAS\en-US
+            psPAS/en-US
           key: build-artifacts-${{ env.CACHE_VERSION }}-${{ github.sha }}
           restore-keys: |
             build-artifacts-${{ env.CACHE_VERSION }}-
