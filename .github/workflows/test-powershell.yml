@@ -129,7 +129,7 @@ jobs:
           Write-Host "📥 Importing psPAS module..."
           
           # Import with force and error handling
-          Import-Module "psPAS/psPAS.psd1" -Force -ErrorAction Stop
+          Import-Module "${{ github.workspace }}/psPAS/psPAS.psd1" -Force -ErrorAction Stop
           
           # Verify import
           $module = Get-Module -Name psPAS
