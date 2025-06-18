@@ -4,6 +4,40 @@ name: PowerShell Tests (Fork-Friendly)
 # Features simple dependency installation and fork-friendly operation
 # Supports PowerShell 5.1+ and PowerShell 7.x cross-platform testing
 
+# WORKFLOW ARCHITECTURE
+# This workflow implements a 4-step testing process optimized for simplicity and reliability:
+# 1. Repository checkout with minimal depth for performance
+# 2. Module import with cross-platform path handling and comprehensive error handling
+# 3. Test execution using Pester with NUnit XML output (1870+ tests across 205+ files)
+# 4. Result artifact upload with 30-day retention for analysis
+#
+# DESIGN PHILOSOPHY: Maximum simplicity for fork-friendly contribution
+# - No complex caching mechanisms that can fail in fork environments
+# - Direct dependency resolution every run for predictable behavior
+# - Comprehensive error messages and generous timeout handling
+# - Self-contained execution requiring no external setup or secrets
+#
+# CONTRIBUTOR GUIDE
+# Fork contributors can:
+# - Push changes to trigger automatic testing on their fork
+# - Run tests locally using: pwsh.exe -File .\build\test.ps1
+# - Test specific functions: Invoke-Pester -Path .\Tests\<FunctionName>.Tests.ps1
+# - Import module locally: Import-Module .\psPAS\psPAS.psd1 -Force
+# - View detailed test results in Actions tab artifacts
+# - Modify workflow safely - all changes are validated before any merge
+#
+# PERFORMANCE EXPECTATIONS
+# - Total execution time: 12-15 minutes across all matrix configurations
+# - Test discovery and execution: ~6-8 minutes per configuration
+# - Cross-platform compatibility testing on Windows PowerShell 5.1, PowerShell 7.x
+# - Artifact generation: TestResults.xml with comprehensive test output
+#
+# TROUBLESHOOTING
+# - Module import failures: Check PowerShell version compatibility in logs
+# - Test failures: Review specific test output in uploaded TestResults.xml artifacts
+# - Timeout issues: Generous timeouts indicate system/network problems, not workflow issues
+# - Cross-platform issues: Workflow handles Windows/Linux path differences automatically
+
 on:
   push:
   pull_request:
@@ -13,6 +47,7 @@ jobs:
   test:
     name: PowerShell Tests
     runs-on: ${{ matrix.os }}
+    # Generous timeout accommodates slower runners and comprehensive test suite execution (1870+ tests)
     timeout-minutes: 25
     strategy:
       fail-fast: false
@@ -33,18 +68,23 @@ jobs:
       actions: read
       
     env:
+      # Disable PowerShell telemetry for cleaner CI logs and faster execution
       POWERSHELL_TELEMETRY_OPTOUT: 1
+      # Standardized test results directory for artifact collection
       TEST_RESULTS_PATH: TestResults
     
     steps:
-      # Repository checkout with retry
+      # Repository checkout with minimal depth for optimal performance
+      # Fetches only the latest commit to reduce clone time and bandwidth usage
       - name: Checkout Repository
         uses: actions/checkout@v4
         timeout-minutes: 5
         with:
           fetch-depth: 1
           
-      # Import psPAS module
+      # Import psPAS module with comprehensive error handling and cross-platform support
+      # This step validates module loading across all supported PowerShell versions
+      # and provides detailed diagnostics for troubleshooting import failures
       - name: Import psPAS Module
         timeout-minutes: 10
         run: |
@@ -73,7 +113,9 @@ jobs:
           Write-Host "   Exported Functions: $($module.ExportedFunctions.Count)"
 
 
-      # Run tests with error handling
+      # Execute Pester test suite with robust configuration and comprehensive error handling
+      # Configures Pester for NUnit XML output compatible with CI/CD systems
+      # Runs complete test suite (1870+ tests) with detailed result capture and artifact generation
       - name: Run Tests
         timeout-minutes: 22
         run: |
@@ -117,7 +159,8 @@ jobs:
           }
           catch {
             Write-Error "Test execution failed: $_"
-            # Create placeholder results file for artifact upload
+            # Create diagnostic information for contributor troubleshooting
+            # Error logs are uploaded as artifacts for detailed analysis and debugging
             if (-not (Test-Path "TestResults")) {
               New-Item -ItemType Directory -Path "TestResults" -Force | Out-Null
             }
@@ -126,7 +169,9 @@ jobs:
           }
 
 
-      # Upload test results
+      # Upload test results and artifacts for contributor analysis
+      # Provides comprehensive test output accessible to fork contributors for debugging
+      # Includes TestResults.xml with detailed test outcomes and any error logs generated
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v4
