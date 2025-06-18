@@ -44,43 +44,6 @@ jobs:
         with:
           fetch-depth: 1
           
-      # Verify PowerShell Dependencies
-      - name: Verify PowerShell Dependencies
-        timeout-minutes: 10
-        run: |
-          Write-Host "Verifying PowerShell dependencies on $($env:RUNNER_OS)..."
-          Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
-          
-          try {
-            # Verify pre-installed modules are available
-            Write-Host "Verifying pre-installed PowerShell modules..."
-            
-            # Check PSScriptAnalyzer (pre-installed on GitHub runners)
-            $psScriptAnalyzer = Get-Module -Name PSScriptAnalyzer -ListAvailable
-            if ($psScriptAnalyzer) {
-              Write-Host "PSScriptAnalyzer is available: $($psScriptAnalyzer.Version)"
-            } else {
-              Write-Host "WARNING - PSScriptAnalyzer not found, installing..."
-              Install-Module -Name PSScriptAnalyzer -Force -SkipPublisherCheck -Scope CurrentUser -ErrorAction Stop
-              Write-Host "PSScriptAnalyzer installed successfully"
-            }
-            
-            # Check Pester (pre-installed on GitHub runners)
-            $pester = Get-Module -Name Pester -ListAvailable
-            if ($pester) {
-              Write-Host "Pester is available: $($pester.Version)"
-            } else {
-              Write-Host "WARNING - Pester not found, installing..."
-              Install-Module -Name Pester -Force -SkipPublisherCheck -Scope CurrentUser -ErrorAction Stop
-              Write-Host "Pester installed successfully"
-            }
-          }
-          catch {
-            Write-Error "Failed to verify PowerShell dependencies: $_"
-            exit 1
-          }
-
-
       # Import psPAS module
       - name: Import psPAS Module
         timeout-minutes: 10
