@@ -107,20 +107,6 @@ jobs:
             Write-Host "✅ $module installed successfully"
           }
 
-      # Verify module installation
-      - name: Verify Module Installation
-        timeout-minutes: 5
-        run: |
-          Write-Host "🔍 Verifying module installation..."
-          
-          $requiredModules = @('Pester', 'PSScriptAnalyzer')
-          foreach ($module in $requiredModules) {
-            $installedModule = Get-Module -ListAvailable -Name $module | Select-Object -First 1
-            if (-not $installedModule) {
-              throw "Required module not found: $module"
-            }
-            Write-Host "✅ $module version $($installedModule.Version) available"
-          }
 
       # Import psPAS module
       - name: Import psPAS Module
