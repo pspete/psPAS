@@ -169,6 +169,10 @@ jobs:
         run: |
           Write-Host "🧪 Running Pester tests..."
           
+          # Import psPAS module for this session
+          Write-Host "📥 Importing psPAS module for test session..."
+          Import-Module "${{ github.workspace }}/psPAS/psPAS.psd1" -Force -ErrorAction Stop
+          
           try {
             # Create test results directory
             if (-not (Test-Path $env:TEST_RESULTS_PATH)) {
