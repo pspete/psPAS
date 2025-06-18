@@ -41,12 +41,10 @@ jobs:
       - name: Cache PowerShell Dependencies
         uses: actions/cache@v4
         with:
-          path: |
-            ~/Documents/PowerShell/Modules/Pester
-            ~/Documents/PowerShell/Modules/PSScriptAnalyzer
-          key: powershell-deps-${{ runner.os }}-pester-psscriptanalyzer
+          path: C:\Users\runneradmin\Documents\PowerShell\Modules
+          key: powershell-modules-${{ runner.os }}-pester-psscriptanalyzer
           restore-keys: |
-            powershell-deps-${{ runner.os }}-
+            powershell-modules-${{ runner.os }}-
 
       # Install dependencies
       - name: Install Dependencies
