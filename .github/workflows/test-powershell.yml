@@ -44,25 +44,28 @@ jobs:
         with:
           fetch-depth: 1
           
-      # Install PowerShell Dependencies
-      - name: Install PowerShell Dependencies
-        timeout-minutes: 15
+      # Verify PowerShell Dependencies
+      - name: Verify PowerShell Dependencies
+        timeout-minutes: 10
         run: |
-          Write-Host "Installing PowerShell dependencies on $($env:RUNNER_OS)..."
+          Write-Host "Verifying PowerShell dependencies on $($env:RUNNER_OS)..."
           Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
           
           try {
-            # PSScriptAnalyzer is the only module we need to install (Pester is pre-installed on GitHub runners)
-            $modules = @('PSScriptAnalyzer')
+            # Verify pre-installed modules are available
+            Write-Host "Verifying pre-installed PowerShell modules..."
             
-            foreach ($module in $modules) {
-              Write-Host "Installing $module..."
-              Install-Module -Name $module -Force -SkipPublisherCheck -Scope CurrentUser -ErrorAction Stop
-              Write-Host "$module installed successfully"
+            # Check PSScriptAnalyzer (pre-installed on GitHub runners)
+            $psScriptAnalyzer = Get-Module -Name PSScriptAnalyzer -ListAvailable
+            if ($psScriptAnalyzer) {
+              Write-Host "PSScriptAnalyzer is available: $($psScriptAnalyzer.Version)"
+            } else {
+              Write-Host "WARNING - PSScriptAnalyzer not found, installing..."
+              Install-Module -Name PSScriptAnalyzer -Force -SkipPublisherCheck -Scope CurrentUser -ErrorAction Stop
+              Write-Host "PSScriptAnalyzer installed successfully"
             }
             
-            # Verify Pester is available
-            Write-Host "Verifying Pester availability..."
+            # Check Pester (pre-installed on GitHub runners)
             $pester = Get-Module -Name Pester -ListAvailable
             if ($pester) {
               Write-Host "Pester is available: $($pester.Version)"
@@ -73,7 +76,7 @@ jobs:
             }
           }
           catch {
-            Write-Error "Failed to install PowerShell dependencies: $_"
+            Write-Error "Failed to verify PowerShell dependencies: $_"
             exit 1
           }
 
