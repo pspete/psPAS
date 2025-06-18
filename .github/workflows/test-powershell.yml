@@ -1,7 +1,7 @@
 name: PowerShell Tests (Fork-Friendly)
 
-# Optimized PowerShell testing workflow for psPAS module
-# Features essential caching, retry mechanisms, and fork-friendly operation
+# Streamlined PowerShell testing workflow for psPAS module
+# Features essential 3-tier caching and fork-friendly operation
 
 on:
   push:
