@@ -1,7 +1,7 @@
 name: PowerShell Tests (Fork-Friendly)
 
 # Streamlined PowerShell testing workflow for psPAS module
-# Features essential 3-tier caching and fork-friendly operation
+# Features simple dependency installation and fork-friendly operation
 
 on:
   push:
@@ -37,15 +37,7 @@ jobs:
           fetch-depth: 1
           
 
-      # Cache and Install PowerShell Dependencies
-      - name: Cache PowerShell Dependencies
-        uses: actions/cache@v4
-        with:
-          path: C:\Users\runneradmin\Documents\PowerShell\Modules
-          key: powershell-modules-${{ runner.os }}-pester-psscriptanalyzer
-          restore-keys: |
-            powershell-modules-${{ runner.os }}-
-            
+      # Install PowerShell Dependencies
       - name: Install PowerShell Dependencies
         timeout-minutes: 15
         run: |
