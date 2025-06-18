@@ -8,10 +8,6 @@ on:
   pull_request:
   workflow_dispatch:
 
-env:
-  CACHE_VERSION: v4
-  MODULE_CACHE_TTL: 14
-  POWERSHELL_EXECUTION_POLICY: RemoteSigned
 
 jobs:
   test:
@@ -41,37 +37,16 @@ jobs:
           fetch-depth: 1
           
 
-      # Cache 1: PowerShell Modules
-      - name: Cache PowerShell Modules
+      # Cache PowerShell dependencies (Pester and PSScriptAnalyzer)
+      - name: Cache PowerShell Dependencies
         uses: actions/cache@v4
         with:
           path: |
-            ~/Documents/PowerShell/Modules
-            ~/AppData/Local/Microsoft/Windows/PowerShell/ModuleAnalysisCache
-          key: powershell-modules-${{ env.CACHE_VERSION }}-${{ runner.os }}-${{ hashFiles('psPAS/psPAS.psd1') }}
+            ~/Documents/PowerShell/Modules/Pester
+            ~/Documents/PowerShell/Modules/PSScriptAnalyzer
+          key: powershell-deps-${{ runner.os }}-pester-psscriptanalyzer
           restore-keys: |
-            powershell-modules-${{ env.CACHE_VERSION }}-${{ runner.os }}-
-            powershell-modules-${{ env.CACHE_VERSION }}-
-
-      # Cache 2: NuGet Packages  
-      - name: Cache NuGet Packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: nuget-${{ env.CACHE_VERSION }}-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/*.fsproj', '**/*.vbproj') }}
-          restore-keys: |
-            nuget-${{ env.CACHE_VERSION }}-${{ runner.os }}-
-            
-      # Cache 3: Build Artifacts
-      - name: Cache Build Artifacts
-        uses: actions/cache@v4
-        with:
-          path: |
-            TestResults
-            psPAS/en-US
-          key: build-artifacts-${{ env.CACHE_VERSION }}-${{ github.sha }}
-          restore-keys: |
-            build-artifacts-${{ env.CACHE_VERSION }}-
+            powershell-deps-${{ runner.os }}-
 
       # Install dependencies
       - name: Install Dependencies
@@ -121,8 +96,8 @@ jobs:
           
           try {
             # Create test results directory
-            if (-not (Test-Path $env:TEST_RESULTS_PATH)) {
-              New-Item -ItemType Directory -Path $env:TEST_RESULTS_PATH -Force | Out-Null
+            if (-not (Test-Path "TestResults")) {
+              New-Item -ItemType Directory -Path "TestResults" -Force | Out-Null
             }
             
             # Configure Pester
@@ -131,7 +106,7 @@ jobs:
             $config.Run.PassThru = $true
             $config.Run.Exit = $false
             $config.TestResult.Enabled = $true
-            $config.TestResult.OutputPath = "$env:TEST_RESULTS_PATH\TestResults.xml"
+            $config.TestResult.OutputPath = "TestResults\TestResults.xml"
             $config.TestResult.OutputFormat = 'NUnitXml'
             $config.Output.Verbosity = 'Normal'
             
@@ -152,10 +127,10 @@ jobs:
           catch {
             Write-Error "Test execution failed: $_"
             # Create placeholder results file for artifact upload
-            if (-not (Test-Path $env:TEST_RESULTS_PATH)) {
-              New-Item -ItemType Directory -Path $env:TEST_RESULTS_PATH -Force | Out-Null
+            if (-not (Test-Path "TestResults")) {
+              New-Item -ItemType Directory -Path "TestResults" -Force | Out-Null
             }
-            "Test execution failed: $_" | Out-File "$env:TEST_RESULTS_PATH\error.log"
+            "Test execution failed: $_" | Out-File "TestResults\error.log"
           }
 
 
