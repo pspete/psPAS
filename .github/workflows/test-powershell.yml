@@ -152,15 +152,13 @@ jobs:
             
             # Fail job if tests failed
             if ($result.FailedCount -gt 0) {
-              Write-Error "TEST FAILURE: $($result.FailedCount) test(s) failed"
+              Write-Host "TEST FAILURE: $($result.FailedCount) test(s) failed"
               exit 1
             }
             
           }
           catch {
-            Write-Error "Test execution failed: $_"
-            # Create diagnostic information for contributor troubleshooting
-            # Error logs are uploaded as artifacts for detailed analysis and debugging
+            Write-Host "Test execution failed: $_"
             if (-not (Test-Path "TestResults")) {
               New-Item -ItemType Directory -Path "TestResults" -Force | Out-Null
             }
