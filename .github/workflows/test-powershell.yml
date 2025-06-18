@@ -40,26 +40,6 @@ jobs:
         with:
           fetch-depth: 1
           
-      # Verify repository structure
-      - name: Verify Repository Structure
-        timeout-minutes: 3
-        run: |
-          Write-Host "🔍 Verifying repository structure..."
-          
-          $requiredPaths = @(
-            'psPAS/psPAS.psd1',
-            'psPAS/psPAS.psm1', 
-            'Tests'
-          )
-          
-          foreach ($path in $requiredPaths) {
-            if (-not (Test-Path $path)) {
-              throw "Required path not found: $path"
-            }
-            Write-Host "✅ Found: $path"
-          }
-          
-          Write-Host "✅ Repository structure verified"
 
       # Cache 1: PowerShell Modules
       - name: Cache PowerShell Modules
