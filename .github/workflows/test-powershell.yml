@@ -172,23 +172,3 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
 
-      # Cleanup
-      - name: Cleanup
-        if: always()
-        timeout-minutes: 3
-        run: |
-          Write-Host "🧹 Performing cleanup..."
-          
-          try {
-            # Remove loaded modules
-            Get-Module psPAS -ErrorAction SilentlyContinue | Remove-Module -Force -ErrorAction SilentlyContinue
-            
-            # Garbage collection
-            [System.GC]::Collect()
-            [System.GC]::WaitForPendingFinalizers()
-            
-            Write-Host "✅ Cleanup completed"
-          }
-          catch {
-            Write-Warning "Cleanup warning: $_"
-          }
