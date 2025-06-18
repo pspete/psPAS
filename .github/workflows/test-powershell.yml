@@ -11,7 +11,6 @@ on:
 env:
   CACHE_VERSION: v4
   MODULE_CACHE_TTL: 14
-  RETRY_MAX_ATTEMPTS: 3
   POWERSHELL_EXECUTION_POLICY: RemoteSigned
 
 jobs:
@@ -95,34 +94,18 @@ jobs:
           restore-keys: |
             build-artifacts-${{ env.CACHE_VERSION }}-
 
-      # Install dependencies with retry
+      # Install dependencies
       - name: Install Dependencies
         timeout-minutes: 15
         run: |
           Write-Host "📦 Installing PowerShell dependencies..."
           
           $modules = @('Pester', 'PSScriptAnalyzer')
-          $retryCount = 0
-          $maxRetries = $env:RETRY_MAX_ATTEMPTS
           
           foreach ($module in $modules) {
-            $retryCount = 0
-            do {
-              try {
-                Write-Host "Installing $module (attempt $($retryCount + 1)/$maxRetries)..."
-                Install-Module -Name $module -Force -SkipPublisherCheck -Scope CurrentUser
-                Write-Host "✅ $module installed successfully"
-                break
-              }
-              catch {
-                $retryCount++
-                if ($retryCount -ge $maxRetries) {
-                  throw "Failed to install $module after $maxRetries attempts: $_"
-                }
-                Write-Warning "Retry $retryCount/$maxRetries for $module failed: $_"
-                Start-Sleep -Seconds 5
-              }
-            } while ($retryCount -lt $maxRetries)
+            Write-Host "Installing $module..."
+            Install-Module -Name $module -Force -SkipPublisherCheck -Scope CurrentUser
+            Write-Host "✅ $module installed successfully"
           }
 
       # Verify module installation
@@ -140,43 +123,24 @@ jobs:
             Write-Host "✅ $module version $($installedModule.Version) available"
           }
 
-      # Import psPAS module with retry
+      # Import psPAS module
       - name: Import psPAS Module
         timeout-minutes: 10
         run: |
           Write-Host "📥 Importing psPAS module..."
           
-          $retryCount = 0
-          $maxRetries = $env:RETRY_MAX_ATTEMPTS
+          # Import with force and error handling
+          Import-Module "${{ env.MODULE_MANIFEST_PATH }}" -Force -ErrorAction Stop
           
-          do {
-            try {
-              Write-Host "Importing psPAS (attempt $($retryCount + 1)/$maxRetries)..."
-              
-              # Import with force and error handling
-              Import-Module "${{ env.MODULE_MANIFEST_PATH }}" -Force -ErrorAction Stop
-              
-              # Verify import
-              $module = Get-Module -Name psPAS
-              if (-not $module) {
-                throw "psPAS module not loaded after import"
-              }
-              
-              Write-Host "✅ psPAS module imported successfully"
-              Write-Host "   Version: $($module.Version)"
-              Write-Host "   Exported Functions: $($module.ExportedFunctions.Count)"
-              break
-              
-            }
-            catch {
-              $retryCount++
-              if ($retryCount -ge $maxRetries) {
-                throw "Failed to import psPAS module after $maxRetries attempts: $_"
-              }
-              Write-Warning "Import attempt $retryCount failed: $_"
-              Start-Sleep -Seconds 5
-            }
-          } while ($retryCount -lt $maxRetries)
+          # Verify import
+          $module = Get-Module -Name psPAS
+          if (-not $module) {
+            throw "psPAS module not loaded after import"
+          }
+          
+          Write-Host "✅ psPAS module imported successfully"
+          Write-Host "   Version: $($module.Version)"
+          Write-Host "   Exported Functions: $($module.ExportedFunctions.Count)"
 
       # Basic validation
       - name: Basic Module Validation
