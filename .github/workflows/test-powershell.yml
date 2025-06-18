@@ -76,7 +76,6 @@ jobs:
       # Run tests with error handling
       - name: Run Tests
         timeout-minutes: 22
-        continue-on-error: true
         run: |
           Write-Host "Running Pester tests on $($env:RUNNER_OS)..."
           Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
@@ -109,8 +108,10 @@ jobs:
             # Run tests
             $result = Invoke-Pester -Configuration $config
             
+            # Fail job if tests failed
             if ($result.FailedCount -gt 0) {
-              Write-Warning "Some tests failed, but continuing for fork-friendly operation"
+              Write-Error "TEST FAILURE: $($result.FailedCount) test(s) failed"
+              exit 1
             }
             
           }
@@ -121,6 +122,7 @@ jobs:
               New-Item -ItemType Directory -Path "TestResults" -Force | Out-Null
             }
             "Test execution failed: $_" | Out-File (Join-Path "TestResults" "error.log")
+            exit 1
           }
 
 
