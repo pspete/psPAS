@@ -102,12 +102,6 @@ jobs:
             # Run tests
             $result = Invoke-Pester -Configuration $config
             
-            Write-Host "📊 Test Results:"
-            Write-Host "   Total: $($result.TotalCount)"
-            Write-Host "   Passed: $($result.PassedCount)" 
-            Write-Host "   Failed: $($result.FailedCount)"
-            Write-Host "   Skipped: $($result.SkippedCount)"
-            
             if ($result.FailedCount -gt 0) {
               Write-Warning "Some tests failed, but continuing for fork-friendly operation"
             }
