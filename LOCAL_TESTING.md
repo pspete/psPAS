@@ -1100,6 +1100,7 @@ This workflow serves as an excellent template for other PowerShell module projec
 - **PowerShell version coverage**: Include both PowerShell 5.1 and 7.x
 - **Fork-friendly design**: Ensure external contributors can run tests
 - **Clear error messages**: Make troubleshooting straightforward
+- **GitHub Actions compatibility**: Avoid Write-Error and unicode characters in workflows (fixed in commit d6acbaf)
 
 ---
 

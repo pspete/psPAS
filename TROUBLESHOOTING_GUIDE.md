@@ -10,6 +10,7 @@ This comprehensive troubleshooting guide addresses common issues encountered whe
 3. [Test Execution Failures](#test-execution-failures) - Tests fail in CI environment
 4. [Cross-Platform Path Issues](#cross-platform-path-issues) - Windows vs Ubuntu path handling
 5. [GitHub Actions Workflow Triggers](#github-actions-workflow-triggers) - Workflow not running as expected
+6. [Write-Error Script Execution Issues](#write-error-script-execution-issues) - "At line:1 char:1 WriteErrorException"
 
 ### Emergency Quick Fixes
 ```powershell
@@ -392,6 +393,42 @@ on:
     Write-Host "Branch: ${{ github.ref }}"
     Write-Host "Actor: ${{ github.actor }}"
 ```
+
+## Write-Error Script Execution Issues
+
+### Issue: "At line:1 char:1 WriteErrorException" in GitHub Actions
+
+**Symptoms:**
+- GitHub Actions shows confusing error messages like:
+  ```
+  At line:1 char:1
+  + . 'C:\a\_temp\f439bfc5-0765-4170-b460-f6999fbd74d8.ps1'
+  + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  WriteErrorException
+  ```
+- Workflow fails with PowerShell script execution errors
+- Error occurs even when tests run successfully
+
+**Root Cause:**
+GitHub Actions creates temporary PowerShell script files to execute workflow steps. When `Write-Error` is used in the workflow, it causes the entire script execution to fail with a confusing error message rather than a clear test failure indication.
+
+**Solution:**
+✅ **FIXED** - This issue has been resolved in the latest workflow version (commit d6acbaf)
+
+**Technical Details:**
+- **Problem**: `Write-Error "TEST FAILURE: ..."` was interpreted as script execution failure
+- **Fix**: Replaced with `Write-Host "TEST FAILURE: ..."` for clear reporting
+- **Result**: Test failures are now reported clearly without PowerShell execution errors
+
+**Additional Fixes Applied:**
+- Removed unicode characters (❌, ✅) that can cause encoding issues
+- Simplified error messages to be workflow-appropriate
+- Maintained test failure detection while improving error clarity
+
+**Prevention:**
+- Use `Write-Host` instead of `Write-Error` for reporting in workflows
+- Avoid unicode characters in PowerShell scripts within GitHub Actions
+- Test workflow changes locally when possible before pushing
 
 ## Performance Issues
 
