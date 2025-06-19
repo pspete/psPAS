@@ -757,8 +757,13 @@ Import-Module ./psPAS/psPAS.psd1 -Force -Global
 > **⚠️ IMPORTANT: Protected Files During Cleanup**  
 > During cleanup, the following files in `.github/` are **PROTECTED** and must **NEVER** be deleted:
 > - All GitHub community files (FUNDING.yml, templates, etc.)
-> - Only temporary testing files should be removed (act binary, test scripts, test workflows)
-> - The goal is to remove testing infrastructure while preserving all existing GitHub functionality
+> 
+> **Files to be REMOVED** (temporary development artifacts):
+> - `./bin/act` binary and testing scripts
+> - `LOCAL_TESTING.md` and `TROUBLESHOOTING_GUIDE.md` (development documentation)
+> - Any test workflow files (e.g., `test-minimal.yml`)
+> 
+> The goal is to remove development infrastructure while preserving all existing GitHub functionality and keeping only production-ready documentation.
 
 ### Task L1: Remove Act Binary Setup
 - **Owner**: Main agent
@@ -768,6 +773,7 @@ Import-Module ./psPAS/psPAS.psd1 -Force -Global
   - [ ] Remove `./bin/act` binary
   - [ ] Remove `test-workflow-local.sh` script
   - [ ] Remove any test workflow files (e.g., `test-minimal.yml`)
+  - [ ] Remove temporary documentation files: `LOCAL_TESTING.md`, `TROUBLESHOOTING_GUIDE.md`
   - [ ] Clean up any binary-related temporary files
   - [ ] **Documentation**: Update documentation to remove act binary references
   - [ ] **CRITICAL**: Preserve ALL GitHub community files (FUNDING.yml, ISSUE_TEMPLATE.md, PULL_REQUEST_TEMPLATE.md, feature_request.md, issue-report.md)
@@ -780,15 +786,15 @@ Import-Module ./psPAS/psPAS.psd1 -Force -Global
 - **Status**: ⏳ Not Started
 - **Dependencies**: Task L1 complete
 - **Actions**:
-  - [ ] Remove or archive `LOCAL_TESTING.md` (move to docs archive if needed)
-  - [ ] Update `CLAUDE.md` to reflect final workflow
-  - [ ] Remove act binary references from all documentation
+  - [ ] Verify removal of temporary documentation files (`LOCAL_TESTING.md`, `TROUBLESHOOTING_GUIDE.md`)
+  - [ ] Update `CLAUDE.md` to reflect final production workflow state
+  - [ ] Remove act binary references from all remaining documentation
   - [ ] Update workflow comments to remove local testing references
-  - [ ] Create final contributor documentation focused on GitHub Actions
+  - [ ] Verify `CONTRIBUTING.md` retains comprehensive fork-friendly guidance (keep as permanent documentation)
   - [ ] **Documentation**: Ensure all documentation reflects production-only approach
-- **Deliverable**: Production-ready documentation without act binary references
-- **Acceptance**: Documentation is clean, accurate, and focused on GitHub Actions workflow
-- **Notes**: Keep any useful troubleshooting information but remove act binary setup
+- **Deliverable**: Clean production documentation without temporary testing files or act binary references
+- **Acceptance**: Documentation is streamlined, production-focused, and contains only essential contributor guidance
+- **Notes**: Temporary documentation files (LOCAL_TESTING.md, TROUBLESHOOTING_GUIDE.md) will be removed as they were development artifacts
 
 ### Task L3: Final Repository Cleanup (COMMIT 5)
 - **Owner**: Main agent
