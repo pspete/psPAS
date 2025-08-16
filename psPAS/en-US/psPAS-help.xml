@@ -4900,7 +4900,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Add-PASDiscoveredLocalAccount -type windows -identifiers @{'username'='administrator'; 'address'='somemachine.pspete.dev'}</dev:code>
         <dev:remarks>
           <maml:para>Adds the specified local account as a discovered local account.</maml:para>
@@ -5433,7 +5433,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Add-PASOpenIDConnectProvider -id SomeOIDCProvider -discoveryEndpointUrl https://SomeURLValue
  -clientId SomeID -clientSecretMethod POST</dev:code>
         <dev:remarks>
@@ -6136,7 +6136,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Add-PASPersonalAdminAccount -address somedomain -userName someUser -secret $SomePassword</dev:code>
         <dev:remarks>
           <maml:para>Adds Personal Admin Account to private dedicated Safe.</maml:para>
@@ -6445,7 +6445,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Add-PASPTAExcludedTarget -cidr 192.168.60.10/24</dev:code>
         <dev:remarks>
           <maml:para>Adds 192.168.60.10/24 as an excluded target in PTA administration</maml:para>
@@ -6637,7 +6637,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Add-PASPTAGlobalCatalog -ldap_certificate $Base64Cert -ldap_server GC.domain.com -ssl $true -ldap_port 3269 -upn user@domain.com -ldapPassword $SecureString</dev:code>
         <dev:remarks>
           <maml:para>Adds Global Catalog to PTA configuration</maml:para>
@@ -6753,7 +6753,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Add-PASPTAIncludedTarget -cidr 192.168.60.10/24</dev:code>
         <dev:remarks>
           <maml:para>Adds 192.168.60.10/24 as an included target in PTA administration</maml:para>
@@ -6893,7 +6893,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Add-PASPTAPrivilegedGroup -domain SomeDomain.com -group SomeGroup</dev:code>
         <dev:remarks>
           <maml:para>Adds SomeGroup as to PrivilegedDomainGroupsList in PTA</maml:para>
@@ -7033,7 +7033,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Add-PASPTAPrivilegedUser -platform WINDOWS -user AdminUser</dev:code>
         <dev:remarks>
           <maml:para>Adds AdminUser to PrivilegedUsersList in PTA</maml:para>
@@ -9410,7 +9410,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Clear-PASDiscoveredAccountList</dev:code>
         <dev:remarks>
           <maml:para>Deletes all discovered accounts from the Pending Accounts list.</maml:para>
@@ -9511,7 +9511,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Clear-PASDiscoveredLocalAccount</dev:code>
         <dev:remarks>
           <maml:para>Initiates Delete All discovered local accounts action.</maml:para>
@@ -9657,7 +9657,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3</dev:code>
         <dev:remarks>
           <maml:para>Clears extraPass3 from account with ID 12_34</maml:para>
@@ -9704,7 +9704,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Clear-PASPrivateSSHKey</dev:code>
         <dev:remarks>
           <maml:para>Delete all MFA caching SSH keys</maml:para>
@@ -11070,7 +11070,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Disable-PASUser -id 1234</dev:code>
         <dev:remarks>
           <maml:para>Disables the vault user with id 1234</maml:para>
@@ -11543,7 +11543,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Enable-PASUser -id 1234</dev:code>
         <dev:remarks>
           <maml:para>Enables the vault user with id 1234</maml:para>
@@ -12624,7 +12624,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PASAccountDetail -id 123_45</dev:code>
         <dev:remarks>
           <maml:para>Displays extended details of account with id 123_45</maml:para>
@@ -13323,14 +13323,14 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PASAccountPasswordVersion -AccountID 32_1</dev:code>
         <dev:remarks>
           <maml:para>Get password versions for account with ID 32_1</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PASAccountPasswordVersion -AccountID 32_1 -showTemporary $true</dev:code>
         <dev:remarks>
           <maml:para>Get password versions, including temporary versions for account with ID 32_1</maml:para>
@@ -13992,7 +13992,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASBYOKConfig</dev:code>
         <dev:remarks>
           <maml:para>Get the BYOK status</maml:para>
@@ -14919,14 +14919,14 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASDiscoveredLocalAccount</dev:code>
         <dev:remarks>
           <maml:para>Get all discovered local accounts</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>Get-PASDiscoveredLocalAccount -id SomeID</dev:code>
         <dev:remarks>
           <maml:para>Get specific discovered local account</maml:para>
@@ -15007,7 +15007,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASDiscoveredLocalAccountActivity -id SomeId</dev:code>
         <dev:remarks>
           <maml:para>Get discovery rule activities for specified discovered account</maml:para>
@@ -15320,7 +15320,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASIPAllowList</dev:code>
         <dev:remarks>
           <maml:para>List the current IP Allow List configuration</maml:para>
@@ -15391,7 +15391,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASLinkedAccount -id 66_6</dev:code>
         <dev:remarks>
           <maml:para>Gets linked account details associated with account with ID 66_6</maml:para>
@@ -15458,7 +15458,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASLinkedGroup -id 66_6</dev:code>
         <dev:remarks>
           <maml:para>Gets linked group details associated with account with ID 66_6</maml:para>
@@ -15653,14 +15653,14 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PASOpenIDConnectProvider</dev:code>
         <dev:remarks>
           <maml:para>Returns details of all configured OIDC Providers.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PASOpenIDConnectProvider -id SomeOIDCProvider</dev:code>
         <dev:remarks>
           <maml:para>Returns details of OIDC Provider with ID SomeOIDCProvider</maml:para>
@@ -16411,7 +16411,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PASPlatformSummary</dev:code>
         <dev:remarks>
           <maml:para>Returns list and count of each current platform system types.</maml:para>
@@ -17579,7 +17579,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPTAExcludedTarget</dev:code>
         <dev:remarks>
           <maml:para>Returns all configured excluded targets</maml:para>
@@ -17624,7 +17624,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPTAGlobalCatalog</dev:code>
         <dev:remarks>
           <maml:para>Returns Global Catalog configuration details from PTA</maml:para>
@@ -17669,7 +17669,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPTAIncludedTarget</dev:code>
         <dev:remarks>
           <maml:para>Returns all configured included targets from PTA configuration</maml:para>
@@ -17714,7 +17714,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPTAPrivilegedGroup</dev:code>
         <dev:remarks>
           <maml:para>Return PrivilegedDomainGroupsList from PTA</maml:para>
@@ -17784,7 +17784,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPTAPrivilegedUser</dev:code>
         <dev:remarks>
           <maml:para>Return PrivilegedUsersList PTA security configuration</maml:para>
@@ -18034,7 +18034,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPTARiskEvent -type RISK_UNCONSTRAINED_DELEGATION -status OPEN</dev:code>
         <dev:remarks>
           <maml:para>Get all open risk events related to unconstrained delegation.</maml:para>
@@ -18080,7 +18080,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASPTARiskEventSummary</dev:code>
         <dev:remarks>
           <maml:para>Output PTA risk events summary</maml:para>
@@ -20335,7 +20335,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-PASUserTypeInfo</dev:code>
         <dev:remarks>
           <maml:para>Output information about available user types</maml:para>
@@ -22081,7 +22081,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; New-PASAccountPassword -AccountID 12_3</dev:code>
         <dev:remarks>
           <maml:para>Generates a new password for account with ID 12_3.</maml:para>
@@ -23438,28 +23438,28 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; New-PASPrivateSSHKey</dev:code>
         <dev:remarks>
           <maml:para>Generates an MFA caching SSH key for you, to be used connecting to targets via PSM for SSH.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>PS C:\&gt; New-PASPrivateSSHKey -formats OpenSSH, PEM, PPK</dev:code>
         <dev:remarks>
           <maml:para>Generates an MFA caching SSH key in OpenSSH, PEM &amp; PPK formats.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
         <dev:code>PS C:\&gt; New-PASPrivateSSHKey -UserID 646</dev:code>
         <dev:remarks>
           <maml:para>Generates an MFA caching SSH key for user with id 646.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
         <dev:code>PS C:\&gt; New-PASPrivateSSHKey -keyPassword $cred.Password -UserID 646</dev:code>
         <dev:remarks>
           <maml:para>Generates an MFA caching SSH key for user with id 646, protected by a passphrase</maml:para>
@@ -25871,7 +25871,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>New-PASRequest -AccountId 123_4 -TicketingSystemName SomeITSM -TicketID 4321 -FromDate (Get-date) -ToDate $((Get-Date).AddHours(4)) -PSMRemoteMachine SomeServer</dev:code>
         <dev:remarks>
           <maml:para>Returns hashtable structured to be used as input for account access request operations</maml:para>
@@ -26174,8 +26174,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>IdentityTenantURL</maml:name>
           <maml:description>
             <maml:para>Specify the URL value of the CyberArk Identity Portal to authenticate against.</maml:para>
-            <maml:para>E.G.: - https://&lt;identity-tenant-id&gt;.id.cyberark.cloud</maml:para>
-            <maml:para>- https://&lt;identity-tenant-id&gt;.my.idaptive.app</maml:para>
+            <maml:para>E.G.: - https://identity-tenant-id.id.cyberark.cloud</maml:para>
+            <maml:para>- https://identity-tenant-id.my.idaptive.app</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -26188,7 +26188,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>PrivilegeCloudURL</maml:name>
           <maml:description>
             <maml:para>Specify the URL value used to access the CyberArk Privilege Cloud API.</maml:para>
-            <maml:para>E.G.: - https://&lt;subdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+            <maml:para>E.G.: - https://subdomain.privilegecloud.cyberark.cloud</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -26444,8 +26444,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>IdentityTenantURL</maml:name>
           <maml:description>
             <maml:para>Specify the URL value of the CyberArk Identity Portal to authenticate against.</maml:para>
-            <maml:para>E.G.: - https://&lt;identity-tenant-id&gt;.id.cyberark.cloud</maml:para>
-            <maml:para>- https://&lt;identity-tenant-id&gt;.my.idaptive.app</maml:para>
+            <maml:para>E.G.: - https://identity-tenant-id.id.cyberark.cloud</maml:para>
+            <maml:para>- https://identity-tenant-id.my.idaptive.app</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -26458,7 +26458,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
           <maml:name>PrivilegeCloudURL</maml:name>
           <maml:description>
             <maml:para>Specify the URL value used to access the CyberArk Privilege Cloud API.</maml:para>
-            <maml:para>E.G.: - https://&lt;subdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+            <maml:para>E.G.: - https://subdomain.privilegecloud.cyberark.cloud</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -28011,8 +28011,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:name>IdentityTenantURL</maml:name>
         <maml:description>
           <maml:para>Specify the URL value of the CyberArk Identity Portal to authenticate against.</maml:para>
-          <maml:para>E.G.: - https://&lt;identity-tenant-id&gt;.id.cyberark.cloud</maml:para>
-          <maml:para>- https://&lt;identity-tenant-id&gt;.my.idaptive.app</maml:para>
+          <maml:para>E.G.: - https://identity-tenant-id.id.cyberark.cloud</maml:para>
+          <maml:para>- https://identity-tenant-id.my.idaptive.app</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -28025,7 +28025,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <maml:name>PrivilegeCloudURL</maml:name>
         <maml:description>
           <maml:para>Specify the URL value used to access the CyberArk Privilege Cloud API.</maml:para>
-          <maml:para>E.G.: - https://&lt;subdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+          <maml:para>E.G.: - https://subdomain.privilegecloud.cyberark.cloud</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -28294,7 +28294,7 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 28 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 28 --------------------------</maml:title>
         <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $Cred -IdentityUser</dev:code>
         <dev:remarks>
           <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privileged Cloud environment.</maml:para>
@@ -28303,7 +28303,7 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 29 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 29 --------------------------</maml:title>
         <dev:code>New-PASSession -TenantSubdomain YourTenantName -Credential $Cred -IdentityUser</dev:code>
         <dev:remarks>
           <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privileged Cloud environment.</maml:para>
@@ -28313,7 +28313,7 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 30 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 30 --------------------------</maml:title>
         <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred -PrivilegeCloudURL https://SomeName.privilegecloud.cyberark.cloud -IdentityUser</dev:code>
         <dev:remarks>
           <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to specified Privileged Cloud environment.</maml:para>
@@ -30007,7 +30007,7 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>$password = Read-Host -AsSecureString -Prompt "defaultPassword value"
 Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -defaultPassword $password</dev:code>
         <dev:remarks>
@@ -30247,7 +30247,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID SomePlatform</dev:code>
         <dev:remarks>
           <maml:para>Onboards the specified discovered local account.</maml:para>
@@ -31110,7 +31110,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Remove-PASAuthenticationMethod -id SomeID</dev:code>
         <dev:remarks>
           <maml:para>Deletes authentication method with id "SomeID"</maml:para>
@@ -31492,7 +31492,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Remove-PASDiscoveredLocalAccount -id SomeID</dev:code>
         <dev:remarks>
           <maml:para>Deletes specified discovered local account</maml:para>
@@ -31982,7 +31982,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Remove-PASOpenIDConnectProvider -id SomeOIDCProvider</dev:code>
         <dev:remarks>
           <maml:para>Deletes OIDC Identity Provider with ID SomeOIDCProvider</maml:para>
@@ -32592,14 +32592,14 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Remove-PASPrivateSSHKey</dev:code>
         <dev:remarks>
           <maml:para>Deletes your MFA caching SSH key.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Remove-PASPrivateSSHKey -UserID 646</dev:code>
         <dev:remarks>
           <maml:para>Deletes MFA caching SSH key for user with id 646.</maml:para>
@@ -32719,7 +32719,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Remove-PASPTAExcludedTarget -ID 65b6aa31721d9b5f3a56ca7e</dev:code>
         <dev:remarks>
           <maml:para>Removes excluded target matching ID</maml:para>
@@ -32835,7 +32835,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Remove-PASPTAIncludedTarget -ID 65b6aa31721d9b5f3a56ca7e</dev:code>
         <dev:remarks>
           <maml:para>Removes included target matching ID</maml:para>
@@ -32951,7 +32951,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Remove-PASPTAPrivilegedGroup -ID 65b6aa31721d9b5f3a56ca7e</dev:code>
         <dev:remarks>
           <maml:para>Deletes group configuration matching ID</maml:para>
@@ -33067,7 +33067,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Remove-PASPTAPrivilegedUser -ID 65b6aa31721d9b5f3a56ca7e</dev:code>
         <dev:remarks>
           <maml:para>Deletes user configuration matching ID</maml:para>
@@ -33676,6 +33676,122 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20Safe%20Member.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20Safe%20Member.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-PASTheme</command:name>
+      <command:verb>Remove</command:verb>
+      <command:noun>PASTheme</command:noun>
+      <maml:description>
+        <maml:para>Delete Theme</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Removes a specific theme</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-PASTheme</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+          <maml:name>ThemeName</maml:name>
+          <maml:description>
+            <maml:para>The name of the theme</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+        <maml:name>ThemeName</maml:name>
+        <maml:description>
+          <maml:para>The name of the theme</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Remove-PASTheme -ThemeName "Custom Dark"</dev:code>
+        <dev:remarks>
+          <maml:para>Removes the theme "Custom Dark"</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Remove-PASTheme</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Remove-PASTheme</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/14.4/en/content/sdk/rest-api-cust-ui-themes-delete.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/14.4/en/content/sdk/rest-api-cust-ui-themes-delete.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -35797,7 +35913,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Set-PASGroup -GroupID 420 -GroupName SomeName</dev:code>
         <dev:remarks>
           <maml:para>Renames group with id 420 to "SomeName"</maml:para>
@@ -35917,7 +36033,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Set-PASIPAllowList -customerPublicIPs '10.66.19.45/32','19.79.19.79/22','194.2.192.5/32','201.3.201.3/24'</dev:code>
         <dev:remarks>
           <maml:para>Configures the IP Allow List with the specified addresses</maml:para>
@@ -36131,21 +36247,21 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex 1 -name SomeAdmin -folder root</dev:code>
         <dev:remarks>
           <maml:para>Adds "SomeAdmin" account from "Some_Safe" as the logon account for account with id 29_4</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex 2 -name SomeAccount -folder root</dev:code>
         <dev:remarks>
           <maml:para>Adds "SomeAccount" account from "Some_Safe" as the extrapass2 account for account with id 29_4</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex 3 -name SomeReconcile -folder root</dev:code>
         <dev:remarks>
           <maml:para>Adds "SomeReconcile" account from "Some_Safe" as the reconcile account for account with id 29_4</maml:para>
@@ -36919,7 +37035,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Set-PASOpenIDConnectProvider -id SomeOIDCProvider -discoveryEndpointUrl https://SomeURL -clientId SomeIDValue -clientSecretMethod POST</dev:code>
         <dev:remarks>
           <maml:para>Updates an existing OIDC Identity Provider with ID SomeOIDCProvider.</maml:para>
@@ -37647,7 +37763,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Set-PASPTARiskEvent -EventID 123 -Status CLOSED</dev:code>
         <dev:remarks>
           <maml:para>Close PTA Risk Event with id 1234</maml:para>
@@ -39764,6 +39880,122 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Update%20Safe%20Member.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Update%20Safe%20Member.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-PASTheme</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>PASTheme</command:noun>
+      <maml:description>
+        <maml:para>Activate Theme</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Sets a specific theme. It can be the default one or custom themes</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-PASTheme</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+          <maml:name>ThemeName</maml:name>
+          <maml:description>
+            <maml:para>The name of the theme</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+        <maml:name>ThemeName</maml:name>
+        <maml:description>
+          <maml:para>The name of the theme</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Set-PASTheme -ThemeName "Default Dark"</dev:code>
+        <dev:remarks>
+          <maml:para>Sets the theme to the default dark theme</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Set-PASTheme</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Set-PASTheme</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/14.4/en/content/sdk/rest-api-cust-ui-themes-activate.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/14.4/en/content/sdk/rest-api-cust-ui-themes-activate.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
