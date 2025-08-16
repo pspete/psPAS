@@ -146,8 +146,8 @@ function Get-PASAccountPassword {
 
 				'Gen2' {
 
-					#Unescape returned string and remove enclosing quotes.
-					$result = $([System.Text.RegularExpressions.Regex]::Unescape($result) -replace '^"|"$', '')
+					#convert the result from json
+                    $result = ConvertFrom-Json $result
 
 					#Get UserName if parameter value not provided.
 					if ($PSBoundParameters.Keys -notcontains 'UserName') {
