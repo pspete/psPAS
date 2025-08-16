@@ -16,7 +16,7 @@
 	# CompanyName       = ''
 
 	# Copyright statement for this module
-	Copyright         = '(c) 2017-2024 Pete Maan. All rights reserved.'
+	Copyright         = '(c) 2017-2025 Pete Maan. All rights reserved.'
 
 	# Description of the functionality provided by this module
 	Description       = 'Module for CyberArk Privileged Access Security Web Service REST API'
@@ -253,8 +253,9 @@
 		'Add-PASDiscoveredLocalAccount',
 		'Clear-PASDiscoveredLocalAccount',
 		'Remove-PASDiscoveredLocalAccount',
-		"Set-PASTheme",
-		"Remove-PASTheme"
+		'Set-PASTheme',
+		'Remove-PASTheme',
+		'Get-PASStoredPlatform'
 	)
 
 	#AliasesToExport   = @()
