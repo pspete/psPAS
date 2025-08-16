@@ -134,6 +134,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'throws error if version requirement not met' {
+				$psPASSession.ExternalVersion = '14.3'
+				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes, BackupAllSafes -VaultGroups 'Group1', 'Group2' -UserActivityLogPeriod 10 -UsedQuota 10 -allowedAuthenticationMethods 'FIDO' } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
 		}
 
 	}
