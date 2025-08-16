@@ -255,7 +255,8 @@
 		'Remove-PASDiscoveredLocalAccount',
 		'Set-PASTheme',
 		'Remove-PASTheme',
-		'Get-PASStoredPlatform'
+		'Get-PASStoredPlatform',
+		'Remove-PASStoredPlatform'
 	)
 
 	#AliasesToExport   = @()
