@@ -6,7 +6,7 @@ function Add-PASUserAllowedAuthenticationMethod {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[int[]]$userIds.
+		[int[]]$userIds,
 
 		[parameter(
 			Mandatory = $true,
@@ -25,7 +25,7 @@ function Add-PASUserAllowedAuthenticationMethod {
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/Users/AddAllowedAuthenticationMethods/Bulk"
 
-		$body['BulkItems'].Add($PSBoundParameters | Get-PASParameter)
+		$body['BulkItems'] += $PSBoundParameters | Get-PASParameter
 		$body = $body | ConvertTo-Json
 
 		if ($PSCmdlet.ShouldProcess($($userIds -join ','), "Set Allowed Authentication Methods: $($allowedAuthenticationMethods -join ',')")) {
