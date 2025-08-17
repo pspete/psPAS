@@ -263,7 +263,8 @@
 		'Get-PASAccountSearchProperty',
 		'Get-PASReport',
 		'Get-PASReportSchedule',
-		'New-PASReportSchedule'
+		'New-PASReportSchedule',
+		'Export-PASReport'
 	)
 
 	#AliasesToExport   = @()
