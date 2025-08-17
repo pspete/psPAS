@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASAccountSearchProperties {
+Function Get-PASAccountSearchProperty {
     [CmdletBinding()]
     param( )
 
