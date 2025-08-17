@@ -12,7 +12,7 @@ Function Export-PASReport {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet]('XLSX', 'XLS', 'CSV')
+        [ValidateSet('XLSX', 'XLS', 'CSV')]
         [string]$ReportFormat,
 
 		[parameter(
