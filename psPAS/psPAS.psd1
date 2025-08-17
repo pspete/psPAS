@@ -258,7 +258,8 @@
 		'Get-PASStoredPlatform',
 		'Remove-PASStoredPlatform',
 		'Get-PASUserLicenseReport',
-		'Get-PASAccountSearchProperty'
+		'Get-PASAccountSearchProperty',
+		'Get-PASReport'
 	)
 
 	#AliasesToExport   = @()
