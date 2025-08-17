@@ -264,7 +264,9 @@
 		'Get-PASReport',
 		'Get-PASReportSchedule',
 		'New-PASReportSchedule',
-		'Export-PASReport'
+		'Export-PASReport',
+		'Remove-PASUserAllowedAuthenticationMethod',
+		'Add-PASUserAllowedAuthenticationMethod'
 	)
 
 	#AliasesToExport   = @()
