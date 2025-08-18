@@ -26,8 +26,8 @@ New-PASUser -UserName <String> [-InitialPassword <SecureString>] [-userType <Str
  [-businessNumber <String>] [-cellularNumber <String>] [-faxNumber <String>] [-pagerNumber <String>]
  [-description <String>] [-FirstName <String>] [-MiddleName <String>] [-LastName <String>] [-street <String>]
  [-city <String>] [-state <String>] [-zip <String>] [-country <String>] [-title <String>]
- [-organization <String>] [-department <String>] [-profession <String>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-organization <String>] [-department <String>] [-profession <String>]
+ [-allowedAuthenticationMethods <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1
@@ -925,6 +925,24 @@ Minimum required version 13.2
 
 ```yaml
 Type: Int32
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -allowedAuthenticationMethods
+All the non-Vault authentication methods (specified by ID) that the user can use to log on.
+
+Minimum required version 14.4
+
+
+```yaml
+Type: String[]
 Parameter Sets: Gen2
 Aliases:
 

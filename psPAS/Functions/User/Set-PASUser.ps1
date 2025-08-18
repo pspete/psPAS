@@ -413,7 +413,16 @@ function Set-PASUser {
 			ParameterSetName = 'Gen1'
 		)]
 		[Alias('UseClassicAPI')]
-		[switch]$UseGen1API
+		[switch]$UseGen1API,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[ValidateSet('SAML', 'PKI', 'FIDO', 'WINDOWS')]
+		[AllowEmptyCollection()]
+		[string[]]$allowedAuthenticationMethods
 	)
 
 	BEGIN {
@@ -438,6 +447,12 @@ function Set-PASUser {
 				If ($PSBoundParameters.Keys -match 'userActivityLogRetentionDays|loginFromHour|loginToHour') {
 
 					Assert-VersionRequirement -RequiredVersion 13.2
+
+				}
+
+				If ($PSBoundParameters.Keys -match 'allowedAuthenticationMethods') {
+
+					Assert-VersionRequirement -RequiredVersion 14.4
 
 				}
 
