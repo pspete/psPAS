@@ -264,11 +264,18 @@
 		'Get-PASReport',
 		'Get-PASReportSchedule',
 		'New-PASReportSchedule',
+		'Export-PASReport'
 		'Export-PASReport',
 		'Remove-PASUserAllowedAuthenticationMethod',
 		'Add-PASUserAllowedAuthenticationMethod',
+		'Remove-PASDiscoveredLocalAccount',
+		'Remove-PASDependentAccount',
+		'Resume-PASDependentAccount',
+		'Remove-PASFIDO2Device',
+		'Remove-PASFIDO2OwnDevice'
 		'Get-PASMasterPolicy',
 		'Set-PASMasterPolicy'
+
 	)
 
 	#AliasesToExport   = @()
