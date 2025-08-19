@@ -36,43 +36,37 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	}
 
-
 	AfterAll {
 
 		$Script:RequestBody = $null
 
 	}
-
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
 		BeforeEach {
-			Mock Invoke-PASRestMethod -MockWith {
 
+			Mock Invoke-PASRestMethod -MockWith {
 			}
 
 			$InputObj = [pscustomobject]@{
-				'UserName' = 'SomeUser@domain.com'
-				'KeyID'    = 'SomeKeyID'
-
+				'ThemeName' = 'TestCustomTheme'
 			}
-			$response = $InputObj | Remove-PASPublicSSHKey
+			$response = $InputObj | Remove-PASTheme
 		}
+
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'UserName' },
-			@{Parameter = 'KeyID' }
+			$Parameters = @{Parameter = 'ThemeName' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Remove-PASPublicSSHKey).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Remove-PASTheme).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
 		}
-
-
 
 		Context 'Input' {
 
@@ -86,7 +80,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/SomeUser%40domain.com/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/SomeKeyID"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Themes/TestCustomTheme"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -104,8 +98,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-		}
+			It 'throws error if version requirement not met' {
+				$psPASSession.ExternalVersion = '1.0'
+				{ $InputObj | Remove-PASTheme } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
 
+		}
 		Context 'Output' {
 
 			It 'provides no output' {

@@ -83,7 +83,15 @@ function Set-PASDirectoryMapping {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[boolean]$EnableENEWhenDisconnected
+		[boolean]$EnableENEWhenDisconnected,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[AllowEmptyCollection()]
+		[ValidateSet('SAML', 'PKI', 'FIDO', 'WINDOWS')]
+		[string[]]$allowedAuthenticationMethods
 
 	)
 
@@ -121,8 +129,16 @@ function Set-PASDirectoryMapping {
 
 			{ $_ -match 'UsedQuota|AuthorizedInterfaces|EnableENEWhenDisconnected' } {
 
-				#v10.7
+				#v14.0
 				Assert-VersionRequirement -RequiredVersion 14.0
+				Continue
+
+			}
+
+			{ $_ -match 'allowedAuthenticationMethods' } {
+
+				#v14.4
+				Assert-VersionRequirement -RequiredVersion 14.4
 				Continue
 
 			}

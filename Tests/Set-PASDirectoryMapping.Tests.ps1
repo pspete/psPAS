@@ -103,6 +103,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'throws error if version requirement not met' {
+				$psPASSession.ExternalVersion = '14.3'
+				{ $InputObj | Set-PASDirectoryMapping -allowedAuthenticationMethods 'FIDO' } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
 		}
 
 	}

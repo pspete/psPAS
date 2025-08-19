@@ -31,8 +31,9 @@ function New-PASAccountPassword {
             if ($null -ne $result) {
 
                 #Unescape returned string.
-                $result = [System.Text.RegularExpressions.Regex]::Unescape($result.password)
-
+                try {
+                    $result = [System.Text.RegularExpressions.Regex]::Unescape($result.password)
+                } catch { $result = $result.password }
                 [PSCustomObject] @{'Password' = $result } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential
 
             }

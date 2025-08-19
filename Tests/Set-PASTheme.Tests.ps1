@@ -36,7 +36,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	}
 
-
 	AfterAll {
 
 		$Script:RequestBody = $null
@@ -45,36 +44,35 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach {
-			Mock Invoke-PASRestMethod -MockWith {
-
-			}
-
-			$InputObj = [pscustomobject]@{
-				'UserName' = 'SomeUser@domain.com'
-				'KeyID'    = 'SomeKeyID'
-
-			}
-			$response = $InputObj | Remove-PASPublicSSHKey
-		}
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'UserName' },
-			@{Parameter = 'KeyID' }
+			$Parameters = @{Parameter = 'ThemeName' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Remove-PASPublicSSHKey).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Set-PASTheme).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
 		}
 
-
-
 		Context 'Input' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+				}
+
+				$InputObj = [pscustomobject]@{
+					'ThemeName' = 'SomeTheme'
+				}
+
+				$psPASSession.ExternalVersion = '0.0'
+				$response = $InputObj | Set-PASTheme
+
+			}
 
 			It 'sends request' {
 
@@ -86,7 +84,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/SomeUser%40domain.com/AuthenticationMethods/SSHKeyAuthentication/AuthorizedKeys/SomeKeyID"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/ActiveThemes/"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -94,19 +92,58 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'uses expected method' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It 'sends request with no body' {
+			It 'sends request with expected body' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody) -ne $null
+
+				} -Times 1 -Exactly -Scope It
 
 			}
 
+			It 'has a request body with expected number of properties' {
+
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 1
+
+			}
+
+			It 'has a request body with expected ThemeName property' {
+
+				$Script:RequestBody.ThemeName | Should -Be 'SomeTheme'
+
+			}
+
+			It 'throws error if version requirement not met' {
+				$psPASSession.ExternalVersion = '1.0'
+				{ $InputObj | Set-PASTheme } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
 		}
 
+
 		Context 'Output' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+
+				$InputObj = [pscustomobject]@{
+					'ThemeName' = 'OutputTestTheme'
+				}
+
+				$psPASSession.ExternalVersion = '0.0'
+				$response = $InputObj | Set-PASTheme
+
+			}
 
 			It 'provides no output' {
 

@@ -46,7 +46,7 @@
 	# RequiredAssemblies = @()
 
 	# Script files (.ps1) that are run in the caller's environment prior to importing this module.
-	ScriptsToProcess  = @(
+	ScriptsToProcess = @(
 		'.\subscriberClasses.ps1'
 	)
 
@@ -273,6 +273,9 @@
 		'Resume-PASDependentAccount',
 		'Remove-PASFIDO2Device',
 		'Remove-PASFIDO2OwnDevice'
+		'Get-PASMasterPolicy',
+		'Set-PASMasterPolicy'
+
 	)
 
 	#AliasesToExport   = @()
