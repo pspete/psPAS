@@ -267,7 +267,8 @@
 		'Export-PASReport',
 		'Remove-PASUserAllowedAuthenticationMethod',
 		'Add-PASUserAllowedAuthenticationMethod',
-		'Get-PASMasterPolicy'
+		'Get-PASMasterPolicy',
+		'Set-PASMasterPolicy'
 	)
 
 	#AliasesToExport   = @()
