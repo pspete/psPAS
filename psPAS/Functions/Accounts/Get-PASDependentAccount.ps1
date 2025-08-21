@@ -190,8 +190,9 @@ function Get-PASDependentAccount {
 
 					break
 				}
+			}
 
-        }
+		}
 
         if ($return) {
 
