@@ -273,7 +273,8 @@
 		'Resume-PASDependentAccount',
 		'Remove-PASFIDO2Device',
 		'Get-PASMasterPolicy',
-		'Set-PASMasterPolicy'
+		'Set-PASMasterPolicy',
+		'Get-PASDependentAccount'
 
 	)
 
