@@ -4,11 +4,17 @@ Function Remove-PASFIDO2Device {
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
-			Mandatory = $false,
+			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$id
+		[string]$id,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[switch]$OwnDevice
 
 	)
 
@@ -20,10 +26,28 @@ Function Remove-PASFIDO2Device {
 
 	PROCESS {
 
-		#Create URL for request
-		$URI = "$($psPASSession.BaseURI)/api/fido2/keys/$($id | Get-EscapedString)"
+		switch ($PSCmdlet.ParameterSetName) {
 
-		if ($PSCmdlet.ShouldProcess($id, 'Delete FIDO2 Device')) {
+			'OwnDevice' {
+
+				# Create URL for request to remove user's own FIDO2 device
+				$URI = "$($psPASSession.BaseURI)/api/fido2/selfKeys/$($id | Get-EscapedString)"
+				$ShouldProcessMessage = 'Delete Own FIDO2 Device'
+				break
+
+			}
+
+			default {
+
+				# Create URL for request to remove user FIDO2 device 
+				$URI = "$($psPASSession.BaseURI)/api/fido2/keys/$($id | Get-EscapedString)"
+				$ShouldProcessMessage = 'Delete FIDO2 Device'
+
+			}
+
+		}
+
+		if ($PSCmdlet.ShouldProcess($id, $ShouldProcessMessage)) {
 
 			#Send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method DELETE

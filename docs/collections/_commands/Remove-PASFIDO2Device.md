@@ -10,16 +10,16 @@ title: Remove-PASFIDO2Device
 # Remove-PASFIDO2Device
 
 ## SYNOPSIS
-This removes a FIDO2 device from a user.
+Removes a FIDO2 device from a user's authentication methods.
 
 ## SYNTAX
 
 ```
-Remove-PASFIDO2Device [[-id] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-PASFIDO2Device [[-id] <String>] [-OwnDevice] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Removes a FIDO2 device from any user's authentication methods. 
+Removes a FIDO2 device from either a user's authentication methods or from the current user's own authentication methods.
 
 Requires CyberArk version 14.6 or later.
 
@@ -31,12 +31,20 @@ PS C:\> Remove-PASFIDO2Device -id "device123"
 ```
 
 Removes the FIDO2 device with ID "device123" from a user's registered authentication methods.
+This requires administrative privileges.
 
+### Example 2
+```powershell
+PS C:\> Remove-PASFIDO2Device -id "device123" -OwnDevice
+```
+
+Removes the FIDO2 device with ID "device123" from the current user's own registered 
+authentication methods. This allows users to self-manage their FIDO2 devices.
 
 ## PARAMETERS
 
 ### -id
-The unique identifier of the FIDO2 device to be removed from any user's authentication methods.
+The unique identifier of the FIDO2 device to be removed from a user's authentication methods.
 
 ```yaml
 Type: String
@@ -46,6 +54,22 @@ Aliases:
 Required: False
 Position: 1
 Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -OwnDevice
+When specified, removes the FIDO2 device from the current user's own authentication methods.
+Without this parameter, the device is removed from the user that it belongs do in their authentication methods.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
