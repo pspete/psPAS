@@ -19,7 +19,8 @@ Function Remove-PASFIDO2Device {
 	)
 
 	BEGIN {
-
+		
+		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 14.6
 
 	}#begin
