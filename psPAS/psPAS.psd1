@@ -274,7 +274,11 @@
 		'Remove-PASFIDO2Device',
 		'Get-PASMasterPolicy',
 		'Set-PASMasterPolicy',
-		'Get-PASDependentAccount'
+		'Get-PASDependentAccount',
+		'Sync-PASDependentAccount',
+		'Remove-PASPTASecurityConfigurationProperty',
+		'Reset-PASPTASecurityConfigurationProperty',
+		'Reset-PASPTASecurityConfigurationCategory'
 
 	)
 
