@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASPTASecurityConfigurationProperty {
+Function Reset-PASPTASecurityConfigurationProperty {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
@@ -28,7 +28,7 @@ Function Remove-PASPTASecurityConfigurationProperty {
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/$($propertyKey | Get-EscapedString)/default"
 
-        if ($PSCmdlet.ShouldProcess($categoryKey, 'Reset PTA Security Configuration Category')) {
+        if ($PSCmdlet.ShouldProcess($propertyKey, 'Reset PTA Security Configuration Property')) {
 
             #send request to web service
             Invoke-PASRestMethod -Uri $URI -Method PUT
