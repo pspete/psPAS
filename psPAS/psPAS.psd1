@@ -278,7 +278,8 @@
 		'Sync-PASDependentAccount',
 		'Remove-PASPTASecurityConfigurationProperty',
 		'Reset-PASPTASecurityConfigurationProperty',
-		'Reset-PASPTASecurityConfigurationCategory'
+		'Reset-PASPTASecurityConfigurationCategory',
+		'Get-PASPTASecurityConfigurationCategories'
 
 	)
 
