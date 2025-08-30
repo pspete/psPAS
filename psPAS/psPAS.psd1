@@ -279,7 +279,7 @@
 		'Remove-PASPTASecurityConfigurationProperty',
 		'Reset-PASPTASecurityConfigurationProperty',
 		'Reset-PASPTASecurityConfigurationCategory',
-		'Get-PASPTASecurityConfigurationCategories'
+		'Get-PASPTASecurityConfigurationCategory'
 
 	)
 

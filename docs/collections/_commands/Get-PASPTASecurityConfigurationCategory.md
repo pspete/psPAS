@@ -2,12 +2,12 @@
 category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Get-PASPTASecurityConfigurationCategories
+online version: https://pspas.pspete.dev/commands/Get-PASPTASecurityConfigurationCategory
 schema: 2.0.0
-title: Get-PASPTASecurityConfigurationCategories
+title: Get-PASPTASecurityConfigurationCategory
 ---
 
-# Get-PASPTASecurityConfigurationCategories
+# Get-PASPTASecurityConfigurationCategory
 
 ## SYNOPSIS
 Returns PTA security configuration categories
@@ -15,7 +15,7 @@ Returns PTA security configuration categories
 ## SYNTAX
 
 ```
-Get-PASPTASecurityConfigurationCategories [<CommonParameters>]
+Get-PASPTASecurityConfigurationCategory [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,7 +25,7 @@ Returns PTA security configuration categories
 
 ### EXAMPLE 1
 ```
-Get-PASPTASecurityConfigurationCategories
+Get-PASPTASecurityConfigurationCategory
 ```
 
 Returns all PTA security configuration categories
@@ -44,6 +44,6 @@ Minimum Version CyberArk 14.2
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Get-PASPTASecurityConfigurationCategories](https://pspas.pspete.dev/commands/Get-PASPTASecurityConfigurationCategories)
+[https://pspas.pspete.dev/commands/Get-PASPTASecurityConfigurationCategory](https://pspas.pspete.dev/commands/Get-PASPTASecurityConfigurationCategory)
 
 [https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/getsecuritycategories.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/getsecuritycategories.htm)

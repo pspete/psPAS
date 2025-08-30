@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASPTASecurityConfigurationCategories {
+Function Get-PASPTASecurityConfigurationCategory {
 
     BEGIN {
         Assert-VersionRequirement -SelfHosted
@@ -10,7 +10,7 @@ Function Get-PASPTASecurityConfigurationCategories {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories"
-        
+
         #send request to web service
         Invoke-PASRestMethod -Uri $URI -Method GET
 
