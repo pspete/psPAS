@@ -24,7 +24,7 @@ Describe 'Module' -Tag 'Consistency' {
 
 	Get-Module -Name $ModuleName -All | Remove-Module -Force -ErrorAction Ignore
 
-	$Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru
+	$Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru | Where-Object { $_.Name -eq $ModuleName }
 
 	#Get Public Function Names
 	$PublicFunctions = Get-ChildItem "$ModulePath\Functions" -Include *.ps1 -Recurse | Select-Object -ExpandProperty BaseName
