@@ -1,5 +1,5 @@
 Function Set-PASMasterPolicy {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
 <#
     [Parameter(
