@@ -102,6 +102,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
 [https://pspas.pspete.dev/commands/Add-PASUserAllowedAuthenticationMethod](https://pspas.pspete.dev/commands/Export-PASReport)
 
 [https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/download-report.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/download-report.htm)

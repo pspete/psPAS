@@ -14,6 +14,12 @@ Removes a FIDO2 device from a user's authentication methods.
 
 ## SYNTAX
 
+### Default (Default)
+```
+Remove-PASFIDO2Device [-id] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### OwnDevice
 ```
 Remove-PASFIDO2Device [-id] <String> [-OwnDevice] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -64,7 +70,7 @@ Without this parameter, the device is removed from the user that it belongs do i
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: OwnDevice
 Aliases:
 
 Required: False

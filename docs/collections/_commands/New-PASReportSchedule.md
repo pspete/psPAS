@@ -16,7 +16,7 @@ Creates a new schedule for reports
 New-PASReportSchedule [[-version] <Int32>] [[-type] <String>] [-subType] <String> [-name] <String>
  [-keepTaskDefinition] <Boolean> [[-startTime] <DateTime>] [[-recurrenceType] <String>]
  [[-recurrenceValue] <String>] [[-daysOfWeek] <String>] [[-weekNumber] <String>]
- [[-Subscribers] <Subscriber[]>] [-notifyOnFailure] <Boolean> [<CommonParameters>]
+ [[-Subscribers] <Subscriber[]>] [-notifyOnFailure] <Boolean> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -213,6 +213,36 @@ Required: True
 Position: 12
 Default value: False
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
