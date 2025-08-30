@@ -31,7 +31,7 @@ New-PASAccountObject -userName <String> -address <String> -secret <SecureString>
 
 ### DependentAccountObject
 ```
-New-PASAccountObject [-name <String>] [-platformAccountProperties <Hashtable>]
+New-PASAccountObject [-name <String>] [-platformID <String>] [-platformAccountProperties <Hashtable>]
  [-automaticManagementEnabled <Boolean>] [-manualManagementReason <String>] [-DependentAccount] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
@@ -150,6 +150,18 @@ Parameter Sets: AccountObject
 Aliases: PolicyID
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: DependentAccountObject
+Aliases: PolicyID
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -352,7 +364,7 @@ Accept wildcard characters: False
 ```
 
 ### -DependentAccount
-{{ Fill DependentAccount Description }}
+Specify to format the account object for dependent account operations
 
 ```yaml
 Type: SwitchParameter

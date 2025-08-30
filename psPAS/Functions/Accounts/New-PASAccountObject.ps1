@@ -55,6 +55,11 @@ Function New-PASAccountObject {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
 		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'DependentAccountObject'
+		)]
 		[Alias('PolicyID')]
 		[string]$platformID,
 

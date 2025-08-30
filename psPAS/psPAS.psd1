@@ -280,7 +280,8 @@
 		'Reset-PASPTASecurityConfigurationProperty',
 		'Reset-PASPTASecurityConfigurationCategory',
 		'Get-PASPTASecurityConfigurationCategory',
-		'Set-PASDependentAccount'
+		'Set-PASDependentAccount',
+		'Add-PASDependentAccount'
 
 	)
 
