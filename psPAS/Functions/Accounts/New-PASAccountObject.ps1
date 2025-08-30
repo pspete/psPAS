@@ -30,6 +30,11 @@ Function New-PASAccountObject {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
 		)]
+        [parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'DependentAccountObject'
+		)]
 		[string]$name,
 
 		[parameter(
@@ -88,6 +93,11 @@ Function New-PASAccountObject {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
 		)]
+        [parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'DependentAccountObject'
+		)]
 		[hashtable]$platformAccountProperties,
 
 		[parameter(
@@ -95,12 +105,22 @@ Function New-PASAccountObject {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
 		)]
+        [parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'DependentAccountObject'
+		)]
 		[boolean]$automaticManagementEnabled,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
+		)]
+        [parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'DependentAccountObject'
 		)]
 		[string]$manualManagementReason,
 
@@ -130,7 +150,14 @@ Function New-PASAccountObject {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'PersonalAdminAccount'
 		)]
-		[switch]$PersonalAdminAccount
+		[switch]$PersonalAdminAccount,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'DependentAccountObject'
+		)]
+		[switch]$DependentAccount
 
 	)
 
@@ -194,11 +221,32 @@ Function New-PASAccountObject {
 
 			}
 
+            'DependentAccountObject' {
+
+				$boundParameters.keys | Where-Object { $SecretMgmt -contains $PSItem } | ForEach-Object {
+
+					$secretManagement = @{ }
+
+				} {
+
+					#add key=value to hashtable
+					$secretManagement[$PSItem] = $boundParameters[$PSItem]
+
+				} {
+
+					$boundParameters['secretManagement'] = $secretManagement
+
+				}
+
+				break
+
+			}
+
 		}
 
 		if ($PSCmdlet.ShouldProcess($userName, 'Create Account Object Definition')) {
 
-			$boundParameters | Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt + 'PersonalAdminAccount')
+			$boundParameters | Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt + 'PersonalAdminAccount' + 'DependentAccount')
 
 		}
 

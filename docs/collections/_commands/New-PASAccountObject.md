@@ -29,6 +29,13 @@ New-PASAccountObject -userName <String> -address <String> -secret <SecureString>
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+### DependentAccountObject
+```
+New-PASAccountObject [-name <String>] [-platformAccountProperties <Hashtable>]
+ [-automaticManagementEnabled <Boolean>] [-manualManagementReason <String>] [-DependentAccount] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 Provide parameter values to return hashtable structured to be used as input for add account operations.
 
@@ -40,6 +47,13 @@ New-PASAccountObject -userName SomeAccount1 -address domain.com -platformID WinD
 ```
 
 Returns hashtable structured to be used as input for add account operations
+
+### EXAMPLE 2
+```
+New-PASAccountObject -name SomeName -platformAccountProperties @{"Some"="Prop"} -DependentAccountObject
+```
+
+Returns hashtable structured to be used as input for dependent account operations
 
 ## PARAMETERS
 
@@ -90,7 +104,7 @@ The name of the account.
 
 ```yaml
 Type: String
-Parameter Sets: AccountObject
+Parameter Sets: AccountObject, DependentAccountObject
 Aliases:
 
 Required: False
@@ -206,7 +220,7 @@ These properties are validated against the mandatory and optional properties of 
 
 ```yaml
 Type: Hashtable
-Parameter Sets: AccountObject
+Parameter Sets: AccountObject, DependentAccountObject
 Aliases:
 
 Required: False
@@ -221,7 +235,7 @@ Whether CPM Password Management should be enabled
 
 ```yaml
 Type: Boolean
-Parameter Sets: AccountObject
+Parameter Sets: AccountObject, DependentAccountObject
 Aliases:
 
 Required: False
@@ -236,7 +250,7 @@ A reason for disabling CPM Password Management
 
 ```yaml
 Type: String
-Parameter Sets: AccountObject
+Parameter Sets: AccountObject, DependentAccountObject
 Aliases:
 
 Required: False
@@ -328,6 +342,21 @@ TBC
 ```yaml
 Type: SwitchParameter
 Parameter Sets: PersonalAdminAccount
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -DependentAccount
+{{ Fill DependentAccount Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: DependentAccountObject
 Aliases:
 
 Required: True

@@ -279,7 +279,8 @@
 		'Remove-PASPTASecurityConfigurationProperty',
 		'Reset-PASPTASecurityConfigurationProperty',
 		'Reset-PASPTASecurityConfigurationCategory',
-		'Get-PASPTASecurityConfigurationCategory'
+		'Get-PASPTASecurityConfigurationCategory',
+		'Set-PASDependentAccount'
 
 	)
 
