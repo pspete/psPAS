@@ -10,11 +10,11 @@ Function Remove-PASPTASecurityConfigurationProperty {
             'ActiveDormantUserEventScore', 'ActiveDormantUserDays', 'ExcessiveAccessUserAlgorithmEnabled', 'ExcessiveAccessUserScoreRange',
             'FailedVaultLogonAttemptsAlgorithmEnabled', 'FailedVaultLogonAttemptsScoreOptions', 'FailedVaultLogonAttemptsThreshold',
             'FailedVaultLogonAttemptsTimeframe', 'IrregularDaysUserAlgorithmEnabled', 'IrregularDaysUserScoreRange', 'IrregularHoursUserAlgorithmEnabled',
-            'IrregularHoursUserExcludedUsernames', 'IrregularHoursUserScoreRange', 'IrregularIpUserAlgorithmEnabled', 'IrregularIpUserExcludedSourceIpsList', 
+            'IrregularHoursUserExcludedUsernames', 'IrregularHoursUserScoreRange', 'IrregularIpUserAlgorithmEnabled', 'IrregularIpUserExcludedSourceIpsList',
             'IrregularIpUserScoreRange', 'SCTAlgorithmEnabled', 'SCTEventScore', 'SCTExcludedAccountsList', 'SCTPasswordRetrievalTimeWindow',
             'InteractiveLogonWithServiceAccountAlgorithmEnabled', 'InteractiveLogonWithServiceAccountEventScore', 'ServiceAccountIncludeList',
             'SPCAlgorithmEnabled', 'SPCEventScore', 'SPCPassChangeByCPMTimeWindow', 'UPAAlgorithmEnabled', 'UPAEventScore', 'UPAExcludedAccountsList' ) ]
-        
+
         [string]$propertyKey,
         [parameter(
             Mandatory = $true,
