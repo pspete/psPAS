@@ -102,7 +102,7 @@ function Get-PASAccount {
 		#Get Parameters to include in request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
 		$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
-		$FilterString = $filterParameters | ConvertTo-FilterString
+		$FilterString = $filterParameters | ConvertTo-FilterString -ExternalVersion $psPASSession.ExternalVersion
 
 		switch ($PSCmdlet.ParameterSetName) {
 
