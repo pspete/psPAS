@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 Function New-PASReportSchedule {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
 			Mandatory = $false,
@@ -164,8 +164,10 @@ Function New-PASReportSchedule {
 
         $Body = $boundParameters | ConvertTo-Json
 
-        #Send request to web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess($name, 'Create New Report Schedule')) {
+			#Send request to web service
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		}
 
         If ($null -ne $Result) {
 
