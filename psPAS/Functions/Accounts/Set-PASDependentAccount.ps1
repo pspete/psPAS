@@ -17,25 +17,25 @@ Function Set-PASDependentAccount {
         [string]$dependentAccountId,
 
         [parameter(
-            Mandatory = $true,
+            Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
         [string]$name,
 
         [parameter(
-            Mandatory = $true,
+            Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
         [hashtable]$platformAccountProperties,
 
         [parameter(
-            Mandatory = $true,
+            Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
         [boolean]$automaticManagementEnabled,
 
         [parameter(
-            Mandatory = $true,
+            Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
         [string]$manualManagementReason

@@ -13,9 +13,9 @@ Updates a Dependent Account
 ## SYNTAX
 
 ```
-Set-PASDependentAccount [-accountId] <String> [-dependentAccountId] <String> [-name] <String>
- [-platformAccountProperties] <Hashtable> [-automaticManagementEnabled] <Boolean>
- [-manualManagementReason] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-PASDependentAccount [-accountId] <String> [-dependentAccountId] <String> [[-name] <String>]
+ [[-platformAccountProperties] <Hashtable>] [[-automaticManagementEnabled] <Boolean>]
+ [[-manualManagementReason] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -74,7 +74,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -89,7 +89,7 @@ Type: Hashtable
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 4
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -104,7 +104,7 @@ Type: Boolean
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 5
 Default value: False
 Accept pipeline input: True (ByPropertyName)
@@ -119,7 +119,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 6
 Default value: None
 Accept pipeline input: True (ByPropertyName)
