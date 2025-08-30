@@ -15,6 +15,9 @@ Hashtable containing parameter names and values to include in output
 .PARAMETER QuoteValue
 Specify this switch to enclose the value of a key value pair in quotes when converting to a filter string
 
+.PARAMETER ExternalVersion
+The API version to determine how to handle quotes
+
 .EXAMPLE
 $input | ConvertTo-FilterString
 
@@ -55,10 +58,21 @@ Encloses value of the key/value pair in quotes.
 			Mandatory = $false,
 			ValueFromPipeline = $false
 		)]
-		[switch]$QuoteValue
+		[switch]$QuoteValue,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[version]$ExternalVersion
 	)
 
 	Begin {
+
+		# If no version specified, try to get it from the session
+		if (-not $ExternalVersion -and $script:psPASSession) {
+			$ExternalVersion = $script:psPASSession.ExternalVersion
+		}
 
 	}
 
@@ -89,7 +103,14 @@ Encloses value of the key/value pair in quotes.
 
 						$value = $($Parameters[$PSItem])
 
-						if ($QuoteValue) { $value = """$value""" }
+						# Determine operator based on API version
+						if ($ExternalVersion -and $ExternalVersion -ge [version]'14.6') {
+							# API 14.6+ uses automatic quoting for values with spaces
+							if ($QuoteValue -or ($value -match '\s')) { $value = """$value""" }
+						} else {
+							# API 14.4 and below only quotes when explicitly requested
+							if ($QuoteValue) { $value = """$value""" }
+						}
 
 						$null = $FilterList.Add("$PSItem eq $value")
 
