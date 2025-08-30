@@ -1,25 +1,33 @@
 # .ExternalHelp psPAS-help.xml
 Function Remove-PASFIDO2Device {
 
-	[CmdletBinding(SupportsShouldProcess)]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'OwnDevice', Justification = 'False Positive')]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Default')]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Default'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'OwnDevice'
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string]$id,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'OwnDevice'
 		)]
 		[switch]$OwnDevice
 
 	)
 
 	BEGIN {
-		
+
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 14.6
 
@@ -40,7 +48,7 @@ Function Remove-PASFIDO2Device {
 
 			default {
 
-				# Create URL for request to remove user FIDO2 device 
+				# Create URL for request to remove user FIDO2 device
 				$URI = "$($psPASSession.BaseURI)/api/fido2/keys/$($id | Get-EscapedString)"
 				$ShouldProcessMessage = 'Delete FIDO2 Device'
 

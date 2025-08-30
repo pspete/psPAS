@@ -47,11 +47,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		Context 'Mandatory Parameters' {
 
-			It 'has no mandatory parameters' {
-				
-				$MandatoryParams = (Get-Command Remove-PASFIDO2Device).Parameters.Values | Where-Object { $_.Attributes.Mandatory -eq $true }
-				
-				$MandatoryParams | Should -BeNullOrEmpty
+			$Parameters = @{Parameter = 'id' }
+
+			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
+
+				param($Parameter)
+
+				(Get-Command Remove-PASFIDO2Device).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique |Should -Be $true
 
 			}
 
@@ -60,9 +62,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		Context 'Parameter Sets' {
 
 			It 'has expected parameter sets' {
-				
+
 				$ParameterSets = (Get-Command Remove-PASFIDO2Device).ParameterSets
-				
+
 				$ParameterSets.Name | Should -Contain 'OwnDevice'
 
 			}
