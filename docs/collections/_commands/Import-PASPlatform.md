@@ -179,3 +179,7 @@ Minimum CyberArk version 10.2
 [https://pspas.pspete.dev/commands/Import-PASPlatform](https://pspas.pspete.dev/commands/Import-PASPlatform)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ImportPlatform.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ImportPlatform.htm)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/updateplatformwithstoredplatform.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/updateplatformwithstoredplatform.htm)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/importstoredplatformpatch.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/importstoredplatformpatch.htm)
