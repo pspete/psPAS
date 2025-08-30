@@ -37,6 +37,7 @@ Requires minimum version 14.6.
 ```powershell
 PS C:\> Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 56_78
 ```
+
 Synchronizes the password of dependent account with ID 56_78 with its parent account 12_34.
 
 ## PARAMETERS
@@ -106,7 +107,6 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS

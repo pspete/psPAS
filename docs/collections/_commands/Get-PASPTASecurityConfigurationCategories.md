@@ -21,7 +21,6 @@ Get-PASPTASecurityConfigurationCategories [<CommonParameters>]
 ## DESCRIPTION
 Returns PTA security configuration categories
 
-
 ## EXAMPLES
 
 ### EXAMPLE 1

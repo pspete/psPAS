@@ -14,8 +14,20 @@ Import a new platform
 
 ## SYNTAX
 
+### Import
 ```
 Import-PASPlatform [-ImportFile] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### SideBySide
+```
+Import-PASPlatform -PlatformId <String> -PlatformName <String> [-Description <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
+### Update
+```
+Import-PASPlatform -PlatformId <String> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,6 +42,20 @@ Import-PASPlatform -ImportFile CustomApp.zip
 
 Imports CustomApp.zip Platform package
 
+### EXAMPLE 2
+```
+Import-PASPlatform -PlatformId CustomAppV2 -PlatformName CustomApp-V2 -Description "Platform for Custom App Version 2"
+```
+
+Imports Platform side by side with existing Platform
+
+### EXAMPLE 3
+```
+Import-PASPlatform -PlatformId CustomApp -Force
+```
+
+Updates existing Platform with new package
+
 ## PARAMETERS
 
 ### -ImportFile
@@ -37,7 +63,7 @@ The zip file that contains the platform.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Import
 Aliases:
 
 Required: True
@@ -75,6 +101,66 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Description
+A description value for the platform
+
+```yaml
+Type: String
+Parameter Sets: SideBySide
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Force
+Specify to force update of an existing platform, replacing it with the imported platform
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Update
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -PlatformId
+Set a PlatformId for the imported platform
+
+```yaml
+Type: String
+Parameter Sets: SideBySide, Update
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -PlatformName
+Set a name for the imported platform
+
+```yaml
+Type: String
+Parameter Sets: SideBySide
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

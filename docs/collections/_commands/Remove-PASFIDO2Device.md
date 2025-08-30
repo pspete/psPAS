@@ -15,7 +15,7 @@ Removes a FIDO2 device from a user's authentication methods.
 ## SYNTAX
 
 ```
-Remove-PASFIDO2Device [[-id] <String>] [-OwnDevice] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-PASFIDO2Device [-id] <String> [-OwnDevice] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,7 +38,7 @@ This requires administrative privileges.
 PS C:\> Remove-PASFIDO2Device -id "device123" -OwnDevice
 ```
 
-Removes the FIDO2 device with ID "device123" from the current user's own registered 
+Removes the FIDO2 device with ID "device123" from the current user's own registered
 authentication methods. This allows users to self-manage their FIDO2 devices.
 
 ## PARAMETERS
@@ -51,7 +51,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -115,3 +115,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Remove-PASFIDO2Device](https://pspas.pspete.dev/commands/Remove-PASFIDO2Device)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-remove.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-remove.htm)
+
+[\[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-remove.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-selfremove.htm)

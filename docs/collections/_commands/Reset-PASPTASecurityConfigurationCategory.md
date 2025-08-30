@@ -21,7 +21,6 @@ Reset-PASPTASecurityConfigurationCategory [-categoryKey] <String> [-WhatIf] [-Co
 ## DESCRIPTION
 Resets PTA security configuration category to default values
 
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -49,7 +48,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
