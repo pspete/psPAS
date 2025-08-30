@@ -20,7 +20,7 @@ Function Get-PASAccountSearchProperty {
         If ($null -ne $Result) {
 
             #Return result
-            $Result
+            $Result.advancedSearchProperties
 
         }
 
