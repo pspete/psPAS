@@ -107,8 +107,8 @@ Function Add-PASPTARule {
 				if (-not($boundParameters['scope'].ContainsKey($scopeItem))) {
 					$boundParameters['scope'].Add($scopeItem, @{})
 				}
-				#translate paramer names into request property name
-				#* Return only last 4 characters of parametername in lowercase
+				#translate parameter names into request property name
+				#* Return only last 4 characters of parameter name in lowercase
 				#*vaultUsersMode & machinesMode translate to "mode"
 				#*vaultUsersList & machinesList translate to "list"
 				$property = ($PSItem).Substring(($PSItem).length - 4, 4).ToLower()
