@@ -1,5 +1,8 @@
 # .ExternalHelp psPAS-help.xml
 function Import-PASPlatform {
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'PlatformName', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Description', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Force', Justification = 'False Positive')]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
