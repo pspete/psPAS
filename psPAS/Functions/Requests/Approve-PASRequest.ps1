@@ -4,14 +4,14 @@ function Approve-PASRequest {
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $false
 		)]
 		[ValidateNotNullOrEmpty()]
 		[string[]]$RequestId,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $false
 		)]
 		[string]$Reason
 	)
