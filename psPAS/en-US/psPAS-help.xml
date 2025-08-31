@@ -9581,8 +9581,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Enables a request confirmer to confirm a single request, identified by its requestID.</maml:para>
-      <maml:para>Officially supported from version 9.10.</maml:para>
-      <maml:para>Reports received that function works in 9.9 also.</maml:para>
+      <maml:para>Bulk Confirmation of requests is supported from Version 14.6</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -9590,11 +9589,11 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>RequestId</maml:name>
           <maml:description>
-            <maml:para>The ID of the request to confirm</maml:para>
+            <maml:para>The ID(s) of the request(s) to confirm Specify multiple requestIDs to confirm in bulk using a single request (Requires version 14.6)</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -9639,11 +9638,11 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>RequestId</maml:name>
         <maml:description>
-          <maml:para>The ID of the request to confirm</maml:para>
+          <maml:para>The ID(s) of the request(s) to confirm Specify multiple requestIDs to confirm in bulk using a single request (Requires version 14.6)</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -9690,6 +9689,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     <maml:alertSet>
       <maml:alert>
         <maml:para>Minimum CyberArk Version 9.10</maml:para>
+        <maml:para>Bulk Confirmation requires version 14.6</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -9709,6 +9709,10 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ConfirmRequest.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ConfirmRequest.htm</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/14.6/en/content/webservices/bulkconfirmrequest.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/14.6/en/content/webservices/bulkconfirmrequest.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>

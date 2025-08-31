@@ -126,6 +126,26 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'Confirms bulk requests'{
+				$InputObj = [pscustomobject]@{
+					'RequestID' = @('24_68', '24_69', '24_70')
+					'Reason'    = 'Some Reason'
+
+				}
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+				$psPASSession.ExternalVersion = '14.6'
+				$response = $InputObj | Approve-PASRequest
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/IncomingRequests/Confirm/Bulk"
+
+				} -Times 1 -Exactly -Scope It
+			}
+
 		}
 
 		Context 'Output' {

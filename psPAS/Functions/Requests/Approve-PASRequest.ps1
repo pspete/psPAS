@@ -7,7 +7,7 @@ function Approve-PASRequest {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
-		[string]$RequestId,
+		[string[]]$RequestId,
 
 		[parameter(
 			Mandatory = $false,
@@ -22,11 +22,42 @@ function Approve-PASRequest {
 
 	PROCESS {
 
-		#Create URL for Request
-		$URI = "$($psPASSession.BaseURI)/API/IncomingRequests/$($RequestID)/Confirm"
+		#URL for Request
+		$URI = "$($psPASSession.BaseURI)/API/IncomingRequests/"
 
-		#Create body of request
-		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestId | ConvertTo-Json
+		Test-IsMultiValue -Input $RequestId
+
+		if ($?) {
+
+			#Bulk Confirmations supported from 14.6
+			Assert-VersionRequirement -RequiredVersion 14.6
+
+			#Create URL for Bulk Request Confirmation
+			$URI = "$URI/Confirm/Bulk"
+
+			#Create body of request
+			$Body = @{"BulkItems" = [System.Collections.Generic.List[object]]::new()}
+			$RequestId | ForEach-Object {
+				$Body.BulkItems.Add(
+					@{
+						RequestId = $PSItem
+						Reason   = $Reason
+					}
+				)
+			}
+
+		} Else{
+
+			#Create URL for Single Request Confirmation
+			$URI = "$URI/$($RequestID)/Confirm"
+
+			#Create body of request
+			$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestId
+
+		}
+
+		#Format body as JSON
+		$Body = $Body | ConvertTo-Json
 
 		if ($PSCmdlet.ShouldProcess($RequestId, 'Confirm Request for Account Access')) {
 
