@@ -17,22 +17,32 @@ function Approve-PASRequest {
 	)
 
 	BEGIN {
+
 		Assert-VersionRequirement -RequiredVersion 9.10
+
+		# Variable to track if we are doing bulk confirmation
+		$BulkConfirmation = $false
+
+		$boundInput = $PSBoundParameters['RequestId']
+
+		if (Test-IsMultiValue -Value $boundInput) {
+
+			#Bulk Confirmations supported from 14.6
+			Assert-VersionRequirement -RequiredVersion 14.6
+
+			$BulkConfirmation = $true
+		}
+
 	}#begin
 
 	PROCESS {
 
 		#URL for Request
-		$URI = "$($psPASSession.BaseURI)/API/IncomingRequests/"
+		$URI = "$($psPASSession.BaseURI)/API/IncomingRequests"
 
-		Test-IsMultiValue -Input $RequestId
+		if ($BulkConfirmation) {
 
-		if ($?) {
-
-			#Bulk Confirmations supported from 14.6
-			Assert-VersionRequirement -RequiredVersion 14.6
-
-			#Create URL for Bulk Request Confirmation
+			# Branch logic for bulk confirmation
 			$URI = "$URI/Confirm/Bulk"
 
 			#Create body of request
@@ -48,8 +58,8 @@ function Approve-PASRequest {
 
 		} Else{
 
-			#Create URL for Single Request Confirmation
-			$URI = "$URI/$($RequestID)/Confirm"
+			# Branch logic for single confirmation
+			$URI = "$URI/$($boundInput)/Confirm"
 
 			#Create body of request
 			$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove RequestId

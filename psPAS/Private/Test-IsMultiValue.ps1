@@ -29,21 +29,17 @@ function Test-IsMultiValue {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [Object]$Input
+        [object]$Value
     )
 
-    process {
-        if ($null -eq $Input) {
-            return $false
-        }
-
-        if ($Input -is [System.Collections.IEnumerable] -and
-            -not ($Input -is [string]) -and
-            $Input.Count -gt 1) {
-                return $true
-        }
-
+    if ($null -eq $Value) {
         return $false
     }
-}
 
+    # If it's an array with more than one item, it's multivalued
+    if ($Value -is [System.Array] -and $Value.Count -gt 1) {
+        return $true
+    }
+
+    return $false
+}
