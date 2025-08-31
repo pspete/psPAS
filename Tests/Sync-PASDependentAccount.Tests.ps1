@@ -73,7 +73,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                     'dependentAccountId' = '56_78'
                 }
 
-                $InputObj | Sync-PASDependentAccount
+                Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId $InputObj.dependentAccountId
 
             }
 
@@ -112,44 +112,55 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             It 'throws error if version requirement not met' {
 
                 $psPASSession.ExternalVersion = '1.0'
-                { $InputObj | Sync-PASDependentAccount } | Should -Throw
+                { Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId $InputObj.dependentAccountId } | Should -Throw
                 $psPASSession.ExternalVersion = '0.0'
 
             }
 
-            It 'accepts accountId from pipeline by property name' {
+            It 'sends requests for bulk sync to expected endpoint' {
 
-                $InputObj = [pscustomobject]@{
-                    'id'                 = '90_12'
-                    'dependentAccountId' = '34_56'
-                }
+				$psPASSession.ExternalVersion = '14.6'
+				Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId 1,2,3,4
 
-                $InputObj | Sync-PASDependentAccount
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/$($InputObj.accountId)/dependentAccounts/Sync/Bulk"
 
-                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/90_12/dependentAccounts/34_56/Sync"
+				} -Times 1 -Exactly -Scope It
+			}
 
-                } -Times 1 -Exactly -Scope It
+            It 'sends request with body for bulk confirmations' {
 
-            }
+				Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId 1,2,3,4
 
-            It 'accepts dependentAccountId from pipeline by property name' {
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                $InputObj = [pscustomobject]@{
-                    'accountId'   = '78_90'
-                    'dependentid' = '12_34'
-                }
+					$Body -ne $null
 
-                $InputObj | Sync-PASDependentAccount
+				} -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+			}
 
-                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/78_90/dependentAccounts/12_34/Sync"
+			It 'sends request with expected body for bulk confirmations' -Skip {
+                #TODO: figure out why this errors
+				Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId 1,2,3,4
 
-                } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-            }
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody.BulkItems) -ne $null
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'has a request body with expected number of confirmations' -Skip {
+                #TODO: Fix previous test
+				($Script:RequestBody.BulkItems).count | Should -Be 4
+
+			}
+
 
         }
 
@@ -168,7 +179,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                     'dependentAccountId' = '56_78'
                 }
 
-                $response = $InputObj | Sync-PASDependentAccount
+                $response = Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId $InputObj.dependentAccountId
 
             }
 

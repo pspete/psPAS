@@ -16,7 +16,7 @@ This syncs the dependent account secret with its master account.
 ## SYNTAX
 
 ```
-Sync-PASDependentAccount [-accountId] <String> [-dependentAccountId] <String> [-WhatIf] [-Confirm]
+Sync-PASDependentAccount [-accountId] <String> [-dependentAccountId] <String[]> [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -40,6 +40,14 @@ PS C:\> Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 56_78
 
 Synchronizes the password of dependent account with ID 56_78 with its parent account 12_34.
 
+### EXAMPLE 2
+
+```powershell
+PS C:\> Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 12_78, 12_01, 12_45, 12_89
+```
+
+Synchronizes the password of the specified dependent accounts for parent account with id 12_34.
+
 ## PARAMETERS
 
 ### -accountId
@@ -54,7 +62,7 @@ Aliases: id
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -62,15 +70,17 @@ Accept wildcard characters: False
 
 The ID of the dependent account that will receive the synchronized password from the parent account.
 
+Specify multiple values to perform bulk synchronisation in a single request.
+
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: dependentid
 
 Required: True
 Position: 2
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -122,3 +132,5 @@ Requires minimum version 14.6
 [https://pspas.pspete.dev/commands/Sync-PASDependentAccount](https://pspas.pspete.dev/commands/Sync-PASDependentAccount)
 
 [https://docs.cyberark.com/PAS/Latest/en/Content/WebServices/Dependent-Accounts.htm](https://docs.cyberark.com/PAS/Latest/en/Content/WebServices/Dependent-Accounts.htm)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/bulk-sync-dependent-account-secret.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/bulk-sync-dependent-account-secret.htm)

@@ -9586,7 +9586,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Approve-PASRequest</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>RequestId</maml:name>
           <maml:description>
             <maml:para>The ID(s) of the request(s) to confirm Specify multiple requestIDs to confirm in bulk using a single request (Requires version 14.6)</maml:para>
@@ -9598,7 +9598,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>Reason</maml:name>
           <maml:description>
             <maml:para>The reason why the request is approved</maml:para>
@@ -9635,7 +9635,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>RequestId</maml:name>
         <maml:description>
           <maml:para>The ID(s) of the request(s) to confirm Specify multiple requestIDs to confirm in bulk using a single request (Requires version 14.6)</maml:para>
@@ -9647,7 +9647,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>Reason</maml:name>
         <maml:description>
           <maml:para>The reason why the request is approved</maml:para>
@@ -45925,7 +45925,7 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Sync-PASDependentAccount</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="id">
           <maml:name>accountId</maml:name>
           <maml:description>
             <maml:para>The ID of the parent account whose password will be synchronized to the dependent account.</maml:para>
@@ -45937,14 +45937,15 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="dependentid">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="dependentid">
           <maml:name>dependentAccountId</maml:name>
           <maml:description>
             <maml:para>The ID of the dependent account that will receive the synchronized password from the parent account.</maml:para>
+            <maml:para>Specify multiple values to perform bulk synchronisation in a single request.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -45974,7 +45975,7 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="id">
         <maml:name>accountId</maml:name>
         <maml:description>
           <maml:para>The ID of the parent account whose password will be synchronized to the dependent account.</maml:para>
@@ -45986,14 +45987,15 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="dependentid">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="dependentid">
         <maml:name>dependentAccountId</maml:name>
         <maml:description>
           <maml:para>The ID of the dependent account that will receive the synchronized password from the parent account.</maml:para>
+          <maml:para>Specify multiple values to perform bulk synchronisation in a single request.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -46038,6 +46040,13 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
           <maml:para>Synchronizes the password of dependent account with ID 56_78 with its parent account 12_34.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 12_78, 12_01, 12_45, 12_89</dev:code>
+        <dev:remarks>
+          <maml:para>Synchronizes the password of the specified dependent accounts for parent account with id 12_34.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -46047,6 +46056,10 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/PAS/Latest/en/Content/WebServices/Dependent-Accounts.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/PAS/Latest/en/Content/WebServices/Dependent-Accounts.htm</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/bulk-sync-dependent-account-secret.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/bulk-sync-dependent-account-secret.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
