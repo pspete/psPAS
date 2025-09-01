@@ -1,6 +1,7 @@
 # .ExternalHelp psPAS-help.xml
 Function Get-PASTheme {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'FindAll', Justification = 'False Positive')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Active', Justification = 'False Positive')]
     [CmdletBinding(DefaultParameterSetName = 'byAll')]
     param(
         [parameter(
@@ -23,7 +24,6 @@ Function Get-PASTheme {
 			ParameterSetName = 'byAll'
 		)]
 		[switch]$FindAll
-
     )
 
     BEGIN {
