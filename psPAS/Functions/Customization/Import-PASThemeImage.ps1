@@ -24,7 +24,7 @@ Function Import-PASThemeImage {
         $Request = @{}
 		$Request['Method'] = 'POST'
         #Create URL for request
-        $URI = "$($psPASSession.BaseURI)/API/Images/"
+        $Request['URI'] =  "$($psPASSession.BaseURI)/API/Images/"
     }#begin
 
     PROCESS {
