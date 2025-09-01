@@ -282,7 +282,8 @@
 		'Get-PASPTASecurityConfigurationCategory',
 		'Set-PASDependentAccount',
 		'Add-PASDependentAccount',
-		'Import-PASThemeImage'
+		'Import-PASThemeImage',
+		'Export-PASThemeImage'
 
 	)
 
