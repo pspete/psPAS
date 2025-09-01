@@ -18,7 +18,7 @@ Function Reset-PASThemeImage {
         if ($PSCmdlet.ShouldProcess('Default Theme', 'Resetting UI Theme')) {
 
             #send request to web service
-            $result = Invoke-PASRestMethod -Uri $URI -Method DELETE
+            Invoke-PASRestMethod -Uri $URI -Method DELETE
 
         }
     }#process
