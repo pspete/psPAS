@@ -144,7 +144,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Approve-PASRequest -RequestID 24_68 -Reason 'Some Reason'
 
 				$psPASSession.ExternalVersion = '1.0'
-				{ $InputObj | Approve-PASRequest } | Should -Throw
+				{ Approve-PASRequest -RequestID 24_68 -Reason 'Some Reason' } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
@@ -189,11 +189,25 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
-		Context 'Output' -skip {
+		Context 'Output' {
+
+			BeforeAll{
+				$InputObj = [pscustomobject]@{
+					'RequestID' = '24_68'
+					'Reason'    = 'Some Reason'
+
+				}
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+				$psPASSession.ExternalVersion = '9.10'
+
+			}
 
 			It 'provides no output'  {
 
-				$response | Should -BeNullOrEmpty
+				Approve-PASRequest -RequestID 24_68 -Reason 'Some Reason' | Should -BeNullOrEmpty
 
 			}
 
