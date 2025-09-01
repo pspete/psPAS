@@ -281,7 +281,8 @@
 		'Reset-PASPTASecurityConfigurationCategory',
 		'Get-PASPTASecurityConfigurationCategory',
 		'Set-PASDependentAccount',
-		'Add-PASDependentAccount'
+		'Add-PASDependentAccount',
+		'Add-PASThemeImage'
 
 	)
 
