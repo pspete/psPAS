@@ -284,7 +284,8 @@
 		'Add-PASDependentAccount',
 		'Import-PASThemeImage',
 		'Export-PASThemeImage',
-		'Reset-PASTheme'
+		'Reset-PASTheme',
+		'Set-PASThemeStatus'
 
 	)
 
