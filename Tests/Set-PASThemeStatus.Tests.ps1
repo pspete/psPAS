@@ -84,7 +84,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/ActiveThemes/"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Themes/SomeTheme/draft/"
 
 				} -Times 1 -Exactly -Scope It
 
