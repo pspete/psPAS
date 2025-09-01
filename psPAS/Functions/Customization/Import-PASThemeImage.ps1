@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Add-PASThemeImage {
+Function Import-PASThemeImage {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(

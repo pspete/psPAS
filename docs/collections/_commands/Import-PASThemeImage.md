@@ -1,11 +1,11 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Add-PASThemeImage
+online version: https://pspas.pspete.dev/commands/Import-PASThemeImage
 schema: 2.0.0
 ---
 
-# Add-PASThemeImage
+# Import-PASThemeImage
 
 ## SYNOPSIS
 Adds an image used by a theme
@@ -13,7 +13,7 @@ Adds an image used by a theme
 ## SYNTAX
 
 ```
-Add-PASThemeImage [-Name] <String> [-ImageFile] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Import-PASThemeImage [-Name] <String> [-ImageFile] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,7 +25,7 @@ Requires Vault Admin Privileges
 
 ### Example 1
 ```powershell
-PS C:\> Add-PASThemeImage -Name SomeImage -ImageFile SomeImageFile.png
+PS C:\> Import-PASThemeImage -Name SomeImage -ImageFile SomeImageFile.png
 ```
 
 Adds SomeImageFile.png to the system for use in a theme
@@ -104,6 +104,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Add-PASThemeImage](https://pspas.pspete.dev/commands/Add-PASThemeImage)
+[https://pspas.pspete.dev/commands/Import-PASThemeImage](https://pspas.pspete.dev/commands/Import-PASThemeImage)
 
 [https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-cust-ui-images-add-image.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-cust-ui-images-add-image.htm)
