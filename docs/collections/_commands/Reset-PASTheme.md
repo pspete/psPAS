@@ -1,11 +1,11 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Reset-PASThemeImage
+online version: https://pspas.pspete.dev/commands/Reset-PASTheme
 schema: 2.0.0
 ---
 
-# Reset-PASThemeImage
+# Reset-PASTheme
 
 ## SYNOPSIS
 Revert the UI to the default theme
@@ -13,7 +13,7 @@ Revert the UI to the default theme
 ## SYNTAX
 
 ```
-Reset-PASThemeImage [-WhatIf] [-Confirm] [<CommonParameters>]
+Reset-PASTheme [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ Deactivates the custom theme and revert the UI to the default theme
 
 ### Example 1
 ```powershell
-PS C:\> Reset-PASThemeImage
+PS C:\> Reset-PASTheme
 ```
 
 Reverts the UI to the default theme
@@ -72,6 +72,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Reset-PASThemeImage](https://pspas.pspete.dev/commands/Reset-PASThemeImage)
+[https://pspas.pspete.dev/commands/Reset-PASTheme](https://pspas.pspete.dev/commands/Reset-PASTheme)
 
 [https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-cust-ui-themes-deactivate.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-cust-ui-themes-deactivate.htm)
