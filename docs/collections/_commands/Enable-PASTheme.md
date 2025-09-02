@@ -2,12 +2,12 @@
 category: PSPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Set-PASTheme
+online version: https://pspas.pspete.dev/commands/Enable-PASTheme
 schema: 2.0.0
-title: Set-PASTheme
+title: Enable-PASTheme
 ---
 
-# Set-PASTheme
+# Enable-PASTheme
 
 ## SYNOPSIS
 Activate Theme
@@ -15,7 +15,7 @@ Activate Theme
 ## SYNTAX
 
 ```
-Set-PASTheme [-ThemeName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Enable-PASTheme -ThemesNames <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,24 +25,24 @@ Sets a specific theme. It can be the default one or custom themes
 
 ### EXAMPLE 1
 ```
-Set-PASTheme -ThemeName "Default Dark"
+Enable-PASTheme -ThemesNames "Default Dark"
 ```
 
 Sets the theme to the default dark theme
 
 ## PARAMETERS
 
-### -ThemeName
-The name of the theme
+### -ThemesNames
+The Name of the theme to activate
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
-Default value: 0
+Position: Named
+Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
@@ -89,6 +89,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Set-PASTheme](https://pspas.pspete.dev/commands/Set-PASTheme)
+[https://pspas.pspete.dev/commands/Enable-PASTheme](https://pspas.pspete.dev/commands/Enable-PASTheme)
 
 [https://docs.cyberark.com/pam-self-hosted/14.4/en/content/sdk/rest-api-cust-ui-themes-activate.htm](https://docs.cyberark.com/pam-self-hosted/14.4/en/content/sdk/rest-api-cust-ui-themes-activate.htm)

@@ -1,12 +1,12 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASTheme {
+Function Enable-PASTheme {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [string]$ThemeName
+        [string[]]$ThemesNames
 
     )
 
@@ -24,7 +24,7 @@ Function Set-PASTheme {
         #Request body
 		$Body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
-        if ($PSCmdlet.ShouldProcess($ThemeName, 'Setting UI Theme')) {
+        if ($PSCmdlet.ShouldProcess($ThemesNames, 'Setting UI Theme')) {
 
 			#send request to web service
 			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body

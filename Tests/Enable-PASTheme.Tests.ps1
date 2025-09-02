@@ -46,13 +46,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'ThemeName' }
+			$Parameters = @{Parameter = 'ThemesNames' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Set-PASTheme).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Enable-PASTheme).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
@@ -66,11 +66,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$InputObj = [pscustomobject]@{
-					'ThemeName' = 'SomeTheme'
+					'ThemesNames' = 'SomeTheme'
 				}
 
 				$psPASSession.ExternalVersion = '0.0'
-				$response = $InputObj | Set-PASTheme
+				$response = $InputObj | Enable-PASTheme
 
 			}
 
@@ -114,15 +114,15 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'has a request body with expected ThemeName property' {
+			It 'has a request body with expected ThemesNames property' {
 
-				$Script:RequestBody.ThemeName | Should -Be 'SomeTheme'
+				$Script:RequestBody.ThemesNames | Should -Be 'SomeTheme'
 
 			}
 
 			It 'throws error if version requirement not met' {
 				$psPASSession.ExternalVersion = '1.0'
-				{ $InputObj | Set-PASTheme } | Should -Throw
+				{ $InputObj | Enable-PASTheme } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
 			}
 		}
@@ -137,11 +137,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$InputObj = [pscustomobject]@{
-					'ThemeName' = 'OutputTestTheme'
+					'ThemesNames' = 'OutputTestTheme'
 				}
 
 				$psPASSession.ExternalVersion = '0.0'
-				$response = $InputObj | Set-PASTheme
+				$response = $InputObj | Enable-PASTheme
 
 			}
 
