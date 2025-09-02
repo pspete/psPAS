@@ -19,8 +19,15 @@ Function Get-PASAccountSearchProperty {
 
         If ($null -ne $Result) {
 
-            #Return result
-            $Result.advancedSearchProperties
+            #Process and return structured result
+            $Result.advancedSearchProperties.PSObject.Properties | ForEach-Object {
+                [PSCustomObject]@{
+                    PropertyName = $_.Name
+                    ValidValues = $_.Value.validValues -join ', '
+                    SupportedOperators = $_.Value.supportedOperators -join ', '
+                    SupportedLogicalOperators = $_.Value.supportedLogicalOperators -join ', '
+                }
+            }
 
         }
 
