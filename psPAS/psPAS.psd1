@@ -255,7 +255,7 @@
 		'Add-PASDiscoveredLocalAccount',
 		'Clear-PASDiscoveredLocalAccount',
 		'Remove-PASDiscoveredLocalAccount',
-		'Set-PASTheme',
+		'Enable-PASTheme',
 		'Remove-PASTheme',
 		'Get-PASStoredPlatform',
 		'Remove-PASStoredPlatform',
@@ -286,7 +286,8 @@
 		'Export-PASThemeImage',
 		'Reset-PASTheme',
 		'Set-PASThemeStatus',
-		'Get-PASTheme'
+		'Get-PASTheme',
+		'New-PASTheme'
 
 	)
 
