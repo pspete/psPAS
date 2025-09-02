@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Reset-PASThemeImage {
+Function Reset-PASTheme {
     [CmdletBinding(SupportsShouldProcess)]
     param()
 
