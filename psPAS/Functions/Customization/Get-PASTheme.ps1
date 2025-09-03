@@ -45,7 +45,7 @@ Function Get-PASTheme {
 			}
 
             'ByActive'{
-                $URI = "$URI/Themes/ActiveThemes/"
+                $URI = "$URI/ActiveThemes/"
                 break
             }
 
