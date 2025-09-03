@@ -288,7 +288,10 @@
 		'Set-PASThemeStatus',
 		'Get-PASTheme',
 		'New-PASTheme',
-		'Set-PASTheme'
+		'Set-PASTheme',
+		'Add-PASPTASyslog',
+		'Remove-PASPTASyslog'
+
 	)
 
 	#AliasesToExport   = @()
