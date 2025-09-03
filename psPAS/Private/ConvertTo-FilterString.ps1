@@ -58,21 +58,13 @@ Encloses value of the key/value pair in quotes.
 			Mandatory = $false,
 			ValueFromPipeline = $false
 		)]
-		[switch]$QuoteValue,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false
-		)]
-		[version]$ExternalVersion
+		[switch]$QuoteValue
 	)
 
 	Begin {
 
-		# If no version specified, try to get it from the session
-		if (-not $ExternalVersion -and $script:psPASSession) {
-			$ExternalVersion = $script:psPASSession.ExternalVersion
-		}
+		# Get version from the session
+		$ExternalVersion = $script:psPASSession.ExternalVersion
 
 	}
 
