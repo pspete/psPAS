@@ -12,12 +12,16 @@ Function Get-PASPTASecurityConfigurationCategory {
         $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories"
 
         #send request to web service
-        Invoke-PASRestMethod -Uri $URI -Method GET
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
         If ($null -ne $result) {
 
-            #Return Results
-            $result
+            #Return Results as objects
+            $result | ForEach-Object {
+                [PSCustomObject]@{
+                    Category = $_
+                }
+            }
 
         }
 
