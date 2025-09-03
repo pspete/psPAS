@@ -287,8 +287,8 @@
 		'Reset-PASTheme',
 		'Set-PASThemeStatus',
 		'Get-PASTheme',
-		'New-PASTheme'
-
+		'New-PASTheme',
+		'Set-PASTheme'
 	)
 
 	#AliasesToExport   = @()
