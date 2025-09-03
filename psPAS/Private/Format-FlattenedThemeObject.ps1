@@ -1,4 +1,4 @@
-function Flatten-CustomThemeObject {
+function Format-FlattenedThemeObject {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory, ValueFromPipeline)]
@@ -10,7 +10,7 @@ function Flatten-CustomThemeObject {
 
     begin {
 
-        function Add-Properties {
+        function Add-ThemeProperty {
             param (
                 [PSCustomObject]$Source,
                 [hashtable]$Target,
@@ -34,19 +34,19 @@ function Flatten-CustomThemeObject {
         $flatProps.colorsStyle = $InputObject.colors.colorsStyle
 
         # Inject nested props
-        Add-Properties -Source $InputObject.images.main -Target $flatProps
+        Add-ThemeProperty -Source $InputObject.images.main -Target $flatProps
 
         $definitionMap = @{
             dark   = 'Dark'
             bright = 'Bright'
         }
         foreach ($key in $definitionMap.Keys) {
-            Add-Properties -Source $InputObject.colors.definitionByType.$key -Target $flatProps -Suffix $definitionMap[$key]
+            Add-ThemeProperty -Source $InputObject.colors.definitionByType.$key -Target $flatProps -Suffix $definitionMap[$key]
         }
 
         $colorSections = 'main', 'menu', 'advanced'
         foreach ($section in $colorSections) {
-            Add-Properties -Source $InputObject.colors.$section -Target $flatProps
+            Add-ThemeProperty -Source $InputObject.colors.$section -Target $flatProps
         }
 
 

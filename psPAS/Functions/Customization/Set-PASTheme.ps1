@@ -331,7 +331,7 @@ Function Set-PASTheme {
         if ($null -ne $ThemeObject) {
 
             # Flatten the theme object, and rename properties to match expected input
-            $ThemeObject = Flatten-CustomThemeObject -InputObject $ThemeObject
+            $ThemeObject = Format-FlattenedThemeObject -InputObject $ThemeObject
             # Format the request object to include all necessary properties, including those not being explicitly updated
             Format-PutRequestObject -InputObject $ThemeObject -boundParameters $BoundParameters
 
