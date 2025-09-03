@@ -339,12 +339,26 @@
 							#Inner error details are present
 							if ($Response.Details) {
 
-								#Join Inner Error Text to Error Message
-								$ErrorMessage = $ErrorMessage, $(($Response.Details | Select-Object -ExpandProperty ErrorMessage) -join ', ') -join ': '
+								if($Response.Details -is [Array]){
+									#When addition of duplicate account is detected, an array of details is returned
+									#*This may need refactoring if other commands or error records use the same mechanism in the future
 
-								#Join Inner Error Codes to ErrorID
-								$ErrorID = $ErrorID, $(($Response.Details | Select-Object -ExpandProperty ErrorCode) -join ',') -join ','
+									$detailText = $Response.Details | ForEach-Object {
+										#Create a string value from each element of the array
+										"AccountId: $($_.AccountId); AccountName: $($_.AccountName); SafeId: $($_.SafeId); SafeName: $($_.SafeName); Comment: $($_.Comment)"
+									}
 
+									#Join the array element details to the Error Message
+									$ErrorMessage = $ErrorMessage, $($detailText -join "`n") -join "`n"
+
+								}
+								else{
+									#Join Inner Error Text to Error Message
+									$ErrorMessage = $ErrorMessage, $(($Response.Details | Select-Object -ExpandProperty ErrorMessage) -join ', ') -join ': '
+
+									#Join Inner Error Codes to ErrorID
+									$ErrorID = $ErrorID, $(($Response.Details | Select-Object -ExpandProperty ErrorCode) -join ',') -join ','
+								}
 							}
 
 						} catch {

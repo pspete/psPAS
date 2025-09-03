@@ -170,6 +170,20 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>AllowAccountDuplications</maml:name>
+          <maml:description>
+            <maml:para>Whether to allow duplicated accounts to be added to the system.</maml:para>
+            <maml:para>This parameter is only enforced only if AccountDuplicationEnforcementLevel in the General Configurations is set to Notify or Prevent.</maml:para>
+            <maml:para>Only Applies to Self Hosted, and requires version 14.6</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Add-PASAccount</maml:name>
@@ -737,6 +751,20 @@
         <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
         <dev:type>
           <maml:name>Hashtable</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>AllowAccountDuplications</maml:name>
+        <maml:description>
+          <maml:para>Whether to allow duplicated accounts to be added to the system.</maml:para>
+          <maml:para>This parameter is only enforced only if AccountDuplicationEnforcementLevel in the General Configurations is set to Notify or Prevent.</maml:para>
+          <maml:para>Only Applies to Self Hosted, and requires version 14.6</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>

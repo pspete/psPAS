@@ -118,6 +118,13 @@ function Add-PASAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[boolean]$AllowAccountDuplications,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1'
 		)]
 		[string]$accountName,
@@ -229,7 +236,7 @@ function Add-PASAccount {
 	PROCESS {
 
 		#Get all parameters that will be sent in the request
-		$boundParameters = $PSBoundParameters | Get-PASParameter
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove 'AllowAccountDuplications'
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -239,6 +246,13 @@ function Add-PASAccount {
 
 				#Create URL for Request
 				$URI = "$($psPASSession.BaseURI)/api/Accounts"
+
+				If($PSBoundParameters.ContainsKey('AllowAccountDuplications')) {
+					Assert-VersionRequirement -SelfHosted
+					Assert-VersionRequirement -RequiredVersion 14.6
+					$URI = "$URI`?AllowAccountDuplications=$($PSBoundParameters['AllowAccountDuplications'])"
+
+				}
 
 				$Account = New-PASAccountObject @boundParameters
 
