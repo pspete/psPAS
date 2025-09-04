@@ -90,10 +90,58 @@ function Get-PASAccount {
 
 	)
 
+	DynamicParam {
+		# Create dynamic parameters based on available search properties from the API
+		# Only available for Gen2Query parameter set and version 14.4+
+		if ($PSCmdlet.ParameterSetName -eq 'Gen2Query' -and
+			$script:psPASSession.ExternalVersion -ge [version]'14.4') {
+			
+			# Get available search properties from the API
+			$SearchProperties = Get-PASAccountSearchProperty
+			$paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+			
+			# List of existing static parameters to avoid duplicates
+			$existingParams = @('id', 'search', 'searchType', 'safeName', 'savedFilter', 'modificationTime', 'sort', 'limit', 'Keywords', 'Safe', 'TimeoutSec')
+			
+			# Create dynamic parameter for each search property not already defined
+			foreach ($property in $SearchProperties) {
+				if ($existingParams -notcontains $property.PropertyName) {
+					$paramAttribute = New-Object System.Management.Automation.ParameterAttribute
+					$paramAttribute.Mandatory = $false
+					$paramAttribute.ParameterSetName = 'Gen2Query'
+					$paramAttribute.ValueFromPipelineByPropertyName = $false
+					
+					$attributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
+					$attributeCollection.Add($paramAttribute)
+					
+					# Create runtime parameter for the search property
+					$runtimeParam = New-Object System.Management.Automation.RuntimeDefinedParameter($property.PropertyName, [string], $attributeCollection)
+					$paramDictionary.Add($property.PropertyName, $runtimeParam)
+				}
+			}
+			
+			return $paramDictionary
+		}
+	}
+
 	BEGIN {
 
 		#Parameter to include as filter value in url
 		$Parameters = [Collections.Generic.List[String]]@('modificationTime', 'SafeName')
+
+		# Add dynamic search properties to the filter parameters list for Gen2 14.4+
+		if ($PSCmdlet.ParameterSetName -match 'Gen2' -and $psPASSession.ExternalVersion -ge [version]'14.4') {
+			$SearchProperties = Get-PASAccountSearchProperty
+			# Build lookup for validation of supported operators
+			$SearchPropertyLookup = @{}
+			foreach ($property in $SearchProperties) {
+				$SearchPropertyLookup[$property.PropertyName] = $property
+				# Add property to filter parameters
+				if ($property.PropertyName -notin @('modificationTime', 'SafeName')) {
+					$Parameters.Add($property.PropertyName)
+				}
+			}
+		}
 
 	}#begin
 
@@ -235,8 +283,8 @@ function Get-PASAccount {
 
 									$InternalProps |
 
-										#Add each property name and value as object property of $InternalProps
-										Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+									#Add each property name and value as object property of $InternalProps
+									Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
 
 								}
 
