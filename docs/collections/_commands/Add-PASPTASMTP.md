@@ -1,45 +1,47 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Add-PASPTASyslog
+online version: https://pspas.pspete.dev/commands/Add-PASPTASMTP
 schema: 2.0.0
 ---
 
-# Add-PASPTASyslog
+# Add-PASPTASMTP
 
 ## SYNOPSIS
-Add a SYSLOG configuration to PTA
+Add an SMTP configuration to PTA
 
 ## SYNTAX
 
 ```
-Add-PASPTASyslog [-siem] <String> [-format] <String> [-host] <String> [-port] <Int32> [-protocol] <String>
- [[-CertificateFile] <String>] [-syslogType] <String> [-tcpOctetCounting] <Boolean> [<CommonParameters>]
+Add-PASPTASMTP [-host] <String> [-protocol] <String> [-port] <Int32> [-sender] <String>
+ [-recipients] <String[]> [[-accountId] <String>] [[-CertificateFile] <String>]
+ [-AlertToEmailScoreThreshold] <Int32> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Add a new SYSLOG configuration to PTA
+Configure PTA SMTP settings
 
-This API is not officially documented, so this help file may not help 100%
+API is not documented, so this help file may not be 100% accurate
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Add-PASPTASyslog -siem SomeSIEM -format CEF -host SOMEHOST.domain.com -port 514 -protocol UDP -syslogType SomeType -tcpOctetCounting $false
+PS C:\> Add-PASPTASMTP -host smtp.domain.com -protocol TCP -port 25 -sender 'PTA@domain.com' `
+ -recipients 'security_team@domain.com' -AlertToEmailScoreThreshold 70
 ```
 
-Adds the specified SYSLOG configuration to PTA
+Configures PTA SMTP settings
 
 ## PARAMETERS
 
-### -siem
-A name for the SIEM configuration
+### -host
+The SMTP host
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Name
+Aliases:
 
 Required: True
 Position: 1
@@ -48,8 +50,8 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -format
-CEF or LEEF format
+### -protocol
+The protocol for SMTP integration
 
 ```yaml
 Type: String
@@ -63,23 +65,8 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -host
-The SYSLOG host
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 3
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -port
-The SYSLOG port
+The port for the SMTP communication
 
 ```yaml
 Type: Int32
@@ -87,17 +74,32 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 4
+Position: 3
 Default value: 0
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -protocol
-The SYSLOG protocol
+### -sender
+The sender address
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 4
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -recipients
+The recipient address
+
+```yaml
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -108,8 +110,8 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -CertificateFile
-The certificate file for SYSLOG connectivity
+### -accountId
+Account to use for SMTP authentication
 
 ```yaml
 Type: String
@@ -119,36 +121,36 @@ Aliases:
 Required: False
 Position: 6
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -syslogType
-The SYSLOG type
+### -CertificateFile
+Certificate to use for SMTP authentication
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 7
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -tcpOctetCounting
-Whether to set TCP Octet Counting
+### -AlertToEmailScoreThreshold
+PTA Alert Score threshold for email alerts
 
 ```yaml
-Type: Boolean
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: True
 Position: 8
-Default value: False
+Default value: 0
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
@@ -164,4 +166,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Add-PASPTASyslog](https://pspas.pspete.dev/commands/Add-PASPTASyslog)
+[https://pspas.pspete.dev/commands/Add-PASPTASMTP](https://pspas.pspete.dev/commands/Add-PASPTASMTP)
