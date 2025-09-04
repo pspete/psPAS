@@ -5,6 +5,7 @@ Function Add-PASPTASyslog {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [Alias('Name')]
         [string]$siem,
         [parameter(
             Mandatory = $true,
@@ -33,14 +34,14 @@ Function Add-PASPTASyslog {
             ValueFromPipelinebyPropertyName = $false
         )]
         [ValidateScript({
-            if ($_ -and -not (Test-Path $_ -PathType Leaf)) {
-                throw "Certificate file does not exist: $_"
-            }
-            if ($_ -and $_ -notmatch '\.(crt|cer|pem)$') {
-                throw "Certificate file must have .crt, .cer, or .pem extension"
-            }
-            return $true
-        })]
+                if ($_ -and -not (Test-Path $_ -PathType Leaf)) {
+                    throw "Certificate file does not exist: $_"
+                }
+                if ($_ -and $_ -notmatch '\.(crt|cer|pem)$') {
+                    throw "Certificate file must have .crt, .cer, or .pem extension"
+                }
+                return $true
+            })]
         [string]$CertificateFile,
         [parameter(
             Mandatory = $true,
@@ -50,7 +51,8 @@ Function Add-PASPTASyslog {
         [string]$syslogType,
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            HelpMessage = 'Enable octet-counting for syslog transmission over TCP. When enabled, the syslog message starts with its length.'
         )]
         [bool]$tcpOctetCounting
     )
