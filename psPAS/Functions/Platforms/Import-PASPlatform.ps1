@@ -55,36 +55,48 @@ function Import-PASPlatform {
 		$Request['Method'] = 'POST'
 		#Create URL for request
 		$Request['URI'] = "$($psPASSession.BaseURI)/API/Platforms/Import"
+
+		$MessageItem = $null
+		$MessageText = $null
 	}#begin
 
 	PROCESS {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
-			'Import'		{
+			'Import' {
 				#Convert File to byte array
 				$FileBytes = $ImportFile | Get-ByteArray
 
 				$Request['Body'] = @{'ImportFile' = $FileBytes } | ConvertTo-Json
 				$Request['Debug'] = $false
 
+				$MessageItem = $ImportFile
+				$MessageText = 'Imports Platform Package'
+
 			}
-			'SideBySide'	{
+			'SideBySide' {
 				# Check if version is 14.6 or higher for update support
 				Assert-VersionRequirement -RequiredVersion 14.6
 				$Request['Method'] = 'PATCH'
-				$Request['Body'] = $BoundParameters | ConvertTo-Json
+				$Request['Body'] = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
+
+				$MessageItem = $PlatformId
+				$MessageText = 'Side By Side Import'
 			}
-			'Update'	 	{
+			'Update' {
 				# Check if version is 14.2 or higher for update support
 				Assert-VersionRequirement -RequiredVersion 14.2
 				# Update existing platform
 				$Request['URI'] = "$($psPASSession.BaseURI)/API/Platforms/$PlatformId/Update"
+
+				$MessageItem = $PlatformId
+				$MessageText = 'Update Platform'
 			}
 
 		}
 
-		if ($PSCmdlet.ShouldProcess($ImportFile, 'Imports Platform Package')) {
+		if ($PSCmdlet.ShouldProcess($MessageItem, $MessageText)) {
 
 			try {
 				#send request to web service
