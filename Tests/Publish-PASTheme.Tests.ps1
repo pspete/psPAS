@@ -52,7 +52,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				param($Parameter)
 
-				(Get-Command Set-PASThemeStatus).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Publish-PASTheme).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
@@ -70,7 +70,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$psPASSession.ExternalVersion = '0.0'
-				$response = $InputObj | Set-PASThemeStatus
+				$response = $InputObj | Publish-PASTheme
 
 			}
 
@@ -122,7 +122,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'throws error if version requirement not met' {
 				$psPASSession.ExternalVersion = '1.0'
-				{ $InputObj | Set-PASThemeStatus } | Should -Throw
+				{ $InputObj | Publish-PASTheme } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
 			}
 		}
@@ -141,7 +141,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$psPASSession.ExternalVersion = '0.0'
-				$response = $InputObj | Set-PASThemeStatus
+				$response = $InputObj | Publish-PASTheme
 
 			}
 

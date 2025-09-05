@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASThemeStatus {
+Function Publish-PASTheme {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(

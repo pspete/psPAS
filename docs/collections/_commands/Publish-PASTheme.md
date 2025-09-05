@@ -1,11 +1,11 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Set-PASThemeStatus
+online version: https://pspas.pspete.dev/commands/Publish-PASTheme
 schema: 2.0.0
 ---
 
-# Set-PASThemeStatus
+# Publish-PASTheme
 
 ## SYNOPSIS
 Updates draft state a custom theme
@@ -13,17 +13,17 @@ Updates draft state a custom theme
 ## SYNTAX
 
 ```
-Set-PASThemeStatus [-ThemeName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Publish-PASTheme [-ThemeName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Updates the draft state of a specific custom theme
+Updates the draft state of a specific custom theme from $true to $false
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Set-PASThemeStatus -ThemeName SomeTheme
+PS C:\> Publish-PASTheme -ThemeName SomeTheme
 ```
 
 Update the draft state of SomeTheme
@@ -87,6 +87,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Set-PASThemeStatus](https://pspas.pspete.dev/commands/Set-PASThemeStatus)
+[https://pspas.pspete.dev/commands/Publish-PASTheme](https://pspas.pspete.dev/commands/Publish-PASTheme)
 
 [https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-cust-ui-themes-update-draft.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-cust-ui-themes-update-draft.htm)

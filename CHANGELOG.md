@@ -42,7 +42,7 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
   - New 14.6 command to export an image used in a custom UI theme
 - `Reset-PASTheme`
   - New 14.6 command to reset the UI theme to default
-- `Set-PASThemeStatus`
+- `Publish-PASTheme`
   - New 14.6 command to change the draft status of a custom UI theme
 - `Get-PASTheme`
   - New 14.6 command to return details of custom UI themes
@@ -114,6 +114,12 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
   - New 14.6 command to list configured search properties
 
 ### Updated
+- `Add-PASSafeMember`
+  - Updated to include permission pre-sets to match functionality available via PVWA
+  - Thanks [Slasky86](https://github.com/Slasky86)!!
+- `Set-PASSafeMember`
+  - Updated to include permission pre-sets to match functionality available via PVWA
+  - Thanks [Slasky86](https://github.com/Slasky86)!!
 - `Get-PASAccount`
   - Adds dynamic search properties to the filter parameters list
   - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!

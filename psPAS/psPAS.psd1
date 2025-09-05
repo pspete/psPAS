@@ -284,7 +284,7 @@
 		'Import-PASThemeImage',
 		'Export-PASThemeImage',
 		'Reset-PASTheme',
-		'Set-PASThemeStatus',
+		'Publish-PASTheme',
 		'Get-PASTheme',
 		'New-PASTheme',
 		'Set-PASTheme',
