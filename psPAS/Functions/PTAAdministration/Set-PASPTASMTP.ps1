@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Add-PASPTASMTP {
+Function Set-PASPTASMTP {
     param(
         [parameter(
             Mandatory = $true,
