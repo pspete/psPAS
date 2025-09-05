@@ -107,6 +107,9 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
 - `Remove-PASPTASyslog`
   - New 14.6 command to remove a syslog configuration from PTA
   - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
+- `Set-PASPTASMTP`
+  - New 14.4 command to add a new SMTP configuration to PTA
+  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
 - `Get-PASAccountSearchProperty`
   - New 14.6 command to list configured search properties
 

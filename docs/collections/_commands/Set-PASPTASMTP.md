@@ -5,7 +5,7 @@ online version: https://pspas.pspete.dev/commands/Set-PASPTASMTP
 schema: 2.0.0
 ---
 
-# Add-PASPTASMTP
+# Set-PASPTASMTP
 
 ## SYNOPSIS
 Sets an SMTP configuration to PTA
@@ -13,7 +13,7 @@ Sets an SMTP configuration to PTA
 ## SYNTAX
 
 ```
-Add-PASPTASMTP [-host] <String> [-protocol] <String> [-port] <Int32> [-sender] <String>
+Set-PASPTASMTP [-host] <String> [-protocol] <String> [-port] <Int32> [-sender] <String>
  [-recipients] <String[]> [[-accountId] <String>] [[-CertificateFile] <String>]
  [-AlertToEmailScoreThreshold] <Int32> [<CommonParameters>]
 ```
@@ -27,7 +27,7 @@ API is not documented, so this help file may not be 100% accurate
 
 ### Example 1
 ```powershell
-PS C:\> Add-PASPTASMTP -host smtp.domain.com -protocol TCP -port 25 -sender 'PTA@domain.com' `
+PS C:\> Set-PASPTASMTP -host smtp.domain.com -protocol TCP -port 25 -sender 'PTA@domain.com' `
  -recipients 'security_team@domain.com' -AlertToEmailScoreThreshold 70
 ```
 
