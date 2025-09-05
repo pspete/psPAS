@@ -290,7 +290,7 @@
 		'Set-PASTheme',
 		'Add-PASPTASyslog',
 		'Remove-PASPTASyslog',
-		'Add-PASPTASMTP'
+		'Set-PASPTASMTP'
 
 	)
 

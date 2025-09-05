@@ -1,14 +1,14 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Add-PASPTASMTP
+online version: https://pspas.pspete.dev/commands/Set-PASPTASMTP
 schema: 2.0.0
 ---
 
 # Add-PASPTASMTP
 
 ## SYNOPSIS
-Add an SMTP configuration to PTA
+Sets an SMTP configuration to PTA
 
 ## SYNTAX
 
@@ -166,4 +166,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Add-PASPTASMTP](https://pspas.pspete.dev/commands/Add-PASPTASMTP)
+[https://pspas.pspete.dev/commands/Set-PASPTASMTP](https://pspas.pspete.dev/commands/Set-PASPTASMTP)
