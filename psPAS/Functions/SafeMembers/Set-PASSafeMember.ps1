@@ -239,11 +239,9 @@ function Set-PASSafeMember {
 
 		If ($PSCmdlet.ParameterSetName -in 'ReadOnly','ConnectOnly','Approver','AccountsManager','Full') {
 
-			"Trying to parse presets"
 			switch ($PSCmdlet.ParameterSetName) {
 
 				'ConnectOnly' { 
-					"Trying to parse ConnectOnly"
 					Set-PASSafeMember -MemberName $MemberName -SafeName $SafeName -ListAccounts $true -UseAccounts $true
 					break
 				}
