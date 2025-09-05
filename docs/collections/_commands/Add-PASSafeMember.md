@@ -36,8 +36,68 @@ Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
  [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
  [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-RequestsAuthorizationLevel <Int32>]
- [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
- [-MoveAccountsAndFolders <Boolean>] [-UseGen1API] [<CommonParameters>]
+ [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [-UseGen1API]
+ [<CommonParameters>]
+```
+
+### ConnectOnly
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
+ [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
+ [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
+ [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
+ [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
+ [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-ConnectOnly] [<CommonParameters>]
+```
+
+### ReadOnly
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
+ [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
+ [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
+ [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
+ [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
+ [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-ReadOnly] [<CommonParameters>]
+```
+
+### Approver
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
+ [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
+ [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
+ [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
+ [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
+ [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-Approver] [<CommonParameters>]
+```
+
+### AccountsManager
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
+ [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
+ [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
+ [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
+ [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
+ [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-AccountsManager] [<CommonParameters>]
+```
+
+### Full
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
+ [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
+ [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
+ [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
+ [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
+ [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-Full] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -499,7 +559,7 @@ Get-PASSafeMember (Gen1) may not return details of this permission
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2
 Aliases:
 
 Required: False
@@ -630,6 +690,81 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -AccountsManager
+{{ Fill AccountsManager Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: AccountsManager
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Approver
+{{ Fill Approver Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Approver
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ConnectOnly
+{{ Fill ConnectOnly Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: ConnectOnly
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Full
+{{ Fill Full Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Full
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ReadOnly
+{{ Fill ReadOnly Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: ReadOnly
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

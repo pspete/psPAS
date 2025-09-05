@@ -139,7 +139,6 @@ function Set-PASSafeMember {
 		[ValidateRange(0, 2)]
 		[int]$RequestsAuthorizationLevel,
 
-
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
@@ -185,7 +184,42 @@ function Set-PASSafeMember {
 			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = 'Gen1'
 		)]
-		[switch]$UseGen1API
+		[switch]$UseGen1API,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'ConnectOnly'
+		)]
+		[switch]$ConnectOnly,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'ReadOnly'
+		)]
+		[switch]$ReadOnly,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Approver'
+		)]
+		[switch]$Approver,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'AccountsManager'
+		)]
+		[switch]$AccountsManager,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $false,
+			ParameterSetName = 'Full'
+		)]
+		[switch]$Full
 
 	)
 
@@ -203,9 +237,41 @@ function Set-PASSafeMember {
 		#Get passed parameters to include in request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
+		If ($PSCmdlet.ParameterSetName -in 'ReadOnly','ConnectOnly','Approver','AccountsManager','Full') {
+
+			switch ($PSCmdlet.ParameterSetName) {
+
+				'ConnectOnly' { 
+					Set-PASSafeMember -MemberName $MemberName -SafeName $SafeName -ListAccounts $true -UseAccounts $true
+					break
+				}
+
+				'ReadOnly' {
+					Set-PASSafeMember -MemberName $MemberName -SafeName $SafeName -ListAccounts $true -UseAccounts $true -RetrieveAccounts $true
+					break
+				}
+
+				'Approver' {
+					Set-PASSafeMember -memberName $memberName -SafeName $SafeName -ListAccounts $true -ViewSafeMembers $true -ManageSafeMembers $true -requestsAuthorizationLevel1 $true
+					break
+				}
+
+				'AccountsManager' {
+					Set-PASSafeMember -memberName $MemberName -SafeName $SafeName -ListAccounts $true -UseAccounts $true -RetrieveAccounts $true -AddAccounts $true -UpdateAccountProperties $true -UpdateAccountContent $true -InitiateCPMAccountManagementOperations $true -SpecifyNextAccountContent $true -RenameAccounts $true -DeleteAccounts $true -UnlockAccounts $true -ViewSafeMembers $true -ManageSafeMembers $true -ViewAuditLog $true -AccessWithoutConfirmation $true
+					break
+				}
+
+				'Full' {
+					Set-PASSafeMember -memberName $MemberName -SafeName $SafeName -ListAccounts $true -UseAccounts $true -RetrieveAccounts $true -AddAccounts $true -UpdateAccountProperties $true -UpdateAccountContent $true -InitiateCPMAccountManagementOperations $true -SpecifyNextAccountContent $true -RenameAccounts $true -DeleteAccounts $true -UnlockAccounts $true -ManageSafe $true -ViewSafeMembers $true -ManageSafeMembers $true -ViewAuditLog $true -BackupSafe $true -requestsAuthorizationLevel1 $true -AccessWithoutConfirmation $true -MoveAccountsAndFolders $true -CreateFolders $true -DeleteFolders $true
+					break
+				}
+			}
+			break
+		}
+
 		switch ($PSCmdlet.ParameterSetName) {
 
-			'Gen1' {
+			( { $PSItem -match '^Gen1' } ) {
 
 				#check required version
 				Assert-VersionRequirement -MaximumVersion 12.3
@@ -239,7 +305,7 @@ function Set-PASSafeMember {
 
 			}
 
-			'Gen2' {
+			( { $PSItem -match '^Gen2' -or '^ReadOnly' -or '^ConnectOnly' -or '^Approver' -or '^AccountsManager' -or '^Full'} ) {
 
 				Assert-VersionRequirement -RequiredVersion 12.2
 
@@ -263,7 +329,7 @@ function Set-PASSafeMember {
 				}
 
 				#Add permissions array to request in correct order
-				$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -Gen2
+				$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -Gen2 
 
 				#Create required request object
 				$body = $boundParameters | Get-PASParameter -ParametersToKeep $keysToKeep | ConvertTo-Json
