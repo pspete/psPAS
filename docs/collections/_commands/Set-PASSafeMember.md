@@ -40,6 +40,66 @@ Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpiration
  [<CommonParameters>]
 ```
 
+### ConnectOnly
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>]
+ [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>] [-ListAccounts <Boolean>] [-AddAccounts <Boolean>]
+ [-UpdateAccountContent <Boolean>] [-UpdateAccountProperties <Boolean>]
+ [-InitiateCPMAccountManagementOperations <Boolean>] [-SpecifyNextAccountContent <Boolean>]
+ [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>] [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>]
+ [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>] [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>]
+ [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-ConnectOnly] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### ReadOnly
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>]
+ [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>] [-ListAccounts <Boolean>] [-AddAccounts <Boolean>]
+ [-UpdateAccountContent <Boolean>] [-UpdateAccountProperties <Boolean>]
+ [-InitiateCPMAccountManagementOperations <Boolean>] [-SpecifyNextAccountContent <Boolean>]
+ [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>] [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>]
+ [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>] [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>]
+ [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-ReadOnly] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### Approver
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>]
+ [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>] [-ListAccounts <Boolean>] [-AddAccounts <Boolean>]
+ [-UpdateAccountContent <Boolean>] [-UpdateAccountProperties <Boolean>]
+ [-InitiateCPMAccountManagementOperations <Boolean>] [-SpecifyNextAccountContent <Boolean>]
+ [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>] [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>]
+ [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>] [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>]
+ [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-Approver] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### AccountsManager
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>]
+ [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>] [-ListAccounts <Boolean>] [-AddAccounts <Boolean>]
+ [-UpdateAccountContent <Boolean>] [-UpdateAccountProperties <Boolean>]
+ [-InitiateCPMAccountManagementOperations <Boolean>] [-SpecifyNextAccountContent <Boolean>]
+ [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>] [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>]
+ [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>] [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>]
+ [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-AccountsManager] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### Full
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>]
+ [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>] [-ListAccounts <Boolean>] [-AddAccounts <Boolean>]
+ [-UpdateAccountContent <Boolean>] [-UpdateAccountProperties <Boolean>]
+ [-InitiateCPMAccountManagementOperations <Boolean>] [-SpecifyNextAccountContent <Boolean>]
+ [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>] [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>]
+ [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>] [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>]
+ [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-Full] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 Updates an existing Safe Member's permissions on a safe.
 
@@ -524,6 +584,81 @@ Should be specified for versions earlier than 12.2
 ```yaml
 Type: SwitchParameter
 Parameter Sets: Gen1
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AccountsManager
+{{ Fill AccountsManager Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: AccountsManager
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Approver
+{{ Fill Approver Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Approver
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ConnectOnly
+{{ Fill ConnectOnly Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: ConnectOnly
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Full
+{{ Fill Full Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Full
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ReadOnly
+{{ Fill ReadOnly Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: ReadOnly
 Aliases:
 
 Required: True
