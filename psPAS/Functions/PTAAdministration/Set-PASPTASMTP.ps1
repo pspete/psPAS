@@ -1,41 +1,48 @@
 # .ExternalHelp psPAS-help.xml
 Function Set-PASPTASMTP {
+    [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [string]$host,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateSet('NONE', 'SSL', 'STARTTLS')]
         [string]$protocol,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [int]$port,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [string]$sender,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [string[]]$recipients,
+
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            HelpMessage = 'Specify an AccountID for authenticationMethod. If not provided, no authentication to SMTP will be used.'
         )]
         [string]$accountId,
+
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false,
-            HelpMessage = 'Specify an AccountID for authenticationMethod. If not provided, no authentication to SMTP will be used.'
+            ValueFromPipelinebyPropertyName = $false
         )]
         [ValidateScript({
                 if ($_ -and -not (Test-Path $_ -PathType Leaf)) {
@@ -47,6 +54,7 @@ Function Set-PASPTASMTP {
                 return $true
             })]
         [string]$CertificateFile,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
@@ -92,14 +100,14 @@ Function Set-PASPTASMTP {
             try {
                 # Read certificate file content
                 $CertContent = Get-Content -Path $CertificateFile -Raw -Encoding UTF8
-                
+
                 # Convert to Base64
                 $CertBytes = [System.Text.Encoding]::UTF8.GetBytes($CertContent)
                 $Base64Cert = [System.Convert]::ToBase64String($CertBytes)
-                
+
                 # Add encoded certificate to SMTP details
                 $smtpDetails['certificate'] = $Base64Cert
-                
+
             }
             catch {
                 throw "Failed to read or encode certificate file '$CertificateFile': $($_.Exception.Message)"
@@ -121,13 +129,18 @@ Function Set-PASPTASMTP {
         #Create body of request
         $Body = $payload | ConvertTo-Json -Depth 5
 
-        #send request to PAS web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
+        if ($PSCmdlet.ShouldProcess($ID, 'Set PTA SMTP')) {
 
-        If ($null -ne $result) {
+            #send request to PAS web service
+            $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
-            #Return Results
-            $result
+
+            If ($null -ne $result) {
+
+                #Return Results
+                $result
+
+            }
 
         }
 
