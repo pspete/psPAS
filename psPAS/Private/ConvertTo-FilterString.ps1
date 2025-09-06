@@ -58,7 +58,13 @@ Encloses value of the key/value pair in quotes.
 			Mandatory = $false,
 			ValueFromPipeline = $false
 		)]
-		[switch]$QuoteValue
+		[switch]$QuoteValue,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[string]$LogicalOperator
 	)
 
 	Begin {
@@ -113,7 +119,12 @@ Encloses value of the key/value pair in quotes.
 
 				If ($FilterList.count -gt 0) {
 
-					@{'filter' = $FilterList -join ' AND ' }
+					# Only use LogicalOperator for API 14.6+, default to AND for older versions
+					if ($ExternalVersion -and $ExternalVersion -ge [version]'14.6') {
+						@{'filter' = $FilterList -join " $LogicalOperator " }
+					} else {
+						@{'filter' = $FilterList -join ' AND ' }
+					}
 
 				}
 			}
