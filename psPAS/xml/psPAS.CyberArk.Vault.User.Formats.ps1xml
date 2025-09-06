@@ -142,6 +142,12 @@
 							<ListItem>
 								<PropertyName>unAuthorizedInterfaces</PropertyName>
 							</ListItem>
+							<ListItem>
+								<PropertyName>allowedAuthenticationMethods</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>FidoCredentialsIds</PropertyName>
+							</ListItem>
 						</ListItems>
 					</ListEntry>
 				</ListEntries>
