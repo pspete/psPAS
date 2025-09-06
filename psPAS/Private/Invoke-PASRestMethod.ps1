@@ -210,8 +210,11 @@
 
 	Process {
 
-		#Show sanitised request body if in debug mode
+		#Show URI, Method & sanitised request body if in debug mode
 		If ([System.Management.Automation.ActionPreference]::SilentlyContinue -ne $DebugPreference) {
+
+			Write-Debug "[Uri] $URI"
+			Write-Debug "[Method] $Method"
 
 			If (($PSBoundParameters.ContainsKey('Body')) -and (($PSBoundParameters['Body']).GetType().Name -eq 'String')) {
 
@@ -340,12 +343,13 @@
 							if ($Response.Details) {
 
 								if($Response.Details -is [Array]){
-									#When addition of duplicate account is detected, an array of details is returned
-									#*This may need refactoring if other commands or error records use the same mechanism in the future
 
+									#array of details is returned for operations which return collections
 									$detailText = $Response.Details | ForEach-Object {
-										#Create a string value from each element of the array
-										"AccountId: $($_.AccountId); AccountName: $($_.AccountName); SafeId: $($_.SafeId); SafeName: $($_.SafeName); Comment: $($_.Comment)"
+										$obj = $_
+										#Join each array element into a single string
+										$props = $obj | Get-Member -MemberType Properties | Select-Object -ExpandProperty Name
+										($props | ForEach-Object { "$_=$($obj.$_)" }) -join '; '
 									}
 
 									#Join the array element details to the Error Message
