@@ -17,7 +17,6 @@ function Add-PASUserAllowedAuthenticationMethod {
 
     Begin{
 		Assert-VersionRequirement -RequiredVersion 14.6
-		$body = @{'BulkItems' = @()}
 	}
 
     Process{
@@ -25,19 +24,19 @@ function Add-PASUserAllowedAuthenticationMethod {
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/Users/AddAllowedAuthenticationMethods/Bulk"
 
-		$body['BulkItems'] += $PSBoundParameters | Get-PASParameter
-		$body = $body | ConvertTo-Json
+		$boundParameters = $PSBoundParameters | Get-PASParameter
+		$body = @{'BulkItems' = @($boundParameters)} | ConvertTo-Json -Depth 4
 
 		if ($PSCmdlet.ShouldProcess($($userIds -join ','), "Set Allowed Authentication Methods: $($allowedAuthenticationMethods -join ',')")) {
 
             #send request to web service
             $result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body
 
-        }
+			if ($null -ne $result) {
 
-		if ($null -ne $result) {
+				$result
 
-            $result
+			}
 
         }
 
