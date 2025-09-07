@@ -12,6 +12,15 @@ Hashtable containing parameter names and values to include in output string
 .PARAMETER NoEscape
 Specify to perform no escaping on the returned string.
 
+.PARAMETER Delimiter
+Specify the delimiter to use between key-value pairs in the returned string.
+
+.PARAMETER Base64Encode
+Specify to Base64 encode the returned string.
+
+.PARAMETER URLEncode
+Specify to URL encode the returned string.
+
 .EXAMPLE
 $input | ConvertTo-QueryString
 
@@ -22,6 +31,9 @@ Formats input as: "Key=Value&Key=Value"
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilterList', Justification = 'False Positive')]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'NoEscape', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Delimiter', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Base64Encode', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'URLEncode', Justification = 'False Positive')]
 	[CmdletBinding()]
 	[OutputType('System.String')]
 	param(
@@ -35,7 +47,25 @@ Formats input as: "Key=Value&Key=Value"
 			Mandatory = $false,
 			ValueFromPipeline = $false
 		)]
-		[switch]$NoEscape
+		[switch]$NoEscape,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[string]$Delimiter,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[switch]$Base64Encode,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false
+		)]
+		[switch]$URLEncode
 	)
 
 	Begin { }
@@ -44,7 +74,7 @@ Formats input as: "Key=Value&Key=Value"
 
 		If ($Parameters) {
 
-			$Parameters.Keys | ForEach-Object {
+			$Parameters.GetEnumerator() | ForEach-Object {
 
 				$FilterList = [Collections.Generic.List[Object]]@()
 
@@ -53,12 +83,12 @@ Formats input as: "Key=Value&Key=Value"
 				If ($NoEscape) {
 
 					#Return Key=Value string, unescaped.
-					$Value = "$PSItem=$($Parameters[$PSItem])"
+					$Value = "$($PSItem.key)=$($PSItem.value)"
 
 				} Else {
 
 					#Return Key=Value string, escaped.
-					$Value = "$PSItem=$($Parameters[$PSItem] | Get-EscapedString)"
+					$Value = "$($PSItem.key)=$($PSItem.value | Get-EscapedString)"
 
 				}
 
@@ -68,7 +98,23 @@ Formats input as: "Key=Value&Key=Value"
 
 				If ($FilterList.count -gt 0) {
 
-					$FilterList -join '&'
+                    If($Delimiter) {
+						#Custom Delimiter
+						$FilterList = $FilterList -join $Delimiter
+					}Else {
+						#Join multiple Key=Value pairs with '&'
+						$FilterList = $FilterList -join '&'
+					}
+
+					If($Base64Encode) {
+						#Base64 Encode the query string
+						$FilterList = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($FilterList))
+					}
+
+					If($URLEncode) {
+						#URL Encode the query string
+						$FilterList = [System.Web.HttpUtility]::UrlEncode($FilterList)
+					}
 
 				}
 			}
@@ -77,6 +123,8 @@ Formats input as: "Key=Value&Key=Value"
 
 	}
 
-	End { }
+	End {
+		$FilterList
+	}
 
 }
