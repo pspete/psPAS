@@ -20,7 +20,8 @@ Function Get-PASReportSchedule {
         If ($null -ne $Result) {
 
             #Return result
-            $Result
+            $Result | Select-Object -ExpandProperty tasks
+            #TODO: Add Schedule/Tasks type definition for formatting
 
         }
 
