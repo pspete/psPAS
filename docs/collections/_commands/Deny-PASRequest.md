@@ -15,15 +15,15 @@ Reject a single request
 ## SYNTAX
 
 ```
-Deny-PASRequest [-RequestId] <String> [[-Reason] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Deny-PASRequest [-RequestId] <String[]> [[-Reason] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Enables a request confirmer to reject a single request, identified by its requestID.
+Enables a request confirmer to reject requests identified by their requestID.
 
 Officially supported from version 9.10.
 
-Reports received that function works in 9.9 also.
+Bulk rejection of requests using a single command invocation is supported from version 14.6
 
 ## EXAMPLES
 
@@ -34,13 +34,21 @@ Deny-PASRequest -RequestID <ID> -Reason "<Reason>"
 
 Denies request \<ID\>
 
+### EXAMPLE 2
+```
+Deny-PASRequest -RequestID SomeSafe1_1, SomeSafe1_2, SomeSafe1_3 -Reason " Some Reason"
+```
+
+Denies requests SomeSafe1_1, SomeSafe1_2 & SomeSafe1_3
+
+
 ## PARAMETERS
 
 ### -RequestId
-The ID of the request to confirm
+The ID of the request(s) to reject
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -52,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Reason
-The reason why the request is approved
+The reason why the request is rejected
 
 ```yaml
 Type: String
@@ -112,3 +120,5 @@ Minimum CyberArk Version 9.10
 [https://pspas.pspete.dev/commands/Deny-PASRequest](https://pspas.pspete.dev/commands/Deny-PASRequest)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RejectRequest.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RejectRequest.htm)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/bulkrejectrequest.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/bulkrejectrequest.htm)

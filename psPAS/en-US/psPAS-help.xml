@@ -12700,9 +12700,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Enables a request confirmer to reject a single request, identified by its requestID.</maml:para>
+      <maml:para>Enables a request confirmer to reject requests identified by their requestID.</maml:para>
       <maml:para>Officially supported from version 9.10.</maml:para>
-      <maml:para>Reports received that function works in 9.9 also.</maml:para>
+      <maml:para>Bulk rejection of requests using a single command invocation is supported from version 14.6</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -12710,11 +12710,11 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>RequestId</maml:name>
           <maml:description>
-            <maml:para>The ID of the request to confirm</maml:para>
+            <maml:para>The ID of the request(s) to reject</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -12722,7 +12722,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>Reason</maml:name>
           <maml:description>
-            <maml:para>The reason why the request is approved</maml:para>
+            <maml:para>The reason why the request is rejected</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -12759,11 +12759,11 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>RequestId</maml:name>
         <maml:description>
-          <maml:para>The ID of the request to confirm</maml:para>
+          <maml:para>The ID of the request(s) to reject</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -12771,7 +12771,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>Reason</maml:name>
         <maml:description>
-          <maml:para>The reason why the request is approved</maml:para>
+          <maml:para>The reason why the request is rejected</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -12820,6 +12820,13 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:para>Denies request &lt;ID&gt;</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Deny-PASRequest -RequestID SomeSafe1_1, SomeSafe1_2, SomeSafe1_3 -Reason " Some Reason"</dev:code>
+        <dev:remarks>
+          <maml:para>Denies requests SomeSafe1_1, SomeSafe1_2 &amp; SomeSafe1_3</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -12829,6 +12836,10 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RejectRequest.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RejectRequest.htm</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/bulkrejectrequest.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/bulkrejectrequest.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
