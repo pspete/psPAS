@@ -20,7 +20,8 @@ Function Get-PASReport {
         If ($null -ne $Result) {
 
             #Return result
-            $Result
+            $Result | Select-Object -ExpandProperty reports
+            #TODO: Add Report type definition for formatting
 
         }
 
