@@ -71,7 +71,7 @@ Function Get-NextLink {
 	Process {
 
 		switch ($InitialResult) {
-			#SH & PCloud result and nextLink proprty names differ
+			#SH & PCloud result and nextLink property names differ
 			#*Figure out what properties we are dealing with here
 			{ $null -ne $PSItem.value } {
 				$ResultProperty = 'value'
