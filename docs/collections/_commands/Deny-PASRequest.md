@@ -41,7 +41,6 @@ Deny-PASRequest -RequestID SomeSafe1_1, SomeSafe1_2, SomeSafe1_3 -Reason " Some 
 
 Denies requests SomeSafe1_1, SomeSafe1_2 & SomeSafe1_3
 
-
 ## PARAMETERS
 
 ### -RequestId
