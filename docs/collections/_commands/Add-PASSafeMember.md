@@ -27,6 +27,36 @@ Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [-memberType <String>] [<CommonParameters>]
 ```
 
+### Full
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-Full] [<CommonParameters>]
+```
+
+### AccountsManager
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-AccountsManager] [<CommonParameters>]
+```
+
+### Approver
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-Approver] [<CommonParameters>]
+```
+
+### ReadOnly
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-ReadOnly] [<CommonParameters>]
+```
+
+### ConnectOnly
+```
+Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
+ [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-ConnectOnly] [<CommonParameters>]
+```
+
 ### Gen1
 ```
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
@@ -36,68 +66,8 @@ Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
  [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
  [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-RequestsAuthorizationLevel <Int32>]
- [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [-UseGen1API]
- [<CommonParameters>]
-```
-
-### ConnectOnly
-```
-Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
- [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
- [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
- [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
- [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
- [-MoveAccountsAndFolders <Boolean>] [-ConnectOnly] [<CommonParameters>]
-```
-
-### ReadOnly
-```
-Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
- [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
- [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
- [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
- [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
- [-MoveAccountsAndFolders <Boolean>] [-ReadOnly] [<CommonParameters>]
-```
-
-### Approver
-```
-Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
- [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
- [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
- [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
- [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
- [-MoveAccountsAndFolders <Boolean>] [-Approver] [<CommonParameters>]
-```
-
-### AccountsManager
-```
-Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
- [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
- [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
- [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
- [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
- [-MoveAccountsAndFolders <Boolean>] [-AccountsManager] [<CommonParameters>]
-```
-
-### Full
-```
-Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-UseAccounts <Boolean>] [-RetrieveAccounts <Boolean>]
- [-ListAccounts <Boolean>] [-AddAccounts <Boolean>] [-UpdateAccountContent <Boolean>]
- [-UpdateAccountProperties <Boolean>] [-InitiateCPMAccountManagementOperations <Boolean>]
- [-SpecifyNextAccountContent <Boolean>] [-RenameAccounts <Boolean>] [-DeleteAccounts <Boolean>]
- [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
- [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
- [-MoveAccountsAndFolders <Boolean>] [-Full] [<CommonParameters>]
+ [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
+ [-MoveAccountsAndFolders <Boolean>] [-UseGen1API] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -248,7 +218,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: RestrictedRetri
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: RestrictedRetrieve
 
 Required: False
@@ -266,7 +236,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: Retrieve
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Retrieve
 
 Required: False
@@ -284,7 +254,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: ListContent
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: ListContent
 
 Required: False
@@ -304,7 +274,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: Add
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Add
 
 Required: False
@@ -322,7 +292,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: Update
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Update
 
 Required: False
@@ -340,7 +310,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: UpdateMetadata
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: UpdateMetadata
 
 Required: False
@@ -360,7 +330,7 @@ Get-PASSafeMember (Gen1) may not return details of this permission
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -382,7 +352,7 @@ Get-PASSafeMember (Gen1) may not return details of this permission
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -400,7 +370,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: Rename
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Rename
 
 Required: False
@@ -418,7 +388,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: Delete
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Delete
 
 Required: False
@@ -436,7 +406,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: Unlock
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Unlock
 
 Required: False
@@ -452,7 +422,7 @@ on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -468,7 +438,7 @@ member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -484,7 +454,7 @@ on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -502,7 +472,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: ViewAudit
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: ViewAudit
 
 Required: False
@@ -520,7 +490,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: ViewMembers
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: ViewMembers
 
 Required: False
@@ -559,7 +529,7 @@ Get-PASSafeMember (Gen1) may not return details of this permission
 
 ```yaml
 Type: Boolean
-Parameter Sets: Gen2
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -577,7 +547,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: AddRenameFolder
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: AddRenameFolder
 
 Required: False
@@ -593,7 +563,7 @@ on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -611,7 +581,7 @@ Get-PASSafeMember (Gen1) returns the name of this permission as: MoveFilesAndFol
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: MoveFilesAndFolders
 
 Required: False
@@ -683,7 +653,7 @@ Minimum required version 12.6
 
 ```yaml
 Type: String
-Parameter Sets: Gen2
+Parameter Sets: Gen2, Full, AccountsManager, Approver, ReadOnly, ConnectOnly
 Aliases:
 
 Required: False
@@ -694,7 +664,7 @@ Accept wildcard characters: False
 ```
 
 ### -AccountsManager
-{{ Fill AccountsManager Description }}
+Adds Account Manager permissions for user on safe
 
 ```yaml
 Type: SwitchParameter
@@ -709,7 +679,7 @@ Accept wildcard characters: False
 ```
 
 ### -Approver
-{{ Fill Approver Description }}
+Adds Approver permissions for user on safe
 
 ```yaml
 Type: SwitchParameter
@@ -724,7 +694,7 @@ Accept wildcard characters: False
 ```
 
 ### -ConnectOnly
-{{ Fill ConnectOnly Description }}
+Adds Connect Only permissions for user on safe
 
 ```yaml
 Type: SwitchParameter
@@ -739,7 +709,7 @@ Accept wildcard characters: False
 ```
 
 ### -Full
-{{ Fill Full Description }}
+Adds Full permissions for user on safe
 
 ```yaml
 Type: SwitchParameter
@@ -754,7 +724,7 @@ Accept wildcard characters: False
 ```
 
 ### -ReadOnly
-{{ Fill ReadOnly Description }}
+Adds Read Only permissions for user on safe
 
 ```yaml
 Type: SwitchParameter

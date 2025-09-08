@@ -8808,334 +8808,6 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>RequestsAuthorizationLevel</maml:name>
-          <maml:description>
-            <maml:para>Integer value defining level assigned to RequestsAuthorizationLevel for safe member.</maml:para>
-            <maml:para>Valid Values: 0, 1 or 2</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-            <maml:para>Deprecated from version 12.3</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-          <dev:type>
-            <maml:name>Int32</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
-          <maml:name>CreateFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: AddRenameFolder</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DeleteFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
-          <maml:name>MoveAccountsAndFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: MoveFilesAndFolders</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>UseGen1API</maml:name>
-          <maml:description>
-            <maml:para>Force use of Gen1 API.</maml:para>
-            <maml:para>Should be specified for versions earlier than 12.1</maml:para>
-            <maml:para>Deprecated from version 12.3</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Add-PASSafeMember</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SafeName</maml:name>
-          <maml:description>
-            <maml:para>The name of the safe to add the member to</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
-          <maml:name>MemberName</maml:name>
-          <maml:description>
-            <maml:para>Vault or Domain User, or Group, to add as member.</maml:para>
-            <maml:para>Must not contain '&amp;' (ampersand).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SearchIn</maml:name>
-          <maml:description>
-            <maml:para>The Vault or Domain, defined in the vault,</maml:para>
-            <maml:para>in which to search for the member to add to the safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>MembershipExpirationDate</maml:name>
-          <maml:description>
-            <maml:para>Defines when the user's Safe membership expires.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-          <dev:type>
-            <maml:name>DateTime</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
-          <maml:name>UseAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: RestrictedRetrieve</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
-          <maml:name>RetrieveAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Retrieve</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
-          <maml:name>ListAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ListContent</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
-          <maml:name>AddAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Add</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
-          <maml:name>UpdateAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Update</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
-          <maml:name>UpdateAccountProperties</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: UpdateMetadata</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
-            <maml:para>When this parameter is set to `$False`, the SpecifyNextAccountContent parameter is also automatically set to False.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SpecifyNextAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Can only be specified when the InitiateCPMAccountManagementOperations parameter is set to `$True`.</maml:para>
-            <maml:para>When InitiateCPMAccountManagementOperations is set to `$False` this parameter is automatically set to False.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
-          <maml:name>RenameAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Rename</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
-          <maml:name>DeleteAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Delete</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
-          <maml:name>UnlockAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Unlock</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>BackupSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
-          <maml:name>ViewAuditLog</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ViewAudit</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
-          <maml:name>ViewSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ViewMembers</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>AccessWithoutConfirmation</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if AccessWithoutConfirmation permission will be granted to safe member on safe.</maml:para>
@@ -9488,6 +9160,34 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>RequestsAuthorizationLevel</maml:name>
+          <maml:description>
+            <maml:para>Integer value defining level assigned to RequestsAuthorizationLevel for safe member.</maml:para>
+            <maml:para>Valid Values: 0, 1 or 2</maml:para>
+            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
+            <maml:para>Deprecated from version 12.3</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>AccessWithoutConfirmation</maml:name>
+          <maml:description>
+            <maml:para>Boolean value defining if AccessWithoutConfirmation permission will be granted to safe member on safe.</maml:para>
+            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
           <maml:name>CreateFolders</maml:name>
           <maml:description>
@@ -9527,9 +9227,11 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>AccountsManager</maml:name>
+          <maml:name>UseGen1API</maml:name>
           <maml:description>
-            <maml:para>{{ Fill AccountsManager Description }}</maml:para>
+            <maml:para>Force use of Gen1 API.</maml:para>
+            <maml:para>Should be specified for versions earlier than 12.1</maml:para>
+            <maml:para>Deprecated from version 12.3</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -9590,271 +9292,12 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
-          <maml:name>UseAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: RestrictedRetrieve</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
-          <maml:name>RetrieveAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Retrieve</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
-          <maml:name>ListAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ListContent</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
-          <maml:name>AddAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Add</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
-          <maml:name>UpdateAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Update</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
-          <maml:name>UpdateAccountProperties</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: UpdateMetadata</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
+          <maml:name>memberType</maml:name>
           <maml:description>
-            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
-            <maml:para>When this parameter is set to `$False`, the SpecifyNextAccountContent parameter is also automatically set to False.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SpecifyNextAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Can only be specified when the InitiateCPMAccountManagementOperations parameter is set to `$True`.</maml:para>
-            <maml:para>When InitiateCPMAccountManagementOperations is set to `$False` this parameter is automatically set to False.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
-          <maml:name>RenameAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Rename</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
-          <maml:name>DeleteAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Delete</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
-          <maml:name>UnlockAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Unlock</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>BackupSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
-          <maml:name>ViewAuditLog</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ViewAudit</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
-          <maml:name>ViewSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ViewMembers</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
-          <maml:name>CreateFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: AddRenameFolder</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DeleteFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
-          <maml:name>MoveAccountsAndFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: MoveFilesAndFolders</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>Approver</maml:name>
-          <maml:description>
-            <maml:para>{{ Fill Approver Description }}</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Add-PASSafeMember</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SafeName</maml:name>
-          <maml:description>
-            <maml:para>The name of the safe to add the member to</maml:para>
+            <maml:para>The member type.</maml:para>
+            <maml:para>Accepts Values: User, Group, Role</maml:para>
+            <maml:para>Minimum required version 12.6</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -9862,607 +9305,11 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
-          <maml:name>MemberName</maml:name>
-          <maml:description>
-            <maml:para>Vault or Domain User, or Group, to add as member.</maml:para>
-            <maml:para>Must not contain '&amp;' (ampersand).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SearchIn</maml:name>
-          <maml:description>
-            <maml:para>The Vault or Domain, defined in the vault,</maml:para>
-            <maml:para>in which to search for the member to add to the safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>MembershipExpirationDate</maml:name>
-          <maml:description>
-            <maml:para>Defines when the user's Safe membership expires.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-          <dev:type>
-            <maml:name>DateTime</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
-          <maml:name>UseAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: RestrictedRetrieve</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
-          <maml:name>RetrieveAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Retrieve</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
-          <maml:name>ListAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ListContent</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
-          <maml:name>AddAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Add</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
-          <maml:name>UpdateAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Update</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
-          <maml:name>UpdateAccountProperties</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: UpdateMetadata</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
-            <maml:para>When this parameter is set to `$False`, the SpecifyNextAccountContent parameter is also automatically set to False.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SpecifyNextAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Can only be specified when the InitiateCPMAccountManagementOperations parameter is set to `$True`.</maml:para>
-            <maml:para>When InitiateCPMAccountManagementOperations is set to `$False` this parameter is automatically set to False.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
-          <maml:name>RenameAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Rename</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
-          <maml:name>DeleteAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Delete</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
-          <maml:name>UnlockAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Unlock</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>BackupSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
-          <maml:name>ViewAuditLog</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ViewAudit</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
-          <maml:name>ViewSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ViewMembers</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
-          <maml:name>CreateFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: AddRenameFolder</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DeleteFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
-          <maml:name>MoveAccountsAndFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: MoveFilesAndFolders</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>ConnectOnly</maml:name>
-          <maml:description>
-            <maml:para>{{ Fill ConnectOnly Description }}</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Add-PASSafeMember</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SafeName</maml:name>
-          <maml:description>
-            <maml:para>The name of the safe to add the member to</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
-          <maml:name>MemberName</maml:name>
-          <maml:description>
-            <maml:para>Vault or Domain User, or Group, to add as member.</maml:para>
-            <maml:para>Must not contain '&amp;' (ampersand).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SearchIn</maml:name>
-          <maml:description>
-            <maml:para>The Vault or Domain, defined in the vault,</maml:para>
-            <maml:para>in which to search for the member to add to the safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>MembershipExpirationDate</maml:name>
-          <maml:description>
-            <maml:para>Defines when the user's Safe membership expires.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-          <dev:type>
-            <maml:name>DateTime</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
-          <maml:name>UseAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: RestrictedRetrieve</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
-          <maml:name>RetrieveAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Retrieve</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
-          <maml:name>ListAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ListContent</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
-          <maml:name>AddAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Add</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
-          <maml:name>UpdateAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Update</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
-          <maml:name>UpdateAccountProperties</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: UpdateMetadata</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
-            <maml:para>When this parameter is set to `$False`, the SpecifyNextAccountContent parameter is also automatically set to False.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SpecifyNextAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Can only be specified when the InitiateCPMAccountManagementOperations parameter is set to `$True`.</maml:para>
-            <maml:para>When InitiateCPMAccountManagementOperations is set to `$False` this parameter is automatically set to False.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
-          <maml:name>RenameAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Rename</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
-          <maml:name>DeleteAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Delete</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
-          <maml:name>UnlockAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Unlock</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>BackupSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
-          <maml:name>ViewAuditLog</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ViewAudit</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
-          <maml:name>ViewSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ViewMembers</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
-          <maml:name>CreateFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: AddRenameFolder</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DeleteFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
-          <maml:name>MoveAccountsAndFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: MoveFilesAndFolders</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Full</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Full Description }}</maml:para>
+            <maml:para>Adds Full permissions for user on safe</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -10523,257 +9370,258 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
-          <maml:name>UseAccounts</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>memberType</maml:name>
           <maml:description>
-            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: RestrictedRetrieve</maml:para>
+            <maml:para>The member type.</maml:para>
+            <maml:para>Accepts Values: User, Group, Role</maml:para>
+            <maml:para>Minimum required version 12.6</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>Boolean</maml:name>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AccountsManager</maml:name>
+          <maml:description>
+            <maml:para>Adds Account Manager permissions for user on safe</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
-          <maml:name>RetrieveAccounts</maml:name>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Add-PASSafeMember</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SafeName</maml:name>
           <maml:description>
-            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Retrieve</maml:para>
+            <maml:para>The name of the safe to add the member to</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>Boolean</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
-          <maml:name>ListAccounts</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
+          <maml:name>MemberName</maml:name>
           <maml:description>
-            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ListContent</maml:para>
+            <maml:para>Vault or Domain User, or Group, to add as member.</maml:para>
+            <maml:para>Must not contain '&amp;' (ampersand).</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>Boolean</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
-          <maml:name>AddAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Add</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
-          <maml:name>UpdateAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Update</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
-          <maml:name>UpdateAccountProperties</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: UpdateMetadata</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
+          <maml:name>SearchIn</maml:name>
           <maml:description>
-            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
-            <maml:para>When this parameter is set to `$False`, the SpecifyNextAccountContent parameter is also automatically set to False.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
+            <maml:para>The Vault or Domain, defined in the vault,</maml:para>
+            <maml:para>in which to search for the member to add to the safe.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>Boolean</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SpecifyNextAccountContent</maml:name>
+          <maml:name>MembershipExpirationDate</maml:name>
           <maml:description>
-            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Can only be specified when the InitiateCPMAccountManagementOperations parameter is set to `$True`.</maml:para>
-            <maml:para>When InitiateCPMAccountManagementOperations is set to `$False` this parameter is automatically set to False.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) may not return details of this permission</maml:para>
+            <maml:para>Defines when the user's Safe membership expires.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
           <dev:type>
-            <maml:name>Boolean</maml:name>
+            <maml:name>DateTime</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
-          <maml:name>RenameAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Rename</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
-          <maml:name>DeleteAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Delete</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
-          <maml:name>UnlockAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: Unlock</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafe</maml:name>
+          <maml:name>memberType</maml:name>
           <maml:description>
-            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
+            <maml:para>The member type.</maml:para>
+            <maml:para>Accepts Values: User, Group, Role</maml:para>
+            <maml:para>Minimum required version 12.6</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>Boolean</maml:name>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Approver</maml:name>
+          <maml:description>
+            <maml:para>Adds Approver permissions for user on safe</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Add-PASSafeMember</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SafeName</maml:name>
+          <maml:description>
+            <maml:para>The name of the safe to add the member to</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
+          <maml:name>MemberName</maml:name>
+          <maml:description>
+            <maml:para>Vault or Domain User, or Group, to add as member.</maml:para>
+            <maml:para>Must not contain '&amp;' (ampersand).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafeMembers</maml:name>
+          <maml:name>SearchIn</maml:name>
           <maml:description>
-            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
+            <maml:para>The Vault or Domain, defined in the vault,</maml:para>
+            <maml:para>in which to search for the member to add to the safe.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>Boolean</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>BackupSafe</maml:name>
+          <maml:name>MembershipExpirationDate</maml:name>
           <maml:description>
-            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
+            <maml:para>Defines when the user's Safe membership expires.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
           <dev:type>
-            <maml:name>Boolean</maml:name>
+            <maml:name>DateTime</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
-          <maml:name>ViewAuditLog</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ViewAudit</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
-          <maml:name>ViewSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: ViewMembers</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
-          <maml:name>CreateFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: AddRenameFolder</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DeleteFolders</maml:name>
+          <maml:name>memberType</maml:name>
           <maml:description>
-            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
+            <maml:para>The member type.</maml:para>
+            <maml:para>Accepts Values: User, Group, Role</maml:para>
+            <maml:para>Minimum required version 12.6</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>Boolean</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
-          <maml:name>MoveAccountsAndFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Get-PASSafeMember (Gen1) returns the name of this permission as: MoveFilesAndFolders</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ReadOnly</maml:name>
           <maml:description>
-            <maml:para>{{ Fill ReadOnly Description }}</maml:para>
+            <maml:para>Adds Read Only permissions for user on safe</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Add-PASSafeMember</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SafeName</maml:name>
+          <maml:description>
+            <maml:para>The name of the safe to add the member to</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
+          <maml:name>MemberName</maml:name>
+          <maml:description>
+            <maml:para>Vault or Domain User, or Group, to add as member.</maml:para>
+            <maml:para>Must not contain '&amp;' (ampersand).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SearchIn</maml:name>
+          <maml:description>
+            <maml:para>The Vault or Domain, defined in the vault,</maml:para>
+            <maml:para>in which to search for the member to add to the safe.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>MembershipExpirationDate</maml:name>
+          <maml:description>
+            <maml:para>Defines when the user's Safe membership expires.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+          <dev:type>
+            <maml:name>DateTime</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>memberType</maml:name>
+          <maml:description>
+            <maml:para>The member type.</maml:para>
+            <maml:para>Accepts Values: User, Group, Role</maml:para>
+            <maml:para>Minimum required version 12.6</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ConnectOnly</maml:name>
+          <maml:description>
+            <maml:para>Adds Connect Only permissions for user on safe</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -11166,7 +10014,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AccountsManager</maml:name>
         <maml:description>
-          <maml:para>{{ Fill AccountsManager Description }}</maml:para>
+          <maml:para>Adds Account Manager permissions for user on safe</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -11178,7 +10026,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Approver</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Approver Description }}</maml:para>
+          <maml:para>Adds Approver permissions for user on safe</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -11190,7 +10038,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>ConnectOnly</maml:name>
         <maml:description>
-          <maml:para>{{ Fill ConnectOnly Description }}</maml:para>
+          <maml:para>Adds Connect Only permissions for user on safe</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -11202,7 +10050,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Full</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Full Description }}</maml:para>
+          <maml:para>Adds Full permissions for user on safe</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -11214,7 +10062,7 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>ReadOnly</maml:name>
         <maml:description>
-          <maml:para>{{ Fill ReadOnly Description }}</maml:para>
+          <maml:para>Adds Read Only permissions for user on safe</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -47312,333 +46160,6 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>RequestsAuthorizationLevel</maml:name>
-          <maml:description>
-            <maml:para>Integer value defining level assigned to RequestsAuthorizationLevel for safe member.</maml:para>
-            <maml:para>Valid Values: 0, 1 or 2</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-          <dev:type>
-            <maml:name>Int32</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>AccessWithoutConfirmation</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AccessWithoutConfirmation permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
-          <maml:name>CreateFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DeleteFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
-          <maml:name>MoveAccountsAndFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>UseGen1API</maml:name>
-          <maml:description>
-            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
-            <maml:para>Should be specified for versions earlier than 12.2</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Set-PASSafeMember</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SafeName</maml:name>
-          <maml:description>
-            <maml:para>The name of the safe to which the safe member belong</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
-          <maml:name>MemberName</maml:name>
-          <maml:description>
-            <maml:para>Vault or Domain User, or Group, safe member to update.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>MembershipExpirationDate</maml:name>
-          <maml:description>
-            <maml:para>Defines when the member's Safe membership expires.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-          <dev:type>
-            <maml:name>DateTime</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
-          <maml:name>UseAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
-          <maml:name>RetrieveAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
-          <maml:name>ListAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
-          <maml:name>AddAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
-          <maml:name>UpdateAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
-          <maml:name>UpdateAccountProperties</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SpecifyNextAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
-          <maml:name>RenameAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
-          <maml:name>DeleteAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
-          <maml:name>UnlockAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>BackupSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
-          <maml:name>ViewAuditLog</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
-          <maml:name>ViewSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>AccessWithoutConfirmation</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if AccessWithoutConfirmation permission will be granted to safe member on safe.</maml:para>
@@ -47967,6 +46488,19 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>RequestsAuthorizationLevel</maml:name>
+          <maml:description>
+            <maml:para>Integer value defining level assigned to RequestsAuthorizationLevel for safe member.</maml:para>
+            <maml:para>Valid Values: 0, 1 or 2</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>AccessWithoutConfirmation</maml:name>
           <maml:description>
             <maml:para>Boolean value defining if AccessWithoutConfirmation permission will be granted to safe member on safe.</maml:para>
@@ -48013,6 +46547,79 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
             <maml:uri />
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
+            <maml:para>Should be specified for versions earlier than 12.2</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-PASSafeMember</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SafeName</maml:name>
+          <maml:description>
+            <maml:para>The name of the safe to which the safe member belong</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UserName">
+          <maml:name>MemberName</maml:name>
+          <maml:description>
+            <maml:para>Vault or Domain User, or Group, safe member to update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>MembershipExpirationDate</maml:name>
+          <maml:description>
+            <maml:para>Defines when the member's Safe membership expires.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+          <dev:type>
+            <maml:name>DateTime</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
@@ -48039,7 +46646,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>AccountsManager</maml:name>
           <maml:description>
-            <maml:para>{{ Fill AccountsManager Description }}</maml:para>
+            <maml:para>Sets Accounts Manager permissions for user on safe</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -48085,247 +46692,6 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
-          <maml:name>UseAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
-          <maml:name>RetrieveAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
-          <maml:name>ListAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
-          <maml:name>AddAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
-          <maml:name>UpdateAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
-          <maml:name>UpdateAccountProperties</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SpecifyNextAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
-          <maml:name>RenameAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
-          <maml:name>DeleteAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
-          <maml:name>UnlockAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>BackupSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
-          <maml:name>ViewAuditLog</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
-          <maml:name>ViewSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>AccessWithoutConfirmation</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AccessWithoutConfirmation permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
-          <maml:name>CreateFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DeleteFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
-          <maml:name>MoveAccountsAndFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
@@ -48352,7 +46718,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Approver</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Approver Description }}</maml:para>
+            <maml:para>Sets Approver permissions for user on safe</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -48398,247 +46764,6 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
-          <maml:name>UseAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
-          <maml:name>RetrieveAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
-          <maml:name>ListAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
-          <maml:name>AddAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
-          <maml:name>UpdateAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
-          <maml:name>UpdateAccountProperties</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SpecifyNextAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
-          <maml:name>RenameAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
-          <maml:name>DeleteAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
-          <maml:name>UnlockAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>BackupSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
-          <maml:name>ViewAuditLog</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
-          <maml:name>ViewSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>AccessWithoutConfirmation</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AccessWithoutConfirmation permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
-          <maml:name>CreateFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DeleteFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
-          <maml:name>MoveAccountsAndFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
@@ -48665,7 +46790,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ConnectOnly</maml:name>
           <maml:description>
-            <maml:para>{{ Fill ConnectOnly Description }}</maml:para>
+            <maml:para>Set Connect Only permissions for user on safe</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -48711,247 +46836,6 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
-          <maml:name>UseAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
-          <maml:name>RetrieveAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
-          <maml:name>ListAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
-          <maml:name>AddAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
-          <maml:name>UpdateAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
-          <maml:name>UpdateAccountProperties</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SpecifyNextAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
-          <maml:name>RenameAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
-          <maml:name>DeleteAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
-          <maml:name>UnlockAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>BackupSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
-          <maml:name>ViewAuditLog</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
-          <maml:name>ViewSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>AccessWithoutConfirmation</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AccessWithoutConfirmation permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
-          <maml:name>CreateFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DeleteFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
-          <maml:name>MoveAccountsAndFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
@@ -48978,7 +46862,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Full</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Full Description }}</maml:para>
+            <maml:para>Sets Full Permissions for user on safe</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -49025,247 +46909,6 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="RestrictedRetrieve">
-          <maml:name>UseAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UseAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Retrieve">
-          <maml:name>RetrieveAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RetrieveAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ListContent">
-          <maml:name>ListAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ListAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Add">
-          <maml:name>AddAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if permission will be granted to safe member on safe.</maml:para>
-            <maml:para>Includes UpdateAccountProperties (when adding or removing permission).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Update">
-          <maml:name>UpdateAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AddAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="UpdateMetadata">
-          <maml:name>UpdateAccountProperties</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UpdateAccountProperties permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>InitiateCPMAccountManagementOperations</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if InitiateCPMAccountManagementOperations permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SpecifyNextAccountContent</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if SpecifyNextAccountContent permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Rename">
-          <maml:name>RenameAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if RenameAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Delete">
-          <maml:name>DeleteAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="Unlock">
-          <maml:name>UnlockAccounts</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if UnlockAccounts permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManageSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ManageSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>BackupSafe</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if BackupSafe permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewAudit">
-          <maml:name>ViewAuditLog</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewAuditLog permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="ViewMembers">
-          <maml:name>ViewSafeMembers</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if ViewSafeMembers permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>AccessWithoutConfirmation</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if AccessWithoutConfirmation permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="AddRenameFolder">
-          <maml:name>CreateFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if CreateFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DeleteFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if DeleteFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="MoveFilesAndFolders">
-          <maml:name>MoveAccountsAndFolders</maml:name>
-          <maml:description>
-            <maml:para>Boolean value defining if MoveAccountsAndFolders permission will be granted to safe member on safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
           <maml:description>
@@ -49291,7 +46934,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ReadOnly</maml:name>
           <maml:description>
-            <maml:para>{{ Fill ReadOnly Description }}</maml:para>
+            <maml:para>Sets Read Only permissions for user on safe</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -49658,7 +47301,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>AccountsManager</maml:name>
         <maml:description>
-          <maml:para>{{ Fill AccountsManager Description }}</maml:para>
+          <maml:para>Sets Accounts Manager permissions for user on safe</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -49670,7 +47313,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Approver</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Approver Description }}</maml:para>
+          <maml:para>Sets Approver permissions for user on safe</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -49682,7 +47325,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>ConnectOnly</maml:name>
         <maml:description>
-          <maml:para>{{ Fill ConnectOnly Description }}</maml:para>
+          <maml:para>Set Connect Only permissions for user on safe</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -49694,7 +47337,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Full</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Full Description }}</maml:para>
+          <maml:para>Sets Full Permissions for user on safe</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -49706,7 +47349,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>ReadOnly</maml:name>
         <maml:description>
-          <maml:para>{{ Fill ReadOnly Description }}</maml:para>
+          <maml:para>Sets Read Only permissions for user on safe</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
