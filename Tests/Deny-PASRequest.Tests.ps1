@@ -164,7 +164,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				} -Times 1 -Exactly -Scope It
 			}
 
-			It 'sends request with expected body for bulk confirmations' {
+			It 'sends request with expected body for bulk rejections' {
 
 				Deny-PASRequest -RequestID '24_68', '24_69', '24_70', '22_45' -Reason 'Some Reason'
 
@@ -198,7 +198,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Mock Invoke-PASRestMethod -MockWith {
 
 				}
-				$psPASSession.ExternalVersion = '9.10'
+				$psPASSession.ExternalVersion = '0.0'
 
 			}
 
