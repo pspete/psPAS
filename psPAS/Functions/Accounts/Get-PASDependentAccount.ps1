@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASDependentAccount {
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = 'AllDependentAccounts')]
 	param(
         [parameter(
 			Mandatory = $true,
@@ -140,6 +140,12 @@ function Get-PASDependentAccount {
 
                     #define base URL
 		            $URI = "$($psPASSession.BaseURI)/API/dependentAccounts"
+
+					If ($PSBoundParameters.Keys -notcontains 'Limit') {
+						$Limit = 100   #default limit
+						$boundParameters.Add('Limit', $Limit) # Add to boundparameters for inclusion in query string
+					}
+
 					break
 
                 }
@@ -173,33 +179,44 @@ function Get-PASDependentAccount {
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
 
-		If ($null -ne $result) {
+		$Total = $result.Total
 
-			switch ($PSCmdlet.ParameterSetName) {
+		If ($Total -gt 0) {
 
-				( { $PSItem -match '^Specific' } ){
-					$return = $Result
-					break
+			#Set events as output collection
+			$DependentAccounts = [Collections.Generic.List[Object]]::New(@($result.DependentAccounts))
+
+			#Split Request URL into baseURI & any query string value
+			$URLString = $URI.Split('?')
+			$URI = $URLString[0]
+			$queryString = $URLString[1]
+
+			For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+
+				#While more DependentAccounts to return, create nextLink query value
+				$nextLink = "OffSet=$Offset"
+
+				if ($null -ne $queryString) {
+
+					#If original request contained a queryString, concatenate with nextLink value.
+					$nextLink = "$queryString&$nextLink"
+
 				}
+				$result = (Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET).DependentAccounts
 
-				'AllDependentAccounts' {
-					# Get default parameters to pass to Get-NextLink
-					$DefaultParams = $PSBoundParameters | Get-PASParameter -ParametersToKeep TimeoutSec
-					#return list
-            		$return = $Result | Get-NextLink @DefaultParams
-
-					break
-				}
+				#Request nextLink. Add DependentAccounts to output collection.
+				$Null = $DependentAccounts.AddRange($result)
 			}
+
+			$Result = $DependentAccounts
 
 		}
 
-        if ($return) {
+		If ($null -ne $result) {
 
-            #Return Results
-            $return
+			$Result
 
-        }
+		}
 
 	}#process
 

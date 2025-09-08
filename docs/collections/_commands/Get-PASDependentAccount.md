@@ -12,6 +12,13 @@ Returns details of dependent accounts.
 
 ## SYNTAX
 
+### AllDependentAccounts (Default)
+```
+Get-PASDependentAccount [-search <String>] [-MasterAccountId <String>] [-modificationTime <DateTime>]
+ [-platformId <String>] [-SafeName <String>] [-includeDeleted <Boolean>] [-limit <Int32>] [-TimeoutSec <Int32>]
+ [<CommonParameters>]
+```
+
 ### SpecificDependentAccount
 ```
 Get-PASDependentAccount -id <String> -dependentAccountId <String> [-extendedDetails <Boolean>]
@@ -22,13 +29,6 @@ Get-PASDependentAccount -id <String> -dependentAccountId <String> [-extendedDeta
 ```
 Get-PASDependentAccount -id <String> [-search <String>] [-modificationTime <DateTime>] [-platformId <String>]
  [-failed <Boolean>] [-TimeoutSec <Int32>] [<CommonParameters>]
-```
-
-### AllDependentAccounts
-```
-Get-PASDependentAccount [-search <String>] [-MasterAccountId <String>] [-modificationTime <DateTime>]
- [-platformId <String>] [-SafeName <String>] [-includeDeleted <Boolean>] [-limit <Int32>] [-TimeoutSec <Int32>]
- [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -96,7 +96,7 @@ A list of keywords to search for in accounts, separated by a space.
 
 ```yaml
 Type: String
-Parameter Sets: SpecificAccount, AllDependentAccounts
+Parameter Sets: AllDependentAccounts, SpecificAccount
 Aliases:
 
 Required: False
@@ -126,7 +126,7 @@ Date after which the dependent account was modified.
 
 ```yaml
 Type: DateTime
-Parameter Sets: SpecificAccount, AllDependentAccounts
+Parameter Sets: AllDependentAccounts, SpecificAccount
 Aliases:
 
 Required: False
@@ -141,7 +141,7 @@ Unique identifier of the dependent platform.
 
 ```yaml
 Type: String
-Parameter Sets: SpecificAccount, AllDependentAccounts
+Parameter Sets: AllDependentAccounts, SpecificAccount
 Aliases:
 
 Required: False
