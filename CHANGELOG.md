@@ -121,13 +121,11 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
   - Updated to include permission pre-sets to match functionality available via PVWA
   - Thanks [Slasky86](https://github.com/Slasky86)!!
 - `Get-PASAccount`
+  - Updated to handle new quoting model for filter operations in version 14.6
   - Adds dynamic search properties to the filter parameters list
   - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
 - `Add-PASAccount`
   - Added `AllowAccountDuplications` parameter, which works in conjunction with the 14.6 `AccountDuplicationEnforcementLevel` setting
-- `Get-PASAccount`
-  - Updated to handle new quoting model for filter operations in version 14.6
-  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
 - `Import-PASPlatform`
   - New parameter sets added to support updating existing platforms and side-by-side imports
 - `New-PASDirectoryMapping`, `Set-PASDirectoryMapping`
@@ -141,6 +139,8 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
   - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
 - `Approve-PASRequest`
   - Adds support for bulk approvals using a single request
+- `Deny-PASRequest`
+  - Adds support for bulk rejections using a single request
 - `New-PASAccountPassword`
   - Updated to include additional error checking
 - `New-PASAccountObject`
