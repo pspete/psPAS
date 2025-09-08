@@ -86,7 +86,15 @@ function Get-PASAccount {
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false
 		)]
-		[int]$TimeoutSec
+		[int]$TimeoutSec,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelineByPropertyName = $false,
+			ParameterSetName = 'Gen2Query'
+		)]
+		[ValidateSet('AND', 'OR')]
+		[string]$LogicalOperator = 'AND'
 
 	)
 
@@ -101,7 +109,7 @@ function Get-PASAccount {
 			$paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 			
 			# List of existing static parameters to avoid duplicates
-			$existingParams = @('id', 'search', 'searchType', 'safeName', 'savedFilter', 'modificationTime', 'sort', 'limit', 'Keywords', 'Safe', 'TimeoutSec')
+			$existingParams = @('id', 'search', 'searchType', 'safeName', 'savedFilter', 'modificationTime', 'sort', 'limit', 'Keywords', 'Safe', 'TimeoutSec', 'LogicalOperator')
 			
 			# Create dynamic parameter for each search property not already defined
 			foreach ($property in $SearchProperties) {
@@ -150,7 +158,13 @@ function Get-PASAccount {
 		#Get Parameters to include in request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
 		$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
-		$FilterString = $filterParameters | ConvertTo-FilterString
+
+		# Only use LogicalOperator for API 14.6+
+		if ($PSCmdlet.ParameterSetName -eq 'Gen2Query' -and $psPASSession.ExternalVersion -ge [version]'14.6') {
+			$FilterString = $filterParameters | ConvertTo-FilterString -LogicalOperator $LogicalOperator
+		} else {
+			$FilterString = $filterParameters | ConvertTo-FilterString
+		}
 
 		switch ($PSCmdlet.ParameterSetName) {
 
