@@ -1,17 +1,10 @@
 # .ExternalHelp psPAS-help.xml
 Function Get-PASPTASecurityConfigurationCategory {
-    [CmdletBinding(SupportsShouldProcess = $false, DefaultParameterSetName = 'ListAllCategories')]
+    [CmdletBinding()]
     param(
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false,
-            ParameterSetName = 'ListAllCategories'
-        )]
-        [switch]$ListAllCategories,
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $false,
-            ParameterSetName = 'categoryKey'
+            ValueFromPipelinebyPropertyName = $false
         )]
         [ValidateSet('ActiveDormantUser', 'PrivilegedUsersAndGroups', 'IrregularIpUser', 'SuspectedCredentialsTheft', 'InteractiveLogonWithServiceAccount',
             'IrregularHoursUser', 'UnmanagedPrivilegedAccess', 'SuspiciousActivityInPSMSession', 'IrregularDaysUser', 'FailedVaultLogonAttempts',
@@ -27,44 +20,34 @@ Function Get-PASPTASecurityConfigurationCategory {
 
     PROCESS {
 
-        switch ($PSCmdlet.ParameterSetName) {
-
-            'ListAllCategories' {
-
-                #Create request URL
-                $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories"
-
-                #send request to web service
-                $result = Invoke-PASRestMethod -Uri $URI -Method GET
-
-                If ($null -ne $result) {
-
-                    #Return Results as objects
-                    $result | ForEach-Object {
-                        [PSCustomObject]@{
-                            Category = $_
-                        }
-                    }
-
-                }
-
-            }
+        switch ($PSBoundParameters.keys) {
 
             'categoryKey' {
 
                 #Create URL for Request
                 $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories/$categoryKey"
 
-                #send request to web service
-                $result = Invoke-PASRestMethod -Uri $URI -Method GET
-
-                If ($null -ne $result) {
-
-                    $result 
-
-                }
+                break
 
             }
+
+            Default {
+
+                #Create URL for Request
+                $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories"
+
+                break
+
+            }
+
+        }
+
+        #send request to web service
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
+
+        If ($null -ne $result) {
+
+            $result
 
         }
 
