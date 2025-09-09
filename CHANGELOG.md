@@ -23,7 +23,7 @@
 ### Fixed
 - N/A
 
-## [vNext 7.0]
+## 7.0
 
 **Special shout out to [JP-Consulting](https://github.com/johannesconsulting) for the help on this release**
 
