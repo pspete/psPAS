@@ -22,14 +22,29 @@ New-PASReportSchedule [[-version] <Int32>] [[-type] <String>] [-subType] <String
 ## DESCRIPTION
 Creates a new schedule for reports
 
+A `[Subscriber]` Class has been created to assist witho formatting of data for this request, see the example below
+
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> New-PASReportSchedule -version 2 -type <String> -subType <String> -name <String>
- -keepTaskDefinition <Boolean> -startTime <DateTime> -recurrenceType <String>
- -recurrenceValue <String> -daysOfWeek <String> -weekNumber <String>
- -Subscribers <Subscriber> -notifyOnFailure <Boolean>
+
+PS C:\> $Subscriber = [Subscriber]::AddSubscriber()
+Enter subscriber name: pspete
+Enter subscriber type: User
+Notify on success? (true/false): true
+Add LDAP info? (yes/no): yes
+Enter LDAP directory name: PSPETE.DEV
+Enter full DN:
+
+ > $Subscriber
+
+name   type notifyOnSuccess ldapInfo
+----   ---- --------------- --------
+pspete User            True LdapInfo
+
+PS C:\> New-PASReportSchedule -version 1 -type 'Report' -subType 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI' `
+-name 'Some Report' -keepTaskDefinition $true -Subscribers $Subscriber -notifyOnFailure $True$
 ```
 
 Adds a new report schedule
@@ -187,7 +202,9 @@ Accept wildcard characters: False
 ```
 
 ### -Subscribers
-TODO: Subscriber Class Examples need testing/documenting
+Create definition for one or more subscribers using the `[Subscriber]` Class.
+
+`[Subscriber]::AddSubscriber()` interactively prompts for required details.
 
 ```yaml
 Type: Subscriber[]

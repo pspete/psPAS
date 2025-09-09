@@ -27205,6 +27205,7 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
     </command:details>
     <maml:description>
       <maml:para>Creates a new schedule for reports</maml:para>
+      <maml:para>A `[Subscriber]` Class has been created to assist witho formatting of data for this request, see the example below</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -27236,7 +27237,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="11" aliases="none">
           <maml:name>Subscribers</maml:name>
           <maml:description>
-            <maml:para>TODO: Subscriber Class Examples need testing/documenting</maml:para>
+            <maml:para>Create definition for one or more subscribers using the `[Subscriber]` Class.</maml:para>
+            <maml:para>`[Subscriber]::AddSubscriber()` interactively prompts for required details.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Subscriber[]</command:parameterValue>
           <dev:type>
@@ -27501,7 +27503,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="11" aliases="none">
         <maml:name>Subscribers</maml:name>
         <maml:description>
-          <maml:para>TODO: Subscriber Class Examples need testing/documenting</maml:para>
+          <maml:para>Create definition for one or more subscribers using the `[Subscriber]` Class.</maml:para>
+          <maml:para>`[Subscriber]::AddSubscriber()` interactively prompts for required details.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Subscriber[]</command:parameterValue>
         <dev:type>
@@ -27557,10 +27560,22 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; New-PASReportSchedule -version 2 -type &lt;String&gt; -subType &lt;String&gt; -name &lt;String&gt;
- -keepTaskDefinition &lt;Boolean&gt; -startTime &lt;DateTime&gt; -recurrenceType &lt;String&gt;
- -recurrenceValue &lt;String&gt; -daysOfWeek &lt;String&gt; -weekNumber &lt;String&gt;
- -Subscribers &lt;Subscriber&gt; -notifyOnFailure &lt;Boolean&gt;</dev:code>
+        <dev:code>PS C:\&gt; $Subscriber = [Subscriber]::AddSubscriber()
+Enter subscriber name: pspete
+Enter subscriber type: User
+Notify on success? (true/false): true
+Add LDAP info? (yes/no): yes
+Enter LDAP directory name: PSPETE.DEV
+Enter full DN:
+
+ &gt; $Subscriber
+
+name   type notifyOnSuccess ldapInfo
+----   ---- --------------- --------
+pspete User            True LdapInfo
+
+PS C:\&gt; New-PASReportSchedule -version 1 -type 'Report' -subType 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI' `
+-name 'Some Report' -keepTaskDefinition $true -Subscribers $Subscriber -notifyOnFailure $True$</dev:code>
         <dev:remarks>
           <maml:para>Adds a new report schedule</maml:para>
         </dev:remarks>
