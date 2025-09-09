@@ -210,8 +210,11 @@
 
 	Process {
 
-		#Show sanitised request body if in debug mode
+		#Show URI, Method & sanitised request body if in debug mode
 		If ([System.Management.Automation.ActionPreference]::SilentlyContinue -ne $DebugPreference) {
+
+			Write-Debug "[Uri] $URI"
+			Write-Debug "[Method] $Method"
 
 			If (($PSBoundParameters.ContainsKey('Body')) -and (($PSBoundParameters['Body']).GetType().Name -eq 'String')) {
 
@@ -339,12 +342,27 @@
 							#Inner error details are present
 							if ($Response.Details) {
 
-								#Join Inner Error Text to Error Message
-								$ErrorMessage = $ErrorMessage, $(($Response.Details | Select-Object -ExpandProperty ErrorMessage) -join ', ') -join ': '
+								if($Response.Details -is [Array]){
 
-								#Join Inner Error Codes to ErrorID
-								$ErrorID = $ErrorID, $(($Response.Details | Select-Object -ExpandProperty ErrorCode) -join ',') -join ','
+									#array of details is returned for operations which return collections
+									$detailText = $Response.Details | ForEach-Object {
+										$obj = $_
+										#Join each array element into a single string
+										$props = $obj | Get-Member -MemberType Properties | Select-Object -ExpandProperty Name
+										($props | ForEach-Object { "$_=$($obj.$_)" }) -join '; '
+									}
 
+									#Join the array element details to the Error Message
+									$ErrorMessage = $ErrorMessage, $($detailText -join "`n") -join "`n"
+
+								}
+								else{
+									#Join Inner Error Text to Error Message
+									$ErrorMessage = $ErrorMessage, $(($Response.Details | Select-Object -ExpandProperty ErrorMessage) -join ', ') -join ': '
+
+									#Join Inner Error Codes to ErrorID
+									$ErrorID = $ErrorID, $(($Response.Details | Select-Object -ExpandProperty ErrorCode) -join ',') -join ','
+								}
 							}
 
 						} catch {

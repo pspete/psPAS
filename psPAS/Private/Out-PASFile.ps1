@@ -44,11 +44,19 @@ function Out-PASFile {
 
 		}
 
-		#Get filename from Content-Disposition Header element.
-		$FileName = ($InputObject.Headers['Content-Disposition'] -split 'filename=')[1] -replace '"'
+		If(Test-Path -Path $Path -PathType Container){
 
-		#Define output path
-		$OutputPath = Join-Path $Path $FileName
+			If($InputObject.Headers.ContainsKey('Content-Disposition')) {
+				#Get filename from Content-Disposition Header element.
+				$FileName = ($InputObject.Headers['Content-Disposition'] -split 'filename=')[1] -replace '"'
+			}
+
+			#Define output path
+			$OutputPath = Join-Path $Path $FileName
+
+		} Else{
+			$OutputPath = $Path #assume full path provided
+		}
 
 		if ($PSCmdlet.ShouldProcess($OutputPath, 'Save File')) {
 

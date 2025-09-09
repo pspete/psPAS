@@ -2,7 +2,7 @@
 title: "Compatibility"
 permalink: /docs/compatibility/
 excerpt: "Module Compatibility"
-last_modified_at: 2023-03-06T01:23:45-00:00
+last_modified_at: 2025-09-09T01:23:45-00:00
 toc: false
 ---
 
@@ -207,7 +207,77 @@ If version requirement criteria are not met, operations may be prevented.
 [`Get-PASDiscoveredLocalAccount`][Get-PASDiscoveredLocalAccount]                         |**P Cloud Only**                                     |Get  P Cloud Discovered Local Account
 [`Clear-PASDiscoveredLocalAccount`][Clear-PASDiscoveredLocalAccount]                     |**P Cloud Only**                                     |Clear all  P Cloud Discovered Local Accounts
 [`Add-PASDiscoveredLocalAccount`][Add-PASDiscoveredLocalAccount]                         |**P Cloud Only**                                     |Add  P Cloud Discovered Local Account
+[`Enable-PASTheme`][Enable-PASTheme]                                                     |**14.6**                                              |Activate a custom UI theme
+[`Remove-PASTheme`][Remove-PASTheme]                                                     |**14.6**                                              |Delete a custom UI theme
+[`Import-PASThemeImage`][Import-PASThemeImage]                                           |**14.6**                                              |Import an image for use in a custom UI theme
+[`Export-PASThemeImage`][Export-PASThemeImage]                                           |**14.6**                                              |Export an image used in a custom UI theme
+[`Reset-PASTheme`][Reset-PASTheme]                                                       |**14.6**                                              |Reset the UI theme to default
+[`Publish-PASTheme`][Publish-PASTheme]                                                   |**14.6**                                              |Change the draft status of a custom UI theme
+[`Get-PASTheme`][Get-PASTheme]                                                           |**14.6**                                              |Return details of custom UI themes
+[`New-PASTheme`][New-PASTheme]                                                           |**14.6**                                              |Create a new custom UI theme
+[`Set-PASTheme`][Set-PASTheme]                                                           |**14.6**                                              |Update a custom UI theme
+[`Get-PASStoredPlatform`][Get-PASStoredPlatform]                                         |**14.6**                                              |Get details of platforms stored in memory for import
+[`Remove-PASStoredPlatform`][Remove-PASStoredPlatform]                                   |**14.6**                                              |Delete a stored platform from memory
+[`Get-PASUserLicenseReport`][Get-PASUserLicenseReport]                                   |**14.6**                                              |Return usage information for Privilege Cloud user licenses
+[`Get-PASReport`][Get-PASReport]                                                         |**14.6**                                              |List reports available to your user
+[`Get-PASReportSchedule`][Get-PASReportSchedule]                                         |**14.6**                                              |List report schedules
+[`New-PASReportSchedule`][New-PASReportSchedule]                                         |**14.6**                                              |Create a scheduled report
+[`Export-PASReport`][Export-PASReport]                                                   |**14.6**                                              |Export an available report
+[`Add-PASUserAllowedAuthenticationMethod`][Add-PASUserAllowedAuthenticationMethod]       |**14.4**                                              |Add allowed authentication methods to multiple users
+[`Remove-PASUserAllowedAuthenticationMethod`][Remove-PASUserAllowedAuthenticationMethod] |**14.4**                                              |Remove allowed authentication methods from multiple users
+[`Remove-PASFIDO2Device`][Remove-PASFIDO2Device]                                         |**14.6**                                              |Remove a configured FIDO2 device from a user
+[`Get-PASMasterPolicy`][Get-PASMasterPolicy]                                             |**14.6**                                              |List Master Policy settings
+[`Set-PASMasterPolicy`][Set-PASMasterPolicy]                                             |**14.6**                                              |Update Master Policy settings
+[`Add-PASDependentAccount`][Add-PASDependentAccount]                                     |**14.6**                                              |Add a new dependent account
+[`Remove-PASDependentAccount`][Remove-PASDependentAccount]                               |**14.6**                                              |Delete dependent accounts
+[`Resume-PASDependentAccount`][Resume-PASDependentAccount]                               |**14.6**                                              |Resume password management of dependent accounts
+[`Get-PASDependentAccount`][Get-PASDependentAccount]                                     |**14.6**                                              |List details of dependent accounts
+[`Sync-PASDependentAccount`][Sync-PASDependentAccount]                                   |**14.6**                                              |Synchronize the password of a dependent account with its master
+[`Set-PASDependentAccount`][Set-PASDependentAccount]                                     |**14.6**                                              |Update a dependent account
+[`Remove-PASPTASecurityConfigurationProperty`][Remove-PASPTASecurityConfigurationProperty]|**14.6**                                              |Delete PTA security configuration properties
+[`Reset-PASPTASecurityConfigurationProperty`][Reset-PASPTASecurityConfigurationProperty] |**14.6**                                              |Reset PTA security configuration properties
+[`Reset-PASPTASecurityConfigurationCategory`][Reset-PASPTASecurityConfigurationCategory] |**14.6**                                              |Reset PTA security configuration categories
+[`Get-PASPTASecurityConfigurationCategory`][Get-PASPTASecurityConfigurationCategory]     |**14.6**                                              |Return PTA security configuration categories
+[`Add-PASPTASyslog`][Add-PASPTASyslog]                                                   |**14.6**                                              |Add a new syslog configuration to PTA
+[`Remove-PASPTASyslog`][Remove-PASPTASyslog]                                             |**14.6**                                              |Remove a syslog configuration from PTA
+[`Set-PASPTASMTP`][Set-PASPTASMTP]                                                       |**14.4**                                              |Add a new SMTP configuration to PTA
+[`Get-PASAccountSearchProperty`][Get-PASAccountSearchProperty]                           |**14.6**                                              |List configured search properties
 
+[Enable-PASTheme]:/commands/Enable-PASTheme
+[Remove-PASTheme]:/commands/Remove-PASTheme
+[Import-PASThemeImage]:/commands/Import-PASThemeImage
+[Export-PASThemeImage]:/commands/Export-PASThemeImage
+[Reset-PASTheme]:/commands/Reset-PASTheme
+[Publish-PASTheme]:/commands/Publish-PASTheme
+[Get-PASTheme]:/commands/Get-PASTheme
+[New-PASTheme]:/commands/New-PASTheme
+[Set-PASTheme]:/commands/Set-PASTheme
+[Get-PASStoredPlatform]:/commands/Get-PASStoredPlatform
+[Remove-PASStoredPlatform]:/commands/Remove-PASStoredPlatform
+[Get-PASUserLicenseReport]:/commands/Get-PASUserLicenseReport
+[Get-PASReport]:/commands/Get-PASReport
+[Get-PASReportSchedule]:/commands/Get-PASReportSchedule
+[New-PASReportSchedule]:/commands/New-PASReportSchedule
+[Export-PASReport]:/commands/Export-PASReport
+[Add-PASUserAllowedAuthenticationMethod]:/commands/Add-PASUserAllowedAuthenticationMethod
+[Remove-PASUserAllowedAuthenticationMethod]:/commands/Remove-PASUserAllowedAuthenticationMethod
+[Remove-PASFIDO2Device]:/commands/Remove-PASFIDO2Device
+[Get-PASMasterPolicy]:/commands/Get-PASMasterPolicy
+[Set-PASMasterPolicy]:/commands/Set-PASMasterPolicy
+[Add-PASDependentAccount]:/commands/Add-PASDependentAccount
+[Remove-PASDependentAccount]:/commands/Remove-PASDependentAccount
+[Resume-PASDependentAccount]:/commands/Resume-PASDependentAccount
+[Get-PASDependentAccount]:/commands/Get-PASDependentAccount
+[Sync-PASDependentAccount]:/commands/Sync-PASDependentAccount
+[Set-PASDependentAccount]:/commands/Set-PASDependentAccount
+[Remove-PASPTASecurityConfigurationProperty]:/commands/Remove-PASPTASecurityConfigurationProperty
+[Reset-PASPTASecurityConfigurationProperty]:/commands/Reset-PASPTASecurityConfigurationProperty
+[Reset-PASPTASecurityConfigurationCategory]:/commands/Reset-PASPTASecurityConfigurationCategory
+[Get-PASPTASecurityConfigurationCategory]:/commands/Get-PASPTASecurityConfigurationCategory
+[Add-PASPTASyslog]:/commands/Add-PASPTASyslog
+[Remove-PASPTASyslog]:/commands/Remove-PASPTASyslog
+[Set-PASPTASMTP]:/commands/Set-PASPTASMTP
+[Get-PASAccountSearchProperty]:/commands/Get-PASAccountSearchProperty
 [Get-PASIPAllowList]:/commands/Get-PASIPAllowList
 [Set-PASIPAllowList]:/commands/Set-PASIPAllowList
 [Get-PASBYOKConfig]:/commands/Get-PASBYOKConfig

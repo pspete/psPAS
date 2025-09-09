@@ -6,9 +6,7 @@
 
 # **psPAS: PowerShell Module for the CyberArk API**
 
-Through the PVWA REST API, administer CyberArk PAS with PowerShell.
-
-Contains all of the documented API capabilities up to CyberArk v14.0.
+Administer CyberArk PAS with PowerShell!
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -995,7 +993,77 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Get-PASDiscoveredLocalAccount`][Get-PASDiscoveredLocalAccount]                         |**P Cloud Only**    |Get  P Cloud Discovered Local Account
 [`Clear-PASDiscoveredLocalAccount`][Clear-PASDiscoveredLocalAccount]                     |**P Cloud Only**    |Clear all  P Cloud Discovered Local Accounts
 [`Add-PASDiscoveredLocalAccount`][Add-PASDiscoveredLocalAccount]                         |**P Cloud Only**    |Add  P Cloud Discovered Local Account
+[`Enable-PASTheme`][Enable-PASTheme]                                                     |**14.6**            |Activate a custom UI theme
+[`Remove-PASTheme`][Remove-PASTheme]                                                     |**14.6**            |Delete a custom UI theme
+[`Import-PASThemeImage`][Import-PASThemeImage]                                           |**14.6**            |Import image for use in a custom UI theme
+[`Export-PASThemeImage`][Export-PASThemeImage]                                           |**14.6**            |Export image used in a custom UI theme
+[`Reset-PASTheme`][Reset-PASTheme]                                                       |**14.6**            |Reset the UI theme to default
+[`Publish-PASTheme`][Publish-PASTheme]                                                   |**14.6**            |Change draft status of a custom UI theme
+[`Get-PASTheme`][Get-PASTheme]                                                           |**14.6**            |Return details of custom UI themes
+[`New-PASTheme`][New-PASTheme]                                                           |**14.6**            |Create a new custom UI theme
+[`Set-PASTheme`][Set-PASTheme]                                                           |**14.6**            |Update a custom UI theme
+[`Get-PASStoredPlatform`][Get-PASStoredPlatform]                                         |**14.6**            |Get details of platforms stored in memory
+[`Remove-PASStoredPlatform`][Remove-PASStoredPlatform]                                   |**14.6**            |Delete stored platform from memory
+[`Get-PASUserLicenseReport`][Get-PASUserLicenseReport]                                   |**14.6**            |Return Privilege Cloud user license usage
+[`Get-PASReport`][Get-PASReport]                                                         |**14.6**            |List reports available to your user
+[`Get-PASReportSchedule`][Get-PASReportSchedule]                                         |**14.6**            |List report schedules
+[`New-PASReportSchedule`][New-PASReportSchedule]                                         |**14.6**            |Create a scheduled report
+[`Export-PASReport`][Export-PASReport]                                                   |**14.6**            |Export an available report
+[`Add-PASUserAllowedAuthenticationMethod`][Add-PASUserAllowedAuthenticationMethod]       |**14.4**            |Add allowed authentication methods to users
+[`Remove-PASUserAllowedAuthenticationMethod`][Remove-PASUserAllowedAuthenticationMethod] |**14.4**            |Remove allowed authentication methods from users
+[`Remove-PASFIDO2Device`][Remove-PASFIDO2Device]                                         |**14.6**            |Remove configured FIDO2 device from a user
+[`Get-PASMasterPolicy`][Get-PASMasterPolicy]                                             |**14.6**            |List Master Policy settings
+[`Set-PASMasterPolicy`][Set-PASMasterPolicy]                                             |**14.6**            |Update Master Policy settings
+[`Add-PASDependentAccount`][Add-PASDependentAccount]                                     |**14.6**            |Add a new dependent account
+[`Remove-PASDependentAccount`][Remove-PASDependentAccount]                               |**14.6**            |Delete dependent account
+[`Resume-PASDependentAccount`][Resume-PASDependentAccount]                               |**14.6**            |Resume password management of dependent account
+[`Get-PASDependentAccount`][Get-PASDependentAccount]                                     |**14.6**            |List details of dependent accounts
+[`Sync-PASDependentAccount`][Sync-PASDependentAccount]                                   |**14.6**            |Synchronize dependent account password
+[`Set-PASDependentAccount`][Set-PASDependentAccount]                                     |**14.6**            |Update a dependent account
+[`Remove-PASPTASecurityConfigurationProperty`][Remove-PASPTASecurityConfigurationProperty]|**14.6**            |Delete PTA security configuration property
+[`Reset-PASPTASecurityConfigurationProperty`][Reset-PASPTASecurityConfigurationProperty] |**14.6**            |Reset PTA security configuration property
+[`Reset-PASPTASecurityConfigurationCategory`][Reset-PASPTASecurityConfigurationCategory] |**14.6**            |Reset PTA security configuration category
+[`Get-PASPTASecurityConfigurationCategory`][Get-PASPTASecurityConfigurationCategory]     |**14.6**            |Return PTA security configuration categories
+[`Add-PASPTASyslog`][Add-PASPTASyslog]                                                   |**14.6**            |Add syslog configuration to PTA
+[`Remove-PASPTASyslog`][Remove-PASPTASyslog]                                             |**14.6**            |Remove syslog configuration from PTA
+[`Set-PASPTASMTP`][Set-PASPTASMTP]                                                       |**14.4**            |Add SMTP configuration to PTA
+[`Get-PASAccountSearchProperty`][Get-PASAccountSearchProperty]                           |**14.6**            |List configured account search properties
 
+[Enable-PASTheme]:/psPAS/Functions/Theme/Enable-PASTheme
+[Remove-PASTheme]:/psPAS/Functions/Theme/Remove-PASTheme
+[Import-PASThemeImage]:/psPAS/Functions/Theme/Import-PASThemeImage
+[Export-PASThemeImage]:/psPAS/Functions/Theme/Export-PASThemeImage
+[Reset-PASTheme]:/psPAS/Functions/Theme/Reset-PASTheme
+[Publish-PASTheme]:/psPAS/Functions/Theme/Publish-PASTheme
+[Get-PASTheme]:/psPAS/Functions/Theme/Get-PASTheme
+[New-PASTheme]:/psPAS/Functions/Theme/New-PASTheme
+[Set-PASTheme]:/psPAS/Functions/Theme/Set-PASTheme
+[Get-PASStoredPlatform]:/psPAS/Functions/Platforms/Get-PASStoredPlatform
+[Remove-PASStoredPlatform]:/psPAS/Functions/Platforms/Remove-PASStoredPlatform
+[Get-PASUserLicenseReport]:/psPAS/Functions/Reports/Get-PASUserLicenseReport
+[Get-PASReport]:/psPAS/Functions/Reports/Get-PASReport
+[Get-PASReportSchedule]:/psPAS/Functions/Reports/Get-PASReportSchedule
+[New-PASReportSchedule]:/psPAS/Functions/Reports/New-PASReportSchedule
+[Export-PASReport]:/psPAS/Functions/Reports/Export-PASReport
+[Add-PASUserAllowedAuthenticationMethod]:/psPAS/Functions/Users/Add-PASUserAllowedAuthenticationMethod
+[Remove-PASUserAllowedAuthenticationMethod]:/psPAS/Functions/Users/Remove-PASUserAllowedAuthenticationMethod
+[Remove-PASFIDO2Device]:/psPAS/Functions/Users/Remove-PASFIDO2Device
+[Get-PASMasterPolicy]:/psPAS/Functions/Policy/Get-PASMasterPolicy
+[Set-PASMasterPolicy]:/psPAS/Functions/Policy/Set-PASMasterPolicy
+[Add-PASDependentAccount]:/psPAS/Functions/Accounts/Add-PASDependentAccount
+[Remove-PASDependentAccount]:/psPAS/Functions/Accounts/Remove-PASDependentAccount
+[Resume-PASDependentAccount]:/psPAS/Functions/Accounts/Resume-PASDependentAccount
+[Get-PASDependentAccount]:/psPAS/Functions/Accounts/Get-PASDependentAccount
+[Sync-PASDependentAccount]:/psPAS/Functions/Accounts/Sync-PASDependentAccount
+[Set-PASDependentAccount]:/psPAS/Functions/Accounts/Set-PASDependentAccount
+[Remove-PASPTASecurityConfigurationProperty]:/psPAS/Functions/PTA/Remove-PASPTASecurityConfigurationProperty
+[Reset-PASPTASecurityConfigurationProperty]:/psPAS/Functions/PTA/Reset-PASPTASecurityConfigurationProperty
+[Reset-PASPTASecurityConfigurationCategory]:/psPAS/Functions/PTA/Reset-PASPTASecurityConfigurationCategory
+[Get-PASPTASecurityConfigurationCategory]:/psPAS/Functions/PTA/Get-PASPTASecurityConfigurationCategory
+[Add-PASPTASyslog]:/psPAS/Functions/PTA/Add-PASPTASyslog
+[Remove-PASPTASyslog]:/psPAS/Functions/PTA/Remove-PASPTASyslog
+[Set-PASPTASMTP]:/psPAS/Functions/PTA/Set-PASPTASMTP
+[Get-PASAccountSearchProperty]:/psPAS/Functions/Accounts/Get-PASAccountSearchProperty
 [Get-PASIPAllowList]:/psPAS/Functions/IPALlowList/Get-PASIPAllowList
 [Set-PASIPAllowList]:/psPAS/Functions/IPALlowList/Set-PASIPAllowList
 [Get-PASBYOKConfig]:/psPAS/Functions/BYOK/Get-PASBYOKConfig
@@ -1312,6 +1380,9 @@ Priority support could be considered for <a href="https://github.com/sponsors/ps
 ## Acknowledgements
 
 Hat Tips:
+
+**JP-Consulting** ([JP-Consulting](https://github.com/johannesconsulting))
+for the high effort contributions to the project
 
 **Joe Garcia** ([infamousjoeg](https://github.com/infamousjoeg))
 for the unofficial API documentation, general API wizardry & knowledge sharing.

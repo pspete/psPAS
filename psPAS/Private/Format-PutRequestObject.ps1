@@ -11,7 +11,7 @@ Function Format-PutRequestObject {
     The object representing current property values of an object to be updated
 
     .PARAMETER boundParameters
-    The current request paramters for the update operation
+    The current request parameters for the update operation
 
     .PARAMETER ParametersToRemove
     Any parameter names from the input object which should not be included in the update request
@@ -64,7 +64,7 @@ Function Format-PutRequestObject {
 
     Process {
 
-        #ParametersToKeep or ParametersToRemove paramters to pass to Get-PASParameter
+        #ParametersToKeep or ParametersToRemove parameters to pass to Get-PASParameter
         $PasParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep ParametersToKeep, ParametersToRemove
 
         #Add properties of inputobject to ExistingProperties hashtable
@@ -77,7 +77,7 @@ Function Format-PutRequestObject {
         #* Keep or remove properties based on the input requirements for the PUT request.
         $ExistingParameters = $ExistingProperties | Get-PASParameter @PasParameters
 
-        #If boundparameters does not include the existing propertyname, i.e. the property is not being udpated in the request:
+        #If boundparameters does not include the existing property name, i.e. the property is not being updated in the request:
         # Add the existing property to boundparameters for inclusion in a PUT request
         $ExistingParameters.Keys | ForEach-Object {
             If (-not($boundParameters.ContainsKey($PSItem))) {

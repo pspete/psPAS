@@ -3,18 +3,18 @@ title: "About psPAS"
 layout: single
 permalink: /about/
 excerpt: "All about psPAS"
-last_modified_at: 2022-09-24T01:23:45-00:00
+last_modified_at: 2025-09-09T01:23:45-00:00
 toc: true
 author_profile: true
 header:
   image: /assets/images/shop_banner_symbol.png
 ---
 
-Over 100 commands for the CyberArk REST API are included in psPAS, which was first made available via Github in 2017 and is now also downloadable via the PowerShell Gallery.
+psPAS offers over 200 PowerShell commands for interacting with the CyberArk REST API. Originally launched on GitHub in 2017, the module is now also available via the PowerShell Gallery for easy installation and updates.
 
-The module is intended to work with both the newest CyberArk version release and also older versions of the API, giving users of CyberArk an easily accessible tool for automating both routine administrative tasks and more specialized requirements.
+Designed for flexibility, psPAS supports both the latest CyberArk releases and legacy API versions, making it a powerful tool for automating everything from day-to-day admin tasks to complex operational workflows.
 
-It is possible to develop and automate CyberArk operations for Windows, Linux, and macOS because of the module's compatibility with both PowerShell Core and Windows PowerShell.
+With full compatibility across Windows PowerShell and PowerShell Core, the module enables cross-platform automation on Windows, Linux, and macOS.
 
 The module's standard set of commands offers a number of advantages for dealing with the CyberArk API, including:
 

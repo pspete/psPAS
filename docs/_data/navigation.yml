@@ -50,6 +50,10 @@ commands:
         url: /commands/Remove-PASPrivateSSHKey
       - title: "Clear-PASPrivateSSHKey"
         url: /commands/Clear-PASPrivateSSHKey
+      - title: "Add-PASUserAllowedAuthenticationMethod"
+        url: /commands/Add-PASUserAllowedAuthenticationMethod
+      - title: "Remove-PASUserAllowedAuthenticationMethod"
+        url: /commands/Remove-PASUserAllowedAuthenticationMethod
 
   - title: "Account ACL"
     children:
@@ -143,6 +147,23 @@ commands:
         url: /commands/Add-PASDiscoveredLocalAccount
       - title: "Remove-PASDiscoveredLocalAccount"
         url: /commands/Remove-PASDiscoveredLocalAccount
+      - title: "Get-PASAccountSearchProperty"
+        url: /commands/Get-PASAccountSearchProperty
+
+  - title: "Dependent Accounts"
+    children:
+      - title: "Add-PASDependentAccount"
+        url: /commands/Add-PASDependentAccount
+      - title: "Remove-PASDependentAccount"
+        url: /commands/Remove-PASDependentAccount
+      - title: "Resume-PASDependentAccount"
+        url: /commands/Resume-PASDependentAccount
+      - title: "Get-PASDependentAccount"
+        url: /commands/Get-PASDependentAccount
+      - title: "Sync-PASDependentAccount"
+        url: /commands/Sync-PASDependentAccount
+      - title: "Set-PASDependentAccount"
+        url: /commands/Set-PASDependentAccount
 
   - title: "Applications"
     children:
@@ -196,6 +217,23 @@ commands:
         url: /commands/Set-PASPTARiskEvent
       - title: "Get-PASPTARiskSummary"
         url: /commands/Get-PASPTARiskSummary
+
+  - title: "PTA Configuration"
+    children:
+      - title: "Remove-PASPTASecurityConfigurationProperty"
+        url: /commands/Remove-PASPTASecurityConfigurationProperty
+      - title: "Reset-PASPTASecurityConfigurationProperty"
+        url: /commands/Reset-PASPTASecurityConfigurationProperty
+      - title: "Reset-PASPTASecurityConfigurationCategory"
+        url: /commands/Reset-PASPTASecurityConfigurationCategory
+      - title: "Get-PASPTASecurityConfigurationCategory"
+        url: /commands/Get-PASPTASecurityConfigurationCategory
+      - title: "Add-PASPTASyslog"
+        url: /commands/Add-PASPTASyslog
+      - title: "Remove-PASPTASyslog"
+        url: /commands/Remove-PASPTASyslog
+      - title: "Set-PASPTASMTP"
+        url: /commands/Set-PASPTASMTP
 
   - title: "General"
     children:
@@ -285,6 +323,10 @@ commands:
         url: /commands/Set-PASPlatformPSMConfig
       - title: "Get-PASPlatformSummary"
         url: /commands/Get-PASPlatformSummary
+      - title: "Get-PASStoredPlatform"
+        url: /commands/Get-PASStoredPlatform
+      - title: "Remove-PASStoredPlatform"
+        url: /commands/Remove-PASStoredPlatform
 
   - title: "Policy ACL"
     children:
@@ -388,6 +430,15 @@ commands:
         url: /commands/Disable-PASUser
       - title: "Get-PASUserTypeInfo"
         url: /commands/Get-PASUserTypeInfo
+      - title: "Remove-PASFIDO2Device"
+        url: /commands/Remove-PASFIDO2Device
+
+  - title: "Master Policy"
+    children:
+      - title: "Get-PASMasterPolicy"
+        url: /commands/Get-PASMasterPolicy
+      - title: "Set-PASMasterPolicy"
+        url: /commands/Set-PASMasterPolicy
 
   - title: "BYOK"
     children:
@@ -400,6 +451,40 @@ commands:
         url: /commands/Get-PASIPAllowList
       - title: "Set-PASIPAllowList"
         url: /commands/Set-PASIPAllowLists
+
+  - title: "Reports"
+    children:
+      - title: "Get-PASUserLicenseReport"
+        url: /commands/Get-PASUserLicenseReport
+      - title: "Get-PASReport"
+        url: /commands/Get-PASReport
+      - title: "Get-PASReportSchedule"
+        url: /commands/Get-PASReportSchedule
+      - title: "New-PASReportSchedule"
+        url: /commands/New-PASReportSchedule
+      - title: "Export-PASReport"
+        url: /commands/Export-PASReport
+
+  - title: "UI Theme"
+    children:
+      - title: "Enable-PASTheme"
+        url: /commands/Enable-PASTheme
+      - title: "Remove-PASTheme"
+        url: /commands/Remove-PASTheme
+      - title: "Import-PASThemeImage"
+        url: /commands/Import-PASThemeImage
+      - title: "Export-PASThemeImage"
+        url: /commands/Export-PASThemeImage
+      - title: "Reset-PASTheme"
+        url: /commands/Reset-PASTheme
+      - title: "Publish-PASTheme"
+        url: /commands/Publish-PASTheme
+      - title: "Get-PASTheme"
+        url: /commands/Get-PASTheme
+      - title: "New-PASTheme"
+        url: /commands/New-PASTheme
+      - title: "Set-PASTheme"
+        url: /commands/Set-PASTheme
 
 # documentation links
 docs:

@@ -18,8 +18,8 @@ Updates an existing Directory Mapping for a directory
 Set-PASDirectoryMapping [-DirectoryName] <String> [-MappingID] <String> [[-MappingName] <String>]
  [[-LDAPBranch] <String>] [[-DomainGroups] <String[]>] [[-VaultGroups] <String[]>] [[-Location] <String>]
  [[-LDAPQuery] <String>] [[-MappingAuthorizations] <Authorizations>] [[-UserActivityLogPeriod] <Int32>]
- [-UsedQuota <Int32>] [-AuthorizedInterfaces <String[]>] [-EnableENEWhenDisconnected <Boolean>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-UsedQuota <Int32>] [-AuthorizedInterfaces <String[]>] [-EnableENEWhenDisconnected <Boolean>]
+ [-allowedAuthenticationMethods <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -303,6 +303,23 @@ Requires 14.0
 
 ```yaml
 Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -allowedAuthenticationMethods
+All the non-Vault authentication methods (specified by ID) that the user can use to log on.
+
+Requires 14.4
+
+```yaml
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 

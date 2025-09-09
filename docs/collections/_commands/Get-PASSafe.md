@@ -16,8 +16,8 @@ Returns safe details from the vault.
 
 ### Gen2 (Default)
 ```
-Get-PASSafe [-search <String>] [-sort <String>] [-includeAccounts <Boolean>] [-extendedDetails <Boolean>]
- [-TimeoutSec <Int32>] [<CommonParameters>]
+Get-PASSafe [-search <String>] [-sort <String>] [-sortDirection <String>] [-includeAccounts <Boolean>]
+ [-extendedDetails <Boolean>] [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
 ### Gen2-byName
@@ -143,7 +143,7 @@ Accept wildcard characters: False
 ```
 
 ### -sort
-Sorts according to the safeName property in ascending order (default) or descending order.
+Sorts output according to the safeName or ManagingCPM properties.
 
 Minimum required version 12.0
 
@@ -288,6 +288,21 @@ Parameter Sets: Gen1-byAll
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -sortDirection
+Sort according to the property specified for the sort parameter in ascending order (default) or descending order.
+
+```yaml
+Type: String
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

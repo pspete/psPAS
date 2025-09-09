@@ -27,6 +27,36 @@ Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpiration
  [-MoveAccountsAndFolders <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+### Full
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>] [-Full]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### AccountsManager
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>]
+ [-AccountsManager] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### Approver
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>] [-Approver]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### ReadOnly
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>] [-ReadOnly]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### ConnectOnly
+```
+Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>] [-ConnectOnly]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
 ### Gen1
 ```
 Set-PASSafeMember -SafeName <String> -MemberName <String> [-MembershipExpirationDate <DateTime>]
@@ -118,7 +148,7 @@ safe member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: RestrictedRetrieve
 
 Required: False
@@ -134,7 +164,7 @@ to safe member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Retrieve
 
 Required: False
@@ -150,7 +180,7 @@ safe member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: ListContent
 
 Required: False
@@ -168,7 +198,7 @@ Includes UpdateAccountProperties (when adding or removing permission).
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Add
 
 Required: False
@@ -184,7 +214,7 @@ member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Update
 
 Required: False
@@ -200,7 +230,7 @@ to safe member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: UpdateMetadata
 
 Required: False
@@ -216,7 +246,7 @@ will be granted to safe member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -232,7 +262,7 @@ to safe member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -248,7 +278,7 @@ member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Rename
 
 Required: False
@@ -264,7 +294,7 @@ member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Delete
 
 Required: False
@@ -280,7 +310,7 @@ member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: Unlock
 
 Required: False
@@ -296,7 +326,7 @@ on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -312,7 +342,7 @@ member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -328,7 +358,7 @@ on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -344,7 +374,7 @@ on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: ViewAudit
 
 Required: False
@@ -360,7 +390,7 @@ on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: ViewMembers
 
 Required: False
@@ -393,7 +423,7 @@ safe member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -409,7 +439,7 @@ on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: AddRenameFolder
 
 Required: False
@@ -425,7 +455,7 @@ on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases:
 
 Required: False
@@ -441,7 +471,7 @@ member on safe.
 
 ```yaml
 Type: Boolean
-Parameter Sets: (All)
+Parameter Sets: Gen2, Gen1
 Aliases: MoveFilesAndFolders
 
 Required: False
@@ -524,6 +554,81 @@ Should be specified for versions earlier than 12.2
 ```yaml
 Type: SwitchParameter
 Parameter Sets: Gen1
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AccountsManager
+Sets Accounts Manager permissions for user on safe
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: AccountsManager
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Approver
+Sets Approver permissions for user on safe
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Approver
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ConnectOnly
+Set Connect Only permissions for user on safe
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: ConnectOnly
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Full
+Sets Full Permissions for user on safe
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Full
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ReadOnly
+Sets Read Only permissions for user on safe
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: ReadOnly
 Aliases:
 
 Required: True

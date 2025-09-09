@@ -57,6 +57,34 @@
 					}
 				</Script>
 			</ScriptMethod>
+			<ScriptMethod>
+				<Name>ToHashtable</Name>
+				<Script>
+					$convertedProperties = @()
+
+					foreach ($item in $this.platformAccountProperties) {
+						$ht = @{}
+						foreach ($prop in $item.PSObject.Properties) {
+							$ht[$prop.Name] = $prop.Value
+						}
+						$convertedProperties += $ht
+					}
+
+
+					$accountParams = @{
+						address                          = $this.address
+						userName                         = $this.userName
+						platformID                       = $this.platformId
+						platformAccountProperties        = $convertedProperties
+						automaticManagementEnabled       = $this.secretManagement.automaticManagementEnabled
+						manualManagementReason           = $this.secretManagement.manualManagementReason
+						remoteMachines                   = $this.remoteMachinesAccess.remoteMachines
+						accessRestrictedToRemoteMachines = $this.remoteMachinesAccess.accessRestrictedToRemoteMachines
+					}
+
+					$accountParams
+				</Script>
+			</ScriptMethod>
 		</Members>
 	</Type>
 </Types>

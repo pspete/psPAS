@@ -251,6 +251,9 @@
 							<ListItem>
 								<PropertyName>EnableENEWhenDisconnected</PropertyName>
 							</ListItem>
+							<ListItem>
+								<PropertyName>AllowedAuthenticationMethods</PropertyName>
+							</ListItem>
 						</ListItems>
 					</ListEntry>
 				</ListEntries>

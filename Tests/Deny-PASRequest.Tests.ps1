@@ -45,22 +45,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach {
-
-			Mock Invoke-PASRestMethod -MockWith {
-
-			}
-
-			$InputObj = [pscustomobject]@{
-
-				'RequestID' = '24_68'
-				'Reason'    = 'Some Reason'
-
-			}
-
-			$response = $InputObj | Deny-PASRequest
-
-		}
 		Context 'Mandatory Parameters' {
 
 			$Parameters = @{Parameter = 'RequestID' }
@@ -75,17 +59,49 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Single Request'{
+			It 'sends request' {
+				$InputObj = [pscustomobject]@{
+					'RequestID' = '24_68'
+					'Reason'    = 'Some Reason'
 
+				}
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+				$psPASSession.ExternalVersion = '9.10'
+				Deny-PASRequest -RequestID 24_68 -Reason 'Some Reason'
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+		}
 
 		Context 'Input' {
 
-			It 'sends request' {
+			BeforeAll{
+				$InputObj = [pscustomobject]@{
+					'RequestID' = '24_68'
+					'Reason'    = 'Some Reason'
 
+				}
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+				$psPASSession.ExternalVersion = '9.10'
+
+			}
+
+			It 'sends request' {
+				Deny-PASRequest -RequestID 24_68 -Reason 'Some Reason'
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
 			}
 
 			It 'sends request to expected endpoint' {
+
+				Deny-PASRequest -RequestID 24_68 -Reason 'Some Reason'
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -97,11 +113,15 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'uses expected method' {
 
+				Deny-PASRequest -RequestID 24_68 -Reason 'Some Reason'
+
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
 			}
 
 			It 'sends request with expected body' {
+
+				Deny-PASRequest -RequestID 24_68 -Reason 'Some Reason'
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -121,17 +141,70 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'throws error if version requirement not met' {
 				$psPASSession.ExternalVersion = '1.0'
-				{ $InputObj | Deny-PASRequest } | Should -Throw
+				{ Deny-PASRequest -RequestID 24_68 -Reason 'Some Reason' } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'throws error if version requirement not met for bulk requests' {
+
+				$psPASSession.ExternalVersion = '14.5'
+				{ Deny-PASRequest -RequestID '24_68', '24_69', '24_70' -Reason 'Some Reason' } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'sends requests for bulk requests to expected endpoint' {
+
+				$psPASSession.ExternalVersion = '14.6'
+				Deny-PASRequest -RequestID '24_68', '24_69', '24_70' -Reason 'Some Reason'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/IncomingRequests/Reject/Bulk"
+
+				} -Times 1 -Exactly -Scope It
+			}
+
+			It 'sends request with expected body for bulk rejections' {
+
+				Deny-PASRequest -RequestID '24_68', '24_69', '24_70', '22_45' -Reason 'Some Reason'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody.BulkItems) -ne $null
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'has a request body with expected number of confirmations' {
+
+				($Script:RequestBody.BulkItems).count | Should -Be 4
+
 			}
 
 		}
 
 		Context 'Output' {
 
-			It 'provides no output' {
+			BeforeAll{
+				$InputObj = [pscustomobject]@{
+					'RequestID' = '24_68'
+					'Reason'    = 'Some Reason'
 
-				$response | Should -BeNullOrEmpty
+				}
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+				}
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'provides no output'  {
+
+				Deny-PASRequest -RequestID 24_68 -Reason 'Some Reason' | Should -BeNullOrEmpty
 
 			}
 

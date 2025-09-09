@@ -313,7 +313,7 @@ function New-PASPSMSession {
 
 			} Else {
 
-				#Save the RDP file to disk and automatically open it to spawn the RDP conenction to PSM
+				#Save the RDP file to disk and automatically open it to spawn the RDP connection to PSM
 				Out-PASFile -InputObject $result -Path $Path | Invoke-Item
 
 			}

@@ -2,7 +2,7 @@
 title: "psPAS + API Command Reference"
 permalink: /commands/
 excerpt: "Command Reference"
-last_modified_at: 2023-03-06T01:23:45-00:00
+last_modified_at: 2025-09-09T01:23:45-00:00
 toc: false
 layout: single-mod
 classes: wide
@@ -209,7 +209,77 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get risk events][Get risk events]                                                                   | [Get-PASPTARiskEvent][Get-PASPTARiskEvent]
 [Update risk event][Update risk event]                                                               | [Set-PASPTARiskEvent][Set-PASPTARiskEvent]
 [Get risk summary][Get risk summary]                                                                 | [Get-PASPTARiskSummary][Get-PASPTARiskSummary]
+[Activate UI Theme][Activate UI Theme]                                                               | [Enable-PASTheme][Enable-PASTheme]
+[Remove UI Theme][Remove UI Theme]                                                                   | [Remove-PASTheme][Remove-PASTheme]
+[Import Theme Image][Import Theme Image]                                                             | [Import-PASThemeImage][Import-PASThemeImage]
+[Export Theme Image][Export Theme Image]                                                             | [Export-PASThemeImage][Export-PASThemeImage]
+[Reset UI Theme][Reset UI Theme]                                                                     | [Reset-PASTheme][Reset-PASTheme]
+[Publish UI Theme][Publish UI Theme]                                                                 | [Publish-PASTheme][Publish-PASTheme]
+[Get UI Theme Details][Get UI Theme Details]                                                         | [Get-PASTheme][Get-PASTheme]
+[Create UI Theme][Create UI Theme]                                                                   | [New-PASTheme][New-PASTheme]
+[Update UI Theme][Update UI Theme]                                                                   | [Set-PASTheme][Set-PASTheme]
+[Get Stored Platform][Get Stored Platform]                                                           | [Get-PASStoredPlatform][Get-PASStoredPlatform]
+[Remove Stored Platform][Remove Stored Platform]                                                     | [Remove-PASStoredPlatform][Remove-PASStoredPlatform]
+[Get User License Report][Get User License Report]                                                   | [Get-PASUserLicenseReport][Get-PASUserLicenseReport]
+[List Available Reports][List Available Reports]                                                     | [Get-PASReport][Get-PASReport]
+[List Report Schedules][List Report Schedules]                                                       | [Get-PASReportSchedule][Get-PASReportSchedule]
+[Create Report Schedule][Create Report Schedule]                                                     | [New-PASReportSchedule][New-PASReportSchedule]
+[Export Report][Export Report]                                                                       | [Export-PASReport][Export-PASReport]
+[Add Allowed Authentication Methods][Add Allowed Authentication Methods]                             | [Add-PASUserAllowedAuthenticationMethod][Add-PASUserAllowedAuthenticationMethod]
+[Remove Allowed Authentication Methods][Remove Allowed Authentication Methods]                       | [Remove-PASUserAllowedAuthenticationMethod][Remove-PASUserAllowedAuthenticationMethod]
+[Remove FIDO2 Device][Remove FIDO2 Device]                                                           | [Remove-PASFIDO2Device][Remove-PASFIDO2Device]
+[Get Master Policy Settings][Get Master Policy Settings]                                             | [Get-PASMasterPolicy][Get-PASMasterPolicy]
+[Update Master Policy Settings][Update Master Policy Settings]                                       | [Set-PASMasterPolicy][Set-PASMasterPolicy]
+[Add Dependent Account][Add Dependent Account]                                                       | [Add-PASDependentAccount][Add-PASDependentAccount]
+[Remove Dependent Account][Remove Dependent Account]                                                 | [Remove-PASDependentAccount][Remove-PASDependentAccount]
+[Resume Dependent Account Management][Resume Dependent Account Management]                           | [Resume-PASDependentAccount][Resume-PASDependentAccount]
+[Get Dependent Account Details][Get Dependent Account Details]                                       | [Get-PASDependentAccount][Get-PASDependentAccount]
+[Sync Dependent Account Password][Sync Dependent Account Password]                                   | [Sync-PASDependentAccount][Sync-PASDependentAccount]
+[Update Dependent Account][Update Dependent Account]                                                 | [Set-PASDependentAccount][Set-PASDependentAccount]
+[Remove PTA Security Property][Remove PTA Security Property]                                         | [Remove-PASPTASecurityConfigurationProperty][Remove-PASPTASecurityConfigurationProperty]
+[Reset PTA Security Property][Reset PTA Security Property]                                           | [Reset-PASPTASecurityConfigurationProperty][Reset-PASPTASecurityConfigurationProperty]
+[Reset PTA Security Category][Reset PTA Security Category]                                           | [Reset-PASPTASecurityConfigurationCategory][Reset-PASPTASecurityConfigurationCategory]
+[Get PTA Security Categories][Get PTA Security Categories]                                           | [Get-PASPTASecurityConfigurationCategory][Get-PASPTASecurityConfigurationCategory]
+[Add PTA Syslog Configuration][Add PTA Syslog Configuration]                                         | [Add-PASPTASyslog][Add-PASPTASyslog]
+[Remove PTA Syslog Configuration][Remove PTA Syslog Configuration]                                   | [Remove-PASPTASyslog][Remove-PASPTASyslog]
+[Set PTA SMTP Configuration][Set PTA SMTP Configuration]                                             | [Set-PASPTASMTP][Set-PASPTASMTP]
+[List Account Search Properties][List Account Search Properties]                                     | [Get-PASAccountSearchProperty][Get-PASAccountSearchProperty]
 
+[Enable-PASTheme]:/psPAS/Functions/Theme/Enable-PASTheme
+[Remove-PASTheme]:/psPAS/Functions/Theme/Remove-PASTheme
+[Import-PASThemeImage]:/psPAS/Functions/Theme/Import-PASThemeImage
+[Export-PASThemeImage]:/psPAS/Functions/Theme/Export-PASThemeImage
+[Reset-PASTheme]:/psPAS/Functions/Theme/Reset-PASTheme
+[Publish-PASTheme]:/psPAS/Functions/Theme/Publish-PASTheme
+[Get-PASTheme]:/psPAS/Functions/Theme/Get-PASTheme
+[New-PASTheme]:/psPAS/Functions/Theme/New-PASTheme
+[Set-PASTheme]:/psPAS/Functions/Theme/Set-PASTheme
+[Get-PASStoredPlatform]:/psPAS/Functions/Platforms/Get-PASStoredPlatform
+[Remove-PASStoredPlatform]:/psPAS/Functions/Platforms/Remove-PASStoredPlatform
+[Get-PASUserLicenseReport]:/psPAS/Functions/Reports/Get-PASUserLicenseReport
+[Get-PASReport]:/psPAS/Functions/Reports/Get-PASReport
+[Get-PASReportSchedule]:/psPAS/Functions/Reports/Get-PASReportSchedule
+[New-PASReportSchedule]:/psPAS/Functions/Reports/New-PASReportSchedule
+[Export-PASReport]:/psPAS/Functions/Reports/Export-PASReport
+[Add-PASUserAllowedAuthenticationMethod]:/psPAS/Functions/Users/Add-PASUserAllowedAuthenticationMethod
+[Remove-PASUserAllowedAuthenticationMethod]:/psPAS/Functions/Users/Remove-PASUserAllowedAuthenticationMethod
+[Remove-PASFIDO2Device]:/psPAS/Functions/Users/Remove-PASFIDO2Device
+[Get-PASMasterPolicy]:/psPAS/Functions/Policy/Get-PASMasterPolicy
+[Set-PASMasterPolicy]:/psPAS/Functions/Policy/Set-PASMasterPolicy
+[Add-PASDependentAccount]:/psPAS/Functions/Accounts/Add-PASDependentAccount
+[Remove-PASDependentAccount]:/psPAS/Functions/Accounts/Remove-PASDependentAccount
+[Resume-PASDependentAccount]:/psPAS/Functions/Accounts/Resume-PASDependentAccount
+[Get-PASDependentAccount]:/psPAS/Functions/Accounts/Get-PASDependentAccount
+[Sync-PASDependentAccount]:/psPAS/Functions/Accounts/Sync-PASDependentAccount
+[Set-PASDependentAccount]:/psPAS/Functions/Accounts/Set-PASDependentAccount
+[Remove-PASPTASecurityConfigurationProperty]:/psPAS/Functions/PTA/Remove-PASPTASecurityConfigurationProperty
+[Reset-PASPTASecurityConfigurationProperty]:/psPAS/Functions/PTA/Reset-PASPTASecurityConfigurationProperty
+[Reset-PASPTASecurityConfigurationCategory]:/psPAS/Functions/PTA/Reset-PASPTASecurityConfigurationCategory
+[Get-PASPTASecurityConfigurationCategory]:/psPAS/Functions/PTA/Get-PASPTASecurityConfigurationCategory
+[Add-PASPTASyslog]:/psPAS/Functions/PTA/Add-PASPTASyslog
+[Remove-PASPTASyslog]:/psPAS/Functions/PTA/Remove-PASPTASyslog
+[Set-PASPTASMTP]:/psPAS/Functions/PTA/Set-PASPTASMTP
+[Get-PASAccountSearchProperty]:/psPAS/Functions/Accounts/Get-PASAccountSearchProperty
 [Get-PASUserTypeInfo]:/commands/Get-PASUserTypeInfo
 [Get-PASPTARiskEvent]:/commands/Get-PASPTARiskEvent
 [Set-PASPTARiskEvent]:/commands/Set-PASPTARiskEvent
@@ -360,6 +430,41 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get-PASPTAGlobalCatalog]:/commands/Get-PASPTAGlobalCatalog
 [Add-PASPTAGlobalCatalog]:/commands/Add-PASPTAGlobalCatalog
 
+[Enable UI Theme]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/EnableTheme.htm
+[Remove UI Theme]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemoveTheme.htm
+[Import Theme Image]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ImportThemeImage.htm
+[Export Theme Image]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ExportThemeImage.htm
+[Reset UI Theme]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ResetTheme.htm
+[Publish UI Theme]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/PublishTheme.htm
+[Get UI Theme Details]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetTheme.htm
+[Create UI Theme]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/CreateTheme.htm
+[Update UI Theme]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/UpdateTheme.htm
+[Get Stored Platform]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetStoredPlatform.htm
+[Remove Stored Platform]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemoveStoredPlatform.htm
+[Get User License Report]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetUserLicenseReport.htm
+[List Available Reports]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetReports.htm
+[List Report Schedules]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetReportSchedules.htm
+[Create Report Schedule]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/CreateReportSchedule.htm
+[Export Report]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ExportReport.htm
+[Add Allowed Authentication Methods]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddAllowedAuthenticationMethods.htm
+[Remove Allowed Authentication Methods]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemoveAllowedAuthenticationMethods.htm
+[Remove FIDO2 Device]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemoveFIDO2Device.htm
+[Get Master Policy Settings]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetMasterPolicy.htm
+[Update Master Policy Settings]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/UpdateMasterPolicy.htm
+[Add Dependent Account]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddDependentAccount.htm
+[Remove Dependent Account]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemoveDependentAccount.htm
+[Resume Dependent Account Management]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ResumeDependentAccount.htm
+[Get Dependent Account Details]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetDependentAccount.htm
+[Sync Dependent Account Password]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/SyncDependentAccount.htm
+[Update Dependent Account]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/UpdateDependentAccount.htm
+[Remove PTA Security Property]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemovePTASecurityProperty.htm
+[Reset PTA Security Property]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ResetPTASecurityProperty.htm
+[Reset PTA Security Category]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ResetPTASecurityCategory.htm
+[Get PTA Security Categories]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetPTASecurityCategories.htm
+[Add PTA Syslog Configuration]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddPTASyslog.htm
+[Remove PTA Syslog Configuration]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemovePTASyslog.htm
+[Set PTA SMTP Configuration]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/SetPTASMTP.htm
+[List Account Search Properties]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetAccountSearchProperties.htm
 [Get incoming request list]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetIncomingRequestList.htm
 [Create access request for multiple accounts]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/13.2/en/Content/WebServices/Create-multiple-requests.htm
 [Get risk events]:https://docs.cyberark.com/PAS/Latest/en/Content/WebServices/GetRiskEvents.htm
