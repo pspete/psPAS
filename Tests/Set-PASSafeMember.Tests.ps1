@@ -54,7 +54,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				param($Parameter)
 
-				(Get-Command Set-PASSafeMember).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Set-PASSafeMember).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should -Be $true
 
 			}
 

@@ -8,7 +8,7 @@ Function Get-PASPropertyObject {
 
     This function returns all property values as root level properties of the output object.
 
-    Facilitates sending existing property values as parametes for Set-PAS* commands.
+    Facilitates sending existing property values as parameters for Set-PAS* commands.
 
     .PARAMETER InputObject
     The input object to flatten

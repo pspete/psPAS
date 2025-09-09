@@ -15,15 +15,13 @@ Confirm a single request
 ## SYNTAX
 
 ```
-Approve-PASRequest [-RequestId] <String> [[-Reason] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Approve-PASRequest [-RequestId] <String[]> [[-Reason] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Enables a request confirmer to confirm a single request, identified by its requestID.
 
-Officially supported from version 9.10.
-
-Reports received that function works in 9.9 also.
+Bulk Confirmation of requests is supported from Version 14.6
 
 ## EXAMPLES
 
@@ -37,17 +35,18 @@ Confirms request \<ID\>
 ## PARAMETERS
 
 ### -RequestId
-The ID of the request to confirm
+The ID(s) of the request(s) to confirm
+Specify multiple requestIDs to confirm in bulk using a single request (Requires version 14.6)
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -62,7 +61,7 @@ Aliases:
 Required: False
 Position: 2
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -107,8 +106,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 Minimum CyberArk Version 9.10
 
+Bulk Confirmation requires version 14.6
+
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Approve-PASRequest](https://pspas.pspete.dev/commands/Approve-PASRequest)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ConfirmRequest.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ConfirmRequest.htm)
+
+[https://docs.cyberark.com/pam-self-hosted/14.6/en/content/webservices/bulkconfirmrequest.htm](https://docs.cyberark.com/pam-self-hosted/14.6/en/content/webservices/bulkconfirmrequest.htm)

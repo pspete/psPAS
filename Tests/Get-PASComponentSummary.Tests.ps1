@@ -95,7 +95,77 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		Context 'Output' {
 
+			It 'outputs components data' {
 
+				$response | Where-Object { $_.ComponentID -eq 'SomValue' } | Should -Not -BeNullOrEmpty
+
+			}
+
+			Context 'Vault Output' {
+
+				BeforeEach {
+					# Set version to 14.6+ to enable replication status fields
+					$psPASSession.ExternalVersion = [System.Version]'14.6.0'
+					
+					Mock Invoke-PASRestMethod -MockWith {
+						[PSCustomObject]@{
+							'Components' = [PSCustomObject]@{'ComponentID' = 'SomValue'; 'ComponentName' = 'OtherValue'; 'Role' = 'SomValue'; 'IP' = 'OtherValue'; 'IsLoggedOn' = 'OtherValue' }
+							'Vaults'     = @(
+								[PSCustomObject]@{
+									'Role'              = 'Primary'; 
+									'IP'                = '192.168.1.1'; 
+									'IsLoggedOn'        = $true;
+									'ReplicationStatus' = $null
+								},
+								[PSCustomObject]@{
+									'Role'              = 'DR'; 
+									'IP'                = '192.168.1.2'; 
+									'IsLoggedOn'        = $true;
+									'ReplicationStatus' = [PSCustomObject]@{
+										'DBReplicationDiffSecs'    = 30;
+										'IsDBReplicationHealthy'   = $true;
+										'FileReplicationDiffSecs'  = 45;
+										'IsFileReplicationHealthy' = $true
+									}
+								}
+							)
+						}
+					}
+
+					$response = Get-PASComponentSummary
+				}
+				
+				AfterEach {
+					# Reset version back to 0.0
+					$psPASSession.ExternalVersion = [System.Version]'0.0'
+				}
+
+				It 'outputs primary vaults without replication fields' {
+					
+					$primaryVault = $response | Where-Object { $_.Role -eq 'Primary' }
+					$primaryVault | Should -Not -BeNullOrEmpty
+					$primaryVault.ComponentID | Should -Be 'EPV'
+					$primaryVault.ComponentName | Should -Be 'EPV'
+					$primaryVault.IP | Should -Be '192.168.1.1'
+					$primaryVault | Get-Member -Name 'DBReplicationDiffSecs' | Should -BeNullOrEmpty
+
+				}
+
+				It 'outputs DR vaults with replication fields' {
+					
+					$drVault = $response | Where-Object { $_.Role -eq 'DR' }
+					$drVault | Should -Not -BeNullOrEmpty
+					$drVault.ComponentID | Should -Be 'EPV'
+					$drVault.ComponentName | Should -Be 'EPV'
+					$drVault.IP | Should -Be '192.168.1.2'
+					$drVault.DBReplicationDiffSecs | Should -Be 30
+					$drVault.IsDBReplicationHealthy | Should -Be $true
+					$drVault.FileReplicationDiffSecs | Should -Be 45
+					$drVault.IsFileReplicationHealthy | Should -Be $true
+
+				}
+
+			}
 
 		}
 

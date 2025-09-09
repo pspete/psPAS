@@ -18,8 +18,8 @@ Adds a new Directory Mapping for an existing directory
 New-PASDirectoryMapping [-DirectoryName] <String> [-MappingName] <String> [-LDAPBranch] <String>
  [-DomainGroups] <String[]> [[-VaultGroups] <String[]>] [[-Location] <String>] [[-LDAPQuery] <String>]
  [[-MappingAuthorizations] <Authorizations>] [[-UserActivityLogPeriod] <Int32>] [-UsedQuota <Int32>]
- [-AuthorizedInterfaces <String[]>] [-EnableENEWhenDisconnected <Boolean>] [-allowedAuthenticationMethods <String[]>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-AuthorizedInterfaces <String[]>] [-EnableENEWhenDisconnected <Boolean>]
+ [-allowedAuthenticationMethods <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

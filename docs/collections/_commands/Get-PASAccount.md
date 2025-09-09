@@ -18,7 +18,8 @@ Returns information about a single account. (Version 9.3 - 10.3)
 ### Gen2Query (Default)
 ```
 Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] [-savedFilter <String>]
- [-modificationTime <DateTime>] [-sort <String[]>] [-limit <Int32>] [-TimeoutSec <Int32>] [<CommonParameters>]
+ [-modificationTime <DateTime>] [-sort <String[]>] [-limit <Int32>] [-TimeoutSec <Int32>]
+ [-LogicalOperator <String>] [<CommonParameters>]
 ```
 
 ### Gen2ID
@@ -327,6 +328,23 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -LogicalOperator
+Specify either the 'OR' or 'AND' logical operator to apply against provided search parameters.
+
+Default mode of operation is 'AND'
+
+```yaml
+Type: String
+Parameter Sets: Gen2Query
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

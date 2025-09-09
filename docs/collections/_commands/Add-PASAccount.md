@@ -21,7 +21,7 @@ Can target either the Gen2 API present from 10.4 onwards, or the previous Gen1 A
 Add-PASAccount [-name <String>] [-address <String>] [-userName <String>] -platformID <String>
  -SafeName <String> [-secretType <String>] [-secret <SecureString>] [-platformAccountProperties <Hashtable>]
  [-automaticManagementEnabled <Boolean>] [-manualManagementReason <String>] [-remoteMachines <String>]
- [-accessRestrictedToRemoteMachines <Boolean>] [<CommonParameters>]
+ [-accessRestrictedToRemoteMachines <Boolean>] [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
 ```
 
 ### Gen1
@@ -510,6 +510,25 @@ Relevant for CyberArk versions earlier than 10.4
 ```yaml
 Type: Hashtable
 Parameter Sets: Gen1
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -AllowAccountDuplications
+Whether to allow duplicated accounts to be added to the system.
+
+This parameter is only enforced only if AccountDuplicationEnforcementLevel in the General Configurations is set to Notify or Prevent.
+
+Only Applies to Self Hosted, and requires version 14.6
+
+```yaml
+Type: Boolean
+Parameter Sets: Gen2
 Aliases:
 
 Required: False

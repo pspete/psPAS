@@ -15,8 +15,16 @@ function Get-PASSafe {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet('asc', 'desc')]
+		[ValidateSet('safeName', 'managingCPM')]
 		[string]$sort,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
+		[ValidateSet('asc', 'desc')]
+		[string]$sortDirection,
 
 		[parameter(
 			Mandatory = $false,
@@ -102,7 +110,14 @@ function Get-PASSafe {
 
 	PROCESS {
 
-		$boundParameters = $PSBoundParameters | Get-PASParameter
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove sortDirection
+
+		If($PSBoundParameters.containsKey('sortDirection')){
+
+			#Append sort direction to sort property for correct query string creation
+			$boundParameters['sort'] = "$($boundParameters['sort']) $($PSBoundParameters['sortDirection'])"
+
+		}
 
 		#Create Query String, escaped for inclusion in request URL
 		$queryString = $boundParameters | ConvertTo-QueryString

@@ -6,9 +6,7 @@
 
 # **psPAS: PowerShell Module for the CyberArk API**
 
-Through the PVWA REST API, administer CyberArk PAS with PowerShell.
-
-Contains all of the documented API capabilities up to CyberArk v14.0.
+Administer CyberArk PAS with PowerShell!
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 

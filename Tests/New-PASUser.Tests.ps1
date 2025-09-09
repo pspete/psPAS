@@ -205,6 +205,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'throws error if allowedAuthenticationMethods version requirement not met' {
+				$psPASSession.ExternalVersion = '14.3'
+
+				{ New-PASUser -UserName TestUser -allowedAuthenticationMethods SAML,PKI } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
 
 		}
 
