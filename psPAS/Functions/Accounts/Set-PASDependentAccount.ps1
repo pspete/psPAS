@@ -54,11 +54,29 @@ Function Set-PASDependentAccount {
         $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts/$dependentAccountId"
 
         #Get all parameters that will be sent in the request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove accountID, dependentAccountId
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, dependentAccountId
 
         $DependentAccount = New-PASAccountObject @boundParameters -DependentAccount
 
-        #TODO - Format PUT Request to include any properties not being updated
+        #Get the dependent account that is being updated
+        $DependentAccountObject = Get-PASDependentAccount -AccountId $AccountID -DependentAccountId $dependentAccountId
+
+        #Set current values if required
+        if (-not $boundParameters.ContainsKey('name')) {
+            $DependentAccount.name = $DependentAccountObject.name
+        }
+
+        if (-not $boundParameters.ContainsKey('platformAccountProperties')) {
+            $DependentAccount.platformAccountProperties = $DependentAccountObject.platformAccountProperties
+        }
+
+        if (-not $boundParameters.ContainsKey('automaticManagementEnabled')) {
+            $DependentAccount.secretManagement.automaticManagementEnabled = $DependentAccountObject.secretManagement.automaticManagementEnabled
+        }
+
+        if (-not $boundParameters.ContainsKey('manualManagementReason')) {
+            $DependentAccount.secretManagement.manualManagementReason = $DependentAccountObject.secretManagement.manualManagementReason
+        }
 
 		$body = $DependentAccount | ConvertTo-Json
 
