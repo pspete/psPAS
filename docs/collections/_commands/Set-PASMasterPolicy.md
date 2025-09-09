@@ -3,6 +3,7 @@ external help file: psPAS-help.xml
 Module Name: psPAS
 online version: https://pspas.pspete.dev/commands/Set-PASMasterPolicy
 schema: 2.0.0
+title: Set-PASMasterPolicy
 ---
 
 # Set-PASMasterPolicy

@@ -3,6 +3,7 @@ external help file: psPAS-help.xml
 Module Name: psPAS
 online version: https://pspas.pspete.dev/commands/Import-PASThemeImage
 schema: 2.0.0
+title: Import-PASThemeImage
 ---
 
 # Import-PASThemeImage

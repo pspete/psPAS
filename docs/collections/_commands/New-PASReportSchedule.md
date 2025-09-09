@@ -3,6 +3,7 @@ external help file: psPAS-help.xml
 Module Name: psPAS
 online version: https://pspas.pspete.dev/commands/New-PASReportSchedule
 schema: 2.0.0
+title: New-PASReportSchedule
 ---
 
 # New-PASReportSchedule
@@ -28,7 +29,6 @@ A `[Subscriber]` Class has been created to assist witho formatting of data for t
 
 ### Example 1
 ```powershell
-
 PS C:\> $Subscriber = [Subscriber]::AddSubscriber()
 Enter subscriber name: pspete
 Enter subscriber type: User

@@ -36715,7 +36715,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="GroupID">
           <maml:name>ID</maml:name>
           <maml:description>
-            <maml:para>{{ Fill ID Description }}</maml:para>
+            <maml:para>The Group ID</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -36754,7 +36754,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="GroupID">
         <maml:name>ID</maml:name>
         <maml:description>
-          <maml:para>{{ Fill ID Description }}</maml:para>
+          <maml:para>The Group ID</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -42248,7 +42248,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="GroupID">
           <maml:name>ID</maml:name>
           <maml:description>
-            <maml:para>{{ Fill ID Description }}</maml:para>
+            <maml:para>The Group ID</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -42299,7 +42299,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="GroupID">
         <maml:name>ID</maml:name>
         <maml:description>
-          <maml:para>{{ Fill ID Description }}</maml:para>
+          <maml:para>The Group ID</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>

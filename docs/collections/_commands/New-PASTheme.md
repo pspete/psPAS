@@ -3,6 +3,7 @@ external help file: psPAS-help.xml
 Module Name: psPAS
 online version: https://pspas.pspete.dev/commands/New-PASTheme
 schema: 2.0.0
+title: New-PASTheme
 ---
 
 # New-PASTheme

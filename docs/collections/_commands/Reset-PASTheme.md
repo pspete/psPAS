@@ -3,6 +3,7 @@ external help file: psPAS-help.xml
 Module Name: psPAS
 online version: https://pspas.pspete.dev/commands/Reset-PASTheme
 schema: 2.0.0
+title: Reset-PASTheme
 ---
 
 # Reset-PASTheme

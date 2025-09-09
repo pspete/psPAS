@@ -67,7 +67,7 @@ Accept wildcard characters: False
 ```
 
 ### -ID
-{{ Fill ID Description }}
+The Group ID
 
 ```yaml
 Type: Int32
