@@ -520,37 +520,6 @@ function Add-PASSafeMember {
 		#Get Parameters for request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName, UseGen1API
 
-		If ($PSCmdlet.ParameterSetName -in 'ReadOnly','ConnectOnly','Approver','AccountsManager','Full') {
-
-			switch ($PSCmdlet.ParameterSetName) {
-
-				'ConnectOnly' {
-					Add-PASSafeMember -MemberName $MemberName -SafeName $SafeName -ListAccounts $true -UseAccounts $true
-					break
-				}
-
-				'ReadOnly' {
-					Add-PASSafeMember -MemberName $MemberName -SafeName $SafeName -ListAccounts $true -UseAccounts $true -RetrieveAccounts $true
-					break
-				}
-
-				'Approver' {
-					Add-PASSafeMember -memberName $memberName -SafeName $SafeName -ListAccounts $true -ViewSafeMembers $true -ManageSafeMembers $true -requestsAuthorizationLevel1 $true
-					break
-				}
-
-				'AccountsManager' {
-					Add-PASSafeMember -memberName $MemberName -SafeName $SafeName -ListAccounts $true -UseAccounts $true -RetrieveAccounts $true -AddAccounts $true -UpdateAccountProperties $true -UpdateAccountContent $true -InitiateCPMAccountManagementOperations $true -SpecifyNextAccountContent $true -RenameAccounts $true -DeleteAccounts $true -UnlockAccounts $true -ViewSafeMembers $true -ManageSafeMembers $true -ViewAuditLog $true -AccessWithoutConfirmation $true
-					break
-				}
-
-				'Full' {
-					Add-PASSafeMember -memberName $MemberName -SafeName $SafeName -ListAccounts $true -UseAccounts $true -RetrieveAccounts $true -AddAccounts $true -UpdateAccountProperties $true -UpdateAccountContent $true -InitiateCPMAccountManagementOperations $true -SpecifyNextAccountContent $true -RenameAccounts $true -DeleteAccounts $true -UnlockAccounts $true -ManageSafe $true -ViewSafeMembers $true -ManageSafeMembers $true -ViewAuditLog $true -BackupSafe $true -requestsAuthorizationLevel1 $true -AccessWithoutConfirmation $true -MoveAccountsAndFolders $true -CreateFolders $true -DeleteFolders $true
-					break
-				}
-			}
-			break
-		}
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -611,7 +580,33 @@ function Add-PASSafeMember {
 				}
 
 				#Add permissions array to request in correct order
-				$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -Gen2
+				switch ($PSCmdlet.ParameterSetName) {
+
+					'Gen2' {
+						$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -Gen2
+					}
+
+					'ConnectOnly' {
+						$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -ConnectOnly
+					}
+
+					'ReadOnly' {
+						$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -ReadOnly
+					}
+
+					'Approver' {
+						$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -Approver
+					}
+
+					'AccountsManager' {
+						$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -AccountsManager
+					}
+
+					'Full' {
+						$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -Full
+					}
+				}
+				
 
 				#Create required request object
 				$body = $boundParameters | Get-PASParameter -ParametersToKeep $keysToKeep | ConvertTo-Json

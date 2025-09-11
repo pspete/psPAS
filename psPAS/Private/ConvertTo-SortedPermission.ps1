@@ -52,7 +52,42 @@ function ConvertTo-SortedPermission {
 			ValueFromPipeline = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[switch]$Gen2
+		[switch]$Gen2,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ParameterSetName = 'ConnectOnly'
+		)]
+		[switch]$ConnectOnly,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ParameterSetName = 'ReadOnly'
+		)]
+		[switch]$ReadOnly,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ParameterSetName = 'Approver'
+		)]
+		[switch]$Approver,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ParameterSetName = 'AccountsManager'
+		)]
+		[switch]$AccountsManager,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ParameterSetName = 'Full'
+		)]
+		[switch]$Full
 	)
 
 	begin {
@@ -111,19 +146,162 @@ function ConvertTo-SortedPermission {
 					moveAccountsAndFolders                 = $false
 					requestsAuthorizationLevel1            = $false
 					requestsAuthorizationLevel2            = $false
+					}
+					break
 				}
+			
+			'ConnectOnly' {
+				$OrderedPermissions = [ordered]@{
+					useAccounts                            = $true
+					retrieveAccounts                       = $false
+					listAccounts                           = $true
+					addAccounts                            = $false
+					updateAccountContent                   = $false
+					updateAccountProperties                = $false
+					initiateCPMAccountManagementOperations = $false
+					specifyNextAccountContent              = $false
+					renameAccounts                         = $false
+					deleteAccounts                         = $false
+					unlockAccounts                         = $false
+					manageSafe                             = $false
+					manageSafeMembers                      = $false
+					backupSafe                             = $false
+					viewAuditLog                           = $false
+					viewSafeMembers                        = $false
+					accessWithoutConfirmation              = $false
+					createFolders                          = $false
+					deleteFolders                          = $false
+					moveAccountsAndFolders                 = $false
+					requestsAuthorizationLevel1            = $false
+					requestsAuthorizationLevel2            = $false
+				}
+				break
+			}
 
+			'ReadOnly' {
+				$OrderedPermissions = [ordered]@{
+					useAccounts                            = $true
+					retrieveAccounts                       = $true
+					listAccounts                           = $true
+					addAccounts                            = $false
+					updateAccountContent                   = $false
+					updateAccountProperties                = $false
+					initiateCPMAccountManagementOperations = $false
+					specifyNextAccountContent              = $false
+					renameAccounts                         = $false
+					deleteAccounts                         = $false
+					unlockAccounts                         = $false
+					manageSafe                             = $false
+					manageSafeMembers                      = $false
+					backupSafe                             = $false
+					viewAuditLog                           = $false
+					viewSafeMembers                        = $false
+					accessWithoutConfirmation              = $false
+					createFolders                          = $false
+					deleteFolders                          = $false
+					moveAccountsAndFolders                 = $false
+					requestsAuthorizationLevel1            = $false
+					requestsAuthorizationLevel2            = $false
+				}
+				break
+			}
+			'Approver' {
+				$OrderedPermissions = [ordered]@{
+					useAccounts                            = $false
+					retrieveAccounts                       = $false
+					listAccounts                           = $true
+					addAccounts                            = $false
+					updateAccountContent                   = $false
+					updateAccountProperties                = $false
+					initiateCPMAccountManagementOperations = $false
+					specifyNextAccountContent              = $false
+					renameAccounts                         = $false
+					deleteAccounts                         = $false
+					unlockAccounts                         = $false
+					manageSafe                             = $false
+					manageSafeMembers                      = $true
+					backupSafe                             = $false
+					viewAuditLog                           = $false
+					viewSafeMembers                        = $true
+					accessWithoutConfirmation              = $false
+					createFolders                          = $false
+					deleteFolders                          = $false
+					moveAccountsAndFolders                 = $false
+					requestsAuthorizationLevel1            = $true
+					requestsAuthorizationLevel2            = $false
+				}
+				break
+			}
+
+			'AccountsManager' {
+				$OrderedPermissions = [ordered]@{
+					useAccounts                            = $true
+					retrieveAccounts                       = $true
+					listAccounts                           = $true
+					addAccounts                            = $true
+					updateAccountContent                   = $true
+					updateAccountProperties                = $true
+					initiateCPMAccountManagementOperations = $true
+					specifyNextAccountContent              = $true
+					renameAccounts                         = $true
+					deleteAccounts                         = $true
+					unlockAccounts                         = $true
+					manageSafe                             = $false
+					manageSafeMembers                      = $true
+					backupSafe                             = $false
+					viewAuditLog                           = $true
+					viewSafeMembers                        = $true
+					accessWithoutConfirmation              = $true
+					createFolders                          = $false
+					deleteFolders                          = $false
+					moveAccountsAndFolders                 = $false
+					requestsAuthorizationLevel1            = $false
+					requestsAuthorizationLevel2            = $false
+				}
+				break
+			}
+
+			'Full' {
+				$OrderedPermissions = [ordered]@{
+					useAccounts                            = $true
+					retrieveAccounts                       = $true
+					listAccounts                           = $true
+					addAccounts                            = $true
+					updateAccountContent                   = $true
+					updateAccountProperties                = $true
+					initiateCPMAccountManagementOperations = $true
+					specifyNextAccountContent              = $true
+					renameAccounts                         = $true
+					deleteAccounts                         = $true
+					unlockAccounts                         = $true
+					manageSafe                             = $true
+					manageSafeMembers                      = $true
+					backupSafe                             = $true
+					viewAuditLog                           = $true
+					viewSafeMembers                        = $true
+					accessWithoutConfirmation              = $true
+					createFolders                          = $true
+					deleteFolders                          = $true
+					moveAccountsAndFolders                 = $true
+					requestsAuthorizationLevel1            = $true
+					requestsAuthorizationLevel2            = $false
+				}
 				break
 			}
 		}
-
-
 	}
 
 	process {
 
+		If ($PSCmdlet.ParameterSetName -in 'ConnectOnly','ReadOnly','Approver','AccountsManager','Full') {
+
+			$Permissions = $OrderedPermissions
+			return $Permissions
+
+		}
+
 		#Input parameters have been provided
-		If ($null -ne $Parameters.Keys) {
+		If ($null -ne $Parameters.Keys -and 'Gen1','Gen2' -in $PSCmdlet.ParameterSetName) {
 
 			#For each Ordered Safe Member Permission
 			$OrderedPermissions.keys | ForEach-Object {
