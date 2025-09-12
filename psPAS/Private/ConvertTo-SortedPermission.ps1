@@ -118,7 +118,6 @@ function ConvertTo-SortedPermission {
 					DeleteFolders                          = $false
 					MoveAccountsAndFolders                 = $false
 				}
-
 				break
 			}
 
@@ -301,7 +300,8 @@ function ConvertTo-SortedPermission {
 		}
 
 		#Input parameters have been provided
-		If ($null -ne $Parameters.Keys -and 'Gen1','Gen2' -in $PSCmdlet.ParameterSetName) {
+	
+		If ($null -ne $Parameters.Keys) {
 
 			#For each Ordered Safe Member Permission
 			$OrderedPermissions.keys | ForEach-Object {
