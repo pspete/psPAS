@@ -22,6 +22,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 		$Script:RequestBody = $null
 		$psPASSession = [ordered]@{
 			BaseURI            = 'https://SomeURL/SomeApp'
+			ApiURI             = 'https://SomeURL/SomeApp'
 			User               = $null
 			ExternalVersion    = [System.Version]'0.0'
 			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
@@ -60,7 +61,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 			}
 
 			It 'has output with expected number of properties' {
-				Write-Verbose $($response.Keys -join ', ') -Verbose
+
 				$response.Keys.Count | Should -Be 12
 
 			}

@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace '.Tests.ps1') {
+Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -22,14 +22,17 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		$Script:RequestBody = $null
 		$psPASSession = [ordered]@{
 			BaseURI            = 'https://SomeURL/SomeApp'
+			ApiURI             = 'https://SomeURL/SomeApp'
 			User               = $null
 			ExternalVersion    = [System.Version]'0.0'
 			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			StartTime          = $null
+			StartTime          = $((Get-Date).AddMinutes(-5))
 			ElapsedTime        = $null
 			LastCommand        = $null
 			LastCommandTime    = $null
 			LastCommandResults = $null
+			LastError          = $null
+			LastErrorTime      = $null
 		}
 
 		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
