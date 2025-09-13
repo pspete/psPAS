@@ -32,6 +32,11 @@ function ConvertTo-SortedPermission {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'Permissions', Justification = 'False Positive')]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Gen1', Justification = 'False Positive')]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Gen2', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'ConnectOnly', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'ReadOnly', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Approver', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'AccountsManager', Justification = 'False Positive')]
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Full', Justification = 'False Positive')]
 	[CmdletBinding()]
 	param (
 		[parameter(
@@ -92,7 +97,7 @@ function ConvertTo-SortedPermission {
 
 	begin {
 
-		Switch ($PSCmdlet.ParameterSetName) {
+		switch ($PSCmdlet.ParameterSetName) {
 
 			'Gen1' {
 				$OrderedPermissions = [ordered]@{
@@ -145,10 +150,10 @@ function ConvertTo-SortedPermission {
 					moveAccountsAndFolders                 = $false
 					requestsAuthorizationLevel1            = $false
 					requestsAuthorizationLevel2            = $false
-					}
-					break
 				}
-			
+				break
+			}
+
 			'ConnectOnly' {
 				$OrderedPermissions = [ordered]@{
 					useAccounts                            = $true
@@ -292,7 +297,7 @@ function ConvertTo-SortedPermission {
 
 	process {
 
-		If ($PSCmdlet.ParameterSetName -in 'ConnectOnly','ReadOnly','Approver','AccountsManager','Full') {
+		if ($PSCmdlet.ParameterSetName -in 'ConnectOnly', 'ReadOnly', 'Approver', 'AccountsManager', 'Full') {
 
 			$Permissions = $OrderedPermissions
 			return $Permissions
@@ -300,8 +305,8 @@ function ConvertTo-SortedPermission {
 		}
 
 		#Input parameters have been provided
-	
-		If ($null -ne $Parameters.Keys) {
+
+		if ($null -ne $Parameters.Keys) {
 
 			#For each Ordered Safe Member Permission
 			$OrderedPermissions.keys | ForEach-Object {
@@ -311,7 +316,7 @@ function ConvertTo-SortedPermission {
 			} {
 
 				#Parameter match
-				If ($Parameters.ContainsKey($PSItem)) {
+				if ($Parameters.ContainsKey($PSItem)) {
 
 					#Add to hash table in key/value pair
 					$Permissions.Add($PSItem, $Parameters[$PSItem])
@@ -320,9 +325,9 @@ function ConvertTo-SortedPermission {
 
 			} {
 
-				If (($Permissions.Keys).count -gt 0) {
+				if (($Permissions.Keys).count -gt 0) {
 
-					Switch ($PSCmdlet.ParameterSetName) {
+					switch ($PSCmdlet.ParameterSetName) {
 
 						'Gen1' {
 

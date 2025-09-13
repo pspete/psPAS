@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace '.Tests.ps1') {
+Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -50,6 +50,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			$response = Get-PASSession
 		}
+
 		Context 'Standard Operation' {
 
 			It 'provides output' {
@@ -59,7 +60,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'has output with expected number of properties' {
-
+				Write-Verbose $($response.Keys -join ', ') -Verbose
 				$response.Keys.Count | Should -Be 12
 
 			}

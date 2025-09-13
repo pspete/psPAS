@@ -91,6 +91,20 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 }
 
+                $psPASSession = [ordered]@{
+                    BaseURI            = 'https://SomeURL/SomeApp'
+                    User               = $null
+                    ExternalVersion    = [System.Version]'0.0'
+                    WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+                    StartTime          = $null
+                    ElapsedTime        = $null
+                    LastCommand        = $null
+                    LastCommandTime    = $null
+                    LastCommandResults = $null
+                }
+
+                New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
+
                 $response = New-PASTheme -name $InputObj.name `
                     -isDraft $InputObj.isDraft `
                     -mainBackgroundImage $InputObj.mainBackgroundImage `
