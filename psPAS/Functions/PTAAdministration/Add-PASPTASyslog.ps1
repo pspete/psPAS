@@ -7,28 +7,33 @@ function Add-PASPTASyslog {
         )]
         [Alias('Name')]
         [string]$siem,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateSet('CEF', 'LEEF')]
         [string]$format,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [string]$host,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [int]$port,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateSet('TCP', 'UDP', 'TLS')]
         [string]$protocol,
+
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $false
@@ -43,12 +48,14 @@ function Add-PASPTASyslog {
                 return $true
             })]
         [string]$CertificateFile,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateSet('RFC3164', 'RFC5424', 'SEMI_RFC5424')]
         [string]$syslogType,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
