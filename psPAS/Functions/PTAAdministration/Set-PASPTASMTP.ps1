@@ -67,13 +67,14 @@ function Set-PASPTASMTP {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.4
 
+    }#begin
+
+    process {
+
         # Validate certificate requirement for non-NONE protocols
         if ($protocol -ne 'NONE' -and -not $PSBoundParameters.ContainsKey('CertificateFile')) {
             throw "Certificate file is required when protocol is not 'NONE'"
         }
-    }#begin
-
-    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/api/pta/API/Administration/properties"
