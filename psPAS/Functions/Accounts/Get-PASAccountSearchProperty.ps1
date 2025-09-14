@@ -5,6 +5,7 @@ function Get-PASAccountSearchProperty {
 
     begin {
 
+        Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.4
 
     }

@@ -336,6 +336,8 @@ Specify either the 'OR' or 'AND' logical operator to apply against provided sear
 
 Default mode of operation is 'AND'
 
+Requires minimum version of 14.6
+
 ```yaml
 Type: String
 Parameter Sets: Gen2Query
