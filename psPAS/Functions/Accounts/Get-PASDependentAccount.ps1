@@ -116,123 +116,102 @@ function Get-PASDependentAccount {
 
 		#Parameter to include as filter value in url
 		$Parameters = [Collections.Generic.List[String]]@('MasterAccountId', 'modificationTime', 'platformId', 'SafeName')
+		# Parameters that should not be included in filter string
+		$IDParameters = [Collections.Generic.List[String]]@('id', 'dependentAccountId')
 
 	}#begin
 
 	process {
 
 		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters, id, dependentAccountId
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove @($Parameters + $IDParameters)
 		$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
 		$FilterString = $filterParameters | ConvertTo-FilterString
 
+		# Determine base URI
 		switch ($PSCmdlet.ParameterSetName) {
 
 			'SpecificAccount' {
-
-				#define base URL
 				$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts"
-				break
-
 			}
 
 			'AllDependentAccounts' {
-
-				#define base URL
 				$URI = "$($psPASSession.BaseURI)/API/dependentAccounts"
-
 				if ($PSBoundParameters.Keys -notcontains 'Limit') {
 					$Limit = 100   #default limit
 					$boundParameters.Add('Limit', $Limit) # Add to boundparameters for inclusion in query string
 				}
-
-				break
-
 			}
 
 			'SpecificDependentAccount' {
-
-				#define base URL
 				$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts/$($dependentAccountId)"
-				break
-
 			}
 
 		}
 
+		# Append filter string if present
 		if ($null -ne $FilterString) {
 
 			$boundParameters = $boundParameters + $FilterString
 
 		}
 
-		#Create Query String, escaped for inclusion in request URL
+		# Build query string
 		$queryString = $boundParameters | ConvertTo-QueryString
-
-		if ($null -ne $queryString) {
-
-			#Build URL from base URL
+		if ($queryString) {
 			$URI = "$URI`?$queryString"
-
 		}
 
-		#Send request to web service
 		# Initial request
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
-		$Total = $result.Total
+		$Result = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
+		$Total = $Result.Total
 
+		if ($Total -gt 1) {
+			$DependentAccounts = [Collections.Generic.List[Object]]::New(@($Result.DependentAccounts))
+		}
+		# If pagination is needed
 		if ($Total -eq $Limit) {
 
-			$DependentAccounts = [Collections.Generic.List[Object]]::New(@($result.DependentAccounts))
-
-			$URLString = $URI.Split('?')
-			$URI = $URLString[0]
-			$queryString = if ($URLString.Count -gt 1) { $URLString[1] } else { '' }
-
-			$queryString = (( $queryString -split '&' ) | Where-Object {
+			# Split and sanitize query string
+			$URLParts = $URI.Split('?')
+			$BaseURI = $URLParts[0]
+			$queryString = if ($URLParts.Count -gt 1) { $URLParts[1] } else { '' }
+			$queryString = (($queryString -split '&') | Where-Object {
 					($_ -notmatch '^limit=') -and ($_ -notmatch '^offset=')
 				}) -join '&'
 
+			# Begin pagination
 			$Offset = $Limit
-			do {
+			$pageCount = $Limit
+
+			while ($pageCount -eq $Limit) {
 				$nextLink = "limit=$Limit&Offset=$Offset"
 				if ($queryString) {
 					$nextLink = "$queryString&$nextLink"
 				}
 
 				try {
-					$result = Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET -TimeoutSec $TimeoutSec
+					$pageResult = Invoke-PASRestMethod -Uri "$BaseURI`?$nextLink" -Method GET -TimeoutSec $TimeoutSec
 				} catch {
-					# Error retrieving additional pages of results
-					# We have to check for this because Total only reflects Page Size
-					# Page Size Could equal the total number of results on the final page
-					# So we just break out of the loop if an error occurs
+					# Pagination failed at Offset - terminate the loop."
 					break
 				}
-				$pageCount = $result.DependentAccounts.Count
 
-				$Null = $DependentAccounts.AddRange($result.DependentAccounts)
-
+				$pageCount = $pageResult.DependentAccounts.Count
+				$Null = $DependentAccounts.AddRange($pageResult.DependentAccounts)
 				$Offset += $Limit
-
-				if ($pageCount -lt $Limit) {
-					break
-				}
 			}
-			while ($true)
 
+		}
+
+		if ($null -ne $DependentAccounts) {
 			$Result = $DependentAccounts
-
 		}
 
-
-		if ($null -ne $result) {
-
+		if ($null -ne $Result) {
 			$Result
-
 		}
-
-	}#process
+	}
 
 	end { }#end
 
