@@ -122,7 +122,9 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     ($URI -eq "$($Script:psPASSession.BaseURI)/API/dependentAccounts?limit=100&filter=modificationTime%20gte%201577836800%20AND%20safeName%20eq%20SomeSafe") -or
-                    ($URI -eq "$($Script:psPASSession.BaseURI)/API/dependentAccounts?limit=100&filter=safeName%20eq%20SomeSafe%20AND%20modificationTime%20gte%201577836800")
+                    ($URI -eq "$($Script:psPASSession.BaseURI)/API/dependentAccounts?limit=100&filter=safeName%20eq%20SomeSafe%20AND%20modificationTime%20gte%201577836800") -or
+                    ($URI -eq "$($Script:psPASSession.BaseURI)/API/dependentAccounts?filter=modificationTime%20gte%201577836800%20AND%20safeName%20eq%20SomeSafe&limit=100") -or
+                    ($URI -eq "$($Script:psPASSession.BaseURI)/API/dependentAccounts?filter=safeName%20eq%20SomeSafe%20AND%20modificationTime%20gte%201577836800&limit=100")
 
                 } -Times 1 -Exactly -Scope It
 
