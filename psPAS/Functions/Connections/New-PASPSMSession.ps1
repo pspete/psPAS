@@ -191,13 +191,13 @@ function New-PASPSMSession {
 		[string]$Path
 	)
 
-	BEGIN {
+	begin {
 
 		$AdHocParameters = [Collections.Generic.List[String]]@('ConnectionComponent', 'reason', 'ticketingSystemName', 'ticketId', 'ConnectionParams')
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, ConnectionMethod, Path
@@ -265,7 +265,7 @@ function New-PASPSMSession {
 		$ThisSession = $psPASSession.WebSession
 
 		#if a connection method is specified
-		If ($PSBoundParameters.ContainsKey('ConnectionMethod')) {
+		if ($PSBoundParameters.ContainsKey('ConnectionMethod')) {
 
 			#The information needs to passed in the header
 			if ($PSBoundParameters['ConnectionMethod'] -eq 'RDP') {
@@ -294,9 +294,9 @@ function New-PASPSMSession {
 
 		}
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
-			If (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains 'PSMGWRequest') {
+			if (($result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name) -contains 'PSMGWRequest') {
 
 				$Path = [System.IO.Path]::GetTempPath()
 				$FileName = "$((Get-PASSession).LastCommandResults.Headers['X-Correlation-ID']).html"
@@ -311,7 +311,7 @@ function New-PASPSMSession {
 				ConvertTo-Html @htmlParams | Out-File $OutputPath
 				Get-Item -Path $OutputPath | Invoke-Item
 
-			} Else {
+			} else {
 
 				#Save the RDP file to disk and automatically open it to spawn the RDP connection to PSM
 				Out-PASFile -InputObject $result -Path $Path | Invoke-Item
@@ -322,6 +322,6 @@ function New-PASPSMSession {
 
 	} #process
 
-	END { }#end
+	end { }#end
 
 }

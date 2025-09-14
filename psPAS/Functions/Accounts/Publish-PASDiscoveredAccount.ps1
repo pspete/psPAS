@@ -34,13 +34,13 @@ function Publish-PASDiscoveredAccount {
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 12.6
 
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($psPASSession.BaseURI)/api/DiscoveredAccounts/$id/Onboard"
 
@@ -48,7 +48,7 @@ function Publish-PASDiscoveredAccount {
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove id
 
         #deal with defaultPassword SecureString
-        If ($PSBoundParameters.ContainsKey('defaultPassword')) {
+        if ($PSBoundParameters.ContainsKey('defaultPassword')) {
 
             #Include decoded password in request
             $boundParameters['defaultPassword'] = $(ConvertTo-InsecureString -SecureString $defaultPassword)
@@ -65,6 +65,6 @@ function Publish-PASDiscoveredAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

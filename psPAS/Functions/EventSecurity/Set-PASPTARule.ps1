@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASPTARule {
+function Set-PASPTARule {
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -76,7 +76,7 @@ Function Set-PASPTARule {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.4
 		$userScopeParams = [Collections.Generic.List[String]]@('vaultUsersMode', 'vaultUsersList')
@@ -85,7 +85,7 @@ Function Set-PASPTARule {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -173,6 +173,6 @@ Function Set-PASPTARule {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

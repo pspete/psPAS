@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASDependentAccount {
+function Remove-PASDependentAccount {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -18,18 +18,18 @@ Function Remove-PASDependentAccount {
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 14.6
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts/$dependentAccountId"
 
-        if ($PSCmdlet.ShouldProcess($AccountID, "Remove Dependent Account")) {
+        if ($PSCmdlet.ShouldProcess($AccountID, 'Remove Dependent Account')) {
 
             #Send request to web service
             Invoke-PASRestMethod -Uri $URI -Method DELETE
@@ -38,6 +38,6 @@ Function Remove-PASDependentAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

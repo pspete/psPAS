@@ -10,11 +10,11 @@ function Get-PASPSMRecordingActivity {
 		[string]$RecordingID
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.6
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/Recordings/$($RecordingID | Get-EscapedString)/activities"
@@ -22,7 +22,7 @@ function Get-PASPSMRecordingActivity {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result.Activities | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Activity
@@ -31,6 +31,6 @@ function Get-PASPSMRecordingActivity {
 
 	}
 
-	END { }#end
+	end { }#end
 
 }

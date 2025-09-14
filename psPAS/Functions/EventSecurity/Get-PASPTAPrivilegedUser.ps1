@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASPTAPrivilegedUser {
+function Get-PASPTAPrivilegedUser {
     [CmdletBinding()]
     param(
         [parameter(
@@ -10,15 +10,15 @@ Function Get-PASPTAPrivilegedUser {
         [string]$ValueType
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.0
         $ReturnValue = 'ActualValue'
     }#begin
 
-    PROCESS {
+    process {
 
-        If ($PSBoundParameters.ContainsKey('ValueType')) {
+        if ($PSBoundParameters.ContainsKey('ValueType')) {
             $ReturnValue = $ValueType
         }
         #Create request URL
@@ -27,7 +27,7 @@ Function Get-PASPTAPrivilegedUser {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result | Where-Object { $PSItem.propertykey -eq 'PrivilegedUsersList' } |
@@ -38,6 +38,6 @@ Function Get-PASPTAPrivilegedUser {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

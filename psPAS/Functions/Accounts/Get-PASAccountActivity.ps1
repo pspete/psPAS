@@ -27,9 +27,9 @@ function Get-PASAccountActivity {
 
 	)
 
-	BEGIN {	}#begin
+	begin {	}#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -60,7 +60,7 @@ function Get-PASAccountActivity {
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
@@ -89,6 +89,6 @@ function Get-PASAccountActivity {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -11,11 +11,11 @@ function Suspend-PASPSMSession {
 		[string]$LiveSessionId
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.2
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/api/LiveSessions/$($LiveSessionId | Get-EscapedString)/Suspend"
@@ -29,6 +29,6 @@ function Suspend-PASPSMSession {
 
 	} #process
 
-	END { }#end
+	end { }#end
 
 }

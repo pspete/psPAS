@@ -9,13 +9,13 @@ function Remove-PASDiscoveredLocalAccount {
         [string]$id
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -PrivilegeCloud
 
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($psPASSession.ApiURI)/api/discovered-accounts/$id"
 
@@ -27,5 +27,5 @@ function Remove-PASDiscoveredLocalAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 }

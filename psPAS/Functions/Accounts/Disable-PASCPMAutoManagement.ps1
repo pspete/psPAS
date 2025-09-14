@@ -18,7 +18,7 @@ function Disable-PASCPMAutoManagement {
 
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 10.4
 
@@ -32,7 +32,7 @@ function Disable-PASCPMAutoManagement {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		if ($PSCmdlet.ParameterSetName -eq 'manualManagementReason') {
 
@@ -47,6 +47,6 @@ function Disable-PASCPMAutoManagement {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

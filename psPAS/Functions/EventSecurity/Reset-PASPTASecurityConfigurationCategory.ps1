@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Reset-PASPTASecurityConfigurationCategory {
+function Reset-PASPTASecurityConfigurationCategory {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
@@ -11,12 +11,12 @@ Function Reset-PASPTASecurityConfigurationCategory {
         [string]$categoryKey
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.2
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/$($categoryKey | Get-EscapedString)/default"
@@ -30,6 +30,6 @@ Function Reset-PASPTASecurityConfigurationCategory {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

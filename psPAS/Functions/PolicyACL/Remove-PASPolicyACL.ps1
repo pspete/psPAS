@@ -17,11 +17,11 @@ function Remove-PASPolicyACL {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create base URL for request
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Policy/$($PolicyID |
@@ -37,6 +37,6 @@ function Remove-PASPolicyACL {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

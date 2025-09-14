@@ -124,11 +124,11 @@ function Set-PASAccount {
 		[PSObject]$InputObject
 	)
 
-	BEGIN {
+	begin {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove InputObject, AccountID
@@ -183,7 +183,7 @@ function Set-PASAccount {
 
 				}
 
-				If (($InputObject) -and (($InputObject | Get-Member).TypeName -eq 'psPAS.CyberArk.Vault.Account')) {
+				if (($InputObject) -and (($InputObject | Get-Member).TypeName -eq 'psPAS.CyberArk.Vault.Account')) {
 
 					#If InputObject is psPAS.CyberArk.Vault.Account
 					#*i.e. receiving pipeline from Get-PASAccount
@@ -242,7 +242,7 @@ function Set-PASAccount {
 			#send request to PAS web service
 			$Result = Invoke-PASRestMethod -Uri $URI -Method $Method -Body $Body
 
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				switch ($PSCmdlet.ParameterSetName) {
 
@@ -264,6 +264,6 @@ function Set-PASAccount {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

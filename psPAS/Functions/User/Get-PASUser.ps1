@@ -116,9 +116,9 @@ function Get-PASUser {
 		[switch]$UseGen1API
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Users"
@@ -206,12 +206,12 @@ function Get-PASUser {
 			$TypeName = 'psPAS.CyberArk.Vault.User.Extended'
 
 			#User search will return an object with a Total property
-			If ($result.Total -ge 1) {
+			if ($result.Total -ge 1) {
 
 				#Return only users property if Total indicates results
 				$result = $result.Users
 
-			} ElseIf ($result.Total -eq 0) {
+			} elseif ($result.Total -eq 0) {
 
 				#Total indicates no results, return null
 				$result = $null
@@ -220,7 +220,7 @@ function Get-PASUser {
 
 		}
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename $TypeName
 
@@ -228,6 +228,6 @@ function Get-PASUser {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

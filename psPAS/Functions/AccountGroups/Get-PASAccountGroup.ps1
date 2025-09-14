@@ -23,9 +23,9 @@ function Get-PASAccountGroup {
 		[switch]$UseGen1API
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -53,7 +53,7 @@ function Get-PASAccountGroup {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Group
 
@@ -61,6 +61,6 @@ function Get-PASAccountGroup {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

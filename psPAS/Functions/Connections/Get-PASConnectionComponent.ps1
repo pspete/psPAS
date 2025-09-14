@@ -1,15 +1,15 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASConnectionComponent {
+function Get-PASConnectionComponent {
 	[CmdletBinding()]
 	param(	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
-	PROCESS {
+	process {
 
 
 		#Create URL for request
@@ -26,6 +26,6 @@ Function Get-PASConnectionComponent {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

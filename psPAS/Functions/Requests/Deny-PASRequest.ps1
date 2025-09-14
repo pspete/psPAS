@@ -16,7 +16,7 @@ function Deny-PASRequest {
 		[string]$Reason
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 9.10
 
 		# Variable to track if we are doing bulk confirmation
@@ -34,7 +34,7 @@ function Deny-PASRequest {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/IncomingRequests"
@@ -45,17 +45,17 @@ function Deny-PASRequest {
 			$URI = "$URI/Reject/Bulk"
 
 			#Create body of request
-			$Body = @{"BulkItems" = [System.Collections.Generic.List[object]]::new()}
+			$Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }
 			$RequestId | ForEach-Object {
 				$Body.BulkItems.Add(
 					@{
 						RequestId = $PSItem
-						Reason   = $Reason
+						Reason    = $Reason
 					}
 				)
 			}
 
-		} Else{
+		} else {
 
 			# Branch logic for single confirmation
 			$URI = "$URI/$($boundInput)/Reject"
@@ -77,6 +77,6 @@ function Deny-PASRequest {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

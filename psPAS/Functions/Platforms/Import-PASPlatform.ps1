@@ -49,7 +49,7 @@ function Import-PASPlatform {
 		[switch]$Force
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.2
 		$Request = @{}
 		$Request['Method'] = 'POST'
@@ -60,7 +60,7 @@ function Import-PASPlatform {
 		$MessageText = $null
 	}#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -108,6 +108,6 @@ function Import-PASPlatform {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

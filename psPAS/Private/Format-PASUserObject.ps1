@@ -1,4 +1,4 @@
-Function Format-PASUserObject {
+function Format-PASUserObject {
 	<#
 	.SYNOPSIS
 	Creates object in the expected format for adding or updating PAS Users
@@ -23,7 +23,7 @@ Function Format-PASUserObject {
 		[hashtable]$UserProperties
 	)
 
-	Begin {
+	begin {
 		$businessAddressParams = [Collections.Generic.List[String]]@('workStreet', 'workCity', 'workState', 'workZip', 'workCountry')
 		$internetParams = [Collections.Generic.List[String]]@('homePage', 'homeEmail', 'businessEmail', 'otherEmail')
 		$phonesParams = [Collections.Generic.List[String]]@('homeNumber', 'businessNumber', 'cellularNumber', 'faxNumber', 'pagerNumber')
@@ -31,7 +31,7 @@ Function Format-PASUserObject {
 			'department', 'profession', 'FirstName', 'middleName', 'LastName')
 	}
 
-	Process {
+	process {
 
 		#Clone the input hashtable
 		$UserObject = $UserProperties.clone()
@@ -41,7 +41,7 @@ Function Format-PASUserObject {
 
 			'ExpiryDate' {
 
-				If ($($UserProperties['ExpiryDate']).GetType().FullName -eq 'System.DateTime') {
+				if ($($UserProperties['ExpiryDate']).GetType().FullName -eq 'System.DateTime') {
 					#Include datetime object converted into required unixtime string format
 					$UserObject['ExpiryDate'] = $UserProperties['ExpiryDate'] | ConvertTo-UnixTime
 				}
@@ -96,7 +96,7 @@ Function Format-PASUserObject {
 
 	}
 
-	End {
+	end {
 
 		#Return object with expected structure & format
 		$UserObject | Get-PASParameter -ParametersToRemove @($businessAddressParams + $internetParams + $phonesParams + $personalDetailsParams)

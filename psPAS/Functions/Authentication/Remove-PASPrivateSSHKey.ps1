@@ -10,17 +10,17 @@ function Remove-PASPrivateSSHKey {
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 12.1
 
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($psPASSession.BaseURI)/api/Users"
 
-        If ($PSBoundParameters.ContainsKey('UserID')) {
+        if ($PSBoundParameters.ContainsKey('UserID')) {
 
             $user = $UserID
             $URI = "$URI/$UserID/Secret/SSHKeys/Cache"
@@ -43,5 +43,5 @@ function Remove-PASPrivateSSHKey {
 
     }#process
 
-    END { }#end
+    end { }#end
 }

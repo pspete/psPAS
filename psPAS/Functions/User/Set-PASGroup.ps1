@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASGroup {
+function Set-PASGroup {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -16,13 +16,13 @@ Function Set-PASGroup {
         [string]$GroupName
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 12.0
 
     }#begin
 
-    Process {
+    process {
 
         #Create URL for request
         $URI = "$($psPASSession.BaseURI)/API/UserGroups/$ID"
@@ -48,6 +48,6 @@ Function Set-PASGroup {
 
     }
 
-    End { }
+    end { }
 
 }

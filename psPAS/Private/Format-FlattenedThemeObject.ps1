@@ -29,8 +29,8 @@ function Format-FlattenedThemeObject {
     process {
 
         # Top-level props
-        $flatProps.name        = $InputObject.name
-        $flatProps.isDraft     = $InputObject.isDraft
+        $flatProps.name = $InputObject.name
+        $flatProps.isDraft = $InputObject.isDraft
         $flatProps.colorsStyle = $InputObject.colors.colorsStyle
 
         # Inject nested props
@@ -51,7 +51,7 @@ function Format-FlattenedThemeObject {
 
 
     }
-    End{
+    end {
         if ($AsHashtable) {
             return $flatProps
         } else {

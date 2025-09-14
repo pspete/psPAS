@@ -43,12 +43,12 @@ function ConvertTo-BulkFilterItem {
     process {
 
         #if passed paramters
-        If ($null -ne $Parameters.Keys) {
+        if ($null -ne $Parameters.Keys) {
 
             #iterate paramter keys
             $Parameters.keys | ForEach-Object {
 
-                If ($BulkFilterItem.ContainsKey($PSItem)) {
+                if ($BulkFilterItem.ContainsKey($PSItem)) {
 
                     #replace value of key value pair in Default bulk filter object
                     $BulkFilterItem[$PSItem] = $Parameters[$PSItem]

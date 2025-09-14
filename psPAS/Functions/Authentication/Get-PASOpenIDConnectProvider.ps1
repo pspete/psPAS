@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASOpenIDConnectProvider {
+function Get-PASOpenIDConnectProvider {
 
 	[CmdletBinding()]
 	param(
@@ -12,13 +12,13 @@ Function Get-PASOpenIDConnectProvider {
 
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.7
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/OIDC/Providers/$($id | Get-EscapedString)"
@@ -26,7 +26,7 @@ Function Get-PASOpenIDConnectProvider {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			if ($null -ne $result.Providers) {
 
@@ -40,6 +40,6 @@ Function Get-PASOpenIDConnectProvider {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

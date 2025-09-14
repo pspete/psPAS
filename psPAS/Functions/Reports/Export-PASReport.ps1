@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Export-PASReport {
+function Export-PASReport {
     [CmdletBinding()]
     param(
         [parameter(
@@ -34,35 +34,35 @@ Function Export-PASReport {
         [ValidateSet('XLSX', 'XLS', 'CSV')]
         [string]$ReportFormat,
 
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $false
-		)]
-		[ValidateNotNullOrEmpty()]
-		[ValidateScript( { Test-Path -Path $_ -IsValid })]
-		[string]$path
-     )
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $false
+        )]
+        [ValidateNotNullOrEmpty()]
+        [ValidateScript( { Test-Path -Path $_ -IsValid })]
+        [string]$path
+    )
 
-    Begin {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 14.6
 
     }
 
-    Process {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/ClassicReports"
 
         $boundParameters = [ordered]@{
-            Safe = $Safe
+            Safe   = $Safe
             Folder = $Folder
-            Name = $FileName
+            Name   = $FileName
             Format = $null
-            Type = $Type
+            Type   = $Type
         }
 
-        switch($ReportFormat){
+        switch ($ReportFormat) {
             #Set ContentType based on Report Format
             'XLSX' {
                 $ContentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -81,7 +81,7 @@ Function Export-PASReport {
         #Create Query String, escaped for inclusion in request URL
         $queryString = $boundParameters | ConvertTo-QueryString -NoEscape -Delimiter '^@^' -Base64Encode -URLEncode
 
-        If ($null -ne $queryString) {
+        if ($null -ne $queryString) {
 
             #Build URL from base URL
             $URI = "$URI`?data=$queryString"
@@ -92,9 +92,9 @@ Function Export-PASReport {
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -ContentType $ContentType
 
         #if we get a byte array
-		If ($null -ne $result) {
+        if ($null -ne $result) {
 
-            switch($ReportFormat){
+            switch ($ReportFormat) {
                 #Set ContentType based on Report Format
                 'CSV' {
                     $result | ConvertFrom-Csv | Export-Csv -Path $path -NoTypeInformation
@@ -107,10 +107,10 @@ Function Export-PASReport {
                 }
             }
 
-		}
+        }
 
     }
 
-    End {}
+    end {}
 
 }

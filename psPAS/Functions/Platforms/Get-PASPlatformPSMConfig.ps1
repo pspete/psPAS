@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASPlatformPSMConfig {
+function Get-PASPlatformPSMConfig {
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -9,13 +9,13 @@ Function Get-PASPlatformPSMConfig {
 		[int]$ID
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/Platforms/Targets/$ID/PrivilegedSessionManagement"
@@ -23,7 +23,7 @@ Function Get-PASPlatformPSMConfig {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result
 
@@ -31,6 +31,6 @@ Function Get-PASPlatformPSMConfig {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

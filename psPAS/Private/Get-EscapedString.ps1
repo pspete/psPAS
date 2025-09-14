@@ -31,15 +31,15 @@ Escaped String Value
 
 	)
 
-	Begin {}
+	begin {}
 
-	Process {
+	process {
 
 		#Output escaped string
 		[System.Uri]::EscapeDataString($inputString)
 
 	}
 
-	End {}
+	end {}
 
 }

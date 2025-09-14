@@ -11,12 +11,12 @@ function Remove-PASDirectory {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.7
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories/$id/"
@@ -30,6 +30,6 @@ function Remove-PASDirectory {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

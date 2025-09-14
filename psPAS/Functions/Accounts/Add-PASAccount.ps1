@@ -225,7 +225,7 @@ function Add-PASAccount {
 		[hashtable]$DynamicProperties
 	)
 
-	BEGIN {
+	begin {
 
 		#V9 baseparameters are contained in JSON object at the same depth
 		$baseParameters = [Collections.Generic.List[String]]@('Safe', 'PlatformID', 'Address', 'AccountName', 'Password', 'Username',
@@ -233,7 +233,7 @@ function Add-PASAccount {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove 'AllowAccountDuplications'
@@ -247,7 +247,7 @@ function Add-PASAccount {
 				#Create URL for Request
 				$URI = "$($psPASSession.BaseURI)/api/Accounts"
 
-				If($PSBoundParameters.ContainsKey('AllowAccountDuplications')) {
+				if ($PSBoundParameters.ContainsKey('AllowAccountDuplications')) {
 					Assert-VersionRequirement -SelfHosted
 					Assert-VersionRequirement -RequiredVersion 14.6
 					$URI = "$URI`?AllowAccountDuplications=$($PSBoundParameters['AllowAccountDuplications'])"
@@ -268,7 +268,7 @@ function Add-PASAccount {
 				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Account"
 
 				#deal with Password SecureString
-				If ($PSBoundParameters.ContainsKey('password')) {
+				if ($PSBoundParameters.ContainsKey('password')) {
 
 					#Include decoded password in request
 					$boundParameters['password'] = $(ConvertTo-InsecureString -SecureString $password)
@@ -298,7 +298,7 @@ function Add-PASAccount {
 
 					}
 
-					Else {
+					else {
 						#for DynamicProperties key=value pairs
 
 						#Enumerate DynamicProperties object
@@ -338,7 +338,7 @@ function Add-PASAccount {
 
 		if ($PSCmdlet.ParameterSetName -eq 'Gen2') {
 
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				#Return Results
 				$result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Account.V10'
@@ -349,6 +349,6 @@ function Add-PASAccount {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

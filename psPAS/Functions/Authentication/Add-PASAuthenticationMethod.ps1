@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Add-PASAuthenticationMethod {
+function Add-PASAuthenticationMethod {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = 'passwordFieldLabel not related to password value')]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUsernameAndPasswordParams', '', Justification = 'usernameFieldLabel & passwordFieldLabel not related to password value')]
 	[CmdletBinding()]
@@ -65,13 +65,13 @@ Function Add-PASAuthenticationMethod {
 		[string]$passwordFieldLabel
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/AuthenticationMethods"
@@ -83,7 +83,7 @@ Function Add-PASAuthenticationMethod {
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result
 
@@ -91,6 +91,6 @@ Function Add-PASAuthenticationMethod {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

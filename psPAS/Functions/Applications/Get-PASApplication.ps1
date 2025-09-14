@@ -38,15 +38,15 @@ function Get-PASApplication {
 		[boolean]$IncludeSublocations
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		#Base URL for Request
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Applications"
 
 		#If AppID specified
-		If ($($PSCmdlet.ParameterSetName) -eq 'byAppID') {
+		if ($($PSCmdlet.ParameterSetName) -eq 'byAppID') {
 
 			#Build URL from base URL
 			$URI = "$URI/$($AppID | Get-EscapedString)/"
@@ -54,7 +54,7 @@ function Get-PASApplication {
 		}
 
 		#If search query specified
-		ElseIf ($($PSCmdlet.ParameterSetName) -eq 'byQuery') {
+		elseif ($($PSCmdlet.ParameterSetName) -eq 'byQuery') {
 
 			#Get Parameters to include in request
 			$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -74,7 +74,7 @@ function Get-PASApplication {
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return results
 			$result.application | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Application
@@ -83,6 +83,6 @@ function Get-PASApplication {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

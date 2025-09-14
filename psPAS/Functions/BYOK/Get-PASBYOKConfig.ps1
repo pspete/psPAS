@@ -1,13 +1,13 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASBYOKConfig {
+function Get-PASBYOKConfig {
     [CmdletBinding()]
     param( )
 
-    Begin {
+    begin {
         Assert-VersionRequirement -PrivilegeCloud
     }
 
-    Process {
+    process {
 
         #Create URL for request
         $URI = "$($psPASSession.ApiURI)/api/byok"
@@ -15,7 +15,7 @@ Function Get-PASBYOKConfig {
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             $result
 
@@ -23,6 +23,6 @@ Function Get-PASBYOKConfig {
 
     }
 
-    End {}
+    end {}
 
 }

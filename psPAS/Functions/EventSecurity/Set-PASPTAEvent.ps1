@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASPTAEvent {
+function Set-PASPTAEvent {
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -17,12 +17,12 @@ Function Set-PASPTAEvent {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 11.3
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create request URL
 		$URI = "$($psPASSession.BaseURI)/API/pta/API/Events/$EventID"
@@ -37,7 +37,7 @@ Function Set-PASPTAEvent {
 
 		}
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event
@@ -46,6 +46,6 @@ Function Set-PASPTAEvent {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

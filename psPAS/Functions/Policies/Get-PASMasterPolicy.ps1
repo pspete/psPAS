@@ -1,4 +1,4 @@
-Function Get-PASMasterPolicy {
+function Get-PASMasterPolicy {
     [CmdletBinding()]
     param (
         <#
@@ -11,20 +11,20 @@ Function Get-PASMasterPolicy {
         #>
     )
 
-    Begin{
+    begin {
         Assert-VersionRequirement -RequiredVersion 14.6
         $PolicyId = 1
     }
 
-    Process{
+    process {
         $URI = "$($psPASSession.BaseURI)/API/Policies/$PolicyId"
 
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        if($null -ne $result) {
+        if ($null -ne $result) {
             $result
         }
     }
 
-    End{}
+    end {}
 }

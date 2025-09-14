@@ -17,11 +17,11 @@ function Connect-PASPSMSession {
 		[string]$ConnectionMethod
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.5
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($($psPASSession.BaseURI))/API/LiveSessions/$($SessionId | Get-EscapedString)/monitor"
@@ -29,7 +29,7 @@ function Connect-PASPSMSession {
 		$ThisSession = $psPASSession.WebSession
 
 		#if a connection method is specified
-		If ($PSBoundParameters.ContainsKey('ConnectionMethod')) {
+		if ($PSBoundParameters.ContainsKey('ConnectionMethod')) {
 
 			#The information needs to passed in the header
 			if ($PSBoundParameters['ConnectionMethod'] -eq 'RDP') {
@@ -52,7 +52,7 @@ function Connect-PASPSMSession {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -WebSession $ThisSession
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result
 
@@ -60,6 +60,6 @@ function Connect-PASPSMSession {
 
 	}
 
-	END { }#end
+	end { }#end
 
 }

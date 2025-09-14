@@ -1,15 +1,15 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASAccountSearchProperty {
+function Get-PASAccountSearchProperty {
     [CmdletBinding()]
     param( )
 
-    Begin {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 14.4
 
     }
 
-    Process {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/Accounts/AdvancedSearchProperties"
@@ -17,14 +17,14 @@ Function Get-PASAccountSearchProperty {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $Result) {
+        if ($null -ne $Result) {
 
             #Process and return structured result
             $Result.advancedSearchProperties.PSObject.Properties | ForEach-Object {
                 [PSCustomObject]@{
-                    PropertyName = $_.Name
-                    ValidValues = $_.Value.validValues -join ', '
-                    SupportedOperators = $_.Value.supportedOperators -join ', '
+                    PropertyName              = $_.Name
+                    ValidValues               = $_.Value.validValues -join ', '
+                    SupportedOperators        = $_.Value.supportedOperators -join ', '
                     SupportedLogicalOperators = $_.Value.supportedLogicalOperators -join ', '
                 }
             }
@@ -33,6 +33,6 @@ Function Get-PASAccountSearchProperty {
 
     }
 
-    End {}
+    end {}
 
 }

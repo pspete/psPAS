@@ -3,13 +3,13 @@ function Clear-PASDiscoveredAccountList {
     [CmdletBinding(SupportsShouldProcess)]
     param()
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 12.1
 
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($psPASSession.BaseURI)/api/DiscoveredAccounts"
 
@@ -21,5 +21,5 @@ function Clear-PASDiscoveredAccountList {
 
     }#process
 
-    END { }#end
+    end { }#end
 }

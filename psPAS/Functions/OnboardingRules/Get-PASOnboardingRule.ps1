@@ -11,16 +11,16 @@ function Get-PASOnboardingRule {
 		[string]$Names
 	)
 
-	BEGIN {
+	begin {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/AutomaticOnboardingRules"
 
-		If ($PSBoundParameters.ContainsKey('Names')) {
+		if ($PSBoundParameters.ContainsKey('Names')) {
 
 			Assert-VersionRequirement -RequiredVersion 10.2
 
@@ -43,7 +43,7 @@ function Get-PASOnboardingRule {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result.AutomaticOnboardingRules | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
 
@@ -51,6 +51,6 @@ function Get-PASOnboardingRule {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

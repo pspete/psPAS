@@ -12,13 +12,13 @@ function Get-PASDirectory {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.4
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories"
@@ -51,7 +51,7 @@ function Get-PASDirectory {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -typename $type
@@ -60,6 +60,6 @@ function Get-PASDirectory {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

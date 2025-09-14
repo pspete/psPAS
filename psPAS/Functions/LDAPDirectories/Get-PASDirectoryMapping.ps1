@@ -24,12 +24,12 @@ function Get-PASDirectoryMapping {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.7
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/"
@@ -44,7 +44,7 @@ function Get-PASDirectoryMapping {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Mapping
@@ -53,6 +53,6 @@ function Get-PASDirectoryMapping {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -25,9 +25,9 @@ function Remove-PASSafe {
 
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -65,6 +65,6 @@ function Remove-PASSafe {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Sync-PASDependentAccount {
+function Sync-PASDependentAccount {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -18,22 +18,22 @@ Function Sync-PASDependentAccount {
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 14.6
 
         # Variable to track if we are doing bulk confirmation
-		$BulkConfirmation = $false
+        $BulkConfirmation = $false
 
-		$boundInput = $PSBoundParameters['dependentAccountId']
+        $boundInput = $PSBoundParameters['dependentAccountId']
 
-		if (Test-IsMultiValue -Value $boundInput) {
+        if (Test-IsMultiValue -Value $boundInput) {
 
-			#Bulk Confirmations supported from 14.6
-			Assert-VersionRequirement -RequiredVersion 14.6
+            #Bulk Confirmations supported from 14.6
+            Assert-VersionRequirement -RequiredVersion 14.6
 
-			$BulkConfirmation = $true
-		}
+            $BulkConfirmation = $true
+        }
 
         $Request = @{
             Method = 'POST'
@@ -41,43 +41,43 @@ Function Sync-PASDependentAccount {
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts"
 
         if ($BulkConfirmation) {
 
-			# Branch logic for bulk confirmation
+            # Branch logic for bulk confirmation
             #TODO: Confirm this URL - the documentation is unclear
-			$URI = "$URI/Sync/Bulk"
+            $URI = "$URI/Sync/Bulk"
 
-			#Create body of request
-			$Body = @{"BulkItems" = [System.Collections.Generic.List[object]]::new()}
-			$dependentAccountId | ForEach-Object {
-				$Body.BulkItems.Add(
-					@{
-						accountId            = $accountId
-						dependentAccountId   = $PSItem
-					}
-				)
-			}
+            #Create body of request
+            $Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }
+            $dependentAccountId | ForEach-Object {
+                $Body.BulkItems.Add(
+                    @{
+                        accountId          = $accountId
+                        dependentAccountId = $PSItem
+                    }
+                )
+            }
 
             #Format body as JSON
-		    $Body = $Body | ConvertTo-Json
+            $Body = $Body | ConvertTo-Json
 
             $Request.Add('Body', $Body)
 
-		} Else{
+        } else {
 
-			# Branch logic for single confirmation
-			$URI = "$URI/$($boundInput)/Sync"
+            # Branch logic for single confirmation
+            $URI = "$URI/$($boundInput)/Sync"
 
-		}
+        }
 
         $Request.Add('Uri', $URI)
 
-        if ($PSCmdlet.ShouldProcess($AccountID, "Sync Dependent Account")) {
+        if ($PSCmdlet.ShouldProcess($AccountID, 'Sync Dependent Account')) {
 
             #Send request to web service
             Invoke-PASRestMethod @Request
@@ -86,6 +86,6 @@ Function Sync-PASDependentAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

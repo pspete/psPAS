@@ -11,7 +11,7 @@ function Enable-PASCPMAutoManagement {
 
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 10.4
 
@@ -30,12 +30,12 @@ function Enable-PASCPMAutoManagement {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		Set-PASAccount -AccountID $AccountID -operations $ops
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

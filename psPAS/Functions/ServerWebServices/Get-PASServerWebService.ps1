@@ -29,9 +29,9 @@ function Get-PASServerWebService {
 
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSBoundParameters.Keys) {
 
@@ -57,7 +57,7 @@ function Get-PASServerWebService {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#return results
 			$result | Select-Object ServerName, ServerId, ApplicationName , AuthenticationMethods, Features
@@ -66,6 +66,6 @@ function Get-PASServerWebService {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

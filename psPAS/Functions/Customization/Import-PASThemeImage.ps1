@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Import-PASThemeImage {
+function Import-PASThemeImage {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -18,38 +18,38 @@ Function Import-PASThemeImage {
 
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.4
         $Request = @{}
-		$Request['Method'] = 'POST'
+        $Request['Method'] = 'POST'
         #Create URL for request
-        $Request['URI'] =  "$($psPASSession.BaseURI)/API/Images/"
+        $Request['URI'] = "$($psPASSession.BaseURI)/API/Images/"
     }#begin
 
-    PROCESS {
+    process {
 
         #Convert File to byte array
         $FileBytes = $ImageFile | Get-ByteArray
 
         $Request['Body'] = @{
-            'Name'      = $Name
-            'Content'   = $FileBytes
+            'Name'    = $Name
+            'Content' = $FileBytes
         } | ConvertTo-Json
         $Request['Debug'] = $false
 
         if ($PSCmdlet.ShouldProcess($Name, 'Add Image')) {
 
-			try {
-				#send request to web service
-				Invoke-PASRestMethod @Request
-			} catch {
-				throw $_
-			}
+            try {
+                #send request to web service
+                Invoke-PASRestMethod @Request
+            } catch {
+                throw $_
+            }
 
-		}
+        }
 
     }#process
 
-    END { }#end
+    end { }#end
 }

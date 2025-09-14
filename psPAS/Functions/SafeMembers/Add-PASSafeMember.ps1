@@ -506,7 +506,7 @@ function Add-PASSafeMember {
 		[switch]$Full
 	)
 
-	BEGIN {
+	begin {
 
 		#array for parameter names which appear in the top-tier of the JSON object
 		$keysToKeep = [Collections.Generic.List[String]]@(
@@ -515,7 +515,7 @@ function Add-PASSafeMember {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Get Parameters for request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove SafeName, UseGen1API
@@ -531,7 +531,7 @@ function Add-PASSafeMember {
 				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/$($SafeName |
 				Get-EscapedString)/Members"
 
-				If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
+				if ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
 
 					#Convert MembershipExpirationDate to string in Required format
 					$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yyyy).ToString()
@@ -556,20 +556,20 @@ function Add-PASSafeMember {
 
 			}
 
-			( { $PSItem -match '^Gen2' -or '^ReadOnly' -or '^ConnectOnly' -or '^Approver' -or '^AccountsManager' -or '^Full'} ) {
+			( { $PSItem -match '^Gen2' -or '^ReadOnly' -or '^ConnectOnly' -or '^Approver' -or '^AccountsManager' -or '^Full' } ) {
 
 				Assert-VersionRequirement -RequiredVersion 12.1
 
 				#Create URL for request
 				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)/Members"
 
-				If ($PSBoundParameters.ContainsKey('MemberType')) {
+				if ($PSBoundParameters.ContainsKey('MemberType')) {
 
 					Assert-VersionRequirement -RequiredVersion 12.6
 
 				}
 
-				If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
+				if ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
 
 					#Convert MembershipExpirationDate to string in Required format
 					$Date = Get-Date $MembershipExpirationDate | ConvertTo-UnixTime
@@ -606,7 +606,7 @@ function Add-PASSafeMember {
 						$boundParameters['Permissions'] = $boundParameters | ConvertTo-SortedPermission -Full
 					}
 				}
-				
+
 
 				#Create required request object
 				$body = $boundParameters | Get-PASParameter -ParametersToKeep $keysToKeep | ConvertTo-Json
@@ -620,7 +620,7 @@ function Add-PASSafeMember {
 		#Send request to Web Service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
@@ -642,7 +642,7 @@ function Add-PASSafeMember {
 
 				}
 
-				( { $PSItem -match '^Gen2' -or '^ReadOnly' -or '^ConnectOnly' -or '^Approver' -or '^AccountsManager' -or '^Full'} ) {
+				( { $PSItem -match '^Gen2' -or '^ReadOnly' -or '^ConnectOnly' -or '^Approver' -or '^AccountsManager' -or '^Full' } ) {
 
 					$result |
 						Select-Object *, @{Name = 'UserName'; 'Expression' = { $PSItem.MemberName } } |
@@ -658,6 +658,6 @@ function Add-PASSafeMember {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

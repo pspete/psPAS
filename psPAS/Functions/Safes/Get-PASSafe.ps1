@@ -101,18 +101,18 @@ function Get-PASSafe {
 		[int]$TimeoutSec
 	)
 
-	BEGIN {
+	begin {
 
 		$typeName = 'psPAS.CyberArk.Vault.Safe'
 		$Limit = 25   #default if you call the API with no value
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove sortDirection
 
-		If($PSBoundParameters.containsKey('sortDirection')){
+		if ($PSBoundParameters.containsKey('sortDirection')) {
 
 			#Append sort direction to sort property for correct query string creation
 			$boundParameters['sort'] = "$($boundParameters['sort']) $($PSBoundParameters['sortDirection'])"
@@ -136,7 +136,7 @@ function Get-PASSafe {
 						#check required version
 						Assert-VersionRequirement -RequiredVersion 12.1
 
-						If ($extendedDetails -eq $false) {
+						if ($extendedDetails -eq $false) {
 
 							#assign new type name
 							$typeName = "$typeName.Name"
@@ -158,7 +158,7 @@ function Get-PASSafe {
 				#define base URL
 				$URI = "$($psPASSession.BaseURI)/API/Safes"
 
-				If ($null -ne $queryString) {
+				if ($null -ne $queryString) {
 
 					#Build URL from base URL
 					$URI = "$URI`?$queryString"
@@ -184,7 +184,7 @@ function Get-PASSafe {
 				#Create Query String, escaped for inclusion in request URL
 				$queryString = $boundParameters | ConvertTo-QueryString
 
-				If ($null -ne $queryString) {
+				if ($null -ne $queryString) {
 
 					#Build URL from base URL
 					$URI = "$URI`?$queryString"
@@ -250,11 +250,11 @@ function Get-PASSafe {
 
 				$Total = $result.Total
 
-				If ($Total -gt 0) {
+				if ($Total -gt 0) {
 
 					$Safes = [Collections.Generic.List[Object]]::New(($result.$returnProperty))
 
-					For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+					for ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
 
 						$Null = $Safes.AddRange((Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -TimeoutSec $TimeoutSec).Safes)
 
@@ -264,7 +264,7 @@ function Get-PASSafe {
 
 				}
 
-				ElseIf ($null -ne $result) {
+				elseif ($null -ne $result) {
 
 					$return = $result.$returnProperty
 
@@ -303,6 +303,6 @@ function Get-PASSafe {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

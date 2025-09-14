@@ -1,15 +1,15 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASUserLicenseReport {
+function Get-PASUserLicenseReport {
     [CmdletBinding()]
     param( )
 
-    Begin {
+    begin {
 
         Assert-VersionRequirement -PrivilegeCloud
 
     }
 
-    Process {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.ApiURI)/API/licenses/pcloud/"
@@ -17,7 +17,7 @@ Function Get-PASUserLicenseReport {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $Result) {
+        if ($null -ne $Result) {
 
             #Return result
             $Result
@@ -26,6 +26,6 @@ Function Get-PASUserLicenseReport {
 
     }
 
-    End {}
+    end {}
 
 }

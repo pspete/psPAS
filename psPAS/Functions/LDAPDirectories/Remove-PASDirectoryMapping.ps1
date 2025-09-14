@@ -15,12 +15,12 @@ function Remove-PASDirectoryMapping {
 		[string]$MappingID
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 11.1
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/$MappingID/"
@@ -34,6 +34,6 @@ function Remove-PASDirectoryMapping {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

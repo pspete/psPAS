@@ -20,12 +20,12 @@ function Remove-PASAccount {
 		[switch]$UseGen1API
 	)
 
-	BEGIN {
+	begin {
 		#check minimum version
 		Assert-VersionRequirement -RequiredVersion 10.4
 	}#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -55,6 +55,6 @@ function Remove-PASAccount {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

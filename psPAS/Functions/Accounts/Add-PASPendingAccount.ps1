@@ -138,12 +138,12 @@ function Add-PASPendingAccount {
 		[string]$MachineOSFamily
 	)
 
-	BEGIN {
+	begin {
 		#!Depracated above 13.2
 		Assert-VersionRequirement -MaximumVersion 13.2
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/PendingAccounts"
@@ -151,7 +151,7 @@ function Add-PASPendingAccount {
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		If ($PSBoundParameters.ContainsKey('AccountDiscoveryDate')) {
+		if ($PSBoundParameters.ContainsKey('AccountDiscoveryDate')) {
 
 			#Convert ExpiryDate to string in Required format
 			$Date = (Get-Date $AccountDiscoveryDate.ToUniversalTime() -Format 'yyyy-MM-ddTHH:mm:ssZ').ToString()
@@ -175,6 +175,6 @@ function Add-PASPendingAccount {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

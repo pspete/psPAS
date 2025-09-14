@@ -228,7 +228,7 @@ function Add-PASDiscoveredAccount {
 		[string]$activeDirectoryID
 	)
 
-	BEGIN {
+	begin {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -261,7 +261,7 @@ function Add-PASDiscoveredAccount {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/api/DiscoveredAccounts"
@@ -269,7 +269,7 @@ function Add-PASDiscoveredAccount {
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		Foreach ($DateTime in $DateTimes) {
+		foreach ($DateTime in $DateTimes) {
 
 			if ($PSBoundParameters.ContainsKey($DateTime)) {
 
@@ -291,7 +291,7 @@ function Add-PASDiscoveredAccount {
 
 		} {
 
-			If ($platformTypeAccountProperties.Count -gt 0) {
+			if ($platformTypeAccountProperties.Count -gt 0) {
 
 				$boundParameters['platformTypeAccountProperties'] = $platformTypeAccountProperties
 
@@ -304,7 +304,7 @@ function Add-PASDiscoveredAccount {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result
@@ -313,6 +313,6 @@ function Add-PASDiscoveredAccount {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

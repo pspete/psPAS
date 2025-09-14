@@ -26,9 +26,9 @@ function Remove-PASSafeMember {
 		[switch]$UseGen1API
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -63,6 +63,6 @@ function Remove-PASSafeMember {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

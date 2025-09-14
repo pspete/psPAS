@@ -11,12 +11,12 @@ function Revoke-PASJustInTimeAccess {
         [string]$AccountID
     )
 
-    BEGIN {
+    begin {
         #check minimum version
         Assert-VersionRequirement -RequiredVersion 12.0
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for request
         $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/RevokeAdministrativeAccess"
@@ -26,6 +26,6 @@ function Revoke-PASJustInTimeAccess {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

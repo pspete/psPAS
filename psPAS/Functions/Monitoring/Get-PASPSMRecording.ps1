@@ -66,11 +66,11 @@ function Get-PASPSMRecording {
 		[string]$Activities
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/Recordings"
@@ -98,17 +98,17 @@ function Get-PASPSMRecording {
 
 				#* fetch last 24 hours by default.
 				#Set ToTime to provided value or now
-				If ($PSBoundParameters.ContainsKey('ToTime')) {
+				if ($PSBoundParameters.ContainsKey('ToTime')) {
 					$boundParameters['ToTime'] = $ToTime
-				} Else {
+				} else {
 					#ToTime is now
 					$boundParameters['ToTime'] = Get-Date
 				}
 
 				#Set FromTime to provided value or 24 hours before ToTime
-				If ($PSBoundParameters.ContainsKey('FromTime')) {
+				if ($PSBoundParameters.ContainsKey('FromTime')) {
 					$boundParameters['FromTime'] = $FromTime | ConvertTo-UnixTime
-				} Else {
+				} else {
 					#If ToTime specified get previous 24 hours
 					$boundParameters['FromTime'] = (Get-Date $boundParameters['ToTime']).AddDays(-2) | ConvertTo-UnixTime
 				}
@@ -116,7 +116,7 @@ function Get-PASPSMRecording {
 				#Convert ToTime to UnixTime
 				$boundParameters['ToTime'] = $boundParameters['ToTime'] | ConvertTo-UnixTime
 
-				If ($PSBoundParameters.Keys -notcontains 'Limit') {
+				if ($PSBoundParameters.Keys -notcontains 'Limit') {
 					$Limit = 100   #default if you call the API with no value
 					$boundParameters.Add('Limit', $Limit) # Add to boundparameters for inclusion in query string
 				}
@@ -142,7 +142,7 @@ function Get-PASPSMRecording {
 
 		$Total = $result.Total
 
-		If ($Total -gt 0) {
+		if ($Total -gt 0) {
 
 			#Set events as output collection
 			$Recordings = [Collections.Generic.List[Object]]::New(@($result.Recordings))
@@ -152,7 +152,7 @@ function Get-PASPSMRecording {
 			$URI = $URLString[0]
 			$queryString = $URLString[1]
 
-			For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+			for ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
 
 				#While more recordings to return, create nextLink query value
 				$nextLink = "OffSet=$Offset"
@@ -173,7 +173,7 @@ function Get-PASPSMRecording {
 
 		}
 
-		If ($null -ne $Output) {
+		if ($null -ne $Output) {
 
 			#Return Results
 			$Output | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording
@@ -182,6 +182,6 @@ function Get-PASPSMRecording {
 
 	}
 
-	END { }#end
+	end { }#end
 
 }

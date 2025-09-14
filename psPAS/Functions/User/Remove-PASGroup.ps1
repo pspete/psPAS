@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASGroup {
+function Remove-PASGroup {
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -10,13 +10,13 @@ Function Remove-PASGroup {
 		[int]$ID
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
-	Process {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/UserGroups/$ID"
@@ -30,6 +30,6 @@ Function Remove-PASGroup {
 
 	}
 
-	End { }
+	end { }
 
 }

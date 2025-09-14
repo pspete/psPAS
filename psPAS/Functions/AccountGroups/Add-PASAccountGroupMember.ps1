@@ -16,11 +16,11 @@ function Add-PASAccountGroupMember {
 		[string]$AccountID
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 9.9.5
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/AccountGroups/$($GroupID |
@@ -37,6 +37,6 @@ function Add-PASAccountGroupMember {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

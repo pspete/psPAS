@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASOpenIDConnectProvider {
+function Set-PASOpenIDConnectProvider {
 
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -90,13 +90,13 @@ Function Set-PASOpenIDConnectProvider {
 
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.7
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/OIDC/Providers/$($id | Get-EscapedString)"
@@ -105,7 +105,7 @@ Function Set-PASOpenIDConnectProvider {
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove id
 
 		#deal with clientSecret SecureString
-		If ($PSBoundParameters.ContainsKey('clientSecret')) {
+		if ($PSBoundParameters.ContainsKey('clientSecret')) {
 
 			#Include decoded clientSecret in request
 			$boundParameters['clientSecret'] = $(ConvertTo-InsecureString -SecureString $clientSecret)
@@ -125,7 +125,7 @@ Function Set-PASOpenIDConnectProvider {
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $body
 
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				$result
 
@@ -135,6 +135,6 @@ Function Set-PASOpenIDConnectProvider {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

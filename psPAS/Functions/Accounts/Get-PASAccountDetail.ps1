@@ -11,12 +11,12 @@ function Get-PASAccountDetail {
         [string]$id
     )
 
-    BEGIN {
+    begin {
         #check minimum version (10.4 assumed)
         Assert-VersionRequirement -RequiredVersion 10.4
     }#begin
 
-    PROCESS {
+    process {
 
         #define base URL
         $URI = "$($psPASSession.BaseURI)/api/ExtendedAccounts/$id/overview"
@@ -24,12 +24,12 @@ function Get-PASAccountDetail {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
             $result
         }
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

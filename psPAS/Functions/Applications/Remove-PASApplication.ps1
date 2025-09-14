@@ -10,9 +10,9 @@ function Remove-PASApplication {
 		[string]$AppID
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		#Request URL
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Applications/$($AppID | Get-EscapedString)/"
@@ -26,6 +26,6 @@ function Remove-PASApplication {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

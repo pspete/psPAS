@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASDiscoveredLocalAccountActivity {
+function Get-PASDiscoveredLocalAccountActivity {
     [CmdletBinding()]
     param(
         [parameter(
@@ -9,13 +9,13 @@ Function Get-PASDiscoveredLocalAccountActivity {
         [string]$id
     )
 
-    Begin {
+    begin {
 
         Assert-VersionRequirement -PrivilegeCloud
 
     }
 
-    Process {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.ApiURI)/api/discovered-accounts/$id/activities"
@@ -23,7 +23,7 @@ Function Get-PASDiscoveredLocalAccountActivity {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $Result) {
+        if ($null -ne $Result) {
 
             #Return result
             $Result
@@ -32,6 +32,6 @@ Function Get-PASDiscoveredLocalAccountActivity {
 
     }
 
-    End {}
+    end {}
 
 }

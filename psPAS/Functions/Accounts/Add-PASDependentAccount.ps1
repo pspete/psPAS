@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Add-PASDependentAccount {
+function Add-PASDependentAccount {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -41,40 +41,40 @@ Function Add-PASDependentAccount {
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 14.6
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts"
 
         #Get all parameters that will be sent in the request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID
+        $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID
 
         $DependentAccount = New-PASAccountObject @boundParameters -DependentAccount
 
-		$body = $DependentAccount | ConvertTo-Json
+        $body = $DependentAccount | ConvertTo-Json
 
-        if ($PSCmdlet.ShouldProcess($AccountID, "Add Dependent Account")) {
+        if ($PSCmdlet.ShouldProcess($AccountID, 'Add Dependent Account')) {
 
             #Send request to web service
             $Result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body
 
         }
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result
 
-		}
+        }
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

@@ -16,11 +16,11 @@ function Export-PASPlatform {
 		[string]$path
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.4
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/Platforms/$PlatformID/Export?platformID=$PlatformID"
@@ -31,7 +31,7 @@ function Export-PASPlatform {
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Debug:$false
 
 			#if we get a platform byte array
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				Out-PASFile -InputObject $result -Path $path
 
@@ -41,6 +41,6 @@ function Export-PASPlatform {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

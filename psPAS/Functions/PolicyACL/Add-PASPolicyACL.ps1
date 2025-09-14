@@ -44,11 +44,11 @@ function Add-PASPolicyACL {
 		[string]$UserName
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Policy/$($PolicyID |
@@ -65,7 +65,7 @@ function Add-PASPolicyACL {
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result.AddPolicyPrivilegedCommandResult |
 
@@ -75,6 +75,6 @@ function Add-PASPolicyACL {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

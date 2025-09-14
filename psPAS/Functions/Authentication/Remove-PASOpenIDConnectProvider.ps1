@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASOpenIDConnectProvider {
+function Remove-PASOpenIDConnectProvider {
 
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -12,13 +12,13 @@ Function Remove-PASOpenIDConnectProvider {
 
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.7
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/OIDC/Providers/$($id | Get-EscapedString)"
@@ -32,6 +32,6 @@ Function Remove-PASOpenIDConnectProvider {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

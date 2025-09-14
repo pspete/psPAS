@@ -1,4 +1,4 @@
-Function ConvertTo-ConnectionParam {
+function ConvertTo-ConnectionParam {
 	<#
 .SYNOPSIS
 Converts input parameters to correct format for PAS ConnectionParams
@@ -37,14 +37,14 @@ $output["SomeProperty"] = SomeValue
 		[hashtable]$Parameters
 	)
 
-	Begin {
+	begin {
 		$ConnectionParameters = [Collections.Generic.List[String]]@('AllowMappingLocalDrives', 'AllowConnectToConsole',
 			'RedirectSmartCards', 'PSMRemoteMachine', 'LogonDomain', 'AllowSelectHTML5')
 	}
 
-	Process {
+	process {
 
-		If ($null -ne $Parameters) {
+		if ($null -ne $Parameters) {
 
 			#ConnectionParameters are included under the ConnectionParams property of the JSON body
 			$Parameters.keys | Where-Object { $ConnectionParameters -contains $PSItem } | ForEach-Object {
@@ -75,6 +75,6 @@ $output["SomeProperty"] = SomeValue
 
 	}
 
-	End { }
+	end { }
 
 }

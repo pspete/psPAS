@@ -22,11 +22,11 @@ function New-PASAccountGroup {
 		[string]$Safe
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 9.9.5
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/AccountGroups/"
@@ -43,6 +43,6 @@ function New-PASAccountGroup {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -402,7 +402,7 @@ function New-PASSession {
 
 	)
 
-	BEGIN {
+	begin {
 
 		if ($baseURI) {
 
@@ -424,19 +424,19 @@ function New-PASSession {
 		$LogonRequest['UseDefaultCredentials'] = $UseDefaultCredentials.IsPresent
 		$LogonRequest['SkipCertificateCheck'] = $SkipCertificateCheck.IsPresent
 
-		If ($PSBoundParameters['type'] -eq 'Windows') {
+		if ($PSBoundParameters['type'] -eq 'Windows') {
 
 			$LogonRequest['Credential'] = $Credential
 
 		}
 
-		If ($CertificateThumbprint) {
+		if ($CertificateThumbprint) {
 
 			$LogonRequest['CertificateThumbprint'] = $CertificateThumbprint
 
 		}
 
-		If ($Certificate) {
+		if ($Certificate) {
 
 			$LogonRequest['Certificate'] = $Certificate
 
@@ -444,9 +444,9 @@ function New-PASSession {
 
 	}#begin
 
-	PROCESS {
+	process {
 
-		Switch ($PSCmdlet.ParameterSetName) {
+		switch ($PSCmdlet.ParameterSetName) {
 
 			( { $PSItem -match '^ISPSS-URL' } ) {
 
@@ -519,7 +519,7 @@ function New-PASSession {
 				#add required parameters
 				$boundParameters.Add('apiUse', $true)
 
-				If ( -not ($PSBoundParameters.ContainsKey('SAMLResponse'))) {
+				if ( -not ($PSBoundParameters.ContainsKey('SAMLResponse'))) {
 
 					#If no SAMLResponse provided
 					#Get SAML Response from IdP
@@ -558,7 +558,7 @@ function New-PASSession {
 				UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge, Certificate
 
 				#deal with newPassword SecureString
-				If ($PSBoundParameters.ContainsKey('newPassword')) {
+				if ($PSBoundParameters.ContainsKey('newPassword')) {
 
 					#Include decoded password in request
 					$boundParameters['newPassword'] = $(ConvertTo-InsecureString -SecureString $newPassword)
@@ -574,24 +574,24 @@ function New-PASSession {
 						$boundParameters['password'] = $($Credential.GetNetworkCredential().Password)
 					}
 
-				} Else {
+				} else {
 					#PKIPN Auth
 					$boundParameters['secureMode'] = $true
 					$boundParameters['type'] = 'pkipn'
 				}
 
 				#RADIUS Auth
-				If ($PSCmdlet.ParameterSetName -match 'Radius$') {
+				if ($PSCmdlet.ParameterSetName -match 'Radius$') {
 
 					#OTP in Append Mode
-					If (($PSBoundParameters.ContainsKey('OTP')) -and ($PSBoundParameters['OTPMode'] -eq 'Append')) {
+					if (($PSBoundParameters.ContainsKey('OTP')) -and ($PSBoundParameters['OTPMode'] -eq 'Append')) {
 
-						If ($PSBoundParameters.ContainsKey('OTPDelimiter')) {
+						if ($PSBoundParameters.ContainsKey('OTPDelimiter')) {
 
 							#Use specified delimiter to append OTP
 							$Delimiter = $OTPDelimiter
 
-						} Else {
+						} else {
 
 							#delimit with comma by default
 							$Delimiter = ','
@@ -604,9 +604,9 @@ function New-PASSession {
 					}
 
 					#RADIUS Challenge Mode
-					ElseIf (($PSBoundParameters.ContainsKey('OTP')) -and ($PSBoundParameters['OTPMode'] -eq 'Challenge')) {
+					elseif (($PSBoundParameters.ContainsKey('OTP')) -and ($PSBoundParameters['OTPMode'] -eq 'Challenge')) {
 
-						If ($RadiusChallenge -eq 'Password') {
+						if ($RadiusChallenge -eq 'Password') {
 
 							#Send OTP first + then Password
 							$boundParameters['password'] = $OTP
@@ -656,7 +656,7 @@ function New-PASSession {
 					}
 				}
 
-				If ($null -ne $PASSession.UserName) {
+				if ($null -ne $PASSession.UserName) {
 
 					#*$PASSession is expected to be a string value
 					#*For IIS Windows/PKI auth:
@@ -698,7 +698,7 @@ function New-PASSession {
 					#Throw all errors not related to ITATS542I
 					throw $PSItem
 
-				} Else {
+				} else {
 
 					#ITATS542I is expected for RADIUS Challenge
 
@@ -712,7 +712,7 @@ function New-PASSession {
 					$RADIUSResponse['Message'] = $($PSItem.Exception.Message)
 
 					#Include any OTP value provided in the RADIUS Response
-					If ($PSBoundParameters.ContainsKey('OTP')) {
+					if ($PSBoundParameters.ContainsKey('OTP')) {
 
 						#!If $RadiusChallenge = Password, $OTP will be password value
 						$RADIUSResponse['OTP'] = $OTP
@@ -727,7 +727,7 @@ function New-PASSession {
 			} finally {
 
 				#If Logon Result
-				If ($PASSession) {
+				if ($PASSession) {
 
 					switch ($PASSession) {
 
@@ -773,7 +773,7 @@ function New-PASSession {
 
 						default {
 
-							If ($PASSession.length -ge 180) {
+							if ($PASSession.length -ge 180) {
 
 								#V10 Auth Token.
 								$CyberArkLogonResult = $PASSession
@@ -801,25 +801,25 @@ function New-PASSession {
 
 					if ( -not ($SkipVersionCheck)) {
 
-						Try {
+						try {
 
 							#Get CyberArk ExternalVersion number.
 							[System.Version]$Version = Get-PASServer -ErrorAction Stop |
 								Select-Object -ExpandProperty ExternalVersion
 
-						} Catch { [System.Version]$Version = '0.0' }
+						} catch { [System.Version]$Version = '0.0' }
 
 					}
 
 					#Version information available in module scope.
 					$psPASSession.ExternalVersion = $Version
 
-					Try {
+					try {
 
 						#Get Authenticated User.
 						$User = Get-PASLoggedOnUser -ErrorAction Stop
 
-					} Catch {
+					} catch {
 
 						if ($PSBoundParameters.ContainsKey('Credential')) {
 							$User = $Credential
@@ -827,7 +827,7 @@ function New-PASSession {
 							$User = $null
 						}
 
-					} Finally {
+					} finally {
 
 						if ($null -ne $User) {
 							$Username = $User | Select-Object -ExpandProperty UserName
@@ -845,6 +845,6 @@ function New-PASSession {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Add-PASPTAPrivilegedUser {
+function Add-PASPTAPrivilegedUser {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
@@ -16,12 +16,12 @@ Function Add-PASPTAPrivilegedUser {
         [string]$user
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.0
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/PrivilegedUsersList"
@@ -38,6 +38,6 @@ Function Add-PASPTAPrivilegedUser {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

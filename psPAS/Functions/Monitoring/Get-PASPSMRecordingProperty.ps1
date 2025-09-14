@@ -10,11 +10,11 @@ function Get-PASPSMRecordingProperty {
 		[string]$RecordingID
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.6
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/Recordings/$($RecordingID | Get-EscapedString)/properties"
@@ -22,7 +22,7 @@ function Get-PASPSMRecordingProperty {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Recording.Property
@@ -31,6 +31,6 @@ function Get-PASPSMRecordingProperty {
 
 	}
 
-	END { }#end
+	end { }#end
 
 }

@@ -9,11 +9,11 @@ function Get-PASAccountGroupMember {
 		[string]$GroupID
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/AccountGroups/$GroupID/Members"
@@ -21,7 +21,7 @@ function Get-PASAccountGroupMember {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.Group.Member
 
@@ -29,6 +29,6 @@ function Get-PASAccountGroupMember {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

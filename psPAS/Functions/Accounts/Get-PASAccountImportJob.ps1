@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASAccountImportJob {
+function Get-PASAccountImportJob {
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -10,18 +10,18 @@ Function Get-PASAccountImportJob {
 		[string]$id
 	)
 
-	Begin {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.6
 
 	}
 
-	Process {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/api/bulkactions/accounts"
 
-		If ($PSCmdlet.ParameterSetName -eq 'byID') {
+		if ($PSCmdlet.ParameterSetName -eq 'byID') {
 
 			$URI = "$URI/$id"
 
@@ -30,9 +30,9 @@ Function Get-PASAccountImportJob {
 		#send request
 		$Result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $Result) {
+		if ($null -ne $Result) {
 
-			If ($PSCmdlet.ParameterSetName -ne 'byID') {
+			if ($PSCmdlet.ParameterSetName -ne 'byID') {
 
 				$Result = $Result.BulkActions
 
@@ -44,6 +44,6 @@ Function Get-PASAccountImportJob {
 
 	}
 
-	End {}
+	end {}
 
 }

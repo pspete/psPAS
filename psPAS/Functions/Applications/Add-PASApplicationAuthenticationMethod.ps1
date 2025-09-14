@@ -123,9 +123,9 @@ function Add-PASApplicationAuthenticationMethod {
         [string]$Comment
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Applications/$($AppID | Get-EscapedString)/Authentications/"
 
@@ -135,7 +135,7 @@ function Add-PASApplicationAuthenticationMethod {
         $boundParameters.Add('AuthType', $($PSCmdlet.ParameterSetName))
 
         #When parameterset name matches parametername
-        If ($boundParameters.ContainsKey($PSCmdlet.ParameterSetName)) {
+        if ($boundParameters.ContainsKey($PSCmdlet.ParameterSetName)) {
 
             #Rename hashtable key to "AuthValue"
             $boundParameters.Add('AuthValue', $boundParameters.$($PSCmdlet.ParameterSetName))
@@ -153,6 +153,6 @@ function Add-PASApplicationAuthenticationMethod {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

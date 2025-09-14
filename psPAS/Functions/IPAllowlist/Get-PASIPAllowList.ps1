@@ -1,13 +1,13 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASIPAllowList {
+function Get-PASIPAllowList {
     [CmdletBinding()]
     param( )
 
-    Begin {
+    begin {
         Assert-VersionRequirement -PrivilegeCloud
     }
 
-    Process {
+    process {
 
         #Create URL for request
         $URI = "$($psPASSession.ApiURI)/api/advanced-settings/ip-allowlist"
@@ -15,7 +15,7 @@ Function Get-PASIPAllowList {
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             $result
 
@@ -23,6 +23,6 @@ Function Get-PASIPAllowList {
 
     }
 
-    End {}
+    end {}
 
 }

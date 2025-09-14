@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASAuthenticationMethod {
+function Remove-PASAuthenticationMethod {
 
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -11,13 +11,13 @@ Function Remove-PASAuthenticationMethod {
 		[string]$id
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.7
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/AuthenticationMethods/$($id | Get-EscapedString)"
@@ -27,7 +27,7 @@ Function Remove-PASAuthenticationMethod {
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method DELETE
 
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				$result
 
@@ -37,6 +37,6 @@ Function Remove-PASAuthenticationMethod {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

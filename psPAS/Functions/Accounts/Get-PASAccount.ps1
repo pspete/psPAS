@@ -98,19 +98,19 @@ function Get-PASAccount {
 
 	)
 
-	DynamicParam {
+	dynamicparam {
 		# Create dynamic parameters based on available search properties from the API
 		# Only available for Gen2Query parameter set and version 14.4+
 		if ($PSCmdlet.ParameterSetName -eq 'Gen2Query' -and
 			$script:psPASSession.ExternalVersion -ge [version]'14.4') {
-			
+
 			# Get available search properties from the API
 			$SearchProperties = Get-PASAccountSearchProperty
 			$paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-			
+
 			# List of existing static parameters to avoid duplicates
 			$existingParams = @('id', 'search', 'searchType', 'safeName', 'savedFilter', 'modificationTime', 'sort', 'limit', 'Keywords', 'Safe', 'TimeoutSec', 'LogicalOperator')
-			
+
 			# Create dynamic parameter for each search property not already defined
 			foreach ($property in $SearchProperties) {
 				if ($existingParams -notcontains $property.PropertyName) {
@@ -118,21 +118,21 @@ function Get-PASAccount {
 					$paramAttribute.Mandatory = $false
 					$paramAttribute.ParameterSetName = 'Gen2Query'
 					$paramAttribute.ValueFromPipelineByPropertyName = $false
-					
+
 					$attributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
 					$attributeCollection.Add($paramAttribute)
-					
+
 					# Create runtime parameter for the search property
 					$runtimeParam = New-Object System.Management.Automation.RuntimeDefinedParameter($property.PropertyName, [string], $attributeCollection)
 					$paramDictionary.Add($property.PropertyName, $runtimeParam)
 				}
 			}
-			
+
 			return $paramDictionary
 		}
 	}
 
-	BEGIN {
+	begin {
 
 		#Parameter to include as filter value in url
 		$Parameters = [Collections.Generic.List[String]]@('modificationTime', 'SafeName')
@@ -153,7 +153,7 @@ function Get-PASAccount {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Get Parameters to include in request
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
@@ -226,7 +226,7 @@ function Get-PASAccount {
 
 			( { $PSItem -ne 'Gen2ID' } ) {
 
-				If ($null -ne $FilterString) {
+				if ($null -ne $FilterString) {
 
 					$boundParameters = $boundParameters + $FilterString
 
@@ -235,7 +235,7 @@ function Get-PASAccount {
 				#Create Query String, escaped for inclusion in request URL
 				$queryString = $boundParameters | ConvertTo-QueryString
 
-				If ($null -ne $queryString) {
+				if ($null -ne $queryString) {
 
 					#Build URL from base URL
 					$URI = "$URI`?$queryString"
@@ -251,7 +251,7 @@ function Get-PASAccount {
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
@@ -285,7 +285,7 @@ function Get-PASAccount {
 							#Get account properties from found account
 							$properties = ($account | Select-Object -ExpandProperty properties)
 
-							If ($null -ne $account.InternalProperties) {
+							if ($null -ne $account.InternalProperties) {
 
 								#Get internal properties from found account
 								$InternalProperties = ($account | Select-Object -ExpandProperty InternalProperties)
@@ -293,12 +293,12 @@ function Get-PASAccount {
 								$InternalProps = New-Object -TypeName PSObject
 
 								#For every account property
-								For ($int = 0; $int -lt $InternalProperties.length; $int++) {
+								for ($int = 0; $int -lt $InternalProperties.length; $int++) {
 
 									$InternalProps |
 
-									#Add each property name and value as object property of $InternalProps
-									Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+										#Add each property name and value as object property of $InternalProps
+										Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
 
 								}
 
@@ -316,7 +316,7 @@ function Get-PASAccount {
 							}
 
 							#For every account property
-							For ($int = 0; $int -lt $properties.length; $int++) {
+							for ($int = 0; $int -lt $properties.length; $int++) {
 
 								#Add each property name and value to results
 								$return | Add-ObjectDetail -PropertyToAdd @{$properties[$int].key = $properties[$int].value } -Passthru $false
@@ -358,6 +358,6 @@ function Get-PASAccount {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

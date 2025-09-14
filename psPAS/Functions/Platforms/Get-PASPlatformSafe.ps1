@@ -9,11 +9,11 @@ function Get-PASPlatformSafe {
 		[string]$PlatformID
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 11.1
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create request URL
 		$URI = "$($psPASSession.BaseURI)/API/Platforms/$($PlatformID | Get-EscapedString)/Safes/"
@@ -21,7 +21,7 @@ function Get-PASPlatformSafe {
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($result.count -gt 0) {
+		if ($result.count -gt 0) {
 
 			#Return Results
 			$result.value | ForEach-Object { [pscustomobject]@{'SafeName' = $PSItem } }
@@ -30,6 +30,6 @@ function Get-PASPlatformSafe {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

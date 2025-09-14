@@ -18,9 +18,9 @@ function Remove-PASUser {
 		[string]$UserName
 	)
 
-	BEGIN {
+	begin {
 
-		If ($PSCmdlet.ParameterSetName -eq 'Gen2') {
+		if ($PSCmdlet.ParameterSetName -eq 'Gen2') {
 
 			Assert-VersionRequirement -RequiredVersion 11.1
 
@@ -28,7 +28,7 @@ function Remove-PASUser {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -66,6 +66,6 @@ function Remove-PASUser {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -80,11 +80,11 @@ function Get-PASAccountPassword {
 		[String]$UserName
 	)
 
-	BEGIN {
+	begin {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Build Request
 		switch ($PSCmdlet.ParameterSetName) {
@@ -132,7 +132,7 @@ function Get-PASAccountPassword {
 		#splat request to web service
 		$result = Invoke-PASRestMethod @Request
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
@@ -147,7 +147,7 @@ function Get-PASAccountPassword {
 				'Gen2' {
 
 					#convert the result from json
-                    $result = ConvertFrom-Json $result
+					$result = ConvertFrom-Json $result
 
 					#Get UserName if parameter value not provided.
 					if ($PSBoundParameters.Keys -notcontains 'UserName') {
@@ -172,6 +172,6 @@ function Get-PASAccountPassword {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

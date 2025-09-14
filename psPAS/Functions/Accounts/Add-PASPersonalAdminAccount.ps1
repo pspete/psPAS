@@ -23,9 +23,9 @@ function Add-PASPersonalAdminAccount {
 
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameter
@@ -42,7 +42,7 @@ function Add-PASPersonalAdminAccount {
         #send request to PAS web service
         $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Account.V10'
@@ -51,6 +51,6 @@ function Add-PASPersonalAdminAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

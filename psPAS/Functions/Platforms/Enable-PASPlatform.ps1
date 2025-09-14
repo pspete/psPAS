@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Enable-PASPlatform {
+function Enable-PASPlatform {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'TargetPlatform', Justification = 'False Positive')]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'GroupPlatform', Justification = 'False Positive')]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'RotationalGroup', Justification = 'False Positive')]
@@ -33,13 +33,13 @@ Function Enable-PASPlatform {
 		[int]$ID
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.4
 
 	}#begin
 
-	Process {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/platforms/$($PSCmdLet.ParameterSetName)/$ID/activate"

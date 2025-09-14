@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASComponentDetail {
+function Get-PASComponentDetail {
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -12,11 +12,11 @@ Function Get-PASComponentDetail {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.1
 	}#begin
 
-	PROCESS {
+	process {
 
 		if ($PSBoundParameters['ComponentID'] -eq 'PTA') {
 
@@ -31,7 +31,7 @@ Function Get-PASComponentDetail {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#output returned data
 			$result | Select-Object -ExpandProperty ComponentsDetails
@@ -40,6 +40,6 @@ Function Get-PASComponentDetail {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

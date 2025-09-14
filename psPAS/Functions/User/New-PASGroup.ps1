@@ -21,11 +21,11 @@ function New-PASGroup {
 		[string]$location
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 11.1
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/UserGroups"
@@ -40,7 +40,7 @@ function New-PASGroup {
 
 		}
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Group
 
@@ -48,6 +48,6 @@ function New-PASGroup {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

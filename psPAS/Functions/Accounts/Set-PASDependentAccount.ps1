@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASDependentAccount {
+function Set-PASDependentAccount {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -42,24 +42,24 @@ Function Set-PASDependentAccount {
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 14.6
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts/$dependentAccountId"
 
         #Get all parameters that will be sent in the request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, dependentAccountId
+        $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, dependentAccountId
 
         $DependentAccount = New-PASAccountObject @boundParameters -DependentAccount
 
         #Get the dependent account that is being updated
-        $DependentAccountObject = Get-PASDependentAccount -AccountId $AccountID -DependentAccountId $dependentAccountId
+        $DependentAccountObject = Get-PASDependentAccount -AccountId $AccountID -dependentAccountId $dependentAccountId
 
         #Set current values if required
         if (-not $boundParameters.ContainsKey('name')) {
@@ -78,7 +78,7 @@ Function Set-PASDependentAccount {
             $DependentAccount.secretManagement.manualManagementReason = $DependentAccountObject.secretManagement.manualManagementReason
         }
 
-		$body = $DependentAccount | ConvertTo-Json
+        $body = $DependentAccount | ConvertTo-Json
 
         if ($PSCmdlet.ShouldProcess($AccountID, "Update Dependent Account $dependentAccountId")) {
 
@@ -89,6 +89,6 @@ Function Set-PASDependentAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

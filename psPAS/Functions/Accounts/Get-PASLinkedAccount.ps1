@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASLinkedAccount {
+function Get-PASLinkedAccount {
     [CmdletBinding()]
     param(
         [parameter(
@@ -11,14 +11,14 @@ Function Get-PASLinkedAccount {
 
     )
 
-    BEGIN {
+    begin {
 
         #Assume this is possible since Link/Unlink account capability in the newer UI
         Assert-VersionRequirement -RequiredVersion 12.2
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/api/ExtendedAccounts/$id/LinkedAccounts"
@@ -26,7 +26,7 @@ Function Get-PASLinkedAccount {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result.LinkedAccounts | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Account.LinkedAccount
@@ -35,6 +35,6 @@ Function Get-PASLinkedAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

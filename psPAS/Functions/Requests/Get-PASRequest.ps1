@@ -40,11 +40,11 @@ function Get-PASRequest {
 		[boolean]$DisplayExtendedItems
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		switch ($PSCmdlet.ParameterSetName) {
@@ -80,7 +80,7 @@ function Get-PASRequest {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			switch ($PSCmdlet.ParameterSetName) {
@@ -105,6 +105,6 @@ function Get-PASRequest {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

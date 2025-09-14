@@ -1,14 +1,14 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASPTARiskSummary {
+function Get-PASPTARiskSummary {
     [CmdletBinding()]
     param( )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 13.2
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/Risks/Summary/"
@@ -16,7 +16,7 @@ Function Get-PASPTARiskSummary {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event.Risk.Summary
@@ -25,6 +25,6 @@ Function Get-PASPTARiskSummary {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

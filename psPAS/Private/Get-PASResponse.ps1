@@ -30,9 +30,9 @@ function Get-PASResponse {
 
 	)
 
-	BEGIN {	}#begin
+	begin {	}#begin
 
-	PROCESS {
+	process {
 
 		if ($APIResponse.Content) {
 
@@ -47,7 +47,7 @@ function Get-PASResponse {
 
 				'text/html; charset=utf-8' {
 
-					If ($PASResponse -match '<HTML>') {
+					if ($PASResponse -match '<HTML>') {
 
 						#Fail if HTML received from API
 
@@ -100,6 +100,6 @@ function Get-PASResponse {
 
 	}#process
 
-	END {	}#end
+	end {	}#end
 
 }

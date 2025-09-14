@@ -66,11 +66,11 @@ function Get-PASPSMSession {
 		[string]$Activities
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/LiveSessions"
@@ -132,7 +132,7 @@ function Get-PASPSMSession {
 
 		$Total = $result.Total
 
-		If ($Total -gt 0) {
+		if ($Total -gt 0) {
 
 			#Set events as output collection
 			$LiveSessions = [Collections.Generic.List[Object]]::New(@($result.LiveSessions))
@@ -142,7 +142,7 @@ function Get-PASPSMSession {
 			$URI = $URLString[0]
 			$queryString = $URLString[1]
 
-			For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+			for ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
 
 				#While more Live PSM Sessions to return, create nextLink query value
 				$nextLink = "OffSet=$Offset"
@@ -165,7 +165,7 @@ function Get-PASPSMSession {
 
 		}
 
-		If ($null -ne $Output) {
+		if ($null -ne $Output) {
 
 			#Return Results
 			$Output | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Session
@@ -174,6 +174,6 @@ function Get-PASPSMSession {
 
 	}
 
-	END { }#end
+	end { }#end
 
 }

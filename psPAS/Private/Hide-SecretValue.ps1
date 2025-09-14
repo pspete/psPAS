@@ -1,4 +1,4 @@
-﻿Function Hide-SecretValue {
+﻿function Hide-SecretValue {
 	<#
     .SYNOPSIS
     Hide a secret value by converting it to "******"
@@ -73,13 +73,13 @@
 		)
 	)
 
-	BEGIN {
+	begin {
 
 
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		$InputValue | Set-Variable -Name OutputValue
 
@@ -94,7 +94,7 @@
 
 	}#process
 
-	END {
+	end {
 
 		#Return Output
 		$OutputValue

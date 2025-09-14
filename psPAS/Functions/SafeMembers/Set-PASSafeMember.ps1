@@ -435,7 +435,7 @@ function Set-PASSafeMember {
 		[switch]$Full
 	)
 
-	BEGIN {
+	begin {
 
 		#array for parameter names which appear in the top-tier of the JSON object
 		$keysToKeep = [Collections.Generic.List[String]]@(
@@ -444,7 +444,7 @@ function Set-PASSafeMember {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Get passed parameters to include in request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -460,7 +460,7 @@ function Set-PASSafeMember {
 				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/$($SafeName |
 					Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 
-				If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
+				if ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
 
 					#Convert ExpiryDate to string in Required format
 					$Date = (Get-Date $MembershipExpirationDate -Format MM/dd/yyyy).ToString()
@@ -485,7 +485,7 @@ function Set-PASSafeMember {
 
 			}
 
-			( { $PSItem -match '^Gen2' -or '^ReadOnly' -or '^ConnectOnly' -or '^Approver' -or '^AccountsManager' -or '^Full'} ) {
+			( { $PSItem -match '^Gen2' -or '^ReadOnly' -or '^ConnectOnly' -or '^Approver' -or '^AccountsManager' -or '^Full' } ) {
 
 				Assert-VersionRequirement -RequiredVersion 12.2
 
@@ -498,7 +498,7 @@ function Set-PASSafeMember {
 				#Create URL for request
 				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 
-				If ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
+				if ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
 
 					#Convert MembershipExpirationDate to string in Required format
 					$Date = Get-Date $MembershipExpirationDate | ConvertTo-UnixTime
@@ -550,7 +550,7 @@ function Set-PASSafeMember {
 			#Send request to webservice
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				switch ($PSCmdlet.ParameterSetName) {
 
@@ -592,6 +592,6 @@ function Set-PASSafeMember {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

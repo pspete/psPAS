@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Start-PASAccountImportJob {
+function Start-PASAccountImportJob {
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -15,7 +15,7 @@ Function Start-PASAccountImportJob {
 		[object[]]$accountsList
 	)
 
-	Begin {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.6
 
@@ -24,7 +24,7 @@ Function Start-PASAccountImportJob {
 
 	}
 
-	Process {
+	process {
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -37,7 +37,7 @@ Function Start-PASAccountImportJob {
 			#send request
 			$Result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-			If ($null -ne $Result) {
+			if ($null -ne $Result) {
 
 				#Return Results
 				try {
@@ -60,6 +60,6 @@ Function Start-PASAccountImportJob {
 
 	}
 
-	End {}
+	end {}
 
 }

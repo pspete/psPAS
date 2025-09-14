@@ -1,4 +1,4 @@
-Function ConvertTo-UnixTime {
+function ConvertTo-UnixTime {
 	<#
 .SYNOPSIS
 Returns UnixTime of a given date.
@@ -15,7 +15,7 @@ Get-Date | ConvertTo-UnixTime
 #>
 	[CmdletBinding()]
 	[OutputType('System.Integer')]
-	Param(
+	param(
 		[Parameter(
 			Mandatory = $true,
 			ValueFromPipeline = $true
@@ -37,11 +37,11 @@ Get-Date | ConvertTo-UnixTime
 		if ($Date -ne $epoch) {
 			#Convert Date with timezone offset
 			$UnixTime = [math]::Round($(Get-Date $Date.ToUniversalTime() -UFormat %s))
-		} Else {
+		} else {
 			#no timezone offset for epoch date
 			$UnixTime = [math]::Round($(Get-Date $Date -UFormat %s))
 		}
-		If ($Milliseconds) {
+		if ($Milliseconds) {
 			$UnixTime = $UnixTime * 1000
 		}
 

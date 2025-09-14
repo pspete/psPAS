@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Copy-PASPlatform {
+function Copy-PASPlatform {
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -49,13 +49,13 @@ Function Copy-PASPlatform {
 		[string]$description
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.4
 
 	}#begin
 
-	Process {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/Platforms/$($PSCmdLet.ParameterSetName)/$ID/duplicate"
@@ -71,7 +71,7 @@ Function Copy-PASPlatform {
 			#send request
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body
 
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				$result
 
@@ -81,6 +81,6 @@ Function Copy-PASPlatform {
 
 	}
 
-	End { }
+	end { }
 
 }

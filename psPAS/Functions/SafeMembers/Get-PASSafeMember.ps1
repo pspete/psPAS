@@ -114,7 +114,7 @@ function Get-PASSafeMember {
 		[switch]$UseGen1API
 	)
 
-	BEGIN {
+	begin {
 
 		$Request = @{ }
 		$Method = 'GET'
@@ -122,7 +122,7 @@ function Get-PASSafeMember {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -156,7 +156,7 @@ function Get-PASSafeMember {
 				#Create Query String, escaped for inclusion in request URL
 				$queryString = $boundParameters | ConvertTo-QueryString
 
-				If ($null -ne $queryString) {
+				if ($null -ne $queryString) {
 
 					#Build URL from base URL
 					$URI = "$URI`?$queryString"
@@ -197,7 +197,7 @@ function Get-PASSafeMember {
 				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
 				$FilterString = $filterParameters | ConvertTo-FilterString
 
-				If ($null -ne $FilterString) {
+				if ($null -ne $FilterString) {
 
 					$boundParameters = $boundParameters + $FilterString
 
@@ -206,7 +206,7 @@ function Get-PASSafeMember {
 				#Create Query String, escaped for inclusion in request URL
 				$queryString = $boundParameters | ConvertTo-QueryString
 
-				If ($null -ne $queryString) {
+				if ($null -ne $queryString) {
 
 					#Build URL from base URL
 					$URI = "$URI`?$queryString"
@@ -229,7 +229,7 @@ function Get-PASSafeMember {
 		#Send request to webservice
 		$result = Invoke-PASRestMethod @Request
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
@@ -270,7 +270,7 @@ function Get-PASSafeMember {
 
 				( { $PSItem -match '^Gen2' } ) {
 
-					If ($null -ne $result) {
+					if ($null -ne $result) {
 
 						switch ($PSCmdlet.ParameterSetName) {
 
@@ -286,7 +286,7 @@ function Get-PASSafeMember {
 
 								$Total = $result.Count
 
-								If ($Total -gt 0) {
+								if ($Total -gt 0) {
 
 									#Set memberlist as output collection
 									$Members = [Collections.Generic.List[Object]]::New(($result.value))
@@ -296,7 +296,7 @@ function Get-PASSafeMember {
 									$URI = $URLString[0]
 									$queryString = $URLString[1]
 
-									For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+									for ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
 
 										#While more members to return, create nextLink query value
 										$nextLink = "limit=$Limit&OffSet=$Offset"
@@ -340,6 +340,6 @@ function Get-PASSafeMember {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

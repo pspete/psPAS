@@ -17,9 +17,9 @@ function Remove-PASPublicSSHKey {
 
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		#Create URL string for request
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/$($UserName |
@@ -35,6 +35,6 @@ function Remove-PASPublicSSHKey {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

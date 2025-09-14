@@ -1,4 +1,4 @@
-Function Compare-MaximumVersion {
+function Compare-MaximumVersion {
 	<#
 	.SYNOPSIS
 	Compares 2 version numbers
@@ -28,7 +28,7 @@ Function Compare-MaximumVersion {
 	#>
 	[CmdletBinding()]
 	[OutputType('System.Boolean')]
-	Param(
+	param(
 		# A Version to compare against a Maximum Version
 		[Parameter(
 			Mandatory = $true,
@@ -47,20 +47,20 @@ Function Compare-MaximumVersion {
 		$MaximumVersion
 	)
 
-	Begin { }
+	begin { }
 
-	Process {
+	process {
 
 		# Only compare if version greater than "0.0"
-		If ($Version -gt '0.0') {
+		if ($Version -gt '0.0') {
 
 			#Determine if Version is less than MaximumVersion
-			If ($Version -lt $MaximumVersion) {
+			if ($Version -lt $MaximumVersion) {
 
 				#Version is less than MaximumVersion
 				$True
 
-			} Else {
+			} else {
 
 				#Version is greater than  MaximumVersion
 				$False
@@ -70,7 +70,7 @@ Function Compare-MaximumVersion {
 		}
 
 		#Version is 0.0
-		Else {
+		else {
 
 			#Skip - Return True
 			$True
@@ -79,6 +79,6 @@ Function Compare-MaximumVersion {
 
 	}
 
-	End { }
+	end { }
 
 }

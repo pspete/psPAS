@@ -12,11 +12,11 @@ function Import-PASConnectionComponent {
 		[string]$ImportFile
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.2
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/ConnectionComponents/Import"
@@ -36,6 +36,6 @@ function Import-PASConnectionComponent {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

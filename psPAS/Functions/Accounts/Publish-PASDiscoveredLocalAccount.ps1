@@ -41,14 +41,14 @@ function Publish-PASDiscoveredLocalAccount {
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -PrivilegeCloud
         $coreAttributes = [Collections.Generic.List[String]]@('safeName', 'platformID')
 
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($psPASSession.ApiURI)/api/discovered-accounts/$id/onboard"
 
@@ -56,7 +56,7 @@ function Publish-PASDiscoveredLocalAccount {
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove id
 
         #deal with defaultPassword SecureString
-        If ($PSBoundParameters.ContainsKey('secret')) {
+        if ($PSBoundParameters.ContainsKey('secret')) {
 
             #Include decoded password in request
             $boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
@@ -74,7 +74,7 @@ function Publish-PASDiscoveredLocalAccount {
 
         } {
 
-            If ($coreAttributesProperties.Count -gt 0) {
+            if ($coreAttributesProperties.Count -gt 0) {
 
                 $boundParameters['coreAttributes'] = $coreAttributesProperties
 
@@ -92,6 +92,6 @@ function Publish-PASDiscoveredLocalAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

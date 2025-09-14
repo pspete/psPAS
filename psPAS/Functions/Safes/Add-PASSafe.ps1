@@ -87,11 +87,11 @@ function Add-PASSafe {
 		[switch]$UseGen1API
 	)
 
-	BEGIN {
+	begin {
 		$typename = 'psPAS.CyberArk.Vault.Safe'
 	}#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -132,7 +132,7 @@ function Add-PASSafe {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
@@ -159,6 +159,6 @@ function Add-PASSafe {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

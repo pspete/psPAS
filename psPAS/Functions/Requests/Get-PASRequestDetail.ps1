@@ -17,11 +17,11 @@ function Get-PASRequestDetail {
 		[string]$RequestID
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/$($RequestType)/$($RequestID)"
@@ -29,7 +29,7 @@ function Get-PASRequestDetail {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Request.Extended
@@ -38,6 +38,6 @@ function Get-PASRequestDetail {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

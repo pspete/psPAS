@@ -1,4 +1,4 @@
-Function ConvertTo-QueryString {
+function ConvertTo-QueryString {
 	<#
 .SYNOPSIS
 Converts Hashtable to a string for use as a url query string
@@ -68,11 +68,11 @@ Formats input as: "Key=Value&Key=Value"
 		[switch]$URLEncode
 	)
 
-	Begin { }
+	begin { }
 
-	Process {
+	process {
 
-		If ($Parameters) {
+		if ($Parameters) {
 
 			$Parameters.GetEnumerator() | ForEach-Object {
 
@@ -80,12 +80,12 @@ Formats input as: "Key=Value&Key=Value"
 
 			} {
 
-				If ($NoEscape) {
+				if ($NoEscape) {
 
 					#Return Key=Value string, unescaped.
 					$Value = "$($PSItem.key)=$($PSItem.value)"
 
-				} Else {
+				} else {
 
 					#Return Key=Value string, escaped.
 					$Value = "$($PSItem.key)=$($PSItem.value | Get-EscapedString)"
@@ -96,22 +96,22 @@ Formats input as: "Key=Value&Key=Value"
 
 			} {
 
-				If ($FilterList.count -gt 0) {
+				if ($FilterList.count -gt 0) {
 
-                    If($Delimiter) {
+					if ($Delimiter) {
 						#Custom Delimiter
 						$FilterList = $FilterList -join $Delimiter
-					}Else {
+					} else {
 						#Join multiple Key=Value pairs with '&'
 						$FilterList = $FilterList -join '&'
 					}
 
-					If($Base64Encode) {
+					if ($Base64Encode) {
 						#Base64 Encode the query string
 						$FilterList = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($FilterList))
 					}
 
-					If($URLEncode) {
+					if ($URLEncode) {
 						#URL Encode the query string
 						$FilterList = [System.Web.HttpUtility]::UrlEncode($FilterList)
 					}
@@ -123,7 +123,7 @@ Formats input as: "Key=Value&Key=Value"
 
 	}
 
-	End {
+	end {
 		$FilterList
 	}
 

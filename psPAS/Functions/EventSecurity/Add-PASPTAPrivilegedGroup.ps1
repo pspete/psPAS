@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Add-PASPTAPrivilegedGroup {
+function Add-PASPTAPrivilegedGroup {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
@@ -15,12 +15,12 @@ Function Add-PASPTAPrivilegedGroup {
         [string]$group
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.0
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/PrivilegedDomainGroupsList"
@@ -37,6 +37,6 @@ Function Add-PASPTAPrivilegedGroup {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

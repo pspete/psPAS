@@ -10,13 +10,13 @@ function Disable-PASUser {
         [int]$id
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 12.6
 
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($psPASSession.BaseURI)/API/Users/$id/disable/"
 
@@ -29,6 +29,6 @@ function Disable-PASUser {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASPTASyslog {
+function Remove-PASPTASyslog {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
@@ -9,12 +9,12 @@ Function Remove-PASPTASyslog {
         [string]$ID
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.6
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/api/pta/API/Administration/properties/SyslogOutboundDataList/$ID"
@@ -28,6 +28,6 @@ Function Remove-PASPTASyslog {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

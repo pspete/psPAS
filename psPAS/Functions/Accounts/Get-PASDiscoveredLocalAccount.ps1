@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASDiscoveredLocalAccount {
+function Get-PASDiscoveredLocalAccount {
     [CmdletBinding(DefaultParameterSetName = 'byQuery')]
     param(
         [parameter(
@@ -74,7 +74,7 @@ Function Get-PASDiscoveredLocalAccount {
 
     )
 
-    Begin {
+    begin {
 
         Assert-VersionRequirement -PrivilegeCloud
 
@@ -83,7 +83,7 @@ Function Get-PASDiscoveredLocalAccount {
 
     }
 
-    Process {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.ApiURI)/api/discovered-accounts"
@@ -105,7 +105,7 @@ Function Get-PASDiscoveredLocalAccount {
                 $filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
                 $FilterString = $filterParameters | ConvertTo-FilterString
 
-                If ($null -ne $FilterString) {
+                if ($null -ne $FilterString) {
 
                     $boundParameters = $boundParameters + $FilterString
 
@@ -114,7 +114,7 @@ Function Get-PASDiscoveredLocalAccount {
                 #Create Query String, escaped for inclusion in request URL
                 $queryString = $boundParameters | ConvertTo-QueryString
 
-                If ($null -ne $queryString) {
+                if ($null -ne $queryString) {
 
                     #Build URL from base URL
                     $URI = "$URI`?$queryString"
@@ -130,9 +130,9 @@ Function Get-PASDiscoveredLocalAccount {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $Result) {
+        if ($null -ne $Result) {
 
-            If ($PSCmdlet.ParameterSetName -eq 'byQuery') {
+            if ($PSCmdlet.ParameterSetName -eq 'byQuery') {
 
                 #Process nextlink if querying
                 $Result = $Result | Get-NextLink -BaseURI $psPASSession.ApiURI
@@ -146,6 +146,6 @@ Function Get-PASDiscoveredLocalAccount {
 
     }
 
-    End {}
+    end {}
 
 }
