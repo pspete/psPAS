@@ -147,12 +147,12 @@ function Get-PASDependentAccount {
 
 			'AllDependentAccounts' {
 				if ($isPcloud) {
-					$URI = "$($psPASSession.ApiURI)/api/accounts/account-dependents"
+					Throw "Privilege Cloud implementation does not support getting all dependent accounts. Please specify a specific account to get dependent accounts."
 				}
 				else {
 					$URI = "$($psPASSession.BaseURI)/API/dependentAccounts"
 				}
-				
+
 				if ($PSBoundParameters.Keys -notcontains 'Limit') {
 					$Limit = 100   #default limit
 					$boundParameters.Add('Limit', $Limit) # Add to boundparameters for inclusion in query string
