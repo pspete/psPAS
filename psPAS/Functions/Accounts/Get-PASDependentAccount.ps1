@@ -113,6 +113,11 @@ function Get-PASDependentAccount {
 
 		#check required version
 		Assert-VersionRequirement -RequiredVersion 14.6
+		#check if Privilege Cloud
+		$isPcloud = $false
+		if ($psPASSession.BaseUri -match 'cyberark.cloud') {
+			$isPcloud = $true
+		}
 
 		#Parameter to include as filter value in url
 		$Parameters = [Collections.Generic.List[String]]@('MasterAccountId', 'modificationTime', 'platformId', 'SafeName')
@@ -132,11 +137,22 @@ function Get-PASDependentAccount {
 		switch ($PSCmdlet.ParameterSetName) {
 
 			'SpecificAccount' {
-				$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts"
+				if ($isPcloud) {
+					$URI = "$($psPASSession.ApiURI)/api/accounts/$id/account-dependents"
+				}
+				else {
+					$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts"
+				}
 			}
 
 			'AllDependentAccounts' {
-				$URI = "$($psPASSession.BaseURI)/API/dependentAccounts"
+				if ($isPcloud) {
+					$URI = "$($psPASSession.ApiURI)/api/accounts/account-dependents"
+				}
+				else {
+					$URI = "$($psPASSession.BaseURI)/API/dependentAccounts"
+				}
+				
 				if ($PSBoundParameters.Keys -notcontains 'Limit') {
 					$Limit = 100   #default limit
 					$boundParameters.Add('Limit', $Limit) # Add to boundparameters for inclusion in query string
@@ -144,7 +160,12 @@ function Get-PASDependentAccount {
 			}
 
 			'SpecificDependentAccount' {
-				$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts/$($dependentAccountId)"
+				if ($isPcloud) {
+					$URI = "$($psPASSession.ApiURI)/api/accounts/$id/account-dependents/$($dependentAccountId)"
+				}
+				else {
+					$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts/$($dependentAccountId)"
+				}
 			}
 
 		}

@@ -45,13 +45,23 @@ function Set-PASDependentAccount {
     begin {
 
         Assert-VersionRequirement -RequiredVersion 14.6
+        #check if Privilege Cloud
+		$isPcloud = $false
+		if ($psPASSession.BaseUri -match 'cyberark.cloud') {
+			$isPcloud = $true
+		}
 
     }#begin
 
     process {
 
         #Create URL for Request
-        $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts/$dependentAccountId"
+        if ($isPcloud) {
+            $URI = "$($psPASSession.ApiURI)/api/accounts/$AccountID/account-dependents/$dependentAccountId"
+        }
+        else {
+            $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts/$dependentAccountId"
+        }
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, dependentAccountId
