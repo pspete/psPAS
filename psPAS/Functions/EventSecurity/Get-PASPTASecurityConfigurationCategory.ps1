@@ -20,24 +20,15 @@ function Get-PASPTASecurityConfigurationCategory {
 
     process {
 
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories"
+
         switch ($PSBoundParameters.keys) {
 
             'categoryKey' {
 
                 #Create URL for Request
-                $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories/$categoryKey"
-
+                $URI = "$URI/$categoryKey"
                 break
-
-            }
-
-            Default {
-
-                #Create URL for Request
-                $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories"
-
-                break
-
             }
 
         }
