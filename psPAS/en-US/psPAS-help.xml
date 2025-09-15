@@ -13598,6 +13598,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:description>
             <maml:para>Specify either the 'OR' or 'AND' logical operator to apply against provided search parameters.</maml:para>
             <maml:para>Default mode of operation is 'AND'</maml:para>
+            <maml:para>Requires minimum version of 14.6</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -13803,6 +13804,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:description>
           <maml:para>Specify either the 'OR' or 'AND' logical operator to apply against provided search parameters.</maml:para>
           <maml:para>Default mode of operation is 'AND'</maml:para>
+          <maml:para>Requires minimum version of 14.6</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
