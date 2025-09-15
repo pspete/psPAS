@@ -8,6 +8,7 @@
 ## [unreleased]
 
 ### Added
+
 - `Get-PASDiscoveryRuleSet`
   - Privilege Cloud only command to show configured discovery rule sets
 - `New-PASDiscoveryRuleSet`
@@ -18,18 +19,50 @@
   - Privilege Cloud only command to delete a discovery rule set
 
 ### Updated
+
 - N/A
 
 ### Fixed
+
 - N/A
 
-## 7.0
+## [7.0.232]
+
+### Added
+
+- N/A
+
+### Updated
+
+- Tests updated for latest module commands
+- Applies a general code format update across module functions ensuring consistency.
+
+### Fixed
+
+- `Add-PASSafeMember` & `Set-PASSafeMember`
+  - Resolves issue introduced in previous release where, when adding or setting safe permissions in a loop, the loop could break preventing completion fo the task.
+  - Thanks [Slasky86](https://github.com/Slasky86)!!
+- `Get-PASDependentAccount`
+  - Fixes result pagination to ensure all results are returned on command execution.
+  - Fixes incorrect filter string being used for request in certain circumstances.
+- `Set-PASPTASMTP`
+  - Fixes validation logic when specifying parameter values from the pipeline
+- `Get-PASAccount`
+  - Ensures dynamic parameters are only presented for Self-Hosted users.
+  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
+- `Get-PASAccountSearchProperty`
+  - Enforces command to only be able to be run against self-hosted solutions.
+- `Get-PASPTASecurityConfigurationCategory`
+  - Fixes issue where URI for request may not be set on command execution.
+
+## [7.0.209]
 
 **Special shout out to [JP-Consulting](https://github.com/johannesconsulting) for the help on this release**
 
 _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Hosted Releases_
 
 ### Added
+
 - `Enable-PASTheme`
   - New 14.6 command to activate a custom UI theme
   - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
@@ -114,6 +147,7 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
   - New 14.6 command to list configured search properties
 
 ### Updated
+
 - `Add-PASSafeMember`
   - Updated to include permission pre-sets to match functionality available via PVWA
   - Thanks [Slasky86](https://github.com/Slasky86)!!
@@ -161,6 +195,7 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
 - Various corrections to help file contents
 
 ### Fixed
+
 - `Get-PASSAMLResponse`
   - Fixes a responsibly disclosed security vulnerability where TLS 1.2 was not enforced when a value for the SAMLResponse parameter was not provided to the New-PASSession command when using the Gen2SAML ParameterSet.
   - Much Respect to [Cristian Gaber](https://cgaber.com) for highlighting this to us.
@@ -174,12 +209,15 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
 ## [6.4.85]
 
 ### Added
+
 - N/A
 
 ### Updated
+
 - N/A
 
 ### Fixed
+
 - `Set-PASUser`
   - Adds logic to not attempt conversion to unix time if expiry date is not a valid datetime object, this resolves an issue where an error was raised when updating an account with an existing value for the `expirydate` property
   - Adds logic to not apply time zone offset when specifying Unix epoch time to remove an expiry date from an account which could previously result in an invalid time value in non-GMT time zones.
@@ -189,6 +227,7 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
 Includes a general update across multiple module commands to ensure commands which are specific to self-hosted implementations are not able to be run against Privilege Cloud, and any commands which are specific to Privilege Cloud are not able to be run against a Self-Hosted solution.
 
 ### Added
+
 - `Get-PASIPAllowList`
   - Privilege Cloud only command to show IP Allow List
 - `Set-PASIPAllowList`
@@ -209,10 +248,12 @@ Includes a general update across multiple module commands to ensure commands whi
   - Privilege Cloud only command to remove a local account from the Discovered Accounts list
 
 ### Updated
+
 - `Invoke-PASRestMethod`
   - Improvements to error handling
 
 ### Fixed
+
 - `Get-PASPSMRecording`
   - Fixes result paging issue
 - `Get-PASPSMSession`
@@ -221,9 +262,11 @@ Includes a general update across multiple module commands to ensure commands whi
 ## **6.3.78**
 
 ### Added
+
 - N/A
 
 ### Updated
+
 - `Get-PASPSMRecording`
   - In-line with PVWA default operation:
     - Changed the default limit for each page of results to 100, in-line with PVWA default values
@@ -276,7 +319,7 @@ Includes a general update across multiple module commands to ensure commands whi
     - Allows Empty argument for `unAuthorizedInterfaces` & `vaultAuthorization` parameters.
     - Corrects ValidateSet for `unAuthorizedInterfaces` parameter.
 - `Get-PASComponentDetail`
-  - Adds assertion that command specifying `PTA` component  must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
+  - Adds assertion that command specifying `PTA` component must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
 - `Add-PASAccountACL`
   - Adds assertion that command must be executed against a self hosted implementation as invocation against privilege cloud is not supported.
 - `Get-PASAccountACL`
@@ -303,14 +346,17 @@ Includes a general update across multiple module commands to ensure commands whi
   - Updates helper function to provide ability to assert if command is being run against self-hosted or privilege cloud implementation.
 
 ### Fixed
+
 - N/A
 
 ## **6.2.68**
 
 ### Added
+
 - N/A
 
 ### Updated
+
 - `Get-PASSession`
   - makes additional information available to users running the command
     - authentication time
@@ -318,7 +364,7 @@ Includes a general update across multiple module commands to ensure commands whi
     - last command and result data
     - last error details
 - `New-PASPSMSession`
-  - RDP and PSMGW connections will be automatically opened when issuing  connection request.
+  - RDP and PSMGW connections will be automatically opened when issuing connection request.
 - `New-PASSession`
   - Adds logic around getting the logged on user name for either self-hosted or privilege cloud deployments
 - PSM Session Data Formats
@@ -326,6 +372,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - Formats `Start` & `End` as standard datetime instead of unixtime.
 
 ### Fixed
+
 - `Add-PASGroupMember`,`Remove-PASGroup`,`Set-PASGroup`
   - Standardises name of `ID` parameter.
   - Adds `GroupID` alias to `ID` parameter.
@@ -333,9 +380,11 @@ Includes a general update across multiple module commands to ensure commands whi
 ## **6.1.62**
 
 ### Added
+
 - N/A
 
 ### Updated
+
 - `Get-PASPSMRecording`
   - Removes `Offset` Parameter
   - Updates `FromTime` & `ToTime` parameters to `[datetime]` types
@@ -350,6 +399,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - Removes `Offset` Parameter
 
 ### Fixed
+
 - `Get-PASSession`
   - Removes `UserName` from command output, avoiding error condition on expired session.
 - `Get-PASPlatform`
@@ -362,6 +412,7 @@ Includes a general update across multiple module commands to ensure commands whi
 ### Module update to cover all CyberArk 14.0 API features
 
 ### Added
+
 - `Add-PASPTAExcludedTarget`
   - New command, supported from 14.0
 - `Add-PASPTAIncludedTarget`
@@ -389,7 +440,8 @@ Includes a general update across multiple module commands to ensure commands whi
 - `Get-PASLinkedGroup`
   - New experimental command based on undocumented API.
 
- ### Updated
+### Updated
+
 - `Get-PASAccountActivity`
   - Adds Gen2 replacement for deprecated Gen1 API.
   - Updates default operation to target Gen2 API.
@@ -404,44 +456,53 @@ Includes a general update across multiple module commands to ensure commands whi
 - `Set-PASDirectoryMapping`
   - New parameters `UsedQuota`, `AuthorizedInterfaces` & `EnableENEWhenDisconnected`
 
- ### Fixed
+### Fixed
+
 - `Invoke-PASRestMethod`
   - Avoids potential error condition when handling errors in ISPSS environments
 
 ## **6.0.30**
 
 ### Added
- - N/A
 
- ### Updated
+- N/A
+
+### Updated
+
 - `Add-PASPTARule` & `Set-PASPTARule`
   - Adds scope parameters `vaultUsersMode`, `vaultUsersList`, `machinesMode` & `machinesList`
   - Includes scope property in output by default
 
- ### Fixed
+### Fixed
+
 - `Add-PASApplication`
-   - Updates date format of `ExpirationDate` to `MM/dd/yyyy`. Resolves issue observed when sending date format of `MM-dd-yyyy`
+  - Updates date format of `ExpirationDate` to `MM/dd/yyyy`. Resolves issue observed when sending date format of `MM-dd-yyyy`
 - `Set-PASPTAEvent` & `Set-PASPTARiskEvent`
   - Fixes issue where websession object and auth header were not being sent with the request
 
 ## **6.0.21**
 
 ### Added
- - N/A
 
- ### Updated
- - N/A
+- N/A
 
- ### Fixed
- - Debug Trace Output
-   - Resolves condition where authentication password value might be revealed in debug trace output in a scenario where  `Set-PSDebug -Trace 2` is active in the console host.
+### Updated
+
+- N/A
+
+### Fixed
+
+- Debug Trace Output
+  - Resolves condition where authentication password value might be revealed in debug trace output in a scenario where `Set-PSDebug -Trace 2` is active in the console host.
 
 ## **6.0.18**
 
 ### Added
+
 - N/A
 
 ### Changed
+
 - `Set-PASSafe`
   - Allows `0` as valid value for parameter `NumberOfDaysRetention`
 - `Get-PASServerWebService`
@@ -456,6 +517,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - Depreciates command from 13.2.
 
 ### Fixed
+
 - `Get-PASAccount`
   - Resolves issue where, if number of results of a `SavedFilter` are greater than the page size (either default or set via the `limit` parameter), only the URL of the first request sent would include the SavedFilter value.
 
@@ -786,7 +848,6 @@ Includes a general update across multiple module commands to ensure commands whi
     - Removed depreciated Parameter `offset`
     - Removed depreciated Parameter `limit`
 
-
 ## **4.5.90** (November 25th 2020)
 
 - Fixes
@@ -945,15 +1006,17 @@ Includes a general update across multiple module commands to ensure commands whi
 ### Module update to cover CyberArk 11.5 API features
 
 - **Behaviour Changes**
+
   - `Get-PASPlatform`
     - When invoked with no parameters to return details of all configured platforms, defaults to operation against the endpoint for the 11.4 API.
     - When invoked with a value provided for the `Active` parameter, will perform operation against the endpoint for the 11.4 API.
-    - To utilise the 11.1 api endpoint, a value should be provided for the `PlatformType` and/or `Search` parameters,  or, `Active` and `PlatformType` and/or `Search` parameters.
+    - To utilise the 11.1 api endpoint, a value should be provided for the `PlatformType` and/or `Search` parameters, or, `Active` and `PlatformType` and/or `Search` parameters.
   - `New-PASSession`
     - Value for OTP will be prompted for if no value is provided for this parameter.
       - The prompt will now relay the text of the response from the RADIUS server.
 
 - New Functions
+
   - `Copy-PASPlatform`
     - Duplicates target, dependent, group or rotational group platform to a new platform.
     - 11.4 functionality, missed in the `4.0.0` release.
@@ -971,6 +1034,7 @@ Includes a general update across multiple module commands to ensure commands whi
     - 11.5 functionality.
 
 - Updated Functions
+
   - `Get-PASPlatform`
     - Update to enable query of dependent, group, rotational group platforms
     - Update to include additional filters available for querying target platoforms
@@ -993,16 +1057,19 @@ Includes a general update across multiple module commands to ensure commands whi
 ### Module update to cover CyberArk 11.4 API features
 
 - **Breaking Changes**
+
   - `Get-PASSafeMember`, `Add-PASSafeMember` & `Set-PASSafeMember`: Output Changed
     - "Permission" property of returned object now contains a nested property=value pair for each permission instead of an array containing only the name of the assigned permissions.
     - Existing scripts which rely on the legacy array value of the `Permissions` property when working with the `*-PASSafeMember` functions must either be updated to work with the new output or use an earlier compatible psPAS version.
 
 - New Function
+
   - Added `Set-PASPTAEvent`
     - Appeared in 11.3
     - Set status of PTA events
 
 - Updated Functions
+
   - `New-PASSession`
     - Adds support for updated saml auth updated in 11.4
   - `Get-PASPTAEvent`
@@ -1048,6 +1115,7 @@ Includes a general update across multiple module commands to ensure commands whi
 ### Module update to cover CyberArk 11.2 API features
 
 - **Breaking Changes**
+
   - Parameters Changed: `New-PASDirectoryMapping` & `Set-PASDirectoryMapping`
     - Functions updated to use enum flag for mapping authorization options
     - `MappingAuthorizations`
@@ -1064,6 +1132,7 @@ Includes a general update across multiple module commands to ensure commands whi
       - `ActivateUsers`
 
 - New Function
+
   - Added `Test-PASPSMRecording`
     - New in 11.2
 
@@ -1083,6 +1152,7 @@ Includes a general update across multiple module commands to ensure commands whi
 ### Module update to cover CyberArk 11.1 API features
 
 - New Functions
+
   - `New-PASGroup`
     - Creates CyberArk Groups
     - Requires 11.1
@@ -1100,6 +1170,7 @@ Includes a general update across multiple module commands to ensure commands whi
     - Requires 10.4+
 
 - Updated Functions
+
   - `Set-PASDirectoryMapping`
     - MappingAuthorizations parameter no longer accepts pipeline input
   - `Add-PASDiscoveredAccount`
@@ -1149,6 +1220,7 @@ Includes a general update across multiple module commands to ensure commands whi
 ## 3.2.27 (Sept 1st 2019)
 
 - Updates
+
   - `New-PASSession`
     - Adds support for sending OTP in response to RADIUS Challenge
     - Adds support to skip certificate validation
@@ -1348,6 +1420,7 @@ _2 years since first commit Anniversary Edition_
 ## 2.4.8 (February 16th 2019)
 
 - Updated Functions / Bug Fix / Breaking Change
+
   - `Close-PASSession`
     - Now sends request to V10 URL by default.
     - New parameter added to send request to V9 API if required.
@@ -1401,6 +1474,7 @@ _2 years since first commit Anniversary Edition_
 ### Module update to cover CyberArk 10.5 API features
 
 - New Functions
+
   - `Get-PASGroup`
     - Enables querying of Vault Groups
   - `Remove-PASGroupMember`
@@ -1413,6 +1487,7 @@ _2 years since first commit Anniversary Edition_
     - Retrieves parameters needed to monitor an in-progress PSM session
 
 - Updated Functions
+
   - `Get-PASDirectory`
     - Now possible to query LDAP Directory by name
   - `Get-PASAccountGroup`
@@ -1442,7 +1517,7 @@ _2 years since first commit Anniversary Edition_
 
 - Bug Fix
   - `Get-PASAccountPassword`
-    - Backward compatibility for retrieving password values from  CyberArk version 9 restored.
+    - Backward compatibility for retrieving password values from CyberArk version 9 restored.
 
 ## 2.2.0 (July 27th 2018)
 
@@ -1474,6 +1549,7 @@ _The 1 year since first commit anniversary edition_
 ### Module update to cover CyberArk 10.4 API features
 
 - Breaking Changes
+
   - `New-PASSession`
     - Function now defaults to the v10 API Endpoints
     - Users on CyberArk Version 9 need to specify the `-UseV9API` switch parameter
@@ -1493,6 +1569,7 @@ _The 1 year since first commit anniversary edition_
     - Parameter `ExpiryDate` changed to type `[datetime]`
 
 - New Functions
+
   - `Export-PASPlatform` function added, allows export of platform to a zip file.
   - `Get-PASUserLoginInfo` function added, retrieves logon information for the authenticated user.
   - `Add-PASDirectory` function added, adds a new LDAP directory for authentication.
@@ -1500,6 +1577,7 @@ _The 1 year since first commit anniversary edition_
   - `New-PASDirectoryMapping` function added, creates new LDAP Directory mappings.
 
 - Bug Fixes
+
   - `New-PASSession`
     - Fixed issue where module was not returning authentication token when using LDAP credentials in version 10.3.
       - To use LDAP authentication the `-type LDAP` must be specified as a parameter.
@@ -1524,9 +1602,11 @@ _The 1 year since first commit anniversary edition_
 ### Module update to cover CyberArk 10.3 API features ~~(part 1)~~
 
 - New Function
+
   - `Import-PASConnectionComponent` function added, allows import of connection component from zip file.
 
 - Bug Fixes
+
   - Updates to some functions and test scripts to fix Pester & PSScriptAnalyzer failures/violations/errors
   - Updates to some pester tests to allow them to run & pass in PowerShell Core
 
@@ -1544,33 +1624,34 @@ _The 1 year since first commit anniversary edition_
 
 - Bug Fixes:
   - `New-PASSession`, `New-PASSAMLSession` & `New-PASSharedSession`
-  prevented from providing output (except error message) in the
-  event of a failure
+    prevented from providing output (except error message) in the
+    event of a failure
 
 ## 1.2.0 (March 16 2018)
 
 ### Module updated to cover CyberArk 10.2 API features
 
 - New Functions
+
   - `New-PASOnboardingRule` has added parameters available from 10.2 onwards.
     The 9.8 & 10.2 parameters are configured as separate parametersets.
   - `Get-PASOnboardingRule` has a new parameter added, allowing search of
-     Onboarding rules by name in version 10.2
+    Onboarding rules by name in version 10.2
   - `Import-PASPlatform` function added, allowing import of CPM Platforms
   - `Get-PASPSMConnectionParameters` updated to facilitate return of HTML5
-      connection data when PSMGW is configured.
+    connection data when PSMGW is configured.
   - `Suspend-PASPSMSession` & `Resume-PASPSMSession` functions added, expanding
-     on the automatic mitigation capability for PSM Sessions.
+    on the automatic mitigation capability for PSM Sessions.
 
 - Attained 100% Code Coverage in the Tests for the module.
 
 ## 1.1.8 (March 09 2018)
 
 - Bug Fixes:
-  - ```Add-PASAccountGroupMember``` now sends AccountID with request.
-  - ```New-PASAccountGroup``` fixed an incorrect parameter name (_GroupPlatformID_).
-  - ```New-PASSAMLSession``` - basic authentication token now sent in request header.
-  - ```Get-PASOnboardingRule```, ```New-PASOnboardingRule``` & ```Remove-PASOnboardingRule```,
+  - `Add-PASAccountGroupMember` now sends AccountID with request.
+  - `New-PASAccountGroup` fixed an incorrect parameter name (_GroupPlatformID_).
+  - `New-PASSAMLSession` - basic authentication token now sent in request header.
+  - `Get-PASOnboardingRule`, `New-PASOnboardingRule` & `Remove-PASOnboardingRule`,
     parameters updated to allow specification of alternate PVWA application name
     (in-line with the rest of the module's functions).
 
