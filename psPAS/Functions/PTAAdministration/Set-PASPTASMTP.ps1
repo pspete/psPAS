@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASPTASMTP {
+function Set-PASPTASMTP {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
@@ -49,7 +49,7 @@ Function Set-PASPTASMTP {
                     throw "Certificate file does not exist: $_"
                 }
                 if ($_ -and $_ -notmatch '\.(crt|cer|pem)$') {
-                    throw "Certificate file must have .crt, .cer, or .pem extension"
+                    throw 'Certificate file must have .crt, .cer, or .pem extension'
                 }
                 return $true
             })]
@@ -63,17 +63,18 @@ Function Set-PASPTASMTP {
         [int]$AlertToEmailScoreThreshold
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.4
+
+    }#begin
+
+    process {
 
         # Validate certificate requirement for non-NONE protocols
         if ($protocol -ne 'NONE' -and -not $PSBoundParameters.ContainsKey('CertificateFile')) {
             throw "Certificate file is required when protocol is not 'NONE'"
         }
-    }#begin
-
-    PROCESS {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/api/pta/API/Administration/properties"
@@ -108,8 +109,7 @@ Function Set-PASPTASMTP {
                 # Add encoded certificate to SMTP details
                 $smtpDetails['certificate'] = $Base64Cert
 
-            }
-            catch {
+            } catch {
                 throw "Failed to read or encode certificate file '$CertificateFile': $($_.Exception.Message)"
             }
         }
@@ -117,11 +117,11 @@ Function Set-PASPTASMTP {
         # Build the payload structure
         $payload = @(
             @{
-                key   = "SMTPConnectivityDetails"
+                key   = 'SMTPConnectivityDetails'
                 value = $smtpDetails
             },
             @{
-                key   = "AlertToEmailScoreThreshold"
+                key   = 'AlertToEmailScoreThreshold'
                 value = $AlertToEmailScoreThreshold
             }
         )
@@ -135,7 +135,7 @@ Function Set-PASPTASMTP {
             $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
 
-            If ($null -ne $result) {
+            if ($null -ne $result) {
 
                 #Return Results
                 $result
@@ -146,6 +146,6 @@ Function Set-PASPTASMTP {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

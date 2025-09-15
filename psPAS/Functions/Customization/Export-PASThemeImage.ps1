@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Export-PASThemeImage {
+function Export-PASThemeImage {
     [CmdletBinding()]
     param(
         [parameter(
@@ -8,36 +8,36 @@ Function Export-PASThemeImage {
         )]
         [string]$imageName,
 
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
-		)]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
+        )]
         [ValidateNotNullOrEmpty()]
-		[ValidateScript( { Test-Path -Path $_ -IsValid })]
-		[string]$Path
+        [ValidateScript( { Test-Path -Path $_ -IsValid })]
+        [string]$Path
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.4
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for request
         $URI = "$($psPASSession.BaseURI)/API/Images/$imageName/"
 
         #Request body
-		$Body = $PSBoundParameters | Get-PASParameter -ParametersToKeep imageName | ConvertTo-Json
+        $Body = $PSBoundParameters | Get-PASParameter -ParametersToKeep imageName | ConvertTo-Json
 
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET -Body $Body
 
         #if we get a byte array
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             Out-PASFile -InputObject $result -Path $Path
 
@@ -45,5 +45,5 @@ Function Export-PASThemeImage {
 
     }#process
 
-    END { }#end
+    end { }#end
 }

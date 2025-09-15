@@ -51,7 +51,7 @@ function Get-PASGroup {
 		[boolean]$includeMembers
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.5
 
 		#Parameter to include in request
@@ -59,7 +59,7 @@ function Get-PASGroup {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/UserGroups"
@@ -108,7 +108,7 @@ function Get-PASGroup {
 				$filterProperties = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
 				$FilterString = $filterProperties | ConvertTo-FilterString
 
-				If ($null -ne $FilterString) {
+				if ($null -ne $FilterString) {
 
 					$boundParameters = $boundParameters + $FilterString
 
@@ -131,7 +131,7 @@ function Get-PASGroup {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			switch ($PSCmdlet.ParameterSetName) {
 
@@ -139,7 +139,7 @@ function Get-PASGroup {
 
 					$result = $result.value
 
-					Continue
+					continue
 
 				}
 
@@ -151,6 +151,6 @@ function Get-PASGroup {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

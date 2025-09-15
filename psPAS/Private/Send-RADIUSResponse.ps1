@@ -1,4 +1,4 @@
-Function Send-RADIUSResponse {
+function Send-RADIUSResponse {
     <#
     .SYNOPSIS
     Sends RADIUS challenge response as part of PAS logon process
@@ -38,21 +38,21 @@ Function Send-RADIUSResponse {
         [string]$OTP
     )
 
-    Begin {
+    begin {
 
         #Default value for the Read-Host prompt.
         $Prompt = 'Enter OTP'
 
     }
 
-    Process {
+    process {
 
         #OTP value has not yet been provided.
         #Initial RADIUS auth attempt will trigger notification of OTP for user to provide.
         #?"passcode" remains an option for backward compatibility.
-        If ((-not ($PSBoundParameters.ContainsKey('OTP'))) -or ($PSBoundParameters['OTP'] -match 'passcode')) {
+        if ((-not ($PSBoundParameters.ContainsKey('OTP'))) -or ($PSBoundParameters['OTP'] -match 'passcode')) {
 
-            If ($null -ne $Message) {
+            if ($null -ne $Message) {
 
                 #*The message from the exception containing challenge instructions from the RADIUS server.
                 $Prompt = $Message
@@ -81,7 +81,7 @@ Function Send-RADIUSResponse {
                 #Throw all errors not related to ITATS542I
                 throw $PSItem
 
-            } Else {
+            } else {
 
                 #ITATS542I indicates further challenge required
                 #pass $LogonRequest and challenge message back into this function
@@ -93,6 +93,6 @@ Function Send-RADIUSResponse {
 
     }
 
-    End {}
+    end {}
 
 }

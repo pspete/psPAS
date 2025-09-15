@@ -47,11 +47,11 @@ function Add-PASGroupMember {
 		[string]$UserName
 	)
 
-	BEGIN {
+	begin {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -85,7 +85,7 @@ function Add-PASGroupMember {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result
 
@@ -93,6 +93,6 @@ function Add-PASGroupMember {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

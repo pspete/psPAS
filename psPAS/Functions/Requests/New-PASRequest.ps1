@@ -282,12 +282,12 @@ function New-PASRequest {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 9.10
 		$Target = $PSCmdlet.ParameterSetName
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/MyRequests"
@@ -377,7 +377,7 @@ function New-PASRequest {
 			#send request to PAS web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 				switch ($PSCmdlet.ParameterSetName) {
 
 					{ $PSItem -match '^Bulk' } {
@@ -397,6 +397,6 @@ function New-PASRequest {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Enable-PASTheme {
+function Enable-PASTheme {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -10,28 +10,28 @@ Function Enable-PASTheme {
 
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.4
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for request
         $URI = "$($psPASSession.BaseURI)/API/ActiveThemes/"
 
         #Request body
-		$Body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
+        $Body = $PSBoundParameters | Get-PASParameter | ConvertTo-Json
 
         if ($PSCmdlet.ShouldProcess($ThemesNames, 'Setting UI Theme')) {
 
-			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+            #send request to web service
+            Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-		}
+        }
 
     }#process
 
-    END { }#end
+    end { }#end
 }

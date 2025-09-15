@@ -57,7 +57,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 	)
 
-	BEGIN {
+	begin {
 
 		$BaseParameters = [Collections.Generic.List[String]]@(
 			[System.Management.Automation.PSCmdlet]::CommonParameters +
@@ -70,7 +70,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		$Parameters.Keys | ForEach-Object {
 
@@ -88,7 +88,7 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 			}
 
-			Else {
+			else {
 
 				if (($BaseParameters + $ParametersToRemove) -notcontains $PSItem) {
 
@@ -101,6 +101,6 @@ Hashtable/$PSBoundParameters object, with defined parameters removed.
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

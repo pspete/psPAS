@@ -1,14 +1,14 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASPTARemediation {
+function Get-PASPTARemediation {
 	[CmdletBinding()]
 	param(	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.4
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create request URL
 		$URI = "$($psPASSession.BaseURI)/API/pta/API/Settings"
@@ -16,7 +16,7 @@ Function Get-PASPTARemediation {
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result.automaticRemediation | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Remediation
@@ -25,6 +25,6 @@ Function Get-PASPTARemediation {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

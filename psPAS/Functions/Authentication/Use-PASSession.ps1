@@ -10,14 +10,14 @@ function Use-PASSession {
 
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		New-Variable -Name psPASSession -Value $Session -Scope Script -Force
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

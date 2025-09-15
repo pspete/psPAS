@@ -92,9 +92,9 @@ function Set-PASSafe {
 
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		$typename = 'psPAS.CyberArk.Vault.Safe'
 
@@ -161,7 +161,7 @@ function Set-PASSafe {
 			#Send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				switch ($PSCmdlet.ParameterSetName) {
 
@@ -191,6 +191,6 @@ function Set-PASSafe {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

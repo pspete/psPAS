@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASAuthenticationMethod {
+function Get-PASAuthenticationMethod {
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -12,13 +12,13 @@ Function Get-PASAuthenticationMethod {
 
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/AuthenticationMethods/$($ID | Get-EscapedString)"
@@ -27,7 +27,7 @@ Function Get-PASAuthenticationMethod {
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			if ($null -ne $result.Methods) {
 
@@ -41,7 +41,7 @@ Function Get-PASAuthenticationMethod {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 
 }

@@ -1,14 +1,14 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASPTAGlobalCatalog {
+function Get-PASPTAGlobalCatalog {
     [CmdletBinding()]
     param(	)
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 13.0
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/Administration/GCConnectivity"
@@ -16,7 +16,7 @@ Function Get-PASPTAGlobalCatalog {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result
@@ -25,6 +25,6 @@ Function Get-PASPTAGlobalCatalog {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

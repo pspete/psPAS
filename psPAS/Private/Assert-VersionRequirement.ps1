@@ -1,4 +1,4 @@
-Function Assert-VersionRequirement {
+function Assert-VersionRequirement {
 	<#
 .SYNOPSIS
 Affirms that a version requirments are satisfied
@@ -37,7 +37,7 @@ Returns nothing as 1.0 exceeds 0.5
 General notes
 #>
 	[CmdletBinding(DefaultParameterSetName = 'CompareVersion')]
-	Param(
+	param(
 		# The Current Software Version
 		[Parameter(
 			Mandatory = $false,
@@ -80,62 +80,62 @@ General notes
 		[Switch]$SelfHosted
 	)
 
-	Begin {
+	begin {
 
 		$ParentFunction = $((Get-ParentFunction).FunctionName)
 		$UsedParameterSet = $((Get-ParentFunction).ParameterSetName)
 
 	}
 
-	Process {
+	process {
 
 		switch ($PSBoundParameters.Keys) {
 
 			'RequiredVersion' {
 
-				If (-not (Compare-MinimumVersion -Version $ExternalVersion -MinimumVersion $RequiredVersion)) {
+				if (-not (Compare-MinimumVersion -Version $ExternalVersion -MinimumVersion $RequiredVersion)) {
 
-					Throw "CyberArk $ExternalVersion does not meet the minimum version requirement of $RequiredVersion for $ParentFunction (using ParameterSet: $UsedParameterSet)"
+					throw "CyberArk $ExternalVersion does not meet the minimum version requirement of $RequiredVersion for $ParentFunction (using ParameterSet: $UsedParameterSet)"
 
 				}
 
-				Continue
+				continue
 
 			}
 
 			'MaximumVersion' {
 
-				If (-not (Compare-MaximumVersion -Version $ExternalVersion -MaximumVersion $MaximumVersion)) {
+				if (-not (Compare-MaximumVersion -Version $ExternalVersion -MaximumVersion $MaximumVersion)) {
 
-					Throw "CyberArk $ExternalVersion exceeds the maximum supported version of $MaximumVersion for $ParentFunction (using ParameterSet: $UsedParameterSet)"
+					throw "CyberArk $ExternalVersion exceeds the maximum supported version of $MaximumVersion for $ParentFunction (using ParameterSet: $UsedParameterSet)"
 
 				}
 
-				Continue
+				continue
 
 			}
 
 			'PrivilegeCloud' {
 
-				If (-not ($psPASSession.BaseUri -match 'cyberark.cloud')) {
+				if (-not ($psPASSession.BaseUri -match 'cyberark.cloud')) {
 
-					Throw "$ParentFunction (using ParameterSet: $UsedParameterSet) is only applicable to Privilege Cloud Implementations"
+					throw "$ParentFunction (using ParameterSet: $UsedParameterSet) is only applicable to Privilege Cloud Implementations"
 
 				}
 
-				Continue
+				continue
 
 			}
 
 			'SelfHosted' {
 
-				If ($psPASSession.BaseUri -match 'cyberark.cloud') {
+				if ($psPASSession.BaseUri -match 'cyberark.cloud') {
 
-					Throw "$ParentFunction (using ParameterSet: $UsedParameterSet) is only applicable for Self-Hosted Implementations"
+					throw "$ParentFunction (using ParameterSet: $UsedParameterSet) is only applicable for Self-Hosted Implementations"
 
 				}
 
-				Continue
+				continue
 
 			}
 
@@ -143,6 +143,6 @@ General notes
 
 	}
 
-	End { }
+	end { }
 
 }

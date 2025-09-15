@@ -3,11 +3,11 @@ function Get-PASPlatformSummary {
     [CmdletBinding()]
     param()
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -RequiredVersion 12.2
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/Platforms/Targets/SystemTypes"
@@ -16,7 +16,7 @@ function Get-PASPlatformSummary {
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
         #$result
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result.SystemTypes
@@ -25,6 +25,6 @@ function Get-PASPlatformSummary {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

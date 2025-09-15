@@ -1,15 +1,15 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASReportSchedule {
+function Get-PASReportSchedule {
     [CmdletBinding()]
     param( )
 
-    Begin {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 14.6
 
     }
 
-    Process {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/Tasks"
@@ -17,7 +17,7 @@ Function Get-PASReportSchedule {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $Result) {
+        if ($null -ne $Result) {
 
             #Return result
             $Result | Select-Object -ExpandProperty tasks
@@ -27,6 +27,6 @@ Function Get-PASReportSchedule {
 
     }
 
-    End {}
+    end {}
 
 }

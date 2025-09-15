@@ -1,6 +1,6 @@
 ---
 title: "psPAS Release 7.0"
-date: 2025-09-09 00:00:00
+date: 2025-09-15 00:00:00
 tags:
   - Release Notes
   - Remove-PASPublicSSHKey
@@ -60,13 +60,43 @@ tags:
   - Deny-PASRequest
 ---
 
-## **7.0**
+## [7.0.232]
+
+### Added
+
+- N/A
+
+### Updated
+
+- Tests updated for latest module commands
+- Applies a general code format update across module functions ensuring consistency.
+
+### Fixed
+
+- `Add-PASSafeMember` & `Set-PASSafeMember`
+  - Resolves issue introduced in previous release where, when adding or setting safe permissions in a loop, the loop could break preventing completion fo the task.
+  - Thanks [Slasky86](https://github.com/Slasky86)!!
+- `Get-PASDependentAccount`
+  - Fixes result pagination to ensure all results are returned on command execution.
+  - Fixes incorrect filter string being used for request in certain circumstances.
+- `Set-PASPTASMTP`
+  - Fixes validation logic when specifying parameter values from the pipeline
+- `Get-PASAccount`
+  - Ensures dynamic parameters are only presented for Self-Hosted users.
+  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
+- `Get-PASAccountSearchProperty`
+  - Enforces command to only be able to be run against self-hosted solutions.
+- `Get-PASPTASecurityConfigurationCategory`
+  - Fixes issue where URI for request may not be set on command execution.
+
+## **7.0.209**
 
 **Special shout out to [JP-Consulting](https://github.com/johannesconsulting) for the help on this release**
 
 _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Hosted Releases_
 
 ### Added
+
 - `Enable-PASTheme`
   - New 14.6 command to activate a custom UI theme
   - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
@@ -151,6 +181,7 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
   - New 14.6 command to list configured search properties
 
 ### Updated
+
 - `Add-PASSafeMember`
   - Updated to include permission pre-sets to match functionality available via PVWA
   - Thanks [Slasky86](https://github.com/Slasky86)!!
@@ -198,6 +229,7 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
 - Various corrections to help file contents
 
 ### Fixed
+
 - `Get-PASSAMLResponse`
   - Fixes a responsibly disclosed security vulnerability where TLS 1.2 was not enforced when a value for the SAMLResponse parameter was not provided to the New-PASSession command when using the Gen2SAML ParameterSet.
   - Much Respect to [Cristian Gaber](https://cgaber.com) for highlighting this to us.

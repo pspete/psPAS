@@ -17,9 +17,9 @@ function Remove-PASApplicationAuthenticationMethod {
 		[string]$AuthID
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		#request URL
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Applications/$($AppID |
@@ -35,6 +35,6 @@ function Remove-PASApplicationAuthenticationMethod {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

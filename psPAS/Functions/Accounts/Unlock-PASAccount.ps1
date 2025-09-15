@@ -27,9 +27,9 @@ function Unlock-PASAccount {
 		[switch]$Unlock
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -64,6 +64,6 @@ function Unlock-PASAccount {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

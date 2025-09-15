@@ -1,18 +1,18 @@
 # .ExternalHelp psPAS-help.xml
-Function New-PASTheme {
-    [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$name,
+function New-PASTheme {
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$name,
 
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [boolean]$isDraft,
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[boolean]$isDraft,
 
 		[parameter(
 			Mandatory = $false,
@@ -42,7 +42,7 @@ Function New-PASTheme {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
-        [ValidateSet('Bright', 'Dark')]
+		[ValidateSet('Bright', 'Dark')]
 		[string]$colorsStyle,
 
 		[parameter(
@@ -303,33 +303,33 @@ Function New-PASTheme {
 		)]
 		[string]$textMain
 
-    )
+	)
 
-    BEGIN {
-        Assert-VersionRequirement -SelfHosted
-        Assert-VersionRequirement -RequiredVersion 14.4
+	begin {
+		Assert-VersionRequirement -SelfHosted
+		Assert-VersionRequirement -RequiredVersion 14.4
 
-    }#begin
+	}#begin
 
-    PROCESS {
+	process {
 
-        #Create URL for request
-        $URI = "$($psPASSession.BaseURI)/API/Themes/"
+		#Create URL for request
+		$URI = "$($psPASSession.BaseURI)/API/Themes/"
 
-        #Get request parameters
+		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-        $boundParameters = $boundParameters | Format-PASThemeObject
+		$boundParameters = $boundParameters | Format-PASThemeObject
 
-        #Construct Request Body
+		#Construct Request Body
 		$Body = $boundParameters | ConvertTo-Json -Depth 4
 
-        if ($PSCmdlet.ShouldProcess($name, 'Adding New UI Theme')) {
+		if ($PSCmdlet.ShouldProcess($name, 'Adding New UI Theme')) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-            If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				$result
 
@@ -337,7 +337,7 @@ Function New-PASTheme {
 
 		}
 
-    }#process
+	}#process
 
-    END { }#end
+	end { }#end
 }

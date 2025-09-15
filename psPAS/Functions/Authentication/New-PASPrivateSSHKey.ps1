@@ -36,13 +36,13 @@ function New-PASPrivateSSHKey {
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 12.1
 
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($psPASSession.BaseURI)/api/Users"
 
@@ -69,7 +69,7 @@ function New-PASPrivateSSHKey {
         #Get Parameters to include in request
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove UserName
 
-        If ($PSBoundParameters.ContainsKey('keyPassword')) {
+        if ($PSBoundParameters.ContainsKey('keyPassword')) {
 
             #Include decoded password in request
             $boundParameters['keyPassword'] = $(ConvertTo-InsecureString -SecureString $keyPassword)
@@ -83,7 +83,7 @@ function New-PASPrivateSSHKey {
             #send request to webservice
             $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-            If ($null -ne $result) {
+            if ($null -ne $result) {
 
                 $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PrivateSSHKey
 
@@ -93,5 +93,5 @@ function New-PASPrivateSSHKey {
 
     }#process
 
-    END { }#end
+    end { }#end
 }

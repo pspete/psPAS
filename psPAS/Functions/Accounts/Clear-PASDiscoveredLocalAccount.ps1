@@ -3,13 +3,13 @@ function Clear-PASDiscoveredLocalAccount {
     [CmdletBinding(SupportsShouldProcess)]
     param()
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -PrivilegeCloud
 
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($psPASSession.ApiURI)/api/discovered-accounts/clear"
 
@@ -21,5 +21,5 @@ function Clear-PASDiscoveredLocalAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 }

@@ -16,7 +16,7 @@ function Approve-PASRequest {
 		[string]$Reason
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 9.10
 
@@ -35,7 +35,7 @@ function Approve-PASRequest {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/IncomingRequests"
@@ -46,17 +46,17 @@ function Approve-PASRequest {
 			$URI = "$URI/Confirm/Bulk"
 
 			#Create body of request
-			$Body = @{"BulkItems" = [System.Collections.Generic.List[object]]::new()}
+			$Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }
 			$RequestId | ForEach-Object {
 				$Body.BulkItems.Add(
 					@{
 						RequestId = $PSItem
-						Reason   = $Reason
+						Reason    = $Reason
 					}
 				)
 			}
 
-		} Else{
+		} else {
 
 			# Branch logic for single confirmation
 			$URI = "$URI/$($boundInput)/Confirm"
@@ -78,6 +78,6 @@ function Approve-PASRequest {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

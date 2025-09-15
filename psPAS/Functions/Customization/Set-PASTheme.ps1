@@ -1,24 +1,24 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASTheme {
-    [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$ThemeName,
+function Set-PASTheme {
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$ThemeName,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [string]$name,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[string]$name,
 
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [boolean]$isDraft,
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[boolean]$isDraft,
 
 		[parameter(
 			Mandatory = $false,
@@ -48,7 +48,7 @@ Function Set-PASTheme {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
-        [ValidateSet('Bright', 'Dark')]
+		[ValidateSet('Bright', 'Dark')]
 		[string]$colorsStyle,
 
 		[parameter(
@@ -309,46 +309,46 @@ Function Set-PASTheme {
 		)]
 		[string]$textMain
 
-    )
+	)
 
-    BEGIN {
-        Assert-VersionRequirement -SelfHosted
-        Assert-VersionRequirement -RequiredVersion 14.4
+	begin {
+		Assert-VersionRequirement -SelfHosted
+		Assert-VersionRequirement -RequiredVersion 14.4
 
-    }#begin
+	}#begin
 
-    PROCESS {
+	process {
 
-        #Create URL for request
-        $URI = "$($psPASSession.BaseURI)/API/Themes/$ThemeName/"
+		#Create URL for request
+		$URI = "$($psPASSession.BaseURI)/API/Themes/$ThemeName/"
 
-        #Get request parameters
+		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-        #Get the theme that is being updated
-        $ThemeObject = Get-PASTheme -ThemeName $ThemeName
+		#Get the theme that is being updated
+		$ThemeObject = Get-PASTheme -ThemeName $ThemeName
 
-        if ($null -ne $ThemeObject) {
+		if ($null -ne $ThemeObject) {
 
-            # Flatten the theme object, and rename properties to match expected input
-            $ThemeObject = Format-FlattenedThemeObject -InputObject $ThemeObject
-            # Format the request object to include all necessary properties, including those not being explicitly updated
-            Format-PutRequestObject -InputObject $ThemeObject -boundParameters $BoundParameters
+			# Flatten the theme object, and rename properties to match expected input
+			$ThemeObject = Format-FlattenedThemeObject -InputObject $ThemeObject
+			# Format the request object to include all necessary properties, including those not being explicitly updated
+			Format-PutRequestObject -InputObject $ThemeObject -boundParameters $BoundParameters
 
-        }
+		}
 
-        #Format the request object as required by the API
-        $boundParameters = $boundParameters | Format-PASThemeObject
+		#Format the request object as required by the API
+		$boundParameters = $boundParameters | Format-PASThemeObject
 
-        #Construct Request Body
+		#Construct Request Body
 		$Body = $boundParameters | ConvertTo-Json -Depth 4
 
-        if ($PSCmdlet.ShouldProcess($ThemeName, 'Update UI Theme')) {
+		if ($PSCmdlet.ShouldProcess($ThemeName, 'Update UI Theme')) {
 
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
-            If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				$result
 
@@ -356,7 +356,7 @@ Function Set-PASTheme {
 
 		}
 
-    }#process
+	}#process
 
-    END { }#end
+	end { }#end
 }

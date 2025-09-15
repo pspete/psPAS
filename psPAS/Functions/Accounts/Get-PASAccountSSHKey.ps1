@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASAccountSSHKey {
+function Get-PASAccountSSHKey {
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -53,11 +53,11 @@ Function Get-PASAccountSSHKey {
 		[switch]$Machine
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 11.5
 	}
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Accounts/$($AccountID | Get-EscapedString)/Secret/Retrieve"
@@ -68,13 +68,13 @@ Function Get-PASAccountSSHKey {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result
 
 		}
 	}
 
-	END { }
+	end { }
 
 }

@@ -104,13 +104,13 @@ function Add-PASDirectory {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories"
@@ -119,7 +119,7 @@ function Add-PASDirectory {
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#deal with BindPassword SecureString
-		If ($PSBoundParameters.ContainsKey('BindPassword')) {
+		if ($PSBoundParameters.ContainsKey('BindPassword')) {
 
 			#Include decoded bind password in request
 			$boundParameters['BindPassword'] = $(ConvertTo-InsecureString -SecureString $BindPassword)
@@ -131,7 +131,7 @@ function Add-PASDirectory {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Directory.Extended
@@ -140,6 +140,6 @@ function Add-PASDirectory {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

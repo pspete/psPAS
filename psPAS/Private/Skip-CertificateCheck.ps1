@@ -1,4 +1,4 @@
-Function Skip-CertificateCheck {
+function Skip-CertificateCheck {
 	<#
 	.SYNOPSIS
 	Bypass SSL Validation

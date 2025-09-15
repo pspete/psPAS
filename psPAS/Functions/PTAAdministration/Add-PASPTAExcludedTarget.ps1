@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Add-PASPTAExcludedTarget {
+function Add-PASPTAExcludedTarget {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
@@ -9,12 +9,12 @@ Function Add-PASPTAExcludedTarget {
         [string]$cidr
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.0
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/api/pta/API/Administration/properties/CidrExclusionList"
@@ -31,6 +31,6 @@ Function Add-PASPTAExcludedTarget {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

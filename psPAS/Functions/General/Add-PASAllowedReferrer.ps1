@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Add-PASAllowedReferrer {
+function Add-PASAllowedReferrer {
 	[CmdletBinding()]
 	param(
 		[parameter(
@@ -15,13 +15,13 @@ Function Add-PASAllowedReferrer {
 		[boolean]$regularExpression
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 11.5
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/AccessRestriction/AllowedReferrers"
@@ -32,7 +32,7 @@ Function Add-PASAllowedReferrer {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result
 
@@ -40,6 +40,6 @@ Function Add-PASAllowedReferrer {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

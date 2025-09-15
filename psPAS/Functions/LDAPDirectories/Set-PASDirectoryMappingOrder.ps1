@@ -15,14 +15,14 @@ function Set-PASDirectoryMappingOrder {
 		[int[]]$MappingsOrder
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.10
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/Configuration/LDAP/Directories/$DirectoryName/Mappings/Reorder/"
@@ -39,6 +39,6 @@ function Set-PASDirectoryMappingOrder {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

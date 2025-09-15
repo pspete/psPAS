@@ -32,9 +32,9 @@ function Close-PASSession {
 
 	)
 
-	BEGIN {
+	begin {
 
-		Switch ($PSCmdlet.ParameterSetName) {
+		switch ($PSCmdlet.ParameterSetName) {
 
 			'Gen1' {
 
@@ -70,14 +70,14 @@ function Close-PASSession {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Send Logoff Request
 		Invoke-PASRestMethod -Uri $URI -Method POST | Out-Null
 
 	}#process
 
-	END {
+	end {
 
 		#Set ExternalVersion to 0.0
 		$psPASSession.ExternalVersion = [System.Version]'0.0'

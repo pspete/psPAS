@@ -15,18 +15,18 @@ function Set-PASUserPassword {
 		[securestring]$NewPassword
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.10
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove id
 
 		$Password = ConvertTo-InsecureString -SecureString $NewPassword
 
-		If ($Password.length -gt 39) {
+		if ($Password.length -gt 39) {
 			throw 'Password must not exceed 39 characters'
 		}
 
@@ -48,6 +48,6 @@ function Set-PASUserPassword {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

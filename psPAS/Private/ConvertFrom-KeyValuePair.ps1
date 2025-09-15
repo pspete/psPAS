@@ -41,11 +41,11 @@ Returns Key=Value object members for each matching entry in $object
 
 	process {
 
-		If ($null -ne $KeyValue) {
+		if ($null -ne $KeyValue) {
 
 			$KeyValue | ForEach-Object {
 
-				If ($null -ne $PSItem.key) {
+				if ($null -ne $PSItem.key) {
 
 					$OutputObject | Add-Member -Name $($PSItem.key) -Value $($PSItem.value) -MemberType NoteProperty
 

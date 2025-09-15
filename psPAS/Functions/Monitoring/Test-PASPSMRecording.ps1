@@ -9,11 +9,11 @@ function Test-PASPSMRecording {
 		[string]$SessionID
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 11.2
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/Recordings/$SessionID/valid"
@@ -23,6 +23,6 @@ function Test-PASPSMRecording {
 
 	} #process
 
-	END { }#end
+	end { }#end
 
 }

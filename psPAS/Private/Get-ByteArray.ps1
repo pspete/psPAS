@@ -1,4 +1,4 @@
-Function Get-ByteArray {
+function Get-ByteArray {
 	<#
 .SYNOPSIS
 Get a file as a ByteArray
@@ -15,7 +15,7 @@ Get-ByteArray -Path "C:\SomeFile.zip"
 #>
 	[CmdletBinding()]
 	[OutputType('System.Byte[]')]
-	Param(
+	param(
 		# The File to Convert to a ByteArray
 		[Parameter(
 			Mandatory = $true,
@@ -27,12 +27,12 @@ Get-ByteArray -Path "C:\SomeFile.zip"
 		$Path
 	)
 
-	Begin {}
+	begin {}
 
-	Process {
+	process {
 		[System.IO.File]::ReadAllBytes($Path)
 	}
 
-	End {}
+	end {}
 
 }

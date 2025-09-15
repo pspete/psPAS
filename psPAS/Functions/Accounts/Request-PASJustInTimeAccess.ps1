@@ -11,12 +11,12 @@ function Request-PASJustInTimeAccess {
 		[string]$AccountID
 	)
 
-	BEGIN {
+	begin {
 		#check minimum version
 		Assert-VersionRequirement -RequiredVersion 10.6
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request (Version 10.4 onwards)
 		$URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/grantAdministrativeAccess"
@@ -26,6 +26,6 @@ function Request-PASJustInTimeAccess {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

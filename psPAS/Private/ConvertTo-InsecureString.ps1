@@ -1,4 +1,4 @@
-Function ConvertTo-InsecureString {
+function ConvertTo-InsecureString {
 	<#
 	.SYNOPSIS
 	Returns string value from SecureString input
@@ -14,7 +14,7 @@ Function ConvertTo-InsecureString {
 	#>
 	[CmdLetBinding()]
 	[OutputType('System.String')]
-	Param (
+	param (
 
 		[Parameter(
 			Mandatory = $True,
@@ -23,15 +23,15 @@ Function ConvertTo-InsecureString {
 		[System.Security.SecureString]$SecureString
 	)
 
-	Process {
-		Try {
+	process {
+		try {
 
 			$ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToGlobalAllocUnicode($SecureString)
 			[System.Runtime.InteropServices.Marshal]::PtrToStringUni($ptr)
 
 		}
 
-		Finally {
+		finally {
 
 			[System.Runtime.InteropServices.Marshal]::ZeroFreeGlobalAllocUnicode($ptr)
 

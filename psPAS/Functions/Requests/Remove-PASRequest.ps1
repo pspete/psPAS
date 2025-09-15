@@ -10,11 +10,11 @@ function Remove-PASRequest {
 		[string]$RequestID
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 9.10
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/MyRequests/$($RequestID)"
@@ -28,6 +28,6 @@ function Remove-PASRequest {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

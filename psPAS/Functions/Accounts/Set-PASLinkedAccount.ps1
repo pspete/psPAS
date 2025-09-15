@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASLinkedAccount {
+function Set-PASLinkedAccount {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = 'Does not involve a plaintext password')]
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
@@ -37,13 +37,13 @@ Function Set-PASLinkedAccount {
 
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 12.1
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/LinkAccount"
@@ -60,6 +60,6 @@ Function Set-PASLinkedAccount {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

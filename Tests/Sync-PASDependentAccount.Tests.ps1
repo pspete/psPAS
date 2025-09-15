@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace '.Tests.ps1') {
+Describe $($PSCommandPath -replace '.Tests.ps1') {
 
     BeforeAll {
         #Get Current Directory
@@ -21,18 +21,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
         $Script:RequestBody = $null
         $psPASSession = [ordered]@{
-			BaseURI            = 'https://SomeURL/SomeApp'
-			User               = $null
-			ExternalVersion    = [System.Version]'0.0'
-			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			StartTime          = $null
-			ElapsedTime        = $null
-			LastCommand        = $null
-			LastCommandTime    = $null
-			LastCommandResults = $null
-		}
+            BaseURI            = 'https://SomeURL/SomeApp'
+            User               = $null
+            ExternalVersion    = [System.Version]'0.0'
+            WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+            StartTime          = $null
+            ElapsedTime        = $null
+            LastCommand        = $null
+            LastCommandTime    = $null
+            LastCommandResults = $null
+        }
 
-		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
+        New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
 
     }
 
@@ -46,7 +46,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
         Context 'Mandatory Parameters' {
 
-            $Parameters = @{Parameter = 'accountId'}, @{Parameter = 'dependentAccountId'}
+            $Parameters = @{Parameter = 'accountId' }, @{Parameter = 'dependentAccountId' }
 
             It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
@@ -64,9 +64,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 $psPASSession.ExternalVersion = '0.0'
 
-                Mock Invoke-PASRestMethod -MockWith {
+                Mock Invoke-PASRestMethod {
+                    param($Uri, $Method, $Body)
 
+                    $Script:RequestBodyRaw = $Body
+                    return @{ DependentAccounts = @() }
                 }
+
+
 
                 $InputObj = [pscustomobject]@{
                     'accountId'          = '12_34'
@@ -119,47 +124,61 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends requests for bulk sync to expected endpoint' {
 
-				$psPASSession.ExternalVersion = '14.6'
-				Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId 1,2,3,4
+                $psPASSession.ExternalVersion = '14.6'
+                Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId '1', '2', '3', '4'
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/$($InputObj.accountId)/dependentAccounts/Sync/Bulk"
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/$($InputObj.accountId)/dependentAccounts/Sync/Bulk"
 
-				} -Times 1 -Exactly -Scope It
-			}
+                } -Times 1 -Exactly -Scope It
+            }
 
             It 'sends request with body for bulk confirmations' {
 
-				Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId 1,2,3,4
+                Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId '1', '2', '3', '4'
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Body -ne $null
+                    $Body -ne $null
 
-				} -Times 1 -Exactly -Scope It
+                } -Times 1 -Exactly -Scope It
 
-			}
+            }
 
-			It 'sends request with expected body for bulk confirmations' -Skip {
-                #TODO: figure out why this errors
-				Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId 1,2,3,4
+            It 'sends request with expected body for bulk confirmations' {
+                # Capture the body during the mock
+                Mock Invoke-PASRestMethod {
+                    param($Uri, $Method, $Body)
+                    $Script:RequestBodyRaw = $Body
+                    return @{ DependentAccounts = @() }
+                }
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+                # Run the command
+                Sync-PASDependentAccount -accountId $InputObj.accountId -dependentAccountId '1', '2', '3', '4'
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+                # Assert the mock was called
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+                    $Body -match '"BulkItems":' -and $Method -eq 'POST'
+                } -Times 1 -Exactly -Scope It
 
-					($Script:RequestBody.BulkItems) -ne $null
 
-				} -Times 1 -Exactly -Scope It
 
-			}
+                # Convert and inspect the captured body
+                $Script:RequestBody = $Script:RequestBodyRaw | ConvertFrom-Json
 
-			It 'has a request body with expected number of confirmations' -Skip {
-                #TODO: Fix previous test
-				($Script:RequestBody.BulkItems).count | Should -Be 4
+                $Script:RequestBody.BulkItems | Should -Not -BeNullOrEmpty
+                $Script:RequestBody.BulkItems.Count | Should -Be 4
+                $Script:RequestBody.BulkItems[0].accountId | Should -Be $InputObj.accountId
+            }
 
-			}
+
+
+            It 'has a request body with expected number of confirmations' {
+
+                ($Script:RequestBody.BulkItems).count | Should -Be 4
+
+            }
 
 
         }

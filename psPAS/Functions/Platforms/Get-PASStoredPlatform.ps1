@@ -1,21 +1,21 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASStoredPlatform{
+function Get-PASStoredPlatform {
 
-[CmdletBinding()]
+	[CmdletBinding()]
 	param(	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 14.6
 	}#begin
 
-	PROCESS {
+	process {
 		#Create request URL
 		$URI = "$($psPASSession.BaseURI)/API/Platforms/Storage"
 
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($result) {
+		if ($result) {
 
 			#Return Results
 			$result

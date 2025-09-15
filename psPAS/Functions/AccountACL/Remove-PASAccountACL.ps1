@@ -31,11 +31,11 @@ function Remove-PASAccountACL {
 		[string]$Id
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 	}#begin
 
-	PROCESS {
+	process {
 
 		#URL for request
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Account/$($AccountAddress |
@@ -59,6 +59,6 @@ function Remove-PASAccountACL {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

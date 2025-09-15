@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASPTAIncludedTarget {
+function Remove-PASPTAIncludedTarget {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
@@ -9,12 +9,12 @@ Function Remove-PASPTAIncludedTarget {
         [string]$ID
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.0
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/api/pta/API/Administration/properties/CidrInclusionList/$ID"
@@ -28,6 +28,6 @@ Function Remove-PASPTAIncludedTarget {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

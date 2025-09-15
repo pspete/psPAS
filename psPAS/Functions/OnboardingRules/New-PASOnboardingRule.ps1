@@ -117,9 +117,9 @@ function New-PASOnboardingRule {
 		[string]$RuleDescription
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/AutomaticOnboardingRules"
@@ -151,7 +151,7 @@ function New-PASOnboardingRule {
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
 
@@ -161,6 +161,6 @@ function New-PASOnboardingRule {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -10,11 +10,11 @@ function Get-PASPSMSessionProperty {
 		[string]$liveSessionId
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.6
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/LiveSessions/$($liveSessionId | Get-EscapedString)/properties"
@@ -22,7 +22,7 @@ function Get-PASPSMSessionProperty {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PSM.Session.Property
@@ -31,6 +31,6 @@ function Get-PASPSMSessionProperty {
 
 	}
 
-	END { }#end
+	end { }#end
 
 }

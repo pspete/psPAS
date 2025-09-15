@@ -1,4 +1,4 @@
-Function Get-NextLink {
+function Get-NextLink {
 	<#
 	.SYNOPSIS
 	Follows & returns values from nextLink URLs
@@ -28,7 +28,7 @@ Function Get-NextLink {
 	Where result has a `nextLink` property, processes each nextlink and returns results.
 	#>
 	[CmdletBinding()]
-	Param(
+	param(
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $true
@@ -55,8 +55,8 @@ Function Get-NextLink {
 		[int]$TimeoutSec
 	)
 
-	Begin {
-		Switch ($PSCmdlet.ParameterSetName) {
+	begin {
+		switch ($PSCmdlet.ParameterSetName) {
 			'BaseURI' {
 				#SH & PCloud BaseURI is sometimes different
 				#*Allow PCloud to be specified via parameter
@@ -68,7 +68,7 @@ Function Get-NextLink {
 		}
 	}
 
-	Process {
+	process {
 
 		switch ($InitialResult) {
 			#SH & PCloud result and nextLink property names differ
@@ -91,7 +91,7 @@ Function Get-NextLink {
 		}
 
 		#Proceed if there are results
-		If (($null -ne $InitialResult.${ResultProperty}) -and ($InitialResult.${ResultProperty}.Count -gt 0)) {
+		if (($null -ne $InitialResult.${ResultProperty}) -and ($InitialResult.${ResultProperty}.Count -gt 0)) {
 
 			#store list of initial query results
 			$Result = [Collections.Generic.List[Object]]::New(($InitialResult.${ResultProperty}))
@@ -103,12 +103,12 @@ Function Get-NextLink {
 			#* Create a query parameter for SavedFilter to include in URL
 			$queryString = $PSBoundParameters | Get-PASParameter -ParametersToKeep SavedFilter | ConvertTo-QueryString
 
-			While ( $null -ne $NextLink ) {
+			while ( $null -ne $NextLink ) {
 
 				$URI = "$BaseURI/$NextLink"
 
 				#*If there is a SavedFilter querystring, append it to the URL
-				If ($null -ne $queryString) {
+				if ($null -ne $queryString) {
 
 					#Build URL from base URL/NextLink
 					$URI = "$URI`&$queryString"
@@ -128,6 +128,6 @@ Function Get-NextLink {
 
 	}
 
-	End {}
+	end {}
 
 }

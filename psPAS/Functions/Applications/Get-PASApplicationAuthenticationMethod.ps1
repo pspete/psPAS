@@ -9,9 +9,9 @@ function Get-PASApplicationAuthenticationMethod {
 		[string]$AppID
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Applications/$($AppID |
 
@@ -19,7 +19,7 @@ function Get-PASApplicationAuthenticationMethod {
 
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result.authentication | Add-ObjectDetail -typename psPAS.CyberArk.Vault.ApplicationAuth
 
@@ -27,6 +27,6 @@ function Get-PASApplicationAuthenticationMethod {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

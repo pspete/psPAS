@@ -16,7 +16,7 @@ function Find-PASSafe {
 
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -RequiredVersion 10.1 -MaximumVersion 11.7
 
@@ -27,9 +27,9 @@ function Find-PASSafe {
 
 	}#begin
 
-	PROCESS {
+	process {
 
-		If ( -Not [string]::IsNullOrEmpty($search) ) {
+		if ( -not [string]::IsNullOrEmpty($search) ) {
 
 			$SearchQuery = "&$($PSBoundParameters | Get-PASParameter | ConvertTo-QueryString)"
 
@@ -39,11 +39,11 @@ function Find-PASSafe {
 
 		$Total = $InitialResponse.Total
 
-		If ($Total -gt 0) {
+		if ($Total -gt 0) {
 
 			$Safes = [Collections.Generic.List[Object]]::New(($InitialResponse.Safes))
 
-			For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+			for ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
 
 				$Null = $Safes.AddRange((Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -TimeoutSec $TimeoutSec).Safes)
 
@@ -55,6 +55,6 @@ function Find-PASSafe {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

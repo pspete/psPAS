@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASPTARiskEvent {
+function Get-PASPTARiskEvent {
     [CmdletBinding(DefaultParameterSetName = '13.2')]
     param(
         [parameter(
@@ -70,14 +70,14 @@ Function Get-PASPTARiskEvent {
 
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
         $Parameters = [Collections.Generic.List[Object]]::New(@('type', 'status'))
         $TimeParameters = [Collections.Generic.List[Object]]::New(@('FromTime', 'ToTime'))
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents/"
@@ -127,7 +127,7 @@ Function Get-PASPTARiskEvent {
 
         $FilterString = $filterParameters | ConvertTo-FilterString -QuoteValue
 
-        If ($null -ne $FilterString) {
+        if ($null -ne $FilterString) {
 
             $boundParameters = $boundParameters + $FilterString
 
@@ -148,7 +148,7 @@ Function Get-PASPTARiskEvent {
 
         $Total = $result.totalEntities
 
-        If ($Total -gt 0) {
+        if ($Total -gt 0) {
 
             #Set events as output collection
             $Events = [Collections.Generic.List[Object]]::New(@($result.entities))
@@ -160,7 +160,7 @@ Function Get-PASPTARiskEvent {
 
             $TotalPages = $result.totalpages
 
-            For ( $Offset = 1 ; $Offset -lt $TotalPages ; $Offset++ ) {
+            for ( $Offset = 1 ; $Offset -lt $TotalPages ; $Offset++ ) {
 
                 #While more risk events to return, create nextLink query value
                 $nextLink = "page=$Offset"
@@ -182,7 +182,7 @@ Function Get-PASPTARiskEvent {
 
         }
 
-        If ($null -ne $Output) {
+        if ($null -ne $Output) {
 
             #Return Results
             $Output | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event.Risk
@@ -191,6 +191,6 @@ Function Get-PASPTARiskEvent {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

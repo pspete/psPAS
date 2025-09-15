@@ -92,11 +92,11 @@ function Set-PASOnboardingRule {
 		[string]$RuleDescription
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.5
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/AutomaticOnboardingRules/$Id/"
@@ -119,7 +119,7 @@ function Set-PASOnboardingRule {
 			#send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
-			If ($null -ne $result) {
+			if ($null -ne $result) {
 
 				$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.OnboardingRule
 
@@ -129,6 +129,6 @@ function Set-PASOnboardingRule {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

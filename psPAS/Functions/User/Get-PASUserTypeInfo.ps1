@@ -3,11 +3,11 @@ function Get-PASUserTypeInfo {
     [CmdletBinding()]
     param(	)
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -RequiredVersion 13.2
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for request
         $URI = "$($psPASSession.BaseURI)/API/UserTypes/"
@@ -15,7 +15,7 @@ function Get-PASUserTypeInfo {
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result.UserTypes | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User.Type
@@ -24,6 +24,6 @@ function Get-PASUserTypeInfo {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

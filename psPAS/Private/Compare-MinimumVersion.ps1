@@ -1,4 +1,4 @@
-Function Compare-MinimumVersion {
+function Compare-MinimumVersion {
 	<#
 	.SYNOPSIS
 	Compares 2 version numbers
@@ -28,7 +28,7 @@ Function Compare-MinimumVersion {
 	#>
 	[CmdletBinding()]
 	[OutputType('System.Boolean')]
-	Param(
+	param(
 		# A Version to compare against a Minimum Version
 		[Parameter(
 			Mandatory = $true,
@@ -47,20 +47,20 @@ Function Compare-MinimumVersion {
 		$MinimumVersion
 	)
 
-	Begin { }
+	begin { }
 
-	Process {
+	process {
 
 		# Only compare if version greater than "0.0"
-		If ($Version -gt '0.0') {
+		if ($Version -gt '0.0') {
 
 			#Determine if Version is greater than or equal to MinimumVersion
-			If ($Version -ge $MinimumVersion) {
+			if ($Version -ge $MinimumVersion) {
 
 				#Version is greater than or equal to MinimumVersion
 				$True
 
-			} Else {
+			} else {
 
 				#Version is less than  MinimumVersion
 				$False
@@ -70,7 +70,7 @@ Function Compare-MinimumVersion {
 		}
 
 		#Version is 0.0
-		Else {
+		else {
 
 			#Skip - Return True
 			$True
@@ -79,6 +79,6 @@ Function Compare-MinimumVersion {
 
 	}
 
-	End { }
+	end { }
 
 }

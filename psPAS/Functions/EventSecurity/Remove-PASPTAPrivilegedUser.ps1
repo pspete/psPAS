@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASPTAPrivilegedUser {
+function Remove-PASPTAPrivilegedUser {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
@@ -9,12 +9,12 @@ Function Remove-PASPTAPrivilegedUser {
         [string]$ID
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.0
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/PrivilegedUsersList/$ID"
@@ -28,6 +28,6 @@ Function Remove-PASPTAPrivilegedUser {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

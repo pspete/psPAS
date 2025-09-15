@@ -62,11 +62,11 @@ function Add-PASAccountACL {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 	}#begin
 
-	PROCESS {
+	process {
 
 		#URL for request
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Account/$($AccountAddress |
@@ -87,7 +87,7 @@ function Add-PASAccountACL {
 		#Send Request
 		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result.AddAccountPrivilegedCommandResult |
 
@@ -97,6 +97,6 @@ function Add-PASAccountACL {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

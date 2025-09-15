@@ -9,9 +9,9 @@ function Remove-PASOnboardingRule {
 		[string]$RuleID
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/AutomaticOnboardingRules/$($RuleID | Get-EscapedString)/"
@@ -25,6 +25,6 @@ function Remove-PASOnboardingRule {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

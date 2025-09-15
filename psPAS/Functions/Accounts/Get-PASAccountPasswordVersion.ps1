@@ -17,14 +17,14 @@ function Get-PASAccountPasswordVersion {
         [boolean]$showTemporary
     )
 
-    BEGIN {
+    begin {
 
         #check minimum version
         Assert-VersionRequirement -RequiredVersion 12.1
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for request
         $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/Secret/Versions"
@@ -34,7 +34,7 @@ function Get-PASAccountPasswordVersion {
         #Create Query String, escaped for inclusion in request URL
         $queryString = $boundParameters | ConvertTo-QueryString
 
-        If ($null -ne $queryString) {
+        if ($null -ne $queryString) {
 
             #Build URL from base URL
             $URI = "$URI`?$queryString"
@@ -44,7 +44,7 @@ function Get-PASAccountPasswordVersion {
         #Send request to webservice
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result.Versions | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Credential.Version -PropertyToAdd @{
@@ -57,6 +57,6 @@ function Get-PASAccountPasswordVersion {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

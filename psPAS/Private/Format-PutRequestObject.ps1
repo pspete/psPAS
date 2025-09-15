@@ -1,4 +1,4 @@
-Function Format-PutRequestObject {
+function Format-PutRequestObject {
     <#
     .SYNOPSIS
     Give source object properties, and request parameters,
@@ -28,7 +28,7 @@ Function Format-PutRequestObject {
     Pete Maan 2024
     #>
     [CmdLetBinding(DefaultParameterSetName = 'Remove')]
-    Param (
+    param (
 
         [Parameter(
             Mandatory = $True,
@@ -57,12 +57,12 @@ Function Format-PutRequestObject {
 
     )
 
-    Begin {
+    begin {
         #initialise hashtable to hold exiting property values
         $ExistingProperties = @{}
     }
 
-    Process {
+    process {
 
         #ParametersToKeep or ParametersToRemove parameters to pass to Get-PASParameter
         $PasParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep ParametersToKeep, ParametersToRemove
@@ -80,7 +80,7 @@ Function Format-PutRequestObject {
         #If boundparameters does not include the existing property name, i.e. the property is not being updated in the request:
         # Add the existing property to boundparameters for inclusion in a PUT request
         $ExistingParameters.Keys | ForEach-Object {
-            If (-not($boundParameters.ContainsKey($PSItem))) {
+            if (-not($boundParameters.ContainsKey($PSItem))) {
                 $boundParameters.Add($PSItem, $ExistingParameters[$PSItem])
             }
         }
@@ -88,6 +88,6 @@ Function Format-PutRequestObject {
 
     }
 
-    End { }
+    end { }
 
 }

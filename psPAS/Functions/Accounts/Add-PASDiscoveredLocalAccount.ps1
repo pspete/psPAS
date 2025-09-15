@@ -34,13 +34,13 @@ function Add-PASDiscoveredLocalAccount {
         [string]$source
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -PrivilegeCloud
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.ApiURI)/api/discovered-accounts/"
@@ -56,7 +56,7 @@ function Add-PASDiscoveredLocalAccount {
         #send request to PAS web service
         $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result
@@ -65,6 +65,6 @@ function Add-PASDiscoveredLocalAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Clear-PASLinkedAccount {
+function Clear-PASLinkedAccount {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -17,13 +17,13 @@ Function Clear-PASLinkedAccount {
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 12.2
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/LinkAccount/$extraPasswordIndex"
@@ -37,6 +37,6 @@ Function Clear-PASLinkedAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

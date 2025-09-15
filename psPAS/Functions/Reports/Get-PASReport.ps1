@@ -1,15 +1,15 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASReport {
+function Get-PASReport {
     [CmdletBinding()]
     param( )
 
-    Begin {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 14.6
 
     }
 
-    Process {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/Reports"
@@ -17,7 +17,7 @@ Function Get-PASReport {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $Result) {
+        if ($null -ne $Result) {
 
             #Return result
             $Result | Select-Object -ExpandProperty reports
@@ -27,6 +27,6 @@ Function Get-PASReport {
 
     }
 
-    End {}
+    end {}
 
 }

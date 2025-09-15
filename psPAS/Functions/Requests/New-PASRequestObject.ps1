@@ -117,9 +117,9 @@ function New-PASRequestObject {
         [hashtable]$ConnectionParams
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $boundParameters = $PSBoundParameters | Get-PASParameter
 
@@ -149,6 +149,6 @@ function New-PASRequestObject {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

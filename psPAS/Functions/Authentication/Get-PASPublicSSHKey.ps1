@@ -11,9 +11,9 @@ function Get-PASPublicSSHKey {
 
 	)
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Users/$($UserName |
@@ -23,7 +23,7 @@ function Get-PASPublicSSHKey {
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result.GetUserAuthorizedKeysResult |
 
@@ -37,6 +37,6 @@ function Get-PASPublicSSHKey {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

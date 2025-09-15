@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASPTASecurityConfigurationProperty {
+function Remove-PASPTASecurityConfigurationProperty {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         [parameter(
@@ -23,12 +23,12 @@ Function Remove-PASPTASecurityConfigurationProperty {
         [string]$id
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.2
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/$($propertyKey | Get-EscapedString)/$($id | Get-EscapedString)"
@@ -42,6 +42,6 @@ Function Remove-PASPTASecurityConfigurationProperty {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

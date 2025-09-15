@@ -26,13 +26,13 @@ function Unblock-PASUser {
 		[boolean]$Suspended
 	)
 
-	BEGIN {
+	begin {
 
 		$Request = @{'WebSession' = $psPASSession.WebSession }
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -65,7 +65,7 @@ function Unblock-PASUser {
 		#send request to web service
 		$result = Invoke-PASRestMethod @Request
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.User
 
@@ -73,6 +73,6 @@ function Unblock-PASUser {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

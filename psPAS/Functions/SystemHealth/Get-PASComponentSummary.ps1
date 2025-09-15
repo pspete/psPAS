@@ -1,15 +1,15 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASComponentSummary {
+function Get-PASComponentSummary {
 	[CmdletBinding()]
 	param(
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.1
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/api/ComponentsMonitoringSummary"
@@ -17,7 +17,7 @@ Function Get-PASComponentSummary {
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			$result | Select-Object -ExpandProperty Components
 
@@ -39,16 +39,16 @@ Function Get-PASComponentSummary {
 			if ($supportsReplicationStatus) {
 				# Version 14.6+: Include replication status fields
 				$vaults | Where-Object { $_.Role -eq 'DR' } | Select-Object ComponentID, ComponentName, Role, IP, IsLoggedOn, @{
-					Name = 'DBReplicationDiffSecs'
+					Name       = 'DBReplicationDiffSecs'
 					Expression = { if ($_.ReplicationStatus) { $_.ReplicationStatus.DBReplicationDiffSecs } else { $null } }
 				}, @{
-					Name = 'IsDBReplicationHealthy'
+					Name       = 'IsDBReplicationHealthy'
 					Expression = { if ($_.ReplicationStatus) { $_.ReplicationStatus.IsDBReplicationHealthy } else { $null } }
 				}, @{
-					Name = 'FileReplicationDiffSecs'
+					Name       = 'FileReplicationDiffSecs'
 					Expression = { if ($_.ReplicationStatus) { $_.ReplicationStatus.FileReplicationDiffSecs } else { $null } }
 				}, @{
-					Name = 'IsFileReplicationHealthy'
+					Name       = 'IsFileReplicationHealthy'
 					Expression = { if ($_.ReplicationStatus) { $_.ReplicationStatus.IsFileReplicationHealthy } else { $null } }
 				}
 			} else {
@@ -60,6 +60,6 @@ Function Get-PASComponentSummary {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function New-PASAccountObject {
+function New-PASAccountObject {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'remoteMachinesAccess', Justification = 'False Positive')]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'secretManagement', Justification = 'False Positive')]
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'AccountObject')]
@@ -30,7 +30,7 @@ Function New-PASAccountObject {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
 		)]
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'DependentAccountObject'
@@ -98,7 +98,7 @@ Function New-PASAccountObject {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
 		)]
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'DependentAccountObject'
@@ -110,7 +110,7 @@ Function New-PASAccountObject {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
 		)]
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'DependentAccountObject'
@@ -122,7 +122,7 @@ Function New-PASAccountObject {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'AccountObject'
 		)]
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'DependentAccountObject'
@@ -166,7 +166,7 @@ Function New-PASAccountObject {
 
 	)
 
-	Begin {
+	begin {
 
 		#V10 parameters are nested under JSON object properties
 		$remoteMachine = [Collections.Generic.List[String]]@('remoteMachines', 'accessRestrictedToRemoteMachines')
@@ -174,13 +174,13 @@ Function New-PASAccountObject {
 
 	}
 
-	Process {
+	process {
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
 		#deal with "secret" SecureString
-		If ($PSBoundParameters.ContainsKey('secret')) {
+		if ($PSBoundParameters.ContainsKey('secret')) {
 
 			#Include decoded password in request
 			$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
@@ -226,7 +226,7 @@ Function New-PASAccountObject {
 
 			}
 
-            'DependentAccountObject' {
+			'DependentAccountObject' {
 
 				$boundParameters.keys | Where-Object { $SecretMgmt -contains $PSItem } | ForEach-Object {
 
@@ -257,6 +257,6 @@ Function New-PASAccountObject {
 
 	}
 
-	End {}
+	end {}
 
 }

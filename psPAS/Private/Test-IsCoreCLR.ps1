@@ -1,4 +1,4 @@
-Function Test-IsCoreCLR {
+function Test-IsCoreCLR {
 	<#
 .SYNOPSIS
 Tests for PWSH

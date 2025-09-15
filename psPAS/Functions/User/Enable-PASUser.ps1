@@ -10,13 +10,13 @@ function Enable-PASUser {
         [int]$id
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -RequiredVersion 12.6
 
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($psPASSession.BaseURI)/API/Users/$id/enable/"
 
@@ -29,6 +29,6 @@ function Enable-PASUser {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

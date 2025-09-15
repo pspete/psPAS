@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASTheme {
+function Remove-PASTheme {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -10,25 +10,25 @@ Function Remove-PASTheme {
 
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.4
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for request
         $URI = "$($psPASSession.BaseURI)/API/Themes/$($ThemeName | Get-EscapedString)"
 
         if ($PSCmdlet.ShouldProcess($ThemeName, 'Removing UI Theme')) {
 
-			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method DELETE
+            #send request to web service
+            Invoke-PASRestMethod -Uri $URI -Method DELETE
 
-		}
+        }
 
     }#process
 
-    END { }#end
+    end { }#end
 }

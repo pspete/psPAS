@@ -3,9 +3,9 @@ function Get-PASSession {
 	[CmdletBinding()]
 	param( )
 
-	BEGIN { }#begin
+	begin { }#begin
 
-	PROCESS {
+	process {
 
 		#Calculate the time elapsed since the start of the session and include in return data
 		if ($null -ne $psPASSession.StartTime) {
@@ -17,6 +17,6 @@ function Get-PASSession {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

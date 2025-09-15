@@ -1,4 +1,4 @@
-Function Get-ParentFunction {
+function Get-ParentFunction {
 	<#
 	.SYNOPSIS
 	Returns details of the calling function from a variable scope
@@ -33,7 +33,7 @@ Function Get-ParentFunction {
 
 	#>
 	[CmdletBinding()]
-	Param(
+	param(
 		# The scope number from which to retrieve the parent function name
 		[Parameter(
 			Mandatory = $false,
@@ -43,7 +43,7 @@ Function Get-ParentFunction {
 		$Scope = 2
 	)
 
-	Process {
+	process {
 
 		#Get MyInvocation details from required scope
 		$CommandData = (Get-Variable MyInvocation -Scope $Scope).Value

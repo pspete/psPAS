@@ -28,7 +28,7 @@ function Find-SharedServicesURL {
     Pete Maan 2023
     #>
     [CmdletBinding()]
-    Param(
+    param(
         [Parameter(
             Mandatory = $true,
             ValueFromPipeline = $true,
@@ -68,11 +68,11 @@ function Find-SharedServicesURL {
         [string]$service
     )
 
-    Begin {
+    begin {
         $PlatformDiscoveryURL = 'https://platform-discovery.cyberark.cloud/api/v2/services/subdomain/'
     }
 
-    Process {
+    process {
 
         if ($PSCmdlet.ParameterSetName -eq 'URL') {
             $URIObject = [System.UriBuilder]::new($url)
@@ -83,25 +83,25 @@ function Find-SharedServicesURL {
 
         $Result = Invoke-PASRestMethod -URI $PlatformDiscoveryURL -Method GET
 
-        If ($null -ne $Result) {
+        if ($null -ne $Result) {
 
-            If ($PSBoundParameters.ContainsKey('service')) {
+            if ($PSBoundParameters.ContainsKey('service')) {
 
                 $Services = $Result | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
 
-                If ($Services -notcontains $Service) {
+                if ($Services -notcontains $Service) {
 
                     throw "URL for $service API not found"
 
                 }
 
-                Else {
+                else {
 
                     $Result | Select-Object -ExpandProperty $service
 
                 }
 
-            } Else {
+            } else {
 
                 $Result
 
@@ -111,6 +111,6 @@ function Find-SharedServicesURL {
 
     }
 
-    End {}
+    end {}
 
 }

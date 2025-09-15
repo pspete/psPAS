@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Add-PASPTAGlobalCatalog {
+function Add-PASPTAGlobalCatalog {
     [CmdletBinding()]
     param(
         [parameter(
@@ -40,14 +40,14 @@ Function Add-PASPTAGlobalCatalog {
 
     )
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 13.0
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/pta/API/Administration/GCConnectivity"
@@ -56,7 +56,7 @@ Function Add-PASPTAGlobalCatalog {
         $boundParameters = $PSBoundParameters | Get-PASParameter
 
         #deal with Password SecureString
-        If ($PSBoundParameters.ContainsKey('ldapPassword')) {
+        if ($PSBoundParameters.ContainsKey('ldapPassword')) {
 
             #Include decoded password in request
             $boundParameters['ldapPassword'] = $(ConvertTo-InsecureString -SecureString $ldapPassword)
@@ -71,7 +71,7 @@ Function Add-PASPTAGlobalCatalog {
         #send request to PAS web service
         $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result
@@ -80,6 +80,6 @@ Function Add-PASPTAGlobalCatalog {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

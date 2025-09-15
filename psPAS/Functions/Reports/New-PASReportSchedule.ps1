@@ -1,8 +1,8 @@
 # .ExternalHelp psPAS-help.xml
-Function New-PASReportSchedule {
-    [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [parameter(
+function New-PASReportSchedule {
+	[CmdletBinding(SupportsShouldProcess)]
+	param(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
@@ -84,33 +84,33 @@ Function New-PASReportSchedule {
 		)]
 		[AllowEmptyString()]
 		[boolean]$notifyOnFailure
-    )
+	)
 
-    Begin {
+	begin {
 
-        Assert-VersionRequirement -RequiredVersion 14.6
-        #array for parameter names which appear in the top-tier of the JSON object
+		Assert-VersionRequirement -RequiredVersion 14.6
+		#array for parameter names which appear in the top-tier of the JSON object
 		$keysToKeep = [Collections.Generic.List[String]]@(
-			'version','type', 'subType', 'name', 'keepTaskDefinition', 'Subscribers', 'notifyOnFailure'
+			'version', 'type', 'subType', 'name', 'keepTaskDefinition', 'Subscribers', 'notifyOnFailure'
 		)
-        $scheduleParams = [Collections.Generic.List[String]]@(
+		$scheduleParams = [Collections.Generic.List[String]]@(
 			'startTime', 'recurrenceType', 'recurrenceValue', 'daysOfWeek', 'weekNumber'
 		)
 
-    }
+	}
 
-    Process {
+	process {
 
-        #Create URL for Request
-        $URI = "$($psPASSession.BaseURI)/API/Tasks"
+		#Create URL for Request
+		$URI = "$($psPASSession.BaseURI)/API/Tasks"
 
-        #Get Parameters for request body
+		#Get Parameters for request body
 		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $keysToKeep
 
-        #Determine which parameters belong to the schedule section
-        switch ($PSBoundParameters.keys) {
+		#Determine which parameters belong to the schedule section
+		switch ($PSBoundParameters.keys) {
 
-            { $scheduleParams -contains $PSItem } {
+			{ $scheduleParams -contains $PSItem } {
 
 				#Current parameter relates to schedule section of report object
 				if (-not($boundParameters.ContainsKey('schedule'))) {
@@ -120,64 +120,64 @@ Function New-PASReportSchedule {
 
 			}
 
-            'startTime' {
+			'startTime' {
 
 				#Transform startTime
-				$boundParameters['schedule']['startTime'] = $PSBoundParameters['startTime'].ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ")
-				Continue
+				$boundParameters['schedule']['startTime'] = $PSBoundParameters['startTime'].ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ')
+				continue
 
 			}
 
-            'recurrenceType' {
+			'recurrenceType' {
 
 				#Transform recurrenceType
 				$boundParameters['schedule']['recurrence']['type'] = $PSBoundParameters['recurrenceType']
-				Continue
+				continue
 
 			}
 
-            'recurrenceValue' {
+			'recurrenceValue' {
 
 				#Transform recurrenceValue
 				$boundParameters['schedule']['recurrence']['recurrenceValue'] = $PSBoundParameters['recurrenceValue']
-				Continue
+				continue
 
 			}
 
-            'daysOfWeek' {
+			'daysOfWeek' {
 
 				#Transform daysOfWeek
 				$boundParameters['schedule']['recurrence']['daysOfWeek'] = $PSBoundParameters['daysOfWeek'] -split ',' | ForEach-Object { [int]$_ }
-				Continue
+				continue
 
 			}
 
-            'weekNumber' {
+			'weekNumber' {
 
 				#Transform weekNumber
 				$boundParameters['schedule']['recurrence']['weekNumber'] = $PSBoundParameters['weekNumber']
-				Continue
+				continue
 
 			}
 
-        }
+		}
 
-        $Body = $boundParameters | ConvertTo-Json
+		$Body = $boundParameters | ConvertTo-Json
 
 		if ($PSCmdlet.ShouldProcess($name, 'Create New Report Schedule')) {
 			#Send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 		}
 
-        If ($null -ne $Result) {
+		if ($null -ne $Result) {
 
-            #Return result
-            $Result
+			#Return result
+			$Result
 
-        }
+		}
 
-    }
+	}
 
-    End {}
+	end {}
 
 }

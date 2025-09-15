@@ -108,7 +108,7 @@ function Invoke-PASCPMOperation {
 		[switch]$UseGen1API
 	)
 
-	Begin {
+	begin {
 
 		#Create hashtable for splatting
 		$ThisRequest = @{ }
@@ -117,7 +117,7 @@ function Invoke-PASCPMOperation {
 
 	}#Begin
 
-	Process {
+	process {
 
 		#Get parameters to include in request body
 		$boundParameters = $PSBoundParameters |
@@ -166,7 +166,7 @@ function Invoke-PASCPMOperation {
 				$ThisRequest['Method'] = 'POST'
 
 				#deal with NewCredentials SecureString
-				If ($PSBoundParameters.ContainsKey('NewCredentials')) {
+				if ($PSBoundParameters.ContainsKey('NewCredentials')) {
 
 					#Specifying next password value, or changing in the vault requires 10.1 or above
 					Assert-VersionRequirement -RequiredVersion 10.1
@@ -193,7 +193,7 @@ function Invoke-PASCPMOperation {
 
 		}
 
-		If ($ThisRequest['WebSession'].Headers.ContainsKey('ImmediateChangeByCPM')) {
+		if ($ThisRequest['WebSession'].Headers.ContainsKey('ImmediateChangeByCPM')) {
 
 			#Ensure ImmediateChangeByCPM is removed from WebSession Header
 			$ThisRequest['WebSession'].Headers.Remove('ImmediateChangeByCPM') | Out-Null
@@ -202,6 +202,6 @@ function Invoke-PASCPMOperation {
 
 	}#Process
 
-	End { }#End
+	end { }#End
 
 }

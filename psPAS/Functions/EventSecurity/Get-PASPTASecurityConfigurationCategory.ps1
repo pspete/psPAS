@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASPTASecurityConfigurationCategory {
+function Get-PASPTASecurityConfigurationCategory {
     [CmdletBinding()]
     param(
         [parameter(
@@ -13,31 +13,22 @@ Function Get-PASPTASecurityConfigurationCategory {
         [string]$categoryKey
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.2
     }#begin
 
-    PROCESS {
+    process {
+
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories"
 
         switch ($PSBoundParameters.keys) {
 
             'categoryKey' {
 
                 #Create URL for Request
-                $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories/$categoryKey"
-
+                $URI = "$URI/$categoryKey"
                 break
-
-            }
-
-            Default {
-
-                #Create URL for Request
-                $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories"
-
-                break
-
             }
 
         }
@@ -45,7 +36,7 @@ Function Get-PASPTASecurityConfigurationCategory {
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             $result
 
@@ -54,6 +45,6 @@ Function Get-PASPTASecurityConfigurationCategory {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

@@ -1,4 +1,4 @@
-Function ConvertTo-FilterString {
+function ConvertTo-FilterString {
 	<#
 .SYNOPSIS
 Converts Hashtable Key-Value pairs to a string for use as a Filter value
@@ -67,16 +67,16 @@ Encloses value of the key/value pair in quotes.
 		[string]$LogicalOperator
 	)
 
-	Begin {
+	begin {
 
 		# Get version from the session
 		$ExternalVersion = $script:psPASSession.ExternalVersion
 
 	}
 
-	Process {
+	process {
 
-		If ($Parameters) {
+		if ($Parameters) {
 
 			$Parameters.Keys | ForEach-Object {
 
@@ -117,7 +117,7 @@ Encloses value of the key/value pair in quotes.
 				}
 			} {
 
-				If ($FilterList.count -gt 0) {
+				if ($FilterList.count -gt 0) {
 
 					# Only use LogicalOperator for API 14.6+, default to AND for older versions
 					if ($ExternalVersion -and $ExternalVersion -ge [version]'14.6') {
@@ -133,6 +133,6 @@ Encloses value of the key/value pair in quotes.
 
 	}
 
-	End { }
+	end { }
 
 }

@@ -2,7 +2,7 @@
 function Get-PASDependentAccount {
 	[CmdletBinding(DefaultParameterSetName = 'AllDependentAccounts')]
 	param(
-        [parameter(
+		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'SpecificAccount'
@@ -25,66 +25,66 @@ function Get-PASDependentAccount {
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'AllDependentAccounts'
+			ParameterSetName = 'AllDependentAccounts'
 		)]
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'SpecificAccount'
+			ParameterSetName = 'SpecificAccount'
 		)]
 		[string]$search,
 
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'AllDependentAccounts'
+			ParameterSetName = 'AllDependentAccounts'
 		)]
 		[string]$MasterAccountId,
 
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'AllDependentAccounts'
+			ParameterSetName = 'AllDependentAccounts'
 		)]
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'SpecificAccount'
+			ParameterSetName = 'SpecificAccount'
 		)]
-        [datetime]$modificationTime,
+		[datetime]$modificationTime,
 
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'AllDependentAccounts'
+			ParameterSetName = 'AllDependentAccounts'
 		)]
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'SpecificAccount'
+			ParameterSetName = 'SpecificAccount'
 		)]
-        [string]$platformId,
+		[string]$platformId,
 
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'AllDependentAccounts'
+			ParameterSetName = 'AllDependentAccounts'
 		)]
-        [string]$SafeName,
+		[string]$SafeName,
 
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'AllDependentAccounts'
+			ParameterSetName = 'AllDependentAccounts'
 		)]
-        [bool]$includeDeleted,
+		[bool]$includeDeleted,
 
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'SpecificAccount'
+			ParameterSetName = 'SpecificAccount'
 		)]
-        [bool]$failed,
+		[bool]$failed,
 
 		[parameter(
 			Mandatory = $false,
@@ -93,15 +93,15 @@ function Get-PASDependentAccount {
 		)]
 		[bool]$extendedDetails,
 
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'AllDependentAccounts'
+			ParameterSetName = 'AllDependentAccounts'
 		)]
 		[ValidateRange(1, 1000)]
 		[int]$limit,
 
-        [parameter(
+		[parameter(
 			Mandatory = $false,
 			ValueFromPipelineByPropertyName = $false
 		)]
@@ -109,117 +109,110 @@ function Get-PASDependentAccount {
 
 	)
 
-	BEGIN {
+	begin {
 
 		#check required version
 		Assert-VersionRequirement -RequiredVersion 14.6
 
-        #Parameter to include as filter value in url
+		#Parameter to include as filter value in url
 		$Parameters = [Collections.Generic.List[String]]@('MasterAccountId', 'modificationTime', 'platformId', 'SafeName')
+		# Parameters that should not be included in filter string
+		$IDParameters = [Collections.Generic.List[String]]@('id', 'dependentAccountId')
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Get Parameters to include in request
-		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters, id, dependentAccountId
+		$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove @($Parameters + $IDParameters)
 		$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
 		$FilterString = $filterParameters | ConvertTo-FilterString
 
-        switch ($PSCmdlet.ParameterSetName) {
+		# Determine base URI
+		switch ($PSCmdlet.ParameterSetName) {
 
-                'SpecificAccount' {
-
-                    #define base URL
-		            $URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts"
-					break
-
-                }
-
-                'AllDependentAccounts' {
-
-                    #define base URL
-		            $URI = "$($psPASSession.BaseURI)/API/dependentAccounts"
-
-					If ($PSBoundParameters.Keys -notcontains 'Limit') {
-						$Limit = 100   #default limit
-						$boundParameters.Add('Limit', $Limit) # Add to boundparameters for inclusion in query string
-					}
-
-					break
-
-                }
-
-				'SpecificDependentAccount'{
-
-					#define base URL
-					$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts/$($dependentAccountId)"
-					break
-
-				}
-
-        }
-
-        If ($null -ne $FilterString) {
-
-            $boundParameters = $boundParameters + $FilterString
-
-        }
-
-        #Create Query String, escaped for inclusion in request URL
-        $queryString = $boundParameters | ConvertTo-QueryString
-
-        If ($null -ne $queryString) {
-
-            #Build URL from base URL
-            $URI = "$URI`?$queryString"
-
-        }
-
-		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
-
-		$Total = $result.Total
-
-		If ($Total -gt 0) {
-
-			#Set events as output collection
-			$DependentAccounts = [Collections.Generic.List[Object]]::New(@($result.DependentAccounts))
-
-			#Split Request URL into baseURI & any query string value
-			$URLString = $URI.Split('?')
-			$URI = $URLString[0]
-			$queryString = $URLString[1]
-
-			For ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
-
-				#While more DependentAccounts to return, create nextLink query value
-				$nextLink = "OffSet=$Offset"
-
-				if ($null -ne $queryString) {
-
-					#If original request contained a queryString, concatenate with nextLink value.
-					$nextLink = "$queryString&$nextLink"
-
-				}
-				$result = (Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET).DependentAccounts
-
-				#Request nextLink. Add DependentAccounts to output collection.
-				$Null = $DependentAccounts.AddRange($result)
+			'SpecificAccount' {
+				$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts"
 			}
 
+			'AllDependentAccounts' {
+				$URI = "$($psPASSession.BaseURI)/API/dependentAccounts"
+				if ($PSBoundParameters.Keys -notcontains 'Limit') {
+					$Limit = 100   #default limit
+					$boundParameters.Add('Limit', $Limit) # Add to boundparameters for inclusion in query string
+				}
+			}
+
+			'SpecificDependentAccount' {
+				$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts/$($dependentAccountId)"
+			}
+
+		}
+
+		# Append filter string if present
+		if ($null -ne $FilterString) {
+
+			$boundParameters = $boundParameters + $FilterString
+
+		}
+
+		# Build query string
+		$queryString = $boundParameters | ConvertTo-QueryString
+		if ($queryString) {
+			$URI = "$URI`?$queryString"
+		}
+
+		# Initial request
+		$Result = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
+		$Total = $Result.Total
+
+		if ($Total -gt 1) {
+			$DependentAccounts = [Collections.Generic.List[Object]]::New(@($Result.DependentAccounts))
+		}
+		# If pagination is needed
+		if ($Total -eq $Limit) {
+
+			# Split and sanitize query string
+			$URLParts = $URI.Split('?')
+			$BaseURI = $URLParts[0]
+			$queryString = if ($URLParts.Count -gt 1) { $URLParts[1] } else { '' }
+			$queryString = (($queryString -split '&') | Where-Object {
+					($_ -notmatch '^limit=') -and ($_ -notmatch '^offset=')
+				}) -join '&'
+
+			# Begin pagination
+			$Offset = $Limit
+			$pageCount = $Limit
+
+			while ($pageCount -eq $Limit) {
+				$nextLink = "limit=$Limit&Offset=$Offset"
+				if ($queryString) {
+					$nextLink = "$queryString&$nextLink"
+				}
+
+				try {
+					$pageResult = Invoke-PASRestMethod -Uri "$BaseURI`?$nextLink" -Method GET -TimeoutSec $TimeoutSec
+				} catch {
+					# Pagination failed at Offset - terminate the loop."
+					break
+				}
+
+				$pageCount = $pageResult.DependentAccounts.Count
+				$Null = $DependentAccounts.AddRange($pageResult.DependentAccounts)
+				$Offset += $Limit
+			}
+
+		}
+
+		if ($null -ne $DependentAccounts) {
 			$Result = $DependentAccounts
-
 		}
 
-		If ($null -ne $result) {
-
+		if ($null -ne $Result) {
 			$Result
-
 		}
+	}
 
-	}#process
-
-	END { }#end
+	end { }#end
 
 }

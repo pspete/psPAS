@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Remove-PASFIDO2Device {
+function Remove-PASFIDO2Device {
 
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'OwnDevice', Justification = 'False Positive')]
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Default')]
@@ -26,14 +26,14 @@ Function Remove-PASFIDO2Device {
 
 	)
 
-	BEGIN {
+	begin {
 
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 14.6
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -65,6 +65,6 @@ Function Remove-PASFIDO2Device {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -1,16 +1,16 @@
 # .ExternalHelp psPAS-help.xml
-Function Reset-PASTheme {
+function Reset-PASTheme {
     [CmdletBinding(SupportsShouldProcess)]
     param()
 
-    BEGIN {
+    begin {
 
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.4
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for request
         $URI = "$($psPASSession.BaseURI)/API/ActiveThemes/"
@@ -23,6 +23,6 @@ Function Reset-PASTheme {
         }
     }#process
 
-    END { }#end
+    end { }#end
 
 }

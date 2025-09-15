@@ -114,11 +114,11 @@ function Get-PASPlatform {
 
 	)
 
-	BEGIN {
+	begin {
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -135,7 +135,7 @@ function Get-PASPlatform {
 				#Create Query String, escaped for inclusion in request URL
 				$queryString = $boundParameters | ConvertTo-QueryString
 
-				If ($null -ne $queryString) {
+				if ($null -ne $queryString) {
 					#Build URL from base URL
 					$URI = "$URI`?$queryString"
 				}
@@ -169,7 +169,7 @@ function Get-PASPlatform {
 				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
 				$FilterString = $filterParameters | ConvertTo-FilterString
 
-				If ($null -ne $FilterString) {
+				if ($null -ne $FilterString) {
 
 					$boundParameters = $boundParameters + $FilterString
 
@@ -178,7 +178,7 @@ function Get-PASPlatform {
 				#Create Query String, escaped for inclusion in request URL
 				$queryString = $boundParameters | ConvertTo-QueryString
 
-				If ($null -ne $queryString) {
+				if ($null -ne $queryString) {
 
 					$URI = "$URI`?$queryString"
 
@@ -203,10 +203,10 @@ function Get-PASPlatform {
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#11.1+ returns result under "platforms" property
-			If ($null -ne $result.Platforms) {
+			if ($null -ne $result.Platforms) {
 
 				$result = $result | Select-Object -ExpandProperty Platforms
 
@@ -291,6 +291,6 @@ function Get-PASPlatform {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

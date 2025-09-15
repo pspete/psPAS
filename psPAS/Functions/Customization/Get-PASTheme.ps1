@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASTheme {
+function Get-PASTheme {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'FindAll', Justification = 'False Positive')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Active', Justification = 'False Positive')]
     [CmdletBinding(DefaultParameterSetName = 'byAll')]
@@ -18,33 +18,33 @@ Function Get-PASTheme {
         )]
         [switch]$Active,
 
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $false,
-			ParameterSetName = 'byAll'
-		)]
-		[switch]$FindAll
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $false,
+            ParameterSetName = 'byAll'
+        )]
+        [switch]$FindAll
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.4
 
     }#begin
 
-    PROCESS {
+    process {
 
         #Create URL for request
-        $URI = "$($psPASSession.BaseURI)/API/"
+        $URI = "$($psPASSession.BaseURI)/API"
 
         switch ($PSCmdlet.ParameterSetName) {
 
-			'ByName' {
-				$URI = "$URI/Themes/$ThemeName/"
+            'ByName' {
+                $URI = "$URI/Themes/$ThemeName/"
                 break
-			}
+            }
 
-            'ByActive'{
+            'ByActive' {
                 $URI = "$URI/ActiveThemes/"
                 break
             }
@@ -58,7 +58,7 @@ Function Get-PASTheme {
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        if($null -ne $result) {
+        if ($null -ne $result) {
 
             switch ($PSCmdlet.ParameterSetName) {
 
@@ -82,5 +82,5 @@ Function Get-PASTheme {
 
     }#process
 
-    END { }#end
+    end { }#end
 }

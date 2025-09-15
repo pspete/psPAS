@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASPTARemediation {
+function Set-PASPTARemediation {
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -28,13 +28,13 @@ Function Set-PASPTARemediation {
 
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.4
 
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
@@ -55,6 +55,6 @@ Function Set-PASPTARemediation {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

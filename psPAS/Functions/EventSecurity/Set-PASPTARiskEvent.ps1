@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-Function Set-PASPTARiskEvent {
+function Set-PASPTARiskEvent {
     [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = '13.2')]
     param(
         [parameter(
@@ -45,12 +45,12 @@ Function Set-PASPTARiskEvent {
 
     )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/api/pta/API/Risks/RisksEvents/$ID"
@@ -65,7 +65,7 @@ Function Set-PASPTARiskEvent {
 
         }
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Event.Risk
@@ -74,6 +74,6 @@ Function Set-PASPTARiskEvent {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

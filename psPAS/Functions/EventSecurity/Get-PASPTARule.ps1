@@ -1,14 +1,14 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASPTARule {
+function Get-PASPTARule {
 	[CmdletBinding()]
 	param(	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -SelfHosted
 		Assert-VersionRequirement -RequiredVersion 10.4
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create request URL
 		$URI = "$($psPASSession.BaseURI)/API/pta/API/Settings"
@@ -16,7 +16,7 @@ Function Get-PASPTARule {
 		#Send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			#Return Results
 			$result.riskyActivities | Add-ObjectDetail -typename psPAS.CyberArk.Vault.PTA.Rule
@@ -25,6 +25,6 @@ Function Get-PASPTARule {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

@@ -17,11 +17,11 @@ function Remove-PASGroupMember {
 		[string]$Member
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.5
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for request
 		$URI = "$($psPASSession.BaseURI)/API/UserGroups/$GroupID/members/$Member/"
@@ -35,6 +35,6 @@ function Remove-PASGroupMember {
 
 	}#process
 
-	END { }#end
+	end { }#end
 
 }

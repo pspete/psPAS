@@ -1,14 +1,14 @@
 # .ExternalHelp psPAS-help.xml
-Function Get-PASPTAPrivilegedGroup {
+function Get-PASPTAPrivilegedGroup {
     [CmdletBinding()]
     param( )
 
-    BEGIN {
+    begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.0
     }#begin
 
-    PROCESS {
+    process {
 
         #Create request URL
         $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration"
@@ -16,7 +16,7 @@ Function Get-PASPTAPrivilegedGroup {
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-        If ($null -ne $result) {
+        if ($null -ne $result) {
 
             #Return Results
             $result | Where-Object { $PSItem.propertykey -eq 'PrivilegedDomainGroupsList' } |
@@ -27,6 +27,6 @@ Function Get-PASPTAPrivilegedGroup {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

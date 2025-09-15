@@ -17,11 +17,11 @@ function Export-PASPSMRecording {
 		[string]$path
 	)
 
-	BEGIN {
+	begin {
 		Assert-VersionRequirement -RequiredVersion 10.6
 	}#begin
 
-	PROCESS {
+	process {
 
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/API/Recordings/$($RecordingID | Get-EscapedString)/Play"
@@ -30,7 +30,7 @@ function Export-PASPSMRecording {
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST
 
 		#if we get a byte array
-		If ($null -ne $result) {
+		if ($null -ne $result) {
 
 			Out-PASFile -InputObject $result -Path $path
 
@@ -38,6 +38,6 @@ function Export-PASPSMRecording {
 
 	} #process
 
-	END { }#end
+	end { }#end
 
 }
