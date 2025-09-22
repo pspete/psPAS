@@ -29,6 +29,7 @@ function Approve-PASRequest {
 
 			#Bulk Confirmations supported from 14.6
 			Assert-VersionRequirement -RequiredVersion 14.6
+			Assert-VersionRequirement -SelfHosted
 
 			$BulkConfirmation = $true
 		}
