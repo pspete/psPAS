@@ -46,7 +46,7 @@
 	# RequiredAssemblies = @()
 
 	# Script files (.ps1) that are run in the caller's environment prior to importing this module.
-	ScriptsToProcess = @(
+	ScriptsToProcess  = @(
 		'.\subscriberClasses.ps1'
 	)
 
@@ -290,7 +290,9 @@
 		'Set-PASTheme',
 		'Add-PASPTASyslog',
 		'Remove-PASPTASyslog',
-		'Set-PASPTASMTP'
+		'Set-PASPTASMTP',
+		'Set-PASDependentLinkedAccount',
+		'Clear-PASDependentLinkedAccount'
 
 	)
 

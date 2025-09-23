@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-function Remove-PASDependentAccount {
+function Clear-PASDependentLinkedAccount {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -14,30 +14,28 @@ function Remove-PASDependentAccount {
             ValueFromPipelinebyPropertyName = $true
         )]
         [Alias('dependentid')]
-        [string]$dependentAccountId
+        [string]$dependentAccountId,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [int]$extraPasswordIndex
 
     )
 
     begin {
 
-        Assert-VersionRequirement -RequiredVersion 14.6
-
-        #The url pattern is different between self-hosted and ISPSS
-        #check for hosting type here
-        if (Test-IsISPSS) {
-            $URLString = 'account-dependents'
-        } else {
-            $URLString = 'dependentAccounts'
-        }
+        Assert-VersionRequirement -PrivilegeCloud
 
     }#begin
 
     process {
 
         #Create URL for Request
-        $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/$URLString/$dependentAccountId"
+        $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/account-dependents/$dependentAccountId/link-accounts/$extraPasswordIndex"
 
-        if ($PSCmdlet.ShouldProcess($AccountID, 'Remove Dependent Account')) {
+        if ($PSCmdlet.ShouldProcess($dependentAccountId, "Clear extraPass$extraPasswordIndex Linked Account")) {
 
             #Send request to web service
             Invoke-PASRestMethod -Uri $URI -Method DELETE

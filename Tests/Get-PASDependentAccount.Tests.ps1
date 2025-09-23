@@ -22,6 +22,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
         $Script:RequestBody = $null
         $psPASSession = [ordered]@{
             BaseURI            = 'https://SomeURL/SomeApp'
+            ApiURI             = 'https://SomeTenant.cyberark.cloud'
             User               = $null
             ExternalVersion    = [System.Version]'0.0'
             WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
@@ -79,7 +80,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
-            It 'sends request to expected endpoint - SpecificAccount parameterset' {
+            It 'sends request to expected endpoint - SpecificAccount parameterset - Self Hosted' {
 
                 Get-PASDependentAccount -id 'SomeID'
 
@@ -91,7 +92,21 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
-            It 'sends request to expected endpoint - SpecificDependentAccount parameterset' {
+            It 'sends request to expected endpoint - SpecificAccount parameterset - ISPSS' {
+
+                Mock -CommandName Test-IsISPSS -MockWith { $true }
+
+                Get-PASDependentAccount -id 'SomeID'
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts/SomeID/account-dependents"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request to expected endpoint - SpecificDependentAccount parameterset - Self Hosted' {
 
                 Get-PASDependentAccount -id 'SomeID' -dependentAccountId 'SomeDependentID'
 
@@ -103,7 +118,21 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
-            It 'sends request to expected endpoint - AllDependentAccounts parameterset' {
+            It 'sends request to expected endpoint - SpecificDependentAccount parameterset - ISPSS' {
+
+                Mock -CommandName Test-IsISPSS -MockWith { $true }
+
+                Get-PASDependentAccount -id 'SomeID' -dependentAccountId 'SomeDependentID'
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts/SomeID/account-dependents/SomeDependentID"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request to expected endpoint - AllDependentAccounts parameterset - Self Hosted' {
 
                 Get-PASDependentAccount
 
@@ -112,6 +141,14 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/dependentAccounts?limit=100"
 
                 } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'throws when sending request to endpoint - AllDependentAccounts parameterset - ISPSS' {
+                $psPASSession.BaseURI = 'something.cyberark.cloud'
+                Mock -CommandName Test-IsISPSS -MockWith { $true }
+
+                { Get-PASDependentAccount } | Should -Throw
 
             }
 

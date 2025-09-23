@@ -17,10 +17,21 @@
   - Privilege Cloud only command to update a discovery rule set
 - `Remove-PASDiscoveryRuleSet`
   - Privilege Cloud only command to delete a discovery rule set
+- `Clear-PASDependentLinkedAccount`
+  - New Function to remove a linked account from a dependent account
+- `Set-PASDependentLinkedAccount`
+  - New Function to link an account to a dependent account
 
 ### Updated
 
-- N/A
+- `Add-PASDependentAccount`
+  - Adds logic to work against ISPSS endpoints which use different URL paths to Self-Hosted
+- `Get-PASDependentAccount`
+  - Adds logic to work against ISPSS endpoints which use different URL paths to Self-Hosted
+- `Set-PASDependentAccount`
+  - Adds logic to work against ISPSS endpoints which use different URL paths to Self-Hosted
+- `Approve-PASRequest`
+  - Adds logic to prevent bulk approvals being sent to ISPSS as this is not a supported action.
 
 ### Fixed
 
