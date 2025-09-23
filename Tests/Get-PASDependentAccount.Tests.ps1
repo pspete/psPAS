@@ -225,10 +225,6 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                                     'Value' = '_Test_WinDomain'
                                 },
                                 [pscustomobject]@{
-                                    'Key'   = 'LogonDomain'
-                                    'Value' = 'VIRTUALREAL'
-                                },
-                                [pscustomobject]@{
                                     'Key'   = 'LastSuccessVerification'
                                     'Value' = '1511973510'
                                 },
