@@ -149,7 +149,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 Mock -CommandName Test-IsISPSS -MockWith { $true }
 
                 { Get-PASDependentAccount } | Should -Throw
-
+                $psPASSession.BaseURI = 'something.com'
             }
 
             It 'sends expected filters - AllDependentAccounts parameterset' {
