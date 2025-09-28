@@ -1,12 +1,12 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Export-PASTicketingSystemLogs
+online version: https://pspas.pspete.dev/commands/Export-PASTicketingSystemLog
 schema: 2.0.0
-title: Export-PASTicketingSystemLogs
+title: Export-PASTicketingSystemLog
 ---
 
-# Export-PASTicketingSystemLogs
+# Export-PASTicketingSystemLog
 
 ## SYNOPSIS
 
@@ -15,7 +15,7 @@ Export ticketing system logs from Privilege Cloud
 ## SYNTAX
 
 ```
-Export-PASTicketingSystemLogs [[-days] <Int32>] [[-userID] <String>] [-path] <String> [-WhatIf] [-Confirm]
+Export-PASTicketingSystemLog [[-days] <Int32>] [[-userID] <String>] [-path] <String> [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -28,7 +28,7 @@ Export ticketing system logs collected from the Privilege Cloud Portal, for a sp
 ### Example 1
 
 ```powershell
-PS C:\> Export-PASTicketingSystemLogs -days 5 -path C:\SomeDirectory
+PS C:\> Export-PASTicketingSystemLog -days 5 -path C:\SomeDirectory
 ```
 
 Export the logs from the last 5 days for the privilege cloud ticketing systems
@@ -36,7 +36,7 @@ Export the logs from the last 5 days for the privilege cloud ticketing systems
 ### Example 2
 
 ```powershell
-PS C:\> Export-PASTicketingSystemLogs -days 1 -userID TicketingUser -path C:\SomeDirectory
+PS C:\> Export-PASTicketingSystemLog -days 1 -userID TicketingUser -path C:\SomeDirectory
 ```
 
 Export the logs from the previous day for the specified ticketing system user
@@ -138,6 +138,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Export-PASTicketingSystemLogs](https://pspas.pspete.dev/commands/Export-PASTicketingSystemLogs)
+[https://pspas.pspete.dev/commands/Export-PASTicketingSystemLog](https://pspas.pspete.dev/commands/Export-PASTicketingSystemLog)
 
 [https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/content/privilegecloudapis/privcloud-ticketing-systems-custom-export-logs.htm](https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/content/privilegecloudapis/privcloud-ticketing-systems-custom-export-logs.htm)

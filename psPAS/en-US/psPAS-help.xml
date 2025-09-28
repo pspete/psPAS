@@ -13498,9 +13498,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Export-PASTicketingSystemLogs</command:name>
+      <command:name>Export-PASTicketingSystemLog</command:name>
       <command:verb>Export</command:verb>
-      <command:noun>PASTicketingSystemLogs</command:noun>
+      <command:noun>PASTicketingSystemLog</command:noun>
       <maml:description>
         <maml:para>Export ticketing system logs from Privilege Cloud</maml:para>
       </maml:description>
@@ -13510,7 +13510,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Export-PASTicketingSystemLogs</maml:name>
+        <maml:name>Export-PASTicketingSystemLog</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>days</maml:name>
           <maml:description>
@@ -13645,14 +13645,14 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Export-PASTicketingSystemLogs -days 5 -path C:\SomeDirectory</dev:code>
+        <dev:code>PS C:\&gt; Export-PASTicketingSystemLog -days 5 -path C:\SomeDirectory</dev:code>
         <dev:remarks>
           <maml:para>Export the logs from the last 5 days for the privilege cloud ticketing systems</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Export-PASTicketingSystemLogs -days 1 -userID TicketingUser -path C:\SomeDirectory</dev:code>
+        <dev:code>PS C:\&gt; Export-PASTicketingSystemLog -days 1 -userID TicketingUser -path C:\SomeDirectory</dev:code>
         <dev:remarks>
           <maml:para>Export the logs from the previous day for the specified ticketing system user</maml:para>
         </dev:remarks>
@@ -13660,8 +13660,8 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Export-PASTicketingSystemLogs</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Export-PASTicketingSystemLogs</maml:uri>
+        <maml:linkText>https://pspas.pspete.dev/commands/Export-PASTicketingSystemLog</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Export-PASTicketingSystemLog</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/content/privilegecloudapis/privcloud-ticketing-systems-custom-export-logs.htm</maml:linkText>

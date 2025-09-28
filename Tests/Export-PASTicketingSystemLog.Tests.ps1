@@ -66,7 +66,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
-            $response = $InputObject | Export-PASTicketingSystemLogs
+            $response = $InputObject | Export-PASTicketingSystemLog
 
         }
 
@@ -90,7 +90,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'sends request to expected endpoint when no arguments are specified' {
 
-                Export-PASTicketingSystemLogs -path C:\
+                Export-PASTicketingSystemLog -path C:\
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 

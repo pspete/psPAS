@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-function Export-PASTicketingSystemLogs {
+function Export-PASTicketingSystemLog {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(

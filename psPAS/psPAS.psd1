@@ -294,7 +294,7 @@
 		'Set-PASDependentLinkedAccount',
 		'Clear-PASDependentLinkedAccount',
 		'Import-PASTicketingSystem',
-		'Export-PASTicketingSystemLogs'
+		'Export-PASTicketingSystemLog'
 
 	)
 
