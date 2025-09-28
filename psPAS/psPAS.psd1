@@ -292,7 +292,9 @@
 		'Remove-PASPTASyslog',
 		'Set-PASPTASMTP',
 		'Set-PASDependentLinkedAccount',
-		'Clear-PASDependentLinkedAccount'
+		'Clear-PASDependentLinkedAccount',
+		'Import-PASTicketingSystem',
+		'Export-PASTicketingSystemLogs'
 
 	)
 
