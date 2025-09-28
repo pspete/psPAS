@@ -2,8 +2,8 @@
 external help file: psPAS-help.xml
 Module Name: psPAS
 online version: https://pspas.pspete.dev/commands/Set-PASDependentLinkedAccount
-title: Set-PASDependentLinkedAccount
 schema: 2.0.0
+title: Set-PASDependentLinkedAccount
 ---
 
 # Set-PASDependentLinkedAccount
@@ -133,7 +133,6 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
