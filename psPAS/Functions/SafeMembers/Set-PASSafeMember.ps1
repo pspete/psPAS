@@ -115,7 +115,7 @@ function Set-PASSafeMember {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Full'
 		)]
-		[datetime]$MembershipExpirationDate,
+		[Nullable[datetime]]$MembershipExpirationDate,
 
 		[parameter(
 			Mandatory = $false,
@@ -498,7 +498,7 @@ function Set-PASSafeMember {
 				#Create URL for request
 				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 
-				if ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
+				if (($PSBoundParameters.ContainsKey('MembershipExpirationDate')) -and ($null -ne $MembershipExpirationDate)) {
 
 					#Convert MembershipExpirationDate to string in Required format
 					$Date = Get-Date $MembershipExpirationDate | ConvertTo-UnixTime
