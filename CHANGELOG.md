@@ -26,6 +26,23 @@
 
 - N/A
 
+## [7.0.242]
+
+### Added
+
+- N/A
+
+### Updated
+
+- `Set-PASSafeMember`
+  - Updates `MembershipExpirationDate` parameter to be able to accept null as a value to remove expiration date value from a safe member
+    - Thanks (again) [jmk-foofus](https://github.com/jmk-foofus)!
+  - Adds logic to ensure expiration date values are not a negative integer
+
+### Fixed
+
+- N/A
+
 ## [7.0.232]
 
 ### Added

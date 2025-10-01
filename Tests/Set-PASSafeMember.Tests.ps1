@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace '.Tests.ps1') {
+Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -224,6 +224,26 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'has a request body with expected number of properties' {
 
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 2
+
+			}
+
+			It 'sends null expiration date if negative value returned from get request' {
+
+				Mock Get-PASSafeMember -MockWith {
+					@{
+						'MembershipExpirationDate' = -12345
+					}
+				}
+
+				$InputObj | Set-PASSafeMember
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody).MembershipExpirationDate -eq $null
+
+				} -Scope It
 
 			}
 
