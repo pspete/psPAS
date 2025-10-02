@@ -115,7 +115,7 @@ function Set-PASSafeMember {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Full'
 		)]
-		[datetime]$MembershipExpirationDate,
+		[Nullable[datetime]]$MembershipExpirationDate,
 
 		[parameter(
 			Mandatory = $false,
@@ -490,6 +490,7 @@ function Set-PASSafeMember {
 				Assert-VersionRequirement -RequiredVersion 12.2
 
 				$safeMember = Get-PASSafeMember -SafeName $SafeName -MemberName $MemberName
+
 				if ($null -ne $safeMember) {
 					Format-PutRequestObject -InputObject $safeMember -boundParameters $BoundParameters -ParametersToRemove safeNumber, memberId,
 					UserName, safeName, isExpiredMembershipEnable, memberName, memberType, safeUrlId, memberType, isPredefinedUser
@@ -498,13 +499,22 @@ function Set-PASSafeMember {
 				#Create URL for request
 				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)/Members/$($MemberName | Get-EscapedString)/"
 
-				if ($PSBoundParameters.ContainsKey('MembershipExpirationDate')) {
+				#Convert expiration date if it was passed as a parameter and passed value is not null
+				if (($PSBoundParameters.ContainsKey('MembershipExpirationDate')) -and ($null -ne $MembershipExpirationDate)) {
 
 					#Convert MembershipExpirationDate to string in Required format
 					$Date = Get-Date $MembershipExpirationDate | ConvertTo-UnixTime
 
 					#Include date string in request
 					$boundParameters['MembershipExpirationDate'] = $Date
+
+				}
+
+				#Set expiration date in request body to null if negative value returned from existing safe member
+				#This ensures the update does not fail due to an out of range value
+				if ([int]$boundParameters['MembershipExpirationDate'] -lt 0) {
+
+					$boundParameters[('MembershipExpirationDate')] = $null
 
 				}
 
