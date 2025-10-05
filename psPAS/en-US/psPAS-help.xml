@@ -29332,10 +29332,11 @@ PS C:\&gt; New-PASReportSchedule -version 1 -type 'Report' -subType 'CyberArk.Re
             <maml:para>When using the Gen2 API, specify the type of authentication to use.</maml:para>
             <maml:para>Valid values are: - CyberArk</maml:para>
             <maml:para>- LDAP</maml:para>
-            <maml:para>- Windows</maml:para>
-            <maml:para>- Minimum version required 10.4 - RADIUS</maml:para>
+            <maml:para>- Windows (Minimum version required 10.4)</maml:para>
+            <maml:para>- RADIUS</maml:para>
             <maml:para>- PKI</maml:para>
             <maml:para>- PKIPN</maml:para>
+            <maml:para>- FIDO2 (Minimum version required 14.4)</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -29458,6 +29459,18 @@ PS C:\&gt; New-PASReportSchedule -version 1 -type 'Report' -subType 'CyberArk.Re
             <maml:uri />
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UserName</maml:name>
+          <maml:description>
+            <maml:para>The username for FIDO2 authentication. When using `-type FIDO2`, specify the username with this parameter (required). The username identifies the user and their registered security keys.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -30024,10 +30037,11 @@ PS C:\&gt; New-PASReportSchedule -version 1 -type 'Report' -subType 'CyberArk.Re
             <maml:para>When using the Gen2 API, specify the type of authentication to use.</maml:para>
             <maml:para>Valid values are: - CyberArk</maml:para>
             <maml:para>- LDAP</maml:para>
-            <maml:para>- Windows</maml:para>
-            <maml:para>- Minimum version required 10.4 - RADIUS</maml:para>
+            <maml:para>- Windows (Minimum version required 10.4)</maml:para>
+            <maml:para>- RADIUS</maml:para>
             <maml:para>- PKI</maml:para>
             <maml:para>- PKIPN</maml:para>
+            <maml:para>- FIDO2 (Minimum version required 14.4)</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -31163,10 +31177,11 @@ PS C:\&gt; New-PASReportSchedule -version 1 -type 'Report' -subType 'CyberArk.Re
           <maml:para>When using the Gen2 API, specify the type of authentication to use.</maml:para>
           <maml:para>Valid values are: - CyberArk</maml:para>
           <maml:para>- LDAP</maml:para>
-          <maml:para>- Windows</maml:para>
-          <maml:para>- Minimum version required 10.4 - RADIUS</maml:para>
+          <maml:para>- Windows (Minimum version required 10.4)</maml:para>
+          <maml:para>- RADIUS</maml:para>
           <maml:para>- PKI</maml:para>
           <maml:para>- PKIPN</maml:para>
+          <maml:para>- FIDO2 (Minimum version required 14.4)</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -31452,6 +31467,18 @@ PS C:\&gt; New-PASReportSchedule -version 1 -type 'Report' -subType 'CyberArk.Re
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>UserName</maml:name>
+        <maml:description>
+          <maml:para>The username for FIDO2 authentication. When using `-type FIDO2`, specify the username with this parameter (required). The username identifies the user and their registered security keys.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -31711,6 +31738,13 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
           <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to specified Privileged Cloud environment.</maml:para>
           <maml:para>Requires IdentityCommand module to be installed for authentication flow to complete.</maml:para>
           <maml:para>See: Get-Help IdentityCommand</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 31 --------------------------</maml:title>
+        <dev:code>New-PASSession -BaseURI https://pvwa.company.com -type FIDO2 -UserName administrator</dev:code>
+        <dev:remarks>
+          <maml:para>Authenticates to CyberArk using FIDO2/WebAuthn hardware security key authentication.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
