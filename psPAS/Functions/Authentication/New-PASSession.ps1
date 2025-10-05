@@ -195,6 +195,15 @@ function New-PASSession {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
+		[ValidateNotNullOrEmpty()]
+		[string]$UserName,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2'
+		)]
 		[Parameter(
 			Mandatory = $false,
 			ValueFromPipeline = $false,
@@ -254,7 +263,7 @@ function New-PASSession {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Radius'
 		)]
-		[ValidateSet('CyberArk', 'LDAP', 'Windows', 'RADIUS', 'PKI', 'PKIPN')]
+		[ValidateSet('CyberArk', 'LDAP', 'Windows', 'RADIUS', 'PKI', 'PKIPN', 'FIDO2')]
 		[string]$type = 'CyberArk',
 
 		[Parameter(
@@ -555,7 +564,7 @@ function New-PASSession {
 
 				#Get request parameters
 				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, SkipCertificateCheck,
-				UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge, Certificate
+				UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge, Certificate, UserName
 
 				#deal with newPassword SecureString
 				if ($PSBoundParameters.ContainsKey('newPassword')) {
@@ -565,7 +574,15 @@ function New-PASSession {
 
 				}
 
-				if ($type -ne 'PKIPN') {
+				if ($type -eq 'FIDO2') {
+					# FIDO2 authentication requires username but no password
+					Assert-VersionRequirement -SelfHosted
+					
+					if (-not $PSBoundParameters.Keys.Contains('UserName')) {
+						throw 'Username is required for FIDO2 authentication. Use -UserName parameter.'
+					}
+					
+				} elseif ($type -ne 'PKIPN') {
 
 					if ($PSBoundParameters.Keys.Contains('Credential')) {
 						#Add user name from credential object
@@ -647,6 +664,11 @@ function New-PASSession {
 					( { $PSItem -match '^ISPSS-.*-ServiceUser$' } ) {
 						#Perform Identity User Authentication using IdentityCommand module
 						$PASSession = New-IDPlatformToken -tenant_url $LogonRequest['Uri'] -Credential $LogonRequest['Credential']
+						break
+					}
+					( { $type -eq 'FIDO2' } ) {
+						# Perform FIDO2 Authentication
+						$PASSession = Invoke-FIDO2Authentication -BaseURI $Uri -UserName $UserName -LogonRequest $LogonRequest
 						break
 					}
 					default {

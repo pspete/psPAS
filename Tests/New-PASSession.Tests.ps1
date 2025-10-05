@@ -1237,6 +1237,69 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Gen2 with FIDO2' {
+
+			BeforeEach {
+
+				Mock Assert-VersionRequirement -MockWith {}
+
+				Mock Invoke-FIDO2Authentication -MockWith {
+					[PSCustomObject]@{
+						'CyberArkLogonResult' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+					}
+				}
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '14.6'
+					}
+				}
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'TestUser' }
+				}
+
+				$psPASSession.ExternalVersion = '14.6'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It 'sends request with UserName parameter' {
+				New-PASSession -BaseURI 'https://pvwa.cyberark.com' -type FIDO2 -UserName 'TestUser'
+				Assert-MockCalled Invoke-FIDO2Authentication -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with expected parameters' {
+				New-PASSession -BaseURI 'https://pvwa.cyberark.com' -type FIDO2 -UserName 'TestUser'
+				Assert-MockCalled Invoke-FIDO2Authentication -ParameterFilter {
+
+					$BaseURI -eq 'https://pvwa.cyberark.com/PasswordVault' -and $UserName -eq 'TestUser'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws error when UserName is not provided' {
+				{ New-PASSession -BaseURI 'https://pvwa.cyberark.com' -type FIDO2 } | Should -Throw 'Username is required for FIDO2 authentication. Use -UserName parameter.'
+			}
+
+			It 'sets expected BaseURI' {
+
+				New-PASSession -BaseURI 'https://pvwa.cyberark.com' -type FIDO2 -UserName 'TestUser'
+				$Script:psPASSession.BaseURI | Should -Be 'https://pvwa.cyberark.com/PasswordVault'
+
+			}
+
+			It 'sets expected authorization header' {
+
+				New-PASSession -BaseURI 'https://pvwa.cyberark.com' -type FIDO2 -UserName 'TestUser'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+
+			}
+
+		}
+
 	}
 
 }
