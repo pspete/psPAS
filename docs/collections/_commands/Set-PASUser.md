@@ -934,7 +934,7 @@ Accept wildcard characters: False
 ### -loginToHour
 The end of the timeframe the user account is permitted to authenticate.
 
-Provide an hour of the day in 24-hour format (0-23)
+Provide an hour of the day in 24-hour format (0-24)
 
 Minimum required version 13.2
 
