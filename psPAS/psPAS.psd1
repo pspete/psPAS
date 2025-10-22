@@ -48,6 +48,7 @@
 	# Script files (.ps1) that are run in the caller's environment prior to importing this module.
 	ScriptsToProcess  = @(
 		'.\subscriberClasses.ps1'
+		'.\Classes\discoveredAccountClasses.ps1'
 	)
 
 	# Type files (.ps1xml) to be loaded when importing this module
@@ -294,7 +295,15 @@
 		'Set-PASDependentLinkedAccount',
 		'Clear-PASDependentLinkedAccount',
 		'Import-PASTicketingSystem',
-		'Export-PASTicketingSystemLog'
+		'Export-PASTicketingSystemLog',
+		'Remove-PASRemediationRuleSet',
+		'Remove-PASDiscoveryScanDefinition',
+		'Start-PASDiscoveryScan',
+		'Get-PASDiscoveryScanLog',
+		'Get-PASDiscoveryScanDefinition',
+		'Get-PASRemediationRuleSet',
+		'Test-PASDiscoveredLocalAccount',
+		'Get-PASDiscoveryScan'
 
 	)
 
