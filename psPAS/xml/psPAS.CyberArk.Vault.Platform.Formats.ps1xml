@@ -1,13 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configuration>
 	<ViewDefinitions>
-		<View>
-			<Name>psPAS.CyberArk.Vault.Platform</Name>
+	<View>
+			<Name>psPAS.CyberArk.Vault.Platform.RotationalGroups</Name>
 			<ViewSelectedBy>
-				<TypeName>psPAS.CyberArk.Vault.Platform</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Platform.RotationalGroups</TypeName>
 			</ViewSelectedBy>
 			<TableControl>
 				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>PlatformID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>ID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Active</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>GracePeriod</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+			<View>
+			<Name>psPAS.CyberArk.Vault.Platform.Dependents</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Platform.Dependents</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>PlatformID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>ID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>PlatformBaseType</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>PlatformBaseID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>CredentialsManagementPolicy</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>NumberOfLinkedTargetPlatforms</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>LinkedAccounts</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Platform.Basic</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Platform.Basic</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+			  	<TableHeaders>
+						<TableColumnHeader>
+							<Label>PlatformID</Label>
+							<Width>15</Width>
+						</TableColumnHeader>
+						<TableColumnHeader>
+							<Label>General</Label>
+							<Width>15</Width>
+						</TableColumnHeader>
+						<TableColumnHeader>
+							<Label>Properties</Label>
+							<Width>15</Width>
+						</TableColumnHeader>
+						<TableColumnHeader>
+							<Label>LinkedAccounts</Label>
+							<Width>15</Width>
+						</TableColumnHeader>
+						<TableColumnHeader>
+							<Label>SessionManagement</Label>
+							<Width>15</Width>
+						</TableColumnHeader>
+						<TableColumnHeader>
+							<Label>CredentialsManagement</Label>
+							<Width>15</Width>
+						</TableColumnHeader>
+						<TableColumnHeader>
+							<Label>privilegedAccessWorkflows</Label>
+							<Width>15</Width>
+						</TableColumnHeader>
+					</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<ScriptBlock>
+									$_.general.id
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>general</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>properties</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>linkedAccounts</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>sessionManagement</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>credentialsManagement</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>privilegedAccessWorkflows</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Platform</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Platform.Groups</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Platform.Targets</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+				<TableColumnHeader>
+					<Label>PlatformID</Label>
+					<Width>15</Width>
+				</TableColumnHeader>
+				<TableColumnHeader>
+					<Label>ID</Label>
+					<Width>4</Width>
+				</TableColumnHeader>
+				<TableColumnHeader>
+					<Label>Active</Label>
+					<Width>7</Width>
+				</TableColumnHeader>
+				<TableColumnHeader>
+					<Label>General</Label>
+					<Width>15</Width>
+				</TableColumnHeader>
+				<TableColumnHeader>
+					<Label>Properties</Label>
+					<Width>15</Width>
+				</TableColumnHeader>
+				<TableColumnHeader>
+					<Label>LinkedAccounts</Label>
+					<Width>15</Width>
+				</TableColumnHeader>
+				<TableColumnHeader>
+					<Label>CredentialsManagement</Label>
+					<Width>15</Width>
+				</TableColumnHeader>
+				<TableColumnHeader>
+					<Label>SessionManagement</Label>
+					<Width>15</Width>
+				</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+				<TableRowEntry>
+					<TableColumnItems>
+					<TableColumnItem>
+						<PropertyName>PlatformID</PropertyName>
+					</TableColumnItem>
+					<TableColumnItem>
+						<PropertyName>ID</PropertyName>
+					</TableColumnItem>
+					<TableColumnItem>
+						<PropertyName>Active</PropertyName>
+					</TableColumnItem>
+					<TableColumnItem>
+						<PropertyName>general</PropertyName>
+					</TableColumnItem>
+					<TableColumnItem>
+						<PropertyName>properties</PropertyName>
+					</TableColumnItem>
+					<TableColumnItem>
+						<PropertyName>linkedAccounts</PropertyName>
+					</TableColumnItem>
+					<TableColumnItem>
+						<PropertyName>credentialsManagement</PropertyName>
+					</TableColumnItem>
+					<TableColumnItem>
+						<PropertyName>sessionManagement</PropertyName>
+					</TableColumnItem>
+					</TableColumnItems>
+				</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Platform.Details</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Platform.Details</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
 					<TableColumnHeader />
 					<TableColumnHeader />
 					<TableColumnHeader />
@@ -22,7 +249,16 @@
 								<PropertyName>Active</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>Details</PropertyName>
+								<PropertyName>PolicyType</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AllowedSafes</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>PerformPeriodicChange</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>ExeName</PropertyName>
 							</TableColumnItem>
 						</TableColumnItems>
 					</TableRowEntry>
