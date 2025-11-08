@@ -84,7 +84,7 @@ function New-PASDirectoryMapping {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[AllowEmptyCollection()]
-		[ValidateSet('SAML', 'PKI', 'FIDO', 'WINDOWS')]
+		[ValidateSet('SAML', 'PKI', 'PKIPN', 'FIDO', 'WINDOWS')]
 		[string[]]$allowedAuthenticationMethods
 
 	)
