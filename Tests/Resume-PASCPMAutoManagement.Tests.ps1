@@ -36,7 +36,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	}
 
-
 	AfterAll {
 
 		$Script:RequestBody = $null
@@ -45,33 +44,34 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach {
-			Mock Invoke-PASRestMethod -MockWith { }
-
-			$SecurePassword = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-
-			$response = Start-PASVRMService -serviceName DR -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false
-
-		}
-
-
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'serviceName' }, @{Parameter = 'serverAddress' }, @{Parameter = 'servicePassword' }
+			$Parameters = @{Parameter = 'Accountid' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Start-PASVRMService).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Resume-PASCPMAutoManagement).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
 		}
 
-
-
 		Context 'Input' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith { }
+
+				$InputObj = [pscustomobject]@{
+					'id' = 'SomeID'
+				}
+
+				$psPASSession.ExternalVersion = '0.0'
+				$response = $InputObj | Resume-PASCPMAutoManagement
+
+			}
 
 			It 'sends request' {
 
@@ -83,7 +83,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/VaultActions/SetServiceStatus/Start"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/SomeID/Resume/"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -95,34 +95,33 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'sends request with expected body' {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$Script:RequestBody = $Body | ConvertFrom-Json
-
-					($Script:RequestBody.serviceName) -ne $null
-
-				} -Times 1 -Exactly -Scope It
-
-			}
-
 			It 'throws error if version requirement not met' {
 				$psPASSession.ExternalVersion = '1.0'
-				{ Start-PASVRMService -serviceName DR -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false } | Should -Throw
+				{ $InputObj | Resume-PASCPMAutoManagement } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
-			It 'accepts ENE as a serviceName value' {
-				$psPASSession.ExternalVersion = '15.2'
-				{ Start-PASVRMService -serviceName ENE -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false } | Should -Not -Throw
+		}
+
+		Context 'Output' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith { }
+
+				$InputObj = [pscustomobject]@{
+					'id' = 'SomeID'
+				}
+
 				$psPASSession.ExternalVersion = '0.0'
+				$response = $InputObj | Resume-PASCPMAutoManagement
+
 			}
 
-			It 'throws for ENE serviceName if 15.2 version requirement not met' {
-				$psPASSession.ExternalVersion = '15.1'
-				{ Start-PASVRMService -serviceName ENE -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false } | Should -Throw
-				$psPASSession.ExternalVersion = '0.0'
+			It 'provides no output' {
+
+				$response | Should -BeNullOrEmpty
+
 			}
 
 		}

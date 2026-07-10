@@ -54,7 +54,9 @@ Accept wildcard characters: False
 
 ### -serviceName
 The name of the service to check status for.
-Supported services: Vault, DR
+Supported services: Vault, DR, ENE
+
+The ENE service requires CyberArk version 15.2 or higher.
 
 ```yaml
 Type: String
@@ -111,6 +113,21 @@ Required: True
 Position: 5
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

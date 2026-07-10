@@ -75,6 +75,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Change credentials, set next password][Change credentials, set next password]              | [Invoke-PASCPMOperation][Invoke-PASCPMOperation]
 [Change credentials in Vault][Change credentials in Vault]                                  | [Invoke-PASCPMOperation][Invoke-PASCPMOperation]
 [Reconcile credentials][Reconcile credentials]                                              | [Invoke-PASCPMOperation][Invoke-PASCPMOperation]
+[Resume CPM auto management][Resume CPM auto management]                                     | [Resume-PASCPMAutoManagement][Resume-PASCPMAutoManagement]
+[Cancel CPM task][Cancel CPM task]                                                           | [Stop-PASCPMTask][Stop-PASCPMTask]
 [Get directories][Get directories]                                                          | [Get-PASDirectory][Get-PASDirectory]
 [Get directory details][Get directory details]                                              | [Get-PASDirectory][Get-PASDirectory]
 [Create directory][Create directory]                                                        | [Add-PASDirectory][Add-PASDirectory]
@@ -125,6 +127,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get session management policy of platform][Get session management policy of platform]      | [Get-PASPlatformPSMConfig][Get-PASPlatformPSMConfig]
 [Update session management policy of platform][Update session management policy of platform]| [Set-PASPlatformPSMConfig][Set-PASPlatformPSMConfig]
 [Get safes by platform ID][Get safes by platform ID]                                        | [Get-PASPlatformSafe][Get-PASPlatformSafe]
+[Generate platform secret][Generate platform secret]                                        | [New-PASPlatformSecret][New-PASPlatformSecret]
 [Get OPM rules][Get OPM rules]                                                              | [Get-PASPolicyACL][Get-PASPolicyACL]
 [Add OPM policy][Add OPM policy]                                                            | [Add-PASPolicyACL][Add-PASPolicyACL]
 [Delete OPM policy][Delete OPM policy]                                                      | [Remove-PASPolicyACL][Remove-PASPolicyACL]
@@ -416,6 +419,9 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Remove-PASDirectory]:/commands/Remove-PASDirectory
 [Find-PASSafe]:/commands/Find-PASSafe
 [Invoke-PASCPMOperation]:/commands/Invoke-PASCPMOperation
+[Resume-PASCPMAutoManagement]:/commands/Resume-PASCPMAutoManagement
+[Stop-PASCPMTask]:/commands/Stop-PASCPMTask
+[New-PASPlatformSecret]:/commands/New-PASPlatformSecret
 [Set-PASDirectoryMappingOrder]:/commands/Set-PASDirectoryMappingOrder
 [Set-PASUserPassword]:/commands/Set-PASUserPassword
 [Disable-PASCPMAutoManagement]:/commands/Disable-PASCPMAutoManagement
@@ -673,6 +679,9 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Change credentials, set next password]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/SetNextPassword.htm
 [Change credentials in Vault]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ChangeCredentialsInVault.htm
 [Reconcile credentials]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Reconcile-account.htm
+[Resume CPM auto management]:https://pspas.pspete.dev/commands/Resume-PASCPMAutoManagement
+[Cancel CPM task]:https://pspas.pspete.dev/commands/Stop-PASCPMTask
+[Generate platform secret]:https://pspas.pspete.dev/commands/New-PASPlatformSecret
 [Add discovered accounts - Gen 1]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Add%20Discovered%20Account%20v10.8.htm
 [Get discovered accounts]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-discovered-accounts.htm
 [Get discovered account details]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-discovered-account-details.htm

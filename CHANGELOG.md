@@ -9,6 +9,12 @@
 
 ### Added
 
+- `Resume-PASCPMAutoManagement`
+  - Self-Hosted (15.2+) command to resume CPM auto management for an account
+- `Stop-PASCPMTask`
+  - Self-Hosted (15.2+) command to cancel a pending CPM task for an account
+- `New-PASPlatformSecret`
+  - Self-Hosted (15.2+) command to generate a secret for a platform
 - `Get-PASDiscoveryRuleSet`
   - Privilege Cloud only command to show configured discovery rule sets
 - `New-PASDiscoveryRuleSet`
@@ -24,6 +30,11 @@
 
 ### Updated
 
+- `Set-PASSafe`
+  - Adds `Quota` parameter to set the safe size quota (Self-Hosted 15.2+)
+  - Allows a `NumberOfVersionsRetention` value of `0`
+- `Get-PASVRMServiceStatus`, `Start-PASVRMService`, `Stop-PASVRMService`, `Restart-PASVRMService`
+  - Adds `ENE` as a supported `serviceName` value (requires 15.2+)
 - `Add-PASDependentAccount`
   - Adds logic to work against ISPSS endpoints which use different URL paths to Self-Hosted
 - `Get-PASDependentAccount`

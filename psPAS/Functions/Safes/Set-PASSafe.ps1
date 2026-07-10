@@ -57,12 +57,7 @@ function Set-PASSafe {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2-NumberOfVersionsRetention'
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen1-NumberOfVersionsRetention'
-		)]
-		[ValidateRange(1, 999)]
+		[ValidateRange(0, 999)]
 		[int]$NumberOfVersionsRetention,
 
 		[Parameter(
@@ -70,29 +65,20 @@ function Set-PASSafe {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2-NumberOfDaysRetention'
 		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen1-NumberOfDaysRetention'
-		)]
 		[ValidateRange(0, 3650)]
 		[int]$NumberOfDaysRetention,
 
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen1-NumberOfVersionsRetention'
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
 		)]
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'Gen1-NumberOfDaysRetention'
-		)]
-		[switch]$UseGen1API
-
+		[ValidateNotNullOrEmpty()]
+		[int]$Quota
 	)
 
-	begin { }#begin
+	begin {
+		Assert-VersionRequirement -RequiredVersion 12.2
+	}#begin
 
 	process {
 
@@ -103,7 +89,7 @@ function Set-PASSafe {
 		$SafeObject = Get-PASSafe -SafeName $SafeName
 		if ($null -ne $SafeObject) {
 			Format-PutRequestObject -InputObject $SafeObject -boundParameters $BoundParameters -ParametersToKeep ManagingCPM, location, Description,
-			NumberOfVersionsRetention, NumberOfDaysRetention
+			NumberOfVersionsRetention, NumberOfDaysRetention, Quota
 		}
 
 		switch ($PSBoundParameters.Keys) {
@@ -116,45 +102,30 @@ function Set-PASSafe {
 			'NumberOfVersionsRetention' {
 				$BoundParameters.Remove('NumberOfDaysRetention')
 			}
+			'Quota' {
+				Assert-VersionRequirement -SelfHosted
+				Assert-VersionRequirement -RequiredVersion 15.2
+				continue
+			}
 		}
 
-		switch ($PSCmdlet.ParameterSetName) {
 
-			( { $PSItem -match '^Gen2-' } ) {
+		$typename = "$typename.Gen2"
 
-				Assert-VersionRequirement -RequiredVersion 12.2
-
-				$typename = "$typename.Gen2"
-
-				#Create URL for Request
-				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)"
-
-				#Create Request Body
-				$body = $BoundParameters | ConvertTo-Json
-
-				break
-
+		# Convert quota values with an MB suffix to numeric values in the request body
+		if ($BoundParameters.ContainsKey('Quota')) {
+			$quotaValue = $BoundParameters['Quota']
+			if ($quotaValue -is [string]) {
+				$BoundParameters['Quota'] = [int]$Matches.value
 			}
-
-			( { $PSItem -match '^Gen1-' } ) {
-
-				Assert-VersionRequirement -MaximumVersion 12.3
-
-				#Create URL for Request
-				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/$($SafeName | Get-EscapedString)"
-
-				#Create Request Body
-				$body = @{
-
-					'safe' = $BoundParameters
-
-				} | ConvertTo-Json
-
-				break
-
-			}
-
 		}
+
+		#Create URL for Request
+		$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)"
+
+		#Create Request Body
+		$body = $BoundParameters | ConvertTo-Json
+
 
 		if ($PSCmdlet.ShouldProcess($SafeName, 'Update Safe Properties')) {
 
@@ -163,25 +134,7 @@ function Set-PASSafe {
 
 			if ($null -ne $result) {
 
-				switch ($PSCmdlet.ParameterSetName) {
-
-					( { $PSItem -match '^Gen1-' } ) {
-
-						$return = $result.UpdateSafeResult
-
-						break
-
-					}
-
-					default {
-
-						$return = $result
-
-						break
-
-					}
-
-				}
+				$return = $result
 
 				$return | Add-ObjectDetail -typename $typename
 

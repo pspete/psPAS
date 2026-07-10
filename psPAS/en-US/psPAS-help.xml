@@ -23628,7 +23628,7 @@ PS C:\&gt; Get-PASVRMDRSystemHealth -DRAddress dr-vault.company.com -servicePass
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
           <maml:name>servicePassword</maml:name>
           <maml:description>
-            <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+            <maml:para>The PARAgent password as a SecureString</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
           <dev:type>
@@ -23703,7 +23703,7 @@ PS C:\&gt; Get-PASVRMDRSystemHealth -DRAddress dr-vault.company.com -servicePass
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
         <maml:name>servicePassword</maml:name>
         <maml:description>
-          <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+          <maml:para>The PARAgent password as a SecureString</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
@@ -23767,7 +23767,8 @@ PS C:\&gt; Get-PASVRMServiceConfigParameter -parameterName 'ReplicationInterval'
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>serviceName</maml:name>
           <maml:description>
-            <maml:para>The name of the service to check status for. Supported services: Vault, DR</maml:para>
+            <maml:para>The name of the service to check status for. Supported services: Vault, DR, ENE</maml:para>
+            <maml:para>The ENE service requires CyberArk version 15.2 or higher.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -23812,6 +23813,18 @@ PS C:\&gt; Get-PASVRMServiceConfigParameter -parameterName 'ReplicationInterval'
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+          <maml:name>ProgressAction</maml:name>
+          <maml:description>
+            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+          <dev:type>
+            <maml:name>ActionPreference</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -23830,7 +23843,8 @@ PS C:\&gt; Get-PASVRMServiceConfigParameter -parameterName 'ReplicationInterval'
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>serviceName</maml:name>
         <maml:description>
-          <maml:para>The name of the service to check status for. Supported services: Vault, DR</maml:para>
+          <maml:para>The name of the service to check status for. Supported services: Vault, DR, ENE</maml:para>
+          <maml:para>The ENE service requires CyberArk version 15.2 or higher.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -23871,6 +23885,18 @@ PS C:\&gt; Get-PASVRMServiceConfigParameter -parameterName 'ReplicationInterval'
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
           <maml:name>SecureString</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+        <maml:name>ProgressAction</maml:name>
+        <maml:description>
+          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+        <dev:type>
+          <maml:name>ActionPreference</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -25340,7 +25366,7 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName Vault -serverAddress vault.compa
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
           <maml:name>servicePassword</maml:name>
           <maml:description>
-            <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+            <maml:para>The PARAgent password as a SecureString</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
           <dev:type>
@@ -25413,7 +25439,7 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName Vault -serverAddress vault.compa
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
         <maml:name>servicePassword</maml:name>
         <maml:description>
-          <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+          <maml:para>The PARAgent password as a SecureString</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
@@ -27598,6 +27624,161 @@ PS C:\&gt; Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePasswor
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddAutomaticOnboardingRule.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddAutomaticOnboardingRule.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-PASPlatformSecret</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>PASPlatformSecret</command:noun>
+      <maml:description>
+        <maml:para>Generates a secret for a platform.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Generates a new secret for a specific platform.</maml:para>
+      <maml:para>Requires CyberArk Self-Hosted version 15.2 or higher.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-PASPlatformSecret</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
+          <maml:name>Platformid</maml:name>
+          <maml:description>
+            <maml:para>The unique id of the platform to generate a secret for.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+          <maml:name>ProgressAction</maml:name>
+          <maml:description>
+            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+          <dev:type>
+            <maml:name>ActionPreference</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
+        <maml:name>Platformid</maml:name>
+        <maml:description>
+          <maml:para>The unique id of the platform to generate a secret for.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+        <maml:name>ProgressAction</maml:name>
+        <maml:description>
+          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+        <dev:type>
+          <maml:name>ActionPreference</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; New-PASPlatformSecret -Platformid SomePlatform</dev:code>
+        <dev:remarks>
+          <maml:para>Generates a secret for the platform with id SomePlatform.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/New-PASPlatformSecret</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/New-PASPlatformSecret</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -41576,7 +41757,8 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>serviceName</maml:name>
           <maml:description>
-            <maml:para>The name of the service to restart. Supported services: Vault, DR</maml:para>
+            <maml:para>The name of the service to restart. Supported services: Vault, DR, ENE</maml:para>
+            <maml:para>The ENE service requires CyberArk version 15.2 or higher.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -41612,7 +41794,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
           <maml:name>servicePassword</maml:name>
           <maml:description>
-            <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+            <maml:para>The PARAgent password as a SecureString</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
           <dev:type>
@@ -41643,6 +41825,18 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+          <maml:name>ProgressAction</maml:name>
+          <maml:description>
+            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+          <dev:type>
+            <maml:name>ActionPreference</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -41661,7 +41855,8 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>serviceName</maml:name>
         <maml:description>
-          <maml:para>The name of the service to restart. Supported services: Vault, DR</maml:para>
+          <maml:para>The name of the service to restart. Supported services: Vault, DR, ENE</maml:para>
+          <maml:para>The ENE service requires CyberArk version 15.2 or higher.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -41697,7 +41892,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
         <maml:name>servicePassword</maml:name>
         <maml:description>
-          <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+          <maml:para>The PARAgent password as a SecureString</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
@@ -41730,14 +41925,14 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="none">
-        <maml:name>WhatIf</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+        <maml:name>ProgressAction</maml:name>
         <maml:description>
-          <maml:para>Position: Named Default value: None Accept pipeline input: False Accept wildcard characters: False ```</maml:para>
+          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false"></command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
         <dev:type>
-          <maml:name></maml:name>
+          <maml:name>ActionPreference</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -41764,6 +41959,115 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Restart-PASVRMService</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Resume-PASCPMAutoManagement</command:name>
+      <command:verb>Resume</command:verb>
+      <command:noun>PASCPMAutoManagement</command:noun>
+      <maml:description>
+        <maml:para>Resumes CPM auto management for an account.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Resumes automatic password management by the CPM for a specific account whose management was previously suspended.</maml:para>
+      <maml:para>Requires CyberArk Self-Hosted version 15.2 or higher.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Resume-PASCPMAutoManagement</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
+          <maml:name>Accountid</maml:name>
+          <maml:description>
+            <maml:para>The unique id of the account to resume CPM auto management for.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+          <maml:name>ProgressAction</maml:name>
+          <maml:description>
+            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+          <dev:type>
+            <maml:name>ActionPreference</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
+        <maml:name>Accountid</maml:name>
+        <maml:description>
+          <maml:para>The unique id of the account to resume CPM auto management for.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+        <maml:name>ProgressAction</maml:name>
+        <maml:description>
+          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+        <dev:type>
+          <maml:name>ActionPreference</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Resume-PASCPMAutoManagement -Accountid 123_4</dev:code>
+        <dev:remarks>
+          <maml:para>Resumes CPM auto management for account with id 123_4.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Resume-PASCPMAutoManagement</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Resume-PASCPMAutoManagement</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -47358,120 +47662,30 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Set-PASSafe</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SafeName</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+          <maml:name>ProgressAction</maml:name>
           <maml:description>
-            <maml:para>The name of the safe to update. - Max Length 28 characters.</maml:para>
-            <maml:para>- Cannot start with a space.</maml:para>
-            <maml:para>- Cannot contain: '\','/',':','*','&lt;','&gt;','"','.' or '|'</maml:para>
+            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>ActionPreference</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>NewSafeName</maml:name>
+          <maml:name>Quota</maml:name>
           <maml:description>
-            <maml:para>A name to rename the safe to - Max Length 28 characters.</maml:para>
-            <maml:para>- Cannot start with a space.</maml:para>
-            <maml:para>- Cannot contain: '\','/',':','*','&lt;','&gt;','"','.' or '|'</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>Description</maml:name>
-          <maml:description>
-            <maml:para>Updated Description for safe.</maml:para>
-            <maml:para>Max 100 characters.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>OLACEnabled</maml:name>
-          <maml:description>
-            <maml:para>Boolean value, dictating whether or not to enable Object Level Access Control on the safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManagingCPM</maml:name>
-          <maml:description>
-            <maml:para>The Name of the CPM user to manage the safe.</maml:para>
-            <maml:para>Specify "" to prevent CPM management.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>NumberOfVersionsRetention</maml:name>
-          <maml:description>
-            <maml:para>The number of retained versions of every password that is stored in the Safe. - Max value = 999 Specify either this parameter or NumberOfDaysRetention.</maml:para>
+            <maml:para>The size quota, in MB, allocated to the safe.</maml:para>
+            <maml:para>Requires CyberArk Self-Hosted version 15.2 or higher.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
             <maml:name>Int32</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>UseGen1API</maml:name>
-          <maml:description>
-            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
-            <maml:para>Should be specified for versions earlier than 12.2</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -47592,123 +47806,30 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Set-PASSafe</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>SafeName</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+          <maml:name>ProgressAction</maml:name>
           <maml:description>
-            <maml:para>The name of the safe to update. - Max Length 28 characters.</maml:para>
-            <maml:para>- Cannot start with a space.</maml:para>
-            <maml:para>- Cannot contain: '\','/',':','*','&lt;','&gt;','"','.' or '|'</maml:para>
+            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>ActionPreference</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>NewSafeName</maml:name>
+          <maml:name>Quota</maml:name>
           <maml:description>
-            <maml:para>A name to rename the safe to - Max Length 28 characters.</maml:para>
-            <maml:para>- Cannot start with a space.</maml:para>
-            <maml:para>- Cannot contain: '\','/',':','*','&lt;','&gt;','"','.' or '|'</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>Description</maml:name>
-          <maml:description>
-            <maml:para>Updated Description for safe.</maml:para>
-            <maml:para>Max 100 characters.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>OLACEnabled</maml:name>
-          <maml:description>
-            <maml:para>Boolean value, dictating whether or not to enable Object Level Access Control on the safe.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>ManagingCPM</maml:name>
-          <maml:description>
-            <maml:para>The Name of the CPM user to manage the safe.</maml:para>
-            <maml:para>Specify "" to prevent CPM management.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>NumberOfDaysRetention</maml:name>
-          <maml:description>
-            <maml:para>The number of days for which password versions are saved in the Safe.</maml:para>
-            <maml:para>- Minimum Value: 0</maml:para>
-            <maml:para>- Maximum Value: 3650</maml:para>
-            <maml:para>Specify either this parameter or NumberOfVersionsRetention</maml:para>
+            <maml:para>The size quota, in MB, allocated to the safe.</maml:para>
+            <maml:para>Requires CyberArk Self-Hosted version 15.2 or higher.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
             <maml:name>Int32</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>UseGen1API</maml:name>
-          <maml:description>
-            <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
-            <maml:para>Should be specified for versions earlier than 12.2</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -47843,18 +47964,30 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>UseGen1API</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+        <maml:name>ProgressAction</maml:name>
         <maml:description>
-          <maml:para>Specify to force usage the Gen1 API endpoint.</maml:para>
-          <maml:para>Should be specified for versions earlier than 12.2</maml:para>
+          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
         <dev:type>
-          <maml:name>SwitchParameter</maml:name>
+          <maml:name>ActionPreference</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>Quota</maml:name>
+        <maml:description>
+          <maml:para>The size quota, in MB, allocated to the safe.</maml:para>
+          <maml:para>Requires CyberArk Self-Hosted version 15.2 or higher.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -47875,9 +48008,10 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfDaysRetention 10 -UseGen1API</dev:code>
+        <dev:code>Set-PASSafe -SafeName SAFE -Quota 500</dev:code>
         <dev:remarks>
-          <maml:para>Updates description and number of days retention on SAFE using Gen1 API</maml:para>
+          <maml:para>Updates the size quota (in MB) of SAFE</maml:para>
+          <maml:para>Minimum required version 15.2 (Self-Hosted)</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -51292,7 +51426,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:name>loginToHour</maml:name>
           <maml:description>
             <maml:para>The end of the timeframe the user account is permitted to authenticate.</maml:para>
-            <maml:para>Provide an hour of the day in 24-hour format (0-23)</maml:para>
+            <maml:para>Provide an hour of the day in 24-hour format (0-24)</maml:para>
             <maml:para>Minimum required version 13.2</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
@@ -52146,7 +52280,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <maml:name>loginToHour</maml:name>
         <maml:description>
           <maml:para>The end of the timeframe the user account is permitted to authenticate.</maml:para>
-          <maml:para>Provide an hour of the day in 24-hour format (0-23)</maml:para>
+          <maml:para>Provide an hour of the day in 24-hour format (0-24)</maml:para>
           <maml:para>Minimum required version 13.2</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
@@ -52467,7 +52601,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
           <maml:name>servicePassword</maml:name>
           <maml:description>
-            <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+            <maml:para>The PARAgent password as a SecureString</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
           <dev:type>
@@ -52564,7 +52698,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
         <maml:name>servicePassword</maml:name>
         <maml:description>
-          <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+          <maml:para>The PARAgent password as a SecureString</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
@@ -52803,7 +52937,8 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>serviceName</maml:name>
           <maml:description>
-            <maml:para>The name of the service to start. Supported services: Vault, DR</maml:para>
+            <maml:para>The name of the service to start. Supported services: Vault, DR, ENE</maml:para>
+            <maml:para>The ENE service requires CyberArk version 15.2 or higher.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -52839,7 +52974,7 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
           <maml:name>servicePassword</maml:name>
           <maml:description>
-            <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+            <maml:para>The PARAgent password as a SecureString</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
           <dev:type>
@@ -52870,6 +53005,18 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+          <maml:name>ProgressAction</maml:name>
+          <maml:description>
+            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+          <dev:type>
+            <maml:name>ActionPreference</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -52888,7 +53035,8 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>serviceName</maml:name>
         <maml:description>
-          <maml:para>The name of the service to start. Supported services: Vault, DR</maml:para>
+          <maml:para>The name of the service to start. Supported services: Vault, DR, ENE</maml:para>
+          <maml:para>The ENE service requires CyberArk version 15.2 or higher.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -52924,7 +53072,7 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
         <maml:name>servicePassword</maml:name>
         <maml:description>
-          <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+          <maml:para>The PARAgent password as a SecureString</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
@@ -52957,14 +53105,14 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="none">
-        <maml:name>WhatIf</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+        <maml:name>ProgressAction</maml:name>
         <maml:description>
-          <maml:para>Position: Named Default value: None Accept pipeline input: False Accept wildcard characters: False ```</maml:para>
+          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false"></command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
         <dev:type>
-          <maml:name></maml:name>
+          <maml:name>ActionPreference</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -52991,6 +53139,161 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Start-PASVRMService</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Stop-PASCPMTask</command:name>
+      <command:verb>Stop</command:verb>
+      <command:noun>PASCPMTask</command:noun>
+      <maml:description>
+        <maml:para>Cancels a pending CPM task for an account.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Cancels an in-progress or pending CPM operation (such as a change, verify or reconcile task) for a specific account.</maml:para>
+      <maml:para>Requires CyberArk Self-Hosted version 15.2 or higher.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Stop-PASCPMTask</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
+          <maml:name>Accountid</maml:name>
+          <maml:description>
+            <maml:para>The unique id of the account to cancel the pending CPM task for.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+          <maml:name>ProgressAction</maml:name>
+          <maml:description>
+            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+          <dev:type>
+            <maml:name>ActionPreference</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
+        <maml:name>Accountid</maml:name>
+        <maml:description>
+          <maml:para>The unique id of the account to cancel the pending CPM task for.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+        <maml:name>ProgressAction</maml:name>
+        <maml:description>
+          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+        <dev:type>
+          <maml:name>ActionPreference</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Stop-PASCPMTask -Accountid 123_4</dev:code>
+        <dev:remarks>
+          <maml:para>Cancels the pending CPM task for account with id 123_4.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Stop-PASCPMTask</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Stop-PASCPMTask</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -53140,7 +53443,8 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>serviceName</maml:name>
           <maml:description>
-            <maml:para>The name of the service to stop. Supported services: Vault, DR</maml:para>
+            <maml:para>The name of the service to stop. Supported services: Vault, DR, ENE</maml:para>
+            <maml:para>The ENE service requires CyberArk version 15.2 or higher.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -53207,6 +53511,18 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+          <maml:name>ProgressAction</maml:name>
+          <maml:description>
+            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
+          <dev:type>
+            <maml:name>ActionPreference</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -53225,7 +53541,8 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>serviceName</maml:name>
         <maml:description>
-          <maml:para>The name of the service to stop. Supported services: Vault, DR</maml:para>
+          <maml:para>The name of the service to stop. Supported services: Vault, DR, ENE</maml:para>
+          <maml:para>The ENE service requires CyberArk version 15.2 or higher.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -53294,14 +53611,14 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="none">
-        <maml:name>WhatIf</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
+        <maml:name>ProgressAction</maml:name>
         <maml:description>
-          <maml:para>Position: Named Default value: None Accept pipeline input: False Accept wildcard characters: False ```</maml:para>
+          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false"></command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
         <dev:type>
-          <maml:name></maml:name>
+          <maml:name>ActionPreference</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
