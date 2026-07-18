@@ -4,9 +4,9 @@
 [Logo]:/docs/assets/images/shop_banner_symbol.png
 [Docs]:https://pspas.pspete.dev
 
-# **psPAS: PowerShell Module for the CyberArk API**
+# **psPAS: PowerShell Module for the Idira (CyberArk) API**
 
-Administer CyberArk PAS with PowerShell!
+Administer Idira (CyberArk) PAS with PowerShell!
 
 Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
@@ -67,11 +67,11 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 _Everything begins with a **Logon**:_
 
-To submit a logon request to the CyberArk API, use the psPAS `New-PASSession` command.
+To submit a logon request to the Idira (CyberArk) API, use the psPAS `New-PASSession` command.
 
 All subsequent operations are carried out by `psPAS` utilises the input data provided for the `New-PASSession` request (URL, Certificate), as well as data received from the API after successful authentication (Authentication Token, PVWA Version).
 
-#### CyberArk Authentication
+#### Idira (CyberArk) Authentication
 
 - Use a PowerShell credential object containing a valid vault username and password.
 
@@ -183,7 +183,7 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -Ce
 
 ##### Identity User
 
-Provide Identity User credentials and tenant details for authentication to CyberArk Identity for Privilege Cloud Shared Services:
+Provide Identity User credentials and tenant details for authentication to Idira (CyberArk) Identity for Privilege Cloud Shared Services:
 
 ```
 #using URL
@@ -197,7 +197,7 @@ New-PASSession -TenantSubdomain SomeTenantName -Credential $Cred -IdentityUser
 
 ##### Service User
 
-Provide tenant ID and non-interactive API User credentials for authentication via CyberArk Identity for Privilege Cloud Shared Services:
+Provide tenant ID and non-interactive API User credentials for authentication via Idira (CyberArk) Identity for Privilege Cloud Shared Services:
 
 ```
 New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $ServiceUserCreds -ServiceUser
@@ -799,13 +799,13 @@ A selection of psPAS sample scripts can be found in the [psPAS-Examples](https:/
 
 This section lists the commands available in psPAS as well as any relevant version requirements.
 
-Depending on your version of CyberArk, different psPAS commands and parameters are available.
+Depending on your version of Idira (CyberArk), different psPAS commands and parameters are available.
 
-The most recent psPAS version should work with your particular CyberArk version and be able to be used with it.
+The most recent psPAS version should work with your particular Idira (CyberArk) version and be able to be used with it.
 
 The version requirements for certain parameters are described in greater detail in the command's documentation.
 
-The module will take steps to verify that your version of CyberArk meets any psPAS command's minimum version requirement.
+The module will take steps to verify that your version of Idira (CyberArk) meets any psPAS command's minimum version requirement.
 
 If version requirement criteria are not met, operations may be prevented.
 
@@ -817,8 +817,8 @@ Click the below dropdown to view the current list of psPAS functions and their m
 
 **Function Name**                                                                        |**CyberArk Version**|**Description**
 -----------------------------------------------------------------------------------------|--------------------|:----------------
-[`New-PASSession`][New-PASSession]                                                       |**9.0**             |Authenticates a user to CyberArk Vault
-[`Close-PASSession`][Close-PASSession]                                                   |**9.0**             |Logoff from CyberArk Vault.
+[`New-PASSession`][New-PASSession]                                                       |**9.0**             |Authenticates a user to Idira (CyberArk) Vault
+[`Close-PASSession`][Close-PASSession]                                                   |**9.0**             |Logoff from Idira (CyberArk) Vault.
 [`Get-PASSession`][Get-PASSession]                                                       |**---**             |Get `psPAS` Session Data.
 [`Use-PASSession`][Use-PASSession]                                                       |**---**             |Set `psPAS` Session Data.
 [`Add-PASPublicSSHKey`][Add-PASPublicSSHKey]                                             |**9.6**             |Adds an authorised public SSH key for a user.
@@ -919,7 +919,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Find-PASSafe`][Find-PASSafe]                                                           |**10.1** - **11.7** |List or Search Safes by name.
 [`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                           |**10.10**           |Reorder Directory Mappings
 [`Set-PASUserPassword`][Set-PASUserPassword]                                             |**10.10**           |Reset a User's Password
-[`New-PASGroup`][New-PASGroup]                                                           |**11.1**            |Create a new CyberArk group
+[`New-PASGroup`][New-PASGroup]                                                           |**11.1**            |Create a new Idira (CyberArk) group
 [`Get-PASPlatformSafe`][Get-PASPlatformSafe]                                             |**11.1**            |List details for all platforms
 [`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                               |**11.1**            |Deletes a Directory Mapping
 [`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                             |**10.4**            |Enables Automatic CPM Management for an account
@@ -957,10 +957,10 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Clear-PASPrivateSSHKey`][Clear-PASPrivateSSHKey]                                       |**12.1**            |Remove all MFA caching SSH Keys
 [`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                           |**12.1**            |Generate MFA caching SSH Keys
 [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                     |**12.1**            |Delete MFA caching SSH Keys
-[`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**            |Update CyberArk groups
+[`Set-PASGroup`][Set-PASGroup]                                                           |**12.0**            |Update Idira (CyberArk) groups
 [`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                       |**12.2**            |Get information on platform system types
-[`Enable-PASUser`][Enable-PASUser]                                                       |**12.6**            |Enable CyberArk Users
-[`Disable-PASUser`][Disable-PASUser]                                                     |**12.6**            |Disable CyberArk Users
+[`Enable-PASUser`][Enable-PASUser]                                                       |**12.6**            |Enable Idira (CyberArk) Users
+[`Disable-PASUser`][Disable-PASUser]                                                     |**12.6**            |Disable Idira (CyberArk) Users
 [`Publish-PASDiscoveredAccount`][Publish-PASDiscoveredAccount]                           |**12.6**            |Onboard Discovered Accounts
 [`Get-PASLinkedAccount`][Get-PASLinkedAccount]                                           |**12.2**            |Get details of linked accounts
 [`Get-PASLinkedGroup`][Get-PASLinkedGroup]                                               |**12.2**            |Get details of linked groups
@@ -1249,7 +1249,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 ### Prerequisites
 
 - PowerShell Core, or Windows Powershell v5 (minimum)
-- CyberArk PAS REST API/PVWA Web Service (available and accessible over HTTPS using TLS 1.2)
+- Idira (CyberArk) PAS REST API/PVWA Web Service (available and accessible over HTTPS using TLS 1.2 and TLS 1.3)
 - A user who can authenticate and has the necessary Vault/Safe permissions.
 
 ### Install Options
@@ -1369,7 +1369,7 @@ See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
 
 ## Support
 
-psPAS is neither developed nor supported by CyberArk; any official support channels offered by the vendor are not appropriate for seeking help with the psPAS module.
+psPAS is neither developed nor supported by Idira (CyberArk); any official support channels offered by the vendor are not appropriate for seeking help with the psPAS module.
 
 Help and support should be sought by [opening an issue][new-issue], or emailing <a href="mailto:pspas@pspete.dev">pspas@pspete.dev</a>.
 
