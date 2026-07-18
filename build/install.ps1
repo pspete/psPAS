@@ -4,11 +4,11 @@
 Write-Host "Installing Required Modules:" -ForegroundColor Yellow
 
 $RequiredModules = @(
-	"PowerShellGet"
-	"Pester",
-	"PSScriptAnalyzer"<#,
-	"coveralls",
-	"PSCodeCovIo"#>
+	@{ Name = "PowerShellGet" }
+	@{ Name = "Pester"; RequiredVersion = "5.7.1" }
+	@{ Name = "PSScriptAnalyzer" }<#,
+	@{ Name = "coveralls" },
+	@{ Name = "PSCodeCovIo" }#>
 )
 
 #---------------------------------#
@@ -26,8 +26,19 @@ if(-not $IsCoreCLR) {
 foreach ($Module in $RequiredModules) {
 
 	Try {
-		Write-Host "`tInstalling: $Module..." -NoNewline
-		Install-Module -Name $Module -Repository PSGallery -Confirm:$false -Force -SkipPublisherCheck -ErrorAction Stop | Out-Null
+		Write-Host "`tInstalling: $($Module.Name)..." -NoNewline
+		$InstallParams = @{
+			Name               = $Module.Name
+			Repository         = "PSGallery"
+			Confirm            = $false
+			Force              = $true
+			SkipPublisherCheck = $true
+			ErrorAction        = "Stop"
+		}
+		if ($Module.RequiredVersion) {
+			$InstallParams.RequiredVersion = $Module.RequiredVersion
+		}
+		Install-Module @InstallParams | Out-Null
 		Write-Host " OK" -ForegroundColor Green
 	}Catch {
 		Write-Host "Error" -ForegroundColor Red
