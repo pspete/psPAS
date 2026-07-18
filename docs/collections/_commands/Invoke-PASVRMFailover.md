@@ -16,8 +16,7 @@ Initiates DR failover to the DR site
 
 ```
 Invoke-PASVRMFailover [[-BaseURI] <String>] [-DRAddress] <String> [[-serviceUserName] <String>]
- [-servicePassword] <SecureString> [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-servicePassword] <SecureString> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

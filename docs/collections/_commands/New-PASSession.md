@@ -26,8 +26,7 @@ New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-UserName <String
 ```
 New-PASSession -Credential <PSCredential> -IdentityTenantURL <String> -PrivilegeCloudURL <String>
  [-ServiceUser] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
- [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ISPSS-Subdomain-ServiceUser
@@ -41,8 +40,7 @@ New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-ServiceUse
 ```
 New-PASSession -Credential <PSCredential> -IdentityTenantURL <String> -PrivilegeCloudURL <String>
  [-IdentityUser] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
- [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ISPSS-Subdomain-IdentityUser
@@ -57,16 +55,14 @@ New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-IdentityUs
 New-PASSession -Credential <PSCredential> -BaseURI <String> [-UseGen1API] -useRadiusAuthentication <Boolean>
  [-OTP <String>] [-OTPMode <String>] [-OTPDelimiter <String>] [-RadiusChallenge <String>]
  [-connectionNumber <Int32>] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
- [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1
 ```
 New-PASSession -Credential <PSCredential> -BaseURI <String> [-UseGen1API] [-newPassword <SecureString>]
  [-connectionNumber <Int32>] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
- [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen2Radius
@@ -87,8 +83,8 @@ New-PASSession -BaseURI <String> [-UseDefaultCredentials] [-concurrentSession <B
 ### shared
 ```
 New-PASSession -BaseURI <String> [-UseSharedAuthentication] [-PVWAAppName <String>] [-SkipVersionCheck]
- [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen2SAML

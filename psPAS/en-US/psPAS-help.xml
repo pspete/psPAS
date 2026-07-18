@@ -23628,7 +23628,7 @@ PS C:\&gt; Get-PASVRMDRSystemHealth -DRAddress dr-vault.company.com -servicePass
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
           <maml:name>servicePassword</maml:name>
           <maml:description>
-            <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+            <maml:para>The PARAgent password as a SecureString</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
           <dev:type>
@@ -23703,7 +23703,7 @@ PS C:\&gt; Get-PASVRMDRSystemHealth -DRAddress dr-vault.company.com -servicePass
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
         <maml:name>servicePassword</maml:name>
         <maml:description>
-          <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+          <maml:para>The PARAgent password as a SecureString</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
@@ -25340,7 +25340,7 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName Vault -serverAddress vault.compa
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
           <maml:name>servicePassword</maml:name>
           <maml:description>
-            <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+            <maml:para>The PARAgent password as a SecureString</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
           <dev:type>
@@ -25413,7 +25413,7 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName Vault -serverAddress vault.compa
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
         <maml:name>servicePassword</maml:name>
         <maml:description>
-          <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+          <maml:para>The PARAgent password as a SecureString</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
@@ -41809,7 +41809,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
           <maml:name>servicePassword</maml:name>
           <maml:description>
-            <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+            <maml:para>The PARAgent password as a SecureString</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
           <dev:type>
@@ -41894,7 +41894,7 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
         <maml:name>servicePassword</maml:name>
         <maml:description>
-          <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+          <maml:para>The PARAgent password as a SecureString</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
@@ -41926,18 +41926,6 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="none">
-        <maml:name>WhatIf</maml:name>
-        <maml:description>
-          <maml:para>Position: Named Default value: None Accept pipeline input: False Accept wildcard characters: False ```</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false"></command:parameterValue>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -51489,7 +51477,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:name>loginToHour</maml:name>
           <maml:description>
             <maml:para>The end of the timeframe the user account is permitted to authenticate.</maml:para>
-            <maml:para>Provide an hour of the day in 24-hour format (0-23)</maml:para>
+            <maml:para>Provide an hour of the day in 24-hour format (0-24)</maml:para>
             <maml:para>Minimum required version 13.2</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
@@ -52343,7 +52331,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <maml:name>loginToHour</maml:name>
         <maml:description>
           <maml:para>The end of the timeframe the user account is permitted to authenticate.</maml:para>
-          <maml:para>Provide an hour of the day in 24-hour format (0-23)</maml:para>
+          <maml:para>Provide an hour of the day in 24-hour format (0-24)</maml:para>
           <maml:para>Minimum required version 13.2</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
@@ -52664,7 +52652,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
           <maml:name>servicePassword</maml:name>
           <maml:description>
-            <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+            <maml:para>The PARAgent password as a SecureString</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
           <dev:type>
@@ -52761,7 +52749,7 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="6" aliases="none">
         <maml:name>servicePassword</maml:name>
         <maml:description>
-          <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+          <maml:para>The PARAgent password as a SecureString</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
@@ -53036,7 +53024,7 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
           <maml:name>servicePassword</maml:name>
           <maml:description>
-            <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+            <maml:para>The PARAgent password as a SecureString</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
           <dev:type>
@@ -53121,7 +53109,7 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
         <maml:name>servicePassword</maml:name>
         <maml:description>
-          <maml:para>Seems like Administrator is the only allowed username? https://docs.cyberark.com/pam-self-hosted/15.0/en/content/pasimp/vault-remote-manager.htm#Configurationrequirements REST API docs however doesnt mention this so we leave it as a parameter with default value with the option to change it.</maml:para>
+          <maml:para>The PARAgent password as a SecureString</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
@@ -53153,18 +53141,6 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="none">
-        <maml:name>WhatIf</maml:name>
-        <maml:description>
-          <maml:para>Position: Named Default value: None Accept pipeline input: False Accept wildcard characters: False ```</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false"></command:parameterValue>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -53490,18 +53466,6 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="none">
-        <maml:name>WhatIf</maml:name>
-        <maml:description>
-          <maml:para>Position: Named Default value: None Accept pipeline input: False Accept wildcard characters: False ```</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false"></command:parameterValue>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />

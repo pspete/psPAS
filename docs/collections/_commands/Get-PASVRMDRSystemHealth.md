@@ -16,7 +16,7 @@ Gets the DR system health check including replication status
 
 ```
 Get-PASVRMDRSystemHealth [[-BaseURI] <String>] [-DRAddress] <String> [[-serviceUserName] <String>]
- [-servicePassword] <SecureString> [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [-servicePassword] <SecureString> [<CommonParameters>]
 ```
 
 ## DESCRIPTION

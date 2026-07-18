@@ -16,8 +16,7 @@ Gets a specific DR configuration parameter value
 
 ```
 Get-PASVRMServiceConfigParameter [[-BaseURI] <String>] [-parameterName] <String> [-serviceName] <String>
- [-serverAddress] <String> [[-serviceUserName] <String>] [-servicePassword] <SecureString>
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [-serverAddress] <String> [[-serviceUserName] <String>] [-servicePassword] <SecureString> [<CommonParameters>]
 ```
 
 ## DESCRIPTION

@@ -16,8 +16,7 @@ This method gets the current value for a specific configuration parameter.
 
 ```
 Get-PASVRMServiceConfig [[-BaseURI] <String>] [-serviceName] <String> [-serverAddress] <String>
- [[-serviceUserName] <String>] [-servicePassword] <SecureString> [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+ [[-serviceUserName] <String>] [-servicePassword] <SecureString> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
