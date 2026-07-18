@@ -1,7 +1,7 @@
 function Assert-VersionRequirement {
 	<#
 .SYNOPSIS
-Affirms that a version requirments are satisfied
+Affirms that a version requirements are satisfied
 
 .DESCRIPTION
 Throws an error if a provided version number does not meet or exceed a required level.

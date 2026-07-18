@@ -56,7 +56,7 @@ function Set-PASUser {
 		)]
 		[AllowEmptyCollection()]
 		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
-			'EVD', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
+			'EVD', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI', 'IBVSDK')]
 		[string[]]$unAuthorizedInterfaces,
 
 		[parameter(
@@ -177,7 +177,7 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[ValidateRange(0, 23)]
+		[ValidateRange(0, 24)]
 		[int]$loginToHour,
 
 		[parameter(
@@ -420,7 +420,7 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet('SAML', 'PKI', 'FIDO', 'WINDOWS')]
+		[ValidateSet('SAML', 'PKI', 'PKIPN', 'FIDO', 'WINDOWS')]
 		[AllowEmptyCollection()]
 		[string[]]$allowedAuthenticationMethods
 	)

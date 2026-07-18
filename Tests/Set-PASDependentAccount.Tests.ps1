@@ -22,6 +22,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
         $Script:RequestBody = $null
         $psPASSession = [ordered]@{
             BaseURI            = 'https://SomeURL/SomeApp'
+            ApiURI             = 'https://SomeTenant.cyberark.cloud'
             User               = $null
             ExternalVersion    = [System.Version]'0.0'
             WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
@@ -86,11 +87,24 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
-            It 'sends request to expected endpoint' {
+            It 'sends request to expected endpoint - self hosted' {
                 $InputObj | Set-PASDependentAccount -name 'someName'
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/$($InputObj.AccountID)/dependentAccounts/$($InputObj.dependentAccountId)"
+
+                } -Times 2 -Exactly -Scope It
+
+            }
+
+            It 'sends request to expected endpoint - ISPSS' {
+
+                Mock -CommandName Test-IsISPSS -MockWith { $true }
+
+                $InputObj | Set-PASDependentAccount -name 'someName'
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/$($InputObj.AccountID)/account-dependents/$($InputObj.dependentAccountId)"
 
                 } -Times 2 -Exactly -Scope It
 

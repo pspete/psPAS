@@ -3,7 +3,7 @@
 #---------------------------------#
 Write-Host "Testing: PSVersion $($PSVersionTable.PSVersion)" -ForegroundColor Yellow
 $ManifestPath = Join-Path "$pwd" $(Join-Path "$env:APPVEYOR_PROJECT_NAME" "$env:APPVEYOR_PROJECT_NAME.psd1")
-Import-Module Pester -Force
+Import-Module Pester -RequiredVersion 5.7.1 -Force
 Import-Module $ManifestPath -Force
 #---------------------------------#
 # Run Pester Tests                #

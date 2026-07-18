@@ -46,12 +46,20 @@ function Set-PASDependentAccount {
 
         Assert-VersionRequirement -RequiredVersion 14.6
 
+        #The url pattern is different between self-hosted and ISPSS
+        #check for hosting type here
+        if (Test-IsISPSS) {
+            $URLString = 'account-dependents'
+        } else {
+            $URLString = 'dependentAccounts'
+        }
+
     }#begin
 
     process {
 
         #Create URL for Request
-        $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts/$dependentAccountId"
+        $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/$URLString/$dependentAccountId"
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, dependentAccountId

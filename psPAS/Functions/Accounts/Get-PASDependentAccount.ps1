@@ -119,6 +119,18 @@ function Get-PASDependentAccount {
 		# Parameters that should not be included in filter string
 		$IDParameters = [Collections.Generic.List[String]]@('id', 'dependentAccountId')
 
+		#The url pattern is different between self-hosted and ISPSS
+		#check for hosting type here
+		if (Test-IsISPSS) {
+			$URLString = 'account-dependents'
+			if ($PSCmdlet.ParameterSetName -eq 'AllDependentAccounts') {
+				#ISPSS cannot query for all dependent accounts
+				Assert-VersionRequirement -SelfHosted
+			}
+		} else {
+			$URLString = 'dependentAccounts'
+		}
+
 	}#begin
 
 	process {
@@ -132,7 +144,7 @@ function Get-PASDependentAccount {
 		switch ($PSCmdlet.ParameterSetName) {
 
 			'SpecificAccount' {
-				$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts"
+				$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/$URLString"
 			}
 
 			'AllDependentAccounts' {
@@ -144,7 +156,7 @@ function Get-PASDependentAccount {
 			}
 
 			'SpecificDependentAccount' {
-				$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/dependentAccounts/$($dependentAccountId)"
+				$URI = "$($psPASSession.BaseURI)/API/Accounts/$id/$URLString/$($dependentAccountId)"
 			}
 
 		}

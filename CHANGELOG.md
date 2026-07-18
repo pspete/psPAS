@@ -26,6 +26,61 @@
 
 - N/A
 
+## [7.1.0]
+
+**More recognition to [JP-Consulting](https://github.com/johannesconsulting) for the help on this release and ongoing project sponsorship**
+
+### Added
+
+- `Clear-PASDependentLinkedAccount`
+  - New Function to remove a linked account from a dependent account
+- `Set-PASDependentLinkedAccount`
+  - New Function to link an account to a dependent account
+- `Register-PASFIDO2Device`
+  - New Function to register a FIDO2 device, either for the logged on user or, as an administrator, on behalf of another user
+  - Performs the WebAuthn ceremony locally via `webauthn.dll`; requires Windows 10 1903+ and CyberArk 14.6+
+- Vault Remote Manager (VRM) commands
+  - `Get-PASVRMServiceConfig`
+  - `Get-PASVRMServiceConfigParameter`
+  - `Get-PASVRMServiceStatus`
+  - `Get-PASVRMDRSystemHealth`
+  - `Set-PASVRMServiceConfig`
+  - `Start-PASVRMService`
+  - `Stop-PASVRMService`
+  - `Restart-PASVRMService`
+  - `Invoke-PASVRMFailover`
+- Custom Ticketing System commands
+  - `Import-PASTicketingSystem`
+  - `Export-PASTicketingSystemLog`
+- `Rename-PASPlatform`
+  - New Function to rename a platform ID
+
+### Updated
+
+- `Add-PASDependentAccount`
+  - Adds logic to work against ISPSS endpoints which use different URL paths to Self-Hosted
+- `Get-PASDependentAccount`
+  - Adds logic to work against ISPSS endpoints which use different URL paths to Self-Hosted
+- `Set-PASDependentAccount`
+  - Adds logic to work against ISPSS endpoints which use different URL paths to Self-Hosted
+- `Remove-PASDependentAccount`
+  - Adds logic to work against ISPSS endpoints which use different URL paths to Self-Hosted
+- `Approve-PASRequest`
+  - Adds logic to prevent bulk approvals being sent to ISPSS as this is not a supported action.
+- `New-PASSession`
+  - Replaces third-party `DSInternals.Win32.WebAuthn.dll` dependency with an inline P/Invoke wrapper around the built-in Windows `webauthn.dll` for FIDO2 authentication
+- `New-PASUser` / `Set-PASUser` / `New-PASDirectoryMapping` / `Set-PASDirectoryMapping`
+  - Adds `PKIPN` as an allowed value for `allowedAuthenticationMethods`
+- `Set-PASUser`
+  - Extends `loginToHour` to accept a range of 0-24 (previously 0-23)
+  - Adds `IBVSDK` as an allowed value for `unAuthorizedInterfaces`
+  - Adds a missing `vaultAuthorization` value
+
+### Fixed
+
+- `ConvertTo-FilterString`
+  - Defaults `LogicalOperator` to `AND` to avoid sending filters with an empty logical operator
+
 ## [7.0.242]
 
 ### Added
@@ -1023,7 +1078,6 @@ Includes a general update across multiple module commands to ensure commands whi
 ### Module update to cover CyberArk 11.5 API features
 
 - **Behaviour Changes**
-
   - `Get-PASPlatform`
     - When invoked with no parameters to return details of all configured platforms, defaults to operation against the endpoint for the 11.4 API.
     - When invoked with a value provided for the `Active` parameter, will perform operation against the endpoint for the 11.4 API.
@@ -1033,7 +1087,6 @@ Includes a general update across multiple module commands to ensure commands whi
       - The prompt will now relay the text of the response from the RADIUS server.
 
 - New Functions
-
   - `Copy-PASPlatform`
     - Duplicates target, dependent, group or rotational group platform to a new platform.
     - 11.4 functionality, missed in the `4.0.0` release.
@@ -1051,7 +1104,6 @@ Includes a general update across multiple module commands to ensure commands whi
     - 11.5 functionality.
 
 - Updated Functions
-
   - `Get-PASPlatform`
     - Update to enable query of dependent, group, rotational group platforms
     - Update to include additional filters available for querying target platoforms
@@ -1074,19 +1126,16 @@ Includes a general update across multiple module commands to ensure commands whi
 ### Module update to cover CyberArk 11.4 API features
 
 - **Breaking Changes**
-
   - `Get-PASSafeMember`, `Add-PASSafeMember` & `Set-PASSafeMember`: Output Changed
     - "Permission" property of returned object now contains a nested property=value pair for each permission instead of an array containing only the name of the assigned permissions.
     - Existing scripts which rely on the legacy array value of the `Permissions` property when working with the `*-PASSafeMember` functions must either be updated to work with the new output or use an earlier compatible psPAS version.
 
 - New Function
-
   - Added `Set-PASPTAEvent`
     - Appeared in 11.3
     - Set status of PTA events
 
 - Updated Functions
-
   - `New-PASSession`
     - Adds support for updated saml auth updated in 11.4
   - `Get-PASPTAEvent`
@@ -1132,7 +1181,6 @@ Includes a general update across multiple module commands to ensure commands whi
 ### Module update to cover CyberArk 11.2 API features
 
 - **Breaking Changes**
-
   - Parameters Changed: `New-PASDirectoryMapping` & `Set-PASDirectoryMapping`
     - Functions updated to use enum flag for mapping authorization options
     - `MappingAuthorizations`
@@ -1149,7 +1197,6 @@ Includes a general update across multiple module commands to ensure commands whi
       - `ActivateUsers`
 
 - New Function
-
   - Added `Test-PASPSMRecording`
     - New in 11.2
 
@@ -1169,7 +1216,6 @@ Includes a general update across multiple module commands to ensure commands whi
 ### Module update to cover CyberArk 11.1 API features
 
 - New Functions
-
   - `New-PASGroup`
     - Creates CyberArk Groups
     - Requires 11.1
@@ -1187,7 +1233,6 @@ Includes a general update across multiple module commands to ensure commands whi
     - Requires 10.4+
 
 - Updated Functions
-
   - `Set-PASDirectoryMapping`
     - MappingAuthorizations parameter no longer accepts pipeline input
   - `Add-PASDiscoveredAccount`
@@ -1237,7 +1282,6 @@ Includes a general update across multiple module commands to ensure commands whi
 ## 3.2.27 (Sept 1st 2019)
 
 - Updates
-
   - `New-PASSession`
     - Adds support for sending OTP in response to RADIUS Challenge
     - Adds support to skip certificate validation
@@ -1437,7 +1481,6 @@ _2 years since first commit Anniversary Edition_
 ## 2.4.8 (February 16th 2019)
 
 - Updated Functions / Bug Fix / Breaking Change
-
   - `Close-PASSession`
     - Now sends request to V10 URL by default.
     - New parameter added to send request to V9 API if required.
@@ -1491,7 +1534,6 @@ _2 years since first commit Anniversary Edition_
 ### Module update to cover CyberArk 10.5 API features
 
 - New Functions
-
   - `Get-PASGroup`
     - Enables querying of Vault Groups
   - `Remove-PASGroupMember`
@@ -1504,7 +1546,6 @@ _2 years since first commit Anniversary Edition_
     - Retrieves parameters needed to monitor an in-progress PSM session
 
 - Updated Functions
-
   - `Get-PASDirectory`
     - Now possible to query LDAP Directory by name
   - `Get-PASAccountGroup`
@@ -1566,7 +1607,6 @@ _The 1 year since first commit anniversary edition_
 ### Module update to cover CyberArk 10.4 API features
 
 - Breaking Changes
-
   - `New-PASSession`
     - Function now defaults to the v10 API Endpoints
     - Users on CyberArk Version 9 need to specify the `-UseV9API` switch parameter
@@ -1586,7 +1626,6 @@ _The 1 year since first commit anniversary edition_
     - Parameter `ExpiryDate` changed to type `[datetime]`
 
 - New Functions
-
   - `Export-PASPlatform` function added, allows export of platform to a zip file.
   - `Get-PASUserLoginInfo` function added, retrieves logon information for the authenticated user.
   - `Add-PASDirectory` function added, adds a new LDAP directory for authentication.
@@ -1594,7 +1633,6 @@ _The 1 year since first commit anniversary edition_
   - `New-PASDirectoryMapping` function added, creates new LDAP Directory mappings.
 
 - Bug Fixes
-
   - `New-PASSession`
     - Fixed issue where module was not returning authentication token when using LDAP credentials in version 10.3.
       - To use LDAP authentication the `-type LDAP` must be specified as a parameter.
@@ -1619,11 +1657,9 @@ _The 1 year since first commit anniversary edition_
 ### Module update to cover CyberArk 10.3 API features ~~(part 1)~~
 
 - New Function
-
   - `Import-PASConnectionComponent` function added, allows import of connection component from zip file.
 
 - Bug Fixes
-
   - Updates to some functions and test scripts to fix Pester & PSScriptAnalyzer failures/violations/errors
   - Updates to some pester tests to allow them to run & pass in PowerShell Core
 
@@ -1649,7 +1685,6 @@ _The 1 year since first commit anniversary edition_
 ### Module updated to cover CyberArk 10.2 API features
 
 - New Functions
-
   - `New-PASOnboardingRule` has added parameters available from 10.2 onwards.
     The 9.8 & 10.2 parameters are configured as separate parametersets.
   - `Get-PASOnboardingRule` has a new parameter added, allowing search of

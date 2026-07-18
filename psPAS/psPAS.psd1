@@ -19,7 +19,7 @@
 	Copyright         = '(c) 2017-2025 Pete Maan. All rights reserved.'
 
 	# Description of the functionality provided by this module
-	Description       = 'Module for CyberArk Privileged Access Security Web Service REST API'
+	Description       = 'Module for Idira (CyberArk) Privileged Access Security Web Service REST API'
 
 	# Minimum version of the Windows PowerShell engine required by this module
 	PowerShellVersion = '5.1'
@@ -46,7 +46,7 @@
 	# RequiredAssemblies = @()
 
 	# Script files (.ps1) that are run in the caller's environment prior to importing this module.
-	ScriptsToProcess = @(
+	ScriptsToProcess  = @(
 		'.\subscriberClasses.ps1'
 	)
 
@@ -189,6 +189,7 @@
 		'Disable-PASPlatform',
 		'Enable-PASPlatform',
 		'Remove-PASPlatform',
+		'Rename-PASPlatform',
 		'Remove-PASGroup',
 		'Get-PASAllowedReferrer',
 		'Add-PASAllowedReferrer',
@@ -271,6 +272,7 @@
 		'Remove-PASDependentAccount',
 		'Resume-PASDependentAccount',
 		'Remove-PASFIDO2Device',
+		'Register-PASFIDO2Device',
 		'Get-PASMasterPolicy',
 		'Set-PASMasterPolicy',
 		'Get-PASDependentAccount',
@@ -290,7 +292,20 @@
 		'Set-PASTheme',
 		'Add-PASPTASyslog',
 		'Remove-PASPTASyslog',
-		'Set-PASPTASMTP'
+		'Set-PASPTASMTP',
+		'Set-PASDependentLinkedAccount',
+		'Clear-PASDependentLinkedAccount',
+		'Import-PASTicketingSystem',
+		'Export-PASTicketingSystemLog',
+		'Get-PASVRMServiceConfig',
+		'Get-PASVRMServiceStatus',
+		'Start-PASVRMService',
+		'Stop-PASVRMService',
+		'Restart-PASVRMService',
+		'Get-PASVRMDRSystemHealth',
+		'Invoke-PASVRMFailover',
+		'Get-PASVRMServiceConfigParameter',
+		'Set-PASVRMServiceConfig'
 
 	)
 
@@ -302,7 +317,7 @@
 		PSData = @{
 
 			# Tags applied to this module. These help with module discovery in online galleries.
-			Tags         = @('CyberArk', 'REST', 'API', 'Security')
+			Tags         = @('CyberArk', 'Idira', 'REST', 'API', 'Security')
 
 			# A URL to the license for this module.
 			LicenseUri   = 'https://github.com/pspete/psPAS/blob/master/LICENSE.md'
