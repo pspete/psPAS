@@ -36488,6 +36488,203 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Register-PASFIDO2Device</command:name>
+      <command:verb>Register</command:verb>
+      <command:noun>PASFIDO2Device</command:noun>
+      <maml:description>
+        <maml:para>Registers a new FIDO2 device for a user.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Registers a new FIDO2 device, either on behalf of another user (admin flow) or for the currently logged-in user (self-service flow).</maml:para>
+      <maml:para>The cmdlet performs the full WebAuthn registration ceremony:</maml:para>
+      <maml:para>1. Requests `createCredentialOptions` from the CyberArk API. 2. Invokes the Windows WebAuthn API (`webauthn.dll`) to prompt the user to interact with    their FIDO2 authenticator and produce an attestation. 3. Submits the attestation back to the CyberArk API to complete registration.</maml:para>
+      <maml:para>Requires Windows 10 1903 or later for the WebAuthn ceremony.</maml:para>
+      <maml:para>Requires CyberArk version 14.6 or later.</maml:para>
+      <maml:para>When called without `-OwnDevice`, any user who is a member of the Vault Admins group can run this web service.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Register-PASFIDO2Device</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>UserId</maml:name>
+          <maml:description>
+            <maml:para>The ID of the user to register the FIDO2 device for.</maml:para>
+            <maml:para>If omitted, the device is registered against the user implied by the current session (admin endpoint).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Register-PASFIDO2Device</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>OwnDevice</maml:name>
+          <maml:description>
+            <maml:para>When specified, registers the FIDO2 device against the current user via the self-service endpoint.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>UserId</maml:name>
+        <maml:description>
+          <maml:para>The ID of the user to register the FIDO2 device for.</maml:para>
+          <maml:para>If omitted, the device is registered against the user implied by the current session (admin endpoint).</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>OwnDevice</maml:name>
+        <maml:description>
+          <maml:para>When specified, registers the FIDO2 device against the current user via the self-service endpoint.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Register-PASFIDO2Device -UserId 57</dev:code>
+        <dev:remarks>
+          <maml:para>Registers a new FIDO2 device for the user whose ID is `57`. The user running the cmdlet must have the necessary privileges to register devices on behalf of other users.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Register-PASFIDO2Device</dev:code>
+        <dev:remarks>
+          <maml:para>Registers a new FIDO2 device for the user implied by the current session, using the admin registration endpoint.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Register-PASFIDO2Device -OwnDevice</dev:code>
+        <dev:remarks>
+          <maml:para>Registers a new FIDO2 device for the user that is currently logged in, using the self-service registration endpoint.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Register-PASFIDO2Device</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Register-PASFIDO2Device</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-start-registration.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-start-registration.htm</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-register.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-register.htm</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-self-start-registration.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-self-start-registration.htm</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-selfregister.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-selfregister.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Remove-PASAccount</command:name>
       <command:verb>Remove</command:verb>
       <command:noun>PASAccount</command:noun>
