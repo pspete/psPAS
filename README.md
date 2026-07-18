@@ -1345,6 +1345,12 @@ Get-Help New-PASUser -Full
 
 ![Logo][Logo]
 
+## Sponsors
+
+A huge thank you to the organizations and individuals supporting this project.
+
+**Johannes Persson Consulting AB**
+
 ## Sponsorship
 
 Please support continued psPAS development; consider sponsoring <a href="https://github.com/sponsors/pspete"> @pspete on GitHub Sponsors</a>
@@ -1369,7 +1375,7 @@ See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
 
 ## Support
 
-psPAS is neither developed nor supported by Idira (CyberArk); any official support channels offered by the vendor are not appropriate for seeking help with the psPAS module.
+psPAS is neither developed nor supported by Palo Alto Networks; any official support channels offered by the vendor are not appropriate for seeking help with the psPAS module.
 
 Help and support should be sought by [opening an issue][new-issue], or emailing <a href="mailto:pspas@pspete.dev">pspas@pspete.dev</a>.
 
