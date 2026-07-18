@@ -1028,6 +1028,21 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [`Remove-PASPTASyslog`][Remove-PASPTASyslog]                                             |**14.6**            |Remove syslog configuration from PTA
 [`Set-PASPTASMTP`][Set-PASPTASMTP]                                                       |**14.4**            |Add SMTP configuration to PTA
 [`Get-PASAccountSearchProperty`][Get-PASAccountSearchProperty]                           |**14.6**            |List configured account search properties
+[`Register-PASFIDO2Device`][Register-PASFIDO2Device]                                     |**14.6**            |Registers a new FIDO2 device for a user
+[`Rename-PASPlatform`][Rename-PASPlatform]                                               |**15.0**            |Renames a target platform
+[`Get-PASVRMServiceConfig`][Get-PASVRMServiceConfig]                                     |**15.0**            |Gets Vault Remote Manager service configuration
+[`Get-PASVRMServiceConfigParameter`][Get-PASVRMServiceConfigParameter]                   |**15.0**            |Gets a specific Vault Remote Manager configuration parameter
+[`Get-PASVRMServiceStatus`][Get-PASVRMServiceStatus]                                     |**15.0**            |Gets the operational status of a Vault service
+[`Get-PASVRMDRSystemHealth`][Get-PASVRMDRSystemHealth]                                   |**15.0**            |Gets DR system health, including replication status
+[`Set-PASVRMServiceConfig`][Set-PASVRMServiceConfig]                                     |**15.0**            |Sets Vault Remote Manager configuration parameters
+[`Start-PASVRMService`][Start-PASVRMService]                                             |**15.0**            |Starts a Vault or DR service
+[`Stop-PASVRMService`][Stop-PASVRMService]                                               |**15.0**            |Stops a Vault or DR service
+[`Restart-PASVRMService`][Restart-PASVRMService]                                         |**15.0**            |Restarts a Vault or DR service
+[`Invoke-PASVRMFailover`][Invoke-PASVRMFailover]                                         |**15.0**            |Initiates DR failover to the DR site
+[`Clear-PASDependentLinkedAccount`][Clear-PASDependentLinkedAccount]                     |**P Cloud Only**    |Clears a linked account from a dependent account
+[`Set-PASDependentLinkedAccount`][Set-PASDependentLinkedAccount]                         |**P Cloud Only**    |Sets a linked account for a dependent account
+[`Import-PASTicketingSystem`][Import-PASTicketingSystem]                                 |**P Cloud Only**    |Imports a ticketing system into Privilege Cloud
+[`Export-PASTicketingSystemLog`][Export-PASTicketingSystemLog]                           |**P Cloud Only**    |Exports ticketing system logs from Privilege Cloud
 
 [Enable-PASTheme]:/psPAS/Functions/Theme/Enable-PASTheme
 [Remove-PASTheme]:/psPAS/Functions/Theme/Remove-PASTheme
@@ -1240,6 +1255,21 @@ Click the below dropdown to view the current list of psPAS functions and their m
 [New-PASPrivateSSHKey]:/psPAS/Functions/Authentication/New-PASPrivateSSHKey.ps1
 [Remove-PASPrivateSSHKey]:/psPAS/Functions/Authentication/Remove-PASPrivateSSHKey.ps1
 [Set-PASGroup]:/psPAS/Functions/User/Set-PASGroup.ps1
+[Register-PASFIDO2Device]:/psPAS/Functions/Authentication/Register-PASFIDO2Device.ps1
+[Rename-PASPlatform]:/psPAS/Functions/Platforms/Rename-PASPlatform.ps1
+[Get-PASVRMServiceConfig]:/psPAS/Functions/VaultRemoteManager/Get-PASVRMServiceConfig.ps1
+[Get-PASVRMServiceConfigParameter]:/psPAS/Functions/VaultRemoteManager/Get-PASVRMServiceConfigParameter.ps1
+[Get-PASVRMServiceStatus]:/psPAS/Functions/VaultRemoteManager/Get-PASVRMServiceStatus.ps1
+[Get-PASVRMDRSystemHealth]:/psPAS/Functions/VaultRemoteManager/Get-PASVRMDRSystemHealth.ps1
+[Set-PASVRMServiceConfig]:/psPAS/Functions/VaultRemoteManager/Set-PASVRMServiceConfig.ps1
+[Start-PASVRMService]:/psPAS/Functions/VaultRemoteManager/Start-PASVRMService.ps1
+[Stop-PASVRMService]:/psPAS/Functions/VaultRemoteManager/Stop-PASVRMService.ps1
+[Restart-PASVRMService]:/psPAS/Functions/VaultRemoteManager/Restart-PASVRMService.ps1
+[Invoke-PASVRMFailover]:/psPAS/Functions/VaultRemoteManager/Invoke-PASVRMFailover.ps1
+[Clear-PASDependentLinkedAccount]:/psPAS/Functions/Accounts/Clear-PASDependentLinkedAccount.ps1
+[Set-PASDependentLinkedAccount]:/psPAS/Functions/Accounts/Set-PASDependentLinkedAccount.ps1
+[Import-PASTicketingSystem]:/psPAS/Functions/CustomTicketingSystem/Import-PASTicketingSystem.ps1
+[Export-PASTicketingSystemLog]:/psPAS/Functions/CustomTicketingSystem/Export-PASTicketingSystemLog.ps1
 </details>
 
 ## Installation
