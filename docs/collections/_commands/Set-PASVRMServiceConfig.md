@@ -16,8 +16,8 @@ Sets one or multiple DR configuration parameters
 
 ```
 Set-PASVRMServiceConfig [[-BaseURI] <String>] [-parameters] <Hashtable> [-serviceName] <String>
- [-serverAddress] <String> [[-serviceUserName] <String>] [-servicePassword] <SecureString>
- [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-serverAddress] <String> [[-serviceUserName] <String>] [-servicePassword] <SecureString> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION

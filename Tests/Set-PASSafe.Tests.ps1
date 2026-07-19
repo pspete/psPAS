@@ -61,6 +61,64 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 
 
+		Context 'Input-Gen1' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'UpdateSafeResult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeName'
+
+				}
+				Mock Get-PASSafe -MockWith {}
+				$response = $InputObj | Set-PASSafe -NumberOfDaysRetention 1 -ManagingCPM SomeCPM -NewSafeName SomeNewName -UseGen1API
+
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/WebServices/PIMServices.svc/Safes/SomeName"
+
+				} -Times 1 -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Scope It
+
+			}
+
+			It 'sends request with expected body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody.safe) -ne $null
+
+				} -Scope It
+
+			}
+
+			It 'has a request body with expected number of properties' {
+
+				($Script:RequestBody.safe | Get-Member -MemberType NoteProperty).length | Should -Be 3
+
+			}
+
+		}
+
 		Context 'Input-Gen2' {
 
 			BeforeEach {
@@ -118,6 +176,44 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 5
 
 			}
+
+		}
+
+		Context 'Output-Gen1' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'UpdateSafeResult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeName'
+
+				}
+
+				$response = $InputObj | Set-PASSafe -NumberOfDaysRetention 1 -ManagingCPM SomeCPM -NewSafeName SomeNewName -UseGen1API
+
+			}
+
+			It 'provides output' {
+
+				$response | Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'has output with expected number of properties' {
+
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
+
+			}
+
+			It 'outputs object with expected typename' {
+
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe
+
+			}
+
+
 
 		}
 

@@ -232,6 +232,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Add Allowed Authentication Methods][Add Allowed Authentication Methods]                             | [Add-PASUserAllowedAuthenticationMethod][Add-PASUserAllowedAuthenticationMethod]
 [Remove Allowed Authentication Methods][Remove Allowed Authentication Methods]                       | [Remove-PASUserAllowedAuthenticationMethod][Remove-PASUserAllowedAuthenticationMethod]
 [Remove FIDO2 Device][Remove FIDO2 Device]                                                           | [Remove-PASFIDO2Device][Remove-PASFIDO2Device]
+[Register FIDO2 Device][Register FIDO2 Device]                                                       | [Register-PASFIDO2Device][Register-PASFIDO2Device]
 [Get Master Policy Settings][Get Master Policy Settings]                                             | [Get-PASMasterPolicy][Get-PASMasterPolicy]
 [Update Master Policy Settings][Update Master Policy Settings]                                       | [Set-PASMasterPolicy][Set-PASMasterPolicy]
 [Add Dependent Account][Add Dependent Account]                                                       | [Add-PASDependentAccount][Add-PASDependentAccount]
@@ -240,6 +241,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get Dependent Account Details][Get Dependent Account Details]                                       | [Get-PASDependentAccount][Get-PASDependentAccount]
 [Sync Dependent Account Password][Sync Dependent Account Password]                                   | [Sync-PASDependentAccount][Sync-PASDependentAccount]
 [Update Dependent Account][Update Dependent Account]                                                 | [Set-PASDependentAccount][Set-PASDependentAccount]
+[Link Dependent Account][Link Dependent Account]                                                     | [Set-PASDependentLinkedAccount][Set-PASDependentLinkedAccount]
+[Unlink Dependent Account][Unlink Dependent Account]                                                 | [Clear-PASDependentLinkedAccount][Clear-PASDependentLinkedAccount]
 [Remove PTA Security Property][Remove PTA Security Property]                                         | [Remove-PASPTASecurityConfigurationProperty][Remove-PASPTASecurityConfigurationProperty]
 [Reset PTA Security Property][Reset PTA Security Property]                                           | [Reset-PASPTASecurityConfigurationProperty][Reset-PASPTASecurityConfigurationProperty]
 [Reset PTA Security Category][Reset PTA Security Category]                                           | [Reset-PASPTASecurityConfigurationCategory][Reset-PASPTASecurityConfigurationCategory]
@@ -257,6 +260,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Set service status to RESTART][Set service status to RESTART]                                       | [Restart-PASVRMService][Restart-PASVRMService]
 [Get DR system health check][Get DR system health check]                                             | [Get-PASVRMDRSystemHealth][Get-PASVRMDRSystemHealth]
 [Initiate DR failover][Initiate DR failover]                                                         | [Invoke-PASVRMFailover][Invoke-PASVRMFailover]
+[Import Ticketing System][Import Ticketing System]                                                   | [Import-PASTicketingSystem][Import-PASTicketingSystem]
+[Export Ticketing System Logs][Export Ticketing System Logs]                                         | [Export-PASTicketingSystemLog][Export-PASTicketingSystemLog]
 
 [Enable-PASTheme]:/psPAS/Functions/Theme/Enable-PASTheme
 [Remove-PASTheme]:/psPAS/Functions/Theme/Remove-PASTheme
@@ -277,6 +282,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Add-PASUserAllowedAuthenticationMethod]:/psPAS/Functions/Users/Add-PASUserAllowedAuthenticationMethod
 [Remove-PASUserAllowedAuthenticationMethod]:/psPAS/Functions/Users/Remove-PASUserAllowedAuthenticationMethod
 [Remove-PASFIDO2Device]:/psPAS/Functions/Users/Remove-PASFIDO2Device
+[Register-PASFIDO2Device]:/psPAS/Functions/Authentication/Register-PASFIDO2Device
 [Get-PASMasterPolicy]:/psPAS/Functions/Policy/Get-PASMasterPolicy
 [Set-PASMasterPolicy]:/psPAS/Functions/Policy/Set-PASMasterPolicy
 [Add-PASDependentAccount]:/psPAS/Functions/Accounts/Add-PASDependentAccount
@@ -285,6 +291,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get-PASDependentAccount]:/psPAS/Functions/Accounts/Get-PASDependentAccount
 [Sync-PASDependentAccount]:/psPAS/Functions/Accounts/Sync-PASDependentAccount
 [Set-PASDependentAccount]:/psPAS/Functions/Accounts/Set-PASDependentAccount
+[Set-PASDependentLinkedAccount]:/psPAS/Functions/Accounts/Set-PASDependentLinkedAccount
+[Clear-PASDependentLinkedAccount]:/psPAS/Functions/Accounts/Clear-PASDependentLinkedAccount
 [Remove-PASPTASecurityConfigurationProperty]:/psPAS/Functions/PTA/Remove-PASPTASecurityConfigurationProperty
 [Reset-PASPTASecurityConfigurationProperty]:/psPAS/Functions/PTA/Reset-PASPTASecurityConfigurationProperty
 [Reset-PASPTASecurityConfigurationCategory]:/psPAS/Functions/PTA/Reset-PASPTASecurityConfigurationCategory
@@ -302,6 +310,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Restart-PASVRMService]:/psPAS/Functions/VaultRemoteManager/Restart-PASVRMService
 [Get-PASVRMDRSystemHealth]:/psPAS/Functions/VaultRemoteManager/Get-PASVRMDRSystemHealth
 [Invoke-PASVRMFailover]:/psPAS/Functions/VaultRemoteManager/Invoke-PASVRMFailover
+[Import-PASTicketingSystem]:/psPAS/Functions/CustomTicketingSystem/Import-PASTicketingSystem
+[Export-PASTicketingSystemLog]:/psPAS/Functions/CustomTicketingSystem/Export-PASTicketingSystemLog
 [Get-PASUserTypeInfo]:/commands/Get-PASUserTypeInfo
 [Get-PASPTARiskEvent]:/commands/Get-PASPTARiskEvent
 [Set-PASPTARiskEvent]:/commands/Set-PASPTARiskEvent
@@ -475,6 +485,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Add Allowed Authentication Methods]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddAllowedAuthenticationMethods.htm
 [Remove Allowed Authentication Methods]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemoveAllowedAuthenticationMethods.htm
 [Remove FIDO2 Device]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemoveFIDO2Device.htm
+[Register FIDO2 Device]:https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-register.htm
 [Get Master Policy Settings]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetMasterPolicy.htm
 [Update Master Policy Settings]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/UpdateMasterPolicy.htm
 [Add Dependent Account]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddDependentAccount.htm
@@ -483,6 +494,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get Dependent Account Details]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetDependentAccount.htm
 [Sync Dependent Account Password]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/SyncDependentAccount.htm
 [Update Dependent Account]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/UpdateDependentAccount.htm
+[Link Dependent Account]:https://docs.cyberark.com/privilege-cloud-secrets-rotation/latest/en/content/privilegecloudapis/account-dependents.htm
+[Unlink Dependent Account]:https://docs.cyberark.com/privilege-cloud-secrets-rotation/latest/en/content/privilegecloudapis/account-dependents.htm
 [Remove PTA Security Property]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemovePTASecurityProperty.htm
 [Reset PTA Security Property]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ResetPTASecurityProperty.htm
 [Reset PTA Security Category]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ResetPTASecurityCategory.htm
@@ -500,6 +513,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Set service status to RESTART]:https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-status-restart.htm
 [Get DR system health check]:https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-system-health.htm
 [Initiate DR failover]:https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-initiate-dr-failover.htm
+[Import Ticketing System]:https://docs.cyberark.com/privilege-cloud-secrets-rotation/latest/en/content/privilegecloudapis/privcloud-ticketing-systems-custom-import.htm
+[Export Ticketing System Logs]:https://docs.cyberark.com/privilege-cloud-secrets-rotation/latest/en/content/privilegecloudapis/privcloud-ticketing-systems-custom-export-logs.htm
 [Get incoming request list]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetIncomingRequestList.htm
 [Create access request for multiple accounts]:https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/13.2/en/Content/WebServices/Create-multiple-requests.htm
 [Get risk events]:https://docs.cyberark.com/PAS/Latest/en/Content/WebServices/GetRiskEvents.htm

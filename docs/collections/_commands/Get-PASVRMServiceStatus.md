@@ -16,8 +16,7 @@ Gets the operational status of a Vault service
 
 ```
 Get-PASVRMServiceStatus [[-BaseURI] <String>] [-serviceName] <String> [-serverAddress] <String>
- [[-serviceUserName] <String>] [-servicePassword] <SecureString> [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+ [[-serviceUserName] <String>] [-servicePassword] <SecureString> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
