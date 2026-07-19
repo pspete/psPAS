@@ -30,7 +30,7 @@ tags:
   - Set-PASDirectoryMapping
 ---
 
-## [7.2.0]
+## [7.3.0]
 
 **More recognition to [JP-Consulting](https://github.com/johannesconsulting) for the help on this release and ongoing project sponsorship**
 
