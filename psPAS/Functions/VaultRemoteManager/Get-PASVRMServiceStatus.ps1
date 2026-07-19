@@ -13,7 +13,7 @@ function Get-PASVRMServiceStatus {
             ValueFromPipelineByPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
-        [ValidateSet('Vault', 'DR')]
+        [ValidateSet('Vault', 'DR', 'ENE')]
         [string]$serviceName,
 
         [parameter(
@@ -50,6 +50,10 @@ function Get-PASVRMServiceStatus {
         #Use the BaseURI from the session (New-PASSession) if not provided
         if (-not $PSBoundParameters.ContainsKey('BaseURI')) {
             $BaseURI = $psPASSession.BaseURI
+        }
+
+        if ($serviceName -eq 'ENE') {
+            Assert-VersionRequirement -RequiredVersion 15.2
         }
 
         #Create URL for request

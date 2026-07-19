@@ -17,29 +17,15 @@ Updates a safe in the Vault
 ### Gen2-NumberOfDaysRetention (Default)
 ```
 Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-location <String>]
- [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfDaysRetention <Int32>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfDaysRetention <Int32>] [-Quota <Int32>]
+ [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen2-NumberOfVersionsRetention
 ```
 Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-location <String>]
- [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfVersionsRetention <Int32>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
-```
-
-### Gen1-NumberOfVersionsRetention
-```
-Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] [-NumberOfVersionsRetention <Int32>] [-UseGen1API] [-WhatIf] [-Confirm]
- [<CommonParameters>]
-```
-
-### Gen1-NumberOfDaysRetention
-```
-Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] [-NumberOfDaysRetention <Int32>] [-UseGen1API] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfVersionsRetention <Int32>] [-Quota <Int32>]
+ [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -59,10 +45,12 @@ Minimum required version 12.2
 
 ### EXAMPLE 2
 ```
-Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfDaysRetention 10 -UseGen1API
+Set-PASSafe -SafeName SAFE -Quota 500
 ```
 
-Updates description and number of days retention on SAFE using Gen1 API
+Updates the size quota (in MB) of SAFE
+
+Minimum required version 15.2 (Self-Hosted)
 
 ## PARAMETERS
 
@@ -158,7 +146,7 @@ Specify either this parameter or NumberOfDaysRetention.
 
 ```yaml
 Type: Int32
-Parameter Sets: Gen2-NumberOfVersionsRetention, Gen1-NumberOfVersionsRetention
+Parameter Sets: Gen2-NumberOfVersionsRetention
 Aliases:
 
 Required: False
@@ -177,7 +165,7 @@ Specify either this parameter or NumberOfVersionsRetention
 
 ```yaml
 Type: Int32
-Parameter Sets: Gen2-NumberOfDaysRetention, Gen1-NumberOfDaysRetention
+Parameter Sets: Gen2-NumberOfDaysRetention
 Aliases:
 
 Required: False
@@ -225,7 +213,7 @@ Minimum required version 12.2
 
 ```yaml
 Type: String
-Parameter Sets: Gen2-NumberOfDaysRetention, Gen2-NumberOfVersionsRetention
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -235,17 +223,32 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -UseGen1API
-Specify to force usage the Gen1 API endpoint.
-
-Should be specified for versions earlier than 12.2
+### -ProgressAction
+{{ Fill ProgressAction Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: Gen1-NumberOfVersionsRetention, Gen1-NumberOfDaysRetention
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Quota
+The size quota, in MB, allocated to the safe.
+
+Requires CyberArk Self-Hosted version 15.2 or higher.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

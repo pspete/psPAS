@@ -115,6 +115,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'accepts ENE as a serviceName value' {
+				$psPASSession.ExternalVersion = '15.2'
+				{ Get-PASVRMServiceStatus -serviceName ENE -serverAddress '192.168.1.1' -servicePassword $SecurePassword } | Should -Not -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'throws for ENE serviceName if 15.2 version requirement not met' {
+				$psPASSession.ExternalVersion = '15.1'
+				{ Get-PASVRMServiceStatus -serviceName ENE -serverAddress '192.168.1.1' -servicePassword $SecurePassword } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
 		}
 
 		Context 'Output' {
