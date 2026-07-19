@@ -1,6 +1,6 @@
 ---
-title: "psPAS Release 7.1"
-date: 2026-07-18 00:00:00
+title: "psPAS Release 7.2"
+date: 2026-07-19 00:00:00
 tags:
   - Release Notes
   - Clear-PASDependentLinkedAccount
@@ -30,7 +30,7 @@ tags:
   - Set-PASDirectoryMapping
 ---
 
-## [7.1.0]
+## [7.2.0]
 
 **More recognition to [JP-Consulting](https://github.com/johannesconsulting) for the help on this release and ongoing project sponsorship**
 
