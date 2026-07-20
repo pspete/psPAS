@@ -255,6 +255,60 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Quota' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+				}
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeName'
+
+				}
+				Mock Get-PASSafe -MockWith {}
+
+				$psPASSession.ExternalVersion = '0.0'
+				$response = $InputObj | Set-PASSafe -Quota 500
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeName"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with expected Quota value in body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					$Script:RequestBody.Quota -eq 500
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'accepts a NumberOfVersionsRetention value of 0' {
+
+				{ $InputObj | Set-PASSafe -NumberOfVersionsRetention 0 } | Should -Not -Throw
+
+			}
+
+			It 'throws if Quota specified and 15.2 version requirement not met' {
+				$psPASSession.ExternalVersion = '15.1'
+				{ $InputObj | Set-PASSafe -Quota 500 } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+		}
+
 	}
 
 }

@@ -305,7 +305,10 @@
 		'Get-PASVRMDRSystemHealth',
 		'Invoke-PASVRMFailover',
 		'Get-PASVRMServiceConfigParameter',
-		'Set-PASVRMServiceConfig'
+		'Set-PASVRMServiceConfig',
+		'New-PASPlatformSecret',
+		'Stop-PASCPMTask',
+		'Resume-PASCPMAutoManagement'
 
 	)
 

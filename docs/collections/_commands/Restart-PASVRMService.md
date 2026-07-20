@@ -54,7 +54,9 @@ Accept wildcard characters: False
 
 ### -serviceName
 The name of the service to restart.
-Supported services: Vault, DR
+Supported services: Vault, DR, ENE
+
+The ENE service requires CyberArk version 15.2 or higher.
 
 ```yaml
 Type: String
