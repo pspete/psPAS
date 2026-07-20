@@ -308,8 +308,9 @@
 		'Set-PASVRMServiceConfig',
 		'New-PASPlatformSecret',
 		'Stop-PASCPMTask',
-		'Resume-PASCPMAutoManagement'
-
+		'Resume-PASCPMAutoManagement',
+		'Set-PASPlatform',
+		'Remove-PASOAuthProvider'
 	)
 
 	#AliasesToExport   = @()
