@@ -4,7 +4,7 @@
 	RootModule        = 'psPAS.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '7.0.242'
+	ModuleVersion     = '7.3.0'
 
 	# ID used to uniquely identify this module
 	GUID              = '11c880d2-1430-4bd2-b6e8-f324741b460b'
@@ -19,7 +19,7 @@
 	Copyright         = '(c) 2017-2025 Pete Maan. All rights reserved.'
 
 	# Description of the functionality provided by this module
-	Description       = 'Module for CyberArk Privileged Access Security Web Service REST API'
+	Description       = 'Module for Idira (CyberArk) Privileged Access Security Web Service REST API'
 
 	# Minimum version of the Windows PowerShell engine required by this module
 	PowerShellVersion = '5.1'
@@ -189,6 +189,7 @@
 		'Disable-PASPlatform',
 		'Enable-PASPlatform',
 		'Remove-PASPlatform',
+		'Rename-PASPlatform',
 		'Remove-PASGroup',
 		'Get-PASAllowedReferrer',
 		'Add-PASAllowedReferrer',
@@ -271,6 +272,7 @@
 		'Remove-PASDependentAccount',
 		'Resume-PASDependentAccount',
 		'Remove-PASFIDO2Device',
+		'Register-PASFIDO2Device',
 		'Get-PASMasterPolicy',
 		'Set-PASMasterPolicy',
 		'Get-PASDependentAccount',
@@ -294,7 +296,19 @@
 		'Set-PASDependentLinkedAccount',
 		'Clear-PASDependentLinkedAccount',
 		'Import-PASTicketingSystem',
-		'Export-PASTicketingSystemLog'
+		'Export-PASTicketingSystemLog',
+		'Get-PASVRMServiceConfig',
+		'Get-PASVRMServiceStatus',
+		'Start-PASVRMService',
+		'Stop-PASVRMService',
+		'Restart-PASVRMService',
+		'Get-PASVRMDRSystemHealth',
+		'Invoke-PASVRMFailover',
+		'Get-PASVRMServiceConfigParameter',
+		'Set-PASVRMServiceConfig',
+		'New-PASPlatformSecret',
+		'Stop-PASCPMTask',
+		'Resume-PASCPMAutoManagement'
 
 	)
 
@@ -306,7 +320,7 @@
 		PSData = @{
 
 			# Tags applied to this module. These help with module discovery in online galleries.
-			Tags         = @('CyberArk', 'REST', 'API', 'Security')
+			Tags         = @('CyberArk', 'Idira', 'REST', 'API', 'Security')
 
 			# A URL to the license for this module.
 			LicenseUri   = 'https://github.com/pspete/psPAS/blob/master/LICENSE.md'

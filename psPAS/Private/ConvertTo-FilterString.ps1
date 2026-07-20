@@ -64,7 +64,7 @@ Encloses value of the key/value pair in quotes.
 			Mandatory = $false,
 			ValueFromPipeline = $false
 		)]
-		[string]$LogicalOperator
+		[string]$LogicalOperator = 'AND'
 	)
 
 	begin {

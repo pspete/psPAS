@@ -54,6 +54,8 @@ commands:
         url: /commands/Add-PASUserAllowedAuthenticationMethod
       - title: "Remove-PASUserAllowedAuthenticationMethod"
         url: /commands/Remove-PASUserAllowedAuthenticationMethod
+      - title: "Register-PASFIDO2Device"
+        url: /commands/Register-PASFIDO2Device
 
   - title: "Account ACL"
     children:
@@ -164,6 +166,10 @@ commands:
         url: /commands/Sync-PASDependentAccount
       - title: "Set-PASDependentAccount"
         url: /commands/Set-PASDependentAccount
+      - title: "Clear-PASDependentLinkedAccount"
+        url: /commands/Clear-PASDependentLinkedAccount
+      - title: "Set-PASDependentLinkedAccount"
+        url: /commands/Set-PASDependentLinkedAccount
 
   - title: "Applications"
     children:
@@ -327,6 +333,8 @@ commands:
         url: /commands/Get-PASStoredPlatform
       - title: "Remove-PASStoredPlatform"
         url: /commands/Remove-PASStoredPlatform
+      - title: "Rename-PASPlatform"
+        url: /commands/Rename-PASPlatform
 
   - title: "Policy ACL"
     children:
@@ -485,6 +493,34 @@ commands:
         url: /commands/New-PASTheme
       - title: "Set-PASTheme"
         url: /commands/Set-PASTheme
+
+  - title: "Vault Remote Manager"
+    children:
+      - title: "Get-PASVRMServiceConfig"
+        url: /commands/Get-PASVRMServiceConfig
+      - title: "Get-PASVRMServiceConfigParameter"
+        url: /commands/Get-PASVRMServiceConfigParameter
+      - title: "Get-PASVRMServiceStatus"
+        url: /commands/Get-PASVRMServiceStatus
+      - title: "Get-PASVRMDRSystemHealth"
+        url: /commands/Get-PASVRMDRSystemHealth
+      - title: "Set-PASVRMServiceConfig"
+        url: /commands/Set-PASVRMServiceConfig
+      - title: "Start-PASVRMService"
+        url: /commands/Start-PASVRMService
+      - title: "Stop-PASVRMService"
+        url: /commands/Stop-PASVRMService
+      - title: "Restart-PASVRMService"
+        url: /commands/Restart-PASVRMService
+      - title: "Invoke-PASVRMFailover"
+        url: /commands/Invoke-PASVRMFailover
+
+  - title: "Custom Ticketing System"
+    children:
+      - title: "Import-PASTicketingSystem"
+        url: /commands/Import-PASTicketingSystem
+      - title: "Export-PASTicketingSystemLog"
+        url: /commands/Export-PASTicketingSystemLog
 
 # documentation links
 docs:

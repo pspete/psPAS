@@ -407,7 +407,7 @@ function New-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet('SAML', 'PKI', 'FIDO', 'WINDOWS')]
+		[ValidateSet('SAML', 'PKI', 'PKIPN', 'FIDO', 'WINDOWS')]
 		[AllowEmptyCollection()]
 		[string[]]$allowedAuthenticationMethods
 	)

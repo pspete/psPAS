@@ -2,20 +2,20 @@ TOPIC
     about_psPAS
 
 SHORT DESCRIPTION
-    psPAS is a PowerShell interface for the CyberArk REST Web Services.
+    psPAS is a PowerShell interface for the Idira (CyberArk) REST Web Services.
 
 LONG DESCRIPTION
-    psPAS communicates with a CyberArk Privileged Access Security Web Service to submit requests and receive data.
+    psPAS communicates with a Idira (CyberArk) Privileged Access Security Web Service to submit requests and receive data.
     It send commands to the Web Service, enabling a user to issue create, list, modify, and delete commands to be
     executed against entities in a Privileged Access Security solution from either a PowerShell console or script.
 
 EXAMPLES
-    To utilise psPAS, you must have access to a CyberArk Privileged Access Security Web Service and a user account
+    To utilise psPAS, you must have access to a Idira (CyberArk) Privileged Access Security Web Service and a user account
     that can be used to log in to the Web Service.
 
     Which module functions, or in some use cases, which parameters or parametersets of particular functions, can
-    be used, depends on the version of the CyberArk Web Service. The compatibility of each module command with
-    each CyberArk version is shown in the following table:
+    be used, depends on the version of the Idira (CyberArk) Web Service. The compatibility of each module command with
+    each Idira (CyberArk) version is shown in the following table:
 
     https://github.com/pspete/psPAS#module-functions
 
@@ -37,7 +37,7 @@ EXAMPLES
 
         PS C:\> Get-PASAccount pete | Set-PASAccount -Address 10.10.10.10 -UserName pspete
 
-        Activate a Suspended CyberArk User:
+        Activate a Suspended Idira (CyberArk) User:
 
         PS C:\> Get-PASUser PebKac | Unblock-PASUser -Suspended $false
 
@@ -52,6 +52,7 @@ EXAMPLES
 
 KEYWORDS
     CyberArk
+    Idira
 
 SEE ALSO
     https://pspas.pspete.dev/
