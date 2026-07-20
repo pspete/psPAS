@@ -1,6 +1,4 @@
 function Join-ObjectByProperty {
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'PrimaryKey', Justification = 'False Positive')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'SecondaryKey', Justification = 'False Positive')]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory, HelpMessage = 'Array of primary objects to merge from.')]
@@ -30,14 +28,32 @@ function Join-ObjectByProperty {
     )
 
 
+    function Get-DottedPropertyValue {
+        param(
+            [object]$InputObject,
+            [string]$Path
+        )
+
+        $value = $InputObject
+
+        foreach ($segment in $Path -split '\.') {
+            if ($null -eq $value) {
+                return $null
+            }
+            $value = $value.$segment
+        }
+
+        return $value
+    }
+
     if (-not $PrimaryObjects -or $PrimaryObjects.Total -eq 0) {
-        $fallbackOutput = @()
+        $fallbackOutput = [Collections.Generic.List[Object]]::New()
 
         foreach ($secondaryObject in $SecondaryObjects) {
             $flattened = [ordered]@{}
 
             foreach ($property in $secondaryObject.PSObject.Properties) {
-                if (-not $ExpandNested -contains $property.Name) {
+                if (-not ($ExpandNested -contains $property.Name)) {
                     $flattened[$property.Name] = $property.Value
                 }
             }
@@ -53,13 +69,13 @@ function Join-ObjectByProperty {
                 }
             }
 
-            $fallbackOutput += [PSCustomObject]$flattened
+            $fallbackOutput.Add([PSCustomObject]$flattened)
         }
 
         return $fallbackOutput
     }
 
-    $mergedOutput = @()
+    $mergedOutput = [Collections.Generic.List[Object]]::New()
 
     foreach ($primaryObject in $PrimaryObjects) {
         $mergedObject = [ordered]@{}
@@ -69,13 +85,13 @@ function Join-ObjectByProperty {
         }
 
         $matchingSecondaryObjects = $SecondaryObjects | Where-Object {
-            ($_ | Select-Object -ExpandProperty general).id -eq $primaryObject.$PrimaryKey
+            (Get-DottedPropertyValue -InputObject $_ -Path $SecondaryKey) -eq $primaryObject.$PrimaryKey
         }
 
         if ($matchingSecondaryObjects) {
             foreach ($secondaryObject in $matchingSecondaryObjects) {
                 foreach ($property in $secondaryObject.PSObject.Properties) {
-                    if (-not $mergedObject.Contains($property.Name) -and -not $ExpandNested -contains $property.Name) {
+                    if (-not $mergedObject.Contains($property.Name) -and -not ($ExpandNested -contains $property.Name)) {
                         $mergedObject[$property.Name] = $property.Value
                     }
                 }
@@ -93,7 +109,7 @@ function Join-ObjectByProperty {
             }
         }
 
-        $mergedOutput += [PSCustomObject]$mergedObject
+        $mergedOutput.Add([PSCustomObject]$mergedObject)
     }
 
     return $mergedOutput
