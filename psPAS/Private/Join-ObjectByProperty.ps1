@@ -1,4 +1,40 @@
 function Join-ObjectByProperty {
+    <#
+.SYNOPSIS
+Merges two arrays of objects based on matching key property values.
+
+.DESCRIPTION
+For each object in PrimaryObjects, finds any objects in SecondaryObjects whose SecondaryKey property
+(supports dotted paths, e.g. "general.id") matches the object's PrimaryKey property value, and merges
+their properties into the output object. Properties already present on the primary object are not
+overwritten by matching secondary object properties.
+Property names listed in ExpandNested are treated as nested objects on the secondary object; rather than
+being copied as-is, their own child properties are flattened into the output object.
+If PrimaryObjects is null/empty, or has a Total property equal to 0, SecondaryObjects are returned instead,
+flattened (and with ExpandNested still applied) but with no merge/matching performed.
+
+.PARAMETER PrimaryObjects
+Array of primary objects to merge from. Properties on these objects take precedence over any matching
+properties found on merged SecondaryObjects.
+
+.PARAMETER SecondaryObjects
+Array of secondary objects to merge with. Optional.
+
+.PARAMETER PrimaryKey
+Property name on the primary objects used for matching against SecondaryKey.
+
+.PARAMETER SecondaryKey
+Property name (or dotted path, e.g. "general.id") on the secondary objects used for matching against PrimaryKey.
+
+.PARAMETER ExpandNested
+Names of nested properties in secondary objects to expand into the root level, instead of being copied as-is.
+
+.EXAMPLE
+Join-ObjectByProperty -PrimaryObjects $Platforms -SecondaryObjects $PlatformDetails -PrimaryKey 'PlatformID' -SecondaryKey 'general.id'
+
+Merges $PlatformDetails into $Platforms, matching $PlatformDetails.general.id to $Platforms.PlatformID.
+
+#>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory, HelpMessage = 'Array of primary objects to merge from.')]
