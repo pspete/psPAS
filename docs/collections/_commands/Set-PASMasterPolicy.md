@@ -14,7 +14,7 @@ Updates Master Policy
 ## SYNTAX
 
 ```
-Set-PASMasterPolicy [[-DualControl] <Boolean>] [[-MultiLevelApproval] <Boolean>]
+Set-PASMasterPolicy [-PolicyId <Int32>] [[-DualControl] <Boolean>] [[-MultiLevelApproval] <Boolean>]
  [[-OnlyManagersApproval] <Boolean>] [[-ConfirmersNumber] <Int32>] [[-EnforceExclusiveAccess] <Boolean>]
  [[-EnforceOneTimePassword] <Boolean>] [[-TransparentConnection] <Boolean>] [[-AllowViewPassword] <Boolean>]
  [[-RequireReason] <Boolean>] [[-AllowFreeText] <Boolean>] [[-PasswordChangeDays] <Int32>]
@@ -288,6 +288,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PolicyId
+The ID of the policy to update.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 1
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
