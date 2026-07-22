@@ -17,15 +17,15 @@ Updates a safe in the Vault
 ### Gen2-NumberOfDaysRetention (Default)
 ```
 Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-location <String>]
- [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfDaysRetention <Int32>] [-Quota <Int32>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfDaysRetention <Int32>] [-Quota <Int32>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen2-NumberOfVersionsRetention
 ```
 Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-location <String>]
- [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfVersionsRetention <Int32>] [-Quota <Int32>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfVersionsRetention <Int32>] [-Quota <Int32>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1-NumberOfVersionsRetention

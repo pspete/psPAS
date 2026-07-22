@@ -14,7 +14,7 @@ Retrieves Master Policy details
 ## SYNTAX
 
 ```
-Get-PASMasterPolicy [<CommonParameters>]
+Get-PASMasterPolicy [-PolicyId <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,9 +27,32 @@ Retrieves Master Policy details
 PS C:\> Get-PASMasterPolicy
 ```
 
-Outputs all Master Policy details
+Outputs all Master Policy details.
+Policy ID 1 is the main Master Policy
+
+### Example 2
+```powershell
+PS C:\> Get-PASMasterPolicy -PolicyId 2
+```
+
+Outputs all Master Policy details for platform with id 2
 
 ## PARAMETERS
+
+### -PolicyId
+The ID of the policy to retrieve.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 1
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
