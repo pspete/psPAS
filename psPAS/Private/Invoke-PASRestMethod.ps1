@@ -216,11 +216,25 @@
 			Write-Debug "[Uri] $URI"
 			Write-Debug "[Method] $Method"
 
-			if (($PSBoundParameters.ContainsKey('Body')) -and (($PSBoundParameters['Body']).GetType().Name -eq 'String')) {
+			if ($PSBoundParameters.ContainsKey('Body')) {
 
-				Write-Debug "[Body] $(Hide-SecretValue -InputValue $Body)"
+				switch (($Body).GetType().Name) {
+
+					'String' { Write-Debug "[Body] $(Hide-SecretValue -InputValue $Body)" }
+
+					'Byte[]' { Write-Debug "[Body] $(Hide-SecretValue -InputValue $([System.Text.Encoding]::UTF8.GetString($Body)))" }
+
+				}
 
 			}
+
+		}
+
+		#Send a String body as raw UTF8 bytes so ParameterBinding/module logging of the Invoke-WebRequest call
+		#records a non-revealing type name (System.Byte[]) instead of the literal request content.
+		if (($PSBoundParameters.ContainsKey('Body')) -and (($Body).GetType().Name -eq 'String')) {
+
+			$PSBoundParameters['Body'] = [System.Text.Encoding]::UTF8.GetBytes($Body)
 
 		}
 

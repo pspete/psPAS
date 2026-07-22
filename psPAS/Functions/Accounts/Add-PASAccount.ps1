@@ -267,14 +267,6 @@ function Add-PASAccount {
 				#Create URL for Request
 				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Account"
 
-				#deal with Password SecureString
-				if ($PSBoundParameters.ContainsKey('password')) {
-
-					#Include decoded password in request
-					$boundParameters['password'] = $(ConvertTo-InsecureString -SecureString $password)
-
-				}
-
 				#Process for required formatting - fix V10 specific parameter names
 				$boundParameters.remove('SafeName')
 				$boundParameters.remove('userName')
@@ -318,11 +310,21 @@ function Add-PASAccount {
 				#Add "non-base" parameter hashtable as value of "properties" on boundparameters object
 				$boundParameters['properties'] = [Collections.Generic.List[Object]]@($properties.getenumerator() | ForEach-Object { $_ })
 
+				#account node does not contain non-base parameters
+				$AccountObject = $boundParameters | Get-PASParameter -ParametersToRemove $keysToRemove
+
+				#deal with Password SecureString
+				if ($PSBoundParameters.ContainsKey('password')) {
+
+					#Include decoded password in request
+					$AccountObject['password'] = $(ConvertTo-InsecureString -SecureString $password)
+
+				}
+
 				#Create body of request
 				$body = @{
 
-					#account node does not contain non-base parameters
-					'account' = $boundParameters | Get-PASParameter -ParametersToRemove $keysToRemove
+					'account' = $AccountObject
 
 					#ensure nodes at all required depths are included in the JSON object
 				} | ConvertTo-Json -Depth 4
@@ -332,6 +334,10 @@ function Add-PASAccount {
 			}
 
 		}
+
+		#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+		#call records a non-revealing type name instead of the literal request content.
+		$Body = [System.Text.Encoding]::UTF8.GetBytes($Body)
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body

@@ -96,7 +96,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$($Body | ConvertFrom-Json) -ne $null
+					$([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json) -ne $null
 				} -Times 1 -Exactly -Scope It
 
 			}

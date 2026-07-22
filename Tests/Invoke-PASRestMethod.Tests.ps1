@@ -201,6 +201,83 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Body Handling' {
+
+			BeforeEach {
+
+				$Response = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
+				$Response | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
+				$Response | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'application/json; charset=utf-8' } -Force
+				$Response | Add-Member -MemberType NoteProperty -Name Content -Value (@{ 'prop1' = 'value1' } | ConvertTo-Json) -Force
+
+				Mock Invoke-WebRequest -MockWith {
+
+					return $Response
+
+				}
+
+				Mock Skip-CertificateCheck -MockWith { }
+
+				$WebSession = @{
+					'URI'        = 'https://CyberArk_URL'
+					'Method'     = 'POST'
+					'WebSession' = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				}
+
+			}
+
+			It 'sends a String Body to Invoke-WebRequest as UTF8 bytes' {
+
+				Invoke-PASRestMethod @WebSession -Body 'something'
+
+				Assert-MockCalled 'Invoke-WebRequest' -Times 1 -Scope It -Exactly -ParameterFilter {
+
+					($Body -is [byte[]]) -and ([System.Text.Encoding]::UTF8.GetString($Body) -eq 'something')
+
+				}
+
+			}
+
+			It 'passes an already-Byte[] Body to Invoke-WebRequest unmodified' {
+
+				$Bytes = [System.Text.Encoding]::UTF8.GetBytes('{"password":"SomeSecret"}')
+
+				Invoke-PASRestMethod @WebSession -Body $Bytes
+
+				Assert-MockCalled 'Invoke-WebRequest' -Times 1 -Scope It -Exactly -ParameterFilter {
+
+					($Body -is [byte[]]) -and ([System.Text.Encoding]::UTF8.GetString($Body) -eq '{"password":"SomeSecret"}')
+
+				}
+
+			}
+
+			It 'writes a sanitised debug preview for a String Body containing a secret' {
+
+				$DebugPreference = 'Continue'
+				$DebugText = $(Invoke-PASRestMethod @WebSession -Body '{"password":"SomeSecret"}' 5>&1) | Out-String
+				$DebugPreference = 'SilentlyContinue'
+
+				$DebugText | Should -Match '\[Body\].*\*\*\*\*\*\*'
+				$DebugText | Should -Not -Match 'SomeSecret'
+
+			}
+
+			It 'writes a sanitised debug preview for a Byte[] Body containing a secret' {
+
+				$Bytes = [System.Text.Encoding]::UTF8.GetBytes('{"password":"SomeSecret"}')
+
+				$DebugPreference = 'Continue'
+				$DebugText = $(Invoke-PASRestMethod @WebSession -Body $Bytes 5>&1) | Out-String
+				$DebugPreference = 'SilentlyContinue'
+
+				$DebugText | Should -Match '\[Body\].*\*\*\*\*\*\*'
+				$DebugText | Should -Not -Match 'SomeSecret'
+
+			}
+
+		}
+
 		Context 'Error Handling' {
 
 			BeforeEach {

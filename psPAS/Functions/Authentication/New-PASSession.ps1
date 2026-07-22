@@ -636,7 +636,9 @@ function New-PASSession {
 				}
 
 				#Construct Request Body
-				$LogonRequest['Body'] = $boundParameters | ConvertTo-Json
+				#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+				#call records a non-revealing type name instead of the literal request content.
+				$LogonRequest['Body'] = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
 
 				break
 

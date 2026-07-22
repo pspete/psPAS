@@ -118,7 +118,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -PVWAAppName 'SomeApp' -newPassword $NewPass -UseClassicAPI
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					($Script:RequestBody) -ne $null
 
@@ -154,7 +154,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -UseClassicAPI -useRadiusAuthentication $true -OTP 987654 -OTPMode Append
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq 'SomePassword,987654'
 
@@ -166,7 +166,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq 'SomePassword,987654'
 
@@ -178,7 +178,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Challenge -RadiusChallenge Password
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq '987654'
 
@@ -190,7 +190,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append -OTPDelimiter '#'
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq 'SomePassword#987654'
 
@@ -202,7 +202,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append -OTPDelimiter $null
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq 'SomePassword987654'
 
@@ -214,7 +214,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append -OTPDelimiter ''
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq 'SomePassword987654'
 
@@ -229,7 +229,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				New-PASSession -BaseURI 'https://P_URI' -type LDAP -Credential $Credentials -concurrentSession $true
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.concurrentSession -eq $true
 
@@ -541,7 +541,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-						$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 						$Script:RequestBody.password -eq 'SomePassword'
 
@@ -549,7 +549,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-						$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 						$Script:RequestBody.password -eq '987654'
 
@@ -563,7 +563,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-						$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 						$Script:RequestBody.password -eq '987654'
 
@@ -571,7 +571,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-						$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 						$Script:RequestBody.password -eq 'SomePassword'
 
