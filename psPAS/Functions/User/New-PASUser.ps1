@@ -481,7 +481,9 @@ function New-PASUser {
 		}
 
 		#Construct Request Body
-		$body = $boundParameters | ConvertTo-Json -Depth 4
+		#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+		#call records a non-revealing type name instead of the literal request content.
+		$body = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json -Depth 4))
 
 		if ($PSCmdlet.ShouldProcess($UserName, 'Create User')) {
 

@@ -84,7 +84,9 @@ function Publish-PASDiscoveredLocalAccount {
 
         }
 
-        $Body = $boundParameters | ConvertTo-Json
+        #Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+        #call records a non-revealing type name instead of the literal request content.
+        $Body = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
 
         if ($PSCmdlet.ShouldProcess($id, 'Onboard Discovered Local Account')) {
 

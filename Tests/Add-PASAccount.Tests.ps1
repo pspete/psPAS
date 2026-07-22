@@ -175,7 +175,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account) -ne $null
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Select-Object -ExpandProperty Account) -ne $null
 
 				} -Times 1 -Exactly -Scope It
 
@@ -186,7 +186,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$InputObj | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account | Get-Member -MemberType NoteProperty).length -eq 11
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Select-Object -ExpandProperty Account | Get-Member -MemberType NoteProperty).length -eq 11
 				} -Times 1 -Exactly -Scope It
 			}
 
@@ -195,7 +195,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account | Select-Object -ExpandProperty Properties).count -eq 10
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Select-Object -ExpandProperty Account | Select-Object -ExpandProperty Properties).count -eq 10
 
 				} -Times 1 -Exactly -Scope It
 			}
@@ -206,7 +206,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json) -ne $null
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json) -ne $null
 
 				} -Times 1 -Exactly -Scope It
 
@@ -217,7 +217,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$InputObjV10 | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					($Body | ConvertFrom-Json | Get-Member -MemberType NoteProperty).length -eq 7
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Get-Member -MemberType NoteProperty).length -eq 7
 				} -Times 1 -Exactly -Scope It
 
 			}
@@ -227,7 +227,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty remoteMachinesAccess | Get-Member -MemberType NoteProperty).length -eq 2
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Select-Object -ExpandProperty remoteMachinesAccess | Get-Member -MemberType NoteProperty).length -eq 2
 
 				} -Times 1 -Exactly -Scope It
 
@@ -239,7 +239,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty secretManagement | Get-Member -MemberType NoteProperty).length -eq 1
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Select-Object -ExpandProperty secretManagement | Get-Member -MemberType NoteProperty).length -eq 1
 
 				} -Times 1 -Exactly -Scope It
 
