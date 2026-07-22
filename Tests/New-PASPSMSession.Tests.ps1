@@ -128,7 +128,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					($Script:RequestBody) -ne $null
 
@@ -196,7 +196,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$AdHocObj | New-PASPSMSession -ConnectionMethod RDP -PSMRemoteMachine 'SomeServer'
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$RequestBody = $Body | ConvertFrom-Json
+					$RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 					$RequestBody.PSMConnectPrerequisites.ConnectionComponent -eq 'SomeConnectionComponent'
 				} -Times 1 -Exactly -Scope It
 
@@ -206,7 +206,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$AdHocObj | New-PASPSMSession -ConnectionMethod RDP -PSMRemoteMachine 'SomeServer'
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$RequestBody = $Body | ConvertFrom-Json
+					$RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 					$RequestBody.PSMConnectPrerequisites.ConnectionParams.PSMRemoteMachine.value -eq 'SomeServer'
 				} -Times 1 -Exactly -Scope It
 

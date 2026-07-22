@@ -16,9 +16,10 @@ Authenticates a user to CyberArk Vault/API.
 
 ### Gen2 (Default)
 ```
-New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-newPassword <SecureString>] [-type <String>]
- [-concurrentSession <Boolean>] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
- [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-UserName <String>]
+ [-newPassword <SecureString>] [-type <String>] [-concurrentSession <Boolean>] [-PVWAAppName <String>]
+ [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ISPSS-URL-ServiceUser
@@ -386,6 +387,13 @@ Requires IdentityCommand module to be installed for authentication flow to compl
 
 See: Get-Help IdentityCommand
 
+### EXAMPLE 31
+```
+New-PASSession -BaseURI https://pvwa.company.com -type FIDO2 -UserName administrator
+```
+
+Authenticates to CyberArk using FIDO2/WebAuthn hardware security key authentication.
+
 ## PARAMETERS
 
 ### -Credential
@@ -521,13 +529,14 @@ Accept wildcard characters: False
 ### -type
 When using the Gen2 API, specify the type of authentication to use.
 
-Valid values are: - CyberArk
-
+Valid values are:
+- CyberArk
 - LDAP
-- Windows
-- Minimum version required 10.4 - RADIUS
+- Windows (Minimum version required 10.4)
+- RADIUS
 - PKI
 - PKIPN
+- FIDO2 (Minimum version required 14.4)
 
 ```yaml
 Type: String
@@ -901,6 +910,23 @@ Parameter Sets: ISPSS-URL-ServiceUser, ISPSS-Subdomain-ServiceUser
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -UserName
+The username for FIDO2 authentication.
+When using `-type FIDO2`, specify the username with this parameter (required).
+The username identifies the user and their registered security keys.
+
+```yaml
+Type: String
+Parameter Sets: Gen2
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

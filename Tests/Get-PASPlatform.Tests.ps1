@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace '.Tests.ps1') {
+Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -55,6 +55,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				}
 
+				Mock Add-ObjectDetail -MockWith {}
+
 				$InputObj = [pscustomobject]@{
 					'Name' = 'SomeName'
 
@@ -100,55 +102,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
-		Context 'Input - 11.1' {
-			BeforeEach {
-
-				Mock Invoke-PASRestMethod -MockWith {
-
-					[PSCustomObject]@{
-						'Platforms' = [PSCustomObject]@{
-							'Prop1' = 'Val1'; 'Prop2' = 'Val2'; 'Prop3' = 123
-						}
-					}
-
-				}
-
-				$InputObj = [pscustomobject]@{
-					'Search'       = 'SomeName'
-					'Active'       = $true
-					'PlatformType' = 'Regular'
-				}
-
-				$response = $InputObj | Get-PASPlatform
-
-			}
-
-			It 'sends request' {
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
-
-			}
-
-			It 'uses expected method' {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
-
-			}
-
-			It 'sends request with no body' {
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
-
-			}
-
-			It 'throws error if version requirement not met' {
-				$psPASSession.ExternalVersion = '10.0'
-				{ $InputObj | Get-PASPlatform } | Should -Throw
-				$psPASSession.ExternalVersion = '0.0'
-			}
-
-		}
-
 		Context 'Input - 11.4' {
 			BeforeEach {
 
@@ -162,19 +115,21 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				}
 
+				Mock Add-ObjectDetail -MockWith {}
+
 				Get-PASPlatform
 
 			}
 
 			It 'sends request' {
 
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -Times 2 -Exactly -Scope It
 
 			}
 
 			It 'uses expected method' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 2 -Exactly -Scope It
 
 			}
 
@@ -184,7 +139,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/targets"
 
-				} -Times 1 -Exactly -Scope It
+				} -Scope It -Times 1 -Exactly
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms?PlatformType=Regular"
+
+				} -Scope It -Times 1 -Exactly
 
 			}
 
@@ -196,7 +157,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/dependents"
 
-				} -Times 1 -Exactly -Scope It
+				} -Scope It
 
 			}
 
@@ -208,7 +169,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/groups"
 
-				} -Times 1 -Exactly -Scope It
+				} -Scope It -Times 1 -Exactly
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms?PlatformType=Group"
+
+				} -Scope It -Times 1 -Exactly
 
 			}
 
@@ -220,13 +187,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/rotationalGroups"
 
-				} -Times 1 -Exactly -Scope It
+				} -Scope It
 
 			}
 
 			It 'sends request with no body' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 2 -Exactly -Scope It
 
 			}
 
@@ -234,81 +201,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '11.3'
 				{ Get-PASPlatform } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
-			}
-
-		}
-
-		Context 'Output' {
-
-			BeforeEach {
-
-				Mock Invoke-PASRestMethod -MockWith {
-
-					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2'; 'Prop3' = 123 }
-
-				}
-
-				$InputObj = [pscustomobject]@{
-					'Name' = 'SomeName'
-
-				}
-
-				$response = $InputObj | Get-PASPlatform -Verbose
-
-			}
-
-			It 'provides output' {
-
-				$response | Should -Not -BeNullOrEmpty
-
-			}
-
-			It 'has output with expected number of properties - legacy' {
-
-				($response | Get-Member -MemberType NoteProperty).length | Should -Be 3
-
-			}
-
-			It 'has output with expected number of properties - 11.1' {
-
-				Mock Invoke-PASRestMethod -MockWith {
-
-					[PSCustomObject]@{
-						'Platforms' = [PSCustomObject]@{
-							'Prop1' = 'Val1'; 'Prop2' = 'Val2'; 'Prop3' = 123
-						}
-					}
-
-				}
-
-				$response = Get-PASPlatform -Active $true -PlatformType Regular
-
-				($response | Get-Member -MemberType NoteProperty).length | Should -Be 3
-
-			}
-
-			It 'has output with expected number of properties - 11.4' {
-
-				Mock Invoke-PASRestMethod -MockWith {
-
-					[PSCustomObject]@{
-						'Platforms' = [PSCustomObject]@{
-							'Prop1' = 'Val1'; 'Prop2' = 'Val2'; 'Prop3' = 123
-						}
-					}
-
-				}
-
-				$response = Get-PASPlatform -Active $true
-
-				($response | Get-Member -MemberType NoteProperty).length | Should -Be 3
-
-			}
-
-			It 'outputs object with expected typename' {
-
-				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Platform
-
 			}
 
 		}

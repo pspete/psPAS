@@ -407,7 +407,7 @@ function New-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet('SAML', 'PKI', 'FIDO', 'WINDOWS')]
+		[ValidateSet('SAML', 'PKI', 'PKIPN', 'FIDO', 'WINDOWS')]
 		[AllowEmptyCollection()]
 		[string[]]$allowedAuthenticationMethods
 	)
@@ -418,13 +418,6 @@ function New-PASUser {
 
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
-
-		if ($PSBoundParameters.ContainsKey('InitialPassword')) {
-
-			#Include decoded password in request
-			$boundParameters['InitialPassword'] = $(ConvertTo-InsecureString -SecureString $InitialPassword)
-
-		}
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -480,8 +473,17 @@ function New-PASUser {
 
 		}
 
+		if ($PSBoundParameters.ContainsKey('InitialPassword')) {
+
+			#Include decoded password in request
+			$boundParameters['InitialPassword'] = $(ConvertTo-InsecureString -SecureString $InitialPassword)
+
+		}
+
 		#Construct Request Body
-		$body = $boundParameters | ConvertTo-Json -Depth 4
+		#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+		#call records a non-revealing type name instead of the literal request content.
+		$body = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json -Depth 4))
 
 		if ($PSCmdlet.ShouldProcess($UserName, 'Create User')) {
 

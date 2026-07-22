@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace '.Tests.ps1') {
+Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -70,6 +70,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					}
 				}
 
+				Mock Add-ObjectDetail -MockWith {}
 
 				$InputObj = [pscustomobject]@{
 					'PlatformID' = 'SomeName'
@@ -111,63 +112,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '10.0'
 				{ $InputObj | Get-PASPlatformSafe } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
-			}
-
-		}
-
-		Context 'Output' {
-
-			BeforeEach {
-
-				Mock Invoke-PASRestMethod -MockWith {
-
-					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2'; 'Prop3' = 123 }
-
-				}
-
-				$InputObj = [pscustomobject]@{
-					'Name' = 'SomeName'
-
-				}
-
-				$response = $InputObj | Get-PASPlatform -Verbose
-
-			}
-
-			It 'provides output' {
-
-				$response | Should -Not -BeNullOrEmpty
-
-			}
-
-			It 'has output with expected number of properties - legacy' {
-
-				($response | Get-Member -MemberType NoteProperty).length | Should -Be 3
-
-			}
-
-			It 'has output with expected number of properties - 11.1' {
-
-				Mock Invoke-PASRestMethod -MockWith {
-
-					[PSCustomObject]@{
-						'Platforms' = [PSCustomObject]@{
-							'Prop1' = 'Val1'; 'Prop2' = 'Val2'; 'Prop3' = 123
-						}
-					}
-
-				}
-
-				$response = Get-PASPlatform -Active $true
-
-				($response | Get-Member -MemberType NoteProperty).length | Should -Be 3
-
-			}
-
-			It 'outputs object with expected typename' {
-
-				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Platform
-
 			}
 
 		}

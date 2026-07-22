@@ -56,7 +56,7 @@ function Set-PASUser {
 		)]
 		[AllowEmptyCollection()]
 		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
-			'EVD', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
+			'EVD', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI', 'IBVSDK')]
 		[string[]]$unAuthorizedInterfaces,
 
 		[parameter(
@@ -177,7 +177,7 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[ValidateRange(0, 23)]
+		[ValidateRange(0, 24)]
 		[int]$loginToHour,
 
 		[parameter(
@@ -420,7 +420,7 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
-		[ValidateSet('SAML', 'PKI', 'FIDO', 'WINDOWS')]
+		[ValidateSet('SAML', 'PKI', 'PKIPN', 'FIDO', 'WINDOWS')]
 		[AllowEmptyCollection()]
 		[string[]]$allowedAuthenticationMethods
 	)
@@ -510,7 +510,9 @@ function Set-PASUser {
 		}
 
 		#Construct Request Body
-		$body = $boundParameters | ConvertTo-Json -Depth 4
+		#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+		#call records a non-revealing type name instead of the literal request content.
+		$body = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json -Depth 4))
 
 		if ($PSCmdlet.ShouldProcess($UserName, 'Update User Properties')) {
 			#send request to web service
