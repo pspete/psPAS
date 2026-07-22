@@ -25,6 +25,79 @@ function Set-PASAccount {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2SingleOp'
 		)]
+		[ArgumentCompleter({
+				#TO-DO: Consider excluding paths that are read-only, e.g. /id
+
+				#Standard ArgumentCompleter parameters, populated by the completion engine on tab.
+				param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+				#Avoid PSScriptAnalyzer PSReviewUnusedParameter rule on standard ArgumentCompleter parameters.
+				$null = $commandName, $parameterName
+
+				#Resolve AccountID: supplied directly, or from a preceding 'Get-PASAccount -id <value>' pipeline command.
+				#e.g. Set-PASAccount -AccountID 22_3 -op replace -path <tab>
+				$AccountID = $fakeBoundParameters['AccountID']
+
+				if (-not $AccountID) {
+
+					#e.g. Get-PASAccount -id 22_3 | Set-PASAccount -path <tab>
+					#Find the first Get-PASAccount command in the pipeline being typed & get its command elements.
+					$Elements = ($commandAst.Parent.PipelineElements |
+							Where-Object { ($_ -is [System.Management.Automation.Language.CommandAst]) -and ($_.GetCommandName() -eq 'Get-PASAccount') } |
+							Select-Object -First 1).CommandElements
+
+					#Take the constant value following the -id / -AccountID parameter.
+					for ($i = 1; $i -lt $Elements.Count; $i++) {
+
+						#Element must be a literal value preceded by the -id / -AccountID parameter name.
+						#StringConstantExpressionAst inherits from ConstantExpressionAst, so quoted, bareword & numeric values are all covered.
+						if (($Elements[$i - 1] -is [System.Management.Automation.Language.CommandParameterAst]) -and
+							($Elements[$i - 1].ParameterName -in 'id', 'AccountID') -and
+							($Elements[$i] -is [System.Management.Automation.Language.ConstantExpressionAst])) {
+
+							$AccountID = $Elements[$i].Value
+							break
+
+						}
+
+					}
+
+				}
+
+				#Nothing to complete without a resolved AccountID.
+				if (-not $AccountID) { return }
+
+				#Get the account object; no completions if retrieval fails (e.g. no session, unknown ID).
+				try { $Account = Get-PASAccount -id $AccountID -ErrorAction Stop } catch { return }
+
+				#Recursively emit '/parent/child' paths for every property on the account object.
+				function Get-PASAccountPropertyPath($Object, [string]$Prefix = '') {
+
+					foreach ($Property in $Object.PSObject.Properties) {
+
+						#Only NoteProperties hold account data (recursion ends on values with none, e.g. strings).
+						if ($Property.MemberType -eq 'NoteProperty') {
+
+							#Output the JSON Patch style path for this property.
+							$Path = "$Prefix/$($Property.Name)"
+							$Path
+
+							#Descend into nested objects, e.g. /platformAccountProperties/port
+							if ($null -ne $Property.Value) { Get-PASAccountPropertyPath $Property.Value $Path }
+
+						}
+
+					}
+
+				}
+
+				#Offer sorted paths matching any partial input as the completion results.
+				Get-PASAccountPropertyPath $Account |
+				Sort-Object -Unique |
+				Where-Object { $_ -like "$wordToComplete*" } |
+				ForEach-Object { [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_) }
+
+			})]
 		[string]$path,
 
 		[parameter(

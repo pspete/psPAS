@@ -64,6 +64,65 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'path ArgumentCompleter' {
+
+			It 'provides ArgumentCompleter for path parameter' {
+
+				(Get-Command Set-PASAccount).Parameters['path'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'returns account property paths from Get-PASAccount' {
+
+				Mock Get-PASAccount -MockWith {
+					[pscustomobject]@{
+						name = 'TestName'
+						secretManagement = [pscustomobject]@{
+							automaticManagementEnabled = $true
+						}
+					}
+				}
+
+				$Completer = (Get-Command Set-PASAccount).Parameters['path'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Select-Object -ExpandProperty ScriptBlock
+
+				$Result = & $Completer -commandName 'Set-PASAccount' -parameterName 'path' -wordToComplete '' -commandAst $null -fakeBoundParameters @{ AccountID = '22_3' }
+
+				$Result.CompletionText | Should -Contain '/name'
+				$Result.CompletionText | Should -Contain '/secretManagement/automaticManagementEnabled'
+
+			}
+
+			It 'resolves AccountID from a preceding Get-PASAccount command in a pipeline' {
+
+				Mock Get-PASAccount -MockWith {
+					[pscustomobject]@{
+						address = 'server.domain.com'
+					}
+				}
+
+				$Completer = (Get-Command Set-PASAccount).Parameters['path'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Select-Object -ExpandProperty ScriptBlock
+
+				$CommandAst = [System.Management.Automation.Language.Parser]::ParseInput(
+					'Get-PASAccount -id 22_3 | Set-PASAccount -path',
+					[ref]$null,
+					[ref]$null
+				).EndBlock.Statements[0].PipelineElements |
+				Where-Object { $_.GetCommandName() -eq 'Set-PASAccount' }
+
+				$Result = & $Completer -commandName 'Set-PASAccount' -parameterName 'path' -wordToComplete '' -commandAst $CommandAst -fakeBoundParameters @{}
+
+				$Result.CompletionText | Should -Contain '/address'
+
+			}
+
+		}
+
 		Context 'v10 API' {
 
 			BeforeEach {
