@@ -1,19 +1,20 @@
 function Get-PASMasterPolicy {
     [CmdletBinding()]
     param (
-        <#
         [Parameter(
-            Mandatory = $true,
+            Mandatory = $false,
             ValueFromPipeline = $true,
             ValueFromPipelineByPropertyName = $true
         )]
-        [int]$PolicyId
-        #>
+        [int]$PolicyId = 1
     )
 
     begin {
+        Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 14.6
-        $PolicyId = 1
+        if ($PolicyId -ne 1) {
+            Assert-VersionRequirement -RequiredVersion 15.0
+        }
     }
 
     process {

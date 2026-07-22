@@ -16,7 +16,6 @@ Retrieves details of Vault platforms.
 ## SYNTAX
 
 ### targets (Default)
-
 ```
 Get-PASPlatform [-Active <Boolean>] [-Search <String>] [-SystemType <String>] [-PeriodicVerify <Boolean>]
  [-ManualVerify <Boolean>] [-PeriodicChange <Boolean>] [-ManualChange <Boolean>]
@@ -24,25 +23,21 @@ Get-PASPlatform [-Active <Boolean>] [-Search <String>] [-SystemType <String>] [-
 ```
 
 ### dependents
-
 ```
 Get-PASPlatform [-Search <String>] [-DependentPlatform] [<CommonParameters>]
 ```
 
 ### rotationalGroups
-
 ```
 Get-PASPlatform [-Search <String>] [-RotationalGroup] [<CommonParameters>]
 ```
 
 ### groups
-
 ```
 Get-PASPlatform [-Search <String>] [-GroupPlatform] [<CommonParameters>]
 ```
 
 ### platform-details
-
 ```
 Get-PASPlatform -PlatformID <String> [<CommonParameters>]
 ```
@@ -397,7 +392,6 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS

@@ -17961,9 +17961,34 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-PASMasterPolicy</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+          <maml:name>PolicyId</maml:name>
+          <maml:description>
+            <maml:para>The ID of the policy to retrieve.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>1</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+        <maml:name>PolicyId</maml:name>
+        <maml:description>
+          <maml:para>The ID of the policy to retrieve.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>1</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes>
       <command:inputType>
         <dev:type>
@@ -17994,7 +18019,14 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PASMasterPolicy</dev:code>
         <dev:remarks>
-          <maml:para>Outputs all Master Policy details</maml:para>
+          <maml:para>Outputs all Master Policy details. Policy ID 1 is the main Master Policy</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASMasterPolicy -PolicyId 2</dev:code>
+        <dev:remarks>
+          <maml:para>Outputs all Master Policy details for platform with id 2</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -18188,8 +18220,8 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:para>Default operation requires minimum version of 11.4</maml:para>
       <maml:para>11.4+ can return details of target, dependent, group &amp; rotational group platforms, with additional filters available for target group queries.</maml:para>
       <maml:para>11.1+ can return details of all target platforms.</maml:para>
-      <maml:para>Limited filters can be used to retrieve a subset of the platforms For 9.10+, the "PlatformID" parameter is used to retrieve details of a single specified platform from the Vault.</maml:para>
-      <maml:para>The output contained under the "Details" property differs depending on which method (9.10+,11.1+ or 11.4+) is used, and which platform type is queried. Note: When specifying PlatformID:</maml:para>
+      <maml:para>Where appropriate, each invocation of the command issues an additional API request to retrieve additional platform values using a legacy API endpoint</maml:para>
+      <maml:para>The "PlatformID" parameter is used to retrieve details of a single specified platform from the Vault. Note: When specifying PlatformID:</maml:para>
       <maml:para>- if the platform properties contain a semicolon (';'), the API may not return the complete value.</maml:para>
       <maml:para>- noted for ChangeCommand, ReconcileCommand &amp; ConnectionCommand properties</maml:para>
     </maml:description>
@@ -18317,22 +18349,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:syntaxItem>
         <maml:name>Get-PASPlatform</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>Active</maml:name>
+          <maml:name>Search</maml:name>
           <maml:description>
-            <maml:para>Filter active/inactive platforms</maml:para>
-            <maml:para>Minimum required version 11.1</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>PlatformType</maml:name>
-          <maml:description>
-            <maml:para>Filter regular/group platforms</maml:para>
+            <maml:para>Filter platform by search pattern</maml:para>
             <maml:para>Minimum required version 11.1</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -18342,6 +18361,21 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>DependentPlatform</maml:name>
+          <maml:description>
+            <maml:para>Specify to return details of dependent platforms</maml:para>
+            <maml:para>Minimum required version 11.4</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-PASPlatform</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>Search</maml:name>
           <maml:description>
@@ -18354,6 +18388,46 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>RotationalGroup</maml:name>
+          <maml:description>
+            <maml:para>Specify to return details of rotational group platforms</maml:para>
+            <maml:para>Minimum required version 11.4</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-PASPlatform</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>Search</maml:name>
+          <maml:description>
+            <maml:para>Filter platform by search pattern</maml:para>
+            <maml:para>Minimum required version 11.1</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>GroupPlatform</maml:name>
+          <maml:description>
+            <maml:para>Specify to return details of group platforms</maml:para>
+            <maml:para>Minimum required version 11.4</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -18372,51 +18446,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PASPlatform</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>DependentPlatform</maml:name>
-          <maml:description>
-            <maml:para>Specify to return details of dependent platforms</maml:para>
-            <maml:para>Minimum required version 11.4</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PASPlatform</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>GroupPlatform</maml:name>
-          <maml:description>
-            <maml:para>Specify to return details of group platforms</maml:para>
-            <maml:para>Minimum required version 11.4</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PASPlatform</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>RotationalGroup</maml:name>
-          <maml:description>
-            <maml:para>Specify to return details of rotational group platforms</maml:para>
-            <maml:para>Minimum required version 11.4</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
@@ -18431,19 +18460,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>PlatformType</maml:name>
-        <maml:description>
-          <maml:para>Filter regular/group platforms</maml:para>
-          <maml:para>Minimum required version 11.1</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>Search</maml:name>
@@ -18682,22 +18698,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:remarks>
           <maml:para>Get details of all active Unix platforms configured for automatic reconciliation.</maml:para>
           <maml:para>Minimum required version 11.4</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 10 --------------------------</maml:title>
-        <dev:code>Get-PASPlatform -PlatformType Regular -Search "WIN_"</dev:code>
-        <dev:remarks>
-          <maml:para>Get platforms matching search string "WIN_"</maml:para>
-          <maml:para>Minimum required version 11.1</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 11 --------------------------</maml:title>
-        <dev:code>Get-PASPlatform -PlatformType Regular -Search "WIN_" -Active $true</dev:code>
-        <dev:remarks>
-          <maml:para>Get active platforms matching search string "WIN_"</maml:para>
-          <maml:para>Minimum required version 11.1</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -23864,18 +23864,6 @@ PS C:\&gt; Get-PASVRMServiceConfigParameter -parameterName 'ReplicationInterval'
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-          <maml:name>ProgressAction</maml:name>
-          <maml:description>
-            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-          <dev:type>
-            <maml:name>ActionPreference</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -23936,18 +23924,6 @@ PS C:\&gt; Get-PASVRMServiceConfigParameter -parameterName 'ReplicationInterval'
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
           <maml:name>SecureString</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-        <maml:name>ProgressAction</maml:name>
-        <maml:description>
-          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-        <dev:type>
-          <maml:name>ActionPreference</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -27706,18 +27682,6 @@ PS C:\&gt; Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePasswor
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-          <maml:name>ProgressAction</maml:name>
-          <maml:description>
-            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-          <dev:type>
-            <maml:name>ActionPreference</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
           <maml:name>Confirm</maml:name>
           <maml:description>
@@ -27751,18 +27715,6 @@ PS C:\&gt; Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePasswor
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-        <maml:name>ProgressAction</maml:name>
-        <maml:description>
-          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-        <dev:type>
-          <maml:name>ActionPreference</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -42326,18 +42278,6 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-          <maml:name>ProgressAction</maml:name>
-          <maml:description>
-            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-          <dev:type>
-            <maml:name>ActionPreference</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -42349,18 +42289,6 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-        <maml:name>ProgressAction</maml:name>
-        <maml:description>
-          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-        <dev:type>
-          <maml:name>ActionPreference</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -45454,6 +45382,18 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+          <maml:name>PolicyId</maml:name>
+          <maml:description>
+            <maml:para>The ID of the policy to update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>1</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -45660,6 +45600,18 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+        <maml:name>PolicyId</maml:name>
+        <maml:description>
+          <maml:para>The ID of the policy to update.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>1</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -46491,6 +46443,225 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Set-PASPlatform</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>PASPlatform</command:noun>
+      <maml:description>
+        <maml:para>Update target platform settings.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Allows Vault admins to update settings on a target platform.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-PASPlatform</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="PlatformID">
+          <maml:name>id</maml:name>
+          <maml:description>
+            <maml:para>Numeric ID of target platform</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="Operation">
+          <maml:name>op</maml:name>
+          <maml:description>
+            <maml:para>Patch operation to perform.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>path</maml:name>
+          <maml:description>
+            <maml:para>Platform setting path to update.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+          <maml:name>value</maml:name>
+          <maml:description>
+            <maml:para>Value to apply to the platform setting.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
+          <maml:name>operations</maml:name>
+          <maml:description>
+            <maml:para>Collection of patch operations to apply to the platform settings.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Hashtable[]</command:parameterValue>
+          <dev:type>
+            <maml:name>Hashtable[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="PlatformID">
+        <maml:name>id</maml:name>
+        <maml:description>
+          <maml:para>Numeric ID of target platform</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="Operation">
+        <maml:name>op</maml:name>
+        <maml:description>
+          <maml:para>Patch operation to perform.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>path</maml:name>
+        <maml:description>
+          <maml:para>Platform setting path to update.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
+        <maml:name>value</maml:name>
+        <maml:description>
+          <maml:para>Value to apply to the platform setting.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
+        <maml:name>operations</maml:name>
+        <maml:description>
+          <maml:para>Collection of patch operations to apply to the platform settings.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Hashtable[]</command:parameterValue>
+        <dev:type>
+          <maml:name>Hashtable[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Set-PASPlatform -id 42 -op replace -path 'General/name' -value 'SomeName'</dev:code>
+        <dev:remarks>
+          <maml:para>Updates the name of platform with id 42 to SomeName</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; $Operations = @(
+    [hashtable]@{op = 'replace'; path = 'General/name'; value = 'SomeName'},
+    [hashtable]@{op = 'remove'; path = 'General/description'}
+)
+PS C:\&gt; Set-PASPlatform -id 42 -operations $Operations</dev:code>
+        <dev:remarks>
+          <maml:para>Performs multiple update operations on platform with id 42</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Set-PASPlatform</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Set-PASPlatform</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Set-PASPlatformPSMConfig</command:name>
       <command:verb>Set</command:verb>
       <command:noun>PASPlatformPSMConfig</command:noun>
@@ -46678,225 +46849,6 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Session%20Mngmnt%20-%20Update_Session_Management_Policy_Platform.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Session%20Mngmnt%20-%20Update_Session_Management_Policy_Platform.htm</maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Set-PASPlatformSettings</command:name>
-      <command:verb>Set</command:verb>
-      <command:noun>PASPlatformSettings</command:noun>
-      <maml:description>
-        <maml:para>Update target platform settings.</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>Allows Vault admins to update settings on a target platform.</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Set-PASPlatformSettings</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="PlatformID">
-          <maml:name>id</maml:name>
-          <maml:description>
-            <maml:para>Numeric ID of target platform</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-          <dev:type>
-            <maml:name>Int32</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="Operation">
-          <maml:name>op</maml:name>
-          <maml:description>
-            <maml:para>Patch operation to perform.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
-          <maml:name>path</maml:name>
-          <maml:description>
-            <maml:para>Platform setting path to update.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
-          <maml:name>value</maml:name>
-          <maml:description>
-            <maml:para>Value to apply to the platform setting.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
-          <maml:name>operations</maml:name>
-          <maml:description>
-            <maml:para>Collection of patch operations to apply to the platform settings.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Hashtable[]</command:parameterValue>
-          <dev:type>
-            <maml:name>Hashtable[]</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="PlatformID">
-        <maml:name>id</maml:name>
-        <maml:description>
-          <maml:para>Numeric ID of target platform</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>0</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="Operation">
-        <maml:name>op</maml:name>
-        <maml:description>
-          <maml:para>Patch operation to perform.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
-        <maml:name>path</maml:name>
-        <maml:description>
-          <maml:para>Platform setting path to update.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="4" aliases="none">
-        <maml:name>value</maml:name>
-        <maml:description>
-          <maml:para>Value to apply to the platform setting.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="5" aliases="none">
-        <maml:name>operations</maml:name>
-        <maml:description>
-          <maml:para>Collection of patch operations to apply to the platform settings.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Hashtable[]</command:parameterValue>
-        <dev:type>
-          <maml:name>Hashtable[]</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-        <maml:name>WhatIf</maml:name>
-        <maml:description>
-          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-        <maml:name>Confirm</maml:name>
-        <maml:description>
-          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes />
-    <command:returnValues />
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Set-PASPlatformSettings -id 42 -op replace -path 'General/name' -value 'SomeName'</dev:code>
-        <dev:remarks>
-          <maml:para>Updates the name of platform with id 42 to SomeName</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; $Operations = @(
-    [hashtable]@{op = 'replace'; path = 'General/name'; value = 'SomeName'},
-    [hashtable]@{op = 'remove'; path = 'General/description'}
-)
-PS C:\&gt; Set-PASPlatformSettings -id 42 -operations $Operations</dev:code>
-        <dev:remarks>
-          <maml:para>Performs multiple update operations on platform with id 42</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Set-PASPlatformSettings</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Set-PASPlatformSettings</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -53918,18 +53870,6 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-          <maml:name>ProgressAction</maml:name>
-          <maml:description>
-            <maml:para>{{ Fill ProgressAction Description }}</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-          <dev:type>
-            <maml:name>ActionPreference</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
           <maml:name>Confirm</maml:name>
           <maml:description>
@@ -53963,18 +53903,6 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-        <maml:name>ProgressAction</maml:name>
-        <maml:description>
-          <maml:para>{{ Fill ProgressAction Description }}</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-        <dev:type>
-          <maml:name>ActionPreference</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>

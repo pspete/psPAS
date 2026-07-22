@@ -43,6 +43,9 @@ function Start-PASVRMService {
     begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 15.0
+        if ($serviceName -eq 'ENE') {
+            Assert-VersionRequirement -RequiredVersion 15.2
+        }
     }#begin
 
     process {
@@ -50,10 +53,6 @@ function Start-PASVRMService {
         #Use the BaseURI from the session (New-PASSession) if not provided
         if (-not $PSBoundParameters.ContainsKey('BaseURI')) {
             $BaseURI = $psPASSession.BaseURI
-        }
-
-        if ($serviceName -eq 'ENE') {
-            Assert-VersionRequirement -RequiredVersion 15.2
         }
 
         #Create URL for request

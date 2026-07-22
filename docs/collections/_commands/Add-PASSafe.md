@@ -17,7 +17,8 @@ Adds a new safe to the Vault
 ### NumberOfVersionsRetention (Default)
 ```
 Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-AutoPurgeEnabled <Boolean>] [-Quota <Int32>] [<CommonParameters>]
+ [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-AutoPurgeEnabled <Boolean>] [-Quota <Int32>]
+ [<CommonParameters>]
 ```
 
 ### Gen1-NumberOfVersionsRetention
@@ -29,7 +30,8 @@ Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OL
 ### NumberOfDaysRetention
 ```
 Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-AutoPurgeEnabled <Boolean>] [-Quota <Int32>] [<CommonParameters>]
+ [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-AutoPurgeEnabled <Boolean>] [-Quota <Int32>]
+ [<CommonParameters>]
 ```
 
 ### Gen1-NumberOfDaysRetention
