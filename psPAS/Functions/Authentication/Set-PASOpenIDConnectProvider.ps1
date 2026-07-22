@@ -118,7 +118,9 @@ function Set-PASOpenIDConnectProvider {
 		}
 
 		#Create body of request
-		$body = $boundParameters | ConvertTo-Json
+		#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+		#call records a non-revealing type name instead of the literal request content.
+		$body = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
 
 		if ($PSCmdlet.ShouldProcess($id, 'Update OIDC Provider')) {
 

@@ -134,7 +134,9 @@ function Invoke-PASCPMOperation {
 				$ThisRequest['WebSession'].Headers['ImmediateChangeByCPM'] = $ImmediateChangeByCPM
 
 				#create request body
-				$ThisRequest['Body'] = $boundParameters | ConvertTo-Json
+				#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+				#call records a non-revealing type name instead of the literal request content.
+				$ThisRequest['Body'] = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
 
 			}
 
@@ -177,7 +179,9 @@ function Invoke-PASCPMOperation {
 				}
 
 				#create request body
-				$ThisRequest['Body'] = $boundParameters | ConvertTo-Json
+				#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+				#call records a non-revealing type name instead of the literal request content.
+				$ThisRequest['Body'] = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
 
 			}
 

@@ -55,18 +55,22 @@ function Add-PASPTAGlobalCatalog {
         #Get Parameters for request body
         $boundParameters = $PSBoundParameters | Get-PASParameter
 
+        $boundParameters['properties'] = $($boundParameters | Get-PASParameter -ParametersToRemove ldap_certificate)
+
+        $AccountObject = $boundParameters | Get-PASParameter -ParametersToKeep ldap_certificate, properties
+
         #deal with Password SecureString
         if ($PSBoundParameters.ContainsKey('ldapPassword')) {
 
             #Include decoded password in request
-            $boundParameters['ldapPassword'] = $(ConvertTo-InsecureString -SecureString $ldapPassword)
+            $AccountObject['properties']['ldapPassword'] = $(ConvertTo-InsecureString -SecureString $ldapPassword)
 
         }
 
-        $boundParameters['properties'] = $($boundParameters | Get-PASParameter -ParametersToRemove ldap_certificate)
-
         #Create body of request
-        $body = $boundParameters | Get-PASParameter -ParametersToKeep ldap_certificate, properties | ConvertTo-Json
+        #Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+        #call records a non-revealing type name instead of the literal request content.
+        $body = [System.Text.Encoding]::UTF8.GetBytes($($AccountObject | ConvertTo-Json))
 
         #send request to PAS web service
         $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body

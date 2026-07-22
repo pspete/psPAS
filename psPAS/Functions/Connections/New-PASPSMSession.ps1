@@ -229,9 +229,6 @@ function New-PASPSMSession {
 				#Create URL for Request
 				$URI = "$($psPASSession.BaseURI)/API/Accounts/AdHocConnect"
 
-				#Include decoded password in request
-				$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
-
 				#Connection parameters are included under the PSMConnectPrerequisites property of the JSON body, for each one specified
 				$boundParameters.keys | Where-Object { $AdHocParameters -contains $PSItem } | ForEach-Object {
 
@@ -251,8 +248,13 @@ function New-PASPSMSession {
 					}
 				}
 
+				$boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove $AdHocParameters
+
+				#Include decoded password in request
+				$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
+
 				#Create body of request
-				$body = $boundParameters | Get-PASParameter -ParametersToRemove $AdHocParameters | ConvertTo-Json -Depth 4
+				$body = $boundParameters | ConvertTo-Json -Depth 4
 
 				$ShouldProcess = $userName
 
@@ -286,6 +288,10 @@ function New-PASPSMSession {
 			$ThisSession.Headers['Accept'] = $Accept
 
 		}
+
+		#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+		#call records a non-revealing type name instead of the literal request content.
+		$body = [System.Text.Encoding]::UTF8.GetBytes($body)
 
 		if ($PSCmdlet.ShouldProcess($ShouldProcess, 'New PSM Session')) {
 
