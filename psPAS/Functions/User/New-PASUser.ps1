@@ -419,13 +419,6 @@ function New-PASUser {
 		#Get request parameters
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		if ($PSBoundParameters.ContainsKey('InitialPassword')) {
-
-			#Include decoded password in request
-			$boundParameters['InitialPassword'] = $(ConvertTo-InsecureString -SecureString $InitialPassword)
-
-		}
-
 		switch ($PSCmdlet.ParameterSetName) {
 
 			'Gen2' {
@@ -477,6 +470,13 @@ function New-PASUser {
 				break
 
 			}
+
+		}
+
+		if ($PSBoundParameters.ContainsKey('InitialPassword')) {
+
+			#Include decoded password in request
+			$boundParameters['InitialPassword'] = $(ConvertTo-InsecureString -SecureString $InitialPassword)
 
 		}
 

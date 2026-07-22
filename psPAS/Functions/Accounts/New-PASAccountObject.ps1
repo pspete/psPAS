@@ -179,14 +179,6 @@ function New-PASAccountObject {
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		#deal with "secret" SecureString
-		if ($PSBoundParameters.ContainsKey('secret')) {
-
-			#Include decoded password in request
-			$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
-
-		}
-
 		switch ($PSCmdlet.ParameterSetName) {
 
 			'AccountObject' {
@@ -251,7 +243,17 @@ function New-PASAccountObject {
 
 		if ($PSCmdlet.ShouldProcess($userName, 'Create Account Object Definition')) {
 
-			$boundParameters | Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt + 'PersonalAdminAccount' + 'DependentAccount')
+			$boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove @($remoteMachine + $SecretMgmt + 'PersonalAdminAccount' + 'DependentAccount')
+
+			#deal with "secret" SecureString
+			if ($PSBoundParameters.ContainsKey('secret')) {
+
+				#Include decoded password in request
+				$boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
+
+			}
+
+			$boundParameters
 
 		}
 
