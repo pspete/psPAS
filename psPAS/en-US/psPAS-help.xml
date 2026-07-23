@@ -17565,7 +17565,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>sort</maml:name>
           <maml:description>
-            <maml:para>result sort instruction</maml:para>
+            <maml:para>Property to sort the returned list of scan definitions by.</maml:para>
+            <maml:para>Valid values are creationTime, updateTime, name, type &amp; recurrenceType.</maml:para>
+            <maml:para>lastInstanceStatus &amp; lastInstanceCreationTime are also valid values, but only when extendedDetails is set to $true.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -17622,6 +17624,19 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>sortDirection</maml:name>
+          <maml:description>
+            <maml:para>Direction to sort the returned list of scan definitions by, when used with the sort parameter.</maml:para>
+            <maml:para>Valid values are asc &amp; desc. Defaults to asc if sort is specified but sortDirection is not.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -17652,7 +17667,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>sort</maml:name>
         <maml:description>
-          <maml:para>result sort instruction</maml:para>
+          <maml:para>Property to sort the returned list of scan definitions by.</maml:para>
+          <maml:para>Valid values are creationTime, updateTime, name, type &amp; recurrenceType.</maml:para>
+          <maml:para>lastInstanceStatus &amp; lastInstanceCreationTime are also valid values, but only when extendedDetails is set to $true.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -17708,6 +17725,19 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>sortDirection</maml:name>
+        <maml:description>
+          <maml:para>Direction to sort the returned list of scan definitions by, when used with the sort parameter.</maml:para>
+          <maml:para>Valid values are asc &amp; desc. Defaults to asc if sort is specified but sortDirection is not.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />

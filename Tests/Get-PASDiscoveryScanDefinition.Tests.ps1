@@ -159,6 +159,56 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 } -Times 1 -Exactly -Scope It
             }
 
+            It 'sends expected query when sort property and sort direction are specified' {
+
+                Get-PASDiscoveryScanDefinition -sort name -sortDirection desc
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -match 'sort=name%20-%20desc'
+
+                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'sends expected query when sort direction is specified without a sort property' {
+
+                Get-PASDiscoveryScanDefinition -sortDirection desc
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -match 'sort=creationTime%20-%20desc'
+
+                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'sends expected query when sort property is specified without a sort direction' {
+
+                Get-PASDiscoveryScanDefinition -sort name
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -match 'sort=name%20-%20asc'
+
+                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'throws if an extended-only sort property is specified without extendedDetails' {
+
+                { Get-PASDiscoveryScanDefinition -sort lastInstanceStatus } | Should -Throw
+
+            }
+
+            It 'sends expected query when an extended-only sort property is specified with extendedDetails' {
+
+                Get-PASDiscoveryScanDefinition -sort lastInstanceStatus -extendedDetails $true
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -match 'sort=lastInstanceStatus%20-%20asc'
+
+                } -Times 1 -Exactly -Scope It
+            }
+
         }
 
         Context 'Output - ById' {

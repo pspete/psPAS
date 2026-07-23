@@ -22,13 +22,18 @@ function Get-PASDiscoveryScanDefinition {
             ParameterSetName = 'GetAllScanDefinitions'
         )]
         [ValidateSet(
-            'creationTime - asc', 'creationTime - desc', 'updateTime - asc',
-            'updateTime - desc', 'name - asc', 'name - desc', 'type - asc',
-            'type - desc', 'recurrenceType - asc', 'recurrenceType - desc',
-            'lastInstanceStatus - asc', 'lastInstanceStatus - desc',
-            'lastInstanceCreationTime - asc', 'lastInstanceCreationTime - desc'
+            'creationTime', 'updateTime', 'name', 'type', 'recurrenceType',
+            'lastInstanceStatus', 'lastInstanceCreationTime'
         )]
         [string]$sort,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'GetAllScanDefinitions'
+        )]
+        [ValidateSet('asc', 'desc')]
+        [string]$sortDirection,
 
         [parameter(
             Mandatory = $false,
@@ -86,8 +91,36 @@ function Get-PASDiscoveryScanDefinition {
 
             'GetAllScanDefinitions' {
 
+                #Sort properties which are only valid when extendedDetails is requested
+                $ExtendedOnlySortProperties = @('lastInstanceStatus', 'lastInstanceCreationTime')
+
+                if ($PSBoundParameters.ContainsKey('sort') -and ($ExtendedOnlySortProperties -contains $sort) -and ($extendedDetails -ne $true)) {
+
+                    throw "Sort property '$sort' is only valid when -extendedDetails is set to `$true"
+
+                }
+
+                if ($PSBoundParameters.ContainsKey('sort') -or $PSBoundParameters.ContainsKey('sortDirection')) {
+
+                    if ($PSBoundParameters.ContainsKey('sort')) {
+                        $sortProperty = $sort
+                    } else {
+                        $sortProperty = 'creationTime'   #default sort property
+                    }
+
+                    if ($PSBoundParameters.ContainsKey('sortDirection')) {
+                        $direction = $sortDirection
+                    } else {
+                        $direction = 'asc'   #default sort direction
+                    }
+
+                    #Append sort direction to sort property for correct query string creation
+                    $PSBoundParameters['sort'] = "$sortProperty - $direction"
+
+                }
+
                 #Get Parameters to include in request
-                $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
+                $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove ($Parameters + 'sortDirection')
                 $filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
                 $FilterString = $filterParameters | ConvertTo-FilterString
 

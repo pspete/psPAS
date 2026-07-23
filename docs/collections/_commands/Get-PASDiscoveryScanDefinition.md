@@ -16,8 +16,8 @@ Get scan definitions and their details.
 
 ### GetAllScanDefinitions (Default)
 ```
-Get-PASDiscoveryScanDefinition [-search <String>] [-sort <String>] [-type <String>] [-recurrenceType <String>]
- [-lastInstanceStatus <String>] [-extendedDetails <Boolean>] [<CommonParameters>]
+Get-PASDiscoveryScanDefinition [-search <String>] [-sort <String>] [-sortDirection <String>] [-type <String>]
+ [-recurrenceType <String>] [-lastInstanceStatus <String>] [-extendedDetails <Boolean>] [<CommonParameters>]
 ```
 
 ### byID
@@ -75,7 +75,11 @@ Accept wildcard characters: False
 
 ### -sort
 
-result sort instruction
+Property to sort the returned list of scan definitions by.
+
+Valid values are creationTime, updateTime, name, type & recurrenceType.
+
+lastInstanceStatus & lastInstanceCreationTime are also valid values, but only when extendedDetails is set to $true.
 
 ```yaml
 Type: String
@@ -149,6 +153,24 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -sortDirection
+
+Direction to sort the returned list of scan definitions by, when used with the sort parameter.
+
+Valid values are asc & desc. Defaults to asc if sort is specified but sortDirection is not.
+
+```yaml
+Type: String
+Parameter Sets: GetAllScanDefinitions
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
