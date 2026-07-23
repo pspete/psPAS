@@ -16,7 +16,7 @@
 	# CompanyName       = ''
 
 	# Copyright statement for this module
-	Copyright         = '(c) 2017-2025 Pete Maan. All rights reserved.'
+	Copyright         = '(c) 2017-2026 Pete Maan. All rights reserved.'
 
 	# Description of the functionality provided by this module
 	Description       = 'Module for Idira (CyberArk) Privileged Access Security Web Service REST API'
@@ -268,7 +268,6 @@
 		'Export-PASReport',
 		'Remove-PASUserAllowedAuthenticationMethod',
 		'Add-PASUserAllowedAuthenticationMethod',
-		'Remove-PASDiscoveredLocalAccount',
 		'Remove-PASDependentAccount',
 		'Resume-PASDependentAccount',
 		'Remove-PASFIDO2Device',
