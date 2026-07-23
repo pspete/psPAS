@@ -310,7 +310,15 @@
 		'Stop-PASCPMTask',
 		'Resume-PASCPMAutoManagement',
 		'Set-PASPlatform',
-		'Remove-PASOAuthProvider'
+		'Remove-PASOAuthProvider',
+		'Get-PASDiscoveryScan',
+		'Get-PASDiscoveryScanDefinition',
+		'Get-PASDiscoveryScanLog',
+		'Start-PASDiscoveryScan',
+		'Remove-PASDiscoveryScanDefinition',
+		'Get-PASRemediationRuleSet',
+		'Remove-PASRemediationRuleSet',
+		'Test-PASDiscoveredLocalAccount'
 	)
 
 	#AliasesToExport   = @()
