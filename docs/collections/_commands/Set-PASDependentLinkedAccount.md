@@ -14,9 +14,17 @@ Sets a Linked Account for a Dependent Account
 
 ## SYNTAX
 
+### SaaS
 ```
 Set-PASDependentLinkedAccount [-accountId] <String> [-dependentAccountId] <String>
  [-extraPasswordAccountId] <String> [-extraPasswordIndex] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### SelfHosted
+```
+Set-PASDependentLinkedAccount [-accountId] <String> [-dependentAccountId] <String>
+ [-extraPasswordIndex] <String> [-safe] <String> [-name] <String> [[-folder] <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,13 +33,21 @@ Links an account to a dependent account
 
 ## EXAMPLES
 
-### Example 1
+### Example 1 - Privilege Cloud
 
 ```powershell
 PS C:\> Set-PASDependentLinkedAccount -accountId 12_3 -dependentAccountId 12_4 -extraPasswordAccountId 56_7 -extraPasswordIndex 1
 ```
 
 Links account with ID 56_7 to linked account index 1 for dependent account 12_4 with parent account 12_3
+
+### Example 2 - Self-Hosted
+
+```powershell
+PS C:\> Set-PASDependentLinkedAccount -accountId 22_3 -dependentAccountId 22_4 -extraPasswordIndex 1 -safe somesafe -name accountname
+```
+
+Links the account named accountname in the somesafe Safe to linked account index 1 (logon account) for dependent account 22_4 with parent account 22_3
 
 ## PARAMETERS
 
@@ -41,7 +57,7 @@ The ID of the parent account for the dependent account
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: SaaS, SelfHosted
 Aliases: id
 
 Required: True
@@ -57,7 +73,7 @@ The ID of the dependent account
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: SaaS, SelfHosted
 Aliases: dependentid
 
 Required: True
@@ -69,11 +85,12 @@ Accept wildcard characters: False
 
 ### -extraPasswordAccountId
 
-The ID of the account to link to the dependent account
+The ID of the account to link to the dependent account.
+Used for Privilege Cloud environments.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: SaaS
 Aliases:
 
 Required: True
@@ -89,12 +106,63 @@ The index to link the account to
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: SaaS, SelfHosted
 Aliases:
 
 Required: True
 Position: 4
 Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -safe
+
+The Safe containing the account to link to the dependent account.
+Used for Self-Hosted environments.
+
+```yaml
+Type: String
+Parameter Sets: SelfHosted
+Aliases:
+
+Required: True
+Position: 5
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -name
+
+The name of the account to link to the dependent account.
+Used for Self-Hosted environments.
+
+```yaml
+Type: String
+Parameter Sets: SelfHosted
+Aliases:
+
+Required: True
+Position: 6
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -folder
+
+The folder containing the account to link to the dependent account.
+Used for Self-Hosted environments. Defaults to Root.
+
+```yaml
+Type: String
+Parameter Sets: SelfHosted
+Aliases:
+
+Required: False
+Position: 7
+Default value: Root
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
