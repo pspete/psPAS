@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace '.Tests.ps1') {
+Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 	BeforeAll {
 		#Get Current Directory
@@ -22,6 +22,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		$Script:RequestBody = $null
 		$psPASSession = [ordered]@{
 			BaseURI            = 'https://SomeURL/SomeApp'
+			ApiURI             = 'https://SomeTenant.cyberark.cloud'
 			User               = $null
 			ExternalVersion    = [System.Version]'0.0'
 			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession

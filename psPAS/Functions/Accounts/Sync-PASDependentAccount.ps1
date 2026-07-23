@@ -64,7 +64,7 @@ function Sync-PASDependentAccount {
             }
 
             #Format body as JSON
-            $Body = $Body | ConvertTo-Json
+            $Body = $Body | ConvertTo-Json -Depth 3
 
             $Request.Add('Body', $Body)
 
