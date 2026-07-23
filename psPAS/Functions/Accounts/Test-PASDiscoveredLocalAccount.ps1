@@ -1,5 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Test-PASDiscoveredLocalAccount {
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'identifiers', Justification = 'False Positive')]
     [CmdletBinding()]
     param(
         [parameter(
@@ -21,7 +22,14 @@ function Test-PASDiscoveredLocalAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'single'
         )]
-        [Hashtable]$identifiers,
+        [string]$address,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'single'
+        )]
+        [string]$username,
 
         [parameter(
             Mandatory = $true,
@@ -35,13 +43,15 @@ function Test-PASDiscoveredLocalAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'multiple'
         )]
-        [DiscoveredAccount[]]$accounts
+        [hashtable[]]$accounts
 
     )
 
     begin {
 
         Assert-VersionRequirement -PrivilegeCloud
+
+        $identifierProperties = [Collections.Generic.List[String]]@('address', 'username')
 
     }
 
@@ -56,6 +66,23 @@ function Test-PASDiscoveredLocalAccount {
         switch ($PSCmdlet.ParameterSetName) {
 
             'single' {
+
+                $boundParameters.keys | Where-Object { $identifierProperties -contains $PSItem } | ForEach-Object {
+
+                    $identifiers = @{ }
+
+                } {
+
+                    #add key=value to hashtable
+                    $identifiers[$PSItem] = $boundParameters[$PSItem]
+
+                } {
+
+                    $boundParameters['identifiers'] = $identifiers
+
+                }
+
+                $boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove $identifierProperties
 
                 $body = @{'account' = @($boundParameters) } | ConvertTo-Json -Depth 3
 

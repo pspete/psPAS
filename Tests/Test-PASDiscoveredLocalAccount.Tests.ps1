@@ -58,13 +58,11 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 Mock Assert-VersionRequirement -MockWith {}
 
                 $InputObject = @{
-                    'type'        = 'sometype'
-                    'subtype'     = 'somesubtype'
-                    'identifiers' = @{
-                        'address'  = 'someaddress'
-                        'username' = 'someusername'
-                    }
-                    'externalId'  = 'someexternalid'
+                    'type'       = 'sometype'
+                    'subtype'    = 'somesubtype'
+                    'address'    = 'someaddress'
+                    'username'   = 'someusername'
+                    'externalId' = 'someexternalid'
                 }
 
             }
@@ -102,6 +100,62 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 Test-PASDiscoveredLocalAccount @inputObject
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -ne $null } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request with expected identifiers in body - single parameterset' {
+
+                Test-PASDiscoveredLocalAccount @inputObject
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -match 'identifiers' -and $Body -match 'someaddress' -and $Body -match 'someusername' } -Times 1 -Exactly -Scope It
+
+            }
+
+        }
+
+        Context 'Request Input - multiple parameterset' {
+
+            BeforeEach {
+
+                Mock Invoke-PASRestMethod -MockWith {
+                    Write-Output @{ }
+                }
+
+                #TODO: Figure out how to include Assert-VersionRequirement in P Cloud function tests
+                Mock Assert-VersionRequirement -MockWith {}
+
+                $accounts = @(
+                    New-PASDiscoveredAccountObject -type windows -subType loosely -address win-computer.cyber-ark.com -username admin -externalId user_account_5924
+                    New-PASDiscoveredAccountObject -type mac -subType loosely -address mac-computer.cyber-ark.com -username root -externalId user_account_1132
+                )
+
+            }
+
+            It 'sends request - multiple parameterset' {
+
+                Test-PASDiscoveredLocalAccount -accounts $accounts
+
+                Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request to expected endpoint - multiple parameterset' {
+
+                Test-PASDiscoveredLocalAccount -accounts $accounts
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.ApiURI)/api/discovered-accounts/check-existence"
+
+                }
+
+            }
+
+            It 'sends request with expected body - multiple parameterset' {
+
+                Test-PASDiscoveredLocalAccount -accounts $accounts
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -match 'user_account_5924' -and $Body -match 'user_account_1132' } -Times 1 -Exactly -Scope It
 
             }
 

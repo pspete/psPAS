@@ -318,7 +318,8 @@
 		'Remove-PASDiscoveryScanDefinition',
 		'Get-PASRemediationRuleSet',
 		'Remove-PASRemediationRuleSet',
-		'Test-PASDiscoveredLocalAccount'
+		'Test-PASDiscoveredLocalAccount',
+		'New-PASDiscoveredAccountObject'
 	)
 
 	#AliasesToExport   = @()

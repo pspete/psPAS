@@ -1,43 +1,39 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Test-PASDiscoveredLocalAccount
+online version: https://pspas.pspete.dev/commands/New-PASDiscoveredAccountObject
 schema: 2.0.0
-title: Test-PASDiscoveredLocalAccount
+title: New-PASDiscoveredAccountObject
 ---
 
-# Test-PASDiscoveredLocalAccount
+# New-PASDiscoveredAccountObject
 
 ## SYNOPSIS
 
-Check discovered account existence
+Creates hashtable structured to be used as input for the accounts parameter of Test-PASDiscoveredLocalAccount
 
 ## SYNTAX
 
-### single
 ```
-Test-PASDiscoveredLocalAccount -type <String> -subtype <String> -address <String> -username <String>
- -externalId <String> [<CommonParameters>]
-```
-
-### multiple
-```
-Test-PASDiscoveredLocalAccount -accounts <Hashtable[]> [<CommonParameters>]
+New-PASDiscoveredAccountObject -type <String> -subType <String> -address <String> -username <String>
+ -externalId <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
-Check discovered account existence
+Provide parameter values to return a hashtable, correctly structured to represent a single discovered account.
+
+The output of this function is intended to be collected into an array and passed to the accounts parameter of Test-PASDiscoveredLocalAccount, to check the existence of multiple discovered accounts in a single request.
 
 ## EXAMPLES
 
 ### Example 1
 
 ```powershell
-PS C:\> Test-PASDiscoveredLocalAccount -type Windows -subtype Domain -address win-computer.cyber-ark.com -username admin -externalId "user_account_5924"
+PS C:\> New-PASDiscoveredAccountObject -type Windows -subType Domain -address win-computer.cyber-ark.com -username admin -externalId user_account_5924
 ```
 
-Checks for the existence of the specified account
+Returns hashtable structured to represent a single discovered account.
 
 ### Example 2
 
@@ -49,7 +45,7 @@ PS C:\> $accounts = @(
 PS C:\> Test-PASDiscoveredLocalAccount -accounts $accounts
 ```
 
-Uses New-PASDiscoveredAccountObject to build an array of correctly structured account objects, and checks for the existence of all of them in a single request.
+Builds an array of discovered account objects and checks the existence of all of them in a single request.
 
 ## PARAMETERS
 
@@ -59,7 +55,7 @@ The account type
 
 ```yaml
 Type: String
-Parameter Sets: single
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -69,13 +65,13 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -subtype
+### -subType
 
 The account subtype
 
 ```yaml
 Type: String
-Parameter Sets: single
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -91,7 +87,7 @@ The address identifier of the account
 
 ```yaml
 Type: String
-Parameter Sets: single
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -107,7 +103,7 @@ The username identifier of the account
 
 ```yaml
 Type: String
-Parameter Sets: single
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -123,7 +119,7 @@ The external id of the account
 
 ```yaml
 Type: String
-Parameter Sets: single
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -133,23 +129,36 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -accounts
+### -WhatIf
 
-a collection of accounts to query.
-
-each account must be a hashtable containing type, subType, identifiers & externalId keys, in the format expected by the API.
-
-New-PASDiscoveredAccountObject can be used to create correctly structured account objects to pass as this parameter's value.
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: Hashtable[]
-Parameter Sets: multiple
-Aliases:
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
-Required: True
+Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -164,8 +173,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Test-PASDiscoveredLocalAccount](https://pspas.pspete.dev/commands/Test-PASDiscoveredLocalAccount)
-
 [https://pspas.pspete.dev/commands/New-PASDiscoveredAccountObject](https://pspas.pspete.dev/commands/New-PASDiscoveredAccountObject)
 
-[https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-discoveredaccountsservice-check.htm](https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-discoveredaccountsservice-check.htm)
+[https://pspas.pspete.dev/commands/Test-PASDiscoveredLocalAccount](https://pspas.pspete.dev/commands/Test-PASDiscoveredLocalAccount)

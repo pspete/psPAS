@@ -27506,6 +27506,230 @@ PS C:\&gt; Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePasswor
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>New-PASDiscoveredAccountObject</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>PASDiscoveredAccountObject</command:noun>
+      <maml:description>
+        <maml:para>Creates hashtable structured to be used as input for the accounts parameter of Test-PASDiscoveredLocalAccount</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Provide parameter values to return a hashtable, correctly structured to represent a single discovered account.</maml:para>
+      <maml:para>The output of this function is intended to be collected into an array and passed to the accounts parameter of Test-PASDiscoveredLocalAccount, to check the existence of multiple discovered accounts in a single request.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-PASDiscoveredAccountObject</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>type</maml:name>
+          <maml:description>
+            <maml:para>The account type</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>subType</maml:name>
+          <maml:description>
+            <maml:para>The account subtype</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>address</maml:name>
+          <maml:description>
+            <maml:para>The address identifier of the account</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>username</maml:name>
+          <maml:description>
+            <maml:para>The username identifier of the account</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>externalId</maml:name>
+          <maml:description>
+            <maml:para>The external id of the account</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>type</maml:name>
+        <maml:description>
+          <maml:para>The account type</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>subType</maml:name>
+        <maml:description>
+          <maml:para>The account subtype</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>address</maml:name>
+        <maml:description>
+          <maml:para>The address identifier of the account</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>username</maml:name>
+        <maml:description>
+          <maml:para>The username identifier of the account</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>externalId</maml:name>
+        <maml:description>
+          <maml:para>The external id of the account</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; New-PASDiscoveredAccountObject -type Windows -subType Domain -address win-computer.cyber-ark.com -username admin -externalId user_account_5924</dev:code>
+        <dev:remarks>
+          <maml:para>Returns hashtable structured to represent a single discovered account.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; $accounts = @(
+    New-PASDiscoveredAccountObject -type windows -subType loosely -address win-computer.cyber-ark.com -username admin -externalId user_account_5924
+    New-PASDiscoveredAccountObject -type mac -subType loosely -address mac-computer.cyber-ark.com -username root -externalId user_account_1132
+)
+PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
+        <dev:remarks>
+          <maml:para>Builds an array of discovered account objects and checks the existence of all of them in a single request.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/New-PASDiscoveredAccountObject</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/New-PASDiscoveredAccountObject</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Test-PASDiscoveredLocalAccount</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Test-PASDiscoveredLocalAccount</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>New-PASGroup</command:name>
       <command:verb>New</command:verb>
       <command:noun>PASGroup</command:noun>
@@ -55579,13 +55803,25 @@ PS C:\&gt; Stop-PASVRMService -serviceName Vault -serverAddress vault.company.co
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>identifiers</maml:name>
+          <maml:name>address</maml:name>
           <maml:description>
-            <maml:para>Any account identifiers</maml:para>
+            <maml:para>The address identifier of the account</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>Hashtable</maml:name>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>username</maml:name>
+          <maml:description>
+            <maml:para>The username identifier of the account</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -55609,11 +55845,12 @@ PS C:\&gt; Stop-PASVRMService -serviceName Vault -serverAddress vault.company.co
           <maml:name>accounts</maml:name>
           <maml:description>
             <maml:para>a collection of accounts to query.</maml:para>
-            <maml:para>account details are created using the DiscoveredAccount class</maml:para>
+            <maml:para>each account must be a hashtable containing type, subType, identifiers &amp; externalId keys, in the format expected by the API.</maml:para>
+            <maml:para>New-PASDiscoveredAccountObject can be used to create correctly structured account objects to pass as this parameter's value.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">DiscoveredAccount[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Hashtable[]</command:parameterValue>
           <dev:type>
-            <maml:name>DiscoveredAccount[]</maml:name>
+            <maml:name>Hashtable[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -55646,13 +55883,25 @@ PS C:\&gt; Stop-PASVRMService -serviceName Vault -serverAddress vault.company.co
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>identifiers</maml:name>
+        <maml:name>address</maml:name>
         <maml:description>
-          <maml:para>Any account identifiers</maml:para>
+          <maml:para>The address identifier of the account</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
-          <maml:name>Hashtable</maml:name>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>username</maml:name>
+        <maml:description>
+          <maml:para>The username identifier of the account</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -55673,11 +55922,12 @@ PS C:\&gt; Stop-PASVRMService -serviceName Vault -serverAddress vault.company.co
         <maml:name>accounts</maml:name>
         <maml:description>
           <maml:para>a collection of accounts to query.</maml:para>
-          <maml:para>account details are created using the DiscoveredAccount class</maml:para>
+          <maml:para>each account must be a hashtable containing type, subType, identifiers &amp; externalId keys, in the format expected by the API.</maml:para>
+          <maml:para>New-PASDiscoveredAccountObject can be used to create correctly structured account objects to pass as this parameter's value.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">DiscoveredAccount[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Hashtable[]</command:parameterValue>
         <dev:type>
-          <maml:name>DiscoveredAccount[]</maml:name>
+          <maml:name>Hashtable[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -55693,12 +55943,20 @@ PS C:\&gt; Stop-PASVRMService -serviceName Vault -serverAddress vault.company.co
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Test-PASDiscoveredLocalAccount -type Windows -subtype Domain -identifiers @{
-    "address" = "win-computer.cyber-ark.com"
-    "username" = "admin"
-} -externalId "user_account_5924"</dev:code>
+        <dev:code>PS C:\&gt; Test-PASDiscoveredLocalAccount -type Windows -subtype Domain -address win-computer.cyber-ark.com -username admin -externalId "user_account_5924"</dev:code>
         <dev:remarks>
           <maml:para>Checks for the existence of the specified account</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; $accounts = @(
+    New-PASDiscoveredAccountObject -type windows -subType loosely -address win-computer.cyber-ark.com -username admin -externalId user_account_5924
+    New-PASDiscoveredAccountObject -type mac -subType loosely -address mac-computer.cyber-ark.com -username root -externalId user_account_1132
+)
+PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
+        <dev:remarks>
+          <maml:para>Uses New-PASDiscoveredAccountObject to build an array of correctly structured account objects, and checks for the existence of all of them in a single request.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -55706,6 +55964,10 @@ PS C:\&gt; Stop-PASVRMService -serviceName Vault -serverAddress vault.company.co
       <maml:navigationLink>
         <maml:linkText>https://pspas.pspete.dev/commands/Test-PASDiscoveredLocalAccount</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Test-PASDiscoveredLocalAccount</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/New-PASDiscoveredAccountObject</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/New-PASDiscoveredAccountObject</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-discoveredaccountsservice-check.htm</maml:linkText>
