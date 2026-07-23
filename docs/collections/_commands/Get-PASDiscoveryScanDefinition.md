@@ -14,15 +14,15 @@ Get scan definitions and their details.
 
 ## SYNTAX
 
-### byID
-```
-Get-PASDiscoveryScanDefinition -id <String> [<CommonParameters>]
-```
-
-### GetAllScanDefinitions
+### GetAllScanDefinitions (Default)
 ```
 Get-PASDiscoveryScanDefinition [-search <String>] [-sort <String>] [-type <String>] [-recurrenceType <String>]
  [-lastInstanceStatus <String>] [-extendedDetails <Boolean>] [<CommonParameters>]
+```
+
+### byID
+```
+Get-PASDiscoveryScanDefinition -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION

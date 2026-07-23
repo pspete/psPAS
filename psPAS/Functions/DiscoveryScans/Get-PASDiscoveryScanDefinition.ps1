@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASDiscoveryScanDefinition {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'GetAllScanDefinitions')]
     param(
         [parameter(
             Mandatory = $true,
