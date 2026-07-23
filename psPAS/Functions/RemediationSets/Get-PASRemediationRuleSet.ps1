@@ -132,15 +132,12 @@ function Get-PASRemediationRuleSet {
 
                             }
 
-
                             #Request nextLink. Add memberlist to output collection.
                             $Null = $RuleSets.AddRange((Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET -TimeoutSec $TimeoutSec))
 
                         }
 
                         $Output = $RuleSets
-
-
 
                     }
 
