@@ -143,7 +143,40 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:psPASSession.ApiURI)/api/discovery-rule-sets?search=SomeTerm&Limit=50"
+                    $URI -match 'search=SomeTerm' -and $URI -match 'Limit=50'
+
+                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'sends expected query when sort direction is specified' {
+
+                Get-PASRemediationRuleSet -sort name -sortDirection desc
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -match 'sort=name%20-%20desc'
+
+                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'sends expected query when sort direction is specified without a sort property' {
+
+                Get-PASRemediationRuleSet -sortDirection desc
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -match 'sort=id%20-%20desc'
+
+                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'sends expected query when sort property is specified without a sort direction' {
+
+                Get-PASRemediationRuleSet -sort name
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -match 'sort=name%20-%20asc'
 
                 } -Times 1 -Exactly -Scope It
             }

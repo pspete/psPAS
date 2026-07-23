@@ -22,12 +22,18 @@ function Get-PASRemediationRuleSet {
             ParameterSetName = 'GetAllRemediationRuleSets'
         )]
         [ValidateSet(
-            'id - asc', 'id - desc', 'name - asc', 'name - desc',
-            'status - asc', 'status - desc', 'rulesCount - asc',
-            'rulesCount - desc', 'actionsPerformed - asc', 'actionsPerformed - desc',
-            'lastModificationTime - asc', 'lastModificationTime - desc'
+            'id', 'name', 'status', 'rulesCount',
+            'actionsPerformed', 'lastModificationTime'
         )]
         [string]$sort,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'GetAllRemediationRuleSets'
+        )]
+        [ValidateSet('asc', 'desc')]
+        [string]$sortDirection,
 
         [parameter(
             Mandatory = $false,
@@ -69,7 +75,26 @@ function Get-PASRemediationRuleSet {
             'GetAllRemediationRuleSets' {
 
                 #Get Parameters to include in request
-                $boundParameters = $PSBoundParameters | Get-PASParameter
+                $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove sortDirection
+
+                if ($PSBoundParameters.ContainsKey('sort') -or $PSBoundParameters.ContainsKey('sortDirection')) {
+
+                    if ($PSBoundParameters.ContainsKey('sort')) {
+                        $sortProperty = $PSBoundParameters['sort']
+                    } else {
+                        $sortProperty = 'id'   #default sort property
+                    }
+
+                    if ($PSBoundParameters.ContainsKey('sortDirection')) {
+                        $direction = $PSBoundParameters['sortDirection']
+                    } else {
+                        $direction = 'asc'   #default sort direction
+                    }
+
+                    #Append sort direction to sort property for correct query string creation
+                    $boundParameters['sort'] = "$sortProperty - $direction"
+
+                }
 
                 if ($PSBoundParameters.Keys -notcontains 'Limit') {
                     $Limit = 50   #default limit

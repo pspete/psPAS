@@ -15,14 +15,16 @@ Get information about remediation rule sets
 ## SYNTAX
 
 ### byID
+
 ```
 Get-PASRemediationRuleSet -id <String> [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
 ### GetAllRemediationRuleSets
+
 ```
-Get-PASRemediationRuleSet [-search <String>] [-sort <String>] [-limit <Int32>] [-TimeoutSec <Int32>]
- [<CommonParameters>]
+Get-PASRemediationRuleSet [-search <String>] [-sort <String>] [-sortDirection <String>] [-limit <Int32>]
+ [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -83,7 +85,7 @@ Accept wildcard characters: False
 
 ### -sort
 
-Sort by properties asc or desc:
+Sort by property:
 
 - id
 - name
@@ -136,7 +138,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -sortDirection
+
+Specify direction for sort property: asc or desc
+
+```yaml
+Type: String
+Parameter Sets: GetAllRemediationRuleSets
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### CommonParameters
+
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
