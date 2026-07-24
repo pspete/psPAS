@@ -139,6 +139,120 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
         }
 
+        Context 'Input - Subscribers' {
+
+            BeforeEach {
+                Mock Invoke-PASRestMethod -MockWith {
+                    [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' }
+                }
+
+                $ldapInfo = [LdapInfo]::new('SomeDirectory', 'CN=SomeUser,DC=domain,DC=com')
+                $subscriber = [Subscriber]::new('someone@example.com', 'email', $true, $ldapInfo)
+
+                $InputObj = [pscustomobject]@{
+                    'subtype'            = 'SomeType'
+                    'name'               = 'SomeName'
+                    'keepTaskDefinition' = $true
+                    'notifyOnFailure'    = $true
+                    'Subscribers'        = @($subscriber)
+                }
+
+                $Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+                $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+            }
+
+            It 'does not truncate nested Subscriber/LdapInfo properties in the request body' {
+
+                $InputObj | New-PASReportSchedule -WarningVariable JsonWarning -WarningAction SilentlyContinue
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $ParsedBody = $Body | ConvertFrom-Json
+                    $ParsedBody.Subscribers[0].ldapInfo.directoryName -eq 'SomeDirectory'
+
+                } -Times 1 -Exactly -Scope It
+
+                $JsonWarning | Should -BeNullOrEmpty
+
+            }
+
+        }
+
+        Context 'Input - Schedule Recurrence' {
+
+            BeforeEach {
+                Mock Invoke-PASRestMethod -MockWith {
+                    [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' }
+                }
+
+                $Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+                $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+            }
+
+            It 'does not throw when startTime and recurrence parameters are specified together' {
+
+                $InputObj = [pscustomobject]@{
+                    'subtype'            = 'SomeType'
+                    'name'               = 'SomeName'
+                    'keepTaskDefinition' = $true
+                    'notifyOnFailure'    = $true
+                    'startTime'          = Get-Date
+                    'recurrenceType'     = 'Weekly'
+                    'recurrenceValue'    = '1'
+                    'daysOfWeek'         = '1,2,3'
+                    'weekNumber'         = '1'
+                }
+
+                { $InputObj | New-PASReportSchedule } | Should -Not -Throw
+
+            }
+
+            It 'does not throw when a recurrence parameter is specified without startTime' {
+
+                $InputObj = [pscustomobject]@{
+                    'subtype'            = 'SomeType'
+                    'name'               = 'SomeName'
+                    'keepTaskDefinition' = $true
+                    'notifyOnFailure'    = $true
+                    'recurrenceType'     = 'Weekly'
+                }
+
+                { $InputObj | New-PASReportSchedule } | Should -Not -Throw
+
+            }
+
+            It 'builds expected nested schedule/recurrence body' {
+
+                $InputObj = [pscustomobject]@{
+                    'subtype'            = 'SomeType'
+                    'name'               = 'SomeName'
+                    'keepTaskDefinition' = $true
+                    'notifyOnFailure'    = $true
+                    'recurrenceType'     = 'Weekly'
+                    'recurrenceValue'    = '1'
+                    'daysOfWeek'         = '1,2,3'
+                    'weekNumber'         = '1'
+                }
+
+                $InputObj | New-PASReportSchedule
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $ParsedBody = $Body | ConvertFrom-Json
+
+                    ($ParsedBody.schedule.recurrence.type -eq 'Weekly') -and
+                    ($ParsedBody.schedule.recurrence.recurrenceValue -eq '1') -and
+                    ($ParsedBody.schedule.recurrence.daysOfWeek -join ',') -eq '1,2,3' -and
+                    ($ParsedBody.schedule.recurrence.weekNumber -eq '1')
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+        }
+
     }
 
 }

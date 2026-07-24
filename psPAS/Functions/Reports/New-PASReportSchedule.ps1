@@ -118,6 +118,11 @@ function New-PASReportSchedule {
 					$boundParameters.Add('schedule', @{})
 				}
 
+				if (($PSItem -ne 'startTime') -and (-not($boundParameters['schedule'].ContainsKey('recurrence')))) {
+					#create the recurrence key
+					$boundParameters['schedule'].Add('recurrence', @{})
+				}
+
 			}
 
 			'startTime' {
@@ -162,7 +167,7 @@ function New-PASReportSchedule {
 
 		}
 
-		$Body = $boundParameters | ConvertTo-Json
+		$Body = $boundParameters | ConvertTo-Json -Depth 4
 
 		if ($PSCmdlet.ShouldProcess($name, 'Create New Report Schedule')) {
 			#Send request to web service
