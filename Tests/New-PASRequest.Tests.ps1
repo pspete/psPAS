@@ -165,6 +165,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'has BulkItems property with expected format' {
+
+				$Script:RequestBody.BulkItems[0].Item.ConnectionParams.PSMRemoteMachine.value | Should -Be 'SomeMachine'
+
+			}
+
 			It 'has request body with expected SearchParam' {
 
 				New-PASRequest -Search SomeSearchTerm
