@@ -14,6 +14,12 @@ Deletes an account
 
 ## SYNTAX
 
+### Default (Default)
+```
+Remove-PASAccount -AccountID <String> [-DeleteSSHKey <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### Gen1
 ```
 Remove-PASAccount -AccountID <String> [-UseGen1API] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -89,13 +95,35 @@ Should be specified for versions earlier than 10.4
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: Gen1
 Aliases: UseClassicAPI
 
 Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DeleteSSHKey
+For SSH Key accounts, indicates whether to delete both the public (target) and private (Vault) account keys.
+
+On Self-Hosted environments, this is passed as the `deleteSshKeyFromVaultAndTarget` URL parameter, and requires
+minimum version of 15.2. Defaults to $false (the private key is deleted from the Vault, the public key on the
+target is not).
+
+On Privilege Cloud, this is passed as the `deleteOnlyPrivateSshKey` URL parameter. Specify $true to delete both
+account keys, or $false to delete only the public (target) key.
+
+```yaml
+Type: Boolean
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
