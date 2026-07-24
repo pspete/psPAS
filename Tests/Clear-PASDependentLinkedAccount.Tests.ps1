@@ -103,6 +103,29 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
         }
 
+        Context 'SelfHosted' {
+
+            BeforeEach {
+                $psPASSession.ExternalVersion = [System.Version]'15.0'
+
+                $InputObject = [PSCustomObject]@{
+                    AccountID          = '22_3'
+                    dependentAccountId = '22_4'
+                }
+
+                $response = $InputObject | Clear-PASDependentLinkedAccount
+            }
+
+            It 'sends request to expected SelfHosted endpoint' {
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+                    $URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts/22_3/dependentAccounts/22_4/Unlink"
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+        }
+
     }
 
 }

@@ -1042,7 +1042,7 @@ Click the below dropdown to view the current list of psPAS functions and their m
 | [`Stop-PASVRMService`][Stop-PASVRMService]                                                 | **15.0**             | Stops a Vault or DR service                                  |
 | [`Restart-PASVRMService`][Restart-PASVRMService]                                           | **15.0**             | Restarts a Vault or DR service                               |
 | [`Invoke-PASVRMFailover`][Invoke-PASVRMFailover]                                           | **15.0**             | Initiates DR failover to the DR site                         |
-| [`Clear-PASDependentLinkedAccount`][Clear-PASDependentLinkedAccount]                       | **P Cloud Only**     | Clears a linked account from a dependent account             |
+| [`Clear-PASDependentLinkedAccount`][Clear-PASDependentLinkedAccount]                       | **15.0**             | Clears a linked account from a dependent account             |
 | [`Set-PASDependentLinkedAccount`][Set-PASDependentLinkedAccount]                           | **15.0**             | Sets a linked account for a dependent account                |
 | [`Import-PASTicketingSystem`][Import-PASTicketingSystem]                                   | **P Cloud Only**     | Imports a ticketing system into Privilege Cloud              |
 | [`Export-PASTicketingSystemLog`][Export-PASTicketingSystemLog]                             | **P Cloud Only**     | Exports ticketing system logs from Privilege Cloud           |
