@@ -229,4 +229,35 @@ Describe 'Module' -Tag 'Consistency' {
 
 		}
 
+		Context 'Secure Value Handling' -Tag 'SecureValueHandling' {
+
+			#Any function which decodes a SecureString parameter to plain text and sends a request body via
+			#Invoke-PASRestMethod must convert that body to UTF8 bytes (not a String) before the call, so that
+			#Windows PowerShell ParameterBinding/Module Logging cannot capture the plaintext value.
+			#See https://github.com/pspete/psPAS/issues/602
+
+			Foreach ($Script in $Scripts) {
+
+				$Content = Get-Content -Path $Script.FullName -Raw
+
+				$HandlesSecureString = $Content -match '\[securestring\]|\[System\.Security\.SecureString\]'
+				$SendsRequest = $Content -match 'Invoke-PASRestMethod'
+
+				if ($HandlesSecureString -and $SendsRequest) {
+
+					It "$($Script.Name) converts its request body to UTF8 bytes before calling Invoke-PASRestMethod" -Tag "$($Script.BaseName)" -TestCases @{
+						'Content' = $Content
+					} {
+						param($Content)
+
+						$Content | Should -Match '\[System\.Text\.Encoding\]::UTF8\.GetBytes\('
+
+					}
+
+				}
+
+			}
+
+		}
+
 	}
