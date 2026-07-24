@@ -16,7 +16,7 @@ List groups from the vault
 
 ### groupType (Default)
 ```
-Get-PASGroup [-groupType <String>] [-groupName <String>] [-sort <String[]>] [-search <String>]
+Get-PASGroup [-groupType <String>] [-groupName <String>] [-sort <String[]>] [-search <String>] [-limit <Int32>]
  [-includeMembers <Boolean>] [<CommonParameters>]
 ```
 
@@ -191,6 +191,25 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -limit
+The number of results to return.
+
+The maximum (default) number of results returned is 20000.
+
+Requires minimum version of 15.2
+
+```yaml
+Type: Int32
+Parameter Sets: groupType
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
