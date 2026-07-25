@@ -19,7 +19,7 @@ function Import-PASTicketingSystem {
     process {
 
         #Create URL for request
-        $URI = "$($psPASSession.ApiURI)/API/ticketing-systems/import"
+        $URI = "$($psPASSession.ApiURI)/API/TicketingSystems/import"
 
         #Convert File to byte array
         $FileBytes = $ImportFile | Get-ByteArray

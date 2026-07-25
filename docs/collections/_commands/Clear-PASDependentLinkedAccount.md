@@ -22,8 +22,8 @@ Clear-PASDependentLinkedAccount [-AccountID] <String> [-dependentAccountId] <Str
 
 ### SelfHosted
 ```
-Clear-PASDependentLinkedAccount [-AccountID] <String> [-dependentAccountId] <String>
- [-WhatIf] [-Confirm] [<CommonParameters>]
+Clear-PASDependentLinkedAccount [-AccountID] <String> [-dependentAccountId] <String> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -58,7 +58,7 @@ The ID of the parent account for the linked account
 
 ```yaml
 Type: String
-Parameter Sets: SaaS, SelfHosted
+Parameter Sets: (All)
 Aliases: id
 
 Required: True
@@ -74,7 +74,7 @@ The ID of the Dependent account for the Parent Account
 
 ```yaml
 Type: String
-Parameter Sets: SaaS, SelfHosted
+Parameter Sets: (All)
 Aliases: dependentid
 
 Required: True

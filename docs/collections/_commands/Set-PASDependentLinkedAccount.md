@@ -57,7 +57,7 @@ The ID of the parent account for the dependent account
 
 ```yaml
 Type: String
-Parameter Sets: SaaS, SelfHosted
+Parameter Sets: (All)
 Aliases: id
 
 Required: True
@@ -73,7 +73,7 @@ The ID of the dependent account
 
 ```yaml
 Type: String
-Parameter Sets: SaaS, SelfHosted
+Parameter Sets: (All)
 Aliases: dependentid
 
 Required: True
@@ -106,7 +106,7 @@ The index to link the account to
 
 ```yaml
 Type: String
-Parameter Sets: SaaS, SelfHosted
+Parameter Sets: (All)
 Aliases:
 
 Required: True

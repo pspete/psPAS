@@ -13,7 +13,7 @@ function Export-PASTicketingSystemLog {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [string]$userID,
+        [string]$username,
 
         [parameter(
             Mandatory = $true,
@@ -30,7 +30,7 @@ function Export-PASTicketingSystemLog {
     process {
 
         #Create URL for request
-        $URI = "$($psPASSession.ApiURI)/API/ticketing-systems/logs/$days/$userID"
+        $URI = "$($psPASSession.ApiURI)/API/TicketingSystems/logs/$days/$username"
 
         if ($PSCmdlet.ShouldProcess($days, 'Exports Ticketing System Logs')) {
 

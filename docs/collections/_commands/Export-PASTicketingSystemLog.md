@@ -15,7 +15,7 @@ Export ticketing system logs from Privilege Cloud
 ## SYNTAX
 
 ```
-Export-PASTicketingSystemLog [[-days] <Int32>] [[-userID] <String>] [-path] <String> [-WhatIf] [-Confirm]
+Export-PASTicketingSystemLog [[-days] <Int32>] [-username <String>] [-path] <String> [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -55,24 +55,6 @@ Aliases:
 Required: False
 Position: 1
 Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -userID
-
-The unique ID of the user who requested the ticketing system.
-
-If no user is defined, the log covers all system users.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
@@ -126,7 +108,26 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -username
+
+The name of the user who requested the ticketing system.
+
+If no user is defined, the log covers all system users.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### CommonParameters
+
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS

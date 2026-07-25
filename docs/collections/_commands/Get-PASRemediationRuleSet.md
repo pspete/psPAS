@@ -15,13 +15,11 @@ Get information about remediation rule sets
 ## SYNTAX
 
 ### byID
-
 ```
 Get-PASRemediationRuleSet -id <String> [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
 ### GetAllRemediationRuleSets
-
 ```
 Get-PASRemediationRuleSet [-search <String>] [-sort <String>] [-sortDirection <String>] [-limit <Int32>]
  [-TimeoutSec <Int32>] [<CommonParameters>]
@@ -155,7 +153,6 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
