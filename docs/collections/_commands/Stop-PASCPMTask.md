@@ -9,16 +9,18 @@ title: Stop-PASCPMTask
 # Stop-PASCPMTask
 
 ## SYNOPSIS
-Cancels a pending CPM task for an account.
+Cancels a pending CPM task for one or more accounts.
 
 ## SYNTAX
 
 ```
-Stop-PASCPMTask [-Accountid] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Stop-PASCPMTask [-Accountid] <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Cancels an in-progress or pending CPM operation (such as a change, verify or reconcile task) for a specific account.
+
+Multiple accounts can be processed in a single bulk request by supplying more than one value for `-Accountid`.
 
 Requires CyberArk Self-Hosted version 15.2 or higher.
 
@@ -31,13 +33,22 @@ PS C:\> Stop-PASCPMTask -Accountid 123_4
 
 Cancels the pending CPM task for account with id 123_4.
 
+### Example 2
+```powershell
+PS C:\> Stop-PASCPMTask -Accountid 123_4, 567_8
+```
+
+Cancels the pending CPM tasks for accounts 123_4 and 567_8 in a single bulk request.
+
 ## PARAMETERS
 
 ### -Accountid
 The unique id of the account to cancel the pending CPM task for.
 
+When more than one value is supplied, a bulk cancel request is sent.
+
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: id
 
@@ -89,6 +100,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.Object
 ## NOTES
+
+Bulk operations are sent when `-Accountid` contains more than one value.
+
+Requires CyberArk Self-Hosted version 15.2 or higher.
 
 ## RELATED LINKS
 

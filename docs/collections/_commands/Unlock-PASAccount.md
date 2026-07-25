@@ -10,18 +10,18 @@ title: Unlock-PASAccount
 # Unlock-PASAccount
 
 ## SYNOPSIS
-Checks-in an exclusive access account, or unlocks an account checked-out or locked by another user.
+Checks-in one or more exclusive access accounts, or unlocks an account checked-out or locked by another user.
 
 ## SYNTAX
 
 ### CheckIn (Default)
 ```
-Unlock-PASAccount [-AccountID] <String> [-CheckIn] [-WhatIf] [-Confirm] [<CommonParameters>]
+Unlock-PASAccount [-AccountID] <String[]> [-CheckIn] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Unlock
 ```
-Unlock-PASAccount [-AccountID] <String> [-Unlock] [-WhatIf] [-Confirm] [<CommonParameters>]
+Unlock-PASAccount [-AccountID] <String[]> [-Unlock] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,6 +36,9 @@ The account is checked in automatically after it has been changed.
 Requires Initiate CPM password management operations on the Safe where the account is stored.
 
 Where a user holds the "Unlock Account" permission on a safe, they may use this function to issue an "Unlock" command on an account checked out or locked by another user.
+
+Multiple accounts can be checked in using a single bulk request by supplying more than one value for `-AccountID`.
+Bulk check-in requires CyberArk version 15.2 or later. The `-Unlock` parameter does not support bulk operations.
 
 ## EXAMPLES
 
@@ -60,6 +63,13 @@ Unlock-PASAccount -AccountID 21_3 -Unlock
 
 Unlocks account with ID of "21_3" when locked by another user.
 
+### EXAMPLE 4
+```
+Unlock-PASAccount -AccountID 21_3, 22_4
+```
+
+Checks in accounts 21_3 and 22_4 in a single bulk request.
+
 ## PARAMETERS
 
 ### -AccountID
@@ -67,8 +77,10 @@ The unique ID of the account.
 
 This is retrieved by the Get-PASAccount function.
 
+When more than one value is supplied, a bulk check-in request is sent. Bulk check-in is only available in the `CheckIn` parameter set.
+
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: id
 
@@ -150,6 +162,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 Minimum CyberArk version 9.10 (Check-In Account)
 Minimum CyberArk version 11.6 (Unlock Account)
+
+Bulk check-in requires CyberArk version 15.2 or later.
+Bulk unlock is not supported by the CyberArk API.
 
 ## RELATED LINKS
 

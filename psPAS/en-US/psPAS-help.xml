@@ -10901,11 +10901,12 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:verb>Clear</command:verb>
       <command:noun>PASLinkedAccount</command:noun>
       <maml:description>
-        <maml:para>Clears a linked account association.</maml:para>
+        <maml:para>Clears one or more linked account associations.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
       <maml:para>Clears the association between a linked account and a source account.</maml:para>
+      <maml:para>Multiple accounts can be processed in a single bulk request by supplying more than one value for `-AccountID`. Bulk unlinking requires CyberArk version 15.2 or later.</maml:para>
       <maml:para>The following Safe authorizations are required on the Safe where the source account is stored to run this command: - List accounts</maml:para>
       <maml:para>- Update account properties</maml:para>
       <maml:para>- Manage Safe</maml:para>
@@ -10917,11 +10918,12 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
           <maml:name>AccountID</maml:name>
           <maml:description>
-            <maml:para>The id value of the source account</maml:para>
+            <maml:para>The id value of the source account.</maml:para>
+            <maml:para>When more than one value is supplied, a bulk unlink request is sent.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -10932,9 +10934,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
             <maml:para>The linked account's extra password index.</maml:para>
             <maml:para>The index can be for a Reconcile account, Logon account, or other linked account that is defined in the Platform configuration.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Int32[]</command:parameterValue>
           <dev:type>
-            <maml:name>Int32</maml:name>
+            <maml:name>Int32[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
@@ -10967,11 +10969,12 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
         <maml:name>AccountID</maml:name>
         <maml:description>
-          <maml:para>The id value of the source account</maml:para>
+          <maml:para>The id value of the source account.</maml:para>
+          <maml:para>When more than one value is supplied, a bulk unlink request is sent.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -10982,9 +10985,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:para>The linked account's extra password index.</maml:para>
           <maml:para>The index can be for a Reconcile account, Logon account, or other linked account that is defined in the Platform configuration.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Int32[]</command:parameterValue>
         <dev:type>
-          <maml:name>Int32</maml:name>
+          <maml:name>Int32[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
@@ -11027,6 +11030,13 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>PS C:\&gt; Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3</dev:code>
         <dev:remarks>
           <maml:para>Clears extraPass3 from account with ID 12_34</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Clear-PASLinkedAccount -AccountID 12_34, 56_78 -extraPasswordIndex 3</dev:code>
+        <dev:remarks>
+          <maml:para>Clears extraPass3 from accounts with IDs 12_34 and 56_78 in a single bulk request.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -43567,12 +43577,12 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
       <command:verb>Resume</command:verb>
       <command:noun>PASDependentAccount</command:noun>
       <maml:description>
-        <maml:para>This resumes automatic management of a dependent account by the CPM.</maml:para>
+        <maml:para>This resumes automatic management of one or more dependent accounts by the CPM.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Resumes automatic management of a dependent account by the Central Password Manager (CPM). </maml:para>
-      <maml:para>Requires CyberArk version 14.6 or later.</maml:para>
+      <maml:para>Resumes automatic management of a dependent account by the Central Password Manager (CPM).</maml:para>
+      <maml:para>When more than one value is supplied for `-AccountID`, a bulk resume request is sent. Bulk resume requires CyberArk version 15.0 or later. Single-account resume requires version 14.6 or later.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -43581,10 +43591,11 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
           <maml:name>AccountID</maml:name>
           <maml:description>
             <maml:para>The unique ID of the main privileged account that has the dependent account associated with it. This parameter accepts pipeline input and can be aliased as 'id'.</maml:para>
+            <maml:para>When more than one value is supplied, a bulk resume request is sent.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -43594,9 +43605,9 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
           <maml:description>
             <maml:para>The unique ID of the dependent account for which automatic CPM management should be resumed. This parameter accepts pipeline input and can be aliased as 'dependentid'.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -43630,10 +43641,11 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
         <maml:name>AccountID</maml:name>
         <maml:description>
           <maml:para>The unique ID of the main privileged account that has the dependent account associated with it. This parameter accepts pipeline input and can be aliased as 'id'.</maml:para>
+          <maml:para>When more than one value is supplied, a bulk resume request is sent.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -43643,9 +43655,9 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
         <maml:description>
           <maml:para>The unique ID of the dependent account for which automatic CPM management should be resumed. This parameter accepts pipeline input and can be aliased as 'dependentid'.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -43679,7 +43691,7 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Single-account operations require CyberArk version 14.6 or later. Bulk operations require CyberArk version 15.0 or later and are triggered when `-AccountID` contains more than one value.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -43687,14 +43699,21 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Resume-PASDependentAccount -AccountID "123_456" -dependentAccountId "22_2"</dev:code>
         <dev:remarks>
-          <maml:para>Resumes automatic CPM management for the dependent account with ID "789_012" that is  associated with the main account "123_456".</maml:para>
+          <maml:para>Resumes automatic CPM management for the dependent account with ID "22_2" that is associated with the main account "123_456".</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PASAccount -id "123_456" | Resume-PASDependentAccount -dependentAccountId "22_2"</dev:code>
         <dev:remarks>
-          <maml:para>Uses pipeline input to resume automatic management of dependent account "789_012" for  the main account retrieved by Get-PASAccount.</maml:para>
+          <maml:para>Uses pipeline input to resume automatic management of dependent account "22_2" for the main account retrieved by Get-PASAccount.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Resume-PASDependentAccount -AccountID "123_456", "456_789" -dependentAccountId "22_2"</dev:code>
+        <dev:remarks>
+          <maml:para>Resumes automatic CPM management for dependent account "22_2" against the main accounts "123_456" and "456_789" in a single bulk request.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -46309,11 +46328,12 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
       <command:verb>Set</command:verb>
       <command:noun>PASLinkedAccount</command:noun>
       <maml:description>
-        <maml:para>Associates a linked account to an existing account.</maml:para>
+        <maml:para>Associates one or more linked accounts to existing accounts.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
       <maml:para>Associates a Reconcile account, Logon account, or other type of linked account that is defined in the platform configuration.</maml:para>
+      <maml:para>Multiple source accounts can be linked in a single bulk request by supplying more than one value for `-AccountID`. Bulk linking requires CyberArk version 15.2 or later.</maml:para>
       <maml:para>Requires the following Safe member authorizations: - List accounts   - Required for both the Safe of the linked account and the Safe of the source account. - Update account properties.   - Require for the Safe of the source account</maml:para>
       <maml:para>Requires CyberArk Version 12.1+</maml:para>
     </maml:description>
@@ -46324,10 +46344,11 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           <maml:name>AccountID</maml:name>
           <maml:description>
             <maml:para>The AccountID of the account to associate a linked account to.</maml:para>
+            <maml:para>When more than one value is supplied, a bulk link request is sent.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -46337,9 +46358,9 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           <maml:description>
             <maml:para>The Safe in which the linked account is stored.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -46349,9 +46370,9 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           <maml:description>
             <maml:para>The linked account's extra password index (1,2, or 3).</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -46361,9 +46382,9 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           <maml:description>
             <maml:para>The accountname of the linked account.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -46373,9 +46394,9 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
           <maml:description>
             <maml:para>The folder in which the linked account is stored in it's safe.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -46409,10 +46430,11 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         <maml:name>AccountID</maml:name>
         <maml:description>
           <maml:para>The AccountID of the account to associate a linked account to.</maml:para>
+          <maml:para>When more than one value is supplied, a bulk link request is sent.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -46422,9 +46444,9 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         <maml:description>
           <maml:para>The Safe in which the linked account is stored.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -46434,9 +46456,9 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         <maml:description>
           <maml:para>The linked account's extra password index (1,2, or 3).</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -46446,9 +46468,9 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         <maml:description>
           <maml:para>The accountname of the linked account.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -46458,9 +46480,9 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         <maml:description>
           <maml:para>The folder in which the linked account is stored in it's safe.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -46494,7 +46516,7 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Bulk operations require CyberArk version 15.2 or later and are triggered when `-AccountID` contains more than one value.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -46517,6 +46539,13 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         <dev:code>PS C:\&gt; Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex 3 -name SomeReconcile -folder root</dev:code>
         <dev:remarks>
           <maml:para>Adds "SomeReconcile" account from "Some_Safe" as the reconcile account for account with id 29_4</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Set-PASLinkedAccount -AccountID 29_4, 30_5 -safe Some_Safe -extraPasswordIndex 1 -name SomeAdmin -folder root</dev:code>
+        <dev:remarks>
+          <maml:para>Adds "SomeAdmin" as the logon account for accounts 29_4 and 30_5 in a single bulk request.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -55330,11 +55359,12 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
       <command:verb>Stop</command:verb>
       <command:noun>PASCPMTask</command:noun>
       <maml:description>
-        <maml:para>Cancels a pending CPM task for an account.</maml:para>
+        <maml:para>Cancels a pending CPM task for one or more accounts.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
       <maml:para>Cancels an in-progress or pending CPM operation (such as a change, verify or reconcile task) for a specific account.</maml:para>
+      <maml:para>Multiple accounts can be processed in a single bulk request by supplying more than one value for `-Accountid`.</maml:para>
       <maml:para>Requires CyberArk Self-Hosted version 15.2 or higher.</maml:para>
     </maml:description>
     <command:syntax>
@@ -55344,10 +55374,11 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
           <maml:name>Accountid</maml:name>
           <maml:description>
             <maml:para>The unique id of the account to cancel the pending CPM task for.</maml:para>
+            <maml:para>When more than one value is supplied, a bulk cancel request is sent.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -55381,10 +55412,11 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
         <maml:name>Accountid</maml:name>
         <maml:description>
           <maml:para>The unique id of the account to cancel the pending CPM task for.</maml:para>
+          <maml:para>When more than one value is supplied, a bulk cancel request is sent.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -55436,7 +55468,8 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Bulk operations are sent when `-Accountid` contains more than one value.</maml:para>
+        <maml:para>Requires CyberArk Self-Hosted version 15.2 or higher.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -55445,6 +55478,13 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
         <dev:code>PS C:\&gt; Stop-PASCPMTask -Accountid 123_4</dev:code>
         <dev:remarks>
           <maml:para>Cancels the pending CPM task for account with id 123_4.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Stop-PASCPMTask -Accountid 123_4, 567_8</dev:code>
+        <dev:remarks>
+          <maml:para>Cancels the pending CPM tasks for accounts 123_4 and 567_8 in a single bulk request.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -56470,7 +56510,7 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
       <command:verb>Unlock</command:verb>
       <command:noun>PASAccount</command:noun>
       <maml:description>
-        <maml:para>Checks-in an exclusive access account, or unlocks an account checked-out or locked by another user.</maml:para>
+        <maml:para>Checks-in one or more exclusive access accounts, or unlocks an account checked-out or locked by another user.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -56480,6 +56520,7 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
       <maml:para>The account is checked in automatically after it has been changed.</maml:para>
       <maml:para>Requires Initiate CPM password management operations on the Safe where the account is stored.</maml:para>
       <maml:para>Where a user holds the "Unlock Account" permission on a safe, they may use this function to issue an "Unlock" command on an account checked out or locked by another user.</maml:para>
+      <maml:para>Multiple accounts can be checked in using a single bulk request by supplying more than one value for `-AccountID`. Bulk check-in requires CyberArk version 15.2 or later. The `-Unlock` parameter does not support bulk operations.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -56489,10 +56530,11 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
           <maml:description>
             <maml:para>The unique ID of the account.</maml:para>
             <maml:para>This is retrieved by the Get-PASAccount function.</maml:para>
+            <maml:para>When more than one value is supplied, a bulk check-in request is sent. Bulk check-in is only available in the `CheckIn` parameter set.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -56538,10 +56580,11 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
           <maml:description>
             <maml:para>The unique ID of the account.</maml:para>
             <maml:para>This is retrieved by the Get-PASAccount function.</maml:para>
+            <maml:para>When more than one value is supplied, a bulk check-in request is sent. Bulk check-in is only available in the `CheckIn` parameter set.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -56587,10 +56630,11 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
         <maml:description>
           <maml:para>The unique ID of the account.</maml:para>
           <maml:para>This is retrieved by the Get-PASAccount function.</maml:para>
+          <maml:para>When more than one value is supplied, a bulk check-in request is sent. Bulk check-in is only available in the `CheckIn` parameter set.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -56649,6 +56693,7 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
     <maml:alertSet>
       <maml:alert>
         <maml:para>Minimum CyberArk version 9.10 (Check-In Account) Minimum CyberArk version 11.6 (Unlock Account)</maml:para>
+        <maml:para>Bulk check-in requires CyberArk version 15.2 or later. Bulk unlock is not supported by the CyberArk API.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -56671,6 +56716,13 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
         <dev:code>Unlock-PASAccount -AccountID 21_3 -Unlock</dev:code>
         <dev:remarks>
           <maml:para>Unlocks account with ID of "21_3" when locked by another user.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Unlock-PASAccount -AccountID 21_3, 22_4</dev:code>
+        <dev:remarks>
+          <maml:para>Checks in accounts 21_3 and 22_4 in a single bulk request.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
