@@ -17,7 +17,6 @@ Returns information about a single account. (Version 9.3 - 10.3)
 ## SYNTAX
 
 ### Gen2Query (Default)
-
 ```
 Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] [-savedFilter <String>]
  [-modificationTime <DateTime>] [-sort <String[]>] [-limit <Int32>] [-TimeoutSec <Int32>]
@@ -25,13 +24,11 @@ Get-PASAccount [-search <String>] [-searchType <String>] [-safeName <String>] [-
 ```
 
 ### Gen2ID
-
 ```
 Get-PASAccount -id <String> [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
 
 ### Gen1
-
 ```
 Get-PASAccount [-Keywords <String>] [-Safe <String>] [-TimeoutSec <Int32>] [<CommonParameters>]
 ```
@@ -378,7 +375,6 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS

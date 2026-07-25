@@ -61,7 +61,17 @@ function Get-PASDiscoveryScanDefinition {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'GetAllScanDefinitions'
         )]
-        [bool]$extendedDetails
+        [bool]$extendedDetails,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'GetAllScanDefinitions'
+        )]
+        [ValidateSet(
+            'ACTIVE', 'INACTIVE'
+        )]
+        [string]$State
 
     )
 

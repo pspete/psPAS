@@ -15,12 +15,15 @@ Get scan definitions and their details.
 ## SYNTAX
 
 ### GetAllScanDefinitions (Default)
+
 ```
 Get-PASDiscoveryScanDefinition [-search <String>] [-sort <String>] [-sortDirection <String>] [-type <String>]
- [-recurrenceType <String>] [-lastInstanceStatus <String>] [-extendedDetails <Boolean>] [<CommonParameters>]
+ [-recurrenceType <String>] [-lastInstanceStatus <String>] [-extendedDetails <Boolean>] [-State <String>]
+ [<CommonParameters>]
 ```
 
 ### byID
+
 ```
 Get-PASDiscoveryScanDefinition -id <String> [<CommonParameters>]
 ```
@@ -175,7 +178,24 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -State
+
+Whether the scan is in an active or inactive state.
+
+```yaml
+Type: String
+Parameter Sets: GetAllScanDefinitions
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### CommonParameters
+
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
