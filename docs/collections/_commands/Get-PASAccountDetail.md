@@ -1,7 +1,7 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Get-PASAccountActivity
+online version: https://pspas.pspete.dev/commands/Get-PASAccountDetail
 schema: 2.0.0
 title: Get-PASAccountDetail
 ---
@@ -61,6 +61,6 @@ It is assumed to require minimum version of 10.4.
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Get-PASAccountActivity](https://pspas.pspete.dev/commands/Get-PASAccountActivity)
+[https://pspas.pspete.dev/commands/Get-PASAccountDetail](https://pspas.pspete.dev/commands/Get-PASAccountDetail)
 
 [https://documenter.getpostman.com/view/998920/RzZ9Gz1U#d20c01c2-f7fc-4717-bf10-d8c51cb11411](https://documenter.getpostman.com/view/998920/RzZ9Gz1U#d20c01c2-f7fc-4717-bf10-d8c51cb11411)

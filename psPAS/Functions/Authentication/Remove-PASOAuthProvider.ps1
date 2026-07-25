@@ -12,7 +12,7 @@ function Remove-PASOAuthProvider {
 
 	begin { 
         Assert-VersionRequirement -SelfHosted
-        Assert-VersionRequirement -RequiredVersion 15.2
+        Assert-VersionRequirement -RequiredVersion 15.0
     }#begin
 
 	process {

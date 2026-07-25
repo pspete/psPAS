@@ -162,3 +162,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Set-PASPlatform](https://pspas.pspete.dev/commands/Set-PASPlatform)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-update-target-platform-settings.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-update-target-platform-settings.htm)

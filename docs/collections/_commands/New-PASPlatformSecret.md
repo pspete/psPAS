@@ -93,3 +93,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/New-PASPlatformSecret](https://pspas.pspete.dev/commands/New-PASPlatformSecret)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/generate%20secret%20for%20platform.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/generate%20secret%20for%20platform.htm)

@@ -91,3 +91,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Remove-PASOAuthProvider](https://pspas.pspete.dev/commands/Remove-PASOAuthProvider)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/oauth-delete-provider.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/oauth-delete-provider.htm)

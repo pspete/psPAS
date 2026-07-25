@@ -21,7 +21,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
         $Script:RequestBody = $null
         $psPASSession = [ordered]@{
-			BaseURI            = 'https://SomeURL/SomeApp'
+			BaseURI            = 'https://SomeURL.cyberark.cloud/SomeApp'
 			User               = $null
 			ExternalVersion    = [System.Version]'0.0'
 			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
@@ -60,6 +60,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 }
 
                 $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud/SomeApp'
 
             }
 
@@ -103,11 +104,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
-            It 'throws error if version requirement not met' {
+            It 'throws error if not Privilege Cloud' {
 
-                $psPASSession.ExternalVersion = '1.0'
+                $psPASSession.BaseURI = 'https://SomeURL/SomeApp'
                 { $InputObj | Add-PASPersonalAdminAccount } | Should -Throw
-                $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud/SomeApp'
 
             }
 
@@ -134,6 +135,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                     'secret'   = $secureString
                 }
                 $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud/SomeApp'
 
             }
 
@@ -158,7 +160,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 
         }
-        #>
+
+        AfterAll {
+
+            $psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+
+        }
     }
 
 

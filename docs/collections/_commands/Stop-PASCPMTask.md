@@ -108,3 +108,5 @@ Requires CyberArk Self-Hosted version 15.2 or higher.
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Stop-PASCPMTask](https://pspas.pspete.dev/commands/Stop-PASCPMTask)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/cancel-account-task.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/cancel-account-task.htm)

@@ -139,3 +139,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Invoke-PASVRMFailover](https://pspas.pspete.dev/commands/Invoke-PASVRMFailover)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-initiate-dr-failover.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-initiate-dr-failover.htm)
