@@ -1,7 +1,7 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Add-PASPendingAccount
+online version: https://pspas.pspete.dev/commands/Add-PASPersonalAdminAccount
 schema: 2.0.0
 title: Add-PASPersonalAdminAccount
 ---

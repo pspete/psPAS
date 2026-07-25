@@ -154,3 +154,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/Publish-PASDiscoveredAccount](https://pspas.pspete.dev/commands/Publish-PASDiscoveredAccount)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/add%20discovered%20account%20v10.8.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/add%20discovered%20account%20v10.8.htm)

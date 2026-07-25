@@ -23,14 +23,16 @@ function Add-PASPersonalAdminAccount {
 
     )
 
-    begin { }#begin
+    begin { 
+
+        Assert-VersionRequirement -PrivilegeCloud
+
+    }#begin
 
     process {
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameter
-
-        Assert-VersionRequirement -RequiredVersion 12.6
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/api/Accounts/PersonalAdminAccount"

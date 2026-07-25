@@ -101,13 +101,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
-
-### System.Security.SecureString
-
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASVRMDRSystemHealth](https://pspas.pspete.dev/commands/Get-PASVRMDRSystemHealth)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-system-health.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-system-health.htm)

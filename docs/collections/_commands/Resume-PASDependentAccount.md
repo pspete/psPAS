@@ -131,3 +131,7 @@ Single-account operations require CyberArk version 14.6 or later.
 Bulk operations require CyberArk version 15.0 or later and are triggered when `-AccountID` contains more than one value.
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Resume-PASDependentAccount](https://pspas.pspete.dev/commands/Resume-PASDependentAccount)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/resume-dependent-account.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/resume-dependent-account.htm)

@@ -117,3 +117,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Remove-PASDependentAccount](https://pspas.pspete.dev/commands/Remove-PASDependentAccount)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/delete-dependent-account.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/delete-dependent-account.htm)
