@@ -122,7 +122,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'uses expected method' {
 
-                $Script:Calls[0].Method | Should -Be 'POST'
+                $Script:Calls[0].Method | Should -Be 'DELETE'
 
             }
 
