@@ -13089,7 +13089,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>path</maml:name>
           <maml:description>
-            <maml:para>The folder to export the platform configuration to.</maml:para>
+            <maml:para>The path to export the platform configuration to. If the path includes a file name and extension, the platform is saved to that exact file; otherwise the path is treated as a destination folder.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -13138,7 +13138,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>path</maml:name>
         <maml:description>
-          <maml:para>The folder to export the platform configuration to.</maml:para>
+          <maml:para>The path to export the platform configuration to. If the path includes a file name and extension, the platform is saved to that exact file; otherwise the path is treated as a destination folder.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -13229,7 +13229,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>path</maml:name>
           <maml:description>
-            <maml:para>The folder to export the PSM recording to.</maml:para>
+            <maml:para>The path to save the PSM recording to. If the path includes a file name and extension, the recording is saved to that exact file; otherwise the path is treated as a destination folder.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -13256,7 +13256,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>path</maml:name>
         <maml:description>
-          <maml:para>The folder to export the PSM recording to.</maml:para>
+          <maml:para>The path to save the PSM recording to. If the path includes a file name and extension, the recording is saved to that exact file; otherwise the path is treated as a destination folder.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
