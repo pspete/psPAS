@@ -88,6 +88,73 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
         }
 
+        Context 'Bulk Input' {
+
+            BeforeAll {
+                $psPASSession.ExternalVersion = '15.2'
+
+                $Script:Calls = @()
+
+                Mock Invoke-PASRestMethod {
+                    param($Uri, $Method, $Body)
+                    $Script:Calls += [pscustomobject]@{
+                        Uri    = $Uri
+                        Method = $Method
+                        Body   = $Body
+                    }
+                }
+
+                $null = Clear-PASLinkedAccount -AccountID '12_34', '56_78' -extraPasswordIndex 2
+
+            }
+
+            It 'sends request' {
+
+                $Script:Calls.Count | Should -Be 1
+
+            }
+
+            It 'sends request to expected endpoint' {
+
+                $Script:Calls[0].Uri | Should -Be "$($Script:psPASSession.BaseURI)/API/Accounts/Unlink/Bulk"
+
+            }
+
+            It 'uses expected method' {
+
+                $Script:Calls[0].Method | Should -Be 'POST'
+
+            }
+
+            It 'sends request with body for bulk clear' {
+
+                $Script:Calls[0].Body | Should -Not -BeNullOrEmpty
+
+            }
+
+            It 'sends request with expected body for bulk clear' {
+
+                $Script:RequestBody = $Script:Calls[0].Body | ConvertFrom-Json
+
+                $Script:RequestBody.BulkItems | Should -Not -BeNullOrEmpty
+                $Script:RequestBody.BulkItems.Count | Should -Be 2
+                $Script:RequestBody.BulkItems[0].AccountID | Should -Be '12_34'
+                $Script:RequestBody.BulkItems[0].extraPasswordIndex | Should -Be 2
+
+            }
+
+        }
+
+        Context 'Bulk Input Version' {
+
+            It 'throws error if bulk version requirement not met' {
+                $psPASSession.ExternalVersion = '15.1'
+                { Clear-PASLinkedAccount -AccountID '12_34', '56_78' -extraPasswordIndex 2 } | Should -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+        }
+
         Context 'Output' {
 
             It 'provides no output' {

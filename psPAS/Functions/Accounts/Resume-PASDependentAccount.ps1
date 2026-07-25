@@ -7,14 +7,14 @@ function Resume-PASDependentAccount {
             ValueFromPipelinebyPropertyName = $true
         )]
         [Alias('id')]
-        [string]$AccountID,
+        [string[]]$AccountID,
 
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
         [Alias('dependentid')]
-        [string]$dependentAccountId
+        [string[]]$dependentAccountId
 
     )
 
@@ -22,17 +22,61 @@ function Resume-PASDependentAccount {
 
         Assert-VersionRequirement -RequiredVersion 14.6
 
+        # Variable to track if we are doing bulk confirmation
+        $BulkConfirmation = $false
+
+        $boundInput = $PSBoundParameters['AccountID']
+
+        if (Test-IsMultiValue -Value $boundInput) {
+
+            #Bulk Confirmations supported from 15.0
+            Assert-VersionRequirement -RequiredVersion 15.0
+
+            $BulkConfirmation = $true
+        }
+
+        $Request = @{
+            Method = 'POST'
+        }
+
     }#begin
 
     process {
 
-        #Create URL for Request
-        $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts/$dependentAccountId/Resume"
+        if ($BulkConfirmation) {
+
+            #Create URL for Request
+            $URI = "$($psPASSession.BaseURI)/API/Accounts/dependentAccounts/Resume/Bulk"
+
+            #Create body of request
+            $Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }
+            $AccountID | ForEach-Object {
+                $Body.BulkItems.Add(
+                    @{
+                        AccountID          = $PSItem
+                        dependentAccountId = $dependentAccountId
+                    }
+                )
+            }
+            #Format body as JSON
+            $Body = $Body | ConvertTo-Json -Depth 3
+
+            $Request.Add('Body', $Body)
+
+        }
+        else {
+
+            #Create URL for Request
+            $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts/$dependentAccountId/Resume"
+
+        }
+
+        $Request.Add('Uri', $URI)
 
         if ($PSCmdlet.ShouldProcess($AccountID, 'Resume Dependent Account')) {
 
             #Send request to web service
-            Invoke-PASRestMethod -Uri $URI -Method POST
+            Invoke-PASRestMethod @Request
 
         }
 

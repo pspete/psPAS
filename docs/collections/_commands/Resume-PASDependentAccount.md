@@ -10,19 +10,20 @@ title: Resume-PASDependentAccount
 # Resume-PASDependentAccount
 
 ## SYNOPSIS
-This resumes automatic management of a dependent account by the CPM.
+This resumes automatic management of one or more dependent accounts by the CPM.
 
 ## SYNTAX
 
 ```
-Resume-PASDependentAccount [-AccountID] <String> [-dependentAccountId] <String> [-WhatIf] [-Confirm]
+Resume-PASDependentAccount [-AccountID] <String[]> [-dependentAccountId] <String[]> [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Resumes automatic management of a dependent account by the Central Password Manager (CPM). 
+Resumes automatic management of a dependent account by the Central Password Manager (CPM).
 
-Requires CyberArk version 14.6 or later.
+When more than one value is supplied for `-AccountID`, a bulk resume request is sent.
+Bulk resume requires CyberArk version 15.0 or later. Single-account resume requires version 14.6 or later.
 
 ## EXAMPLES
 
@@ -31,7 +32,7 @@ Requires CyberArk version 14.6 or later.
 PS C:\> Resume-PASDependentAccount -AccountID "123_456" -dependentAccountId "22_2"
 ```
 
-Resumes automatic CPM management for the dependent account with ID "789_012" that is 
+Resumes automatic CPM management for the dependent account with ID "22_2" that is
 associated with the main account "123_456".
 
 ### Example 2
@@ -39,8 +40,16 @@ associated with the main account "123_456".
 PS C:\> Get-PASAccount -id "123_456" | Resume-PASDependentAccount -dependentAccountId "22_2"
 ```
 
-Uses pipeline input to resume automatic management of dependent account "789_012" for 
+Uses pipeline input to resume automatic management of dependent account "22_2" for
 the main account retrieved by Get-PASAccount.
+
+### Example 3
+```powershell
+PS C:\> Resume-PASDependentAccount -AccountID "123_456", "456_789" -dependentAccountId "22_2"
+```
+
+Resumes automatic CPM management for dependent account "22_2" against the main accounts
+"123_456" and "456_789" in a single bulk request.
 
 ## PARAMETERS
 
@@ -48,8 +57,10 @@ the main account retrieved by Get-PASAccount.
 The unique ID of the main privileged account that has the dependent account associated with it.
 This parameter accepts pipeline input and can be aliased as 'id'.
 
+When more than one value is supplied, a bulk resume request is sent.
+
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: id
 
@@ -65,7 +76,7 @@ The unique ID of the dependent account for which automatic CPM management should
 This parameter accepts pipeline input and can be aliased as 'dependentid'.
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: dependentid
 
@@ -115,5 +126,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+
+Single-account operations require CyberArk version 14.6 or later.
+Bulk operations require CyberArk version 15.0 or later and are triggered when `-AccountID` contains more than one value.
 
 ## RELATED LINKS

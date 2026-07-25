@@ -10,17 +10,20 @@ title: Set-PASLinkedAccount
 # Set-PASLinkedAccount
 
 ## SYNOPSIS
-Associates a linked account to an existing account.
+Associates one or more linked accounts to existing accounts.
 
 ## SYNTAX
 
 ```
-Set-PASLinkedAccount [-AccountID] <String> [-safe] <String> [-extraPasswordIndex] <String> [-name] <String>
- [-folder] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-PASLinkedAccount [-AccountID] <String[]> [-safe] <String[]> [-extraPasswordIndex] <String[]>
+ [-name] <String[]> [-folder] <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Associates a Reconcile account, Logon account, or other type of linked account that is defined in the platform configuration.
+
+Multiple source accounts can be linked in a single bulk request by supplying more than one value for `-AccountID`.
+Bulk linking requires CyberArk version 15.2 or later.
 
 Requires the following Safe member authorizations:
 - List accounts
@@ -53,13 +56,22 @@ PS C:\> Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex
 
 Adds "SomeReconcile" account from "Some_Safe" as the reconcile account for account with id 29_4
 
+### EXAMPLE 4
+```powershell
+PS C:\> Set-PASLinkedAccount -AccountID 29_4, 30_5 -safe Some_Safe -extraPasswordIndex 1 -name SomeAdmin -folder root
+```
+
+Adds "SomeAdmin" as the logon account for accounts 29_4 and 30_5 in a single bulk request.
+
 ## PARAMETERS
 
 ### -AccountID
 The AccountID of the account to associate a linked account to.
 
+When more than one value is supplied, a bulk link request is sent.
+
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: id
 
@@ -74,7 +86,7 @@ Accept wildcard characters: False
 The Safe in which the linked account is stored.
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -89,7 +101,7 @@ Accept wildcard characters: False
 The linked account's extra password index (1,2, or 3).
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -104,7 +116,7 @@ Accept wildcard characters: False
 The accountname of the linked account.
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -119,7 +131,7 @@ Accept wildcard characters: False
 The folder in which the linked account is stored in it's safe.
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -169,6 +181,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+
+Bulk operations require CyberArk version 15.2 or later and are triggered when `-AccountID` contains more than one value.
 
 ## RELATED LINKS
 

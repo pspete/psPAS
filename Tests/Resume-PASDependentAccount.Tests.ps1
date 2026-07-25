@@ -111,6 +111,71 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Bulk Input' {
+
+			BeforeEach {
+				$psPASSession.ExternalVersion = '15.0'
+
+				Mock Invoke-PASRestMethod {
+					param($Uri, $Method, $Body)
+					$Script:RequestBodyRaw = $Body
+				}
+
+				$response = Resume-PASDependentAccount -AccountID '11_1', '33_3' -dependentAccountId '22_2'
+
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/dependentAccounts/Resume/Bulk"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with body for bulk resume' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Body -ne $null
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with expected body for bulk resume' {
+
+				$Script:RequestBody = $Script:RequestBodyRaw | ConvertFrom-Json
+
+				$Script:RequestBody.BulkItems | Should -Not -BeNullOrEmpty
+				$Script:RequestBody.BulkItems.Count | Should -Be 2
+				$Script:RequestBody.BulkItems[0].AccountID | Should -Be '11_1'
+				$Script:RequestBody.BulkItems[0].dependentAccountId | Should -Be '22_2'
+
+			}
+
+			It 'throws error if bulk version requirement not met' {
+				$psPASSession.ExternalVersion = '14.9'
+				{ Resume-PASDependentAccount -AccountID '11_1', '33_3' -dependentAccountId '22_2' } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+		}
+
 		Context 'Output' {
 
 			BeforeEach {

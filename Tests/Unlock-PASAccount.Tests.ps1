@@ -118,6 +118,82 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Bulk CheckIn' {
+
+			BeforeAll {
+				$psPASSession.ExternalVersion = '15.2'
+
+				$Script:Calls = @()
+
+				Mock Invoke-PASRestMethod {
+					param($Uri, $Method, $Body)
+					$Script:Calls += [pscustomobject]@{
+						Uri    = $Uri
+						Method = $Method
+						Body   = $Body
+					}
+				}
+
+				$null = Unlock-PASAccount -AccountID '22_2', '33_3'
+
+			}
+
+			It 'sends request' {
+
+				$Script:Calls.Count | Should -Be 1
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				$Script:Calls[0].Uri | Should -Be "$($Script:psPASSession.BaseURI)/API/Accounts/CheckIn/Bulk"
+
+			}
+
+			It 'uses expected method' {
+
+				$Script:Calls[0].Method | Should -Be 'POST'
+
+			}
+
+			It 'sends request with body for bulk check-in' {
+
+				$Script:Calls[0].Body | Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'sends request with expected body for bulk check-in' {
+
+				$Script:RequestBody = $Script:Calls[0].Body | ConvertFrom-Json
+
+				$Script:RequestBody.BulkItems | Should -Not -BeNullOrEmpty
+				$Script:RequestBody.BulkItems.Count | Should -Be 2
+				$Script:RequestBody.BulkItems[0].AccountID | Should -Be '22_2'
+
+			}
+
+		}
+
+		Context 'Bulk CheckIn Version' {
+
+			It 'throws error if bulk version requirement not met' {
+				$psPASSession.ExternalVersion = '15.1'
+				{ Unlock-PASAccount -AccountID '22_2', '33_3' } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+		}
+
+		Context 'Bulk Unlock' {
+
+			It 'throws a not supported error' {
+				$psPASSession.ExternalVersion = '15.2'
+				{ Unlock-PASAccount -AccountID '22_2', '33_3' -Unlock } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+		}
+
 		Context 'Output' {
 
 			It 'provides no output' {
