@@ -10554,55 +10554,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Clear-PASDependentLinkedAccount</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
-          <maml:name>AccountID</maml:name>
-          <maml:description>
-            <maml:para>The ID of the parent account for the linked account</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="dependentid">
-          <maml:name>dependentAccountId</maml:name>
-          <maml:description>
-            <maml:para>The ID of the Dependent account for the Parent Account</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
@@ -13641,19 +13592,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
-          <maml:name>userID</maml:name>
-          <maml:description>
-            <maml:para>The unique ID of the user who requested the ticketing system.</maml:para>
-            <maml:para>If no user is defined, the log covers all system users.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
           <maml:name>path</maml:name>
           <maml:description>
@@ -13688,6 +13626,19 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>username</maml:name>
+          <maml:description>
+            <maml:para>The name of the user who requested the ticketing system.</maml:para>
+            <maml:para>If no user is defined, the log covers all system users.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -13702,19 +13653,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:uri />
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
-        <maml:name>userID</maml:name>
-        <maml:description>
-          <maml:para>The unique ID of the user who requested the ticketing system.</maml:para>
-          <maml:para>If no user is defined, the log covers all system users.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
         <maml:name>path</maml:name>
@@ -13751,6 +13689,19 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>username</maml:name>
+        <maml:description>
+          <maml:para>The name of the user who requested the ticketing system.</maml:para>
+          <maml:para>If no user is defined, the log covers all system users.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -56561,7 +56512,7 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>CheckIn</maml:name>
           <maml:description>
             <maml:para>Specifies that the account should be Checked-In</maml:para>
@@ -56611,7 +56562,7 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Unlock</maml:name>
           <maml:description>
             <maml:para>Specifies that the account should be unlocked</maml:para>
@@ -56663,7 +56614,7 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>CheckIn</maml:name>
         <maml:description>
           <maml:para>Specifies that the account should be Checked-In</maml:para>
@@ -56675,7 +56626,7 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Unlock</maml:name>
         <maml:description>
           <maml:para>Specifies that the account should be unlocked</maml:para>
