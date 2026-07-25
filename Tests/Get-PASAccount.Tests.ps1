@@ -175,6 +175,31 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'throws error if savedFilter DeleteInsightStatus used against non Privilege Cloud implementation' {
+
+				$psPASSession.ExternalVersion = '12.6'
+				{ Get-PASAccount -savedFilter DeleteInsightStatus } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'does not throw error if savedFilter DeleteInsightStatus used against Privilege Cloud implementation' {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'Count' = 0
+						'Value' = @()
+					}
+				}
+
+				$psPASSession.ExternalVersion = '12.6'
+				$psPASSession.BaseURI = 'https://SomeSubDomain.cyberark.cloud'
+				{ Get-PASAccount -savedFilter DeleteInsightStatus } | Should -Not -Throw
+				$psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
 		}
 
 		Context 'Response Output' {

@@ -41,7 +41,7 @@ function Get-PASAccount {
 			'AccessedByUsers', 'ModifiedByUsers', 'ModifiedByCPM', 'DisabledPasswordByUser',
 			'DisabledPasswordByCPM', 'ScheduledForChange', 'ScheduledForVerify', 'ScheduledForReconcile',
 			'SuccessfullyReconciled', 'FailedChange', 'FailedVerify', 'FailedReconcile', 'LockedOrNew',
-			'Locked', 'Favorites')]
+			'Locked', 'Favorites', 'DeleteInsightStatus')]
 		[string]$savedFilter,
 
 		[parameter(
@@ -176,6 +176,11 @@ function Get-PASAccount {
 						#check required version
 						Assert-VersionRequirement -RequiredVersion 12.6
 
+						if ($savedFilter -eq 'DeleteInsightStatus') {
+							#DeleteInsightStatus is only applicable to Privilege Cloud
+							Assert-VersionRequirement -PrivilegeCloud
+						}
+
 					}
 
 					( { $PSItem.ContainsKey('modificationTime') }) {
@@ -304,8 +309,8 @@ function Get-PASAccount {
 
 									$InternalProps |
 
-									#Add each property name and value as object property of $InternalProps
-									Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+										#Add each property name and value as object property of $InternalProps
+										Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
 
 								}
 

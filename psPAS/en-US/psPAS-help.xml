@@ -13861,7 +13861,8 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:para>- Returns details about a single, matching account.</maml:para>
       <maml:para>- Only the first account will be returned if more than one account matches the search criteria</maml:para>
       <maml:para>  - (the Count output parameter will display the number of accounts that were found) - If ten or more accounts are found, the Count Output parameter will show 10.</maml:para>
-      <maml:para>Requires safe permissions: - List accounts.</maml:para>
+      <maml:para>Requires safe permissions:</maml:para>
+      <maml:para>- List accounts.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -13977,8 +13978,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>savedFilter</maml:name>
           <maml:description>
-            <maml:para>Specify a value matching one of the configured Saved Filters: 'Regular', 'Recently', 'New', 'Link', 'Deleted', 'PolicyFailures', 'AccessedByUsers', 'ModifiedByUsers', 'ModifiedByCPM', 'DisabledPasswordByUser', 'DisabledPasswordByCPM', 'ScheduledForChange', 'ScheduledForVerify', 'ScheduledForReconcile', 'SuccessfullyReconciled', 'FailedChange', 'FailedVerify', 'FailedReconcile', 'LockedOrNew', 'Locked', 'Favorites'</maml:para>
+            <maml:para>Specify a value matching one of the configured Saved Filters: 'Regular', 'Recently', 'New', 'Link', 'Deleted', 'PolicyFailures', 'AccessedByUsers', 'ModifiedByUsers', 'ModifiedByCPM', 'DisabledPasswordByUser', 'DisabledPasswordByCPM', 'ScheduledForChange', 'ScheduledForVerify', 'ScheduledForReconcile', 'SuccessfullyReconciled', 'FailedChange', 'FailedVerify', 'FailedReconcile', 'LockedOrNew', 'Locked', 'Favorites', 'DeleteInsightStatus'</maml:para>
             <maml:para>Requires minimum version of 12.6</maml:para>
+            <maml:para>DeleteInsightStatus only applies to Privilege Cloud</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -14183,8 +14185,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>savedFilter</maml:name>
         <maml:description>
-          <maml:para>Specify a value matching one of the configured Saved Filters: 'Regular', 'Recently', 'New', 'Link', 'Deleted', 'PolicyFailures', 'AccessedByUsers', 'ModifiedByUsers', 'ModifiedByCPM', 'DisabledPasswordByUser', 'DisabledPasswordByCPM', 'ScheduledForChange', 'ScheduledForVerify', 'ScheduledForReconcile', 'SuccessfullyReconciled', 'FailedChange', 'FailedVerify', 'FailedReconcile', 'LockedOrNew', 'Locked', 'Favorites'</maml:para>
+          <maml:para>Specify a value matching one of the configured Saved Filters: 'Regular', 'Recently', 'New', 'Link', 'Deleted', 'PolicyFailures', 'AccessedByUsers', 'ModifiedByUsers', 'ModifiedByCPM', 'DisabledPasswordByUser', 'DisabledPasswordByCPM', 'ScheduledForChange', 'ScheduledForVerify', 'ScheduledForReconcile', 'SuccessfullyReconciled', 'FailedChange', 'FailedVerify', 'FailedReconcile', 'LockedOrNew', 'Locked', 'Favorites', 'DeleteInsightStatus'</maml:para>
           <maml:para>Requires minimum version of 12.6</maml:para>
+          <maml:para>DeleteInsightStatus only applies to Privilege Cloud</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
