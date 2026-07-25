@@ -4,21 +4,34 @@ function Clear-PASDependentLinkedAccount {
     param(
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SelfHosted'
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SaaS'
         )]
         [Alias('id')]
         [string]$AccountID,
 
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SelfHosted'
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SaaS'
         )]
         [Alias('dependentid')]
         [string]$dependentAccountId,
 
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SaaS'
         )]
         [int]$extraPasswordIndex
 
@@ -26,16 +39,37 @@ function Clear-PASDependentLinkedAccount {
 
     begin {
 
-        Assert-VersionRequirement -PrivilegeCloud
-
     }#begin
 
     process {
 
-        #Create URL for Request
-        $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/account-dependents/$dependentAccountId/link-accounts/$extraPasswordIndex"
 
-        if ($PSCmdlet.ShouldProcess($dependentAccountId, "Clear extraPass$extraPasswordIndex Linked Account")) {
+        switch ($PSCmdlet.ParameterSetName) {
+
+            'SaaS' {
+
+                Assert-VersionRequirement -PrivilegeCloud
+
+                #Create URL for Request
+                $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/account-dependents/$dependentAccountId/link-accounts/$extraPasswordIndex"
+
+            }
+
+            'SelfHosted' {
+
+                #Self-Hosted parameter name, requires 15.0
+                Assert-VersionRequirement -SelfHosted
+                Assert-VersionRequirement -RequiredVersion 15.0
+
+                #Create URL for Request
+                $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/dependentAccounts/$dependentAccountId/Unlink"
+
+            }
+
+        }
+
+
+        if ($PSCmdlet.ShouldProcess($dependentAccountId, "Clear Linked Account")) {
 
             #Send request to web service
             Invoke-PASRestMethod -Uri $URI -Method DELETE
