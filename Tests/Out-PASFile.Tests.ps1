@@ -74,6 +74,68 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Full File Path Provided' {
+			BeforeEach {
+
+				$Object = [PSCustomObject]@{
+					Content = New-Object Byte[] 512
+					Headers = @{'Content-Disposition' = 'attachment; filename=FILENAME.zip' }
+				}
+
+				Mock Get-Item -MockWith { }
+
+				Mock Set-Content -MockWith { }
+
+			}
+
+			It 'saves to the exact path when the path has a file extension, even if a same-named container exists' {
+
+				Mock Test-Path -MockWith { $true } -ParameterFilter { $PathType -eq 'Container' }
+
+				Out-PASFile -InputObject $Object -Path 'C:\Temp\test.avi'
+
+				Assert-MockCalled Set-Content -ParameterFilter { $Path -eq 'C:\Temp\test.avi' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'saves to the exact path when the path has a file extension and does not exist' {
+
+				Mock Test-Path -MockWith { $false } -ParameterFilter { $PathType -eq 'Container' }
+
+				Out-PASFile -InputObject $Object -Path 'C:\Temp\test.avi'
+
+				Assert-MockCalled Set-Content -ParameterFilter { $Path -eq 'C:\Temp\test.avi' } -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
+		Context 'Folder Path Provided' {
+			BeforeEach {
+
+				$Object = [PSCustomObject]@{
+					Content = New-Object Byte[] 512
+					Headers = @{'Content-Disposition' = 'attachment; filename=FILENAME.zip' }
+				}
+
+				Mock Get-Item -MockWith { }
+
+				Mock Set-Content -MockWith { }
+
+				Mock Test-Path -MockWith { $true } -ParameterFilter { $PathType -eq 'Container' }
+
+			}
+
+			It 'appends the suggested filename when the path has no file extension' {
+
+				Out-PASFile -InputObject $Object -Path 'C:\Temp'
+
+				Assert-MockCalled Set-Content -ParameterFilter { $Path -eq 'C:\Temp\FILENAME.zip' } -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
 	}
 
 }
