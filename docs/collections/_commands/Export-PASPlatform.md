@@ -50,7 +50,8 @@ Accept wildcard characters: False
 ```
 
 ### -path
-The folder to export the platform configuration to.
+The path to export the platform configuration to.
+If the path includes a file name and extension, the platform is saved to that exact file; otherwise the path is treated as a destination folder.
 
 ```yaml
 Type: String
