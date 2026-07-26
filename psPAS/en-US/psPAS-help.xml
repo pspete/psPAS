@@ -6410,10 +6410,6 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Add-PASPendingAccount</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
         <maml:linkText>https://pspas.pspete.dev/commands/Add-PASPersonalAdminAccount</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Add-PASPersonalAdminAccount</maml:uri>
       </maml:navigationLink>
@@ -14602,8 +14598,8 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASAccountActivity</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Get-PASAccountActivity</maml:uri>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASAccountDetail</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Get-PASAccountDetail</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>https://documenter.getpostman.com/view/998920/RzZ9Gz1U#d20c01c2-f7fc-4717-bf10-d8c51cb11411</maml:linkText>
@@ -17468,397 +17464,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:navigationLink>
         <maml:linkText>https://pspas.pspete.dev/commands/Get-PASDiscoveredLocalAccountActivity</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Get-PASDiscoveredLocalAccountActivity</maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Get-PASDiscoveryScan</command:name>
-      <command:verb>Get</command:verb>
-      <command:noun>PASDiscoveryScan</command:noun>
-      <maml:description>
-        <maml:para>Get scan details.</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>get scan details</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Get-PASDiscoveryScan</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-          <maml:name>id</maml:name>
-          <maml:description>
-            <maml:para>the id of the scan to retrieve</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-        <maml:name>id</maml:name>
-        <maml:description>
-          <maml:para>the id of the scan to retrieve</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes />
-    <command:returnValues />
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-PASDiscoveryScan -id 1234</dev:code>
-        <dev:remarks>
-          <maml:para>get scan with ID</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASDiscoveryScan</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Get-PASDiscoveryScan</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-getscaninstance.htm</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-getscaninstance.htm</maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Get-PASDiscoveryScanDefinition</command:name>
-      <command:verb>Get</command:verb>
-      <command:noun>PASDiscoveryScanDefinition</command:noun>
-      <maml:description>
-        <maml:para>Get scan definitions and their details.</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>Get scan definitions and their details.</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Get-PASDiscoveryScanDefinition</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>id</maml:name>
-          <maml:description>
-            <maml:para>the id of the scan definition to retrieve</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PASDiscoveryScanDefinition</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>search</maml:name>
-          <maml:description>
-            <maml:para>scan definition search term</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>sort</maml:name>
-          <maml:description>
-            <maml:para>Property to sort the returned list of scan definitions by.</maml:para>
-            <maml:para>Valid values are creationTime, updateTime, name, type &amp; recurrenceType.</maml:para>
-            <maml:para>lastInstanceStatus &amp; lastInstanceCreationTime are also valid values, but only when extendedDetails is set to $true.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>type</maml:name>
-          <maml:description>
-            <maml:para>scan definition type</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>recurrenceType</maml:name>
-          <maml:description>
-            <maml:para>scan definition recurrenceType</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>lastInstanceStatus</maml:name>
-          <maml:description>
-            <maml:para>scan definition lastInstanceStatus</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>extendedDetails</maml:name>
-          <maml:description>
-            <maml:para>whether or not to return extendedDetails of scan definition</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-          <dev:type>
-            <maml:name>Boolean</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>sortDirection</maml:name>
-          <maml:description>
-            <maml:para>Direction to sort the returned list of scan definitions by, when used with the sort parameter.</maml:para>
-            <maml:para>Valid values are asc &amp; desc. Defaults to asc if sort is specified but sortDirection is not.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>id</maml:name>
-        <maml:description>
-          <maml:para>the id of the scan definition to retrieve</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>search</maml:name>
-        <maml:description>
-          <maml:para>scan definition search term</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>sort</maml:name>
-        <maml:description>
-          <maml:para>Property to sort the returned list of scan definitions by.</maml:para>
-          <maml:para>Valid values are creationTime, updateTime, name, type &amp; recurrenceType.</maml:para>
-          <maml:para>lastInstanceStatus &amp; lastInstanceCreationTime are also valid values, but only when extendedDetails is set to $true.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>type</maml:name>
-        <maml:description>
-          <maml:para>scan definition type</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>recurrenceType</maml:name>
-        <maml:description>
-          <maml:para>scan definition recurrenceType</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>lastInstanceStatus</maml:name>
-        <maml:description>
-          <maml:para>scan definition lastInstanceStatus</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>extendedDetails</maml:name>
-        <maml:description>
-          <maml:para>whether or not to return extendedDetails of scan definition</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-        <dev:type>
-          <maml:name>Boolean</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>sortDirection</maml:name>
-        <maml:description>
-          <maml:para>Direction to sort the returned list of scan definitions by, when used with the sort parameter.</maml:para>
-          <maml:para>Valid values are asc &amp; desc. Defaults to asc if sort is specified but sortDirection is not.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes />
-    <command:returnValues />
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
-        <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASDiscoveryScanDefinition</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Get-PASDiscoveryScanDefinition</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-getscandefinitionid.htm</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-getscandefinitionid.htm</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-getallscandefinitions.htm</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-getallscandefinitions.htm</maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Get-PASDiscoveryScanLog</command:name>
-      <command:verb>Get</command:verb>
-      <command:noun>PASDiscoveryScanLog</command:noun>
-      <maml:description>
-        <maml:para>Get scan instance logs URL</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>returns the signed URL from where you can download logs for a specific scan instance</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Get-PASDiscoveryScanLog</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-          <maml:name>id</maml:name>
-          <maml:description>
-            <maml:para>The ID of the scan instance</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-        <maml:name>id</maml:name>
-        <maml:description>
-          <maml:para>The ID of the scan instance</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes />
-    <command:returnValues />
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-PASDiscoveryScanLog -id 1234</dev:code>
-        <dev:remarks>
-          <maml:para>Get the logs URL of the specified scan instance</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASDiscoveryScanLog</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Get-PASDiscoveryScanLog</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-downloadlogurl.htm</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-downloadlogurl.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -21223,234 +20828,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Get-PASRemediationRuleSet</command:name>
-      <command:verb>Get</command:verb>
-      <command:noun>PASRemediationRuleSet</command:noun>
-      <maml:description>
-        <maml:para>Get information about remediation rule sets</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>returns information about all the defined remediation rule sets or about a specific remediation rule set</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Get-PASRemediationRuleSet</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>id</maml:name>
-          <maml:description>
-            <maml:para>The id of a rule set</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>TimeoutSec</maml:name>
-          <maml:description>
-            <maml:para>Invoke-WebRequest timeout value</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-          <dev:type>
-            <maml:name>Int32</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PASRemediationRuleSet</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>search</maml:name>
-          <maml:description>
-            <maml:para>a search term for the rule set</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>sort</maml:name>
-          <maml:description>
-            <maml:para>Sort by property:</maml:para>
-            <maml:para>- id</maml:para>
-            <maml:para>- name</maml:para>
-            <maml:para>- status</maml:para>
-            <maml:para>- rulesCount</maml:para>
-            <maml:para>- actionsPerformed</maml:para>
-            <maml:para>- lasModificationTime</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>limit</maml:name>
-          <maml:description>
-            <maml:para>The page size for the returned results</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-          <dev:type>
-            <maml:name>Int32</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>TimeoutSec</maml:name>
-          <maml:description>
-            <maml:para>Invoke-WebRequest timeout value</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-          <dev:type>
-            <maml:name>Int32</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>0</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>sortDirection</maml:name>
-          <maml:description>
-            <maml:para>Specify direction for sort property: asc or desc</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>id</maml:name>
-        <maml:description>
-          <maml:para>The id of a rule set</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>search</maml:name>
-        <maml:description>
-          <maml:para>a search term for the rule set</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>sort</maml:name>
-        <maml:description>
-          <maml:para>Sort by property:</maml:para>
-          <maml:para>- id</maml:para>
-          <maml:para>- name</maml:para>
-          <maml:para>- status</maml:para>
-          <maml:para>- rulesCount</maml:para>
-          <maml:para>- actionsPerformed</maml:para>
-          <maml:para>- lasModificationTime</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>limit</maml:name>
-        <maml:description>
-          <maml:para>The page size for the returned results</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>0</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>TimeoutSec</maml:name>
-        <maml:description>
-          <maml:para>Invoke-WebRequest timeout value</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>0</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>sortDirection</maml:name>
-        <maml:description>
-          <maml:para>Specify direction for sort property: asc or desc</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes />
-    <command:returnValues />
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-PASRemediationRuleSet -id 1234</dev:code>
-        <dev:remarks>
-          <maml:para>Get the rule set with the specified ID</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-PASRemediationRuleSet -search someword -sort "name - asc" -limit 10</dev:code>
-        <dev:remarks>
-          <maml:para>Get the rule sets matching the search</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASRemediationRuleSet</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Get-PASRemediationRuleSet</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discoveryruleset-getall.htm</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discoveryruleset-getall.htm</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discoveryruleset-get.htm</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discoveryruleset-get.htm</maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
       <command:name>Get-PASReport</command:name>
       <command:verb>Get</command:verb>
       <command:noun>PASReport</command:noun>
@@ -24056,34 +23433,8 @@ Invoke-RestMethod -Method GET -Uri "$session.BaseURI/SomePath" -WebSession $sess
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name>System.String</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <maml:name>System.Security.SecureString</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
+    <command:inputTypes />
+    <command:returnValues />
     <maml:alertSet>
       <maml:alert>
         <maml:para></maml:para>
@@ -24101,8 +23452,12 @@ PS C:\&gt; Get-PASVRMDRSystemHealth -DRAddress dr-vault.company.com -servicePass
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASVRMDRSystemHealth</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Get-PASVRMDRSystemHealth</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-system-health.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-system-health.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -24264,8 +23619,12 @@ PS C:\&gt; Get-PASVRMDRSystemHealth -DRAddress dr-vault.company.com -servicePass
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASVRMServiceConfig</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Get-PASVRMServiceConfig</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-get-service-config.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-get-service-config.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -24451,8 +23810,12 @@ PS C:\&gt; Get-PASVRMServiceConfigParameter -parameterName 'ReplicationInterval'
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASVRMServiceConfigParameter</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Get-PASVRMServiceConfigParameter</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-get-service-config-parameter.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-get-service-config-parameter.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -24616,8 +23979,12 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName Vault -serverAddress vault.compa
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASVRMServiceStatus</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Get-PASVRMServiceStatus</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-get-service-status.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-get-service-status.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -26187,8 +25554,12 @@ PS C:\&gt; Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePasswor
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Invoke-PASVRMFailover</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Invoke-PASVRMFailover</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-initiate-dr-failover.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-initiate-dr-failover.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -28674,6 +28045,10 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
       <maml:navigationLink>
         <maml:linkText>https://pspas.pspete.dev/commands/New-PASPlatformSecret</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/New-PASPlatformSecret</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/generate%20secret%20for%20platform.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/generate%20secret%20for%20platform.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -37201,6 +36576,10 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
         <maml:linkText>https://pspas.pspete.dev/commands/Publish-PASDiscoveredAccount</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Publish-PASDiscoveredAccount</maml:uri>
       </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/add%20discovered%20account%20v10.8.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/add%20discovered%20account%20v10.8.htm</maml:uri>
+      </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
@@ -38827,8 +38206,12 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Remove-PASDependentAccount</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Remove-PASDependentAccount</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/delete-dependent-account.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/delete-dependent-account.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -39211,122 +38594,6 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/Content/Privilege%20Cloud/PrivCloud-DiscoveredAccountsService-Delete.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/Content/Privilege%20Cloud/PrivCloud-DiscoveredAccountsService-Delete.htm</maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Remove-PASDiscoveryScanDefinition</command:name>
-      <command:verb>Remove</command:verb>
-      <command:noun>PASDiscoveryScanDefinition</command:noun>
-      <maml:description>
-        <maml:para>Delete a scan definition</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>Delete a scan definition</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Remove-PASDiscoveryScanDefinition</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-          <maml:name>id</maml:name>
-          <maml:description>
-            <maml:para>The id of the scan definition to delete</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-        <maml:name>id</maml:name>
-        <maml:description>
-          <maml:para>The id of the scan definition to delete</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-        <maml:name>WhatIf</maml:name>
-        <maml:description>
-          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-        <maml:name>Confirm</maml:name>
-        <maml:description>
-          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes />
-    <command:returnValues />
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Remove-PASDiscoveryScanDefinition -id 1234</dev:code>
-        <dev:remarks>
-          <maml:para>Delete a scan definition</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Remove-PASDiscoveryScanDefinition</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Remove-PASDiscoveryScanDefinition</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-deletescandefinition.htm</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-deletescandefinition.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -39847,6 +39114,10 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <maml:navigationLink>
         <maml:linkText>https://pspas.pspete.dev/commands/Remove-PASOAuthProvider</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Remove-PASOAuthProvider</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/oauth-delete-provider.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/oauth-delete-provider.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -41569,122 +40840,6 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20Public%20SSH%20Key.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete%20Public%20SSH%20Key.htm</maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Remove-PASRemediationRuleSet</command:name>
-      <command:verb>Remove</command:verb>
-      <command:noun>PASRemediationRuleSet</command:noun>
-      <maml:description>
-        <maml:para>Delete a remediation rule set</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>Delete a remediation rule set</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Remove-PASRemediationRuleSet</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-          <maml:name>id</maml:name>
-          <maml:description>
-            <maml:para>the id of the rule set to delete</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-        <maml:name>id</maml:name>
-        <maml:description>
-          <maml:para>the id of the rule set to delete</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-        <maml:name>WhatIf</maml:name>
-        <maml:description>
-          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-        <maml:name>Confirm</maml:name>
-        <maml:description>
-          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes />
-    <command:returnValues />
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Remove-PASRemediationRuleSet -id 1234</dev:code>
-        <dev:remarks>
-          <maml:para>Delete the rule set with the specified ID</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Remove-PASRemediationRuleSet</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Remove-PASRemediationRuleSet</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discoveryruleset-delete.htm</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discoveryruleset-delete.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -43435,8 +42590,12 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Restart-PASVRMService</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Restart-PASVRMService</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-status-restart.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-status-restart.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -43673,8 +42832,12 @@ PS C:\&gt; Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Resume-PASDependentAccount</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Resume-PASDependentAccount</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/resume-dependent-account.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/resume-dependent-account.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -48006,6 +47169,10 @@ PS C:\&gt; Set-PASPlatform -id 42 -operations $Operations</dev:code>
       <maml:navigationLink>
         <maml:linkText>https://pspas.pspete.dev/commands/Set-PASPlatform</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Set-PASPlatform</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-update-target-platform-settings.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-update-target-platform-settings.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -54825,8 +53992,12 @@ PS C:\&gt; Set-PASVRMServiceConfig -parameters $params -serviceName DR -serverAd
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Set-PASVRMServiceConfig</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Set-PASVRMServiceConfig</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-config-.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-config-.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -54977,122 +54148,6 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts</dev:code
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Create-bulk-upload-of-accounts-v10.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Create-bulk-upload-of-accounts-v10.htm</maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Start-PASDiscoveryScan</command:name>
-      <command:verb>Start</command:verb>
-      <command:noun>PASDiscoveryScan</command:noun>
-      <maml:description>
-        <maml:para>Starts a discovery scan</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>Starts a discovery scan</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Start-PASDiscoveryScan</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-          <maml:name>id</maml:name>
-          <maml:description>
-            <maml:para>the id of the discovery scan to start</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-        <maml:name>id</maml:name>
-        <maml:description>
-          <maml:para>the id of the discovery scan to start</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-        <maml:name>WhatIf</maml:name>
-        <maml:description>
-          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-        <maml:name>Confirm</maml:name>
-        <maml:description>
-          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes />
-    <command:returnValues />
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Start-PASDiscoveryScan -id 1234</dev:code>
-        <dev:remarks>
-          <maml:para>Starts the specified discovery scan</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>https://pspas.pspete.dev/commands/Start-PASDiscoveryScan</maml:linkText>
-        <maml:uri>https://pspas.pspete.dev/commands/Start-PASDiscoveryScan</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-addnewscaninstance.htm</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/identity-protection-space/latest/en/content/discovery/discovery-apis/discovery-addnewscaninstance.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -55302,8 +54357,12 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Start-PASVRMService</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Start-PASVRMService</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-status-start.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-status-start.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -55446,6 +54505,10 @@ PS C:\&gt; Start-PASVRMService -serviceName Vault -serverAddress vault.company.c
       <maml:navigationLink>
         <maml:linkText>https://pspas.pspete.dev/commands/Stop-PASCPMTask</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Stop-PASCPMTask</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/cancel-account-task.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/cancel-account-task.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -55771,8 +54834,12 @@ PS C:\&gt; Stop-PASVRMService -serviceName Vault -serverAddress vault.company.co
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://pspas.pspete.dev/commands/Stop-PASVRMService</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Stop-PASVRMService</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-status-stop.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-status-stop.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>

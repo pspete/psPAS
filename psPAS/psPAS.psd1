@@ -310,13 +310,6 @@
 		'Resume-PASCPMAutoManagement',
 		'Set-PASPlatform',
 		'Remove-PASOAuthProvider',
-		'Get-PASDiscoveryScan',
-		'Get-PASDiscoveryScanDefinition',
-		'Get-PASDiscoveryScanLog',
-		'Start-PASDiscoveryScan',
-		'Remove-PASDiscoveryScanDefinition',
-		'Get-PASRemediationRuleSet',
-		'Remove-PASRemediationRuleSet',
 		'Test-PASDiscoveredLocalAccount',
 		'New-PASDiscoveredAccountObject'
 	)
