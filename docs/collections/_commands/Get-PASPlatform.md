@@ -444,6 +444,8 @@ Accept wildcard characters: False
 Limits the response to a specific section of the target platform's settings.
 If omitted, the response includes all sections.
 
+Supports tab completion; valid values depend on the connected environment/version.
+
 Minimum required version 15.2, Self-Hosted only
 
 ```yaml

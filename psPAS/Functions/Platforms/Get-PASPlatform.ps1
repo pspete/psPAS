@@ -51,18 +51,26 @@ function Get-PASPlatform {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'target-details'
         )]
-        [ValidateSet(
-            'general',
-            'policy',
-            'policy/general',
-            'policy/cpmPlugin',
-            'policy/additionalPolicySettings',
-            'uiAndWorkflows',
-            'uiAndWorkflows/properties',
-            'uiAndWorkflows/usages',
-            'uiAndWorkflows/linkedAccounts',
-            'uiAndWorkflows/priviledgedSessionManagement'
-        )]
+        [ArgumentCompleter({
+                #Standard ArgumentCompleter parameters.
+                param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+                #Avoid PSScriptAnalyzer PSReviewUnusedParameter rule on standard ArgumentCompleter parameters.
+                $null = $parameterName, $commandAst, $fakeBoundParameters
+
+                #ask the API for valid scopes
+                try {
+
+                    $Module = (Get-Command $commandName -ErrorAction Stop).Module
+                    $Scopes = & $Module { Get-PASPlatformTargetScope -ErrorAction Stop }
+
+                } catch { return }
+
+                $Scopes |
+                    Where-Object { $_ -like "$wordToComplete*" } |
+                    ForEach-Object { [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_) }
+
+            })]
         [string]$Scope,
 
         [parameter(

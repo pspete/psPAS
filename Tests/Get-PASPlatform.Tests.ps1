@@ -329,6 +329,24 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 			}
 
+			It 'provides tab completion for the Scope parameter using values from the API' {
+
+				#Regression test: the completer scriptblock is invoked by the completion engine
+				#outside of the module's own session state, so it must not rely on module-private
+				#commands (e.g. Invoke-PASRestMethod) being directly resolvable from within it.
+				Mock Get-PASPlatformTargetScope -MockWith {
+					@('general', 'policy', 'policy/general', 'policy/cpmPlugin', 'policy/additionalPolicySettings')
+				}
+
+				$Completer = (Get-Command Get-PASPlatform).Parameters['Scope'].Attributes |
+					Where-Object { $PSItem -is [System.Management.Automation.ArgumentCompleterAttribute] }
+
+				$CompletionResults = & $Completer.ScriptBlock 'Get-PASPlatform' 'Scope' 'policy/c' $null @{ ID = 123 }
+
+				$CompletionResults.CompletionText | Should -Be 'policy/cpmPlugin'
+
+			}
+
 		}
 
 	}
