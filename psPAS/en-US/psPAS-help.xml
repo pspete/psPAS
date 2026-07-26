@@ -18266,6 +18266,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:para>11.4+ can return details of target, dependent, group &amp; rotational group platforms, with additional filters available for target group queries.</maml:para>
       <maml:para>11.1+ can return details of all target platforms.</maml:para>
       <maml:para>Where appropriate, each invocation of the command issues an additional API request to retrieve additional platform values using a legacy API endpoint</maml:para>
+      <maml:para>15.2+ Self-Hosted can return the full settings of a specific target platform, optionally limited to a specific section via the "Scope" parameter. Each setting's value is returned directly; the underlying API's description/isDefault/isReadOnly metadata for each setting is not included in the output.</maml:para>
       <maml:para>The "PlatformID" parameter is used to retrieve details of a single specified platform from the Vault. Note: When specifying PlatformID:</maml:para>
       <maml:para>- if the platform properties contain a semicolon (';'), the API may not return the complete value.</maml:para>
       <maml:para>- noted for ChangeCommand, ReconcileCommand &amp; ConnectionCommand properties</maml:para>
@@ -18491,6 +18492,35 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-PASPlatform</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>ID</maml:name>
+          <maml:description>
+            <maml:para>The unique numeric ID of the target platform.</maml:para>
+            <maml:para>Minimum required version 15.2, Self-Hosted only</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>Scope</maml:name>
+          <maml:description>
+            <maml:para>Limits the response to a specific section of the target platform's settings. If omitted, the response includes all sections.</maml:para>
+            <maml:para>Minimum required version 15.2, Self-Hosted only</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
@@ -18662,6 +18692,32 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>ID</maml:name>
+        <maml:description>
+          <maml:para>The unique numeric ID of the target platform.</maml:para>
+          <maml:para>Minimum required version 15.2, Self-Hosted only</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>Scope</maml:name>
+        <maml:description>
+          <maml:para>Limits the response to a specific section of the target platform's settings. If omitted, the response includes all sections.</maml:para>
+          <maml:para>Minimum required version 15.2, Self-Hosted only</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -18670,6 +18726,7 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:para>Minimum CyberArk version 9.10</maml:para>
         <maml:para>CyberArk version 11.1 required for Active, PlatformType &amp; Search parameters.</maml:para>
         <maml:para>CyberArk version 11.4 required for extended filters for target platforms, and requests for dependent, group &amp; rotational group platforms</maml:para>
+        <maml:para>CyberArk version 15.2 (Self-Hosted only) required for ID &amp; Scope parameters</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -18745,6 +18802,22 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:para>Minimum required version 11.4</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 10 --------------------------</maml:title>
+        <dev:code>Get-PASPlatform -ID 123</dev:code>
+        <dev:remarks>
+          <maml:para>Get all settings for target platform with ID 123</maml:para>
+          <maml:para>Minimum required version 15.2, Self-Hosted only</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 11 --------------------------</maml:title>
+        <dev:code>Get-PASPlatform -ID 123 -Scope policy/general</dev:code>
+        <dev:remarks>
+          <maml:para>Get the "policy/general" settings for target platform with ID 123</maml:para>
+          <maml:para>Minimum required version 15.2, Self-Hosted only</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -18774,6 +18847,10 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-rotational-group-platforms.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-rotational-group-platforms.htm</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-get-target-platform-settings.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-get-target-platform-settings.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
