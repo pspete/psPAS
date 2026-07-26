@@ -40,6 +40,32 @@ function Get-PASPlatform {
         [string]$PlatformID,
 
         [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'target-details'
+        )]
+        [int]$ID,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'target-details'
+        )]
+        [ValidateSet(
+            'general',
+            'policy',
+            'policy/general',
+            'policy/cpmPlugin',
+            'policy/additionalPolicySettings',
+            'uiAndWorkflows',
+            'uiAndWorkflows/properties',
+            'uiAndWorkflows/usages',
+            'uiAndWorkflows/linkedAccounts',
+            'uiAndWorkflows/priviledgedSessionManagement'
+        )]
+        [string]$Scope,
+
+        [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'dependents'
@@ -162,6 +188,51 @@ function Get-PASPlatform {
 
         }
 
+        function ConvertTo-FlatPlatformSetting {
+            ## Helper function to flatten target platform settings config-value objects to their raw value
+            param(
+                [parameter(
+                    Mandatory = $false,
+                    ValueFromPipeline = $true
+                )]
+                $InputObject
+            )
+            process {
+
+                if ($null -eq $InputObject) {
+                    #Nothing to flatten
+                    return $InputObject
+                }
+
+                if (($InputObject.PSObject.Properties.Match('value').Count -gt 0) -and ($InputObject.PSObject.Properties.Match('isReadOnly').Count -gt 0)) {
+                    #Leaf config-value object, flatten to its value
+                    return $InputObject.value
+                }
+
+                if ($InputObject -is [System.Collections.IList]) {
+                    #Array of items, flatten each element
+                    #Array properties (e.g. SyncRoot) self-reference the array, so it must not be treated as a section below
+                    return @($InputObject | ForEach-Object { ConvertTo-FlatPlatformSetting -InputObject $PSItem })
+                }
+
+                if ($InputObject -is [PSCustomObject]) {
+                    #Section object, recurse into each property
+                    $Output = [PSCustomObject]@{}
+
+                    foreach ($prop in $InputObject.PSObject.Properties) {
+                        $Output | Add-Member -NotePropertyName $prop.Name -NotePropertyValue $(ConvertTo-FlatPlatformSetting -InputObject $prop.Value)
+                    }
+
+                    return $Output
+                }
+
+                #Scalar value, return as-is
+                $InputObject
+
+            }
+
+        }
+
         #include these parameter values in url for Get-Platform call
         $PlatformQueryParameters = [Collections.Generic.List[Object]]::New(@('Active', 'Search'))
 
@@ -181,6 +252,31 @@ function Get-PASPlatform {
 
                 #Create request URL
                 $URI = "$($psPASSession.BaseURI)/API/Platforms/$($PlatformID | Get-EscapedString)/"
+
+                break
+
+            }
+
+            'target-details' {
+                #Returns settings for a specific target platform
+
+                Assert-VersionRequirement -SelfHosted
+                Assert-VersionRequirement -RequiredVersion 15.2
+
+                #Create request URL
+                $URI = "$($psPASSession.BaseURI)/API/Platforms/targets/$ID/settings"
+
+                #Get Parameters to include in request
+                $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep 'Scope'
+
+                #Create Query String, escaped for inclusion in request URL
+                $queryString = $boundParameters | ConvertTo-QueryString
+
+                if ($null -ne $queryString) {
+                    #Add query string to request URL
+                    $URI = "$URI`?$queryString"
+
+                }
 
                 break
 
@@ -284,6 +380,17 @@ function Get-PASPlatform {
                     $typename = 'psPAS.CyberArk.Vault.Platform.Details'
 
                 }
+
+            }
+
+            'target-details' {
+
+                if ($null -ne $result) {
+                    #Flatten config-value objects to their raw values
+                    $result = ConvertTo-FlatPlatformSetting -InputObject $result
+                }
+
+                $typename = 'psPAS.CyberArk.Vault.Platform.TargetDetails'
 
             }
 

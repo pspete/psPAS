@@ -42,6 +42,11 @@ Get-PASPlatform [-Search <String>] [-GroupPlatform] [<CommonParameters>]
 Get-PASPlatform -PlatformID <String> [<CommonParameters>]
 ```
 
+### target-details
+```
+Get-PASPlatform -ID <Int32> [-Scope <String>] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 
 Request platform configuration information from the Vault.
@@ -54,6 +59,11 @@ with additional filters available for target group queries.
 11.1+ can return details of all target platforms.
 
 Where appropriate, each invocation of the command issues an additional API request to retrieve additional platform values using a legacy API endpoint
+
+15.2+ Self-Hosted can return the full settings of a specific target platform, optionally
+limited to a specific section via the "Scope" parameter. Each setting's value is
+returned directly; the underlying API's description/isDefault/isReadOnly metadata for
+each setting is not included in the output.
 
 The "PlatformID" parameter is used to retrieve details of a single
 specified platform from the Vault.
@@ -154,6 +164,26 @@ Get-PASPlatform -Active $true -SystemType '*NIX' -AutomaticReconcile $true
 Get details of all active Unix platforms configured for automatic reconciliation.
 
 Minimum required version 11.4
+
+### EXAMPLE 10
+
+```
+Get-PASPlatform -ID 123
+```
+
+Get all settings for target platform with ID 123
+
+Minimum required version 15.2, Self-Hosted only
+
+### EXAMPLE 11
+
+```
+Get-PASPlatform -ID 123 -Scope policy/general
+```
+
+Get the "policy/general" settings for target platform with ID 123
+
+Minimum required version 15.2, Self-Hosted only
 
 ## PARAMETERS
 
@@ -391,6 +421,43 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -ID
+
+The unique numeric ID of the target platform.
+
+Minimum required version 15.2, Self-Hosted only
+
+```yaml
+Type: Int32
+Parameter Sets: target-details
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Scope
+
+Limits the response to a specific section of the target platform's settings.
+If omitted, the response includes all sections.
+
+Minimum required version 15.2, Self-Hosted only
+
+```yaml
+Type: String
+Parameter Sets: target-details
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -405,6 +472,8 @@ Minimum CyberArk version 9.10
 CyberArk version 11.1 required for Active, PlatformType & Search parameters.
 
 CyberArk version 11.4 required for extended filters for target platforms, and requests for dependent, group & rotational group platforms
+
+CyberArk version 15.2 (Self-Hosted only) required for ID & Scope parameters
 
 ## RELATED LINKS
 
@@ -421,3 +490,5 @@ CyberArk version 11.4 required for extended filters for target platforms, and re
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-group-platforms.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-group-platforms.htm)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-rotational-group-platforms.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-rotational-group-platforms.htm)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-get-target-platform-settings.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-get-target-platform-settings.htm)

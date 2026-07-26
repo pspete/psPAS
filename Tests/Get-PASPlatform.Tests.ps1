@@ -205,6 +205,132 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 		}
 
+		Context 'Input - target-details (15.2)' {
+
+			BeforeEach {
+
+				$psPASSession.ExternalVersion = '15.2'
+
+				Mock Invoke-PASRestMethod -MockWith {
+
+					[PSCustomObject]@{
+						'general' = [PSCustomObject]@{
+							'name' = [PSCustomObject]@{
+								'value'      = 'SomePlatform'
+								'description' = ''
+								'isDefault'  = $false
+								'isReadOnly' = $true
+							}
+						}
+					}
+
+				}
+
+				Mock Add-ObjectDetail -MockWith {}
+
+				Get-PASPlatform -ID 123
+
+			}
+
+			AfterEach {
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/targets/123/settings"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint - with scope' {
+
+				Get-PASPlatform -ID 123 -Scope 'policy/general'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/targets/123/settings?scope=policy%2Fgeneral"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with no body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws error if version requirement not met' {
+				$psPASSession.ExternalVersion = '15.1'
+				{ Get-PASPlatform -ID 123 } | Should -Throw
+			}
+
+			It 'throws error if not self-hosted' {
+				$psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud'
+				{ Get-PASPlatform -ID 123 } | Should -Throw
+				$psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+			}
+
+			It 'flattens settings without error when a section contains an array value' {
+
+				#Regression test: array-valued sections (e.g. additionalPolicySettings/linkedAccounts)
+				#must not be treated as objects to recurse into - .NET arrays expose a self-referencing
+				#SyncRoot property which previously caused unbounded recursion (CallDepthOverflow)
+				Mock Invoke-PASRestMethod -MockWith {
+
+					[PSCustomObject]@{
+						'general' = [PSCustomObject]@{
+							'name' = [PSCustomObject]@{ 'value' = 'SomePlatform'; 'description' = ''; 'isDefault' = $false; 'isReadOnly' = $true }
+						}
+						'policy'  = [PSCustomObject]@{
+							'additionalPolicySettings' = [PSCustomObject]@{
+								'customParameters' = @(
+									[PSCustomObject]@{
+										'name'  = [PSCustomObject]@{ 'value' = 'Param1'; 'description' = ''; 'isDefault' = $false; 'isReadOnly' = $false }
+										'value' = [PSCustomObject]@{ 'value' = 'Val1'; 'description' = ''; 'isDefault' = $false; 'isReadOnly' = $false }
+									},
+									[PSCustomObject]@{
+										'name'  = [PSCustomObject]@{ 'value' = 'Param2'; 'description' = ''; 'isDefault' = $false; 'isReadOnly' = $false }
+										'value' = [PSCustomObject]@{ 'value' = 'Val2'; 'description' = ''; 'isDefault' = $false; 'isReadOnly' = $false }
+									}
+								)
+							}
+						}
+					}
+
+				}
+
+				Mock Add-ObjectDetail -MockWith { $InputObject }
+
+				$result = Get-PASPlatform -ID 123
+
+				$result.general.name | Should -Be 'SomePlatform'
+				$result.policy.additionalPolicySettings.customParameters.Count | Should -Be 2
+				$result.policy.additionalPolicySettings.customParameters[0].name | Should -Be 'Param1'
+				$result.policy.additionalPolicySettings.customParameters[1].value | Should -Be 'Val2'
+
+			}
+
+		}
+
 	}
 
 }
