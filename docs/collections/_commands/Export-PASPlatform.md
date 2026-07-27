@@ -26,7 +26,7 @@ Export-PASPlatform [-RotationalGroupID <String>] [-path] <String> [-WhatIf] [-Co
 
 ### DependentID
 ```
-Export-PASPlatform [-DependentID <String>] [-path] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Export-PASPlatform [-DependentID <Int32>] [-path] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### GroupPlatformID
@@ -116,7 +116,7 @@ Accept wildcard characters: False
 Exports a Dependent platform
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: DependentID
 Aliases:
 
