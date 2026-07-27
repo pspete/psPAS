@@ -91,6 +91,138 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 $psPASSession.ExternalVersion = '0.0'
             }
 
+            It 'sends request with expected query string for limit' {
+                Get-PASReportSchedule -limit 25
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?limit=25"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'does not throw when using limit at the base version requirement' {
+                $psPASSession.ExternalVersion = '14.6'
+                { Get-PASReportSchedule -limit 25 } | Should -Not -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+            It 'sends request with expected query string for search' {
+                Get-PASReportSchedule -search SomeTask
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?search=SomeTask"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'throws error if search/filter version requirement not met' {
+                $psPASSession.ExternalVersion = '14.6'
+                { Get-PASReportSchedule -search SomeTask } | Should -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+            It 'does not throw when search/filter version requirement met' {
+                $psPASSession.ExternalVersion = '15.0'
+                { Get-PASReportSchedule -search SomeTask } | Should -Not -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+            It 'sends request with expected query string for filter built from name parameter' {
+                $psPASSession.ExternalVersion = '15.0'
+                Get-PASReportSchedule -name SomeTask
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?filter=name%20EQ%20SomeTask"
+
+                } -Times 1 -Exactly -Scope It
+                $psPASSession.ExternalVersion = '0.0'
+
+            }
+
+            It 'sends request with expected query string for filter built from subType parameter' {
+                $psPASSession.ExternalVersion = '15.0'
+                Get-PASReportSchedule -subType InventoryReports.InventoryReportUI
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?filter=subType%20EQ%20InventoryReports.InventoryReportUI"
+
+                } -Times 1 -Exactly -Scope It
+                $psPASSession.ExternalVersion = '0.0'
+
+            }
+
+            It 'sends request with expected query string for filter built from multiple parameters' {
+                $psPASSession.ExternalVersion = '15.0'
+                Get-PASReportSchedule -subType InventoryReports.InventoryReportUI -name SomeTask
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?filter=subType%20EQ%20InventoryReports.InventoryReportUI%20AND%20name%20EQ%20SomeTask"
+
+                } -Times 1 -Exactly -Scope It
+                $psPASSession.ExternalVersion = '0.0'
+
+            }
+
+            It 'throws error if filter version requirement not met' {
+                $psPASSession.ExternalVersion = '14.6'
+                { Get-PASReportSchedule -name SomeTask } | Should -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+        }
+
+        Context 'Pagination' {
+
+            BeforeEach {
+                $Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+                $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+                $Script:CallCount = 0
+
+                Mock Invoke-PASRestMethod -MockWith {
+
+                    $Script:CallCount++
+
+                    if ($Script:CallCount -eq 1) {
+
+                        [PSCustomObject]@{
+                            'tasks'      = @([PSCustomObject]@{'name' = 'Task1' }, [PSCustomObject]@{'name' = 'Task2' })
+                            'totalCount' = 3
+                        }
+
+                    } else {
+
+                        [PSCustomObject]@{
+                            'tasks'      = @([PSCustomObject]@{'name' = 'Task3' })
+                            'totalCount' = 3
+                        }
+
+                    }
+
+                }
+            }
+
+            It 'sends additional requests while more tasks remain' {
+                Get-PASReportSchedule | Out-Null
+                Assert-MockCalled Invoke-PASRestMethod -Times 2 -Exactly -Scope It
+            }
+
+            It 'sends the follow-up request with the expected offset' {
+                Get-PASReportSchedule | Out-Null
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?offset=2"
+
+                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'returns tasks collected from every page' {
+                (Get-PASReportSchedule).Count | Should -Be 3
+            }
+
         }
 
         Context 'Input - ID' {

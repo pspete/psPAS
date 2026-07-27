@@ -13119,9 +13119,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:description>
             <maml:para>Exports a Dependent platform</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>Int32</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -13280,9 +13280,9 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:description>
           <maml:para>Exports a Dependent platform</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>Int32</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -21435,7 +21435,8 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Returns all available report schedules for the user</maml:para>
+      <maml:para>Returns all available report schedules (tasks) for the user</maml:para>
+      <maml:para>All matching tasks are returned; if the API paginates the results across multiple pages, subsequent pages are requested automatically.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -21444,6 +21445,68 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <maml:name>id</maml:name>
           <maml:description>
             <maml:para>When specified, returns a specific report schedule, otherwise returns all the user has access to.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>FilterLogicalOperator</maml:name>
+          <maml:description>
+            <maml:para>The logical operator (AND/OR) used to combine multiple filter parameters, when both subType and name are specified together. Defaults to AND.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>AND</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>limit</maml:name>
+          <maml:description>
+            <maml:para>The number of report schedules to return on one page.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>name</maml:name>
+          <maml:description>
+            <maml:para>Filters report schedules by task name.</maml:para>
+            <maml:para>Only the EQ operator is supported; other operators are rejected by the API.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>search</maml:name>
+          <maml:description>
+            <maml:para>A simple, case-insensitive keyword search across common textual fields.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>subType</maml:name>
+          <maml:description>
+            <maml:para>Filters report schedules by task subtype.</maml:para>
+            <maml:para>Only the EQ operator is supported; other operators are rejected by the API.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -21467,12 +21530,75 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>FilterLogicalOperator</maml:name>
+        <maml:description>
+          <maml:para>The logical operator (AND/OR) used to combine multiple filter parameters, when both subType and name are specified together. Defaults to AND.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>AND</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>limit</maml:name>
+        <maml:description>
+          <maml:para>The number of report schedules to return on one page.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>name</maml:name>
+        <maml:description>
+          <maml:para>Filters report schedules by task name.</maml:para>
+          <maml:para>Only the EQ operator is supported; other operators are rejected by the API.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>search</maml:name>
+        <maml:description>
+          <maml:para>A simple, case-insensitive keyword search across common textual fields.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>subType</maml:name>
+        <maml:description>
+          <maml:para>Filters report schedules by task subtype.</maml:para>
+          <maml:para>Only the EQ operator is supported; other operators are rejected by the API.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Undocumented by CyberArk; the API's filter parameter was tested against every property returned by this command. Only subType and name are accepted as filter fields, and each only supports the EQ operator - other operators were not exhaustively tested.</maml:para>
+        <maml:para>folder, type, keepTaskDefinition, notifyOnFailure, createdAt, createdBy, lastModifiedAt, lastModifiedBy, schedule, subscribers, and filters are all rejected by the API as filter fields, despite being returned in the response body.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -21481,6 +21607,27 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>PS C:\&gt; Get-PASReportSchedule</dev:code>
         <dev:remarks>
           <maml:para>Returns all report schedules for the user</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASReportSchedule -id 6b35d0ae-4fc2-4a30-ab2e-89a944cf4b10</dev:code>
+        <dev:remarks>
+          <maml:para>Returns the specified report schedule</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASReportSchedule -search "Privileged accounts" -limit 10</dev:code>
+        <dev:remarks>
+          <maml:para>Returns all report schedules matching the term "Privileged accounts", requesting 10 results per page.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASReportSchedule -subType InventoryReports.InventoryReportUI</dev:code>
+        <dev:remarks>
+          <maml:para>Returns report schedules of the InventoryReports.InventoryReportUI subtype.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
