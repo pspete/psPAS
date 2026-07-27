@@ -103,6 +103,46 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Dependent Account Input' {
+
+			BeforeEach {
+				$psPASSession.ExternalVersion = '15.2'
+
+				Mock Invoke-PASRestMethod -MockWith { }
+
+				$InputObj = [pscustomobject]@{
+					'id'                  = 'SomeID'
+					'dependentAccountid'  = 'SomeDependentID'
+				}
+
+				$response = $InputObj | Stop-PASCPMTask
+
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts/SomeID/DependentAccounts/SomeDependentID/Cancel"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
 		Context 'Bulk Input' {
 
 			BeforeEach {

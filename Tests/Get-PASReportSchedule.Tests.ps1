@@ -93,6 +93,59 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
         }
 
+        Context 'Input - ID' {
+
+            BeforeEach {
+                Mock Invoke-PASRestMethod -MockWith {
+                    [PSCustomObject]@{'tasks' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
+                }
+
+                $InputObj = [pscustomobject]@{
+                    'id' = 'SomeTaskID'
+                }
+
+                $Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+                $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+            }
+
+            It 'sends request' {
+                $InputObj | Get-PASReportSchedule
+                Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request to expected endpoint' {
+                $InputObj | Get-PASReportSchedule
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks/SomeTaskID"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'uses expected method' {
+                $InputObj | Get-PASReportSchedule
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'escapes the id value in the URL' {
+                $InputObj = [pscustomobject]@{
+                    'id' = 'Some Task ID'
+                }
+                $InputObj | Get-PASReportSchedule
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks/Some%20Task%20ID"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+        }
+
         Context 'Output' {
             BeforeEach {
                 Mock Invoke-PASRestMethod -MockWith {

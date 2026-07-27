@@ -14,7 +14,8 @@ Cancels a pending CPM task for one or more accounts.
 ## SYNTAX
 
 ```
-Stop-PASCPMTask [-Accountid] <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
+Stop-PASCPMTask [-Accountid] <String[]> [-dependentAccountid <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -86,6 +87,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -dependentAccountid
+{{ Fill dependentAccountid Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

@@ -265,6 +265,7 @@
 		'Get-PASReport',
 		'Get-PASReportSchedule',
 		'New-PASReportSchedule',
+		'Remove-PASReportSchedule',
 		'Export-PASReport',
 		'Remove-PASUserAllowedAuthenticationMethod',
 		'Add-PASUserAllowedAuthenticationMethod',

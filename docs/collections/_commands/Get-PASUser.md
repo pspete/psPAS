@@ -20,6 +20,11 @@ Get-PASUser [-Search <String>] [-UserType <String>] [-UserStatus <String>] [-sou
  [-ComponentUser <Boolean>] [-sort <String[]>] [-UserName <String>] [<CommonParameters>]
 ```
 
+### Safes
+```
+Get-PASUser -id <Int32> [-safes] [<CommonParameters>]
+```
+
 ### Gen2ID
 ```
 Get-PASUser -id <Int32> [<CommonParameters>]
@@ -105,7 +110,7 @@ Minimum required version 10.10
 
 ```yaml
 Type: Int32
-Parameter Sets: Gen2ID
+Parameter Sets: Safes, Gen2ID
 Aliases:
 
 Required: True
@@ -279,6 +284,21 @@ Parameter Sets: Gen2, Gen2-ExtendedDetails
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -safes
+Returns all safes the user has access to, including permissions
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Safes
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

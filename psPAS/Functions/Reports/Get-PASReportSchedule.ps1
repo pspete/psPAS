@@ -1,7 +1,13 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASReportSchedule {
     [CmdletBinding()]
-    param( )
+    param( 
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$id
+    )
 
     begin {
 
@@ -13,6 +19,12 @@ function Get-PASReportSchedule {
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/Tasks"
+
+        if ($PSBoundParameters.ContainsKey('id')) {
+
+            $URI = "$URI/$($id | Get-EscapedString)"
+
+        }
 
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET
