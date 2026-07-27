@@ -1,41 +1,47 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASReportSchedule {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'byQuery')]
     param(
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'byID'
         )]
         [string]$id,
 
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'byQuery'
         )]
         [string]$search,
 
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'byQuery'
         )]
         [string]$subType,
 
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'byQuery'
         )]
         [string]$name,
 
         [parameter(
             Mandatory = $false,
-            ValueFromPipelineByPropertyName = $false
+            ValueFromPipelineByPropertyName = $false,
+            ParameterSetName = 'byQuery'
         )]
         [ValidateSet('AND', 'OR')]
         [string]$FilterLogicalOperator = 'AND',
 
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'byQuery'
         )]
         [int]$limit
 
@@ -55,7 +61,7 @@ function Get-PASReportSchedule {
 
     process {
 
-        if ($PSBoundParameters.ContainsKey('id')) {
+        if ($PSCmdlet.ParameterSetName -eq 'byID') {
 
             #Create URL for Request
             $URI = "$($psPASSession.BaseURI)/API/Tasks/$($id | Get-EscapedString)"
