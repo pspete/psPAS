@@ -19,7 +19,21 @@ function Get-PASReport {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [string]$filter
+        [string]$filter,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [ValidateSet('CreatedAt')]
+        [string]$sort,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [ValidateSet('asc', 'desc')]
+        [string]$sortDirection
 
     )
 
@@ -31,9 +45,9 @@ function Get-PASReport {
 
     process {
 
-        if ($PSBoundParameters.ContainsKey('search') -or $PSBoundParameters.ContainsKey('filter')) {
+        if ($PSBoundParameters.ContainsKey('search') -or $PSBoundParameters.ContainsKey('filter') -or $PSBoundParameters.ContainsKey('sort')) {
 
-            #search/filter query parameters require a later version than the base endpoint
+            #search/filter/sort query parameters require a later version than the base endpoint
             Assert-VersionRequirement -RequiredVersion 15.0
 
         }
@@ -42,7 +56,14 @@ function Get-PASReport {
         $BaseURI = "$($psPASSession.BaseURI)/API/Reports"
 
         #Get Parameters to include in request
-        $boundParameters = $PSBoundParameters | Get-PASParameter
+        $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove sortDirection
+
+        if ($PSBoundParameters.ContainsKey('sortDirection') -and $sortDirection -eq 'desc') {
+
+            #Prefix the sort value with "-" to request descending order
+            $boundParameters['sort'] = "-$($boundParameters['sort'])"
+
+        }
 
         #Collects reports returned across all pages
         $Reports = [Collections.Generic.List[Object]]::New()

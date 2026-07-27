@@ -20966,6 +20966,34 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>sort</maml:name>
+          <maml:description>
+            <maml:para>The property to sort returned reports by.</maml:para>
+            <maml:para>Valid Values: - CreatedAt</maml:para>
+            <maml:para>Undocumented by CyberArk; observed from PVWA browser network traffic. CreatedAt is the only property confirmed to work; other properties were tried and did not sort as expected.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>sortDirection</maml:name>
+          <maml:description>
+            <maml:para>The direction to sort reports in, when a value for sort is also specified.</maml:para>
+            <maml:para>When desc is specified, the sort value is prefixed with "-" to request descending order. When not specified, ascending order is used.</maml:para>
+            <maml:para>Undocumented by CyberArk; observed from PVWA browser network traffic.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -21014,6 +21042,34 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>sort</maml:name>
+        <maml:description>
+          <maml:para>The property to sort returned reports by.</maml:para>
+          <maml:para>Valid Values: - CreatedAt</maml:para>
+          <maml:para>Undocumented by CyberArk; observed from PVWA browser network traffic. CreatedAt is the only property confirmed to work; other properties were tried and did not sort as expected.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>sortDirection</maml:name>
+        <maml:description>
+          <maml:para>The direction to sort reports in, when a value for sort is also specified.</maml:para>
+          <maml:para>When desc is specified, the sort value is prefixed with "-" to request descending order. When not specified, ascending order is used.</maml:para>
+          <maml:para>Undocumented by CyberArk; observed from PVWA browser network traffic.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -21042,6 +21098,13 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>PS C:\&gt; Get-PASReport -filter "status EQ Done AND safe EQ PVWAReports"</dev:code>
         <dev:remarks>
           <maml:para>Returns reports matching the specified filter expression.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASReport -sort CreatedAt -sortDirection desc</dev:code>
+        <dev:remarks>
+          <maml:para>Returns reports sorted by their creation date, most recently created first.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

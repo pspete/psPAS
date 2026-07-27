@@ -15,7 +15,8 @@ Returns a list of available reports
 ## SYNTAX
 
 ```
-Get-PASReport [-limit <Int32>] [-search <String>] [-filter <String>] [<CommonParameters>]
+Get-PASReport [-limit <Int32>] [-search <String>] [-filter <String>] [-sort <String>] [-sortDirection <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -51,6 +52,14 @@ PS C:\> Get-PASReport -filter "status EQ Done AND safe EQ PVWAReports"
 ```
 
 Returns reports matching the specified filter expression.
+
+### Example 4
+
+```powershell
+PS C:\> Get-PASReport -sort CreatedAt -sortDirection desc
+```
+
+Returns reports sorted by their creation date, most recently created first.
 
 ## PARAMETERS
 
@@ -116,8 +125,50 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### CommonParameters
+### -sort
 
+The property to sort returned reports by.
+
+Valid Values:
+- CreatedAt
+
+Undocumented by CyberArk; observed from PVWA browser network traffic.
+CreatedAt is the only property confirmed to work; other properties were tried and did not sort as expected.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -sortDirection
+
+The direction to sort reports in, when a value for sort is also specified.
+
+When desc is specified, the sort value is prefixed with "-" to request descending order.
+When not specified, ascending order is used.
+
+Undocumented by CyberArk; observed from PVWA browser network traffic.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS

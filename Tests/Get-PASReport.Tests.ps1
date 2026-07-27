@@ -139,6 +139,52 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 $psPASSession.ExternalVersion = '0.0'
             }
 
+            It 'sends request with expected query string for sort' {
+                Get-PASReport -sort CreatedAt
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Reports?sort=CreatedAt"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request with expected query string for sort with ascending sortDirection' {
+                Get-PASReport -sort CreatedAt -sortDirection asc
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Reports?sort=CreatedAt"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request with expected query string for sort with descending sortDirection' {
+                Get-PASReport -sort CreatedAt -sortDirection desc
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Reports?sort=-CreatedAt"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'throws error if sort version requirement not met' {
+                $psPASSession.ExternalVersion = '14.6'
+                { Get-PASReport -sort CreatedAt } | Should -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+            It 'does not throw when sort version requirement met' {
+                $psPASSession.ExternalVersion = '15.0'
+                { Get-PASReport -sort CreatedAt } | Should -Not -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+            It 'throws error for an unsupported sort value' {
+                { Get-PASReport -sort SomeOtherProperty } | Should -Throw
+            }
+
         }
 
         Context 'Pagination' {
