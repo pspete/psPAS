@@ -32,6 +32,26 @@ function New-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
+		[ArgumentCompleter({
+				#Standard ArgumentCompleter parameters.
+				param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+				#Avoid PSScriptAnalyzer PSReviewUnusedParameter rule on standard ArgumentCompleter parameters.
+				$null = $parameterName, $commandAst, $fakeBoundParameters
+
+				#ask the API for valid user types
+				try {
+
+					$Module = (Get-Command $commandName -ErrorAction Stop).Module
+					$UserTypes = & $Module { Get-PASUserType -ErrorAction Stop }
+
+				} catch { return }
+
+				$UserTypes.UserTypeName |
+					Where-Object { $_ -and ($_ -like "$wordToComplete*") } |
+					ForEach-Object { [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_) }
+
+			})]
 		[string]$userType,
 
 		[parameter(
@@ -59,7 +79,7 @@ function New-PASUser {
 					Where-Object { $_ -and ($_ -like "$wordToComplete*") } |
 					ForEach-Object { [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_) }
 
-		})]
+			})]
 		[string[]]$unAuthorizedInterfaces,
 
 		[parameter(
@@ -139,6 +159,26 @@ function New-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1'
 		)]
+		[ArgumentCompleter({
+				#Standard ArgumentCompleter parameters.
+				param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+				#Avoid PSScriptAnalyzer PSReviewUnusedParameter rule on standard ArgumentCompleter parameters.
+				$null = $parameterName, $commandAst, $fakeBoundParameters
+
+				#ask the API for valid user types
+				try {
+
+					$Module = (Get-Command $commandName -ErrorAction Stop).Module
+					$UserTypes = & $Module { Get-PASUserType -ErrorAction Stop }
+
+				} catch { return }
+
+				$UserTypes.UserTypeName |
+					Where-Object { $_ -and ($_ -like "$wordToComplete*") } |
+					ForEach-Object { [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_) }
+
+			})]
 		[string]$UserTypeName,
 
 		[parameter(
