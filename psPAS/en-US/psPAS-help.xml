@@ -21130,26 +21130,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>filter</maml:name>
-          <maml:description>
-            <maml:para>A structured filter expression supporting comparisons, sets, string operations, null checks, logical composition, and grouping.</maml:para>
-            <maml:para>Accepted fields: status, createdBy, name, safe</maml:para>
-            <maml:para>Supported operators:</maml:para>
-            <maml:para>- Comparison: EQ, NE, GT, GE, LT, LE (numbers/dates; strings compare lexicographically)</maml:para>
-            <maml:para>- Set: IN, NOTIN</maml:para>
-            <maml:para>- String: CONTAINS, NOTCONTAINS, STARTSWITH, ENDSWITH</maml:para>
-            <maml:para>- Null: IS NULL, IS NOTNULL</maml:para>
-            <maml:para>- Logical: AND, OR</maml:para>
-            <maml:para>- Grouping: parentheses ( ) for precedence</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>sort</maml:name>
           <maml:description>
             <maml:para>The property to sort returned reports by.</maml:para>
@@ -21177,6 +21157,83 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>createdBy</maml:name>
+          <maml:description>
+            <maml:para>Filters reports by the username of the report's creator.</maml:para>
+            <maml:para>Only the EQ operator is supported; other operators are rejected by the API. Undocumented by CyberArk; observed to map to the internal field name TaskUsername.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>name</maml:name>
+          <maml:description>
+            <maml:para>Filters reports by report name.</maml:para>
+            <maml:para>Only the EQ operator is supported; other operators are rejected by the API. Undocumented by CyberArk; observed to map to the internal field name TaskName.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>records</maml:name>
+          <maml:description>
+            <maml:para>Filters reports by the number of records they contain.</maml:para>
+            <maml:para>Only the EQ operator is supported; other operators are rejected by the API. Undocumented by CyberArk; observed to map to the internal field name ReportNumberOfRecords.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>status</maml:name>
+          <maml:description>
+            <maml:para>Filters reports by generation status (e.g. Done).</maml:para>
+            <maml:para>Only the EQ operator is supported; other operators are rejected by the API. Undocumented by CyberArk; observed to map to the internal field name TaskStatus.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>type</maml:name>
+          <maml:description>
+            <maml:para>Filters reports by report type.</maml:para>
+            <maml:para>Only the EQ operator is supported; other operators are rejected by the API. Undocumented by CyberArk; observed to map to the internal field name TaskSubtype.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>FilterLogicalOperator</maml:name>
+          <maml:description>
+            <maml:para>The logical operator (AND/OR) used to combine multiple filter parameters, when more than one of createdBy, name, records, status, or type is specified together. Defaults to AND.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>AND</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -21197,26 +21254,6 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <maml:description>
           <maml:para>A simple, case-insensitive keyword search.</maml:para>
           <maml:para>Searches across name, description, createdBy, status, and statusAdditionalInfo.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>filter</maml:name>
-        <maml:description>
-          <maml:para>A structured filter expression supporting comparisons, sets, string operations, null checks, logical composition, and grouping.</maml:para>
-          <maml:para>Accepted fields: status, createdBy, name, safe</maml:para>
-          <maml:para>Supported operators:</maml:para>
-          <maml:para>- Comparison: EQ, NE, GT, GE, LT, LE (numbers/dates; strings compare lexicographically)</maml:para>
-          <maml:para>- Set: IN, NOTIN</maml:para>
-          <maml:para>- String: CONTAINS, NOTCONTAINS, STARTSWITH, ENDSWITH</maml:para>
-          <maml:para>- Null: IS NULL, IS NOTNULL</maml:para>
-          <maml:para>- Logical: AND, OR</maml:para>
-          <maml:para>- Grouping: parentheses ( ) for precedence</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -21253,12 +21290,91 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>createdBy</maml:name>
+        <maml:description>
+          <maml:para>Filters reports by the username of the report's creator.</maml:para>
+          <maml:para>Only the EQ operator is supported; other operators are rejected by the API. Undocumented by CyberArk; observed to map to the internal field name TaskUsername.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>name</maml:name>
+        <maml:description>
+          <maml:para>Filters reports by report name.</maml:para>
+          <maml:para>Only the EQ operator is supported; other operators are rejected by the API. Undocumented by CyberArk; observed to map to the internal field name TaskName.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>records</maml:name>
+        <maml:description>
+          <maml:para>Filters reports by the number of records they contain.</maml:para>
+          <maml:para>Only the EQ operator is supported; other operators are rejected by the API. Undocumented by CyberArk; observed to map to the internal field name ReportNumberOfRecords.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>status</maml:name>
+        <maml:description>
+          <maml:para>Filters reports by generation status (e.g. Done).</maml:para>
+          <maml:para>Only the EQ operator is supported; other operators are rejected by the API. Undocumented by CyberArk; observed to map to the internal field name TaskStatus.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>type</maml:name>
+        <maml:description>
+          <maml:para>Filters reports by report type.</maml:para>
+          <maml:para>Only the EQ operator is supported; other operators are rejected by the API. Undocumented by CyberArk; observed to map to the internal field name TaskSubtype.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>FilterLogicalOperator</maml:name>
+        <maml:description>
+          <maml:para>The logical operator (AND/OR) used to combine multiple filter parameters, when more than one of createdBy, name, records, status, or type is specified together. Defaults to AND.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>AND</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Undocumented by CyberArk; the API's filter parameter was tested against every property returned by this command. Only createdBy, name, records, status, and type are accepted as filter fields, and each only supports the EQ operator - all other documented operators (NE, GT, GE, LT, LE, IN, NOTIN, CONTAINS, NOTCONTAINS, STARTSWITH, ENDSWITH, IS NULL, IS NOTNULL) are rejected by the API for these fields.</maml:para>
+        <maml:para>createdAt and size are recognized by the API (errors reference their internal field names, CreatedAt and FileSize) but reject every operator tried, so neither is usable as a filter field at this time.</maml:para>
+        <maml:para>duration, filename, filters, isScheduled, lastUsedAt, lastUsedBy, location, safe, statusAdditionalInfo, and taskId are not recognized as filter fields at all.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -21278,13 +21394,20 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 3 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-PASReport -filter "status EQ Done AND safe EQ PVWAReports"</dev:code>
+        <dev:code>PS C:\&gt; Get-PASReport -status Done -createdBy pspete</dev:code>
         <dev:remarks>
-          <maml:para>Returns reports matching the specified filter expression.</maml:para>
+          <maml:para>Returns reports with a status of Done, created by the user pspete.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASReport -status Done -type InventoryReports.InventoryReportUI -FilterLogicalOperator OR</dev:code>
+        <dev:remarks>
+          <maml:para>Returns reports with a status of Done, or a type of InventoryReports.InventoryReportUI.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 5 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PASReport -sort CreatedAt -sortDirection desc</dev:code>
         <dev:remarks>
           <maml:para>Returns reports sorted by their creation date, most recently created first.</maml:para>

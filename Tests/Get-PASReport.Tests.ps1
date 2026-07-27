@@ -111,8 +111,8 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
-            It 'sends request with expected query string for filter' {
-                Get-PASReport -filter 'status EQ Done'
+            It 'sends request with expected query string for filter built from status parameter' {
+                Get-PASReport -status Done
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/Reports?filter=status%20EQ%20Done"

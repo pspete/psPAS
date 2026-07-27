@@ -15,8 +15,9 @@ Returns a list of available reports
 ## SYNTAX
 
 ```
-Get-PASReport [-limit <Int32>] [-search <String>] [-filter <String>] [-sort <String>] [-sortDirection <String>]
- [<CommonParameters>]
+Get-PASReport [-limit <Int32>] [-search <String>] [-sort <String>] [-sortDirection <String>]
+ [-createdBy <String>] [-name <String>] [-records <String>] [-status <String>] [-type <String>]
+ [-FilterLogicalOperator <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -48,12 +49,20 @@ field matching the term "Accounts", requesting 10 results per page.
 ### Example 3
 
 ```powershell
-PS C:\> Get-PASReport -filter "status EQ Done AND safe EQ PVWAReports"
+PS C:\> Get-PASReport -status Done -createdBy pspete
 ```
 
-Returns reports matching the specified filter expression.
+Returns reports with a status of Done, created by the user pspete.
 
 ### Example 4
+
+```powershell
+PS C:\> Get-PASReport -status Done -type InventoryReports.InventoryReportUI -FilterLogicalOperator OR
+```
+
+Returns reports with a status of Done, or a type of InventoryReports.InventoryReportUI.
+
+### Example 5
 
 ```powershell
 PS C:\> Get-PASReport -sort CreatedAt -sortDirection desc
@@ -84,34 +93,6 @@ Accept wildcard characters: False
 A simple, case-insensitive keyword search.
 
 Searches across name, description, createdBy, status, and statusAdditionalInfo.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -filter
-
-A structured filter expression supporting comparisons, sets, string operations, null checks,
-logical composition, and grouping.
-
-Accepted fields: status, createdBy, name, safe
-
-Supported operators:
-
-- Comparison: EQ, NE, GT, GE, LT, LE (numbers/dates; strings compare lexicographically)
-- Set: IN, NOTIN
-- String: CONTAINS, NOTCONTAINS, STARTSWITH, ENDSWITH
-- Null: IS NULL, IS NOTNULL
-- Logical: AND, OR
-- Grouping: parentheses ( ) for precedence
 
 ```yaml
 Type: String
@@ -168,6 +149,118 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -createdBy
+
+Filters reports by the username of the report's creator.
+
+Only the EQ operator is supported; other operators are rejected by the API.
+Undocumented by CyberArk; observed to map to the internal field name TaskUsername.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -name
+
+Filters reports by report name.
+
+Only the EQ operator is supported; other operators are rejected by the API.
+Undocumented by CyberArk; observed to map to the internal field name TaskName.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -records
+
+Filters reports by the number of records they contain.
+
+Only the EQ operator is supported; other operators are rejected by the API.
+Undocumented by CyberArk; observed to map to the internal field name ReportNumberOfRecords.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -status
+
+Filters reports by generation status (e.g. Done).
+
+Only the EQ operator is supported; other operators are rejected by the API.
+Undocumented by CyberArk; observed to map to the internal field name TaskStatus.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -type
+
+Filters reports by report type.
+
+Only the EQ operator is supported; other operators are rejected by the API.
+Undocumented by CyberArk; observed to map to the internal field name TaskSubtype.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -FilterLogicalOperator
+
+The logical operator (AND/OR) used to combine multiple filter parameters, when more than one
+of createdBy, name, records, status, or type is specified together. Defaults to AND.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: AND
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -176,6 +269,19 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+
+Undocumented by CyberArk; the API's filter parameter was tested against every property returned
+by this command. Only createdBy, name, records, status, and type are accepted as filter fields,
+and each only supports the EQ operator - all other documented operators (NE, GT, GE, LT, LE, IN,
+NOTIN, CONTAINS, NOTCONTAINS, STARTSWITH, ENDSWITH, IS NULL, IS NOTNULL) are rejected by the API
+for these fields.
+
+createdAt and size are recognized by the API (errors reference their internal field names,
+CreatedAt and FileSize) but reject every operator tried, so neither is usable as a filter field
+at this time.
+
+duration, filename, filters, isScheduled, lastUsedAt, lastUsedBy, location, safe, statusAdditionalInfo,
+and taskId are not recognized as filter fields at all.
 
 ## RELATED LINKS
 
