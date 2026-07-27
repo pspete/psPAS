@@ -20916,13 +20916,105 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
     </command:details>
     <maml:description>
       <maml:para>Returns a list of reports available to the authenticated user</maml:para>
+      <maml:para>All matching reports are returned; if the API paginates the results across multiple pages, subsequent pages are requested automatically.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-PASReport</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>limit</maml:name>
+          <maml:description>
+            <maml:para>The number of reports to return on one page.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>search</maml:name>
+          <maml:description>
+            <maml:para>A simple, case-insensitive keyword search.</maml:para>
+            <maml:para>Searches across name, description, createdBy, status, and statusAdditionalInfo.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>filter</maml:name>
+          <maml:description>
+            <maml:para>A structured filter expression supporting comparisons, sets, string operations, null checks, logical composition, and grouping.</maml:para>
+            <maml:para>Accepted fields: status, createdBy, name, safe</maml:para>
+            <maml:para>Supported operators:</maml:para>
+            <maml:para>- Comparison: EQ, NE, GT, GE, LT, LE (numbers/dates; strings compare lexicographically)</maml:para>
+            <maml:para>- Set: IN, NOTIN</maml:para>
+            <maml:para>- String: CONTAINS, NOTCONTAINS, STARTSWITH, ENDSWITH</maml:para>
+            <maml:para>- Null: IS NULL, IS NOTNULL</maml:para>
+            <maml:para>- Logical: AND, OR</maml:para>
+            <maml:para>- Grouping: parentheses ( ) for precedence</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>limit</maml:name>
+        <maml:description>
+          <maml:para>The number of reports to return on one page.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>search</maml:name>
+        <maml:description>
+          <maml:para>A simple, case-insensitive keyword search.</maml:para>
+          <maml:para>Searches across name, description, createdBy, status, and statusAdditionalInfo.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>filter</maml:name>
+        <maml:description>
+          <maml:para>A structured filter expression supporting comparisons, sets, string operations, null checks, logical composition, and grouping.</maml:para>
+          <maml:para>Accepted fields: status, createdBy, name, safe</maml:para>
+          <maml:para>Supported operators:</maml:para>
+          <maml:para>- Comparison: EQ, NE, GT, GE, LT, LE (numbers/dates; strings compare lexicographically)</maml:para>
+          <maml:para>- Set: IN, NOTIN</maml:para>
+          <maml:para>- String: CONTAINS, NOTCONTAINS, STARTSWITH, ENDSWITH</maml:para>
+          <maml:para>- Null: IS NULL, IS NOTNULL</maml:para>
+          <maml:para>- Logical: AND, OR</maml:para>
+          <maml:para>- Grouping: parentheses ( ) for precedence</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues />
     <maml:alertSet>
@@ -20936,6 +21028,20 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>PS C:\&gt; Get-PASReport</dev:code>
         <dev:remarks>
           <maml:para>Returns a list of all available reports</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASReport -search "Accounts" -limit 10</dev:code>
+        <dev:remarks>
+          <maml:para>Returns all reports with a name, description, reportType, or (where available) human-readable status/category field matching the term "Accounts", requesting 10 results per page.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASReport -filter "status EQ Done AND safe EQ PVWAReports"</dev:code>
+        <dev:remarks>
+          <maml:para>Returns reports matching the specified filter expression.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

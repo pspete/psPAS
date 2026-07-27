@@ -91,6 +91,106 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 $psPASSession.ExternalVersion = '0.0'
             }
 
+            It 'sends request with expected query string for limit' {
+                Get-PASReport -limit 25
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Reports?limit=25"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request with expected query string for search' {
+                Get-PASReport -search SomeReport
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Reports?search=SomeReport"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request with expected query string for filter' {
+                Get-PASReport -filter 'status EQ Done'
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Reports?filter=status%20EQ%20Done"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'does not throw when using limit at the base version requirement' {
+                $psPASSession.ExternalVersion = '14.6'
+                { Get-PASReport -limit 25 } | Should -Not -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+            It 'throws error if search/filter version requirement not met' {
+                $psPASSession.ExternalVersion = '14.6'
+                { Get-PASReport -search SomeReport } | Should -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+            It 'does not throw when search/filter version requirement met' {
+                $psPASSession.ExternalVersion = '15.0'
+                { Get-PASReport -search SomeReport } | Should -Not -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+        }
+
+        Context 'Pagination' {
+
+            BeforeEach {
+                $Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+                $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+                $Script:CallCount = 0
+
+                Mock Invoke-PASRestMethod -MockWith {
+
+                    $Script:CallCount++
+
+                    if ($Script:CallCount -eq 1) {
+
+                        [PSCustomObject]@{
+                            'reports'    = @([PSCustomObject]@{'name' = 'Report1'}, [PSCustomObject]@{'name' = 'Report2'})
+                            'totalCount' = 3
+                        }
+
+                    } else {
+
+                        [PSCustomObject]@{
+                            'reports'    = @([PSCustomObject]@{'name' = 'Report3'})
+                            'totalCount' = 3
+                        }
+
+                    }
+
+                }
+            }
+
+            It 'sends additional requests while more reports remain' {
+                Get-PASReport | Out-Null
+                Assert-MockCalled Invoke-PASRestMethod -Times 2 -Exactly -Scope It
+            }
+
+            It 'sends the follow-up request with the expected offset' {
+                Get-PASReport | Out-Null
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Reports?offset=2"
+
+                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'returns reports collected from every page' {
+                (Get-PASReport).Count | Should -Be 3
+            }
+
         }
 
         Context 'Output' {
