@@ -178,6 +178,37 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
         }
 
+        Context 'Output - ID' {
+            BeforeEach {
+                Mock Invoke-PASRestMethod -MockWith {
+                    [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' }
+                }
+
+                $Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+                $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+            }
+
+            It 'provides output' {
+
+                Get-PASReportSchedule -id 'SomeTaskID' | Should -Not -BeNullOrEmpty
+
+            }
+
+            It 'does not error expanding a non-existent tasks property' {
+
+                { Get-PASReportSchedule -id 'SomeTaskID' } | Should -Not -Throw
+
+            }
+
+            It 'has output with expected number of properties' {
+
+                (Get-PASReportSchedule -id 'SomeTaskID' | Get-Member -MemberType NoteProperty).length | Should -Be 3
+
+            }
+
+        }
+
     }
 
 }

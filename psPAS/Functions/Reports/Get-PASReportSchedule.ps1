@@ -31,8 +31,17 @@ function Get-PASReportSchedule {
 
         if ($null -ne $Result) {
 
-            #Return result
-            $Result | Select-Object -ExpandProperty tasks
+            if ($PSBoundParameters.ContainsKey('id')) {
+
+                #Return result
+                $Result
+
+            } else {
+
+                #Return result
+                $Result | Select-Object -ExpandProperty tasks
+
+            }
             #TODO: Add Schedule/Tasks type definition for formatting
 
         }
