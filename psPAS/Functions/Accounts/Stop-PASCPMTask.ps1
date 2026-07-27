@@ -7,10 +7,17 @@ function Stop-PASCPMTask {
             ValueFromPipelinebyPropertyName = $true
         )]
         [Alias('id')]
-        [string[]]$Accountid
+        [string[]]$Accountid,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$dependentAccountid
     )
 
     begin {
+
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 15.2
 
@@ -27,33 +34,42 @@ function Stop-PASCPMTask {
         $Request = @{
             Method = 'POST'
         }
+
     }#begin
 
     process {
 
-        if ($BulkConfirmation) {
+        if ($PSBoundParameters.ContainsKey('dependentAccountid')) {
 
-            #Create URL for Request
-            $URI = "$($psPASSession.BaseURI)/API/Accounts/Cancel/Bulk"
-
-            #Create body of request
-            $Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }
-            $AccountID | ForEach-Object {
-                $Body.BulkItems.Add(
-                    @{
-                        AccountID = $PSItem
-                    }
-                )
-            }
-            #Format body as JSON
-            $Body = $Body | ConvertTo-Json -Depth 3
-
-            $Request.Add('Body', $Body)
+            $URI = "$($psPASSession.BaseURI)/api/Accounts/$Accountid/DependentAccounts/$dependentAccountid/Cancel"
 
         } else {
 
-            #Create URL for request
-            $URI = "$($psPASSession.BaseURI)/API/Accounts/$Accountid/Cancel/"
+            if ($BulkConfirmation) {
+
+                #Create URL for Request
+                $URI = "$($psPASSession.BaseURI)/API/Accounts/Cancel/Bulk"
+
+                #Create body of request
+                $Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }
+                $AccountID | ForEach-Object {
+                    $Body.BulkItems.Add(
+                        @{
+                            AccountID = $PSItem
+                        }
+                    )
+                }
+                #Format body as JSON
+                $Body = $Body | ConvertTo-Json -Depth 3
+
+                $Request.Add('Body', $Body)
+
+            } else {
+
+                #Create URL for request
+                $URI = "$($psPASSession.BaseURI)/API/Accounts/$Accountid/Cancel/"
+
+            }
 
         }
 

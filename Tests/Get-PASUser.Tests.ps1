@@ -151,6 +151,27 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'sends request to expected endpoint - Safes' {
+
+				$psPASSession.ExternalVersion = '12.2'
+				Get-PASUser -id 123 -safes
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Users/123/safes"
+
+				} -Times 1 -Exactly -Scope It
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'throws error if version 12.2 requirement not met for Safes' {
+				$psPASSession.ExternalVersion = '1.0'
+				{ Get-PASUser -id 123 -safes } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
 		}
 
 		Context 'Output' {
@@ -204,6 +225,20 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$response = $InputObjV10 | Get-PASUser
 				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User.Extended
+
+			}
+
+			It 'outputs object with expected typename - Safes' {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'Safes' =
+						[PSCustomObject]@{'SafeName' = 'SomeSafe' }
+					}
+				}
+
+				$psPASSession.ExternalVersion = '12.2'
+				$response = Get-PASUser -id 123 -safes
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User.Safe
+				$psPASSession.ExternalVersion = '0.0'
 
 			}
 

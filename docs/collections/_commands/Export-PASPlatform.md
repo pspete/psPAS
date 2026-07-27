@@ -14,8 +14,24 @@ Export a platform
 
 ## SYNTAX
 
+### PlatformID
 ```
 Export-PASPlatform [-PlatformID] <String> [-path] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### RotationalGroupID
+```
+Export-PASPlatform [-RotationalGroupID <String>] [-path] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### DependentID
+```
+Export-PASPlatform [-DependentID <String>] [-path] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### GroupPlatformID
+```
+Export-PASPlatform [-GroupPlatformID <String>] [-path] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -39,7 +55,7 @@ The name of the platform.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: PlatformID
 Aliases:
 
 Required: True
@@ -93,6 +109,51 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DependentID
+Exports a Dependent platform
+
+```yaml
+Type: String
+Parameter Sets: DependentID
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -GroupPlatformID
+Exports a Group platform
+
+```yaml
+Type: String
+Parameter Sets: GroupPlatformID
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -RotationalGroupID
+Exports a Rotational Group platform
+
+```yaml
+Type: String
+Parameter Sets: RotationalGroupID
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
