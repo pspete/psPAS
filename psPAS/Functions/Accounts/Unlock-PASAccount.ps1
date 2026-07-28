@@ -88,7 +88,7 @@ function Unlock-PASAccount {
 				if ($BulkConfirmation) {
 
 					#Create URL for Request
-					$URI = "$($psPASSession.BaseURI)/api/Accounts/Unlock/Bulk"
+					$URI = "$($psPASSession.BaseURI)/API/Accounts/Unlock/Bulk"
 
 					#Create body of request
 					$Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }

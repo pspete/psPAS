@@ -37,8 +37,8 @@ Requires Initiate CPM password management operations on the Safe where the accou
 
 Where a user holds the "Unlock Account" permission on a safe, they may use this function to issue an "Unlock" command on an account checked out or locked by another user.
 
-Multiple accounts can be checked in using a single bulk request by supplying more than one value for `-AccountID`.
-Bulk check-in requires CyberArk version 15.2 or later. The `-Unlock` parameter does not support bulk operations.
+Multiple accounts can be checked in, or unlocked, using a single bulk request by supplying more than one value for `-AccountID`.
+Bulk check-in and bulk unlock require CyberArk version 15.2 or later.
 
 ## EXAMPLES
 
@@ -70,6 +70,13 @@ Unlock-PASAccount -AccountID 21_3, 22_4
 
 Checks in accounts 21_3 and 22_4 in a single bulk request.
 
+### EXAMPLE 5
+```
+Unlock-PASAccount -AccountID 21_3, 22_4 -Unlock
+```
+
+Unlocks accounts 21_3 and 22_4 in a single bulk request.
+
 ## PARAMETERS
 
 ### -AccountID
@@ -77,7 +84,7 @@ The unique ID of the account.
 
 This is retrieved by the Get-PASAccount function.
 
-When more than one value is supplied, a bulk check-in request is sent. Bulk check-in is only available in the `CheckIn` parameter set.
+When more than one value is supplied, a bulk request is sent (bulk check-in for the `CheckIn` parameter set, bulk unlock for the `Unlock` parameter set).
 
 ```yaml
 Type: String[]
@@ -163,8 +170,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 Minimum CyberArk version 9.10 (Check-In Account)
 Minimum CyberArk version 11.6 (Unlock Account)
 
-Bulk check-in requires CyberArk version 15.2 or later.
-Bulk unlock is not supported by the CyberArk API.
+Bulk check-in and bulk unlock require CyberArk version 15.2 or later.
 
 ## RELATED LINKS
 

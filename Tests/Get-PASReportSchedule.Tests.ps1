@@ -154,13 +154,30 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             }
 
             It 'sends request with expected query string for filter built from multiple parameters' {
+                #Clause order within the filter value is not guaranteed (it is built from a hashtable),
+                #so clauses are compared as an unordered set rather than an exact string/URI match
                 $psPASSession.ExternalVersion = '15.0'
+
+                $Script:CapturedURI = $null
+
+                Mock Invoke-PASRestMethod -MockWith {
+                    param($URI)
+                    $Script:CapturedURI = $URI
+                    [PSCustomObject]@{'tasks' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
+                }
+
                 Get-PASReportSchedule -subType InventoryReports.InventoryReportUI -name SomeTask
-                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?filter=subType%20EQ%20InventoryReports.InventoryReportUI%20AND%20name%20EQ%20SomeTask"
+                $ExpectedBaseURI = "$($Script:psPASSession.BaseURI)/API/Tasks?filter="
 
-                } -Times 1 -Exactly -Scope It
+                $Script:CapturedURI | Should -Match "^$([regex]::Escape($ExpectedBaseURI))"
+
+                $EncodedFilter = $Script:CapturedURI.Substring($ExpectedBaseURI.Length)
+                $Filter = [System.Uri]::UnescapeDataString($EncodedFilter)
+                $Clauses = $Filter -split ' AND ' | Sort-Object
+
+                $Clauses | Should -Be @('name EQ SomeTask', 'subType EQ InventoryReports.InventoryReportUI')
+
                 $psPASSession.ExternalVersion = '0.0'
 
             }
