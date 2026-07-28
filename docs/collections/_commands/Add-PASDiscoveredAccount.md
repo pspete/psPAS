@@ -21,7 +21,8 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>] [-passwordNeverExpires <Boolean>]
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
- [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-SID <String>] [<CommonParameters>]
+ [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-SID <String>]
+ [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
 ```
 
 ### UnixSSHKey
@@ -33,7 +34,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-uid <String>] [-gid <String>]
  -fingerprint <String> [-size <Int32>] [-path <String>] [-format <String>] [-comment <String>]
- [-encryption <String>] [<CommonParameters>]
+ [-encryption <String>] [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
 ```
 
 ### Unix
@@ -44,7 +45,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-uid <String>] [-gid <String>]
- [<CommonParameters>]
+ [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
 ```
 
 ### AWS
@@ -55,7 +56,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-awsAccountID <String>]
- [-awsAccessKeyID <String>] [<CommonParameters>]
+ [-awsAccessKeyID <String>] [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
 ```
 
 ### Dependency
@@ -66,7 +67,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-Dependencies <Hashtable[]>]
- [<CommonParameters>]
+ [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
 ```
 
 ### Azure
@@ -77,7 +78,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-activeDirectoryID <String>]
- [<CommonParameters>]
+ [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -646,6 +647,21 @@ Minimum required version 11.7
 ```yaml
 Type: String
 Parameter Sets: Azure
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -AllowAccountDuplications
+Used when AccountDuplicationEnforcementLevel is configured. Default is True
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
 Aliases:
 
 Required: False

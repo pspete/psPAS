@@ -2,12 +2,12 @@
 category: psPAS
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Clear-PASDiscoveredAccountList
+online version: https://pspas.pspete.dev/commands/Clear-PASDiscoveredAccount
 schema: 2.0.0
-title: Clear-PASDiscoveredAccountList
+title: Clear-PASDiscoveredAccount
 ---
 
-# Clear-PASDiscoveredAccountList
+# Clear-PASDiscoveredAccount
 
 ## SYNOPSIS
 Deletes all discovered accounts
@@ -15,7 +15,7 @@ Deletes all discovered accounts
 ## SYNTAX
 
 ```
-Clear-PASDiscoveredAccountList [-WhatIf] [-Confirm] [<CommonParameters>]
+Clear-PASDiscoveredAccount [[-id] <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,12 +28,43 @@ Requires CyberArk Version 12.1 or higher.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Clear-PASDiscoveredAccountList
+PS C:\> Clear-PASDiscoveredAccount
 ```
 
 Deletes all discovered accounts from the Pending Accounts list.
 
+### EXAMPLE 2
+```powershell
+PS C:\> Clear-PASDiscoveredAccount -id 22_3
+```
+
+Deletes discovered account with id 22_3
+
+### EXAMPLE 3
+```powershell
+PS C:\> Clear-PASDiscoveredAccount -id 22_3,22_4
+```
+
+Deletes accounts in bulk
+
 ## PARAMETERS
+
+### -id
+The unique id of the discovered account. When not supplied, all discovered are deleted/cleard. 
+
+You can supply multiple unique id´s to do a bulk delete.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
@@ -77,6 +108,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Clear-PASDiscoveredAccountList](https://pspas.pspete.dev/commands/Clear-PASDiscoveredAccountList)
+[https://pspas.pspete.dev/commands/Clear-PASDiscoveredAccount](https://pspas.pspete.dev/commands/Clear-PASDiscoveredAccount)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete-Discovered-accounts.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Delete-Discovered-accounts.htm)

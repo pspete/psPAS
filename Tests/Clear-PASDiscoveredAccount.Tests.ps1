@@ -52,7 +52,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
-            $response = Clear-PASDiscoveredAccountList
+            $response = Clear-PASDiscoveredAccount
 
         }
 
@@ -82,7 +82,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'throws error if version requirement not met' {
                 $psPASSession.ExternalVersion = '1.0'
-                { $InputObject | Clear-PASDiscoveredAccountList } | Should -Throw
+                { $InputObject | Clear-PASDiscoveredAccount } | Should -Throw
                 $psPASSession.ExternalVersion = '0.0'
             }
 
