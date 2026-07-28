@@ -178,6 +178,49 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				} -Times 1 -Exactly -Scope It
 			}
 
+			It 'has a request body with expected platformTypeAccountProperties property for Azure' {
+				$InputObj | Add-PASDiscoveredAccount -activeDirectoryID 'SomeADID'
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($Body | ConvertFrom-Json).platformTypeAccountProperties.activeDirectoryID -eq 'SomeADID'
+
+				} -Times 1 -Exactly -Scope It
+			}
+
+			It 'throws error if version 11.7 requirement not met for Azure' {
+				$psPASSession.ExternalVersion = '11.6'
+
+				{ $InputObj | Add-PASDiscoveredAccount -activeDirectoryID 'SomeADID' } | Should -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'includes AllowAccountDuplications in the request endpoint' {
+
+				$psPASSession.ExternalVersion = '14.6'
+
+				$InputObj | Add-PASDiscoveredAccount -AllowAccountDuplications $true
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts?AllowAccountDuplications=True"
+
+				} -Times 1 -Exactly -Scope It
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'throws error if version 14.6 requirement not met for AllowAccountDuplications' {
+				$psPASSession.ExternalVersion = '14.5'
+
+				{ $InputObj | Add-PASDiscoveredAccount -AllowAccountDuplications $true } | Should -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
 		}
 
 		Context 'Output' {

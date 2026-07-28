@@ -89,6 +89,16 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 $psPASSession.ExternalVersion = '0.0'
             }
 
+            It 'sends request to expected endpoint - categoryKey specified' {
+                Get-PASPTASecurityConfigurationCategory -categoryKey ActiveDormantUser
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/pta/API/configuration/categories/ActiveDormantUser"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
         }
 
         Context 'Output' {

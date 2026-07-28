@@ -55,7 +55,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			$response = $InputObj | Revoke-PASJustInTimeAccess
+			$response = $InputObj | Request-PASJustInTimeAccess
 
 		}
 		Context 'Mandatory Parameters' {
@@ -66,7 +66,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				param($Parameter)
 
-				(Get-Command Revoke-PASJustInTimeAccess).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Request-PASJustInTimeAccess).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
 
 			}
 
@@ -86,7 +86,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/22_2/RevokeAdministrativeAccess"
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/22_2/grantAdministrativeAccess"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -102,6 +102,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
+			}
+
+			It 'throws error if version requirement not met' {
+				$psPASSession.ExternalVersion = '10.5'
+
+				{ $InputObj | Request-PASJustInTimeAccess } | Should -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
 			}
 
 		}

@@ -230,7 +230,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 			It 'sends null expiration date if negative value returned from get request' {
 
 				Mock Get-PASSafeMember -MockWith {
-					@{
+					[PSCustomObject]@{
 						'MembershipExpirationDate' = -12345
 					}
 				}
@@ -487,6 +487,50 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 			It 'outputs object with expected typename' {
 
 				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe.Member.Gen2
+
+			}
+
+		}
+
+		Context 'Permission Templates' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{} }
+				Mock Get-PASSafeMember -MockWith {}
+
+			}
+
+			$Templates = @{Template = 'ConnectOnly' },
+			@{Template = 'ReadOnly' },
+			@{Template = 'Approver' },
+			@{Template = 'AccountsManager' },
+			@{Template = 'Full' }
+
+			It 'sends the <Template> permission set in the request body' -TestCases $Templates {
+
+				param($Template)
+
+				$Params = @{SafeName = 'SomeSafe'; MemberName = 'SomeUser' }
+				$Params[$Template] = $true
+
+				Set-PASSafeMember @Params
+
+				$TemplateParams = @{$Template = $true }
+				$ExpectedPermissions = ConvertTo-SortedPermission @TemplateParams
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+					$true
+
+				} -Times 1 -Exactly -Scope It
+
+				foreach ($key in $ExpectedPermissions.Keys) {
+
+					$Script:RequestBody.Permissions.$key | Should -Be $ExpectedPermissions[$key]
+
+				}
 
 			}
 

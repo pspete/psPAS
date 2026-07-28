@@ -138,6 +138,16 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
+            It 'returns a result when one is provided by the API' {
+
+                Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'Success' = $true } }
+
+                $result = $InputObj | Remove-PASUserAllowedAuthenticationMethod
+
+                $result | Should -Not -BeNullOrEmpty
+
+            }
+
         }
 
     }

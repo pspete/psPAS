@@ -108,6 +108,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'sends expected query & filter' {
+
+                Get-PASDiscoveredLocalAccount -search 'SomeSearch' -isPrivileged $true
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    ($URI -match 'search=SomeSearch') -and ($URI -match 'filter=isPrivileged')
+
+                } -Times 1 -Scope It
+
+            }
+
         }
 
     }

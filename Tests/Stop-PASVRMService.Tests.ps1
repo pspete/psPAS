@@ -127,6 +127,20 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Output' {
+
+			It 'returns a result when one is provided by the API' {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'Success' = $true } }
+
+				$result = Stop-PASVRMService -serviceName DR -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false
+
+				$result | Should -Not -BeNullOrEmpty
+
+			}
+
+		}
+
 	}
 
 }

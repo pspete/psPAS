@@ -329,6 +329,32 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 			}
 
+			It 'flattens settings without error when a section contains a null or scalar value' {
+
+				#Regression test: not every settings property is wrapped in a {value, isReadOnly} object -
+				#null sections and raw scalar values must be passed through as-is rather than recursed into.
+				Mock Invoke-PASRestMethod -MockWith {
+
+					[PSCustomObject]@{
+						'general' = [PSCustomObject]@{
+							'name'         = [PSCustomObject]@{ 'value' = 'SomePlatform'; 'description' = ''; 'isDefault' = $false; 'isReadOnly' = $true }
+							'emptySection' = $null
+							'rawScalar'    = 'JustAString'
+						}
+					}
+
+				}
+
+				Mock Add-ObjectDetail -MockWith { $InputObject }
+
+				$result = Get-PASPlatform -ID 123
+
+				$result.general.name | Should -Be 'SomePlatform'
+				$result.general.emptySection | Should -BeNullOrEmpty
+				$result.general.rawScalar | Should -Be 'JustAString'
+
+			}
+
 			It 'provides tab completion for the Scope parameter using values from the API' {
 
 				#Regression test: the completer scriptblock is invoked by the completion engine
@@ -344,6 +370,99 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 				$CompletionResults = & $Completer.ScriptBlock 'Get-PASPlatform' 'Scope' 'policy/c' $null @{ ID = 123 }
 
 				$CompletionResults.CompletionText | Should -Be 'policy/cpmPlugin'
+
+			}
+
+		}
+
+		Context 'Output Formatting' {
+
+			BeforeEach {
+
+				Mock Add-ObjectDetail -MockWith {
+					param($InputObject, $typename)
+					$InputObject | ForEach-Object {
+						if ($typename) { $_.PSObject.TypeNames.Insert(0, $typename) }
+						$_
+					}
+				}
+
+			}
+
+			It 'sets typename to Basic when Total is 0' {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{ Total = 0; Platforms = @([PSCustomObject]@{PlatformID = 'Plat1' }) }
+				}
+
+				$result = Get-PASPlatform
+
+				$result | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be 'psPAS.CyberArk.Vault.Platform.Basic'
+
+			}
+
+			$TypeNameCases = @{Switch = @{ }; Expected = 'psPAS.CyberArk.Vault.Platform.Targets' },
+			@{Switch = @{GroupPlatform = $true }; Expected = 'psPAS.CyberArk.Vault.Platform.Groups' },
+			@{Switch = @{DependentPlatform = $true }; Expected = 'psPAS.CyberArk.Vault.Platform.Dependents' },
+			@{Switch = @{RotationalGroup = $true }; Expected = 'psPAS.CyberArk.Vault.Platform.RotationalGroups' }
+
+			It 'sets typename to <Expected> when Total is greater than 0' -TestCases $TypeNameCases {
+
+				param($Switch, $Expected)
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{ Total = 1; Platforms = @([PSCustomObject]@{PlatformID = 'Plat1' }) }
+				}
+
+				$result = Get-PASPlatform @Switch
+
+				$result | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be $Expected
+
+			}
+
+			It 'flattens the Details property and sets expected typename for a single platform response' {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						'PlatformID' = 'SomePlatform'
+						'Details'    = [PSCustomObject]@{ 'Prop1' = 'Val1' }
+					}
+				}
+
+				$result = Get-PASPlatform -Name 'SomePlatform'
+
+				$result.PlatformID | Should -Be 'SomePlatform'
+				$result.Prop1 | Should -Be 'Val1'
+				$result.PSObject.Properties.Name | Should -Not -Contain 'Details'
+				$result | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be 'psPAS.CyberArk.Vault.Platform.Details'
+
+			}
+
+			It 'includes filter and search parameters in a targets request' {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{ Total = 0; Platforms = @() } }
+
+				Get-PASPlatform -Active $true -Search 'foo'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($URI -match 'search=foo') -and ($URI -match 'filter=Active')
+
+				} -Scope It
+
+			}
+
+			It 'includes the search parameter in a group platforms request' {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{ Total = 0; Platforms = @() } }
+
+				Get-PASPlatform -GroupPlatform -Search 'foo'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match 'search=foo'
+
+				} -Scope It
 
 			}
 

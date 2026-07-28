@@ -146,6 +146,100 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
+            It 'returns a result when one is provided by the API' {
+
+                Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'Success' = $true } }
+
+                $result = $InputObj | Add-PASPTASyslog
+
+                $result | Should -Not -BeNullOrEmpty
+
+            }
+
+        }
+
+        Context 'Certificate Handling' {
+
+            BeforeAll {
+
+                $Script:SyslogCertTestDrive = Join-Path $env:TEMP "psPASTests_$([guid]::NewGuid().Guid)"
+                New-Item -ItemType Directory -Path $Script:SyslogCertTestDrive -Force | Out-Null
+
+            }
+
+            AfterAll {
+
+                Remove-Item -Path $Script:SyslogCertTestDrive -Recurse -Force -ErrorAction SilentlyContinue
+
+            }
+
+            BeforeEach {
+
+                Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'Success' = $true } }
+
+                $CertInputObj = [pscustomobject]@{
+                    'siem'             = 'SomeSIEM'
+                    'format'           = 'CEF'
+                    'host'             = 'SomeHost'
+                    'port'             = 514
+                    'syslogType'       = 'RFC5424'
+                    'tcpOctetCounting' = $false
+                }
+
+                $CertPath = Join-Path $Script:SyslogCertTestDrive 'cert.pem'
+                [System.IO.File]::WriteAllText($CertPath, 'SomeCertificateContent')
+
+            }
+
+            It 'throws if CertificateFile does not exist' {
+
+                { $CertInputObj | Add-PASPTASyslog -protocol TLS -CertificateFile (Join-Path $Script:SyslogCertTestDrive 'missing.pem') } | Should -Throw
+
+            }
+
+            It 'throws if CertificateFile has an unsupported extension' {
+
+                $BadExtPath = Join-Path $Script:SyslogCertTestDrive 'cert.txt'
+                Set-Content -Path $BadExtPath -Value 'SomeCertificateContent'
+
+                { $CertInputObj | Add-PASPTASyslog -protocol TLS -CertificateFile $BadExtPath } | Should -Throw
+
+            }
+
+            It 'includes base64 encoded certificate content in the request body when protocol is TLS' {
+
+                $CertInputObj | Add-PASPTASyslog -protocol TLS -CertificateFile $CertPath
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $ExpectedBase64 = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes('SomeCertificateContent'))
+                    (($Body | ConvertFrom-Json).certificate) -eq $ExpectedBase64
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'does not include a certificate when protocol is not TLS' {
+
+                $CertInputObj | Add-PASPTASyslog -protocol UDP
+
+                #The shared outer BeforeEach also issues a UDP/no-cert request, so both calls in this
+                #test's scope are expected to match this filter.
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $null -eq (($Body | ConvertFrom-Json).certificate)
+
+                } -Times 2 -Exactly -Scope It
+
+            }
+
+            It 'wraps errors encountered reading or encoding the certificate file' {
+
+                Mock Get-Content -MockWith { throw 'Disk error' }
+
+                { $CertInputObj | Add-PASPTASyslog -protocol TLS -CertificateFile $CertPath } | Should -Throw "*Failed to read or encode certificate file*"
+
+            }
 
         }
 

@@ -120,6 +120,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'throws error if an invalid parameter name is specified' {
+
+				{ Set-PASVRMServiceConfig -parameters @{'NotAValidKey' = '30' } -serviceName DR -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false } | Should -Throw '*Invalid parameter name(s)*'
+
+			}
+
 		}
 
 		Context 'Output' {

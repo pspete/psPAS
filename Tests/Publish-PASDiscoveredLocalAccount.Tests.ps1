@@ -92,6 +92,20 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'includes a decoded secret value in the request body' {
+
+                $SecureSecret = ConvertTo-SecureString -String 'SomeSecretValue' -AsPlainText -Force
+
+                $InputObject | Publish-PASDiscoveredLocalAccount -secret $SecureSecret
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    ([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json).secret -eq 'SomeSecretValue'
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
         }
 
     }

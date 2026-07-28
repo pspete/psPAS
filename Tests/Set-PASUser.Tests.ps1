@@ -277,6 +277,85 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'userType ArgumentCompleter' {
+
+			It 'provides ArgumentCompleter for userType parameter' {
+
+				(Get-Command Set-PASUser).Parameters['userType'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'returns matching user types from Get-PASUserType' {
+
+				Mock Get-PASUserType -MockWith {
+					[pscustomobject]@{UserTypeName = 'EPVUser' },
+					[pscustomobject]@{UserTypeName = 'BasicUser' }
+				}
+
+				$Completer = (Get-Command Set-PASUser).Parameters['userType'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Select-Object -ExpandProperty ScriptBlock
+
+				$Result = & $Completer -commandName 'Set-PASUser' -parameterName 'userType' -wordToComplete 'E' -commandAst $null -fakeBoundParameters @{}
+
+				$Result.CompletionText | Should -Be 'EPVUser'
+
+			}
+
+			It 'returns nothing if Get-PASUserType throws' {
+
+				Mock Get-PASUserType -MockWith { throw 'Some Error' }
+
+				$Completer = (Get-Command Set-PASUser).Parameters['userType'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Select-Object -ExpandProperty ScriptBlock
+
+				{ & $Completer -commandName 'Set-PASUser' -parameterName 'userType' -wordToComplete '' -commandAst $null -fakeBoundParameters @{} } | Should -Not -Throw
+
+			}
+
+		}
+
+		Context 'unAuthorizedInterfaces ArgumentCompleter' {
+
+			It 'provides ArgumentCompleter for unAuthorizedInterfaces parameter' {
+
+				(Get-Command Set-PASUser).Parameters['unAuthorizedInterfaces'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'returns matching client ids from Get-PASClientID' {
+
+				Mock Get-PASClientID -MockWith { 'PVWA', 'PSM' }
+
+				$Completer = (Get-Command Set-PASUser).Parameters['unAuthorizedInterfaces'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Select-Object -ExpandProperty ScriptBlock
+
+				$Result = & $Completer -commandName 'Set-PASUser' -parameterName 'unAuthorizedInterfaces' -wordToComplete 'PV' -commandAst $null -fakeBoundParameters @{}
+
+				$Result.CompletionText | Should -Be 'PVWA'
+
+			}
+
+			It 'returns nothing if Get-PASClientID throws' {
+
+				Mock Get-PASClientID -MockWith { throw 'Some Error' }
+
+				$Completer = (Get-Command Set-PASUser).Parameters['unAuthorizedInterfaces'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Select-Object -ExpandProperty ScriptBlock
+
+				{ & $Completer -commandName 'Set-PASUser' -parameterName 'unAuthorizedInterfaces' -wordToComplete '' -commandAst $null -fakeBoundParameters @{} } | Should -Not -Throw
+
+			}
+
+		}
+
 	}
 
 }

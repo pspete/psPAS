@@ -1,6 +1,7 @@
-Describe $($PSCommandPath -replace '.Tests.ps1') {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
+
 		#Get Current Directory
 		$Here = Split-Path -Parent $PSCommandPath
 
@@ -22,17 +23,14 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 		$Script:RequestBody = $null
 		$psPASSession = [ordered]@{
 			BaseURI            = 'https://SomeURL/SomeApp'
-			ApiURI             = 'https://SomeURL/SomeApp'
 			User               = $null
 			ExternalVersion    = [System.Version]'0.0'
 			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			StartTime          = $((Get-Date).AddMinutes(-5))
+			StartTime          = $null
 			ElapsedTime        = $null
 			LastCommand        = $null
 			LastCommandTime    = $null
 			LastCommandResults = $null
-			LastError          = $null
-			LastErrorTime      = $null
 		}
 
 		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
@@ -47,43 +45,15 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 	}
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
-		BeforeEach {
 
-			$psPASSession.StartTime = (Get-Date).AddMinutes(-5)
-			$response = Get-PASSession
-		}
+		Context 'General' {
 
-		Context 'Standard Operation' {
+			It 'returns true when run from PowerShell Core' {
 
-			It 'provides output' {
-
-				$response | Should -Not -BeNullOrEmpty
-
-			}
-
-			It 'calculates ElapsedTime when StartTime is set' {
-
-				$response.ElapsedTime | Should -Not -BeNullOrEmpty
-
-			}
-
-			It 'sets ElapsedTime to null when StartTime is not set' {
-
-				$psPASSession.StartTime = $null
-				$NoStartResponse = Get-PASSession
-				$NoStartResponse.ElapsedTime | Should -BeNullOrEmpty
-
-			}
-
-			It 'has output with expected number of properties' -Skip {
-				#TODO: This test has been failing intermittently in CI/CD runs. Needs investigation.
-				$response.Keys.Count | Should -Be 12
-
-			}
-
-			It 'outputs object with expected typename' {
-
-				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Session
+				#Note: the $false branch (Windows PowerShell 5.1, non-Core) cannot be exercised here -
+				#$PSEdition is a genuine read-only constant that cannot be overridden even with
+				#Set-Variable -Force, and CI only ever runs this suite under pwsh (Core).
+				Test-IsCoreCLR | Should -Be $IsCoreCLR
 
 			}
 

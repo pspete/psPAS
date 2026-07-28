@@ -144,6 +144,87 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'SideBySide Input' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'PlatformID' = 'SomePlatform' }
+				}
+			}
+
+			#Note: the shared outer BeforeEach also issues an 'Import' parameterset request,
+			#so each assertion here filters for the specific request it cares about rather than
+			#asserting a total call count.
+
+			It 'sends request to expected endpoint using expected method' {
+
+				Import-PASPlatform -PlatformId 'SomePlatform' -PlatformName 'NewPlatformName'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/Import") -and ($Method -match 'PATCH')
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with expected body' {
+
+				Import-PASPlatform -PlatformId 'SomePlatform' -PlatformName 'NewPlatformName' -Description 'SomeDescription'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Parsed = $Body | ConvertFrom-Json
+					($Method -match 'PATCH') -and ($Parsed.PlatformId -eq 'SomePlatform') -and ($Parsed.PlatformName -eq 'NewPlatformName') -and ($Parsed.Description -eq 'SomeDescription')
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws error if version 14.6 requirement not met' {
+				$psPASSession.ExternalVersion = '14.5'
+				{ Import-PASPlatform -PlatformId 'SomePlatform' -PlatformName 'NewPlatformName' } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+		}
+
+		Context 'Update Input' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'PlatformID' = 'SomePlatform' }
+				}
+			}
+
+			It 'sends request to expected endpoint using expected method' {
+
+				Import-PASPlatform -PlatformId 'SomePlatform' -Force
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/SomePlatform/Update") -and ($Method -match 'POST')
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws error if version 14.2 requirement not met' {
+				$psPASSession.ExternalVersion = '14.1'
+				{ Import-PASPlatform -PlatformId 'SomePlatform' -Force } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'wraps and rethrows errors from the web request' {
+
+				Mock Invoke-PASRestMethod -MockWith { throw 'Some Error' }
+
+				{ Import-PASPlatform -PlatformId 'SomePlatform' -Force } | Should -Throw 'Some Error'
+
+			}
+
+		}
+
 		Context 'Output' {
 
 			It 'provides output' {

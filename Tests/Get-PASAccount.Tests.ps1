@@ -50,7 +50,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					Write-Output @{ }
+					#Realistic shape: a real (non-mocked) API response is a PSCustomObject (from ConvertFrom-Json),
+					#not a bare Hashtable - Get-NextLink relies on recognizing a `value`/`items` property on it.
+					[PSCustomObject]@{ value = @() }
 				}
 
 			}
@@ -197,6 +199,71 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				{ Get-PASAccount -savedFilter DeleteInsightStatus } | Should -Not -Throw
 				$psPASSession.BaseURI = 'https://SomeURL/SomeApp'
 				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+		}
+
+		Context 'Dynamic Search Parameters' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{ value = @() }
+				}
+
+				Mock Get-PASAccountSearchProperty -MockWith {
+					[pscustomobject]@{PropertyName = 'safeName' },
+					[pscustomobject]@{PropertyName = 'customProperty' }
+				}
+
+				$psPASSession.ExternalVersion = '14.6'
+
+			}
+
+			AfterEach {
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'adds a dynamic parameter for a search property not already defined' {
+
+				{ Get-PASAccount -customProperty 'SomeValue' } | Should -Not -Throw
+
+			}
+
+			It 'includes the dynamic search property value as a filter parameter' {
+
+				Get-PASAccount -customProperty 'SomeValue'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match 'customProperty'
+
+				} -Scope It
+
+			}
+
+			It 'uses the specified LogicalOperator to join filter values for 14.6+ self hosted requests' {
+
+				Get-PASAccount -customProperty 'SomeValue' -safeName 'SomeSafe' -LogicalOperator OR
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match 'OR'
+
+				} -Scope It
+
+			}
+
+			It 'does not add dynamic parameters when not self hosted' {
+
+				$psPASSession.ApiURI = 'https://SomeSubDomain.cyberark.cloud/PasswordVault'
+
+				{ Get-PASAccount -customProperty 'SomeValue' } | Should -Throw
+
+				$psPASSession.ApiURI = $null
 
 			}
 

@@ -122,6 +122,30 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'merges existing rule properties for an unspecified field when a matching rule exists' {
+
+				Mock Get-PASOnboardingRule -MockWith {
+					[pscustomobject]@{
+						'RuleId'          = '123'
+						'RuleName'        = 'ExistingRuleName'
+						'UserNameFilter'  = 'ExistingUserNameFilter'
+					},
+					[pscustomobject]@{
+						'RuleId'   = '456'
+						'RuleName' = 'SomeOtherRule'
+					}
+				}
+
+				$InputObj | Set-PASOnboardingRule
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					($Body | ConvertFrom-Json).RuleName -eq 'ExistingRuleName'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 		}
 
 		Context 'Output' {

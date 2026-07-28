@@ -537,6 +537,49 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Permission Templates' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{} }
+
+			}
+
+			$Templates = @{Template = 'ConnectOnly' },
+			@{Template = 'ReadOnly' },
+			@{Template = 'Approver' },
+			@{Template = 'AccountsManager' },
+			@{Template = 'Full' }
+
+			It 'sends the <Template> permission set in the request body' -TestCases $Templates {
+
+				param($Template)
+
+				$Params = @{SafeName = 'SomeSafe'; MemberName = 'SomeUser' }
+				$Params[$Template] = $true
+
+				Add-PASSafeMember @Params
+
+				$TemplateParams = @{$Template = $true }
+				$ExpectedPermissions = ConvertTo-SortedPermission @TemplateParams
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+					$true
+
+				} -Times 1 -Exactly -Scope It
+
+				foreach ($key in $ExpectedPermissions.Keys) {
+
+					$Script:RequestBody.Permissions.$key | Should -Be $ExpectedPermissions[$key]
+
+				}
+
+			}
+
+		}
+
 	}
 
 }

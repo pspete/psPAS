@@ -114,6 +114,24 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'throws error if version requirement not met - includeMembers parameter' {
+				$psPASSession.ExternalVersion = '11.9'
+
+				{ Get-PASGroup -includeMembers $true } | Should -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'throws error if version requirement not met - sort parameter' {
+				$psPASSession.ExternalVersion = '12.1'
+
+				{ Get-PASGroup -sort groupName } | Should -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
 			It 'uses expected method' {
 				Get-PASGroup
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It

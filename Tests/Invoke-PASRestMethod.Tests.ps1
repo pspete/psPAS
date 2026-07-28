@@ -381,11 +381,48 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'reports privilege cloud errors  not returned as json' {
 				If ($IsCoreCLR) {
+					$targetObject = [pscustomobject]@{'RequestUri' = [pscustomobject]@{'Host' = 'https://subdomain.id.cyberark.cloud' } }
 					$errorDetails = 'Some Error Message'
 					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
 					$errorRecord.ErrorDetails = $errorDetails
 					Mock Invoke-WebRequest { Throw $errorRecord }
 					{ Invoke-PASRestMethod @WebSession } | Should -Throw 'Some Error Message'
+				} Else { Set-ItResult -Inconclusive }
+			}
+
+			It 'reports privilege cloud errors with message + code properties' {
+				If ($IsCoreCLR) {
+					$targetObject = [pscustomobject]@{'RequestUri' = [pscustomobject]@{'Host' = 'https://subdomain.id.cyberark.cloud' } }
+					$errorDetails = $([pscustomobject]@{'code' = 'access_denied'; 'message' = 'invalid client creds or client not allowed' } | ConvertTo-Json)
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+					Mock Invoke-WebRequest { Throw $errorRecord }
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw 'invalid client creds or client not allowed'
+				} Else { Set-ItResult -Inconclusive }
+			}
+
+			It 'reports privilege cloud errors with unrecognized properties' {
+				If ($IsCoreCLR) {
+					$targetObject = [pscustomobject]@{'RequestUri' = [pscustomobject]@{'Host' = 'https://subdomain.id.cyberark.cloud' } }
+					$errorDetails = $([pscustomobject]@{'someOtherProperty' = 'SomeValue' } | ConvertTo-Json)
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+					Mock Invoke-WebRequest { Throw $errorRecord }
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw
+				} Else { Set-ItResult -Inconclusive }
+			}
+
+			It 'reports inner error messages returned as an array' {
+				If ($IsCoreCLR) {
+					$Details = @(
+						[pscustomobject]@{'ErrorCode' = 'URA666'; 'ErrorMessage' = 'Some Inner Error' },
+						[pscustomobject]@{'ErrorCode' = 'URA667'; 'ErrorMessage' = 'Some Other Inner Error' }
+					)
+					$errorDetails = $([pscustomobject]@{'ErrorCode' = 'URA999'; 'ErrorMessage' = 'Some Error Message' ; 'Details' = $Details } | ConvertTo-Json)
+					$errorRecord = New-Object Management.Automation.ErrorRecord $exception, $errorID, $errorCategory, $targetObject
+					$errorRecord.ErrorDetails = $errorDetails
+					Mock Invoke-WebRequest { Throw $errorRecord }
+					{ Invoke-PASRestMethod @WebSession } | Should -Throw
 				} Else { Set-ItResult -Inconclusive }
 			}
 

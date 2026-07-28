@@ -220,7 +220,65 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
-		#TODO Test RDP/PSMGW Invoke-Item + Related Files
+		Context 'PSMGW Request Handling' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'PSMGWRequest' = 'SomeRequestValue'; 'PSMGWURL' = 'https://SomePSMGW.URL' }
+				}
+
+				Mock Get-PASSession -MockWith {
+					[PSCustomObject]@{
+						LastCommandResults = [PSCustomObject]@{
+							Headers = @{'X-Correlation-ID' = 'SomeCorrelationID' }
+						}
+					}
+				}
+
+				Mock ConvertTo-Html -MockWith { '<html></html>' }
+				Mock Out-File -MockWith { }
+				Mock Get-Item -MockWith { 'C:\Some\Fake\Path.html' }
+				Mock Invoke-Item -MockWith { }
+
+				$InputObj = [pscustomobject]@{
+					'AccountID'           = '99_9'
+					'ConnectionComponent' = 'SomeConnectionComponent'
+				}
+
+				$psPASSession.ExternalVersion = '10.2'
+
+			}
+
+			AfterEach {
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'writes an html form and opens it via Invoke-Item' {
+
+				$InputObj | New-PASPSMSession -ConnectionMethod PSMGW
+
+				Assert-MockCalled ConvertTo-Html -Times 1 -Exactly -Scope It
+				Assert-MockCalled Out-File -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-Item -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'includes the PSMGWURL and PSMGWRequest values in the generated html form' {
+
+				$InputObj | New-PASPSMSession -ConnectionMethod PSMGW
+
+				Assert-MockCalled ConvertTo-Html -ParameterFilter {
+
+					($Body -match 'https://SomePSMGW.URL') -and ($Body -match 'SomeRequestValue')
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+		}
 
 	}
 

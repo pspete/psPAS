@@ -112,6 +112,42 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'items/nextCursor pagination' {
+
+			BeforeEach {
+
+				$InputObj = [pscustomobject]@{
+					'items'      = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+					'nextCursor' = 'SomeCursor'
+				}
+
+				Mock Invoke-PASRestMethod -MockWith {
+					if ($script:iteration -lt 1) {
+						$script:iteration++
+						[pscustomobject]@{
+							'items'      = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+							'nextCursor' = 'SomeCursor'
+						}
+					} else {
+						[pscustomobject]@{
+							'items' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+						}
+					}
+				}
+				$script:iteration = 0
+
+			}
+
+			It 'follows nextCursor and merges items results' {
+
+				$results = $InputObj | Get-NextLink
+				$results.count | Should -Be 6
+				Assert-MockCalled Invoke-PASRestMethod -Times 2 -Exactly -Scope It
+
+			}
+
+		}
+
 	}
 
 }

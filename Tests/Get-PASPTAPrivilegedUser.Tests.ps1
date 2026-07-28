@@ -95,6 +95,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 $psPASSession.ExternalVersion = '0.0'
             }
 
+            It 'does not throw when ValueType is specified' {
+
+                { Get-PASPTAPrivilegedUser -ValueType DefaultValue } | Should -Not -Throw
+
+            }
+
         }
 
         Context 'Output' {

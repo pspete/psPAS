@@ -203,6 +203,30 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'includes useCache in the query string' {
+
+				Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember -useCache $true
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members/SomeMember/?useCache=True"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'returns the member permissions result directly' {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'memberName' = 'SomeMember'; 'permissions' = [PSCustomObject]@{'useAccounts' = $true } }
+				}
+
+				$MemberPermissionsResponse = Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember
+
+				$MemberPermissionsResponse.memberName | Should -Be 'SomeMember'
+
+			}
+
 			It 'corrctly formats nexLink, Limit & Offset URL values' {
 
 				Mock Invoke-PASRestMethod -MockWith {

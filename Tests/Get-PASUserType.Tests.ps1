@@ -45,35 +45,15 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		Context 'Mandatory Parameters' {
-
-			$Parameters = @{Parameter = 'AccountID' },
-			@{Parameter = 'dependentAccountId' }
-
-			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
-
-				param($Parameter)
-
-				(Get-Command Remove-PASDependentAccount).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
-
+		BeforeEach {
+			Mock Invoke-PASRestMethod -MockWith {
+				[PSCustomObject]@{'UserTypes' = @('EPVUser', 'BasicUser', 'AIMAccount') }
 			}
 
+			$response = Get-PASUserType
 		}
 
 		Context 'Input' {
-
-			BeforeEach {
-				$psPASSession.ExternalVersion = '0.0'
-				Mock Invoke-PASRestMethod -MockWith { }
-
-				$InputObj = [pscustomobject]@{
-					'AccountID'           = '11_1'
-					'dependentAccountId' = '22_2'
-				}
-
-				$response = $InputObj | Remove-PASDependentAccount
-
-			}
 
 			It 'sends request' {
 
@@ -85,7 +65,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/11_1/dependentAccounts/22_2"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/userTypes"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -93,7 +73,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'uses expected method' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'DELETE' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -103,46 +83,33 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'throws error if version requirement not met' {
-				$psPASSession.ExternalVersion = '14.5'
-				{ $InputObj | Remove-PASDependentAccount } | Should -Throw
-				$psPASSession.ExternalVersion = '0.0'
-			}
-
-			It 'sends request to expected endpoint - ISPSS' {
-
-				Mock -CommandName Test-IsISPSS -MockWith { $true }
-
-				$InputObj | Remove-PASDependentAccount
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/11_1/account-dependents/22_2"
-
-				} -Times 1 -Exactly -Scope It
-
-			}
-
 		}
 
 		Context 'Output' {
 
-			BeforeEach {
-				$psPASSession.ExternalVersion = '0.0'
-				Mock Invoke-PASRestMethod -MockWith { }
+			It 'provides output' {
 
-				$InputObj = [pscustomobject]@{
-					'AccountID'           = '11_1'
-					'dependentAccountId' = '22_2'
-				}
-
-				$response = $InputObj | Remove-PASDependentAccount
+				$response | Should -Not -BeNullOrEmpty
 
 			}
 
-			It 'provides no output' {
+			It 'returns the expected number of values' {
 
-				$response | Should -BeNullOrEmpty
+				$response.Count | Should -Be 3
+
+			}
+
+			It 'returns the expected values' {
+
+				$response | Should -Contain 'EPVUser'
+
+			}
+
+			It 'provides no output if no result is returned' {
+
+				Mock Invoke-PASRestMethod -MockWith { }
+
+				Get-PASUserType | Should -BeNullOrEmpty
 
 			}
 

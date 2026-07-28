@@ -86,6 +86,33 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 $psPASSession.ExternalVersion = '0.0'
             }
 
+            It 'sends request to expected endpoint when a single id is specified' {
+
+                Clear-PASDiscoveredAccount -id '123_456'
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts/123_456"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends a bulk delete request when multiple ids are specified' {
+
+                Clear-PASDiscoveredAccount -id '123_456', '789_012'
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    ($URI -eq "$($Script:psPASSession.BaseURI)/api/DiscoveredAccounts/Delete/Bulk") -and
+                    ($Method -match 'POST') -and
+                    (($Body | ConvertFrom-Json).BulkItems.discoveredAccountId -contains '123_456') -and
+                    (($Body | ConvertFrom-Json).BulkItems.discoveredAccountId -contains '789_012')
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
         }
 
         Context 'Output' {

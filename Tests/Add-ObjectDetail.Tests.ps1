@@ -1,6 +1,7 @@
-Describe $($PSCommandPath -replace '.Tests.ps1') {
+Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	BeforeAll {
+
 		#Get Current Directory
 		$Here = Split-Path -Parent $PSCommandPath
 
@@ -22,17 +23,14 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 		$Script:RequestBody = $null
 		$psPASSession = [ordered]@{
 			BaseURI            = 'https://SomeURL/SomeApp'
-			ApiURI             = 'https://SomeURL/SomeApp'
 			User               = $null
 			ExternalVersion    = [System.Version]'0.0'
 			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			StartTime          = $((Get-Date).AddMinutes(-5))
+			StartTime          = $null
 			ElapsedTime        = $null
 			LastCommand        = $null
 			LastCommandTime    = $null
 			LastCommandResults = $null
-			LastError          = $null
-			LastErrorTime      = $null
 		}
 
 		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
@@ -47,43 +45,49 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 	}
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
-		BeforeEach {
 
-			$psPASSession.StartTime = (Get-Date).AddMinutes(-5)
-			$response = Get-PASSession
-		}
+		Context 'General' {
 
-		Context 'Standard Operation' {
+			BeforeEach {
 
-			It 'provides output' {
-
-				$response | Should -Not -BeNullOrEmpty
-
-			}
-
-			It 'calculates ElapsedTime when StartTime is set' {
-
-				$response.ElapsedTime | Should -Not -BeNullOrEmpty
+				$Object = [PSCustomObject]@{
+					First   = 'Cookie'
+					Last    = 'Monster'
+					Account = 'CMonster'
+				}
 
 			}
 
-			It 'sets ElapsedTime to null when StartTime is not set' {
+			It 'adds a typename' {
 
-				$psPASSession.StartTime = $null
-				$NoStartResponse = Get-PASSession
-				$NoStartResponse.ElapsedTime | Should -BeNullOrEmpty
-
-			}
-
-			It 'has output with expected number of properties' -Skip {
-				#TODO: This test has been failing intermittently in CI/CD runs. Needs investigation.
-				$response.Keys.Count | Should -Be 12
+				Add-ObjectDetail -InputObject $Object -TypeName 'SomeTypeName'
+				$Object | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be 'SomeTypeName'
 
 			}
 
-			It 'outputs object with expected typename' {
+			It 'adds a property' {
 
-				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Session
+				Add-ObjectDetail -InputObject $Object -PropertyToAdd @{AnotherProperty = 5 }
+				$Object.AnotherProperty | Should -Be 5
+
+			}
+
+			It 'sets a default display property set' {
+
+				Add-ObjectDetail -InputObject $Object -DefaultProperties Account, First
+				($Object | Get-Member -Name PSStandardMembers) | Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'does not output the object when Passthru is false' {
+
+				Add-ObjectDetail -InputObject $Object -TypeName 'SomeTypeName' -Passthru $false | Should -BeNullOrEmpty
+
+			}
+
+			It 'outputs the object when Passthru is true' {
+
+				Add-ObjectDetail -InputObject $Object -TypeName 'SomeTypeName' -Passthru $true | Should -Not -BeNullOrEmpty
 
 			}
 

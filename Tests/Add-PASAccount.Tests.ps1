@@ -253,6 +253,30 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'includes AllowAccountDuplications in the request endpoint' {
+
+				$psPASSession.ExternalVersion = '14.6'
+
+				$InputObjV10 | Add-PASAccount -AllowAccountDuplications $true
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts?AllowAccountDuplications=True"
+
+				} -Times 1 -Exactly -Scope It
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'throws error if version 14.6 requirement not met for AllowAccountDuplications' {
+
+				$psPASSession.ExternalVersion = '14.5'
+				{ $InputObjV10 | Add-PASAccount -AllowAccountDuplications $true } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
 		}
 
 		Context 'Output' {

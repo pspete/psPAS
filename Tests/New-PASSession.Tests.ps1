@@ -487,6 +487,54 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'falls back to the Credential username if Get-PASLoggedOnUser throws' {
+
+				Mock Get-PASLoggedOnUser -MockWith { throw 'Some Error' }
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI'
+
+				$psPASSession.User | Should -Be 'SomeUser'
+
+			}
+
+			It 'sets a null user if Get-PASLoggedOnUser throws and no Credential was used' {
+
+				Mock Get-PASLoggedOnUser -MockWith { throw 'Some Error' }
+
+				New-PASSession -BaseURI 'https://P_URI' -UseDefaultCredentials
+
+				$psPASSession.User | Should -BeNullOrEmpty
+
+			}
+
+			It 'sends expected body for PKIPN type' {
+
+				New-PASSession -BaseURI 'https://P_URI' -type PKIPN
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
+					($Script:RequestBody.secureMode -eq $true) -and ($Script:RequestBody.type -eq 'pkipn')
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends secondary auth request to expected endpoint for PKI type' {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'UserName' = 'SomeUser' } } -ParameterFilter { $Uri -eq 'https://P_URI/PasswordVault/api/Auth/PKI/Logon' }
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'CyberArkLogonResult' = 'SomeToken' } } -ParameterFilter { $Uri -eq 'https://P_URI/PasswordVault/api/Auth/LDAP/Logon' }
+
+				New-PASSession -BaseURI 'https://P_URI' -type PKI
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://P_URI/PasswordVault/api/Auth/LDAP/Logon'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 		}
 
 		Context 'Radius Challenge' {
@@ -929,6 +977,15 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sends request' {
 				$Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault' -ServiceUser
 				Assert-MockCalled New-IDPlatformToken -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws expected message if IdentityCommand module is not available' {
+
+				Mock Import-Module -MockWith { throw 'Module not found' }
+
+				{ $Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault' -ServiceUser } |
+					Should -Throw 'Failed to import IdentityCommand: Install the IdentityCommand Module and try again.'
 
 			}
 

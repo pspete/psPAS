@@ -307,6 +307,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'converts a string Quota value merged in from an existing safe' {
+
+				Mock Get-PASSafe -MockWith {
+					[PSCustomObject]@{'Quota' = '500' }
+				}
+
+				{ $InputObj | Set-PASSafe -Description 'SomeUpdatedDescription' } | Should -Not -Throw
+
+			}
+
 		}
 
 	}

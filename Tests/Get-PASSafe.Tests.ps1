@@ -260,6 +260,17 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'appends sortDirection to the sort query value' {
+
+				Get-PASSafe -sort safeName -sortDirection desc
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Safes?sort=safeName%20desc"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
 
 		}
 
@@ -339,7 +350,28 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'follows pagination when Total exceeds the page Limit' {
 
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						'Total'          = 30
+						'GetSafesResult' = @([PSCustomObject]@{'PropA' = 'Page1' })
+					}
+				} -ParameterFilter { $URI -notmatch 'limit=' }
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						'Safes' = @([PSCustomObject]@{'PropA' = 'Page2' })
+					}
+				} -ParameterFilter { $URI -match 'limit=' }
+
+				$PagedResponse = Get-PASSafe -FindAll -UseGen1API
+
+				$PagedResponse.Count | Should -Be 2
+				$PagedResponse[0].PropA | Should -Be 'Page1'
+				$PagedResponse[1].PropA | Should -Be 'Page2'
+
+			}
 
 		}
 

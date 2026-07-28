@@ -289,6 +289,49 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
+            It 'processes NextLink preserving other query parameters alongside limit/offset' {
+                Mock Invoke-PASRestMethod -MockWith {
+                    if ($script:iteration -lt 2) {
+                        [pscustomobject]@{
+                            'Total'             = 100
+                            'DependentAccounts' = 1..100
+
+                        }
+                        $script:iteration++
+                    } else {
+                        throw 'No more pages'
+                    }
+                }
+                $script:iteration = 1
+                Get-PASDependentAccount -search 'SomeSearchTerm'
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -match 'search=SomeSearchTerm' -and $URI -match 'limit=' -and $URI -match 'Offset='
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'processes NextLink for a specific account with no initial query string' {
+
+                Mock Invoke-PASRestMethod -MockWith {
+                    if ($script:iteration -lt 1) {
+                        $script:iteration++
+                        [pscustomobject]@{
+                            'Total'             = 0
+                            'DependentAccounts' = @()
+                        }
+                    } else {
+                        throw 'No more pages'
+                    }
+                }
+                $script:iteration = 0
+
+                { Get-PASDependentAccount -id 'SomeID' } | Should -Not -Throw
+
+            }
+
         }
 
     }

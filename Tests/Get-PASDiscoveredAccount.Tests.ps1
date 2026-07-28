@@ -128,6 +128,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'throws error if version 11.7 requirement not met for Azure Password Management platformType' {
+				$psPASSession.ExternalVersion = '11.6'
+
+				{ Get-PASDiscoveredAccount -platformType 'Azure Password Management' } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
 		}
 
 	}
