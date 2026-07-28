@@ -853,11 +853,13 @@ function New-PASSession {
 
 					} finally {
 
+						#Note: must not be named $Username - that collides (case-insensitively) with the
+						#-UserName parameter, and re-triggers its [ValidateNotNullOrEmpty()] on assignment.
 						if ($null -ne $User) {
-							$Username = $User | Select-Object -ExpandProperty UserName
-						} else { $Username = $User }
+							$ResolvedUsername = $User | Select-Object -ExpandProperty UserName
+						} else { $ResolvedUsername = $User }
 
-						$psPASSession.User = $Username
+						$psPASSession.User = $ResolvedUsername
 
 					}
 
