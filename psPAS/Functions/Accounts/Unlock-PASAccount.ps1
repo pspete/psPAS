@@ -85,23 +85,36 @@ function Unlock-PASAccount {
 
 			'Unlock' {
 
-				#*Assumed working for 11.6+ (not verified/tested for all versions)
-				Assert-VersionRequirement -RequiredVersion 11.6
-
 				if ($BulkConfirmation) {
-					$PSCmdlet.ThrowTerminatingError(
-						[System.Management.Automation.ErrorRecord]::new(
-							[System.NotSupportedException]::new('Bulk unlock is not supported by the Idira (CyberArk) API. Provide a single AccountID.'),
-							'BulkUnlockNotSupported',
-							[System.Management.Automation.ErrorCategory]::NotImplemented,
-							$AccountID
-						)
-					)
-				}
 
-				#Create URL for request
-				$URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/Unlock"
-				break
+					#Create URL for Request
+					$URI = "$($psPASSession.BaseURI)/api/Accounts/Unlock/Bulk"
+
+					#Create body of request
+					$Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }
+					$AccountID | ForEach-Object {
+						$Body.BulkItems.Add(
+							@{
+								AccountID = $PSItem
+							}
+						)
+					}
+					#Format body as JSON
+					$Body = $Body | ConvertTo-Json -Depth 3
+
+					$Request.Add('Body', $Body)
+
+				}
+				else {
+
+					#*Assumed working for 11.6+ (not verified/tested for all versions)
+					Assert-VersionRequirement -RequiredVersion 11.6
+
+					#Create URL for request
+					$URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/Unlock"
+					break
+
+				}
 
 			}
 

@@ -225,7 +225,13 @@ function Add-PASDiscoveredAccount {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Azure'
 		)]
-		[string]$activeDirectoryID
+		[string]$activeDirectoryID,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[boolean]$AllowAccountDuplications
 	)
 
 	begin {
@@ -266,6 +272,12 @@ function Add-PASDiscoveredAccount {
 		#Create URL for Request
 		$URI = "$($psPASSession.BaseURI)/api/DiscoveredAccounts"
 
+		if ($PSBoundParameters.ContainsKey('AllowAccountDuplications')) {
+			Assert-VersionRequirement -SelfHosted
+			Assert-VersionRequirement -RequiredVersion 14.6
+			$URI = "$URI`?AllowAccountDuplications=$($PSBoundParameters['AllowAccountDuplications'])"
+		}
+
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
@@ -299,7 +311,7 @@ function Add-PASDiscoveredAccount {
 
 		}
 
-		$Body = $boundParameters | Get-PASParameter -ParametersToRemove $AccountProperties | ConvertTo-Json
+		$Body = $boundParameters | Get-PASParameter -ParametersToRemove $AccountProperties, 'AllowAccountDuplications' | ConvertTo-Json
 
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body

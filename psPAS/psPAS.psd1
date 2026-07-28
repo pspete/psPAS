@@ -212,7 +212,7 @@
 		'Remove-PASAuthenticationMethod',
 		'Set-PASGroup',
 		'Set-PASLinkedAccount',
-		'Clear-PASDiscoveredAccountList',
+		'Clear-PASDiscoveredAccount',
 		'New-PASAccountPassword',
 		'Get-PASAccountPasswordVersion',
 		'New-PASPrivateSSHKey',
