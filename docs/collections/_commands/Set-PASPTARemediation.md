@@ -39,6 +39,20 @@ Set-PASPTARemediation -reconcilePassword_SuspectedPasswordChange $false
 
 Disables the "reconcile on suspected password change" rule.
 
+### EXAMPLE 3
+```
+Set-PASPTARemediation -changePassword_OverPassTheHash $true -pendAccount_UnmanagedPrivilegedAccount $true
+```
+
+Enables the "Change Password on Over Pass The Hash" rule and the "Add Unmanaged Accounts to Pending Accounts" rule.
+
+### EXAMPLE 4
+```
+Set-PASPTARemediation -pendAccount_UnmanagedPrivilegedAccount $false -WhatIf
+```
+
+Shows what would happen if the "Add Unmanaged Accounts to Pending Accounts" rule was disabled, without making any changes.
+
 ## PARAMETERS
 
 ### -changePassword_SuspectedCredentialsTheft

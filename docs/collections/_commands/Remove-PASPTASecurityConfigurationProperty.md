@@ -38,6 +38,20 @@ Remove-PASPTASecurityConfigurationProperty -propertyKey "SCTExcludedAccountsList
 
 Removes the specified id from the SCTExcludedAccountsList property
 
+### EXAMPLE 3
+```
+[PSCustomObject]@{propertyKey = 'IrregularIpUserExcludedSourceIpsList'; id = '10.0.0.5'} | Remove-PASPTASecurityConfigurationProperty
+```
+
+Removes the specified id from the IrregularIpUserExcludedSourceIpsList property, using pipeline input
+
+### EXAMPLE 4
+```
+Remove-PASPTASecurityConfigurationProperty -propertyKey "PrivilegedDomainGroupsList" -id "someid" -WhatIf
+```
+
+Shows what would happen if the specified id was removed from the PrivilegedDomainGroupsList property, without making any changes
+
 ## PARAMETERS
 
 ### -propertyKey

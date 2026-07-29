@@ -46,6 +46,20 @@ Returns details of active PSM Session with Id 123_45
 
 Minimum required version 10.6
 
+### EXAMPLE 3
+```
+Get-PASPSMSession -Safe Win-Safe -Sort "-PSMStartTime" -Limit 10
+```
+
+Returns the 10 most recently started Live PSM Sessions on the Win-Safe safe.
+
+### EXAMPLE 4
+```
+Get-PASPSMSession -FromTime (Get-Date).AddHours(-1) -ToTime (Get-Date) -Search RDP
+```
+
+Returns Live PSM Sessions started in the last hour that match the search text "RDP".
+
 ## PARAMETERS
 
 ### -liveSessionId

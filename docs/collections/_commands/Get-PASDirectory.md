@@ -45,6 +45,24 @@ Returns details of "SomeDirectory" LDAP directory configured in the Vault
 
 Minimum required version 10.5
 
+### EXAMPLE 3
+```
+Get-PASDirectory | Get-PASDirectory
+```
+
+Returns extended details of every LDAP directory configured in the Vault, using pipeline input from an initial unfiltered request.
+
+Minimum required version 10.5
+
+### EXAMPLE 4
+```
+[pscustomobject]@{DomainName = "SomeDirectory"} | Get-PASDirectory
+```
+
+Returns details of "SomeDirectory" LDAP directory, providing the value via the DomainName alias by property name.
+
+Minimum required version 10.5
+
 ## PARAMETERS
 
 ### -id

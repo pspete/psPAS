@@ -44,6 +44,21 @@ Use-PASSession -Session $OtherSession
 ...
 Use-PASSession -Session $CurrentSession
 
+### EXAMPLE 3
+```
+Pass a session object along the pipeline to Use-PASSession.
+```
+
+Get-PASSession | Use-PASSession
+
+### EXAMPLE 4
+```
+Restore a session saved to disk earlier, for use in a new PowerShell process.
+```
+
+$Session = Import-Clixml -Path .\CyberArkSession.xml
+Use-PASSession -Session $Session
+
 ## PARAMETERS
 
 ### -Session

@@ -49,6 +49,20 @@ Remove-PASSafe -SafeName OLD_Safe -UseGen1API
 
 Deletes "OLD_Safe" using the Gen1 API
 
+### EXAMPLE 3
+```
+Remove-PASSafe -SafeName OLD_Safe -WhatIf
+```
+
+Shows what would happen if "OLD_Safe" was deleted, without actually deleting it.
+
+### EXAMPLE 4
+```
+Get-PASSafe -SafeName OLD_Safe | Remove-PASSafe
+```
+
+Gets the "OLD_Safe" safe, and deletes it via pipeline input.
+
 ## PARAMETERS
 
 ### -SafeName

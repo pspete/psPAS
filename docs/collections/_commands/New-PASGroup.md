@@ -42,6 +42,20 @@ New-PASGroup -groupName VaultGroup -description "Some Description" -location \
 
 Creates VaultGroup in the root vault location
 
+### EXAMPLE 3
+```
+New-PASGroup -groupName SomeNewGroup -WhatIf
+```
+
+Shows what would happen if SomeNewGroup was created, without making any changes
+
+### EXAMPLE 4
+```
+[PSCustomObject]@{groupName = 'FinanceAdmins'; description = 'Finance Admin Group'; location = '\Finance'} | New-PASGroup
+```
+
+Creates FinanceAdmins in the \Finance vault location, using pipeline input
+
 ## PARAMETERS
 
 ### -groupName

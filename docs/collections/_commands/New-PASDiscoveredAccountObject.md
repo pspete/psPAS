@@ -47,6 +47,22 @@ PS C:\> Test-PASDiscoveredLocalAccount -accounts $accounts
 
 Builds an array of discovered account objects and checks the existence of all of them in a single request.
 
+### Example 3
+
+```powershell
+PS C:\> New-PASDiscoveredAccountObject -type Windows -subType Domain -address win-computer.cyber-ark.com -username admin -externalId user_account_5924 -WhatIf
+```
+
+Shows what would happen if the discovered account object were created, but does not return the object.
+
+### Example 4
+
+```powershell
+PS C:\> [PSCustomObject]@{type='Unix'; subType='Local'; address='unix-host.cyber-ark.com'; username='root'; externalId='user_account_8842'} | New-PASDiscoveredAccountObject
+```
+
+Creates a discovered account object using pipeline input, with property names matching the function's parameters.
+
 ## PARAMETERS
 
 ### -type

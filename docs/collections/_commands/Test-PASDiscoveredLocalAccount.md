@@ -51,6 +51,25 @@ PS C:\> Test-PASDiscoveredLocalAccount -accounts $accounts
 
 Uses New-PASDiscoveredAccountObject to build an array of correctly structured account objects, and checks for the existence of all of them in a single request.
 
+### Example 3
+
+```powershell
+PS C:\> [PSCustomObject]@{type='Windows'; subtype='Domain'; address='win-computer.cyber-ark.com'; username='admin'; externalId='user_account_5924'} | Test-PASDiscoveredLocalAccount
+```
+
+Checks for the existence of the specified account, using pipeline input for the account identifier properties.
+
+### Example 4
+
+```powershell
+PS C:\> $accounts = @(
+    @{ type = 'Windows'; subType = 'Domain'; identifiers = @{ address = 'win-computer.cyber-ark.com'; username = 'admin' }; externalId = 'user_account_5924' }
+)
+PS C:\> Test-PASDiscoveredLocalAccount -accounts $accounts
+```
+
+Checks for the existence of an account using a manually constructed array of hashtables, matching the raw structure expected by the API instead of using New-PASDiscoveredAccountObject.
+
 ## PARAMETERS
 
 ### -type

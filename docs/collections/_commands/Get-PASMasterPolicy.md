@@ -37,6 +37,22 @@ PS C:\> Get-PASMasterPolicy -PolicyId 2
 
 Outputs all Master Policy details for platform with id 2
 
+### Example 3
+```powershell
+PS C:\> 2 | Get-PASMasterPolicy
+```
+
+Outputs all Master Policy details for platform with id 2, providing the PolicyId via the pipeline by value.
+
+### Example 4
+```powershell
+PS C:\> [pscustomobject]@{PolicyId = 3} | Get-PASMasterPolicy
+```
+
+Outputs all Master Policy details for platform with id 3, providing the PolicyId via the pipeline by property name.
+
+Minimum required version 15.0
+
 ## PARAMETERS
 
 ### -PolicyId

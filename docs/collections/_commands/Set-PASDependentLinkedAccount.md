@@ -49,6 +49,22 @@ PS C:\> Set-PASDependentLinkedAccount -accountId 22_3 -dependentAccountId 22_4 -
 
 Links the account named accountname in the somesafe Safe to linked account index 1 (logon account) for dependent account 22_4 with parent account 22_3
 
+### Example 3 - Self-Hosted with folder
+
+```powershell
+PS C:\> Set-PASDependentLinkedAccount -accountId 22_3 -dependentAccountId 22_4 -extraPasswordIndex 2 -safe somesafe -name reconcileaccount -folder Reconcile
+```
+
+Links the account named reconcileaccount in the Reconcile folder of the somesafe Safe to linked account index 2 (reconcile account) for dependent account 22_4 with parent account 22_3
+
+### Example 4 - WhatIf
+
+```powershell
+PS C:\> Set-PASDependentLinkedAccount -accountId 12_3 -dependentAccountId 12_4 -extraPasswordAccountId 56_7 -extraPasswordIndex 3 -WhatIf
+```
+
+Shows what would happen if account 56_7 were linked as index 3 for dependent account 12_4, but does not perform the link
+
 ## PARAMETERS
 
 ### -accountId

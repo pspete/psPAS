@@ -38,6 +38,20 @@ PS C:\> Get-PASOpenIDConnectProvider -id SomeOIDCProvider
 
 Returns details of OIDC Provider with ID SomeOIDCProvider
 
+### EXAMPLE 3
+```powershell
+PS C:\> Get-PASOpenIDConnectProvider | Where-Object { $_.IdpType -eq 'Okta' }
+```
+
+Returns details of all configured OIDC Providers, filtered to those with an IdpType of Okta.
+
+### EXAMPLE 4
+```powershell
+PS C:\> [PSCustomObject]@{id = 'SomeOIDCProvider'} | Get-PASOpenIDConnectProvider
+```
+
+Returns details of OIDC Provider with ID SomeOIDCProvider, using pipeline input.
+
 ## PARAMETERS
 
 ### -id

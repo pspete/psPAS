@@ -55,6 +55,30 @@ Adds the Domain.Com directory to the vault, configured for LDAPS.
 
 Minimum required version 10.7
 
+### EXAMPLE 3
+```
+$directory = [pscustomobject]@{
+	DirectoryType     = "MicrosoftADProfile.ini"
+	HostAddresses     = "192.168.60.1"
+	BindUsername      = "CABind"
+	BindPassword      = $(ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force)
+	DomainName        = "DOMAIN.COM"
+	DomainBaseContext = "DC=DOMAIN,DC=COM"
+}
+$directory | Add-PASDirectory
+```
+
+Adds the Domain.Com directory to the vault, using pipeline input.
+
+### EXAMPLE 4
+```
+Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "CABind" -BindPassword $pw -DomainName "DOMAIN.COM" -DomainBaseContext "DC=DOMAIN,DC=COM"
+```
+
+Adds the Domain.Com directory to the vault using only the parameters required for CyberArk version 10.7, without specifying a domain controller list.
+
+Minimum required version 10.7
+
 ## PARAMETERS
 
 ### -DirectoryType

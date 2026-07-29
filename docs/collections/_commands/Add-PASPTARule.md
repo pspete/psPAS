@@ -37,6 +37,27 @@ Add-PASPTARule -category KEYSTROKES -regex '(*.)risky command(.*)' -score 60 -de
 
 Adds a new rule to PTA, scoped to exclude listed users, and include listed machines
 
+### EXAMPLE 3
+```
+[PSCustomObject]@{
+    category    = 'SQL'
+    regex       = '(.*)DROP TABLE(.*)'
+    score       = 90
+    description = 'Detects DROP TABLE statements'
+    response    = 'TERMINATE'
+    active      = $true
+} | Add-PASPTARule
+```
+
+Adds a new PTA rule using property values from the piped object.
+
+### EXAMPLE 4
+```
+Add-PASPTARule -category WINDOWS -regex '(*.)net user(.*)' -score 45 -description "Local user account creation" -response SUSPEND -active $true -machinesMode EXCLUDE -machinesList DC01,DC02
+```
+
+Adds a new rule to PTA, scoped to exclude the listed machines from detection.
+
 ## PARAMETERS
 
 ### -category

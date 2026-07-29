@@ -42,6 +42,23 @@ PS C:\> Get-PASAccount -id "123_456" | Remove-PASDependentAccount -dependentAcco
 Shows what would happen if the dependent account were removed, but does not actually perform the removal.
 Uses pipeline input from Get-PASAccount for the main account ID.
 
+### Example 3
+```powershell
+PS C:\> Remove-PASDependentAccount -id "123_456" -dependentid "22_2" -Confirm:$false
+```
+
+Removes the dependent account "22_2" from the main account "123_456" without prompting for confirmation, using the -id and -dependentid parameter aliases.
+
+### Example 4
+```powershell
+PS C:\> @(
+    [PSCustomObject]@{ AccountID = '123_456'; dependentAccountId = '22_2' }
+    [PSCustomObject]@{ AccountID = '123_456'; dependentAccountId = '22_3' }
+) | Remove-PASDependentAccount
+```
+
+Removes multiple dependent accounts from the main account "123_456" in a single pipeline operation, using pipeline input for both -AccountID and -dependentAccountId.
+
 ## PARAMETERS
 
 ### -AccountID

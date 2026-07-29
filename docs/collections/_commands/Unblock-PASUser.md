@@ -45,6 +45,13 @@ Unblock-PASUser -id 666
 
 Activates suspended vault user with id 666, using the API from 10.10+
 
+### EXAMPLE 3
+```
+Get-PASUser -id 666 | Unblock-PASUser
+```
+
+Activates the suspended vault user found by id 666, using pipeline input
+
 ## PARAMETERS
 
 ### -id

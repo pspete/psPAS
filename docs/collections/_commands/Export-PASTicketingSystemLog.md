@@ -41,6 +41,22 @@ PS C:\> Export-PASTicketingSystemLog -days 1 -userID TicketingUser -path C:\Some
 
 Export the logs from the previous day for the specified ticketing system user
 
+### Example 3
+
+```powershell
+PS C:\> Export-PASTicketingSystemLog -days 7 -path C:\Logs -WhatIf
+```
+
+Shows what would happen when exporting logs for all users over the last 7 days, without performing the export
+
+### Example 4
+
+```powershell
+PS C:\> Export-PASTicketingSystemLog -path C:\SomeDirectory
+```
+
+Exports logs for the previous 7 days (the default value of -days) covering all system users, since -username is not specified
+
 ## PARAMETERS
 
 ### -days

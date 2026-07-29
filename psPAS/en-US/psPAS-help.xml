@@ -1281,6 +1281,20 @@ Add-PASAccount -address domain -userName ThisUser -platformID UNIXVIASSHCERTIFIC
           <maml:para>Adds URL that only allows access from a specific page</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Add-PASAllowedReferrer -referrerURL "https://CompanyC/.*" -regularExpression $true</dev:code>
+        <dev:remarks>
+          <maml:para>Adds a URL pattern that is evaluated as a regular expression</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Import-Csv referrers.csv | Add-PASAllowedReferrer</dev:code>
+        <dev:remarks>
+          <maml:para>Adds every allowed referrer URL listed in the referrerURL column of referrers.csv</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -3008,6 +3022,29 @@ Add-PASAccount -address domain -userName ThisUser -platformID UNIXVIASSHCERTIFIC
 -DomainBaseContext "DC=domain,DC=com" -DCList @{"Name"="DC.domain.com";"Port"=636;"SSLConnect"=$true} -SSLConnect $true -Port 636</dev:code>
         <dev:remarks>
           <maml:para>Adds the Domain.Com directory to the vault, configured for LDAPS.</maml:para>
+          <maml:para>Minimum required version 10.7</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>$directory = [pscustomobject]@{
+	DirectoryType     = "MicrosoftADProfile.ini"
+	HostAddresses     = "192.168.60.1"
+	BindUsername      = "CABind"
+	BindPassword      = $(ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force)
+	DomainName        = "DOMAIN.COM"
+	DomainBaseContext = "DC=DOMAIN,DC=COM"
+}
+$directory | Add-PASDirectory</dev:code>
+        <dev:remarks>
+          <maml:para>Adds the Domain.Com directory to the vault, using pipeline input.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Add-PASDirectory -DirectoryType "MicrosoftADProfile.ini" -BindUsername "CABind" -BindPassword $pw -DomainName "DOMAIN.COM" -DomainBaseContext "DC=DOMAIN,DC=COM"</dev:code>
+        <dev:remarks>
+          <maml:para>Adds the Domain.Com directory to the vault using only the parameters required for CyberArk version 10.7, without specifying a domain controller list.</maml:para>
           <maml:para>Minimum required version 10.7</maml:para>
         </dev:remarks>
       </command:example>
@@ -8004,6 +8041,27 @@ Add-PASPTAGlobalCatalog @GCParams</dev:code>
           <maml:para>Adds a new rule to PTA, scoped to exclude listed users, and include listed machines</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>[PSCustomObject]@{
+    category    = 'SQL'
+    regex       = '(.*)DROP TABLE(.*)'
+    score       = 90
+    description = 'Detects DROP TABLE statements'
+    response    = 'TERMINATE'
+    active      = $true
+} | Add-PASPTARule</dev:code>
+        <dev:remarks>
+          <maml:para>Adds a new PTA rule using property values from the piped object.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Add-PASPTARule -category WINDOWS -regex '(*.)net user(.*)' -score 45 -description "Local user account creation" -response SUSPEND -active $true -machinesMode EXCLUDE -machinesList DC01,DC02</dev:code>
+        <dev:remarks>
+          <maml:para>Adds a new rule to PTA, scoped to exclude the listed machines from detection.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -11116,6 +11174,20 @@ PS C:\&gt; Add-PASUserAllowedAuthenticationMethod -userIds $userIds -allowedAuth
           <maml:para>Requires Self-Hosted CyberArk PAS v15.2 or greater.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>---------------------- Example 3 - WhatIf ----------------------</maml:title>
+        <dev:code>PS C:\&gt; Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the linked account were cleared from dependent account 32_2, but does not perform the action.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>------------------ Example 4 - Pipeline Input ------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASAccount -id 32_1 | Clear-PASDependentLinkedAccount -dependentAccountId 32_2 -extraPasswordIndex 1</dev:code>
+        <dev:remarks>
+          <maml:para>Clears linked account index 1 from dependent account 32_2, using pipeline input from Get-PASAccount for the parent account ID.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -11520,6 +11592,20 @@ PS C:\&gt; Add-PASUserAllowedAuthenticationMethod -userIds $userIds -allowedAuth
           <maml:para>Clears extraPass3 from accounts with IDs 12_34 and 56_78 in a single bulk request.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if extraPass3 were cleared from account 12_34, but does not perform the action.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASAccount -id 12_34 | Clear-PASLinkedAccount -extraPasswordIndex 3</dev:code>
+        <dev:remarks>
+          <maml:para>Clears extraPass3 from the account returned by Get-PASAccount, using pipeline input for -AccountID.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -11830,6 +11916,20 @@ PS C:\&gt; Clear-PASPrivateSSHKey</dev:code>
         <dev:code>Connect-PASPSMSession -LiveSessionId $SessionUUID -ConnectionMethod PSMGW</dev:code>
         <dev:remarks>
           <maml:para>Returns parameters to connect to Live PSM Session via HTML5 GW.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>[pscustomobject]@{SessionId = $SessionUUID; ConnectionMethod = "RDP"} | Connect-PASPSMSession</dev:code>
+        <dev:remarks>
+          <maml:para>Returns parameters to connect to Live PSM Session via RDP, using pipeline input.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Get-PASPSMSession -liveSessionId $SessionUUID | Select-Object @{N = "SessionId"; E = { $_.liveSessionId } } | Connect-PASPSMSession -ConnectionMethod PSMGW</dev:code>
+        <dev:remarks>
+          <maml:para>Gets the active PSM Session with the given ID, and returns parameters to connect to it via HTML5 GW.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -12453,6 +12553,20 @@ PS C:\&gt; Clear-PASPrivateSSHKey</dev:code>
           <maml:para>Denies requests SomeSafe1_1, SomeSafe1_2 &amp; SomeSafe1_3</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Deny-PASRequest -RequestID &lt;ID&gt; -Reason "&lt;Reason&gt;" -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen when the request is denied, without performing the action</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Deny-PASRequest -RequestID &lt;ID&gt;</dev:code>
+        <dev:remarks>
+          <maml:para>Denies request &lt;ID&gt; without specifying a reason</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -12556,6 +12670,20 @@ PS C:\&gt; Clear-PASPrivateSSHKey</dev:code>
         <dev:code>Disables-PASCPMAutoManagement -AccountID 543_2 -Reason "Some Reason"</dev:code>
         <dev:remarks>
           <maml:para>Sets automaticManagementEnabled to $false &amp; sets manualManagementReason on account with ID 543_2</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Get-PASAccount -id 543_2 | Disable-PASCPMAutoManagement -Reason "Maintenance window"</dev:code>
+        <dev:remarks>
+          <maml:para>Disables automatic CPM management for the account returned by Get-PASAccount, using pipeline input for -AccountID, and sets a reason</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Get-PASAccount -Safe UNIX -Keywords root | Disable-PASCPMAutoManagement</dev:code>
+        <dev:remarks>
+          <maml:para>Disables automatic CPM management for every account returned by the Get-PASAccount query</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -14587,6 +14715,20 @@ PS C:\&gt; Clear-PASPrivateSSHKey</dev:code>
           <maml:para>Export the logs from the previous day for the specified ticketing system user</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Export-PASTicketingSystemLog -days 7 -path C:\Logs -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen when exporting logs for all users over the last 7 days, without performing the export</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Export-PASTicketingSystemLog -path C:\SomeDirectory</dev:code>
+        <dev:remarks>
+          <maml:para>Exports logs for the previous 7 days (the default value of -days) covering all system users, since -username is not specified</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -14693,6 +14835,20 @@ PS C:\&gt; Clear-PASPrivateSSHKey</dev:code>
         <dev:code>Find-PASSafe -search "xyz abc"</dev:code>
         <dev:remarks>
           <maml:para>Returns details of all matching safes which the user has access to.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Find-PASSafe -TimeoutSec 30</dev:code>
+        <dev:remarks>
+          <maml:para>Returns details of all safes which the user has access to, specifying a 30 second timeout for the request.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Find-PASSafe -search "UNIX" -TimeoutSec 30</dev:code>
+        <dev:remarks>
+          <maml:para>Returns details of all matching safes which the user has access to, specifying a 30 second timeout for the request.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -15403,6 +15559,20 @@ PS C:\&gt; Clear-PASPrivateSSHKey</dev:code>
           <maml:para>Will return the account activity for the account using the Gen1 API</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Get-PASAccountActivity -AccountID 19_1</dev:code>
+        <dev:remarks>
+          <maml:para>Returns account activity for account with ID 19_1 using the default Gen2 API</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Get-PASAccountActivity -AccountID 123_4 -UseClassicAPI</dev:code>
+        <dev:remarks>
+          <maml:para>Returns account activity for account with ID 123_4 using the Gen1 API, via the UseClassicAPI alias for -UseGen1API</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -15773,6 +15943,13 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
         <dev:code>Get-PASAccountImportJob -id 4</dev:code>
         <dev:remarks>
           <maml:para>Returns status details of user's account upload job with id of 4</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>[PSCustomObject]@{id = 7} | Get-PASAccountImportJob</dev:code>
+        <dev:remarks>
+          <maml:para>Returns status details of user's account upload job with id of 7, using pipeline input</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -16228,6 +16405,20 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
         <dev:code>PS C:\&gt; Get-PASAccountPasswordVersion -AccountID 32_1 -showTemporary $true</dev:code>
         <dev:remarks>
           <maml:para>Get password versions, including temporary versions for account with ID 32_1</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASAccount -id 32_1 | Get-PASAccountPasswordVersion</dev:code>
+        <dev:remarks>
+          <maml:para>Get password versions for account with ID 32_1, using pipeline input from Get-PASAccount</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASAccount -Safe UNIX | Get-PASAccountPasswordVersion -showTemporary $true</dev:code>
+        <dev:remarks>
+          <maml:para>Get password versions, including temporary versions, for every account in the UNIX Safe, using pipeline input from Get-PASAccount</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -17757,6 +17948,22 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
           <maml:para>Minimum required version 10.5</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Get-PASDirectory | Get-PASDirectory</dev:code>
+        <dev:remarks>
+          <maml:para>Returns extended details of every LDAP directory configured in the Vault, using pipeline input from an initial unfiltered request.</maml:para>
+          <maml:para>Minimum required version 10.5</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>[pscustomobject]@{DomainName = "SomeDirectory"} | Get-PASDirectory</dev:code>
+        <dev:remarks>
+          <maml:para>Returns details of "SomeDirectory" LDAP directory, providing the value via the DomainName alias by property name.</maml:para>
+          <maml:para>Minimum required version 10.5</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -17861,6 +18068,20 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
         <dev:code>Get-PASDirectoryMapping -DirectoryName SomeDir -MappingID "User_Mapping"</dev:code>
         <dev:remarks>
           <maml:para>Returns information on the User_Mapping for SomeDir</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>[pscustomobject]@{DomainName = "SomeDir"} | Get-PASDirectoryMapping</dev:code>
+        <dev:remarks>
+          <maml:para>Returns LDAP directory mappings configured for SomeDir, providing the directory name via the DomainName alias by property name.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>[pscustomobject]@{DirectoryName = "SomeDir"; MappingID = "User_Mapping"} | Get-PASDirectoryMapping</dev:code>
+        <dev:remarks>
+          <maml:para>Returns information on the User_Mapping mapping for SomeDir, using pipeline input for both the directory name and mapping ID.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -18431,6 +18652,20 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
         <dev:code>Get-PASDiscoveredLocalAccount -id SomeID</dev:code>
         <dev:remarks>
           <maml:para>Get specific discovered local account</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Get-PASDiscoveredLocalAccount -type Windows -isPrivileged $true</dev:code>
+        <dev:remarks>
+          <maml:para>Get discovered local accounts of type Windows that are marked as privileged</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Get-PASDiscoveredLocalAccount -search admin -searchOnAllFields $true -sort "username desc" -limit 50</dev:code>
+        <dev:remarks>
+          <maml:para>Search all discovered local accounts for "admin" across all fields, sorted by username in descending order, returning up to 50 results per page</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -19201,6 +19436,21 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
           <maml:para>Outputs all Master Policy details for platform with id 2</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; 2 | Get-PASMasterPolicy</dev:code>
+        <dev:remarks>
+          <maml:para>Outputs all Master Policy details for platform with id 2, providing the PolicyId via the pipeline by value.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; [pscustomobject]@{PolicyId = 3} | Get-PASMasterPolicy</dev:code>
+        <dev:remarks>
+          <maml:para>Outputs all Master Policy details for platform with id 3, providing the PolicyId via the pipeline by property name.</maml:para>
+          <maml:para>Minimum required version 15.0</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -19285,6 +19535,20 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
           <maml:para>List information on On-boarding rules "Rule1" &amp; "Rule2"</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Get-PASOnboardingRule -Names Rule1</dev:code>
+        <dev:remarks>
+          <maml:para>List information on the On-boarding rule named "Rule1"</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>[PSCustomObject]@{Names='Rule1,Rule2'} | Get-PASOnboardingRule</dev:code>
+        <dev:remarks>
+          <maml:para>Passes the rule names to retrieve via the pipeline</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -19360,6 +19624,20 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
         <dev:code>PS C:\&gt; Get-PASOpenIDConnectProvider -id SomeOIDCProvider</dev:code>
         <dev:remarks>
           <maml:para>Returns details of OIDC Provider with ID SomeOIDCProvider</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASOpenIDConnectProvider | Where-Object { $_.IdpType -eq 'Okta' }</dev:code>
+        <dev:remarks>
+          <maml:para>Returns details of all configured OIDC Providers, filtered to those with an IdpType of Okta.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; [PSCustomObject]@{id = 'SomeOIDCProvider'} | Get-PASOpenIDConnectProvider</dev:code>
+        <dev:remarks>
+          <maml:para>Returns details of OIDC Provider with ID SomeOIDCProvider, using pipeline input.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -21041,6 +21319,20 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
         <dev:remarks>
           <maml:para>Returns details of active PSM Session with Id 123_45</maml:para>
           <maml:para>Minimum required version 10.6</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Get-PASPSMSession -Safe Win-Safe -Sort "-PSMStartTime" -Limit 10</dev:code>
+        <dev:remarks>
+          <maml:para>Returns the 10 most recently started Live PSM Sessions on the Win-Safe safe.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Get-PASPSMSession -FromTime (Get-Date).AddHours(-1) -ToTime (Get-Date) -Search RDP</dev:code>
+        <dev:remarks>
+          <maml:para>Returns Live PSM Sessions started in the last hour that match the search text "RDP".</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -24294,6 +24586,13 @@ $Summary | Format-List</dev:code>
           <maml:para>Retrieves the configured SafeShare watermark logo.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Get-PASSafeShareLogo -ImageType Square | Set-Content -Path C:\Temp\SafeShareLogo.png -Encoding Byte</dev:code>
+        <dev:remarks>
+          <maml:para>Retrieves the configured SafeShare square logo and saves it to a file.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -24346,6 +24645,13 @@ $Summary | Format-List</dev:code>
         <dev:code>Get-PASServer | Format-List -Property *</dev:code>
         <dev:remarks>
           <maml:para>Displays all available properties returned for the connected Vault server.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>if (Get-PASServer) { "Connection to CyberArk Server is active" }</dev:code>
+        <dev:remarks>
+          <maml:para>Uses a call to Get-PASServer to confirm the current session can successfully reach the Vault server.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -28664,6 +28970,22 @@ PS C:\&gt; [PSCustomObject]@{DRAddress = 'dr-vault.company.com'; servicePassword
           <maml:para>Returns hashtable structured to be used as input for dependent account operations</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>$SecureString = ConvertTo-SecureString "Str0ngP@ssw0rd!" -AsPlainText -Force
+New-PASAccountObject -userName AdminUser1 -address 10.0.0.5 -secret $SecureString -PersonalAdminAccount</dev:code>
+        <dev:remarks>
+          <maml:para>Returns hashtable structured to be used as input for a personal admin account operation</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>$SecureKey = ConvertTo-SecureString "SomeKeyValue" -AsPlainText -Force
+New-PASAccountObject -userName SomeAccount2 -address 10.0.0.10 -platformID UnixSSH -SafeName UNIX -secretType Key -secret $SecureKey -automaticManagementEnabled $false -manualManagementReason "Pending review" -remoteMachines "host1.domain.com,host2.domain.com" -accessRestrictedToRemoteMachines $true -groupName UnixAdmins</dev:code>
+        <dev:remarks>
+          <maml:para>Returns hashtable structured to represent an account object with an SSH key secret, CPM management disabled with a reason, and access restricted to the specified remote machines and platform group</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -29464,6 +29786,20 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
           <maml:para>Builds an array of discovered account objects and checks the existence of all of them in a single request.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; New-PASDiscoveredAccountObject -type Windows -subType Domain -address win-computer.cyber-ark.com -username admin -externalId user_account_5924 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the discovered account object were created, but does not return the object.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; [PSCustomObject]@{type='Unix'; subType='Local'; address='unix-host.cyber-ark.com'; username='root'; externalId='user_account_8842'} | New-PASDiscoveredAccountObject</dev:code>
+        <dev:remarks>
+          <maml:para>Creates a discovered account object using pipeline input, with property names matching the function's parameters.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -29637,6 +29973,20 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
         <dev:code>New-PASGroup -groupName VaultGroup -description "Some Description" -location \</dev:code>
         <dev:remarks>
           <maml:para>Creates VaultGroup in the root vault location</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>New-PASGroup -groupName SomeNewGroup -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if SomeNewGroup was created, without making any changes</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>[PSCustomObject]@{groupName = 'FinanceAdmins'; description = 'Finance Admin Group'; location = '\Finance'} | New-PASGroup</dev:code>
+        <dev:remarks>
+          <maml:para>Creates FinanceAdmins in the \Finance vault location, using pipeline input</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -31301,6 +31651,21 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
         <dev:code>New-PASPSMSession -AccountID $id -ConnectionComponent PSM-RDP -AllowMappingLocalDrives No -PSMRemoteMachine ServerName</dev:code>
         <dev:remarks>
           <maml:para>Provide connection parameters for the new PSM connection</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>$secret = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
+New-PASPSMSession -userName Administrator -secret $secret -address 10.10.10.20 -platformID SecureConnect -ConnectionComponent PSM-RDP</dev:code>
+        <dev:remarks>
+          <maml:para>Connects to a target that is not managed in the Vault using a supplied username, password, address and platform ID (Ad-Hoc Connection)</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>New-PASPSMSession -AccountID $ID -ConnectionComponent PSM-RDP -ConnectionMethod PSMGW -TicketingSystemName ServiceNow -TicketId INC000123</dev:code>
+        <dev:remarks>
+          <maml:para>Requests a PSM Gateway (HTML5) connection to the managed account, including ticketing system reference information</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -40021,6 +40386,20 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
           <maml:para>Removes matching Privileged Account Rule from account.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Remove-PASAccountACL -AccountPolicyId UNIXSSH -AccountAddress machine -AccountUserName root -Id 12 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the privileged command rule was removed, without actually removing it.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Remove-PASAccountACL -PolicyID UNIXSSH -AccountAddress machine -AccountUserName root -Id 8 -Confirm:$false</dev:code>
+        <dev:remarks>
+          <maml:para>Removes the privileged command rule with ID 8, using the PolicyID alias and suppressing the confirmation prompt.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -40456,6 +40835,20 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
           <maml:para>Deletes all authentication methods from "NewApp"</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Remove-PASApplicationAuthenticationMethod -AppID NewApp -AuthID 2 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if authentication method 2 was deleted from "NewApp", without performing the deletion</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>1,2,3 | ForEach-Object { Remove-PASApplicationAuthenticationMethod -AppID NewApp -AuthID $_ }</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes authentication methods with IDs 1, 2 and 3 from "NewApp"</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -40732,6 +41125,23 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
         <dev:code>PS C:\&gt; Get-PASAccount -id "123_456" | Remove-PASDependentAccount -dependentAccountId "22_2" -WhatIf</dev:code>
         <dev:remarks>
           <maml:para>Shows what would happen if the dependent account were removed, but does not actually perform the removal. Uses pipeline input from Get-PASAccount for the main account ID.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Remove-PASDependentAccount -id "123_456" -dependentid "22_2" -Confirm:$false</dev:code>
+        <dev:remarks>
+          <maml:para>Removes the dependent account "22_2" from the main account "123_456" without prompting for confirmation, using the -id and -dependentid parameter aliases.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; @(
+    [PSCustomObject]@{ AccountID = '123_456'; dependentAccountId = '22_2' }
+    [PSCustomObject]@{ AccountID = '123_456'; dependentAccountId = '22_3' }
+) | Remove-PASDependentAccount</dev:code>
+        <dev:remarks>
+          <maml:para>Removes multiple dependent accounts from the main account "123_456" in a single pipeline operation, using pipeline input for both -AccountID and -dependentAccountId.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -41310,6 +41720,20 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
         <dev:code>PS C:\&gt; Remove-PASFIDO2Device -id "device123" -OwnDevice</dev:code>
         <dev:remarks>
           <maml:para>Removes the FIDO2 device with ID "device123" from the current user's own registered authentication methods. This allows users to self-manage their FIDO2 devices.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Remove-PASFIDO2Device -id "device456" -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the FIDO2 device with ID "device456" was removed from a user's registered authentication methods, without making any changes.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; [PSCustomObject]@{id = "device789"} | Remove-PASFIDO2Device -OwnDevice</dev:code>
+        <dev:remarks>
+          <maml:para>Removes the FIDO2 device with ID "device789" from the current user's own registered authentication methods, using pipeline input.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -42637,6 +43061,20 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
           <maml:para>Deletes MFA caching SSH key for user with id 646.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Remove-PASPrivateSSHKey -UserID 646 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the MFA caching SSH key for user with id 646 was deleted, without making any changes.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; [PSCustomObject]@{UserID = 646} | Remove-PASPrivateSSHKey</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes MFA caching SSH key for user with id 646, using pipeline input.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -43313,6 +43751,20 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
         <dev:code>Remove-PASPTASecurityConfigurationProperty -propertyKey "SCTExcludedAccountsList" -id "someid"</dev:code>
         <dev:remarks>
           <maml:para>Removes the specified id from the SCTExcludedAccountsList property</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>[PSCustomObject]@{propertyKey = 'IrregularIpUserExcludedSourceIpsList'; id = '10.0.0.5'} | Remove-PASPTASecurityConfigurationProperty</dev:code>
+        <dev:remarks>
+          <maml:para>Removes the specified id from the IrregularIpUserExcludedSourceIpsList property, using pipeline input</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Remove-PASPTASecurityConfigurationProperty -propertyKey "PrivilegedDomainGroupsList" -id "someid" -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the specified id was removed from the PrivilegedDomainGroupsList property, without making any changes</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -44031,6 +44483,20 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
           <maml:para>Deletes "OLD_Safe" using the Gen1 API</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Remove-PASSafe -SafeName OLD_Safe -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if "OLD_Safe" was deleted, without actually deleting it.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Get-PASSafe -SafeName OLD_Safe | Remove-PASSafe</dev:code>
+        <dev:remarks>
+          <maml:para>Gets the "OLD_Safe" safe, and deletes it via pipeline input.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -44206,6 +44672,20 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
         <dev:code>Remove-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Removes TargetUser as safe member from TargetSafe using Gen1 API</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Remove-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if TargetUser was removed as a safe member from TargetSafe, without actually removing them.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Get-PASSafeMember -SafeName TargetSafe -MemberName TargetUser | Remove-PASSafeMember</dev:code>
+        <dev:remarks>
+          <maml:para>Gets the TargetUser safe member on TargetSafe, and removes them via pipeline input.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -44626,6 +45106,20 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
           <maml:para>Deletes vault user "This_User"</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Remove-PASUser -id 1234 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if vault user with id 1234 was deleted, without making any changes</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Get-PASUser -id 1234 | Remove-PASUser</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes the vault user found by id 1234, using pipeline input</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -44941,6 +45435,20 @@ PS C:\&gt; Remove-PASUserAllowedAuthenticationMethod -userIds $userIds -allowedA
           <maml:para>Finds a target platform by name and renames it</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Rename-PASPlatform -ID 42 -Name "NewPlatformName" -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen when renaming the target platform with ID 42, without making the change</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Get-PASPlatform -PlatformType Target | Where-Object {$_.Name -like "Legacy*"} | ForEach-Object { Rename-PASPlatform -ID $_.ID -Name ($_.Name -replace "Legacy","Current") }</dev:code>
+        <dev:remarks>
+          <maml:para>Renames every target platform whose name starts with "Legacy" by replacing that prefix with "Current"</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -45148,6 +45656,20 @@ PS C:\&gt; Remove-PASUserAllowedAuthenticationMethod -userIds $userIds -allowedA
           <maml:para>Resets the SuspectedCredentialsTheft category to default values</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>[PSCustomObject]@{categoryKey = 'IrregularHoursUser'} | Reset-PASPTASecurityConfigurationCategory</dev:code>
+        <dev:remarks>
+          <maml:para>Resets the IrregularHoursUser category to default values, using pipeline input</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Reset-PASPTASecurityConfigurationCategory -categoryKey "FailedVaultLogonAttempts" -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the FailedVaultLogonAttempts category was reset to default values, without making any changes</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -45270,6 +45792,20 @@ PS C:\&gt; Remove-PASUserAllowedAuthenticationMethod -userIds $userIds -allowedA
         <dev:code>Reset-PASPTASecurityConfigurationProperty -propertyKey "FailedVaultLogonAttemptsThreshold"</dev:code>
         <dev:remarks>
           <maml:para>Resets the FailedVaultLogonAttemptsThreshold property to its default value</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>[PSCustomObject]@{propertyKey = 'SCTPasswordRetrievalTimeWindow'} | Reset-PASPTASecurityConfigurationProperty</dev:code>
+        <dev:remarks>
+          <maml:para>Resets the SCTPasswordRetrievalTimeWindow property to its default value, using pipeline input</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Reset-PASPTASecurityConfigurationProperty -propertyKey "UPAExcludedAccountsList" -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the UPAExcludedAccountsList property was reset to its default value, without making any changes</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -47636,6 +48172,20 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
         <dev:code>PS C:\&gt; Set-PASDependentLinkedAccount -accountId 22_3 -dependentAccountId 22_4 -extraPasswordIndex 1 -safe somesafe -name accountname</dev:code>
         <dev:remarks>
           <maml:para>Links the account named accountname in the somesafe Safe to linked account index 1 (logon account) for dependent account 22_4 with parent account 22_3</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>------------- Example 3 - Self-Hosted with folder -------------</maml:title>
+        <dev:code>PS C:\&gt; Set-PASDependentLinkedAccount -accountId 22_3 -dependentAccountId 22_4 -extraPasswordIndex 2 -safe somesafe -name reconcileaccount -folder Reconcile</dev:code>
+        <dev:remarks>
+          <maml:para>Links the account named reconcileaccount in the Reconcile folder of the somesafe Safe to linked account index 2 (reconcile account) for dependent account 22_4 with parent account 22_3</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>---------------------- Example 4 - WhatIf ----------------------</maml:title>
+        <dev:code>PS C:\&gt; Set-PASDependentLinkedAccount -accountId 12_3 -dependentAccountId 12_4 -extraPasswordAccountId 56_7 -extraPasswordIndex 3 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if account 56_7 were linked as index 3 for dependent account 12_4, but does not perform the link</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -50392,6 +50942,20 @@ PS C:\&gt; Set-PASPlatform -id 42 -operations $Operations</dev:code>
           <maml:para>Performs multiple update operations on platform with id 42</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Set-PASPlatform -id 42 -op replace -path 'Policy/General/interval' -value '3600' -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the interval setting on platform with id 42 was updated, without actually updating it.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Set-PASPlatform -id 42 -op remove -path 'Policy/additionalPolicySettings/debug'</dev:code>
+        <dev:remarks>
+          <maml:para>Removes the debug additional policy setting from platform with id 42.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -50988,6 +51552,20 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:para>Disables the "reconcile on suspected password change" rule.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Set-PASPTARemediation -changePassword_OverPassTheHash $true -pendAccount_UnmanagedPrivilegedAccount $true</dev:code>
+        <dev:remarks>
+          <maml:para>Enables the "Change Password on Over Pass The Hash" rule and the "Add Unmanaged Accounts to Pending Accounts" rule.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Set-PASPTARemediation -pendAccount_UnmanagedPrivilegedAccount $false -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the "Add Unmanaged Accounts to Pending Accounts" rule was disabled, without making any changes.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -51579,6 +52157,20 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <dev:code>Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 -description "Updated Rule" -response SUSPEND -active $true -vaultUsersList UserA,UserB,UserC -machinesMode INCLUDE Computer1,Computer2,Computer3</dev:code>
         <dev:remarks>
           <maml:para>Updates rule 66 in PTA, scoped to exclude listed users, and include listed machines</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Get-PASPTARule | Where-Object { $_.category -eq 'SQL' } | Set-PASPTARule -active $false</dev:code>
+        <dev:remarks>
+          <maml:para>Disables all existing PTA rules in the SQL category, using the piped rule properties to populate the remaining values</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Set-PASPTARule -id 66 -score 80 -active $true -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if rule 66's score was updated, without making any changes</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -54072,6 +54664,20 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <dev:code>Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts" using the Gen1 API.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -ReadOnly</dev:code>
+        <dev:remarks>
+          <maml:para>Updates TargetUser's permissions as safe member on TargetSafe to the predefined "Read Only" role.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -MembershipExpirationDate (Get-Date).AddMonths(6) -Full</dev:code>
+        <dev:remarks>
+          <maml:para>Updates TargetUser's permissions as safe member on TargetSafe to the predefined "Full" role, and sets their safe membership to expire in 6 months.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -57965,6 +58571,20 @@ PS C:\&gt; Start-PASVRMService -serviceName ENE -serverAddress vault.company.com
           <maml:para>Cancels the pending CPM tasks for accounts 123_4 and 567_8 in a single bulk request.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Stop-PASCPMTask -Accountid 123_4 -dependentAccountid 123_5</dev:code>
+        <dev:remarks>
+          <maml:para>Cancels the pending CPM task for dependent account 123_5 under parent account 123_4.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASAccount -id 123_4 | Stop-PASCPMTask -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the pending CPM task for account 123_4 were cancelled, but does not perform the cancellation. Uses pipeline input from Get-PASAccount for -Accountid.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -58608,6 +59228,20 @@ PS C:\&gt; Stop-PASVRMService -serviceName ENE -serverAddress vault.company.com 
           <maml:para>Synchronizes the password of the specified dependent accounts for parent account with id 12_34.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 56_78 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the dependent account secret were synchronized, but does not perform the synchronization.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Sync-PASDependentAccount -id 12_34 -dependentid 12_78, 12_01 -Confirm:$false</dev:code>
+        <dev:remarks>
+          <maml:para>Synchronizes the password of the specified dependent accounts for parent account 12_34 without prompting for confirmation, using the -id and -dependentid parameter aliases.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -58818,6 +59452,23 @@ PS C:\&gt; Stop-PASVRMService -serviceName ENE -serverAddress vault.company.com 
 PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
         <dev:remarks>
           <maml:para>Uses New-PASDiscoveredAccountObject to build an array of correctly structured account objects, and checks for the existence of all of them in a single request.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; [PSCustomObject]@{type='Windows'; subtype='Domain'; address='win-computer.cyber-ark.com'; username='admin'; externalId='user_account_5924'} | Test-PASDiscoveredLocalAccount</dev:code>
+        <dev:remarks>
+          <maml:para>Checks for the existence of the specified account, using pipeline input for the account identifier properties.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; $accounts = @(
+    @{ type = 'Windows'; subType = 'Domain'; identifiers = @{ address = 'win-computer.cyber-ark.com'; username = 'admin' }; externalId = 'user_account_5924' }
+)
+PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
+        <dev:remarks>
+          <maml:para>Checks for the existence of an account using a manually constructed array of hashtables, matching the raw structure expected by the API instead of using New-PASDiscoveredAccountObject.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -59041,6 +59692,13 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
         <dev:code>Unblock-PASUser -id 666</dev:code>
         <dev:remarks>
           <maml:para>Activates suspended vault user with id 666, using the API from 10.10+</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Get-PASUser -id 666 | Unblock-PASUser</dev:code>
+        <dev:remarks>
+          <maml:para>Activates the suspended vault user found by id 666, using pipeline input</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -59368,6 +60026,20 @@ PS C:\&gt; Test-PASDiscoveredLocalAccount -accounts $accounts</dev:code>
         <dev:remarks>
           <maml:para>$CurrentSession = Get-PASSession</maml:para>
           <maml:para>Use-PASSession -Session $OtherSession ... Use-PASSession -Session $CurrentSession</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Pass a session object along the pipeline to Use-PASSession.</dev:code>
+        <dev:remarks>
+          <maml:para>Get-PASSession | Use-PASSession</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Restore a session saved to disk earlier, for use in a new PowerShell process.</dev:code>
+        <dev:remarks>
+          <maml:para>$Session = Import-Clixml -Path .\CyberArkSession.xml Use-PASSession -Session $Session</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

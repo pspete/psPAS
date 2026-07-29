@@ -95,6 +95,20 @@ Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AddAccounts $true
 
 Updates TargetUser's permissions as safe member on TargetSafe to include "Add Accounts" using the Gen1 API.
 
+### EXAMPLE 3
+```
+Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -ReadOnly
+```
+
+Updates TargetUser's permissions as safe member on TargetSafe to the predefined "Read Only" role.
+
+### EXAMPLE 4
+```
+Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -MembershipExpirationDate (Get-Date).AddMonths(6) -Full
+```
+
+Updates TargetUser's permissions as safe member on TargetSafe to the predefined "Full" role, and sets their safe membership to expire in 6 months.
+
 ## PARAMETERS
 
 ### -SafeName

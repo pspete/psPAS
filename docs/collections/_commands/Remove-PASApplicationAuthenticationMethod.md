@@ -40,6 +40,20 @@ Get-PASApplicationAuthenticationMethod -AppID NewApp | Remove-PASApplicationAuth
 
 Deletes all authentication methods from "NewApp"
 
+### EXAMPLE 3
+```
+Remove-PASApplicationAuthenticationMethod -AppID NewApp -AuthID 2 -WhatIf
+```
+
+Shows what would happen if authentication method 2 was deleted from "NewApp", without performing the deletion
+
+### EXAMPLE 4
+```
+1,2,3 | ForEach-Object { Remove-PASApplicationAuthenticationMethod -AppID NewApp -AuthID $_ }
+```
+
+Deletes authentication methods with IDs 1, 2 and 3 from "NewApp"
+
 ## PARAMETERS
 
 ### -AppID

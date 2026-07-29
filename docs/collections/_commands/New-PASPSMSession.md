@@ -61,6 +61,21 @@ New-PASPSMSession -AccountID $id -ConnectionComponent PSM-RDP -AllowMappingLocal
 
 Provide connection parameters for the new PSM connection
 
+### EXAMPLE 3
+```
+$secret = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
+New-PASPSMSession -userName Administrator -secret $secret -address 10.10.10.20 -platformID SecureConnect -ConnectionComponent PSM-RDP
+```
+
+Connects to a target that is not managed in the Vault using a supplied username, password, address and platform ID (Ad-Hoc Connection)
+
+### EXAMPLE 4
+```
+New-PASPSMSession -AccountID $ID -ConnectionComponent PSM-RDP -ConnectionMethod PSMGW -TicketingSystemName ServiceNow -TicketId INC000123
+```
+
+Requests a PSM Gateway (HTML5) connection to the managed account, including ticketing system reference information
+
 ## PARAMETERS
 
 ### -AccountID

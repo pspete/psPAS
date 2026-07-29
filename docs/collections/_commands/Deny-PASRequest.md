@@ -41,6 +41,20 @@ Deny-PASRequest -RequestID SomeSafe1_1, SomeSafe1_2, SomeSafe1_3 -Reason " Some 
 
 Denies requests SomeSafe1_1, SomeSafe1_2 & SomeSafe1_3
 
+### EXAMPLE 3
+```
+Deny-PASRequest -RequestID <ID> -Reason "<Reason>" -WhatIf
+```
+
+Shows what would happen when the request is denied, without performing the action
+
+### EXAMPLE 4
+```
+Deny-PASRequest -RequestID <ID>
+```
+
+Denies request \<ID\> without specifying a reason
+
 ## PARAMETERS
 
 ### -RequestId

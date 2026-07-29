@@ -37,6 +37,20 @@ Reset-PASPTASecurityConfigurationCategory -categoryKey "SuspectedCredentialsThef
 
 Resets the SuspectedCredentialsTheft category to default values
 
+### EXAMPLE 3
+```
+[PSCustomObject]@{categoryKey = 'IrregularHoursUser'} | Reset-PASPTASecurityConfigurationCategory
+```
+
+Resets the IrregularHoursUser category to default values, using pipeline input
+
+### EXAMPLE 4
+```
+Reset-PASPTASecurityConfigurationCategory -categoryKey "FailedVaultLogonAttempts" -WhatIf
+```
+
+Shows what would happen if the FailedVaultLogonAttempts category was reset to default values, without making any changes
+
 ## PARAMETERS
 
 ### -categoryKey

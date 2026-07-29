@@ -41,6 +41,13 @@ Get-PASServer | Format-List -Property *
 
 Displays all available properties returned for the connected Vault server.
 
+### EXAMPLE 3
+```
+if (Get-PASServer) { "Connection to CyberArk Server is active" }
+```
+
+Uses a call to Get-PASServer to confirm the current session can successfully reach the Vault server.
+
 ## PARAMETERS
 
 ### CommonParameters

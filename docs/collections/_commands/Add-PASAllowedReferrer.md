@@ -39,6 +39,20 @@ Add-PASAllowedReferrer -referrerURL "https://CompanyB/management/dashboard"
 
 Adds URL that only allows access from a specific page
 
+### EXAMPLE 3
+```
+Add-PASAllowedReferrer -referrerURL "https://CompanyC/.*" -regularExpression $true
+```
+
+Adds a URL pattern that is evaluated as a regular expression
+
+### EXAMPLE 4
+```
+Import-Csv referrers.csv | Add-PASAllowedReferrer
+```
+
+Adds every allowed referrer URL listed in the referrerURL column of referrers.csv
+
 ## PARAMETERS
 
 ### -referrerURL

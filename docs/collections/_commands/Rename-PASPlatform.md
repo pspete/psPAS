@@ -41,6 +41,20 @@ Get-PASPlatform -PlatformType Target | Where-Object {$_.Name -eq "OldName"} | Re
 
 Finds a target platform by name and renames it
 
+### EXAMPLE 3
+```
+Rename-PASPlatform -ID 42 -Name "NewPlatformName" -WhatIf
+```
+
+Shows what would happen when renaming the target platform with ID 42, without making the change
+
+### EXAMPLE 4
+```
+Get-PASPlatform -PlatformType Target | Where-Object {$_.Name -like "Legacy*"} | ForEach-Object { Rename-PASPlatform -ID $_.ID -Name ($_.Name -replace "Legacy","Current") }
+```
+
+Renames every target platform whose name starts with "Legacy" by replacing that prefix with "Current"
+
 ## PARAMETERS
 
 ### -ID

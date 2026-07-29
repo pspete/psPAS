@@ -43,6 +43,20 @@ PS C:\> Get-PASAccountPasswordVersion -AccountID 32_1 -showTemporary $true
 
 Get password versions, including temporary versions for account with ID 32_1
 
+### EXAMPLE 3
+```powershell
+PS C:\> Get-PASAccount -id 32_1 | Get-PASAccountPasswordVersion
+```
+
+Get password versions for account with ID 32_1, using pipeline input from Get-PASAccount
+
+### EXAMPLE 4
+```powershell
+PS C:\> Get-PASAccount -Safe UNIX | Get-PASAccountPasswordVersion -showTemporary $true
+```
+
+Get password versions, including temporary versions, for every account in the UNIX Safe, using pipeline input from Get-PASAccount
+
 ## PARAMETERS
 
 ### -AccountID

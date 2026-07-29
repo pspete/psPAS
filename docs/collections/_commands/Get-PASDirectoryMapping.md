@@ -45,6 +45,20 @@ Get-PASDirectoryMapping -DirectoryName SomeDir -MappingID "User_Mapping"
 
 Returns information on the User_Mapping for SomeDir
 
+### EXAMPLE 3
+```
+[pscustomobject]@{DomainName = "SomeDir"} | Get-PASDirectoryMapping
+```
+
+Returns LDAP directory mappings configured for SomeDir, providing the directory name via the DomainName alias by property name.
+
+### EXAMPLE 4
+```
+[pscustomobject]@{DirectoryName = "SomeDir"; MappingID = "User_Mapping"} | Get-PASDirectoryMapping
+```
+
+Returns information on the User_Mapping mapping for SomeDir, using pipeline input for both the directory name and mapping ID.
+
 ## PARAMETERS
 
 ### -DirectoryName

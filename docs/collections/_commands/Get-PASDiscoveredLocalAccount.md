@@ -52,6 +52,20 @@ Get-PASDiscoveredLocalAccount -id SomeID
 
 Get specific discovered local account
 
+### EXAMPLE 3
+```powershell
+Get-PASDiscoveredLocalAccount -type Windows -isPrivileged $true
+```
+
+Get discovered local accounts of type Windows that are marked as privileged
+
+### EXAMPLE 4
+```powershell
+Get-PASDiscoveredLocalAccount -search admin -searchOnAllFields $true -sort "username desc" -limit 50
+```
+
+Search all discovered local accounts for "admin" across all fields, sorted by username in descending order, returning up to 50 results per page
+
 ## PARAMETERS
 
 ### -id

@@ -38,6 +38,20 @@ Disables-PASCPMAutoManagement -AccountID 543_2 -Reason "Some Reason"
 
 Sets automaticManagementEnabled to $false & sets manualManagementReason on account with ID 543_2
 
+### EXAMPLE 3
+```
+Get-PASAccount -id 543_2 | Disable-PASCPMAutoManagement -Reason "Maintenance window"
+```
+
+Disables automatic CPM management for the account returned by Get-PASAccount, using pipeline input for -AccountID, and sets a reason
+
+### EXAMPLE 4
+```
+Get-PASAccount -Safe UNIX -Keywords root | Disable-PASCPMAutoManagement
+```
+
+Disables automatic CPM management for every account returned by the Get-PASAccount query
+
 ## PARAMETERS
 
 ### -AccountID
