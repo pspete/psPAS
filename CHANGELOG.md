@@ -3,20 +3,13 @@
 ## Planned Updates / Unreleased
 
 - Continued development to encompass any new documented features of the CyberArk API.
-- psPAS v8.0...
+- psPAS v9.0...
 
 ## [unreleased]
 
 ### Added
 
-- `Get-PASDiscoveryRuleSet`
-  - Privilege Cloud only command to show configured discovery rule sets
-- `New-PASDiscoveryRuleSet`
-  - Privilege Cloud only command to create a discovery rule set
-- `Set-PASDiscoveryRuleSet`
-  - Privilege Cloud only command to update a discovery rule set
-- `Remove-PASDiscoveryRuleSet`
-  - Privilege Cloud only command to delete a discovery rule set
+- N/A
 
 ### Updated
 
@@ -25,6 +18,109 @@
 ### Fixed
 
 - N/A
+
+## [8.0.0]
+
+**[JP-Consulting](https://github.com/johannesconsulting) continues their streak with more amazing contributions**
+
+_Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Privilege Cloud Releases_
+
+### Added
+
+- `Set-PASPlatform`
+  - New function to update settings of a target platform
+  - Requires Idira 15.2+ Self-Hosted
+  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
+- `New-PASPlatformSecret`
+  - New function to generate a secret for a platform
+  - Requires Idira 15.2+ Self-Hosted
+- `Stop-PASCPMTask`
+  - New function to cancel a pending CPM task for an account
+  - Requires Idira 15.2+ Self-Hosted
+- `Resume-PASCPMAutoManagement`
+  - New function to resume CPM automatic management of an account
+  - Requires Idira 15.2+ Self-Hosted
+- `Remove-PASOAuthProvider`
+  - New function to delete a configured OAuth Identity Provider
+  - Requires Idira 15.0+ Self-Hosted
+  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
+- `Remove-PASReportTask`
+  - New function to delete a report task
+- `Test-PASDiscoveredLocalAccount`
+  - New function to check whether discovered accounts already exist in the vault
+- `New-PASDiscoveredAccountObject`
+  - New helper function to build a correctly structured discovered account object for use with `Test-PASDiscoveredLocalAccount`
+
+### Updated
+
+- `Get-PASPlatform`
+  - Breaking change: removes the `PlatformType` parameter/parameter set
+  - The "Get Platforms" API is now additionally called by default, with its results merged into those of the legacy platform details endpoint, so the shape of the returned `Details` differs from previous versions, but the command is hopefully less confusing to run.
+  - Adds a `target-details` parameter set exposing the new "Get target platform settings" API
+    - Requires Idira 15.2+ Self-Hosted
+  - Replaces a `ValidateSet` with an `ArgumentCompleter` for target scope values
+- `Get-PASReportSchedule`, `New-PASReportSchedule`
+  - Renamed to `Get-PASReportTask` and `New-PASReportTask` respectively
+  - `Get-PASReportTask` adds pagination, and `search`/`subType`/`name`/`FilterLogicalOperator`/`limit` parameters
+- `Get-PASReport`
+  - Replaces the `filter` parameter with individual parameters for each filterable report property
+  - Adds `limit` and `search` parameters, and result pagination
+  - Allows sorting results by the `createdAt` property
+- `Get-PASMasterPolicy`, `Set-PASMasterPolicy`
+  - Adds a `PolicyId` parameter, defaulted to `1`, to support master policy exceptions defined on platforms
+  - Requires Idira 15.0+ Self-Hosted when a `PolicyId` other than `1` is specified
+- `Set-PASSafe`
+  - Adds a `Quota` parameter
+    - Requires Idira 15.2+
+  - Allows `NumberOfVersionsRetention` to be set to `0`
+- `Get-PASVRMServiceStatus`, `Start-PASVRMService`, `Stop-PASVRMService`, `Restart-PASVRMService`
+  - Adds the `ENE` service name value
+    - Requires Idira 15.2+
+- `Get-PASGroup`
+  - Pipes `groupType` query results through pagination
+  - Adds a `limit` parameter (maximum `20000`) to the `groupType` parameter set
+- `Remove-PASAccount`
+  - Adds a `DeleteSSHKey` parameter, mapped to `deleteOnlyPrivateSshKey` for Privilege Cloud or `deleteSshKeyFromVaultAndTarget` for Self-Hosted
+    - Self-Hosted requires Idira 15.2+
+- `Clear-PASDependentLinkedAccount`, `Set-PASDependentLinkedAccount`
+  - Adds support for Self-Hosted environments
+  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
+- `Clear-PASLinkedAccount`, `Set-PASLinkedAccount`, `Resume-PASDependentAccount`, `Stop-PASCPMTask`, `Unlock-PASAccount`
+  - Enhances bulk operation support
+  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
+- `Get-PASAccount`
+  - Adds `DeleteInsightStatus` savedFilter value, applicable to Privilege Cloud
+- `Clear-PASDiscoveredAccountList`
+  - Renamed to `Clear-PASDiscoveredAccount`
+- `Add-PASDiscoveredAccount`
+  - Allows account duplications
+- `Set-PASPTAEvent`
+  - Adds additional parameters for closing events
+- `New-PASUser`, `Set-PASUser`, `New-PASDirectoryMapping`, `Set-PASDirectoryMapping`
+  - `AuthorizedInterfaces`/`unAuthorizedInterfaces` parameters gain an `ArgumentCompleter` sourced from the licensed client IDs of the current environment
+- `New-PASUser`, `Set-PASUser`, `Get-PASUser`
+  - `UserType` parameter gains an `ArgumentCompleter` sourced from the configured user types of the current environment
+- `Set-PASAccount`
+  - Adds an `ArgumentCompleter` for the `Path` parameter
+
+### Fixed
+
+- Secret-bearing request bodies
+  - `New-PASSession`, `New-PASUser`, `Set-PASUser`, `Set-PASUserPassword`, `Add-PASAccount`, `Publish-PASDiscoveredAccount`, `Publish-PASDiscoveredLocalAccount`, Vault Remote Manager functions and others now convert decoded secrets to UTF8 bytes, and decode secrets as late as possible in each function, reducing the risk of plaintext secret exposure via PowerShell's ParameterBinding trace/Windows Module Logging
+- `New-PASSession`
+  - Fixes an edge case where a variable name could collide with a parameter name
+- `New-PASReportTask`
+  - Adds `-Depth 4` to the `ConvertTo-Json` call, as the `Subscribers` parameter accepts objects that nest to 4 levels
+  - Corrects the nested structure used for Schedule Recurrence
+- `Get-PASReportTask`
+  - Fixes an output issue when the `id` parameter is specified
+- `New-PASRequest`
+  - Fixes JSON conversion of the `BulkItems` request body, which nests 5 levels deep
+- `Out-PASFile`
+  - Allows a full path, including filename, to be specified, in addition to a path to a folder
+  - Thanks [everyone who reported #551](https://github.com/pspete/psPAS/issues/551)!
+- `Export-PASTicketingSystemLog`
+  - Updates the API URL and renames the `UserId` parameter to `username`, in line with changes made in vendor documentation
 
 ## [7.3.0]
 
