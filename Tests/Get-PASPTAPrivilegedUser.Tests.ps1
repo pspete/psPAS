@@ -97,6 +97,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'does not throw when ValueType is specified' {
 
+                Mock Invoke-PASRestMethod -MockWith {
+                    [PSCustomObject]@{
+                        'propertykey'  = 'PrivilegedUsersList'
+                        'ActualValue'  = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+                        'DefaultValue' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+                    }
+                }
+
                 { Get-PASPTAPrivilegedUser -ValueType DefaultValue } | Should -Not -Throw
 
             }
