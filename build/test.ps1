@@ -4,7 +4,7 @@
 Write-Host "Testing: PSVersion $($PSVersionTable.PSVersion)" -ForegroundColor Yellow
 $ManifestPath = Join-Path "$pwd" $(Join-Path "$env:APPVEYOR_PROJECT_NAME" "$env:APPVEYOR_PROJECT_NAME.psd1")
 Import-Module Pester -RequiredVersion 5.7.1 -Force
-Import-Module $ManifestPath -Force
+Import-Module $ManifestPath -ArgumentList $true -Force
 #---------------------------------#
 # Run Pester Tests                #
 #---------------------------------#
@@ -41,7 +41,7 @@ if ($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq 'Pete Maan') {
 	try {
 		$ProgressPreference = 'SilentlyContinue'
 		$null = Invoke-WebRequest -Uri 'https://cli.codecov.io/latest/windows/codecov.exe' -OutFile codecov.exe
-		.\codecov.exe --verbose upload-process --disable-search --fail-on-error -t ${env:CODECOV_TOKEN} -n 'appveyor' -f coverage.xml
+		.\codecov.exe --disable-telem upload-process --disable-search --fail-on-error -t ${env:CODECOV_TOKEN} -n 'appveyor' -f coverage.xml
 	} catch {
 		Write-Warning "Code coverage upload failed: $_"
 	}
