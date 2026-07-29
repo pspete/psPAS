@@ -8,15 +8,17 @@ Import-Module $ManifestPath -Force
 #---------------------------------#
 # Run Pester Tests                #
 #---------------------------------#
-#$files = Get-ChildItem $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME) -Include *.ps1 -Recurse | Select-Object -ExpandProperty FullName
+$files = Get-ChildItem $(Join-Path $ENV:APPVEYOR_BUILD_FOLDER $env:APPVEYOR_PROJECT_NAME) -Include *.ps1 -Recurse | Select-Object -ExpandProperty FullName
 
 # get default from static property
 $configuration = [PesterConfiguration]::Default
 # assing properties & discover via intellisense
 $configuration.Run.Path = '.\Tests'
 $configuration.Run.PassThru = $true
-#$configuration.CodeCoverage.Enabled = $true
-#$configuration.CodeCoverage.Path = $files
+$configuration.CodeCoverage.Enabled = $true
+$configuration.CodeCoverage.Path = $files
+$configuration.CodeCoverage.OutputFormat = 'JaCoCo'
+$configuration.CodeCoverage.OutputPath = '.\coverage.xml'
 $configuration.TestResult.Enabled = $true
 $configuration.TestResult.OutputFormat = 'NUnitXml'
 $configuration.TestResult.OutputPath = '.\TestResults.xml'
@@ -34,14 +36,18 @@ Remove-Item -Path $(Resolve-Path .\TestResults.xml) -Force
 
 if ($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq 'Pete Maan') {
 
-	#Write-Host 'Publishing Code Coverage'
+	Write-Host 'Publishing Code Coverage'
 
-	#$ProgressPreference = 'SilentlyContinue'
-	#$null = Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -OutFile codecov.exe
-	#.\codecov.exe -t ${env:CODECOV_TOKEN} | Out-Null
+	try {
+		$ProgressPreference = 'SilentlyContinue'
+		$null = Invoke-WebRequest -Uri 'https://cli.codecov.io/latest/windows/codecov.exe' -OutFile codecov.exe
+		.\codecov.exe --verbose upload-process --disable-search --fail-on-error -t ${env:CODECOV_TOKEN} -n 'appveyor' -f coverage.xml
+	} catch {
+		Write-Warning "Code coverage upload failed: $_"
+	}
 
-	#Remove-Item -Path $(Resolve-Path .\coverage.xml) -Force
-	#Remove-Item -Path $(Resolve-Path .\codecov.exe) -Force
+	Remove-Item -Path $(Resolve-Path .\coverage.xml) -Force
+	Remove-Item -Path .\codecov.exe -Force -ErrorAction SilentlyContinue
 
 }
 
