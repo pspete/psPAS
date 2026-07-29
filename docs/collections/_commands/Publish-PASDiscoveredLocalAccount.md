@@ -42,6 +42,28 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
 
 Onboards the specified discovered local account.
 
+### EXAMPLE 2
+```
+Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID SomePlatform -additionalProperties @{'Location'='HQ'}
+```
+
+Onboards the specified discovered local account, adding an additional property.
+
+### EXAMPLE 3
+```
+$secret = Read-Host -AsSecureString -Prompt "secret value"
+Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID SomePlatform -secret $secret -resetSecret $true
+```
+
+Onboards the specified discovered local account with the provided initial secret value, and immediately rotates it.
+
+### EXAMPLE 4
+```
+Get-PASDiscoveredLocalAccount -type Windows | Publish-PASDiscoveredLocalAccount -safeName WinLocal -platformID WinServerLocal
+```
+
+Onboards every discovered Windows local account to the WinLocal safe using the WinServerLocal platform.
+
 ## PARAMETERS
 
 ### -id

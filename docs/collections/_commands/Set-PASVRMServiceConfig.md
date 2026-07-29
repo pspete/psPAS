@@ -36,6 +36,22 @@ PS C:\> Set-PASVRMServiceConfig -parameters $params -serviceName DR -serverAddre
 
 Sets multiple DR configuration parameters on the specified server
 
+### Example 2
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> Set-PASVRMServiceConfig -parameters @{ 'DebugLevel' = '3' } -serviceName Vault -serverAddress vault.company.com -servicePassword $password
+```
+
+Sets the DebugLevel configuration parameter on the Vault service
+
+### Example 3
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> Set-PASVRMServiceConfig -parameters @{ 'EnableReplicate' = 'Yes'; 'ReplicateInterval' = '60' } -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password -WhatIf
+```
+
+Shows what would happen if the EnableReplicate and ReplicateInterval parameters were set on the DR service, without actually applying the change
+
 ## PARAMETERS
 
 ### -BaseURI

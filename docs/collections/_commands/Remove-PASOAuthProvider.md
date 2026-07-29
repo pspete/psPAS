@@ -31,6 +31,20 @@ PS C:\> Remove-PASOAuthProvider -id SomeOAuthProvider
 
 Deletes OAuth Identity Provider with ID SomeOAuthProvider
 
+### EXAMPLE 2
+```powershell
+PS C:\> Remove-PASOAuthProvider -id LegacyOAuthProvider -WhatIf
+```
+
+Shows what would happen if the OAuth Identity Provider "LegacyOAuthProvider" were deleted, without actually deleting it.
+
+### EXAMPLE 3
+```powershell
+PS C:\> [PSCustomObject]@{id = 'LegacyOAuthProvider'} | Remove-PASOAuthProvider -Confirm:$false
+```
+
+Deletes the OAuth Identity Provider "LegacyOAuthProvider", with the id value supplied via the pipeline, suppressing the confirmation prompt.
+
 ## PARAMETERS
 
 ### -id

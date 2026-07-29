@@ -31,6 +31,20 @@ PS C:\> Resume-PASCPMAutoManagement -Accountid 123_4
 
 Resumes CPM auto management for account with id 123_4.
 
+### Example 2
+```powershell
+PS C:\> Get-PASAccount -id 123_4 | Resume-PASCPMAutoManagement
+```
+
+Resumes CPM auto management for the account returned by Get-PASAccount.
+
+### Example 3
+```powershell
+PS C:\> '123_4', '125_6' | ForEach-Object { Resume-PASCPMAutoManagement -Accountid $_ }
+```
+
+Resumes CPM auto management for each of the specified accounts.
+
 ## PARAMETERS
 
 ### -Accountid

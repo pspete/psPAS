@@ -34,6 +34,27 @@ PS C:\> Set-PASGroup -GroupID 420 -GroupName SomeName
 
 Renames group with id 420 to "SomeName"
 
+### EXAMPLE 2
+```powershell
+PS C:\> Get-PASGroup -groupName "Contractors" | Set-PASGroup -GroupName "Contractors - EMEA"
+```
+
+Finds the group named "Contractors" and renames it to "Contractors - EMEA", using the id value supplied via the pipeline
+
+### EXAMPLE 3
+```powershell
+PS C:\> Set-PASGroup -ID 420 -GroupName SomeName -WhatIf
+```
+
+Shows what would happen if the group with id 420 was renamed to "SomeName", without making the change
+
+### EXAMPLE 4
+```powershell
+PS C:\> $group = Set-PASGroup -ID 420 -GroupName "PSMShadowUsers"
+```
+
+Renames the group with id 420 to "PSMShadowUsers" and saves the updated group details returned by the API in the $group variable
+
 ## PARAMETERS
 
 ### -GroupName

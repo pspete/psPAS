@@ -30,6 +30,27 @@ Get-PASPTAExcludedTarget
 
 Returns all configured excluded targets
 
+### EXAMPLE 2
+```powershell
+(Get-PASPTAExcludedTarget).cidr
+```
+
+Returns only the CIDR values of the configured excluded targets
+
+### EXAMPLE 3
+```powershell
+Get-PASPTAExcludedTarget | Where-Object { $_.cidr -like '10.*' }
+```
+
+Returns excluded targets whose CIDR value falls within the 10.0.0.0/8 range
+
+### EXAMPLE 4
+```powershell
+(Get-PASPTAExcludedTarget | Measure-Object).Count
+```
+
+Returns the number of excluded targets currently configured in PTA
+
 ## PARAMETERS
 
 ### CommonParameters

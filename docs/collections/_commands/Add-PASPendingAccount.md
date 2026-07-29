@@ -41,6 +41,27 @@ Add-PASPendingAccount -UserName Administrator -Address ServerA.domain.com -Accou
 
 Adds matching discovered account as pending account.
 
+### EXAMPLE 2
+```
+Add-PASPendingAccount -UserName oracle -Address unixsrv01.domain.com -AccountDiscoveryDate 2020-05-12T00:00:00Z -OSType Unix -AccountEnabled enabled -AccountType local -AccountCategory Privileged -AccountCategoryCriteria "oracle;dba"
+```
+
+Adds a privileged local Unix account discovered on unixsrv01.domain.com as a pending account.
+
+### EXAMPLE 3
+```
+Add-PASPendingAccount -UserName Bob -Address ServerB.domain.com -AccountDiscoveryDate 2020-06-01T00:00:00Z -OSType Windows -AccountEnabled enabled -AccountType domain -Domain domain.com -DiscoveryPlatformType WinDomain -OU "OU=Servers,DC=domain,DC=com" -UserDisplayName "Bob Smith" -PasswordNeverExpires $false
+```
+
+Adds a domain Windows account as a pending account, including domain, OU and display name details.
+
+### EXAMPLE 4
+```
+Import-Csv .\DiscoveredAccounts.csv | Add-PASPendingAccount
+```
+
+Adds every account contained in the CSV file as a pending account, matching column names to parameter names by property name.
+
 ## PARAMETERS
 
 ### -UserName

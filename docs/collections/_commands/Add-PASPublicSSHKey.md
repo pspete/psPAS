@@ -38,6 +38,28 @@ Add-PASPublicSSHKey -UserName keyUser -PublicSSHKey AAAAB3NzaC1kc3MAAACBAJ3hB5SA
 
 Adds SSH Key to vault user keyUser
 
+### EXAMPLE 2
+```
+$Key = Get-Content .\bob_rsa.pub
+Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key
+```
+
+Reads the contents of a public key file and adds it as an authorized SSH key for vault user Bob.
+
+### EXAMPLE 3
+```
+Get-PASUser -Search Bob | Add-PASPublicSSHKey -PublicSSHKey "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC..."
+```
+
+Adds a public SSH key for the vault user found by Get-PASUser, with the UserName value supplied via the pipeline.
+
+### EXAMPLE 4
+```
+Import-Csv .\ssh-keys.csv | Add-PASPublicSSHKey
+```
+
+Adds an authorized public SSH key for each vault user listed in ssh-keys.csv, matching column names to parameters.
+
 ## PARAMETERS
 
 ### -UserName

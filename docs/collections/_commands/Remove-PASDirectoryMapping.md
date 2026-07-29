@@ -33,6 +33,20 @@ Remove-PASDirectoryMapping -DirectoryName SomeDir -MappingID 66
 
 Removes the directory mapping with id 66 for the SomeDir directory
 
+### EXAMPLE 2
+```
+Get-PASDirectoryMapping -DirectoryName cyberark.local -MappingID 66 | Remove-PASDirectoryMapping
+```
+
+Retrieves the directory mapping with id 66 from the cyberark.local directory and removes it via the pipeline.
+
+### EXAMPLE 3
+```
+Remove-PASDirectoryMapping -DirectoryName cyberark.local -MappingID 66 -WhatIf
+```
+
+Shows what would happen if the directory mapping was removed, without actually removing it.
+
 ## PARAMETERS
 
 ### -DirectoryName

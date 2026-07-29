@@ -30,6 +30,20 @@ Get-PASLoggedOnUser
 
 Returns information on the currently authenticated user.
 
+### EXAMPLE 2
+```
+$user = Get-PASLoggedOnUser
+```
+
+Saves the details of the currently authenticated user in the $user variable.
+
+### EXAMPLE 3
+```
+(Get-PASLoggedOnUser).UserName
+```
+
+Returns just the UserName property value of the currently authenticated user.
+
 ## PARAMETERS
 
 ### CommonParameters

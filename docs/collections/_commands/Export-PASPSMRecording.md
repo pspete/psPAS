@@ -30,6 +30,27 @@ Export-PASPSMRecording -RecordingID 123_45 -path C:\PSMRecording.avi
 
 Saves PSM Recording with Id 123_45 to C:\PSMRecording.avi
 
+### EXAMPLE 2
+```
+Export-PASPSMRecording -RecordingID 123_45 -path C:\PSMRecordings\
+```
+
+Saves PSM Recording with Id 123_45 into the C:\PSMRecordings\ folder, using the recording's original file name.
+
+### EXAMPLE 3
+```
+Get-PASPSMRecording -RecordingID 123_45 | Export-PASPSMRecording -path C:\PSMRecordings\
+```
+
+Gets the PSM Recording with Id 123_45, and saves it to the C:\PSMRecordings\ folder. The RecordingID is passed via the pipeline.
+
+### EXAMPLE 4
+```
+Get-PASPSMRecording -Safe Win-Safe -FromTime (Get-Date).AddDays(-1) | Export-PASPSMRecording -path C:\PSMRecordings\
+```
+
+Saves every PSM Recording created on the Win-Safe safe in the last 24 hours to the C:\PSMRecordings\ folder.
+
 ## PARAMETERS
 
 ### -RecordingID

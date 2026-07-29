@@ -41,6 +41,20 @@ Remove-PASDiscoveredLocalAccount -id SomeID
 
 Deletes specified discovered local account
 
+### EXAMPLE 2
+```powershell
+Get-PASDiscoveredLocalAccount -search workstation01 | Remove-PASDiscoveredLocalAccount
+```
+
+Deletes all discovered local accounts matching the search value.
+
+### EXAMPLE 3
+```powershell
+Remove-PASDiscoveredLocalAccount -id SomeID -WhatIf
+```
+
+Shows what would happen if the specified discovered local account was deleted, without actually deleting it.
+
 ## PARAMETERS
 
 ### -id

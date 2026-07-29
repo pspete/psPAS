@@ -30,6 +30,20 @@ Enable-PASTheme -ThemesNames "Default Dark"
 
 Sets the theme to the default dark theme
 
+### EXAMPLE 2
+```
+Enable-PASTheme -ThemesNames "Custom Light", "Custom Dark"
+```
+
+Activates both the "Custom Light" and "Custom Dark" themes together, so the UI can switch between them based on the user's light/dark mode preference.
+
+### EXAMPLE 3
+```
+Enable-PASTheme -ThemesNames "Custom Dark" -WhatIf
+```
+
+Shows what would happen if the "Custom Dark" theme was activated, without actually making the change.
+
 ## PARAMETERS
 
 ### -ThemesNames

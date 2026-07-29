@@ -38,6 +38,27 @@ Remove-PASAccount -AccountID 19_1
 
 Deletes the account with AccountID of 19_1
 
+### EXAMPLE 2
+```
+Get-PASAccount -id 19_1 | Remove-PASAccount
+```
+
+Deletes the account returned by Get-PASAccount.
+
+### EXAMPLE 3
+```
+Remove-PASAccount -AccountID 19_1 -UseGen1API
+```
+
+Deletes the account with AccountID of 19_1 using the Gen1 (PIMServices.svc) API endpoint, for use against CyberArk versions earlier than 10.4.
+
+### EXAMPLE 4
+```
+Remove-PASAccount -AccountID 19_1 -DeleteSSHKey $true -WhatIf
+```
+
+Shows what would happen if the account and its associated SSH keys, both public (target) and private (Vault), were deleted, without actually deleting them.
+
 ## PARAMETERS
 
 ### -AccountID

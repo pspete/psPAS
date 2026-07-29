@@ -32,6 +32,20 @@ Remove-PASPolicyACL -PolicyID UNIXSSH -Id 13
 
 Deletes Rule with ID of 13 from UNIXSSH platform.
 
+### EXAMPLE 2
+```
+Remove-PASPolicyACL -PolicyID UNIXSSH -Id 13 -WhatIf
+```
+
+Shows what would happen if the rule with ID 13 was deleted from the UNIXSSH platform, without making the change.
+
+### EXAMPLE 3
+```
+Get-PASPolicyACL -PolicyID UNIXSSH | Where-Object Command -eq "chmod" | Remove-PASPolicyACL
+```
+
+Finds the rule for the "chmod" command on the UNIXSSH platform and removes it, passing PolicyId and Id down the pipeline.
+
 ## PARAMETERS
 
 ### -PolicyID

@@ -14,9 +14,15 @@ Returns details of available report schedules
 
 ## SYNTAX
 
+### byQuery (Default)
 ```
-Get-PASReportTask [-id <String>] [-search <String>] [-subType <String>] [-name <String>]
- [-FilterLogicalOperator <String>] [-limit <Int32>] [<CommonParameters>]
+Get-PASReportTask [-search <String>] [-subType <String>] [-name <String>] [-FilterLogicalOperator <String>]
+ [-limit <Int32>] [<CommonParameters>]
+```
+
+### byID
+```
+Get-PASReportTask [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -62,13 +68,31 @@ Returns report schedules of the InventoryReports.InventoryReportUI subtype.
 
 ## PARAMETERS
 
+### -FilterLogicalOperator
+
+The logical operator (AND/OR) used to combine multiple filter parameters, when both
+subType and name are specified together. Defaults to AND.
+
+```yaml
+Type: String
+Parameter Sets: byQuery
+Aliases:
+Accepted values: AND, OR
+
+Required: False
+Position: Named
+Default value: AND
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 
 When specified, returns a specific report schedule, otherwise returns all the user has access to.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: byID
 Aliases:
 
 Required: False
@@ -78,30 +102,13 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -FilterLogicalOperator
-
-The logical operator (AND/OR) used to combine multiple filter parameters, when both
-subType and name are specified together. Defaults to AND.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: AND
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -limit
 
 The number of report schedules to return on one page.
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: byQuery
 Aliases:
 
 Required: False
@@ -119,7 +126,7 @@ Only the EQ operator is supported; other operators are rejected by the API.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: byQuery
 Aliases:
 
 Required: False
@@ -135,7 +142,7 @@ A simple, case-insensitive keyword search across common textual fields.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: byQuery
 Aliases:
 
 Required: False
@@ -153,7 +160,7 @@ Only the EQ operator is supported; other operators are rejected by the API.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: byQuery
 Aliases:
 
 Required: False
@@ -164,7 +171,6 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS

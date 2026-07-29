@@ -40,6 +40,27 @@ Get-PASPTARiskEvent -type RISK_UNCONSTRAINED_DELEGATION -status OPEN
 
 Get all open risk events related to unconstrained delegation.
 
+### EXAMPLE 2
+```powershell
+Get-PASPTARiskEvent -status OPEN -sort score -size 50
+```
+
+Returns up to 50 open risk events, sorted by risk score.
+
+### EXAMPLE 3
+```powershell
+Get-PASPTARiskEvent -FromTime (Get-Date).AddDays(-7) -ToTime (Get-Date) -status OPEN
+```
+
+Returns open risk events with a detection time in the last 7 days. Requires minimum version 14.0.
+
+### EXAMPLE 4
+```powershell
+Get-PASPTARiskEvent -type RISK_RISKY_SPN -status CLOSED
+```
+
+Returns all closed risk events related to risky SPNs.
+
 ## PARAMETERS
 
 ### -type

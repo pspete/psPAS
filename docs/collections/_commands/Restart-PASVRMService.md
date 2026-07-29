@@ -34,6 +34,23 @@ PS C:\> Restart-PASVRMService -serviceName DR -serverAddress dr-vault.company.co
 
 Restarts the DR service on the specified server
 
+### Example 2
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> Restart-PASVRMService -serviceName ENE -serverAddress vault.company.com -servicePassword $password
+```
+
+Restarts the ENE service on the specified server.
+This service requires CyberArk version 15.2 or higher
+
+### Example 3
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> Restart-PASVRMService -serviceName Vault -serverAddress vault.company.com -servicePassword $password -WhatIf
+```
+
+Shows what would happen if the Vault service was restarted, without actually restarting it
+
 ## PARAMETERS
 
 ### -BaseURI

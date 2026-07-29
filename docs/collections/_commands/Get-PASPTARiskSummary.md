@@ -32,6 +32,21 @@ Get-PASPTARiskEventSummary
 
 Output PTA risk events summary
 
+### EXAMPLE 2
+```powershell
+$Summary = Get-PASPTARiskSummary
+$Summary | Format-List
+```
+
+Retrieves the current PTA risk events summary and displays every property.
+
+### EXAMPLE 3
+```powershell
+Get-PASPTARiskSummary | ConvertTo-Json -Depth 5
+```
+
+Returns the PTA risk events summary as a JSON formatted string, useful for reporting or further processing.
+
 ## PARAMETERS
 
 ### CommonParameters

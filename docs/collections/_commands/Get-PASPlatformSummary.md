@@ -30,6 +30,20 @@ PS C:\> Get-PASPlatformSummary
 
 Returns list and count of each current platform system types.
 
+### EXAMPLE 2
+```powershell
+PS C:\> Get-PASPlatformSummary | Format-Table
+```
+
+Displays the platform system type summary in table format.
+
+### EXAMPLE 3
+```powershell
+PS C:\> (Get-PASPlatformSummary).Count
+```
+
+Returns the total number of platform system types configured in the Vault.
+
 ## PARAMETERS
 
 ### CommonParameters

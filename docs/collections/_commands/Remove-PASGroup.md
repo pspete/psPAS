@@ -33,6 +33,27 @@ Remove-PASGroup -GroupID 3
 
 Deletes vault group with ID of 3
 
+### EXAMPLE 2
+```
+Get-PASGroup -groupName "Old Project Team" | Remove-PASGroup
+```
+
+Finds the group named "Old Project Team" and deletes it, using the id value supplied via the pipeline
+
+### EXAMPLE 3
+```
+Remove-PASGroup -ID 3 -WhatIf
+```
+
+Shows what would happen if the group with id 3 was deleted, without making the change
+
+### EXAMPLE 4
+```
+1,2,3 | ForEach-Object { Remove-PASGroup -ID $_ }
+```
+
+Deletes the groups with ids 1, 2 & 3
+
 ## PARAMETERS
 
 ### -WhatIf

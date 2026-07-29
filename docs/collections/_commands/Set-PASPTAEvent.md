@@ -35,6 +35,27 @@ Updates the status of a security event to open or closed
 Set-PASPTAEvent -EventID $id
 ```
 
+### EXAMPLE 2
+```
+Set-PASPTAEvent -EventID $id -mStatus CLOSED
+```
+
+Closes the security event matching the specified EventID.
+
+### EXAMPLE 3
+```
+Set-PASPTAEvent -EventID $id -mStatus CLOSED -closeReason HANDLED -reasonText 'Confirmed as expected administrative activity'
+```
+
+Closes the security event and records a close reason and explanatory text. Requires minimum version 14.0.
+
+### EXAMPLE 4
+```
+Set-PASPTAEvent -EventID $id -mStatus CLOSED -WhatIf
+```
+
+Shows what would happen if the security event was closed, without making the change.
+
 ## PARAMETERS
 
 ### -EventID

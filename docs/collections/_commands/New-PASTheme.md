@@ -92,6 +92,20 @@ PS C:\> New-PASTheme -name "Barbie Pink" -isDraft $false `
 
 Creates a new "Barbie Pink" custom theme.
 
+### Example 2
+```powershell
+PS C:\> New-PASTheme -name "Minimal Dark" -isDraft $true -colorsStyle "Dark" -backgroundMain_Dark "#121212" -textMain_Dark "#FFFFFF"
+```
+
+Creates a new draft theme named "Minimal Dark" with only the core dark mode background and text colors set; any unspecified color/logo properties are left to the platform defaults
+
+### Example 3
+```powershell
+PS C:\> New-PASTheme -name "Minimal Dark" -isDraft $true -WhatIf
+```
+
+Shows what would happen if the "Minimal Dark" theme was created, without actually creating it
+
 ## PARAMETERS
 
 ### -name

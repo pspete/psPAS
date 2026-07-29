@@ -36,6 +36,29 @@ Set-PASIPAllowList -customerPublicIPs '10.66.19.45/32','19.79.19.79/22','194.2.1
 
 Configures the IP Allow List with the specified addresses
 
+### EXAMPLE 2
+```
+Set-PASIPAllowList -customerPublicIPs '10.66.19.45/32' -WhatIf
+```
+
+Shows what would happen if the IP Allow List were updated with the specified address, without applying the change.
+
+### EXAMPLE 3
+```
+Set-PASIPAllowList -customerPublicIPs @()
+```
+
+Removes all IP addresses currently configured in the IP Allow List.
+
+### EXAMPLE 4
+```
+$current = Get-PASIPAllowList
+$current.customerPublicIPs += '203.0.113.0/24'
+$current | Set-PASIPAllowList
+```
+
+Retrieves the current IP Allow List, appends a new subnet to the existing addresses, and pipes the updated list back in so the existing entries are preserved alongside the new one.
+
 ## PARAMETERS
 
 ### -customerPublicIPs

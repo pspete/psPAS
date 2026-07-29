@@ -30,6 +30,20 @@ Remove-PASTheme -ThemeName "Custom Dark"
 
 Removes the theme "Custom Dark"
 
+### EXAMPLE 2
+```
+Remove-PASTheme -ThemeName "Custom Dark" -WhatIf
+```
+
+Shows what would happen if the "Custom Dark" theme was removed, without actually removing it.
+
+### EXAMPLE 3
+```
+"Custom Dark", "Custom Light" | ForEach-Object { Remove-PASTheme -ThemeName $_ -Confirm:$false }
+```
+
+Removes both the "Custom Dark" and "Custom Light" themes without prompting for confirmation.
+
 ## PARAMETERS
 
 ### -ThemeName

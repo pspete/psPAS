@@ -32,6 +32,20 @@ Approve-PASRequest -RequestID <ID> -Reason "<Reason>"
 
 Confirms request \<ID\>
 
+### EXAMPLE 2
+```
+Approve-PASRequest -RequestId 'TargetSafe_15', 'TargetSafe_16', 'TargetSafe_17' -Reason "Emergency access approved"
+```
+
+Confirms three incoming requests in a single bulk call. Requires CyberArk version 14.6 or above, self-hosted only.
+
+### EXAMPLE 3
+```
+Approve-PASRequest -RequestId TargetSafe_15 -Reason "Approved by manager" -WhatIf
+```
+
+Shows what would happen if the request was confirmed, without actually confirming it.
+
 ## PARAMETERS
 
 ### -RequestId

@@ -34,6 +34,13 @@ Get-PASServer
 
 Displays CyberArk Server information
 
+### EXAMPLE 2
+```
+Get-PASServer | Format-List -Property *
+```
+
+Displays all available properties returned for the connected Vault server.
+
 ## PARAMETERS
 
 ### CommonParameters

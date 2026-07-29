@@ -39,6 +39,31 @@ Add-PASDiscoveredLocalAccount -type windows -identifiers @{'username'='administr
 
 Adds the specified local account as a discovered local account.
 
+### EXAMPLE 2
+```
+Add-PASDiscoveredLocalAccount -type mac -identifiers @{'username'='root'; 'address'='mac01.pspete.dev'} -isPrivileged $true -source EPM
+```
+
+Adds the specified local Mac account, flagged as privileged, attributing the discovery to the EPM source.
+
+### EXAMPLE 3
+```
+Add-PASDiscoveredLocalAccount -type unix -identifiers @{'username'='oracle'; 'address'='unixsrv01.pspete.dev'} -customProperties @{'Department'='Finance'; 'Owner'='Bob'}
+```
+
+Adds the specified local Unix account, including additional custom properties.
+
+### EXAMPLE 4
+```
+$Accounts = @(
+    [pscustomobject]@{type = 'windows'; identifiers = @{'username' = 'svc-web'; 'address' = 'web01.pspete.dev'} }
+    [pscustomobject]@{type = 'windows'; identifiers = @{'username' = 'svc-sql'; 'address' = 'sql01.pspete.dev'} }
+)
+$Accounts | Add-PASDiscoveredLocalAccount
+```
+
+Adds multiple discovered local accounts, piping objects with type and identifiers properties.
+
 ## PARAMETERS
 
 ### -type

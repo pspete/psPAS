@@ -32,6 +32,22 @@ Get-PASIPAllowList
 
 List the current IP Allow List configuration
 
+### EXAMPLE 2
+```powershell
+(Get-PASIPAllowList).customerPublicIPs
+```
+
+Returns just the list of IP addresses and subnets currently permitted to communicate with the Privilege Cloud SaaS environment.
+
+### EXAMPLE 3
+```powershell
+if (-not (Get-PASIPAllowList).updateInProgress) {
+    Set-PASIPAllowList -customerPublicIPs '10.0.0.0/24','192.168.1.0/28'
+}
+```
+
+Checks that no IP Allow List update is already in progress before applying a new configuration.
+
 ## PARAMETERS
 
 ### CommonParameters

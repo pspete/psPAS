@@ -33,6 +33,23 @@ PS C:\> Get-PASVRMServiceStatus -serviceName Vault -serverAddress vault.company.
 
 Gets the operational status of the Vault service on the specified server
 
+### Example 2
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> Get-PASVRMServiceStatus -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password
+```
+
+Gets the operational status of the DR service on the specified server
+
+### Example 3
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company.com -servicePassword $password
+```
+
+Gets the operational status of the ENE service on the specified server.
+This service requires CyberArk version 15.2 or higher
+
 ## PARAMETERS
 
 ### -BaseURI

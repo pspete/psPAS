@@ -37,6 +37,20 @@ Add-PASApplication -AppID NewApp -Description "A new application" -Location "\" 
 
 Will add a new application called "NewApp", in the root location, accessible from 9am to 5pm
 
+### EXAMPLE 2
+```
+Add-PASApplication -AppID FinanceApp -Location "\Applications\Finance" -ExpirationDate (Get-Date).AddYears(1) -Disabled $false -BusinessOwnerFName John -BusinessOwnerLName Smith -BusinessOwnerEmail 'john.smith@company.com' -BusinessOwnerPhone '555-0100'
+```
+
+Adds a new application called "FinanceApp" in the Finance vault location, with an expiration date one year from today and business owner contact details recorded against the application.
+
+### EXAMPLE 3
+```
+Import-Csv .\NewApplications.csv | Add-PASApplication
+```
+
+Adds a new application for every row in NewApplications.csv, where the CSV column headers match the parameter names of Add-PASApplication (AppID, Location, Description, etc).
+
 ## PARAMETERS
 
 ### -AppID

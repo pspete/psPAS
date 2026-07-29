@@ -30,6 +30,20 @@ Remove-PASPTAPrivilegedGroup -ID 65b6aa31721d9b5f3a56ca7e
 
 Deletes group configuration matching ID
 
+### EXAMPLE 2
+```powershell
+Get-PASPTAPrivilegedGroup | Where-Object { $_.group -eq 'Domain Admins' } | Remove-PASPTAPrivilegedGroup
+```
+
+Finds the Domain Admins group configuration and removes it from PTA.
+
+### EXAMPLE 3
+```powershell
+Remove-PASPTAPrivilegedGroup -ID 65b6aa31721d9b5f3a56ca7e -WhatIf
+```
+
+Shows what would happen if the group configuration matching ID was removed, without making the change.
+
 ## PARAMETERS
 
 ### -ID

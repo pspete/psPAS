@@ -32,6 +32,27 @@ PS C:\> Add-PASPTASyslog -siem SomeSIEM -format CEF -host SOMEHOST.domain.com -p
 
 Adds the specified SYSLOG configuration to PTA
 
+### Example 2
+```powershell
+PS C:\> Add-PASPTASyslog -siem 'CorpSIEM' -format LEEF -host syslog.cyberark.local -port 6514 -protocol TCP -syslogType RFC5424 -tcpOctetCounting $true
+```
+
+Adds a LEEF-formatted SYSLOG configuration named "CorpSIEM" that sends events to syslog.cyberark.local over TCP on port 6514, using RFC5424 framing with TCP octet-counting enabled
+
+### Example 3
+```powershell
+PS C:\> Add-PASPTASyslog -siem 'SecureSIEM' -format CEF -host siem.cyberark.local -port 6514 -protocol TLS -CertificateFile C:\Certs\siem.cer -syslogType RFC3164 -tcpOctetCounting $false
+```
+
+Adds a SYSLOG configuration that connects to siem.cyberark.local over TLS on port 6514, presenting the specified certificate file for the connection
+
+### Example 4
+```powershell
+PS C:\> [PSCustomObject]@{siem='RemoteSIEM'; format='CEF'; host='192.168.1.10'; port=514; protocol='UDP'; syslogType='SEMI_RFC5424'; tcpOctetCounting=$false} | Add-PASPTASyslog
+```
+
+Adds a SYSLOG configuration using property values supplied via the pipeline
+
 ## PARAMETERS
 
 ### -siem

@@ -33,6 +33,27 @@ Get-PASServerWebService
 
 Displays CyberArk Web Service Information
 
+### EXAMPLE 2
+```
+Get-PASServerWebService -BaseURI https://cyberark.local
+```
+
+Returns web service details for the PVWA at "https://cyberark.local", using the default "PasswordVault" virtual directory.
+
+### EXAMPLE 3
+```
+Get-PASServerWebService -BaseURI https://cyberark.local -PVWAAppName PVWA -UseGen1API
+```
+
+Returns web service details from the deprecated Gen1 API endpoint, using a virtual directory named "PVWA" instead of the default "PasswordVault".
+
+### EXAMPLE 4
+```
+[PSCustomObject]@{BaseURI = 'https://cyberark.local'} | Get-PASServerWebService
+```
+
+Retrieves web service details for the PVWA by piping an object with a BaseURI property.
+
 ## PARAMETERS
 
 ### -WebSession

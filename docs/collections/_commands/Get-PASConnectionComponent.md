@@ -30,6 +30,20 @@ Get-PASConnectionComponent
 
 Lists all connection components configured in the environment
 
+### EXAMPLE 2
+```
+Get-PASConnectionComponent | Where-Object { $_.PSMConnectorID -eq 'PSM-RDP' }
+```
+
+Returns the connection component configuration for the "PSM-RDP" connector.
+
+### EXAMPLE 3
+```
+Get-PASConnectionComponent | Where-Object { $_.Enabled } | Select-Object PSMConnectorID
+```
+
+Lists the PSMConnectorID of every enabled connection component in the environment.
+
 ## PARAMETERS
 
 ### CommonParameters

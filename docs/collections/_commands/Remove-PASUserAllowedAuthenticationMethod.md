@@ -32,6 +32,28 @@ PS C:\> Remove-PASUserAllowedAuthenticationMethod -userIds 67,68,69 -allowedAuth
 
 Deletes the LDAP authentication methods from users with ids 67, 68 & 69
 
+### Example 2
+```powershell
+PS C:\> Remove-PASUserAllowedAuthenticationMethod -userIds 70 -allowedAuthenticationMethods RADIUS
+```
+
+Deletes the RADIUS authentication method from the user with id 70
+
+### Example 3
+```powershell
+PS C:\> Remove-PASUserAllowedAuthenticationMethod -userIds 67,68,69 -allowedAuthenticationMethods LDAP -WhatIf
+```
+
+Shows what would happen if the LDAP authentication method was removed from users 67, 68 & 69, without making the change
+
+### Example 4
+```powershell
+PS C:\> $userIds = 101,102,103,104
+PS C:\> Remove-PASUserAllowedAuthenticationMethod -userIds $userIds -allowedAuthenticationMethods SAML,PKI
+```
+
+Deletes both the SAML and PKI authentication methods from a list of users held in the $userIds variable
+
 ## PARAMETERS
 
 ### -userIds

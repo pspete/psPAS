@@ -30,6 +30,27 @@ Add-PASPTAPrivilegedUser -platform WINDOWS -user AdminUser
 
 Adds AdminUser to PrivilegedUsersList in PTA
 
+### EXAMPLE 2
+```powershell
+Add-PASPTAPrivilegedUser -platform UNIX -user root
+```
+
+Adds the UNIX root account to PrivilegedUsersList in PTA.
+
+### EXAMPLE 3
+```powershell
+[PSCustomObject]@{platform = 'CLOUD_AWS'; user = 'Bob' } | Add-PASPTAPrivilegedUser
+```
+
+Adds Bob as a privileged user for the CLOUD_AWS platform, using pipeline input.
+
+### EXAMPLE 4
+```powershell
+Add-PASPTAPrivilegedUser -platform APPLICATION -user "svc_.*" -WhatIf
+```
+
+Shows what would happen if a regex matching all svc_ prefixed application accounts was added to PrivilegedUsersList in PTA, without making the change.
+
 ## PARAMETERS
 
 ### -platform

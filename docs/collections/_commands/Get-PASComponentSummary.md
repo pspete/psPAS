@@ -32,6 +32,20 @@ Get-PASComponentSummary
 
 Displays CyberArk Component information
 
+### EXAMPLE 2
+```
+Get-PASComponentSummary | Where-Object ComponentID -eq 'CPM'
+```
+
+Returns component summary information for the CPM component only.
+
+### EXAMPLE 3
+```
+Get-PASComponentSummary | Where-Object Role -eq 'DR'
+```
+
+Returns information about any Disaster Recovery vault, including replication status details when connected to CyberArk version 14.6 or later.
+
 ## PARAMETERS
 
 ### CommonParameters

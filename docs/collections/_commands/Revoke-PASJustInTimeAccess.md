@@ -31,6 +31,20 @@ Revoke-PASJustInTimeAccess -AccountID 36_3
 
 Revokes JIT access on the server for which the account with id 36_3 is a local account with local admin membership.
 
+### EXAMPLE 2
+```
+Get-PASAccount -id 36_3 | Revoke-PASJustInTimeAccess
+```
+
+Revokes JIT access using the account object returned by Get-PASAccount.
+
+### EXAMPLE 3
+```
+'36_3', '44_9' | ForEach-Object { Revoke-PASJustInTimeAccess -AccountID $_ }
+```
+
+Revokes JIT access for each of the specified local admin accounts.
+
 ## PARAMETERS
 
 ### -AccountID

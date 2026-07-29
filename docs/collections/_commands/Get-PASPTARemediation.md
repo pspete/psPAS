@@ -30,6 +30,20 @@ Get-PASPTARemediation
 
 Returns all automatic remediation settings from PTA
 
+### EXAMPLE 2
+```
+Get-PASPTARemediation | ConvertTo-Json
+```
+
+Returns the automatic remediation settings from PTA as a JSON formatted string, useful for reviewing or exporting the configuration.
+
+### EXAMPLE 3
+```
+Get-PASPTARemediation | Export-Csv -Path .\PTARemediationSettings.csv -NoTypeInformation
+```
+
+Exports the current automatic remediation settings from PTA to a CSV file.
+
 ## PARAMETERS
 
 ### CommonParameters

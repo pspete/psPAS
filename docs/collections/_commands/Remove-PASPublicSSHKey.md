@@ -39,6 +39,20 @@ Remove-PASPublicSSHKey -UserName Splitter -KeyID 415161FE8F2B408BB76BC244258C369
 
 Deletes specified ssh key from vault user "Splitter"
 
+### EXAMPLE 2
+```
+Remove-PASPublicSSHKey -UserName Splitter -KeyID 415161FE8F2B408BB76BC244258C3697 -WhatIf
+```
+
+Shows what would happen if the specified SSH key were deleted from vault user "Splitter", without actually deleting it.
+
+### EXAMPLE 3
+```
+Get-PASPublicSSHKey -UserName Splitter | Remove-PASPublicSSHKey -Confirm:$false
+```
+
+Deletes every authorized SSH key configured for vault user "Splitter", with UserName and KeyID values supplied via the pipeline, suppressing the confirmation prompt.
+
 ## PARAMETERS
 
 ### -UserName

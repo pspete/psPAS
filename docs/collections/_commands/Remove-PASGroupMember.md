@@ -30,6 +30,27 @@ Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser
 
 Removes TargetUser from group
 
+### EXAMPLE 2
+```
+Get-PASGroup -groupName "Domain Admins" | Remove-PASGroupMember -Member Bob
+```
+
+Finds the group named "Domain Admins" and removes Bob as a member, using the id value supplied via the pipeline
+
+### EXAMPLE 3
+```
+Remove-PASGroupMember -GroupID X1_Y2 -Member TargetUser -WhatIf
+```
+
+Shows what would happen if TargetUser was removed from the group, without making the change
+
+### EXAMPLE 4
+```
+'Bob','Alice' | ForEach-Object { Remove-PASGroupMember -GroupID X1_Y2 -Member $_ }
+```
+
+Removes both Bob and Alice from the group with id X1_Y2
+
 ## PARAMETERS
 
 ### -GroupID

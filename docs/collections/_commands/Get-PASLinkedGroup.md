@@ -31,6 +31,20 @@ Get-PASLinkedGroup -id 66_6
 
 Gets linked group details associated with account with ID 66_6
 
+### EXAMPLE 2
+```powershell
+Get-PASAccount -safeName TargetSafe | Get-PASLinkedGroup
+```
+
+Gets linked group details for every account in the TargetSafe safe.
+
+### EXAMPLE 3
+```powershell
+'19_1', '36_3' | ForEach-Object { Get-PASLinkedGroup -id $_ }
+```
+
+Gets linked group details for each of the specified account IDs.
+
 ## PARAMETERS
 
 ### -id

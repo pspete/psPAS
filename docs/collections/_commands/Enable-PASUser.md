@@ -30,6 +30,27 @@ Enable-PASUser -id 1234
 
 Enables the vault user with id 1234
 
+### EXAMPLE 2
+```powershell
+Get-PASUser -search Bob | Enable-PASUser
+```
+
+Finds vault users matching the search term "Bob" and enables each matching account, using the id value supplied via the pipeline
+
+### EXAMPLE 3
+```powershell
+Enable-PASUser -id 1234 -WhatIf
+```
+
+Shows what would happen if the vault user with id 1234 was enabled, without making the change
+
+### EXAMPLE 4
+```powershell
+Get-PASUser -UserStatus Suspended | Enable-PASUser
+```
+
+Finds all currently suspended vault users and enables each of them
+
 ## PARAMETERS
 
 ### -id

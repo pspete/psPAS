@@ -39,6 +39,20 @@ Remove-PASAccountGroupMember -AccountID 21_7 -GroupID 21_9
 
 Removes member with ID of 21_& from account group with ID of 21_9
 
+### EXAMPLE 2
+```
+Remove-PASAccountGroupMember -AccountID 21_7 -GroupID 21_9 -WhatIf
+```
+
+Shows what would happen if the member with ID of 21_7 was removed from account group 21_9, without actually removing it.
+
+### EXAMPLE 3
+```
+'21_7', '21_8' | ForEach-Object { [PSCustomObject]@{GroupID = '21_9'; AccountID = $_ } } | Remove-PASAccountGroupMember
+```
+
+Removes accounts 21_7 and 21_8 as members of account group 21_9, passing GroupID and AccountID values down the pipeline.
+
 ## PARAMETERS
 
 ### -AccountID

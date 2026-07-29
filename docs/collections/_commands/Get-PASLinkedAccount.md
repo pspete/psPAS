@@ -31,6 +31,20 @@ Get-PASLinkedAccount -id 66_6
 
 Gets linked account details associated with account with ID 66_6
 
+### EXAMPLE 2
+```powershell
+Get-PASAccount -id 66_6 | Get-PASLinkedAccount
+```
+
+Gets the account and returns its linked account details, using the account ID supplied via the pipeline.
+
+### EXAMPLE 3
+```powershell
+Get-PASAccount -search "Bob" | Get-PASLinkedAccount
+```
+
+Gets linked account details for every account matching the search, using each account ID from the pipeline.
+
 ## PARAMETERS
 
 ### -id

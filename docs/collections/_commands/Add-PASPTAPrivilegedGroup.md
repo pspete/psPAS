@@ -30,6 +30,20 @@ Add-PASPTAPrivilegedGroup -domain SomeDomain.com -group SomeGroup
 
 Adds SomeGroup as to PrivilegedDomainGroupsList in PTA
 
+### EXAMPLE 2
+```powershell
+[PSCustomObject]@{domain = 'cyberark.local'; group = 'Domain Admins' } | Add-PASPTAPrivilegedGroup
+```
+
+Adds the Domain Admins group from the cyberark.local domain to PrivilegedDomainGroupsList in PTA, using pipeline input.
+
+### EXAMPLE 3
+```powershell
+Add-PASPTAPrivilegedGroup -domain cyberark.local -group "Backup Operators" -WhatIf
+```
+
+Shows what would happen if the Backup Operators group from the cyberark.local domain was added to PrivilegedDomainGroupsList in PTA, without making the change.
+
 ## PARAMETERS
 
 ### -domain

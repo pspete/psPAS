@@ -39,6 +39,20 @@ Add-PASAccountGroupMember -GroupID $groupID -AccountID $accID
 
 Adds account with ID held in $accID to group with ID held in $groupID
 
+### EXAMPLE 2
+```
+Add-PASAccountGroupMember -GroupID 21_9 -AccountID 21_12
+```
+
+Adds the account with ID 21_12 as a member of account group 21_9.
+
+### EXAMPLE 3
+```
+'19_1', '19_2', '19_3' | ForEach-Object { [PSCustomObject]@{GroupID = '21_9'; AccountID = $_ } } | Add-PASAccountGroupMember
+```
+
+Adds accounts 19_1, 19_2 and 19_3 as members of account group 21_9, passing GroupID and AccountID values down the pipeline.
+
 ## PARAMETERS
 
 ### -GroupID

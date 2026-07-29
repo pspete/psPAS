@@ -34,6 +34,20 @@ Get-PASBYOKConfig
 
 Get the BYOK status
 
+### EXAMPLE 2
+```powershell
+Get-PASBYOKConfig | Format-List *
+```
+
+Displays full details of the BYOK configuration, including the current status, access policy, current key in use, and customer details.
+
+### EXAMPLE 3
+```powershell
+Get-PASBYOKConfig | Export-Csv -Path .\BYOKConfig.csv -NoTypeInformation
+```
+
+Exports the current BYOK configuration details to a CSV file for reporting purposes.
+
 ## PARAMETERS
 
 ### CommonParameters

@@ -30,6 +30,28 @@ PS C:\> Add-PASUserAllowedAuthenticationMethod -userIds 36,37 -allowedAuthentica
 
 Adds specified authentication methods to specified users
 
+### Example 2
+```powershell
+PS C:\> Add-PASUserAllowedAuthenticationMethod -userIds 40 -allowedAuthenticationMethods RADIUS
+```
+
+Adds the RADIUS authentication method to the user with id 40
+
+### Example 3
+```powershell
+PS C:\> Add-PASUserAllowedAuthenticationMethod -userIds 36,37,40 -allowedAuthenticationMethods SAML,RADIUS,LDAP -WhatIf
+```
+
+Shows what would happen if the SAML, RADIUS & LDAP authentication methods were added to users 36, 37 & 40, without making the change
+
+### Example 4
+```powershell
+PS C:\> $userIds = 101,102,103,104
+PS C:\> Add-PASUserAllowedAuthenticationMethod -userIds $userIds -allowedAuthenticationMethods PKI
+```
+
+Adds the PKI authentication method to a list of users held in the $userIds variable
+
 ## PARAMETERS
 
 ### -userIds

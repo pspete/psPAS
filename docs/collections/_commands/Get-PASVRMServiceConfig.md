@@ -33,6 +33,20 @@ Get-PASVRMServiceConfig -serviceName DR -serverAddress "192.168.2.51" -servicePa
 
 Gets all DR configuration parameters for the service at the specified address
 
+### EXAMPLE 2
+```powershell
+Get-PASVRMServiceConfig -serviceName Vault -serverAddress "192.168.2.50" -servicePassword $SecurePassword
+```
+
+Gets all configuration parameters for the Vault service at the specified address
+
+### EXAMPLE 3
+```powershell
+[PSCustomObject]@{serviceName = 'DR'; serverAddress = '192.168.2.51'; servicePassword = $SecurePassword} | Get-PASVRMServiceConfig
+```
+
+Passes the service name, server address, and credentials via the pipeline
+
 ## PARAMETERS
 
 ### -BaseURI

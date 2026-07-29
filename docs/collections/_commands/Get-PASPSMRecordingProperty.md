@@ -30,6 +30,27 @@ Get-PASPSMRecordingProperty -RecordingID 123_45
 
 Returns details of activities in PSM Recording with Id 123_45
 
+### EXAMPLE 2
+```
+Get-PASPSMRecordingProperty -SessionID 123_45
+```
+
+Returns the property details of PSM Recording with Id 123_45, using the SessionID alias for the RecordingID parameter.
+
+### EXAMPLE 3
+```
+Get-PASPSMRecording -RecordingID 123_45 | Get-PASPSMRecordingProperty
+```
+
+Gets the PSM Recording with Id 123_45, and returns its property details. The RecordingID is passed via the pipeline.
+
+### EXAMPLE 4
+```
+Get-PASPSMRecording -Safe Win-Safe -FromTime (Get-Date).AddDays(-1) | Get-PASPSMRecordingProperty
+```
+
+Returns property details for every PSM Recording created on the Win-Safe safe in the last 24 hours.
+
 ## PARAMETERS
 
 ### -RecordingID

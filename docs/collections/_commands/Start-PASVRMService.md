@@ -34,6 +34,23 @@ PS C:\> Start-PASVRMService -serviceName Vault -serverAddress vault.company.com 
 
 Starts the Vault service on the specified server
 
+### Example 2
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> Start-PASVRMService -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password
+```
+
+Starts the DR service on the specified server
+
+### Example 3
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> Start-PASVRMService -serviceName ENE -serverAddress vault.company.com -servicePassword $password -WhatIf
+```
+
+Shows what would happen if the ENE service was started, without actually starting it.
+This service requires CyberArk version 15.2 or higher
+
 ## PARAMETERS
 
 ### -BaseURI

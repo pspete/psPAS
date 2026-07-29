@@ -32,6 +32,13 @@ Get-PASSafeShareLogo -ImageType Square
 
 Retrieves Safe Share Logo
 
+### EXAMPLE 2
+```
+Get-PASSafeShareLogo -ImageType Watermark
+```
+
+Retrieves the configured SafeShare watermark logo.
+
 ## PARAMETERS
 
 ### -ImageType

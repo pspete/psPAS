@@ -34,6 +34,27 @@ Add-PASAuthenticationMethod -id SomeID -displayName SomeAuth -enabled $true
 
 Creates new authentication method.
 
+### EXAMPLE 2
+```
+Add-PASAuthenticationMethod -id RADIUS -displayName "RADIUS Authentication" -enabled $true -secondFactorAuth radius -signInLabel "RADIUS Login" -usernameFieldLabel Username -passwordFieldLabel Passcode
+```
+
+Creates a new RADIUS authentication method, enabled for use, with RADIUS configured as the second factor and custom sign-in field labels.
+
+### EXAMPLE 3
+```
+Add-PASAuthenticationMethod -id SAML -displayName "SAML SSO" -enabled $true -mobileEnabled $false -logoffUrl https://sso.example.com/logoff
+```
+
+Creates a new SAML authentication method that is enabled for the desktop client, disabled for the mobile application, and specifies a logoff URL for the third-party identity provider.
+
+### EXAMPLE 4
+```
+Import-Csv .\AuthenticationMethods.csv | Add-PASAuthenticationMethod
+```
+
+Creates a new authentication method for each row in AuthenticationMethods.csv, matching column names to parameters.
+
 ## PARAMETERS
 
 ### -id

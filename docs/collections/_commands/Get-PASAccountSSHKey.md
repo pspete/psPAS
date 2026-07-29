@@ -32,6 +32,27 @@ Get-PASAccountSSHKey -AccountId 12_3 -Reason "Some Reason"
 
 Returns Private SSH Key associated with account 12_3
 
+### EXAMPLE 2
+```
+Get-PASAccountSSHKey -AccountId 12_3 -Reason "Emergency access" -TicketingSystem ServiceNow -TicketId "INC0012345"
+```
+
+Returns the private SSH key for account 12_3, recording the ticketing system and ticket ID used to justify the retrieval.
+
+### EXAMPLE 3
+```
+Get-PASAccountSSHKey -AccountId 12_3 -Version 2 -Machine
+```
+
+Returns version 2 of the private SSH key for account 12_3, retrieved for use against the remote machine.
+
+### EXAMPLE 4
+```
+Get-PASAccount -search "unix01" | Get-PASAccountSSHKey -Reason "Scheduled maintenance"
+```
+
+Gets the matching account and retrieves its private SSH key, using the account ID from the pipeline.
+
 ## PARAMETERS
 
 ### -AccountID

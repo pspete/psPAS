@@ -31,6 +31,20 @@ PS C:\> Remove-PASOpenIDConnectProvider -id SomeOIDCProvider
 
 Deletes OIDC Identity Provider with ID SomeOIDCProvider
 
+### EXAMPLE 2
+```powershell
+PS C:\> Remove-PASOpenIDConnectProvider -id SomeOIDCProvider -WhatIf
+```
+
+Shows what would happen if the OIDC Identity Provider "SomeOIDCProvider" were deleted, without actually deleting it.
+
+### EXAMPLE 3
+```powershell
+PS C:\> Get-PASOpenIDConnectProvider | Where-Object { $_.id -eq 'DeprecatedProvider' } | Remove-PASOpenIDConnectProvider
+```
+
+Deletes the OIDC Identity Provider named "DeprecatedProvider", with the id value supplied via the pipeline.
+
 ## PARAMETERS
 
 ### -id

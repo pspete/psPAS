@@ -30,6 +30,27 @@ Get-PASPTASecurityConfigurationCategory
 
 Returns all PTA security configuration categories
 
+### EXAMPLE 2
+```
+Get-PASPTASecurityConfigurationCategory -categoryKey PrivilegedUsersAndGroups
+```
+
+Returns PTA security configuration details for the PrivilegedUsersAndGroups category.
+
+### EXAMPLE 3
+```
+Get-PASPTASecurityConfigurationCategory -Category SuspectedCredentialsTheft
+```
+
+Returns PTA security configuration details for the SuspectedCredentialsTheft category, using the Category alias.
+
+### EXAMPLE 4
+```
+'IrregularHoursUser', 'IrregularDaysUser' | ForEach-Object { Get-PASPTASecurityConfigurationCategory -categoryKey $_ }
+```
+
+Returns PTA security configuration details for both the IrregularHoursUser and IrregularDaysUser categories.
+
 ## PARAMETERS
 
 ### -categoryKey

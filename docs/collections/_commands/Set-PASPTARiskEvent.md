@@ -38,6 +38,27 @@ Set-PASPTARiskEvent -EventID 123 -Status CLOSED
 
 Close PTA Risk Event with id 1234
 
+### EXAMPLE 2
+```powershell
+Set-PASPTARiskEvent -ID 456 -status CLOSED -closeReason HANDLED -reasonText 'Reviewed and remediated by security team'
+```
+
+Closes the risk event and records a close reason and explanatory text. Requires minimum version 14.0.
+
+### EXAMPLE 3
+```powershell
+Get-PASPTARiskEvent -status OPEN | Set-PASPTARiskEvent -status CLOSED
+```
+
+Finds all open risk events and closes them.
+
+### EXAMPLE 4
+```powershell
+Set-PASPTARiskEvent -ID 456 -status CLOSED -WhatIf
+```
+
+Shows what would happen if the risk event was closed, without making the change.
+
 ## PARAMETERS
 
 ### -WhatIf

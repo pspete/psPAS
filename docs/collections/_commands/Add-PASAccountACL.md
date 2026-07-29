@@ -35,6 +35,29 @@ Add-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerA.domain.com -A
 
 This will add a new Privileged Command Rule to root for user TestUser
 
+### EXAMPLE 2
+```
+Add-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerB.domain.com -AccountUserName oracle `
+-Command "/usr/local/bin/backup.sh" -CommandGroup $false -PermissionType Allow -Restrictions "*" -UserName dba_user
+```
+
+Allows dba_user to run the backup.sh command against the oracle account on ServerB.domain.com, with no additional restrictions.
+
+### EXAMPLE 3
+```
+Add-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerA.domain.com -AccountUserName root `
+-Command NetworkCommands -CommandGroup $true -PermissionType Allow -UserName TestUser
+```
+
+Adds a rule allowing TestUser to run all commands in the NetworkCommands command group against the root account on ServerA.domain.com.
+
+### EXAMPLE 4
+```
+Get-PASAccount -Keywords root -Safe UnixSafe | Add-PASAccountACL -AccountUserName root -Command reboot -CommandGroup $false -PermissionType Deny -UserName TestUser
+```
+
+Denies TestUser from running the reboot command against the root account found by Get-PASAccount, using the account's PolicyID and Address values passed down the pipeline.
+
 ## PARAMETERS
 
 ### -AccountPolicyId

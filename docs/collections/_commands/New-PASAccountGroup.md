@@ -37,6 +37,20 @@ New-PASAccountGroup -GroupName UATGroup -GroupPlatform UnixGroup-NonProd -Safe U
 
 Creates new account group named UATGroup and assigns to platform in the UAT-Team Safe.
 
+### EXAMPLE 2
+```
+New-PASAccountGroup -GroupName ProdDBGroup -GroupPlatformID OracleGroup-Prod -Safe Prod-DB -WhatIf
+```
+
+Shows what would happen if the ProdDBGroup account group was created in the Prod-DB safe, without actually creating it.
+
+### EXAMPLE 3
+```
+[PSCustomObject]@{GroupName = 'FinanceGroup'; GroupPlatformID = 'WinGroup-Finance'; Safe = 'Finance-Safe' } | New-PASAccountGroup
+```
+
+Creates a new account group using pipeline input, since GroupName, GroupPlatformID and Safe all accept values by property name.
+
 ## PARAMETERS
 
 ### -GroupName

@@ -30,6 +30,20 @@ Stop-PASPSMSession -LiveSessionId $SessionUUID
 
 Terminates Live PSM Session identified by the session UUID.
 
+### EXAMPLE 2
+```
+Get-PASPSMSession -Search suspicious | Stop-PASPSMSession
+```
+
+Finds Live PSM Sessions matching the search text "suspicious", and terminates them. The LiveSessionId of each matching session is passed via the pipeline.
+
+### EXAMPLE 3
+```
+Stop-PASPSMSession -SessionGuid $SessionUUID -WhatIf
+```
+
+Shows what would happen if the Live PSM Session identified by the session UUID were terminated, without actually terminating it.
+
 ## PARAMETERS
 
 ### -LiveSessionId

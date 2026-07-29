@@ -48,6 +48,27 @@ Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 
 Exports UnixSSH to Platform.zip platform package.
 
+### EXAMPLE 2
+```
+Export-PASPlatform -RotationalGroupID RotGroup1 -path C:\Platforms\RotGroup1.zip
+```
+
+Exports the rotational group platform with ID "RotGroup1" to RotGroup1.zip.
+
+### EXAMPLE 3
+```
+Export-PASPlatform -DependentID 15 -path C:\Platforms\DependentPlatform15.zip
+```
+
+Exports the dependent platform with ID 15 to DependentPlatform15.zip.
+
+### EXAMPLE 4
+```
+Export-PASPlatform -GroupPlatformID GroupPlatform1 -path C:\Platforms
+```
+
+Exports the group platform "GroupPlatform1" to the C:\Platforms folder, using the platform's own file name.
+
 ## PARAMETERS
 
 ### -PlatformID

@@ -30,6 +30,20 @@ Get-PASPTAPrivilegedGroup
 
 Return PrivilegedDomainGroupsList from PTA
 
+### EXAMPLE 2
+```powershell
+Get-PASPTAPrivilegedGroup | Where-Object { $_.domain -eq 'cyberark.local' }
+```
+
+Returns only the configured privileged domain groups for the cyberark.local domain.
+
+### EXAMPLE 3
+```powershell
+Get-PASPTAPrivilegedGroup | Where-Object { $_.group -eq 'Domain Admins' } | Remove-PASPTAPrivilegedGroup
+```
+
+Finds the Domain Admins group configuration and removes it from PTA.
+
 ## PARAMETERS
 
 ### CommonParameters

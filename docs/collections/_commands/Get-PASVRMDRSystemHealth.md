@@ -32,6 +32,22 @@ PS C:\> Get-PASVRMDRSystemHealth -DRAddress dr-vault.company.com -servicePasswor
 
 Retrieves the DR system health status including replication information
 
+### Example 2
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> Get-PASVRMDRSystemHealth -BaseURI https://pvwa.company.com/PasswordVault -DRAddress dr-vault.company.com -serviceUserName PARAgentSvc -servicePassword $password
+```
+
+Retrieves the DR system health status using an explicit PVWA BaseURI and a non-default PARAgent user name
+
+### Example 3
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> [PSCustomObject]@{DRAddress = 'dr-vault.company.com'; servicePassword = $password} | Get-PASVRMDRSystemHealth | Format-List
+```
+
+Passes the DR address and credentials via the pipeline and displays all returned health properties
+
 ## PARAMETERS
 
 ### -BaseURI

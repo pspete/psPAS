@@ -34,6 +34,22 @@ PS C:\> Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePassword $
 
 Initiates a failover to the DR Vault at the specified address
 
+### Example 2
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePassword $password -WhatIf
+```
+
+Shows what would happen if a failover to the DR Vault was initiated, without actually performing the failover
+
+### Example 3
+```powershell
+PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+PS C:\> [PSCustomObject]@{DRAddress = 'dr-vault.company.com'; servicePassword = $password} | Invoke-PASVRMFailover -Confirm:$false
+```
+
+Initiates a failover using pipeline input for the DR address and credentials
+
 ## PARAMETERS
 
 ### -BaseURI

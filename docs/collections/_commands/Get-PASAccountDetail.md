@@ -30,6 +30,28 @@ PS C:\> Get-PASAccountDetail -id 123_45
 
 Displays extended details of account with id 123_45
 
+### EXAMPLE 2
+```powershell
+PS C:\> Get-PASAccount -id 123_45 | Get-PASAccountDetail
+```
+
+Gets the extended account details for the account returned by Get-PASAccount, using the id from the pipeline.
+
+### EXAMPLE 3
+```powershell
+PS C:\> Get-PASAccount -search "Administrator" | Get-PASAccountDetail
+```
+
+Gets extended account details, including compliance, activity and dependency information, for every account matching the search.
+
+### EXAMPLE 4
+```powershell
+PS C:\> $Detail = Get-PASAccountDetail -id 123_45
+PS C:\> $Detail | Format-List *
+```
+
+Retrieves the extended account overview and displays all returned properties.
+
 ## PARAMETERS
 
 ### -id

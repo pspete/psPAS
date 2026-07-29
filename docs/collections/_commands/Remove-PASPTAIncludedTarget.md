@@ -30,6 +30,27 @@ Remove-PASPTAIncludedTarget -ID 65b6aa31721d9b5f3a56ca7e
 
 Removes included target matching ID
 
+### EXAMPLE 2
+```powershell
+Remove-PASPTAIncludedTarget -ID 65b6aa31721d9b5f3a56ca7e -WhatIf
+```
+
+Shows what would happen if the included target with the specified ID were removed, without making the change
+
+### EXAMPLE 3
+```powershell
+Get-PASPTAIncludedTarget | Where-Object { $_.cidr -eq '192.168.60.10/24' } | Remove-PASPTAIncludedTarget
+```
+
+Finds the included target matching the specified CIDR value and removes it from PTA administration
+
+### EXAMPLE 4
+```powershell
+Get-PASPTAIncludedTarget | Remove-PASPTAIncludedTarget -Confirm:$false
+```
+
+Removes all currently configured included targets from PTA administration without prompting for confirmation
+
 ## PARAMETERS
 
 ### -ID

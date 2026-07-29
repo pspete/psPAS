@@ -48,6 +48,20 @@ New-PASOnboardingRule -DecisionPlatformId DecisionPlatform -DecisionSafeName Dec
 
 Adds Onboarding Rule for Windows Accounts
 
+### EXAMPLE 2
+```
+New-PASOnboardingRule -TargetPlatformId WinDomain -TargetSafeName WindowsAccounts -SystemTypeFilter Windows -AddressFilter cyberark.local -AddressMethod Ends -AccountCategoryFilter Privileged -RuleName "Windows Domain Accounts" -RuleDescription "Onboards discovered privileged Windows accounts"
+```
+
+Adds an on-boarding rule using the current (version 10.2 onwards) parameter set, restricting matches to privileged Windows accounts discovered on machines in the cyberark.local domain.
+
+### EXAMPLE 3
+```
+New-PASOnboardingRule -TargetPlatformId UnixSSH -TargetSafeName UnixAccounts -SystemTypeFilter Unix -UserNameFilter root -UserNameMethod Equals -WhatIf
+```
+
+Shows what would happen if an on-boarding rule for discovered root accounts was created, without actually creating the rule.
+
 ## PARAMETERS
 
 ### -DecisionPlatformId

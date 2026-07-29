@@ -33,6 +33,27 @@ PS C:\> Add-PASDependentAccount -AccountId 12_34 -name "windows-1.2.3.4-service-
 
 Adds a Dependent Account with the specified property values
 
+### Example 2
+```powershell
+PS C:\> Get-PASAccount -id 19_1 | Add-PASDependentAccount -name "windows-1.2.3.4-service-test" -platformId 10 -platformAccountProperties @{"address"="1.2.3.4";"servicename"="test"}
+```
+
+Gets the master account and adds a dependent account to it, using the account ID supplied via the pipeline.
+
+### Example 3
+```powershell
+PS C:\> Add-PASDependentAccount -AccountId 12_34 -platformId WinDomain -platformAccountProperties @{"address"="1.2.3.4";"servicename"="test"} -automaticManagementEnabled $false -manualManagementReason "Awaiting change window"
+```
+
+Adds a dependent account with automatic secret management disabled, recording a reason for manual management.
+
+### Example 4
+```powershell
+PS C:\> Add-PASDependentAccount -AccountId 12_34 -platformId 10 -platformAccountProperties @{"address"="1.2.3.4";"servicename"="test"} -WhatIf
+```
+
+Shows what would happen if the dependent account was added, without actually performing the action.
+
 ## PARAMETERS
 
 ### -AccountId

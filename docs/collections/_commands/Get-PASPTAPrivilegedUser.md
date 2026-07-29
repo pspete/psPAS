@@ -30,6 +30,20 @@ Get-PASPTAPrivilegedUser
 
 Return PrivilegedUsersList PTA security configuration
 
+### EXAMPLE 2
+```powershell
+Get-PASPTAPrivilegedUser -ValueType DefaultValue
+```
+
+Returns the default value of the PrivilegedUsersList PTA security configuration, rather than the actual configured value.
+
+### EXAMPLE 3
+```powershell
+Get-PASPTAPrivilegedUser | Where-Object { $_.platform -eq 'WINDOWS' }
+```
+
+Returns only the configured privileged users for the WINDOWS platform.
+
 ## PARAMETERS
 
 ### -ValueType

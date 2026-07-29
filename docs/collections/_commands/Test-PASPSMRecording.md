@@ -32,6 +32,27 @@ Test-PASPSMRecording -SessionID 334_3
 
 Tests validity of recorded PSM Session File
 
+### EXAMPLE 2
+```
+if (Test-PASPSMRecording -SessionID 334_3) { Export-PASPSMRecording -RecordingID 334_3 -path C:\PSMRecordings\ }
+```
+
+Tests validity of the PSM Recording with Id 334_3, and only exports it if it is valid.
+
+### EXAMPLE 3
+```
+[PSCustomObject]@{SessionID = '334_3'} | Test-PASPSMRecording
+```
+
+Tests validity of the PSM Session/Recording with Id 334_3. The SessionID value is passed via the pipeline, by property name.
+
+### EXAMPLE 4
+```
+'334_3', '335_9', '338_2' | ForEach-Object { Test-PASPSMRecording -SessionID $_ }
+```
+
+Tests validity of multiple PSM Session/Recording Ids.
+
 ## PARAMETERS
 
 ### -SessionID

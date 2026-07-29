@@ -30,6 +30,20 @@ Remove-PASPTAExcludedTarget -ID 65b6aa31721d9b5f3a56ca7e
 
 Removes excluded target matching ID
 
+### EXAMPLE 2
+```powershell
+Remove-PASPTAExcludedTarget -ID 65b6aa31721d9b5f3a56ca7e -WhatIf
+```
+
+Shows what would happen if the excluded target matching ID was removed, without making the change.
+
+### EXAMPLE 3
+```powershell
+[PSCustomObject]@{ID = '65b6aa31721d9b5f3a56ca7f' } | Remove-PASPTAExcludedTarget
+```
+
+Removes the excluded target matching the ID, using pipeline input.
+
 ## PARAMETERS
 
 ### -ID

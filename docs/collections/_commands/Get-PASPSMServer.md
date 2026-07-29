@@ -30,6 +30,20 @@ Get-PASPSMServer
 
 Lists all configured PSM Servers
 
+### EXAMPLE 2
+```
+Get-PASPSMServer | Where-Object { $_.PSMServerID -eq 'PSM-LoadBalancer-EMEA' }
+```
+
+Returns the configuration for the PSM server named "PSM-LoadBalancer-EMEA".
+
+### EXAMPLE 3
+```
+Get-PASPSMServer | Select-Object -ExpandProperty PSMServerID
+```
+
+Lists the PSMServerID of every PSM server configured in the environment.
+
 ## PARAMETERS
 
 ### CommonParameters

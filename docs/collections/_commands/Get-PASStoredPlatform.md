@@ -29,6 +29,20 @@ PS C:\> Get-PASStoredPlatform
 
 Output the detail of the platform stored in memory
 
+### Example 2
+```powershell
+PS C:\> if (Get-PASStoredPlatform) { "A platform package is stored and ready to be imported." }
+```
+
+Checks whether a platform package is currently held in memory before continuing with an import
+
+### Example 3
+```powershell
+PS C:\> Get-PASStoredPlatform | Format-List *
+```
+
+Displays all properties of the platform currently stored in memory, including any conflicting platforms that would be affected by an update
+
 ## PARAMETERS
 
 ### CommonParameters

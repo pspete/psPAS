@@ -30,6 +30,20 @@ Get-PASPlatformPSMConfig -ID 42
 
 Lists PSM Policy Section of target platform with ID of 42.
 
+### EXAMPLE 2
+```
+23, 42 | ForEach-Object { Get-PASPlatformPSMConfig -ID $_ }
+```
+
+Lists the PSM Policy Section for the target platforms with IDs 23 and 42.
+
+### EXAMPLE 3
+```
+(Get-PASPlatformPSMConfig -ID 23).PSMConnectors
+```
+
+Returns only the configured PSM connection components for the target platform with ID 23.
+
 ## PARAMETERS
 
 ### -ID

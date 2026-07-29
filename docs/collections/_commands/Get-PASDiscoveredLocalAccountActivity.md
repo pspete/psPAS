@@ -39,6 +39,20 @@ Get-PASDiscoveredLocalAccountActivity -id SomeId
 
 Get discovery rule activities for specified discovered account
 
+### EXAMPLE 2
+```powershell
+Get-PASDiscoveredLocalAccount -search "administrator" | Get-PASDiscoveredLocalAccountActivity
+```
+
+Gets discovery rule activities for every discovered account matching the search, using the id from the pipeline.
+
+### EXAMPLE 3
+```powershell
+Get-PASDiscoveredLocalAccount -id "50ce70c5-2196-4e64-9c1a-c0f1b3d0f9a1" | Get-PASDiscoveredLocalAccountActivity
+```
+
+Gets the discovered account with the specified id and returns its discovery rule activities via the pipeline.
+
 ## PARAMETERS
 
 ### -id

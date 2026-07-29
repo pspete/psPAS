@@ -34,6 +34,29 @@ Add-PASPersonalAdminAccount -address somedomain -userName someUser -secret $Some
 
 Adds Personal Admin Account to private dedicated Safe.
 
+### EXAMPLE 2
+```powershell
+$SecureString = ConvertTo-SecureString "Str0ngP@ssw0rd!" -AsPlainText -Force
+Add-PASPersonalAdminAccount -address contoso.com -userName Bob -secret $SecureString
+```
+
+Creates a SecureString for the account password and adds a personal admin account for Bob.
+
+### EXAMPLE 3
+```powershell
+[pscustomobject]@{address = 'contoso.com'; userName = 'Alice'; secret = $SecureString } | Add-PASPersonalAdminAccount
+```
+
+Adds a personal admin account using property values supplied via the pipeline.
+
+### EXAMPLE 4
+```powershell
+$PersonalAccount = Add-PASPersonalAdminAccount -address contoso.com -userName Bob -secret $SecureString
+$PersonalAccount.id
+```
+
+Adds a personal admin account and returns the id of the newly created account from the response.
+
 ## PARAMETERS
 
 ### -address

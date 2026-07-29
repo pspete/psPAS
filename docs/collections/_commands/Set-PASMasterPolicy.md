@@ -34,6 +34,27 @@ PS C:\> Set-PASMasterPolicy -DualControl $false
 
 Disables Dual Control in master Policy
 
+### Example 2
+```powershell
+PS C:\> Set-PASMasterPolicy -DualControl $true -ConfirmersNumber 2 -RequireReason $true
+```
+
+Enables Dual Control in the Master Policy, sets the required number of confirmers to 2, and requires a reason to be entered before an account can be accessed.
+
+### Example 3
+```powershell
+PS C:\> Set-PASMasterPolicy -RecordActivity $true -RetentionPeriod 90 -WhatIf
+```
+
+Shows what would happen if session recording were enabled with a 90 day retention period, without applying the change.
+
+### Example 4
+```powershell
+PS C:\> 2 | Set-PASMasterPolicy -DualControl $true
+```
+
+Enables Dual Control on policy ID 2, received from the pipeline. Managing a policy other than the default Master Policy (ID 1) requires CyberArk version 15.0 or later.
+
 ## PARAMETERS
 
 ### -AllowFreeText

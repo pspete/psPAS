@@ -33,6 +33,27 @@ Add-PASPolicyACL -Command "chmod" -CommandGroup $false -PermissionType Allow -Po
 
 Adds Rule to UNIXSSH platform
 
+### EXAMPLE 2
+```
+Add-PASPolicyACL -Command "rm -rf /" -CommandGroup $false -PermissionType Deny -PolicyId UNIXSSH -Restrictions "*" -UserName "*"
+```
+
+Denies all users from running the "rm -rf /" command on any account under the UNIXSSH platform.
+
+### EXAMPLE 3
+```
+Add-PASPolicyACL -Command NetworkCommands -CommandGroup $true -PermissionType Allow -PolicyId UNIXSSH -UserName opsteam
+```
+
+Allows opsteam to run all commands in the NetworkCommands command group on accounts under the UNIXSSH platform.
+
+### EXAMPLE 4
+```
+[PSCustomObject]@{PolicyId = 'UNIXSSH'; Command = 'shutdown'; CommandGroup = $false; PermissionType = 'Deny'; UserName = 'user1' } | Add-PASPolicyACL
+```
+
+Adds the same rule using pipeline input, since every parameter accepts values by property name.
+
 ## PARAMETERS
 
 ### -Command

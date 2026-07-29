@@ -34,6 +34,27 @@ Publish-PASDiscoveredAccount -id 66_6 -PlatformID WinDomain -safeName SomeSafe -
 
 Onboard discovered account with id 66_6 to `SomeSafe` with the provided default password
 
+### EXAMPLE 2
+```powershell
+Publish-PASDiscoveredAccount -id 19_1 -PlatformID UnixSSH -safeName UNIX
+```
+
+Onboard discovered account with id 19_1 to the UNIX safe using the UnixSSH platform, using the automatically generated password.
+
+### EXAMPLE 3
+```powershell
+Publish-PASDiscoveredAccount -id 44_9 -PlatformID WinDomain -safeName TargetSafe -shouldReconcileAccount $true
+```
+
+Onboard discovered account with id 44_9 to TargetSafe and marks it for reconciliation.
+
+### EXAMPLE 4
+```powershell
+Get-PASDiscoveredAccount -platformType 'Windows Domain' | Publish-PASDiscoveredAccount -PlatformID WinDomain -safeName TargetSafe -WhatIf
+```
+
+Shows what would happen if every discovered Windows Domain account was onboarded to TargetSafe using the WinDomain platform, without actually onboarding them.
+
 ## PARAMETERS
 
 ### -id

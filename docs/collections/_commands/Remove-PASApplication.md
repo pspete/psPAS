@@ -32,6 +32,20 @@ Remove-PASApplication -AppID NewApp
 
 Deletes application "NewApp"
 
+### EXAMPLE 2
+```
+Remove-PASApplication -AppID NewApp -WhatIf
+```
+
+Shows what would happen if application "NewApp" were deleted, without actually deleting it.
+
+### EXAMPLE 3
+```
+Get-PASApplication -Location "\Applications\Decommissioned" -IncludeSublocations $true | Remove-PASApplication
+```
+
+Deletes every application found under the "Decommissioned" location and its sublocations.
+
 ## PARAMETERS
 
 ### -AppID

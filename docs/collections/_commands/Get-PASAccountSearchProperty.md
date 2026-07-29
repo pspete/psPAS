@@ -31,6 +31,20 @@ PS C:\> Get-PASAccountSearchProperty
 
 Returns valid search properties and any valid operators which can be used
 
+### Example 2
+```powershell
+PS C:\> Get-PASAccountSearchProperty | Where-Object { $_.PropertyName -eq 'UserName' }
+```
+
+Returns the search property details for the UserName property, including its supported operators.
+
+### Example 3
+```powershell
+PS C:\> Get-PASAccountSearchProperty | Format-Table PropertyName, SupportedOperators -AutoSize
+```
+
+Displays every available search property alongside the operators supported for filtering on that property.
+
 ## PARAMETERS
 
 ### CommonParameters

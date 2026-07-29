@@ -41,6 +41,21 @@ PS C:\> Get-PASUserLicenseReport
 
 Returns information about usage of the Privilege Cloud user licenses
 
+### Example 2
+```powershell
+PS C:\> $LicenseReport = Get-PASUserLicenseReport
+PS C:\> $LicenseReport | Format-List *
+```
+
+Retrieves the Privilege Cloud user license usage report and displays all returned properties.
+
+### Example 3
+```powershell
+PS C:\> Get-PASUserLicenseReport | Export-Csv -Path C:\Reports\UserLicenseReport.csv -NoTypeInformation
+```
+
+Exports the Privilege Cloud user license usage report to a CSV file for offline reporting.
+
 ## PARAMETERS
 
 ### CommonParameters

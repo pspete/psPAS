@@ -29,7 +29,21 @@ allowing a privileged user to continue working.
 Resume-PASPSMSession -LiveSessionId $SessionUUID
 ```
 
-Terminates Live PSM Session identified by the session UUID.
+Resumes the suspended Live PSM Session identified by the session UUID.
+
+### EXAMPLE 2
+```
+Get-PASPSMSession -liveSessionId $SessionUUID | Resume-PASPSMSession
+```
+
+Gets the PSM Session identified by the session UUID, and resumes it. The LiveSessionId is passed via the pipeline.
+
+### EXAMPLE 3
+```
+Resume-PASPSMSession -SessionGuid $SessionUUID -WhatIf
+```
+
+Shows what would happen if the PSM Session identified by the session UUID were resumed, without actually resuming it.
 
 ## PARAMETERS
 

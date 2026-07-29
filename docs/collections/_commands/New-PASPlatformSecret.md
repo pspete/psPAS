@@ -31,6 +31,20 @@ PS C:\> New-PASPlatformSecret -Platformid SomePlatform
 
 Generates a secret for the platform with id SomePlatform.
 
+### Example 2
+```powershell
+PS C:\> New-PASPlatformSecret -Platformid WinDomain -WhatIf
+```
+
+Shows what would happen if a new secret was generated for the "WinDomain" platform, without actually generating it.
+
+### Example 3
+```powershell
+PS C:\> Get-PASPlatform -Active $true | New-PASPlatformSecret
+```
+
+Generates a new secret for every currently active platform, with the platform id supplied via the pipeline.
+
 ## PARAMETERS
 
 ### -Platformid

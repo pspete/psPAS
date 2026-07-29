@@ -34,6 +34,20 @@ Get-PASRequestDetail -RequestType IncomingRequests -RequestID $ID
 
 Gets details of request with ID held in $ID
 
+### EXAMPLE 2
+```
+Get-PASRequestDetail -RequestType MyRequests -RequestID TargetSafe_12
+```
+
+Gets details of your own request with ID TargetSafe_12.
+
+### EXAMPLE 3
+```
+[PSCustomObject]@{RequestType = 'IncomingRequests'; RequestID = 'TargetSafe_15' } | Get-PASRequestDetail
+```
+
+Gets request details using pipeline input, since both RequestType and RequestID accept values by property name.
+
 ## PARAMETERS
 
 ### -RequestType

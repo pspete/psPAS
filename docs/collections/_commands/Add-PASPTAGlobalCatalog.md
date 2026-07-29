@@ -37,6 +37,41 @@ Add-PASPTAGlobalCatalog -ldap_certificate $Base64Cert -ldap_server GC.domain.com
 
 Adds Global Catalog to PTA configuration
 
+### EXAMPLE 2
+```powershell
+Add-PASPTAGlobalCatalog -ldap_server gc2.cyberark.local -ldap_port 3268 -ssl $false -upn svc_pta@cyberark.local -ldapPassword (ConvertTo-SecureString 'P@ssw0rd123!' -AsPlainText -Force)
+```
+
+Adds a Global Catalog connection using the default unencrypted LDAP port, without specifying a certificate
+
+### EXAMPLE 3
+```powershell
+[PSCustomObject]@{
+    ldap_server  = 'gc3.cyberark.local'
+    ldap_port    = 3268
+    ssl          = $false
+    upn          = 'bind-account@cyberark.local'
+    ldapPassword = (ConvertTo-SecureString 'P@ssw0rd123!' -AsPlainText -Force)
+} | Add-PASPTAGlobalCatalog
+```
+
+Adds Global Catalog connectivity details using property values supplied via the pipeline
+
+### EXAMPLE 4
+```powershell
+$GCParams = @{
+    ldap_server      = 'gc.cyberark.local'
+    ldap_port        = 3269
+    ssl              = $true
+    ldap_certificate = $Base64Cert
+    upn              = 'bind-account@cyberark.local'
+    ldapPassword     = (ConvertTo-SecureString $env:GC_BIND_PASSWORD -AsPlainText -Force)
+}
+Add-PASPTAGlobalCatalog @GCParams
+```
+
+Uses splatting to add Global Catalog connectivity details, sourcing the bind account password from an environment variable
+
 ## PARAMETERS
 
 ### -ldap_certificate

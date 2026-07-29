@@ -43,6 +43,33 @@ Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts
 
 Create & send list of accounts to be added as a bulk operation.
 
+### EXAMPLE 2
+```
+$Accounts = @(
+	New-PASAccountObject -userName ServiceAccount1 -address unix01.domain.com -platformID UnixSSH -SafeName UNIX
+	New-PASAccountObject -userName ServiceAccount2 -address unix02.domain.com -platformID UnixSSH -SafeName UNIX
+)
+
+Start-PASAccountImportJob -accountsList $Accounts
+```
+
+Sends a list of accounts to be added as a bulk operation without specifying a source value.
+
+### EXAMPLE 3
+```
+Start-PASAccountImportJob -source "SomeSource" -accountsList $Accounts -WhatIf
+```
+
+Shows what would happen if the list of accounts was submitted as a bulk import job, without actually starting the job.
+
+### EXAMPLE 4
+```
+$Job = Start-PASAccountImportJob -source "HR Onboarding" -accountsList $Accounts
+$Job
+```
+
+Starts the bulk import job and captures the returned job id/status so it can be tracked with Get-PASAccountImportJob.
+
 ## PARAMETERS
 
 ### -source

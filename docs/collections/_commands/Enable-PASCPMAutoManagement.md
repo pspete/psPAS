@@ -37,6 +37,20 @@ Enable-PASCPMAutoManagement -AccountID 543_2
 Sets automaticManagementEnabled to $true & clears any value set for manualManagementReason
 on account with ID 543_2
 
+### EXAMPLE 2
+```
+Get-PASAccount -id 543_2 | Enable-PASCPMAutoManagement
+```
+
+Gets the specified account and enables it for automatic CPM management, using the account ID from the pipeline.
+
+### EXAMPLE 3
+```
+Get-PASAccount -search "Administrator" | Enable-PASCPMAutoManagement
+```
+
+Enables automatic CPM management for every account returned by the search.
+
 ## PARAMETERS
 
 ### -AccountID

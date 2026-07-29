@@ -38,6 +38,20 @@ Get-PASAccountGroupMember -GroupID 21_9
 
 List all members of account group with ID of 21_9
 
+### EXAMPLE 2
+```
+Get-PASAccountGroup -Safe TargetSafe | Get-PASAccountGroupMember
+```
+
+Lists the members of every account group in the TargetSafe safe, passing each group's GroupID down the pipeline.
+
+### EXAMPLE 3
+```
+'21_9', '21_10' | ForEach-Object { Get-PASAccountGroupMember -GroupID $_ }
+```
+
+Lists the members of account groups 21_9 and 21_10.
+
 ## PARAMETERS
 
 ### -GroupID

@@ -34,6 +34,27 @@ Set-PASAuthenticationMethod -id SomeID -enabled $false
 
 Disable authentication method "SomeID"
 
+### EXAMPLE 2
+```
+Get-PASAuthenticationMethod -ID RADIUS | Set-PASAuthenticationMethod -displayName "RADIUS MFA"
+```
+
+Updates the display name of the "RADIUS" authentication method, with the ID value supplied via the pipeline.
+
+### EXAMPLE 3
+```
+Set-PASAuthenticationMethod -id SAML -enabled $true -displayName "SAML SSO" -WhatIf
+```
+
+Shows what would happen if the "SAML" authentication method were enabled and renamed, without making the change.
+
+### EXAMPLE 4
+```
+Set-PASAuthenticationMethod -id LDAP -secondFactorAuth radius -signInLabel "Corporate Login" -usernameFieldLabel "Domain Username"
+```
+
+Updates the "LDAP" authentication method to require RADIUS as a second factor, and customizes the sign-in and username field labels.
+
 ## PARAMETERS
 
 ### -ID
