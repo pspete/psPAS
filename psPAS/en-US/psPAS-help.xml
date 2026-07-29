@@ -33859,7 +33859,8 @@ New-PASRequest -BulkItems $Requests</dev:code>
           <maml:name>type</maml:name>
           <maml:description>
             <maml:para>When using the Gen2 API, specify the type of authentication to use.</maml:para>
-            <maml:para>Valid values are: - CyberArk</maml:para>
+            <maml:para>Valid values are:</maml:para>
+            <maml:para>- CyberArk</maml:para>
             <maml:para>- LDAP</maml:para>
             <maml:para>- Windows (Minimum version required 10.4)</maml:para>
             <maml:para>- RADIUS</maml:para>
@@ -34108,7 +34109,8 @@ New-PASRequest -BulkItems $Requests</dev:code>
           <maml:name>IdentityTenantURL</maml:name>
           <maml:description>
             <maml:para>Specify the URL value of the CyberArk Identity Portal to authenticate against.</maml:para>
-            <maml:para>E.G.: - https://identity-tenant-id.id.cyberark.cloud</maml:para>
+            <maml:para>E.G.:</maml:para>
+            <maml:para>- https://identity-tenant-id.id.cyberark.cloud</maml:para>
             <maml:para>- https://identity-tenant-id.my.idaptive.app</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -34122,7 +34124,8 @@ New-PASRequest -BulkItems $Requests</dev:code>
           <maml:name>PrivilegeCloudURL</maml:name>
           <maml:description>
             <maml:para>Specify the URL value used to access the CyberArk Privilege Cloud API.</maml:para>
-            <maml:para>E.G.: - https://subdomain.privilegecloud.cyberark.cloud</maml:para>
+            <maml:para>E.G.:</maml:para>
+            <maml:para>- https://subdomain.privilegecloud.cyberark.cloud</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -34378,7 +34381,8 @@ New-PASRequest -BulkItems $Requests</dev:code>
           <maml:name>IdentityTenantURL</maml:name>
           <maml:description>
             <maml:para>Specify the URL value of the CyberArk Identity Portal to authenticate against.</maml:para>
-            <maml:para>E.G.: - https://identity-tenant-id.id.cyberark.cloud</maml:para>
+            <maml:para>E.G.:</maml:para>
+            <maml:para>- https://identity-tenant-id.id.cyberark.cloud</maml:para>
             <maml:para>- https://identity-tenant-id.my.idaptive.app</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -34392,7 +34396,8 @@ New-PASRequest -BulkItems $Requests</dev:code>
           <maml:name>PrivilegeCloudURL</maml:name>
           <maml:description>
             <maml:para>Specify the URL value used to access the CyberArk Privilege Cloud API.</maml:para>
-            <maml:para>E.G.: - https://subdomain.privilegecloud.cyberark.cloud</maml:para>
+            <maml:para>E.G.:</maml:para>
+            <maml:para>- https://subdomain.privilegecloud.cyberark.cloud</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -34564,7 +34569,8 @@ New-PASRequest -BulkItems $Requests</dev:code>
           <maml:name>type</maml:name>
           <maml:description>
             <maml:para>When using the Gen2 API, specify the type of authentication to use.</maml:para>
-            <maml:para>Valid values are: - CyberArk</maml:para>
+            <maml:para>Valid values are:</maml:para>
+            <maml:para>- CyberArk</maml:para>
             <maml:para>- LDAP</maml:para>
             <maml:para>- Windows (Minimum version required 10.4)</maml:para>
             <maml:para>- RADIUS</maml:para>
@@ -35704,7 +35710,8 @@ New-PASRequest -BulkItems $Requests</dev:code>
         <maml:name>type</maml:name>
         <maml:description>
           <maml:para>When using the Gen2 API, specify the type of authentication to use.</maml:para>
-          <maml:para>Valid values are: - CyberArk</maml:para>
+          <maml:para>Valid values are:</maml:para>
+          <maml:para>- CyberArk</maml:para>
           <maml:para>- LDAP</maml:para>
           <maml:para>- Windows (Minimum version required 10.4)</maml:para>
           <maml:para>- RADIUS</maml:para>
@@ -35947,7 +35954,8 @@ New-PASRequest -BulkItems $Requests</dev:code>
         <maml:name>IdentityTenantURL</maml:name>
         <maml:description>
           <maml:para>Specify the URL value of the CyberArk Identity Portal to authenticate against.</maml:para>
-          <maml:para>E.G.: - https://identity-tenant-id.id.cyberark.cloud</maml:para>
+          <maml:para>E.G.:</maml:para>
+          <maml:para>- https://identity-tenant-id.id.cyberark.cloud</maml:para>
           <maml:para>- https://identity-tenant-id.my.idaptive.app</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
@@ -35961,7 +35969,8 @@ New-PASRequest -BulkItems $Requests</dev:code>
         <maml:name>PrivilegeCloudURL</maml:name>
         <maml:description>
           <maml:para>Specify the URL value used to access the CyberArk Privilege Cloud API.</maml:para>
-          <maml:para>E.G.: - https://subdomain.privilegecloud.cyberark.cloud</maml:para>
+          <maml:para>E.G.:</maml:para>
+          <maml:para>- https://subdomain.privilegecloud.cyberark.cloud</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -36160,7 +36169,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $
         <maml:title>-------------------------- EXAMPLE 19 --------------------------</maml:title>
         <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS</dev:code>
         <dev:remarks>
-          <maml:para>Perform initial authentication and supply OTP value for  RADIUS challenge when prompted.</maml:para>
+          <maml:para>Perform initial authentication and supply OTP value for RADIUS challenge when prompted.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -36245,7 +36254,7 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
         <maml:title>-------------------------- EXAMPLE 28 --------------------------</maml:title>
         <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $Cred -IdentityUser</dev:code>
         <dev:remarks>
-          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privileged Cloud environment.</maml:para>
+          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privilege Cloud environment.</maml:para>
           <maml:para>Requires IdentityCommand module to be installed for authentication flow to complete.</maml:para>
           <maml:para>See: Get-Help IdentityCommand</maml:para>
         </dev:remarks>
@@ -36254,7 +36263,7 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
         <maml:title>-------------------------- EXAMPLE 29 --------------------------</maml:title>
         <dev:code>New-PASSession -TenantSubdomain YourTenantName -Credential $Cred -IdentityUser</dev:code>
         <dev:remarks>
-          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privileged Cloud environment.</maml:para>
+          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privilege Cloud environment.</maml:para>
           <maml:para>Assumes a Shared Services URL of https://YourTenantName.id.cyberark.cloud</maml:para>
           <maml:para>Requires IdentityCommand module to be installed for authentication flow to complete.</maml:para>
           <maml:para>See: Get-Help IdentityCommand</maml:para>
@@ -36264,7 +36273,7 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
         <maml:title>-------------------------- EXAMPLE 30 --------------------------</maml:title>
         <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred -PrivilegeCloudURL https://SomeName.privilegecloud.cyberark.cloud -IdentityUser</dev:code>
         <dev:remarks>
-          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to specified Privileged Cloud environment.</maml:para>
+          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to specified Privilege Cloud environment.</maml:para>
           <maml:para>Requires IdentityCommand module to be installed for authentication flow to complete.</maml:para>
           <maml:para>See: Get-Help IdentityCommand</maml:para>
         </dev:remarks>
@@ -36291,7 +36300,7 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/CyberArk%20Authentication%20-%20Logon_v10.htm#CyberArkLDAPRadiusWindows</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/SAML_%20Authentication_%20Logon_newgen.htm#SAMLlogon</maml:linkText>
+        <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/SAML*%20Authentication*%20Logon_newgen.htm#SAMLlogon</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/SAML_%20Authentication_%20Logon_newgen.htm#SAMLlogon</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>

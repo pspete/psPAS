@@ -10,6 +10,7 @@ title: New-PASSession
 # New-PASSession
 
 ## SYNOPSIS
+
 Authenticates a user to CyberArk Vault/API.
 
 ## SYNTAX
@@ -102,6 +103,7 @@ New-PASSession -BaseURI <String> [-UseGen1API] -SAMLResponse <String> [-PVWAAppN
 ```
 
 ## DESCRIPTION
+
 Facilitates user authentication to a CyberArk Vault and retains an authentication token as well as webrequest session data to be used in future API calls.
 
 Users can also set a new password via the authentication process.
@@ -125,6 +127,7 @@ Versions of CyberArk prior to 9.7: - only the CyberArk authentication mechanism 
 ## EXAMPLES
 
 ### EXAMPLE 1
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 ```
@@ -132,6 +135,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP
 Logon with LDAP credential
 
 ### EXAMPLE 2
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -concurrentSession $true
 ```
@@ -139,6 +143,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -concurrentSes
 Establish a concurrent session
 
 ### EXAMPLE 3
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
 ```
@@ -146,6 +151,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk
 Logon with local CyberArk user credential
 
 ### EXAMPLE 4
+
 ```
 New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
 ```
@@ -153,6 +159,7 @@ New-PASSession -BaseURI https://PVWA -UseDefaultCredentials
 Logon using Windows Integrated Authentication
 
 ### EXAMPLE 5
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API
 ```
@@ -160,6 +167,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API
 Logon to Version 9 with credential Request would be sent to PVWA URL https://PVWA/PasswordVault/
 
 ### EXAMPLE 6
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseGen1API
 ```
@@ -167,6 +175,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault 
 Logon to Version 9 where PVWA Virtual Directory has non-default name Request would be sent to PVWA URL https://PVWA/CustomVault/
 
 ### EXAMPLE 7
+
 ```
 New-PASSession -UseSharedAuthentication -BaseURI https://PVWA.domain.com
 ```
@@ -174,6 +183,7 @@ New-PASSession -UseSharedAuthentication -BaseURI https://PVWA.domain.com
 Gets authorisation token by authenticating to a CyberArk Vault using shared authentication.
 
 ### EXAMPLE 8
+
 ```
 New-PASSession -BaseURI $url -SAMLAuth
 ```
@@ -181,6 +191,7 @@ New-PASSession -BaseURI $url -SAMLAuth
 Perform saml sso authentication from version 11.4
 
 ### EXAMPLE 9
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
 ```
@@ -188,6 +199,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
 Logon using RADIUS
 
 ### EXAMPLE 10
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True
 ```
@@ -195,6 +207,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication 
 Logon using RADIUS via the Gen1 API
 
 ### EXAMPLE 11
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456
 ```
@@ -202,6 +215,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456
 Logon using RADIUS (Challenge) & OTP (Response)
 
 ### EXAMPLE 12
+
 ```
 Add-Type -AssemblyName System.Security
 # Get Valid Certs
@@ -221,6 +235,7 @@ New-PASSession -Credential $cred -BaseURI $url -type PKI -Certificate $Cert
 Logon with PKI auth, using a selected certificate stored on local machine or smart card + LDAP credentials
 
 ### EXAMPLE 13
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append
 ```
@@ -228,6 +243,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -O
 Logon to using RADIUS & DUO Push Authentication (working with DUO 2FA Append Mode Configuration)
 
 ### EXAMPLE 14
+
 ```
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb
 ```
@@ -235,6 +251,7 @@ New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -Certifica
 Authenticate with provided CertificateThumbprint when IIS authentication via certificates is required.
 
 ### EXAMPLE 15
+
 ```
 New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck
 ```
@@ -242,6 +259,7 @@ New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck
 Skip SSL Certificate validation for the session.
 
 ### EXAMPLE 16
+
 ```
 $Certificate = Get-ChildItem -Path Cert:\CurrentUser\My | Where-Object {$PSItem.Subject -match "CN=SomeUser"}
 New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate
@@ -250,6 +268,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $
 Logon using LDAP credential & Client Certificate
 
 ### EXAMPLE 17
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP 123456
 ```
@@ -257,6 +276,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP 123456
 Perform initial Windows authentication and satisfy secondary RADIUS challenge
 
 ### EXAMPLE 18
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -RadiusChallenge Password -OTPMode Challenge
 ```
@@ -264,13 +284,15 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 
 For RADIUS, send OTP first and password value as response to challenge.
 
 ### EXAMPLE 19
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS
 ```
 
-Perform initial authentication and supply OTP value for  RADIUS challenge when prompted.
+Perform initial authentication and supply OTP value for RADIUS challenge when prompted.
 
 ### EXAMPLE 20
+
 ```
 New-PASSession -BaseURI $url -SAMLResponse $SAMLResponse
 ```
@@ -280,6 +302,7 @@ Perform saml authentication
 Minimum version required 11.4
 
 ### EXAMPLE 21
+
 ```
 import-module -name 'C:\PS-SAML-Interactive.psm1'
 
@@ -298,6 +321,7 @@ Perform saml authentication using the SAMLResponse
 Minimum version required 11.4
 
 ### EXAMPLE 22
+
 ```
 New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain.com
 ```
@@ -305,6 +329,7 @@ New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain
 Authenticates to a CyberArk Vault using SAML authentication & Gen1 API.
 
 ### EXAMPLE 23
+
 ```
 New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred
 ```
@@ -314,6 +339,7 @@ Authenticates to Privilege Cloud Shared Services, where 'PCloudTenantID' is the 
 The subdomain value provided will be used to discover the identity portal URL.
 
 ### EXAMPLE 24
+
 ```
 New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Append -OTPDelimiter $null
 ```
@@ -321,6 +347,7 @@ New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 
 Logon to using RADIUS & provide password appended with OTP, with no delimiter separating the password & OTP values.
 
 ### EXAMPLE 25
+
 ```
 Add-Type -AssemblyName System.Security
 # Get Valid Certs
@@ -339,6 +366,7 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert
 Logon with PKIPN auth, using a selected certificate stored on smart card.
 
 ### EXAMPLE 26
+
 ```
 New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred -ServiceUser
 ```
@@ -346,6 +374,7 @@ New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred -ServiceUser
 Authenticates to Privilege Cloud Shared Services using an API Service User.
 
 ### EXAMPLE 27
+
 ```
 New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred -ServiceUser
 ```
@@ -353,22 +382,24 @@ New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeC
 Authenticates to Privilege Cloud Shared Services using an API Service User, specifying individual URL values for Identity & Privilege Cloud tenants.
 
 ### EXAMPLE 28
+
 ```
 New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $Cred -IdentityUser
 ```
 
-Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privileged Cloud environment.
+Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privilege Cloud environment.
 
 Requires IdentityCommand module to be installed for authentication flow to complete.
 
 See: Get-Help IdentityCommand
 
 ### EXAMPLE 29
+
 ```
 New-PASSession -TenantSubdomain YourTenantName -Credential $Cred -IdentityUser
 ```
 
-Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privileged Cloud environment.
+Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privilege Cloud environment.
 
 Assumes a Shared Services URL of https://YourTenantName.id.cyberark.cloud
 
@@ -377,17 +408,19 @@ Requires IdentityCommand module to be installed for authentication flow to compl
 See: Get-Help IdentityCommand
 
 ### EXAMPLE 30
+
 ```
 New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred -PrivilegeCloudURL https://SomeName.privilegecloud.cyberark.cloud -IdentityUser
 ```
 
-Authenticates to Identity Shared Services using an Identity User and provides authenticated session to specified Privileged Cloud environment.
+Authenticates to Identity Shared Services using an Identity User and provides authenticated session to specified Privilege Cloud environment.
 
 Requires IdentityCommand module to be installed for authentication flow to complete.
 
 See: Get-Help IdentityCommand
 
 ### EXAMPLE 31
+
 ```
 New-PASSession -BaseURI https://pvwa.company.com -type FIDO2 -UserName administrator
 ```
@@ -397,6 +430,7 @@ Authenticates to CyberArk using FIDO2/WebAuthn hardware security key authenticat
 ## PARAMETERS
 
 ### -Credential
+
 A Valid PSCredential object.
 
 ```yaml
@@ -436,6 +470,7 @@ Accept wildcard characters: False
 ```
 
 ### -newPassword
+
 Optional parameter, enables you to change a CyberArk users password.
 
 ```yaml
@@ -451,6 +486,7 @@ Accept wildcard characters: False
 ```
 
 ### -SAMLAuth
+
 Specify to authenticate after retrieval of saml token via SSO.
 
 Minimum version required 11.4
@@ -468,6 +504,7 @@ Accept wildcard characters: False
 ```
 
 ### -SAMLResponse
+
 SAML response token that identifies the session, encoded in BASE 64.
 
 The PS-SAML-Interactive can be used to get this value (see related links).
@@ -497,6 +534,7 @@ Accept wildcard characters: False
 ```
 
 ### -UseSharedAuthentication
+
 Specify the UseSharedAuthentication switch to use the Shared Authentication API endpoint to logon
 
 ```yaml
@@ -512,6 +550,7 @@ Accept wildcard characters: False
 ```
 
 ### -useRadiusAuthentication
+
 Whether or not users will be authenticated via a RADIUS server.
 
 ```yaml
@@ -527,9 +566,11 @@ Accept wildcard characters: False
 ```
 
 ### -type
+
 When using the Gen2 API, specify the type of authentication to use.
 
 Valid values are:
+
 - CyberArk
 - LDAP
 - Windows (Minimum version required 10.4)
@@ -551,6 +592,7 @@ Accept wildcard characters: False
 ```
 
 ### -OTP
+
 One Time Passcode, if known, for RADIUS authentication.
 
 ```yaml
@@ -566,6 +608,7 @@ Accept wildcard characters: False
 ```
 
 ### -OTPMode
+
 Specify if OTP is to be sent in 'Append' (appended to the password) or 'Challenge' mode (sent in response to RADIUS Challenge).
 
 ```yaml
@@ -581,6 +624,7 @@ Accept wildcard characters: False
 ```
 
 ### -OTPDelimiter
+
 The character to use as a delimiter when appending the OTP to the password.
 
 Defaults to comma ",".
@@ -598,6 +642,7 @@ Accept wildcard characters: False
 ```
 
 ### -RadiusChallenge
+
 Specify if Radius challenge is satisfied by 'OTP' or 'Password'.
 
 If "OTP" (Default), Password will be sent first, with OTP as the challenge response.
@@ -617,6 +662,7 @@ Accept wildcard characters: False
 ```
 
 ### -UseDefaultCredentials
+
 See Invoke-WebRequest
 
 Uses the credentials of the current user to send the web request
@@ -634,6 +680,7 @@ Accept wildcard characters: False
 ```
 
 ### -concurrentSession
+
 Enables multiple simultaneous connection sessions as the same user.
 
 Minimum version required 11.3
@@ -651,6 +698,7 @@ Accept wildcard characters: False
 ```
 
 ### -connectionNumber
+
 In order to allow more than one connection for the same user simultaneously, each request should be sent with different 'connectionNumber'.
 
 Valid values: 1-100
@@ -668,6 +716,7 @@ Accept wildcard characters: False
 ```
 
 ### -BaseURI
+
 A string containing the base web address to send the request to.
 
 Pass the PVWA HTTP address.
@@ -687,6 +736,7 @@ Accept wildcard characters: False
 ```
 
 ### -PVWAAppName
+
 The name of the CyberArk PVWA Virtual Directory.
 
 Defaults to PasswordVault
@@ -704,6 +754,7 @@ Accept wildcard characters: False
 ```
 
 ### -SkipVersionCheck
+
 If the SkipVersionCheck switch is specified, Get-PASServer will not be called after successfully authenticating.
 
 Get-PASServer is not supported before version 9.7.
@@ -721,6 +772,7 @@ Accept wildcard characters: False
 ```
 
 ### -Certificate
+
 See Invoke-WebRequest
 
 Specifies the client certificate that is used for a secure web request.
@@ -740,6 +792,7 @@ Accept wildcard characters: False
 ```
 
 ### -CertificateThumbprint
+
 See Invoke-WebRequest
 
 The thumbprint of the certificate to use for client certificate authentication.
@@ -757,6 +810,7 @@ Accept wildcard characters: False
 ```
 
 ### -SkipCertificateCheck
+
 Skips certificate validation checks.
 
 Using this parameter is not secure and is not recommended.
@@ -778,6 +832,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
+
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
@@ -794,6 +849,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
+
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
@@ -809,6 +865,7 @@ Accept wildcard characters: False
 ```
 
 ### -UseGen1API
+
 Specify to send the authentication request via the Gen1 API endpoint.
 
 Should be specified for versions earlier than 10.4
@@ -826,6 +883,7 @@ Accept wildcard characters: False
 ```
 
 ### -TenantSubdomain
+
 The subdomain name value of the Shared Services Privilege Cloud Tenant.
 
 The value provided for the subdomain parameter will be used to discover the identity tenant api URL.
@@ -846,9 +904,11 @@ Accept wildcard characters: False
 ```
 
 ### -IdentityTenantURL
+
 Specify the URL value of the CyberArk Identity Portal to authenticate against.
 
 E.G.:
+
 - https://identity-tenant-id.id.cyberark.cloud
 - https://identity-tenant-id.my.idaptive.app
 
@@ -865,9 +925,11 @@ Accept wildcard characters: False
 ```
 
 ### -PrivilegeCloudURL
+
 Specify the URL value used to access the CyberArk Privilege Cloud API.
 
 E.G.:
+
 - https://subdomain.privilegecloud.cyberark.cloud
 
 ```yaml
@@ -883,6 +945,7 @@ Accept wildcard characters: False
 ```
 
 ### -IdentityUser
+
 Specify switch parameter to authenticate with standard Interactive Identity User.
 
 Authentication process will require use of the IdentityCommand module.
@@ -902,6 +965,7 @@ Accept wildcard characters: False
 ```
 
 ### -ServiceUser
+
 Specify switch parameter to authenticate with Identity API Oauth Service User
 
 ```yaml
@@ -917,6 +981,7 @@ Accept wildcard characters: False
 ```
 
 ### -UserName
+
 The username for FIDO2 authentication.
 When using `-type FIDO2`, specify the username with this parameter (required).
 The username identifies the user and their registered security keys.
@@ -950,7 +1015,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/CyberArk%20Authentication%20-%20Logon_v10.htm#CyberArkLDAPRadiusWindows](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/CyberArk%20Authentication%20-%20Logon_v10.htm#CyberArkLDAPRadiusWindows)
 
-[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/SAML_%20Authentication_%20Logon_newgen.htm#SAMLlogon](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/SAML_%20Authentication_%20Logon_newgen.htm#SAMLlogon)
+[https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/SAML*%20Authentication*%20Logon_newgen.htm#SAMLlogon](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/SAML_%20Authentication_%20Logon_newgen.htm#SAMLlogon)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Shared%20Logon%20Authentication%20-%20Logon.htm#Sharedlogonauthentication](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Shared%20Logon%20Authentication%20-%20Logon.htm#Sharedlogonauthentication)
 
