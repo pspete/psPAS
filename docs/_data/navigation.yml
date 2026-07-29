@@ -466,10 +466,10 @@ commands:
         url: /commands/Get-PASUserLicenseReport
       - title: "Get-PASReport"
         url: /commands/Get-PASReport
-      - title: "Get-PASReportSchedule"
-        url: /commands/Get-PASReportSchedule
-      - title: "New-PASReportSchedule"
-        url: /commands/New-PASReportSchedule
+      - title: "Get-PASReportTask"
+        url: /commands/Get-PASReportTask
+      - title: "New-PASReportTask"
+        url: /commands/New-PASReportTask
       - title: "Export-PASReport"
         url: /commands/Export-PASReport
 

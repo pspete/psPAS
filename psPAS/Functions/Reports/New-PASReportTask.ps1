@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-function New-PASReportSchedule {
+function New-PASReportTask {
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
@@ -169,7 +169,7 @@ function New-PASReportSchedule {
 
 		$Body = $boundParameters | ConvertTo-Json -Depth 4
 
-		if ($PSCmdlet.ShouldProcess($name, 'Create New Report Schedule')) {
+		if ($PSCmdlet.ShouldProcess($name, 'Create New Report Task')) {
 			#Send request to web service
 			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 		}

@@ -1,12 +1,12 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Get-PASReportSchedule
+online version: https://pspas.pspete.dev/commands/Get-PASReportTask
 schema: 2.0.0
-title: Get-PASReportSchedule
+title: Get-PASReportTask
 ---
 
-# Get-PASReportSchedule
+# Get-PASReportTask
 
 ## SYNOPSIS
 
@@ -15,7 +15,7 @@ Returns details of available report schedules
 ## SYNTAX
 
 ```
-Get-PASReportSchedule [-id <String>] [-search <String>] [-subType <String>] [-name <String>]
+Get-PASReportTask [-id <String>] [-search <String>] [-subType <String>] [-name <String>]
  [-FilterLogicalOperator <String>] [-limit <Int32>] [<CommonParameters>]
 ```
 
@@ -31,7 +31,7 @@ pages, subsequent pages are requested automatically.
 ### Example 1
 
 ```powershell
-PS C:\> Get-PASReportSchedule
+PS C:\> Get-PASReportTask
 ```
 
 Returns all report schedules for the user
@@ -39,7 +39,7 @@ Returns all report schedules for the user
 ### Example 2
 
 ```powershell
-PS C:\> Get-PASReportSchedule -id 6b35d0ae-4fc2-4a30-ab2e-89a944cf4b10
+PS C:\> Get-PASReportTask -id 6b35d0ae-4fc2-4a30-ab2e-89a944cf4b10
 ```
 
 Returns the specified report schedule
@@ -47,7 +47,7 @@ Returns the specified report schedule
 ### Example 3
 
 ```powershell
-PS C:\> Get-PASReportSchedule -search "Privileged accounts" -limit 10
+PS C:\> Get-PASReportTask -search "Privileged accounts" -limit 10
 ```
 
 Returns all report schedules matching the term "Privileged accounts", requesting 10 results per page.
@@ -55,7 +55,7 @@ Returns all report schedules matching the term "Privileged accounts", requesting
 ### Example 4
 
 ```powershell
-PS C:\> Get-PASReportSchedule -subType InventoryReports.InventoryReportUI
+PS C:\> Get-PASReportTask -subType InventoryReports.InventoryReportUI
 ```
 
 Returns report schedules of the InventoryReports.InventoryReportUI subtype.
@@ -164,6 +164,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
+
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
@@ -182,6 +183,6 @@ despite being returned in the response body.
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Get-PASReportSchedule](https://pspas.pspete.dev/commands/Get-PASReportSchedule)
+[https://pspas.pspete.dev/commands/Get-PASReportTask](https://pspas.pspete.dev/commands/Get-PASReportTask)
 
 [https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/get-tasks.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/get-tasks.htm)

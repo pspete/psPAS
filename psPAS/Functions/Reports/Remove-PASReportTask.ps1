@@ -1,7 +1,7 @@
 # .ExternalHelp psPAS-help.xml
-function Remove-PASReportSchedule {
+function Remove-PASReportTask {
     [CmdletBinding(SupportsShouldProcess)]
-    param( 
+    param(
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
@@ -20,7 +20,7 @@ function Remove-PASReportSchedule {
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/Tasks/$($id | Get-EscapedString)"
 
-        if ($PSCmdlet.ShouldProcess($id, 'Remove Report Schedule')) {
+        if ($PSCmdlet.ShouldProcess($id, 'Remove Report Task')) {
 
             Invoke-PASRestMethod -Uri $URI -Method DELETE
 

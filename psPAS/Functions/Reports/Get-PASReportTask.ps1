@@ -1,5 +1,5 @@
 # .ExternalHelp psPAS-help.xml
-function Get-PASReportSchedule {
+function Get-PASReportTask {
     [CmdletBinding(DefaultParameterSetName = 'byQuery')]
     param(
         [parameter(

@@ -1,11 +1,11 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Remove-PASReportSchedule
+online version: https://pspas.pspete.dev/commands/Remove-PASReportTask
 schema: 2.0.0
 ---
 
-# Remove-PASReportSchedule
+# Remove-PASReportTask
 
 ## SYNOPSIS
 
@@ -14,7 +14,7 @@ Removes a report schedule.
 ## SYNTAX
 
 ```
-Remove-PASReportSchedule [-id] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-PASReportTask [-id] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,7 +28,7 @@ This command requires CyberArk version 14.6 or later.
 ### Example 1
 
 ```powershell
-Remove-PASReportSchedule -id 12345
+Remove-PASReportTask -id 12345
 ```
 
 Removes the report schedule with the specified ID.
@@ -52,6 +52,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
+
 Shows what would happen if the cmdlet runs. The cmdlet is not run.
 
 ```yaml
@@ -67,6 +68,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
+
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
@@ -82,6 +84,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
+
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
@@ -100,4 +103,4 @@ Minimum CyberArk version 14.6
 
 ## RELATED LINKS
 
-[Remove-PASReportSchedule](https://pspas.pspete.dev/commands/Remove-PASReportSchedule)
+[Remove-PASReportTask](https://pspas.pspete.dev/commands/Remove-PASReportTask)
