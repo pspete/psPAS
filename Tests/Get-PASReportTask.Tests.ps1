@@ -58,13 +58,13 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             }
 
             It 'sends request' {
-                Get-PASReportSchedule
+                Get-PASReportTask
                 Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request to expected endpoint' {
-                Get-PASReportSchedule
+                Get-PASReportTask
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks"
@@ -74,25 +74,25 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             }
 
             It 'uses expected method' {
-                Get-PASReportSchedule
+                Get-PASReportTask
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request with no body' {
-                Get-PASReportSchedule
+                Get-PASReportTask
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
             }
 
             It 'throws error if version requirement not met' {
                 $psPASSession.ExternalVersion = '1.0'
-                { Get-PASReportSchedule } | Should -Throw
+                { Get-PASReportTask } | Should -Throw
                 $psPASSession.ExternalVersion = '0.0'
             }
 
             It 'sends request with expected query string for limit' {
-                Get-PASReportSchedule -limit 25
+                Get-PASReportTask -limit 25
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?limit=25"
@@ -103,12 +103,12 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'does not throw when using limit at the base version requirement' {
                 $psPASSession.ExternalVersion = '14.6'
-                { Get-PASReportSchedule -limit 25 } | Should -Not -Throw
+                { Get-PASReportTask -limit 25 } | Should -Not -Throw
                 $psPASSession.ExternalVersion = '0.0'
             }
 
             It 'sends request with expected query string for search' {
-                Get-PASReportSchedule -search SomeTask
+                Get-PASReportTask -search SomeTask
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?search=SomeTask"
@@ -119,19 +119,19 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'throws error if search/filter version requirement not met' {
                 $psPASSession.ExternalVersion = '14.6'
-                { Get-PASReportSchedule -search SomeTask } | Should -Throw
+                { Get-PASReportTask -search SomeTask } | Should -Throw
                 $psPASSession.ExternalVersion = '0.0'
             }
 
             It 'does not throw when search/filter version requirement met' {
                 $psPASSession.ExternalVersion = '15.0'
-                { Get-PASReportSchedule -search SomeTask } | Should -Not -Throw
+                { Get-PASReportTask -search SomeTask } | Should -Not -Throw
                 $psPASSession.ExternalVersion = '0.0'
             }
 
             It 'sends request with expected query string for filter built from name parameter' {
                 $psPASSession.ExternalVersion = '15.0'
-                Get-PASReportSchedule -name SomeTask
+                Get-PASReportTask -name SomeTask
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?filter=name%20EQ%20SomeTask"
@@ -143,7 +143,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'sends request with expected query string for filter built from subType parameter' {
                 $psPASSession.ExternalVersion = '15.0'
-                Get-PASReportSchedule -subType InventoryReports.InventoryReportUI
+                Get-PASReportTask -subType InventoryReports.InventoryReportUI
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?filter=subType%20EQ%20InventoryReports.InventoryReportUI"
@@ -166,7 +166,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                     [PSCustomObject]@{'tasks' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
                 }
 
-                Get-PASReportSchedule -subType InventoryReports.InventoryReportUI -name SomeTask
+                Get-PASReportTask -subType InventoryReports.InventoryReportUI -name SomeTask
 
                 $ExpectedBaseURI = "$($Script:psPASSession.BaseURI)/API/Tasks?filter="
 
@@ -184,7 +184,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'throws error if filter version requirement not met' {
                 $psPASSession.ExternalVersion = '14.6'
-                { Get-PASReportSchedule -name SomeTask } | Should -Throw
+                { Get-PASReportTask -name SomeTask } | Should -Throw
                 $psPASSession.ExternalVersion = '0.0'
             }
 
@@ -223,12 +223,12 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             }
 
             It 'sends additional requests while more tasks remain' {
-                Get-PASReportSchedule | Out-Null
+                Get-PASReportTask | Out-Null
                 Assert-MockCalled Invoke-PASRestMethod -Times 2 -Exactly -Scope It
             }
 
             It 'sends the follow-up request with the expected offset' {
-                Get-PASReportSchedule | Out-Null
+                Get-PASReportTask | Out-Null
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks?offset=2"
@@ -237,7 +237,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             }
 
             It 'returns tasks collected from every page' {
-                (Get-PASReportSchedule).Count | Should -Be 3
+                (Get-PASReportTask).Count | Should -Be 3
             }
 
         }
@@ -259,13 +259,13 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             }
 
             It 'sends request' {
-                $InputObj | Get-PASReportSchedule
+                $InputObj | Get-PASReportTask
                 Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request to expected endpoint' {
-                $InputObj | Get-PASReportSchedule
+                $InputObj | Get-PASReportTask
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks/SomeTaskID"
@@ -275,7 +275,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             }
 
             It 'uses expected method' {
-                $InputObj | Get-PASReportSchedule
+                $InputObj | Get-PASReportTask
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
             }
@@ -284,7 +284,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 $InputObj = [pscustomobject]@{
                     'id' = 'Some Task ID'
                 }
-                $InputObj | Get-PASReportSchedule
+                $InputObj | Get-PASReportTask
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     $URI -eq "$($Script:psPASSession.BaseURI)/API/Tasks/Some%20Task%20ID"
@@ -309,19 +309,19 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             }
             It 'provides output' {
 
-                Get-PASReportSchedule | Should -Not -BeNullOrEmpty
+                Get-PASReportTask | Should -Not -BeNullOrEmpty
 
             }
 
             It 'has output with expected number of properties' {
 
-                (Get-PASReportSchedule | Get-Member -MemberType NoteProperty).length | Should -Be 3
+                (Get-PASReportTask | Get-Member -MemberType NoteProperty).length | Should -Be 3
 
             }
 
             It 'outputs object with expected typename' -Skip {
 
-                Get-PASReportSchedule | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PSM.Recording
+                Get-PASReportTask | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PSM.Recording
 
             }
 
@@ -340,19 +340,19 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'provides output' {
 
-                Get-PASReportSchedule -id 'SomeTaskID' | Should -Not -BeNullOrEmpty
+                Get-PASReportTask -id 'SomeTaskID' | Should -Not -BeNullOrEmpty
 
             }
 
             It 'does not error expanding a non-existent tasks property' {
 
-                { Get-PASReportSchedule -id 'SomeTaskID' } | Should -Not -Throw
+                { Get-PASReportTask -id 'SomeTaskID' } | Should -Not -Throw
 
             }
 
             It 'has output with expected number of properties' {
 
-                (Get-PASReportSchedule -id 'SomeTaskID' | Get-Member -MemberType NoteProperty).length | Should -Be 3
+                (Get-PASReportTask -id 'SomeTaskID' | Get-Member -MemberType NoteProperty).length | Should -Be 3
 
             }
 

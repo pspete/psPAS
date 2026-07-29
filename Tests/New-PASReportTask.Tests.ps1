@@ -56,7 +56,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 param($Parameter)
 
-                (Get-Command New-PASReportSchedule).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should -Be $true
+                (Get-Command New-PASReportTask).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should -Be $true
 
             }
 
@@ -83,7 +83,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'sends request' {
 
-                $InputObj | New-PASReportSchedule
+                $InputObj | New-PASReportTask
 
                 Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
@@ -91,7 +91,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'sends request to expected endpoint' {
 
-                $InputObj | New-PASReportSchedule
+                $InputObj | New-PASReportTask
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -103,7 +103,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'uses expected method' {
 
-                $InputObj | New-PASReportSchedule
+                $InputObj | New-PASReportTask
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
@@ -111,7 +111,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'sends request with expected body' {
 
-                $InputObj | New-PASReportSchedule
+                $InputObj | New-PASReportTask
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -125,7 +125,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'throws error if version requirement not met' {
                 $psPASSession.ExternalVersion = '9.8'
-                { $InputObj | New-PASReportSchedule } | Should -Throw
+                { $InputObj | New-PASReportTask } | Should -Throw
                 $psPASSession.ExternalVersion = '0.0'
             }
 
@@ -133,7 +133,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'throws error if version requirement not met for AdHocConnect' {
                 $psPASSession.ExternalVersion = '10.4'
-                { $AdHocObj | New-PASReportSchedule } | Should -Throw
+                { $AdHocObj | New-PASReportTask } | Should -Throw
                 $psPASSession.ExternalVersion = '0.0'
             }
 
@@ -164,7 +164,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'does not truncate nested Subscriber/LdapInfo properties in the request body' {
 
-                $InputObj | New-PASReportSchedule -WarningVariable JsonWarning -WarningAction SilentlyContinue
+                $InputObj | New-PASReportTask -WarningVariable JsonWarning -WarningAction SilentlyContinue
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -205,7 +205,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                     'weekNumber'         = '1'
                 }
 
-                { $InputObj | New-PASReportSchedule } | Should -Not -Throw
+                { $InputObj | New-PASReportTask } | Should -Not -Throw
 
             }
 
@@ -219,7 +219,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                     'recurrenceType'     = 'Weekly'
                 }
 
-                { $InputObj | New-PASReportSchedule } | Should -Not -Throw
+                { $InputObj | New-PASReportTask } | Should -Not -Throw
 
             }
 
@@ -236,7 +236,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                     'weekNumber'         = '1'
                 }
 
-                $InputObj | New-PASReportSchedule
+                $InputObj | New-PASReportTask
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 

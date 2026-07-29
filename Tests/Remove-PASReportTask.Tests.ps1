@@ -43,17 +43,17 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
         Context 'Input' {
             It 'sends request to expected endpoint' {
-                $null = Remove-PASReportSchedule -id 'SomeTaskId' -Confirm:$false
+                $null = Remove-PASReportTask -id 'SomeTaskId' -Confirm:$false
                 $script:seenUri | Should -Be "$($Script:psPASSession.BaseURI)/API/Tasks/SomeTaskId"
             }
 
             It 'uses expected method' {
-                $null = Remove-PASReportSchedule -id 'SomeTaskId' -Confirm:$false
+                $null = Remove-PASReportTask -id 'SomeTaskId' -Confirm:$false
                 $script:seenMethod | Should -Match 'DELETE'
             }
 
             It 'sends request with no body' {
-                $null = Remove-PASReportSchedule -id 'SomeTaskId' -Confirm:$false
+                $null = Remove-PASReportTask -id 'SomeTaskId' -Confirm:$false
                 $script:seenBody | Should -Be $null
             }
         }
