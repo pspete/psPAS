@@ -14,15 +14,13 @@ Full documentation: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ## Module Status
 
-| Master Branch               | Latest Build               | CodeFactor                 | Coverage                     | PowerShell Gallery        | License                      |
-| --------------------------- | -------------------------- | -------------------------- | ---------------------------- | ------------------------- | ---------------------------- |
-| [![appveyor][]][av-site]    | [![tests][]][tests-site]   | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![psgallery][]][ps-site] | [![license][]][license-link] |
-| [![release][]][github-site] | [![github][]][installlink] |                            | [![coveralls][]][cv-site]    | [![downloads][]][ps-site] |                              |
+| Master Branch               | Latest Build               | PowerShell Gallery        | CodeFactor                 | Coverage                     | License                      |
+| --------------------------- | -------------------------- | ------------------------- | -------------------------- | ---------------------------- | ---------------------------- |
+| [![appveyor][]][av-site]    | [![tests][]][tests-site]   | [![psgallery][]][ps-site] | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![license][]][license-link] |
+| [![release][]][github-site] | [![github][]][installlink] | [![downloads][]][ps-site] |                            |                              |                              |
 
 [appveyor]: https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true
 [av-site]: https://ci.appveyor.com/project/pspete/pspas/branch/master
-[coveralls]: https://coveralls.io/repos/github/pspete/psPAS/badge.svg
-[cv-site]: https://coveralls.io/github/pspete/psPAS
 [psgallery]: https://img.shields.io/powershellgallery/v/psPAS.svg
 [ps-site]: https://www.powershellgallery.com/packages/psPAS
 [license]: https://img.shields.io/github/license/pspete/psPAS.svg
