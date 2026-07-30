@@ -193,7 +193,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 | [Delete OpenID Connect Identity Provider][Delete OpenID Connect Identity Provider]                   | [Remove-PASOpenIDConnectProvider][Remove-PASOpenIDConnectProvider]                       |
 | [Update OpenID Connect Identity Provider][Update OpenID Connect Identity Provider]                   | [Set-PASOpenIDConnectProvider][Set-PASOpenIDConnectProvider]                             |
 | [Delete authentication method][Delete authentication method]                                         | [Remove-PASAuthenticationMethod][Remove-PASAuthenticationMethod]                         |
-| [Delete discovered accounts][Delete discovered accounts]                                             | [Clear-PASDiscoveredAccountList][Clear-PASDiscoveredAccountList]                         |
+| [Delete discovered accounts][Delete discovered accounts]                                             | [Clear-PASDiscoveredAccount][Clear-PASDiscoveredAccount]                                 |
 | [Get Secret Versions][Get Secret Versions]                                                           | [Get-PASAccountPasswordVersion][Get-PASAccountPasswordVersion]                           |
 | [Generate Password][Generate Password]                                                               | [New-PASAccountPassword][New-PASAccountPassword]                                         |
 | [Link an Account][Link an Account]                                                                   | [Set-PASLinkedAccount][Set-PASLinkedAccount]                                             |
@@ -451,7 +451,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Remove-PASOpenIDConnectProvider]: /commands/Remove-PASOpenIDConnectProvider
 [Set-PASOpenIDConnectProvider]: /commands/Set-PASOpenIDConnectProvider
 [Remove-PASAuthenticationMethod]: /commands/Remove-PASAuthenticationMethod
-[Clear-PASDiscoveredAccountList]: /commands/Clear-PASDiscoveredAccountList
+[Clear-PASDiscoveredAccount]: /commands/Clear-PASDiscoveredAccount
 [Get-PASAccountPasswordVersion]: /commands/Get-PASAccountPasswordVersion
 [New-PASAccountPassword]: /commands/New-PASAccountPassword
 [Set-PASLinkedAccount]: /commands/Set-PASLinkedAccount
