@@ -12585,6 +12585,103 @@ PS C:\&gt; Clear-PASPrivateSSHKey</dev:code>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Disable-PASBYOKConfig</command:name>
+      <command:verb>Disable</command:verb>
+      <command:noun>PASBYOKConfig</command:noun>
+      <maml:description>
+        <maml:para>Disables BYOK for the Privilege Cloud environment.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Stops data encryption within CyberArk using your AWS key, switching back to the CyberArk-managed encryption key. Deactivates BYOK, resetting the system's encryption/decryption mechanisms to use the CyberArk key.</maml:para>
+      <maml:para>This takes about 15 minutes to complete. During this time, the BYOK status indicates the key is being replaced and no BYOK-related action can be performed; system functionality pauses temporarily and resumes shortly after. Do not modify or move the encryption key while this is in progress.</maml:para>
+      <maml:para>Requires one of the following roles: - System Administrator (Identity Administration)</maml:para>
+      <maml:para>- Privilege Cloud Administrator</maml:para>
+      <maml:para>- Privilege Cloud Administrator Basic</maml:para>
+      <maml:para>- Privilege Cloud Administrator Lite</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Disable-PASBYOKConfig</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Disable-PASBYOKConfig</dev:code>
+        <dev:remarks>
+          <maml:para>Disables BYOK encryption.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Disable-PASBYOKConfig</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Disable-PASBYOKConfig</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-disable.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-disable.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Disable-PASCPMAutoManagement</command:name>
       <command:verb>Disable</command:verb>
       <command:noun>PASCPMAutoManagement</command:noun>
@@ -13121,6 +13218,104 @@ PS C:\&gt; Clear-PASPrivateSSHKey</dev:code>
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Disable-user.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Disable-user.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Enable-PASBYOKConfig</command:name>
+      <command:verb>Enable</command:verb>
+      <command:noun>PASBYOKConfig</command:noun>
+      <maml:description>
+        <maml:para>Enables BYOK for the Privilege Cloud environment.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Starts data encryption within CyberArk using your previously configured KMS key. Activates BYOK, resetting the system's encryption/decryption mechanisms to use your key.</maml:para>
+      <maml:para>This takes about 20 minutes to complete. During this time, the BYOK status indicates the key is being replaced, and no BYOK-related action can be performed except Get-PASBYOKConfig. Do not modify or move the encryption key while this is in progress. Run Get-PASBYOKConfig afterwards to confirm the status is 'BYOK ON'.</maml:para>
+      <maml:para>When using BYOK, you are solely responsible for safeguarding the encryption key. If CyberArk loses access to your key (deletion, loss, or alteration), your encrypted data cannot be recovered - CyberArk does not retain a copy of the key or any alternate means of accessing the data.</maml:para>
+      <maml:para>Requires one of the following roles: - System Administrator (Identity Administration)</maml:para>
+      <maml:para>- Privilege Cloud Administrator</maml:para>
+      <maml:para>- Privilege Cloud Administrator Basic</maml:para>
+      <maml:para>- Privilege Cloud Administrator Lite</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Enable-PASBYOKConfig</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Enable-PASBYOKConfig</dev:code>
+        <dev:remarks>
+          <maml:para>Enables BYOK encryption.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Enable-PASBYOKConfig</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Enable-PASBYOKConfig</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-enable.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-enable.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -17188,7 +17383,8 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
     </command:details>
     <maml:description>
       <maml:para>Get the BYOK status of the system, access policy, current key in use, and customer details.</maml:para>
-      <maml:para>Requires one of the following roles: - Privilege Cloud Administrator</maml:para>
+      <maml:para>Requires one of the following roles: - System Administrator (Identity Administration)</maml:para>
+      <maml:para>- Privilege Cloud Administrator</maml:para>
       <maml:para>- Privilege Cloud Administrator Basic</maml:para>
       <maml:para>- Privilege Cloud Administrator Lite</maml:para>
     </maml:description>
@@ -17234,8 +17430,101 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
         <maml:uri>https://pspas.pspete.dev/commands/Get-PASBYOKConfig</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/Content/Privilege%20Cloud/PrivCloud-BYOK-API-Status.htm</maml:linkText>
-        <maml:uri>https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/Content/Privilege%20Cloud/PrivCloud-BYOK-API-Status.htm</maml:uri>
+        <maml:linkText>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-status.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-status.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-PASBYOKPolicyStatement</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>PASBYOKPolicyStatement</command:noun>
+      <maml:description>
+        <maml:para>Retrieves the AWS KMS key policy statements required for BYOK.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Retrieves the AWS policy statements that allow the CyberArk BYOK service to access your AWS KMS key.</maml:para>
+      <maml:para>Copy the returned policy statement into your KMS key policy, ensuring both the 'Allow Encryption of customer data by CyberArk' and 'Allow Decryption of customer data by CyberArk' statements are included.</maml:para>
+      <maml:para>For a Cross-Region Disaster Recovery (CRDR) environment, run this twice - once for the main region and once for the recovery region - using the `-region` parameter.</maml:para>
+      <maml:para>Requires one of the following roles: - System Administrator (Identity Administration)</maml:para>
+      <maml:para>- Privilege Cloud Administrator</maml:para>
+      <maml:para>- Privilege Cloud Administrator Basic</maml:para>
+      <maml:para>- Privilege Cloud Administrator Lite</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-PASBYOKPolicyStatement</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+          <maml:name>region</maml:name>
+          <maml:description>
+            <maml:para>The region of the CRDR site to retrieve the key policy statement for.</maml:para>
+            <maml:para>Optional when retrieving the statement for the main site (defaults to `main`). Required when retrieving the statement for the recovery site.</maml:para>
+          </maml:description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">main</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">recovery</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <maml:name>region</maml:name>
+        <maml:description>
+          <maml:para>The region of the CRDR site to retrieve the key policy statement for.</maml:para>
+          <maml:para>Optional when retrieving the statement for the main site (defaults to `main`). Required when retrieving the statement for the recovery site.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Get-PASBYOKPolicyStatement</dev:code>
+        <dev:remarks>
+          <maml:para>Retrieves the key policy statement for the main region.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Get-PASBYOKPolicyStatement -region recovery</dev:code>
+        <dev:remarks>
+          <maml:para>Retrieves the key policy statement for the recovery region of a CRDR environment.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASBYOKPolicyStatement</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Get-PASBYOKPolicyStatement</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-key-policy-statement.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-key-policy-statement.htm</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-key-policy-statement-crdr.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-key-policy-statement-crdr.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -27243,6 +27532,128 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/content/privilegecloudapis/privcloud-ticketing-systems-custom-import.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/content/privilegecloudapis/privcloud-ticketing-systems-custom-import.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Invoke-PASBYOKRotation</command:name>
+      <command:verb>Invoke</command:verb>
+      <command:noun>PASBYOKRotation</command:noun>
+      <maml:description>
+        <maml:para>Rotates the customer-managed AWS KMS key used for BYOK.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Replaces the KMS key currently used by CyberArk BYOK with a new KMS key. BYOK-supported services are updated to use the new key to encrypt/decrypt both existing and new data; the previous key is no longer used.</maml:para>
+      <maml:para>BYOK encryption must already be enabled before running this function, and no key change may currently be in progress (i.e. Enable-PASBYOKConfig or Disable-PASBYOKConfig must not have run in the last 20 minutes). Before calling this function, create the new key in AWS KMS and add the CyberArk policy to it (see Get-PASBYOKPolicyStatement).</maml:para>
+      <maml:para>Rotation takes about 20 minutes to complete. During this time, do not modify the encryption policy of either key, and do not delete, move, or otherwise edit the previous or new KMS keys. Run Get-PASBYOKConfig afterwards to confirm the status is 'BYOK ON'.</maml:para>
+      <maml:para>Requires one of the following roles: - System Administrator (Identity Administration)</maml:para>
+      <maml:para>- Privilege Cloud Administrator</maml:para>
+      <maml:para>- Privilege Cloud Administrator Basic</maml:para>
+      <maml:para>- Privilege Cloud Administrator Lite</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Invoke-PASBYOKRotation</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+          <maml:name>kms_arn</maml:name>
+          <maml:description>
+            <maml:para>The ARN of the new AWS KMS key to rotate to, as copied from AWS KMS.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <maml:name>kms_arn</maml:name>
+        <maml:description>
+          <maml:para>The ARN of the new AWS KMS key to rotate to, as copied from AWS KMS.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Invoke-PASBYOKRotation -kms_arn 'arn:aws:kms:us-east-1:1234567890:key/new-hex-key-goes-here'</dev:code>
+        <dev:remarks>
+          <maml:para>Rotates the BYOK encryption key to the specified new AWS KMS key.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Invoke-PASBYOKRotation</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Invoke-PASBYOKRotation</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-rotation.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-rotation.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -47604,6 +48015,127 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Update_Authentication_method.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Update_Authentication_method.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-PASBYOKConfig</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>PASBYOKConfig</command:noun>
+      <maml:description>
+        <maml:para>Configures BYOK for the Privilege Cloud environment.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Configures your KMS key in the CyberArk BYOK service. In response, CyberArk verifies access to your key.</maml:para>
+      <maml:para>Do not run this function if a key change is already in progress (i.e. within 20 minutes of running Enable-PASBYOKConfig or Disable-PASBYOKConfig).</maml:para>
+      <maml:para>Requires one of the following roles: - System Administrator (Identity Administration)</maml:para>
+      <maml:para>- Privilege Cloud Administrator</maml:para>
+      <maml:para>- Privilege Cloud Administrator Basic</maml:para>
+      <maml:para>- Privilege Cloud Administrator Lite</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-PASBYOKConfig</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+          <maml:name>kms_arn</maml:name>
+          <maml:description>
+            <maml:para>The ARN of the AWS KMS key to use for BYOK encryption.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <maml:name>kms_arn</maml:name>
+        <maml:description>
+          <maml:para>The ARN of the AWS KMS key to use for BYOK encryption.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Set-PASBYOKConfig -kms_arn 'arn:aws:kms:us-east-1:1234567890:key/hex-key-goes-here'</dev:code>
+        <dev:remarks>
+          <maml:para>Configures BYOK to use the specified AWS KMS key.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Set-PASBYOKConfig</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Set-PASBYOKConfig</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-configure.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-configure.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>

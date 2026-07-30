@@ -21,6 +21,7 @@ Get-PASBYOKConfig [<CommonParameters>]
 Get the BYOK status of the system, access policy, current key in use, and customer details.
 
 Requires one of the following roles:
+- System Administrator (Identity Administration)
 - Privilege Cloud Administrator
 - Privilege Cloud Administrator Basic
 - Privilege Cloud Administrator Lite
@@ -63,4 +64,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 [https://pspas.pspete.dev/commands/Get-PASBYOKConfig](https://pspas.pspete.dev/commands/Get-PASBYOKConfig)
 
-[https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/Content/Privilege%20Cloud/PrivCloud-BYOK-API-Status.htm](https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/Content/Privilege%20Cloud/PrivCloud-BYOK-API-Status.htm)
+[https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-status.htm](https://docs.cyberark.com/snapshot/ispss-deployment/en/content/privilege%20cloud/privcloud-byok-api-status.htm)
