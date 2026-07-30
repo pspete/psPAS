@@ -31,6 +31,8 @@ Applies to the accounts that are discovered by the EPM scanning of endpoints, in
 - Mac loosely connected devices
 - Linux loosely connected devices
 
+When querying (not retrieving a single account by id), results are automatically paginated: if the API response contains a `nextCursor` value, subsequent pages are retrieved and merged into the returned results.
+
 Requires one of the following roles:
 - Privilege Cloud Administrator
 - Privilege Cloud Administrator Basic

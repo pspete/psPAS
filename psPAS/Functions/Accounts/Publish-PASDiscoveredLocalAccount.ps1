@@ -37,7 +37,13 @@ function Publish-PASDiscoveredLocalAccount {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [boolean]$resetSecret
+        [boolean]$resetSecret,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string[]]$tags
 
     )
 

@@ -56,15 +56,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
             }
 
-            $InputObject = [PSCustomObject]@{
-
-                'id'         = 'SomeID'
-                'platformID' = 'SomePlatform'
-                'SafeName'   = 'SomeSafe'
-
-            }
-
-            $response = $InputObject | Publish-PASDiscoveredLocalAccount
+            $response = Hide-PASDiscoveredLocalAccount -id SomeID -reason 'SomeReason'
 
         }
 
@@ -80,7 +72,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:psPASSession.ApiURI)/api/discovered-accounts/SomeID/Onboard"
+                    $URI -eq "$($Script:psPASSession.ApiURI)/api/discovered-accounts/SomeID/ignore"
 
                 } -Times 1 -Exactly -Scope It
 
@@ -92,27 +84,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
-            It 'includes a decoded secret value in the request body' {
-
-                $SecureSecret = ConvertTo-SecureString -String 'SomeSecretValue' -AsPlainText -Force
-
-                $InputObject | Publish-PASDiscoveredLocalAccount -secret $SecureSecret
+            It 'sends request with expected body' {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    ([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json).secret -eq 'SomeSecretValue'
-
-                } -Times 1 -Exactly -Scope It
-
-            }
-
-            It 'includes tags in the request body' {
-
-                $InputObject | Publish-PASDiscoveredLocalAccount -tags 'tag1', 'tag2'
-
-                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-                    ([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json).tags -contains 'tag1'
+                    ($Body | ConvertFrom-Json).reason -eq 'SomeReason'
 
                 } -Times 1 -Exactly -Scope It
 

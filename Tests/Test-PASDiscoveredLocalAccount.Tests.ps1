@@ -111,6 +111,18 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
+            It 'sends request with an "accounts" key in body - single parameterset' {
+
+                Test-PASDiscoveredLocalAccount @inputObject
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $null -ne ($Body | ConvertFrom-Json).accounts
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
         }
 
         Context 'Request Input - multiple parameterset' {

@@ -56,15 +56,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
             }
 
-            $InputObject = [PSCustomObject]@{
-
-                'id'         = 'SomeID'
-                'platformID' = 'SomePlatform'
-                'SafeName'   = 'SomeSafe'
-
-            }
-
-            $response = $InputObject | Publish-PASDiscoveredLocalAccount
+            $response = Restore-PASDiscoveredLocalAccount -id SomeID
 
         }
 
@@ -80,7 +72,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:psPASSession.ApiURI)/api/discovered-accounts/SomeID/Onboard"
+                    $URI -eq "$($Script:psPASSession.ApiURI)/api/discovered-accounts/SomeID/restore"
 
                 } -Times 1 -Exactly -Scope It
 
@@ -89,32 +81,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             It 'uses expected method' {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
-
-            }
-
-            It 'includes a decoded secret value in the request body' {
-
-                $SecureSecret = ConvertTo-SecureString -String 'SomeSecretValue' -AsPlainText -Force
-
-                $InputObject | Publish-PASDiscoveredLocalAccount -secret $SecureSecret
-
-                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-                    ([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json).secret -eq 'SomeSecretValue'
-
-                } -Times 1 -Exactly -Scope It
-
-            }
-
-            It 'includes tags in the request body' {
-
-                $InputObject | Publish-PASDiscoveredLocalAccount -tags 'tag1', 'tag2'
-
-                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-                    ([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json).tags -contains 'tag1'
-
-                } -Times 1 -Exactly -Scope It
 
             }
 

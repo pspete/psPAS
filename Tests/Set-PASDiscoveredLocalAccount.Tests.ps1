@@ -58,13 +58,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             $InputObject = [PSCustomObject]@{
 
-                'id'         = 'SomeID'
-                'platformID' = 'SomePlatform'
-                'SafeName'   = 'SomeSafe'
+                'id'               = 'SomeID'
+                'isPrivileged'     = $true
+                'customProperties' = @{'SomeProperty' = 'SomeValue' }
+                'tags'             = @('tag1', 'tag2')
 
             }
 
-            $response = $InputObject | Publish-PASDiscoveredLocalAccount
+            $response = $InputObject | Set-PASDiscoveredLocalAccount
 
         }
 
@@ -80,7 +81,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:psPASSession.ApiURI)/api/discovered-accounts/SomeID/Onboard"
+                    $URI -eq "$($Script:psPASSession.ApiURI)/api/discovered-accounts/SomeID"
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request to expected endpoint when applyRules specified' {
+
+                $InputObject | Set-PASDiscoveredLocalAccount -applyRules $true
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -eq "$($Script:psPASSession.ApiURI)/api/discovered-accounts/SomeID`?applyRules=True"
 
                 } -Times 1 -Exactly -Scope It
 
@@ -88,33 +101,34 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'uses expected method' {
 
-                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PATCH' } -Times 1 -Exactly -Scope It
 
             }
 
-            It 'includes a decoded secret value in the request body' {
-
-                $SecureSecret = ConvertTo-SecureString -String 'SomeSecretValue' -AsPlainText -Force
-
-                $InputObject | Publish-PASDiscoveredLocalAccount -secret $SecureSecret
+            It 'sends request with expected body' {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    ([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json).secret -eq 'SomeSecretValue'
+                    $Script:RequestBody = $Body | ConvertFrom-Json
+                    ($Script:RequestBody.isPrivileged -eq $true) -and ($Script:RequestBody.tags -contains 'tag1')
 
                 } -Times 1 -Exactly -Scope It
 
             }
 
-            It 'includes tags in the request body' {
+        }
 
-                $InputObject | Publish-PASDiscoveredLocalAccount -tags 'tag1', 'tag2'
+        Context 'Output' {
 
-                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+            It 'provides output' {
 
-                    ([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json).tags -contains 'tag1'
+                $response | Should -Not -BeNullOrEmpty
 
-                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'has output with expected number of properties' {
+
+                ($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
             }
 

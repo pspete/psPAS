@@ -31,7 +31,13 @@ function Add-PASDiscoveredLocalAccount {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [string]$source
+        [string]$source,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string[]]$tags
     )
 
     begin {

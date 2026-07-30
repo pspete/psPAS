@@ -84,7 +84,7 @@ function Test-PASDiscoveredLocalAccount {
 
                 $boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove $identifierProperties
 
-                $body = @{'account' = @($boundParameters) } | ConvertTo-Json -Depth 3
+                $body = @{'accounts' = @($boundParameters) } | ConvertTo-Json -Depth 3
 
                 break
 

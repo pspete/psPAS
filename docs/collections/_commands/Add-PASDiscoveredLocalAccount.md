@@ -14,7 +14,7 @@ Add a specific account from the list of discovered local endpoint accounts to th
 
 ```
 Add-PASDiscoveredLocalAccount [-type] <String> [-identifiers] <Hashtable> [[-isPrivileged] <Boolean>]
- [[-customProperties] <Hashtable>] [[-source] <String>] [<CommonParameters>]
+ [[-customProperties] <Hashtable>] [[-source] <String>] [-tags <String[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -139,6 +139,21 @@ Aliases:
 
 Required: False
 Position: 5
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -tags
+List of tag(s) assigned to the discovered account by the scan definition.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False

@@ -91,6 +91,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'sends request with expected tags in body' {
+
+                Add-PASDiscoveredLocalAccount -type windows -identifiers @{'SomeProperty' = 'SomeValue' } -tags 'tag1', 'tag2'
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $($Body | ConvertFrom-Json).tags -contains 'tag1'
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
         }
 
     }

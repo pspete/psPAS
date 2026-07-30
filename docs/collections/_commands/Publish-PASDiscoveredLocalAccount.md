@@ -15,8 +15,8 @@ Onboard a discovered local account
 
 ```
 Publish-PASDiscoveredLocalAccount [-id] <String> [-safeName] <String> [-platformID] <String>
- [[-additionalProperties] <Hashtable>] [[-secret] <SecureString>] [[-resetSecret] <Boolean>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [[-additionalProperties] <Hashtable>] [[-secret] <SecureString>] [[-resetSecret] <Boolean>] [-tags <String[]>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -185,6 +185,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -tags
+List of tag(s) assigned to the discovered account by the scan definition.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
