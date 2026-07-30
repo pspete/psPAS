@@ -121,8 +121,8 @@ commands:
         url: /commands/New-PASAccountObject
       - title: "Get-PASDiscoveredAccount"
         url: /commands/Get-PASDiscoveredAccount
-      - title: "Clear-PASDiscoveredAccountList"
-        url: /commands/Clear-PASDiscoveredAccountList
+      - title: "Clear-PASDiscoveredAccount"
+        url: /commands/Clear-PASDiscoveredAccount
       - title: "Get-PASAccountPasswordVersion"
         url: /commands/Get-PASAccountPasswordVersion
       - title: "New-PASAccountPassword"

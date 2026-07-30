@@ -163,7 +163,7 @@ If version requirement criteria are not met, operations may be prevented.
 | [`Remove-PASOpenIDConnectProvider`][Remove-PASOpenIDConnectProvider]                       | **11.7**                                      | Deletes an OIDC Authentication Provider                         |
 | [`Set-PASOpenIDConnectProvider`][Set-PASOpenIDConnectProvider]                             | **11.7**                                      | Updates an OIDC Authentication Provider                         |
 | [`Remove-PASAuthenticationMethod`][Remove-PASAuthenticationMethod]                         | **11.7**                                      | Delete an authentication method                                 |
-| [`Clear-PASDiscoveredAccountList`][Clear-PASDiscoveredAccountList]                         | **12.1**                                      | Clear all discovered accounts from the pending account list     |
+| [`Clear-PASDiscoveredAccount`][Clear-PASDiscoveredAccount]                                 | **12.1**                                      | Clear all discovered accounts from the pending account list     |
 | [`Get-PASAccountPasswordVersion`][Get-PASAccountPasswordVersion]                           | **12.1**                                      | Get details of previous password versions                       |
 | [`New-PASAccountPassword`][New-PASAccountPassword]                                         | **12.0**                                      | Generate new password values based on platform policy           |
 | [`Set-PASLinkedAccount`][Set-PASLinkedAccount]                                             | **12.1**                                      | Associate logon and reconcile accounts                          |
@@ -313,7 +313,7 @@ If version requirement criteria are not met, operations may be prevented.
 [Enable-PASUser]: /commands/Enable-PASUser
 [Disable-PASUser]: /commands/Disable-PASUser
 [Get-PASPlatformSummary]: /commands/Get-PASPlatformSummary
-[Clear-PASDiscoveredAccountList]: /commands/Clear-PASDiscoveredAccountList
+[Clear-PASDiscoveredAccount]: /commands/Clear-PASDiscoveredAccount
 [Get-PASAccountPasswordVersion]: /commands/Get-PASAccountPasswordVersion
 [New-PASAccountPassword]: /commands/New-PASAccountPassword
 [Set-PASLinkedAccount]: /commands/Set-PASLinkedAccount
