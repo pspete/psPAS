@@ -81,6 +81,8 @@ commands:
 
   - title: "Accounts Feed"
     children:
+      - title: "Get-PASDiscoveryScan"
+        url: /commands/Get-PASDiscoveryScan
       - title: "Stop-PASDiscoveryScan"
         url: /commands/Stop-PASDiscoveryScan
       - title: "Remove-PASDiscoveryScan"
@@ -477,6 +479,8 @@ commands:
         url: /commands/Get-PASReportTask
       - title: "New-PASReportTask"
         url: /commands/New-PASReportTask
+      - title: "Set-PASReportTask"
+        url: /commands/Set-PASReportTask
       - title: "Export-PASReport"
         url: /commands/Export-PASReport
 

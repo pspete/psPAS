@@ -19087,6 +19087,81 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-PASDiscoveryScan</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>PASDiscoveryScan</command:noun>
+      <maml:description>
+        <maml:para>Returns configured discovery scans.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Returns discovery scans configured in the Vault.</maml:para>
+      <maml:para>Specify a taskId to return details of a single discovery scan.</maml:para>
+      <maml:para>Membership of Vault admins or PVWAAccountsFeedAdmins group required.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-PASDiscoveryScan</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
+          <maml:name>taskId</maml:name>
+          <maml:description>
+            <maml:para>The unique ID of the discovery scan to return details of.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="id">
+        <maml:name>taskId</maml:name>
+        <maml:description>
+          <maml:para>The unique ID of the discovery scan to return details of.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Get-PASDiscoveryScan</dev:code>
+        <dev:remarks>
+          <maml:para>Returns all configured discovery scans.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Get-PASDiscoveryScan -taskId 1</dev:code>
+        <dev:remarks>
+          <maml:para>Returns details of the discovery scan with taskId 1.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASDiscoveryScan</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Get-PASDiscoveryScan</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-PASGroup</command:name>
       <command:verb>Get</command:verb>
       <command:noun>PASGroup</command:noun>
@@ -42353,13 +42428,6 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>Get-PASDiscoveryScan -id 12345 | Remove-PASDiscoveryScan</dev:code>
-        <dev:remarks>
-          <maml:para>Removes the discovery scan via pipeline input.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
         <dev:code>Remove-PASDiscoveryScan -taskId 12345 -WhatIf</dev:code>
         <dev:remarks>
           <maml:para>Shows what would happen if the discovery scan was removed, without actually removing it.</maml:para>
@@ -59970,13 +60038,6 @@ PS C:\&gt; Start-PASVRMService -serviceName ENE -serverAddress vault.company.com
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>Get-PASDiscoveryScan -id 12345 | Stop-PASDiscoveryScan</dev:code>
-        <dev:remarks>
-          <maml:para>Stops the discovery scan via pipeline input.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
         <dev:code>Stop-PASDiscoveryScan -taskId 12345 -WhatIf</dev:code>
         <dev:remarks>
           <maml:para>Shows what would happen if the discovery scan was stopped, without actually stopping it.</maml:para>

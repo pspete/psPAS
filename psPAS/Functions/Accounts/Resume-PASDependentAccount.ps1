@@ -63,8 +63,7 @@ function Resume-PASDependentAccount {
 
             $Request.Add('Body', $Body)
 
-        }
-        else {
+        } else {
 
             #Create URL for Request
             $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts/$dependentAccountId/Resume"

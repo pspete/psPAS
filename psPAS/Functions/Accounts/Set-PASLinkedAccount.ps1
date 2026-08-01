@@ -85,8 +85,7 @@ function Set-PASLinkedAccount {
 
 			$Request.Add('Body', $Body)
 
-		}
-		else {
+		} else {
 
 			#Create URL for request
 			$URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/LinkAccount"

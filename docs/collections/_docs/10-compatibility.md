@@ -172,6 +172,7 @@ If version requirement criteria are not met, operations may be prevented.
 | [`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                             | **12.1**                                      | Generate MFA caching SSH Keys                                   |
 | [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                       | **12.1**                                      | Delete MFA caching SSH Keys                                     |
 | [`Set-PASGroup`][Set-PASGroup]                                                             | **12.0**                                      | Update CyberArk groups                                          |
+| [`Get-PASDiscoveryScan`][Get-PASDiscoveryScan]                                             | **12.2**                                      | Gets configured discovery scans                                   |
 | [`Remove-PASDiscoveryScan`][Remove-PASDiscoveryScan]                                       | **12.2**                                      | Deletes a single discovery scan that is configured in the Vault |
 | [`Stop-PASDiscoveryScan`][Stop-PASDiscoveryScan]                                           | **12.2**                                      | Stops an existing discovery scan that is configured in the Vault|
 | [`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                         | **12.2**                                      | Get basic information on current platform system types          |
@@ -224,6 +225,7 @@ If version requirement criteria are not met, operations may be prevented.
 | [`Get-PASReport`][Get-PASReport]                                                           | **14.6**                                      | List reports available to your user                             |
 | [`Get-PASReportTask`][Get-PASReportTask]                                                   | **14.6**                                      | List report schedules                                           |
 | [`New-PASReportTask`][New-PASReportTask]                                                   | **14.6**                                      | Create a scheduled report                                       |
+| [`Set-PASReportTask`][Set-PASReportTask]                                                   | **14.6**                                      | Update a scheduled report                                       |
 | [`Export-PASReport`][Export-PASReport]                                                     | **14.6**                                      | Export an available report                                      |
 | [`Add-PASUserAllowedAuthenticationMethod`][Add-PASUserAllowedAuthenticationMethod]         | **14.4**                                      | Add allowed authentication methods to multiple users            |
 | [`Remove-PASUserAllowedAuthenticationMethod`][Remove-PASUserAllowedAuthenticationMethod]   | **14.4**                                      | Remove allowed authentication methods from multiple users       |
@@ -260,6 +262,7 @@ If version requirement criteria are not met, operations may be prevented.
 [Get-PASReport]: /commands/Get-PASReport
 [Get-PASReportTask]: /commands/Get-PASReportTask
 [New-PASReportTask]: /commands/New-PASReportTask
+[Set-PASReportTask]: /commands/Set-PASReportTask
 [Export-PASReport]: /commands/Export-PASReport
 [Add-PASUserAllowedAuthenticationMethod]: /commands/Add-PASUserAllowedAuthenticationMethod
 [Remove-PASUserAllowedAuthenticationMethod]: /commands/Remove-PASUserAllowedAuthenticationMethod
@@ -456,6 +459,7 @@ If version requirement criteria are not met, operations may be prevented.
 [Remove-PASPlatform]: /commands/Remove-PASPlatform
 [Remove-PASGroup]: /commands/Remove-PASGroup
 [Get-PASAccountDetail]: /commands/Get-PASAccountDetail
+[Get-PASDiscoveryScan]: /commands/Get-PASDiscoveryScan
 [Stop-PASDiscoveryScan]: /commands/Stop-PASDiscoveryScan
 [Remove-PASDiscoveryScan]: /commands/Remove-PASDiscoveryScan
 

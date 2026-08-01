@@ -56,7 +56,8 @@
 		'xml\psPAS.CyberArk.Vault.ACL.Type.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Credential.Type.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Safe.Type.ps1xml',
-		'xml\psPAS.CyberArk.Vault.User.Type.ps1xml'
+		'xml\psPAS.CyberArk.Vault.User.Type.ps1xml',
+		'xml\psPAS.CyberArk.Vault.DiscoveryScan.Type.ps1xml'
 	)
 
 	# Format files (.ps1xml) to be loaded when importing this module
@@ -76,7 +77,8 @@
 		'xml\psPAS.CyberArk.Vault.PTA.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Group.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Task.Formats.ps1xml',
-		'xml\psPAS.CyberArk.Vault.Report.Formats.ps1xml'
+		'xml\psPAS.CyberArk.Vault.Report.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.DiscoveryScan.Formats.ps1xml'
 	)
 
 	# Functions to export from this module
@@ -275,6 +277,7 @@
 		'Get-PASReport',
 		'Get-PASReportTask',
 		'New-PASReportTask',
+		'Set-PASReportTask',
 		'Remove-PASReportTask',
 		'Export-PASReport',
 		'Remove-PASUserAllowedAuthenticationMethod',
@@ -324,7 +327,8 @@
 		'Test-PASDiscoveredLocalAccount',
 		'New-PASDiscoveredAccountObject',
 		'Stop-PASDiscoveryScan',
-		'Remove-PASDiscoveryScan'
+		'Remove-PASDiscoveryScan',
+		'Get-PASDiscoveryScan'
 	)
 
 	#AliasesToExport   = @()

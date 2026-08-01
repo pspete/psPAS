@@ -72,8 +72,7 @@ function Unlock-PASAccount {
 
 					$Request.Add('Body', $Body)
 
-				}
-				else {
+				} else {
 
 					#Create URL for request
 					$URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/CheckIn"
@@ -104,8 +103,7 @@ function Unlock-PASAccount {
 
 					$Request.Add('Body', $Body)
 
-				}
-				else {
+				} else {
 
 					#*Assumed working for 11.6+ (not verified/tested for all versions)
 					Assert-VersionRequirement -RequiredVersion 11.6
