@@ -130,38 +130,28 @@ function Get-PASPSMSession {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		$Total = $result.Total
+		if ($null -ne $result) {
 
-		if ($Total -gt 0) {
+			switch ($PSCmdlet.ParameterSetName) {
 
-			#Set events as output collection
-			$LiveSessions = [Collections.Generic.List[Object]]::New(@($result.LiveSessions))
+				'bySessionID' {
 
-			#Split Request URL into baseURI & any query string value
-			$URLString = $URI.Split('?')
-			$URI = $URLString[0]
-			$queryString = $URLString[1]
+					$Output = $result
 
-			for ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
-
-				#While more Live PSM Sessions to return, create nextLink query value
-				$nextLink = "OffSet=$Offset"
-
-				if ($null -ne $queryString) {
-
-					#If original request contained a queryString, concatenate with nextLink value.
-					$nextLink = "$queryString&$nextLink"
+					break
 
 				}
 
-				$result = (Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET).LiveSessions
+				'byQuery' {
 
-				#Request nextLink. Add Live PSM Sessions to output collection.
-				$Null = $LiveSessions.AddRange($result)
+					#API only provides a Total value; page via Get-NextLink's offset support
+					$Output = $result | Get-NextLink -RequestUri $URI
+
+					break
+
+				}
 
 			}
-
-			$Output = $LiveSessions
 
 		}
 

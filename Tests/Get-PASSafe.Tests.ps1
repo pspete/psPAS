@@ -350,20 +350,20 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'follows pagination when Total exceeds the page Limit' {
+			It 'follows pagination when Total exceeds the first page result count' {
 
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
-						'Total'          = 30
+						'Total'          = 2
 						'GetSafesResult' = @([PSCustomObject]@{'PropA' = 'Page1' })
 					}
-				} -ParameterFilter { $URI -notmatch 'limit=' }
+				} -ParameterFilter { $URI -notmatch 'offset=' }
 
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
-						'Safes' = @([PSCustomObject]@{'PropA' = 'Page2' })
+						'GetSafesResult' = @([PSCustomObject]@{'PropA' = 'Page2' })
 					}
-				} -ParameterFilter { $URI -match 'limit=' }
+				} -ParameterFilter { $URI -match 'offset=' }
 
 				$PagedResponse = Get-PASSafe -FindAll -UseGen1API
 

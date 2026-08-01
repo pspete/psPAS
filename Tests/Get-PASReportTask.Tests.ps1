@@ -49,7 +49,10 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             BeforeEach {
                 Mock Invoke-PASRestMethod -MockWith {
-                    [PSCustomObject]@{'tasks' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
+                    [PSCustomObject]@{
+                        'tasks'      = @([PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' })
+                        'totalCount' = 1
+                    }
                 }
 
                 $Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
@@ -163,7 +166,10 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 Mock Invoke-PASRestMethod -MockWith {
                     param($URI)
                     $Script:CapturedURI = $URI
-                    [PSCustomObject]@{'tasks' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
+                    [PSCustomObject]@{
+                        'tasks'      = @([PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' })
+                        'totalCount' = 1
+                    }
                 }
 
                 Get-PASReportTask -subType InventoryReports.InventoryReportUI -name SomeTask
@@ -299,7 +305,8 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             BeforeEach {
                 Mock Invoke-PASRestMethod -MockWith {
                     [PSCustomObject]@{
-                        'tasks' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' }
+                        'tasks'      = @([PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' })
+                        'totalCount' = 1
                     }
                 }
 
