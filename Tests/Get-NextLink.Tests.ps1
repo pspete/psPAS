@@ -213,6 +213,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'includes SavedFilter in the offset request' {
+
+				$InputObj | Get-NextLink -RequestUri 'https://SomeTenant/API/Reports' -SavedFilter SomeFilter
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://SomeTenant/API/Reports?offset=2&SavedFilter=SomeFilter'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 		}
 
 		Context 'Total pagination' {
