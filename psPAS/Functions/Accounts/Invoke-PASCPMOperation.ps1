@@ -9,7 +9,7 @@ function Invoke-PASCPMOperation {
 		)]
 		[ValidateNotNullOrEmpty()]
 		[Alias('id')]
-		[string]$AccountID,
+		[string[]]$AccountID,
 
 		[parameter(
 			Mandatory = $true,
@@ -119,6 +119,15 @@ function Invoke-PASCPMOperation {
 
 	process {
 
+		#Multiple AccountIDs provided in a single call means a bulk operation is being requested
+		$IsBulk = Test-IsMultiValue -Value $AccountID
+
+		if ($IsBulk -and ($PSCmdlet.ParameterSetName -match 'Credentials$')) {
+
+			throw 'Bulk operations are not supported when using the classic API (-UseGen1API/-ImmediateChangeByCPM)'
+
+		}
+
 		#Get parameters to include in request body
 		$boundParameters = $PSBoundParameters |
 			Get-PASParameter -ParametersToRemove ImmediateChangeByCPM, AccountID, VerifyTask, ChangeTask, ReconcileTask
@@ -178,19 +187,60 @@ function Invoke-PASCPMOperation {
 
 				}
 
-				#create request body
-				#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
-				#call records a non-revealing type name instead of the literal request content.
-				$ThisRequest['Body'] = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
+				if ($IsBulk) {
+
+					#Bulk verify/change/reconcile requires 15.2 or above, and is only available Self-Hosted
+					Assert-VersionRequirement -RequiredVersion 15.2
+					Assert-VersionRequirement -SelfHosted
+
+				}
+
+				if (-not $IsBulk) {
+
+					#create request body
+					#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+					#call records a non-revealing type name instead of the literal request content.
+					$ThisRequest['Body'] = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
+
+				}
 
 			}
 
 		}
 
-		#Use AccountID + ParameterSet name for required URI
-		$ThisRequest['URI'] = "$URI/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
+		if ($IsBulk) {
 
-		if ($PSCmdlet.ShouldProcess($AccountID, "Initiate CPM $($PSBoundParameters.Keys | Where-Object{$_ -like '*Task'})")) {
+			#Build a bulk item, sharing the requested operation parameters, for every AccountID
+			$BulkItems = [System.Collections.Generic.List[object]]::new()
+
+			foreach ($ID in $AccountID) {
+
+				$BulkItem = @{'AccountID' = $ID }
+
+				foreach ($Key in $boundParameters.Keys) {
+
+					$BulkItem[$Key] = $boundParameters[$Key]
+
+				}
+
+				$BulkItems.Add($BulkItem)
+
+			}
+
+			#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+			#call records a non-revealing type name instead of the literal request content.
+			$ThisRequest['Body'] = [System.Text.Encoding]::UTF8.GetBytes($(@{'BulkItems' = $BulkItems } | ConvertTo-Json -Depth 5))
+
+			$ThisRequest['URI'] = "$URI/Accounts/$($PSCmdlet.ParameterSetName)/Bulk"
+
+		} else {
+
+			#Use AccountID + ParameterSet name for required URI
+			$ThisRequest['URI'] = "$URI/Accounts/$AccountID/$($PSCmdlet.ParameterSetName)"
+
+		}
+
+		if ($PSCmdlet.ShouldProcess(($AccountID -join ', '), "Initiate CPM $($PSBoundParameters.Keys | Where-Object{$_ -like '*Task'})")) {
 
 			#Send the request to the web service
 			Invoke-PASRestMethod @ThisRequest

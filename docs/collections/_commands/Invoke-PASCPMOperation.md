@@ -16,42 +16,42 @@ Marks accounts for CPM Verify, Change or Reconcile operations
 
 ### Verify
 ```
-Invoke-PASCPMOperation -AccountID <String> [-VerifyTask] [-WhatIf] [-Confirm] [<CommonParameters>]
+Invoke-PASCPMOperation -AccountID <String[]> [-VerifyTask] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### VerifyCredentials
 ```
-Invoke-PASCPMOperation -AccountID <String> [-VerifyTask] [-UseGen1API] [-WhatIf] [-Confirm]
+Invoke-PASCPMOperation -AccountID <String[]> [-VerifyTask] [-UseGen1API] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ### ChangeCredentials
 ```
-Invoke-PASCPMOperation -AccountID <String> [-ChangeTask] -ImmediateChangeByCPM <String>
+Invoke-PASCPMOperation -AccountID <String[]> [-ChangeTask] -ImmediateChangeByCPM <String>
  [-ChangeCredsForGroup <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Change
 ```
-Invoke-PASCPMOperation -AccountID <String> [-ChangeTask] [-ChangeEntireGroup <Boolean>] [-WhatIf] [-Confirm]
+Invoke-PASCPMOperation -AccountID <String[]> [-ChangeTask] [-ChangeEntireGroup <Boolean>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ### SetNextPassword
 ```
-Invoke-PASCPMOperation -AccountID <String> [-ChangeTask] -ChangeImmediately <Boolean>
+Invoke-PASCPMOperation -AccountID <String[]> [-ChangeTask] -ChangeImmediately <Boolean>
  -NewCredentials <SecureString> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Password/Update
 ```
-Invoke-PASCPMOperation -AccountID <String> [-ChangeTask] -NewCredentials <SecureString>
+Invoke-PASCPMOperation -AccountID <String[]> [-ChangeTask] -NewCredentials <SecureString>
  [-ChangeEntireGroup <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Reconcile
 ```
-Invoke-PASCPMOperation -AccountID <String> [-ReconcileTask] [-WhatIf] [-Confirm] [<CommonParameters>]
+Invoke-PASCPMOperation -AccountID <String[]> [-ReconcileTask] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -68,6 +68,10 @@ CPM Change Options:
 Verify & Reconcile both require "Initiate CPM password management operations"
 
 Gen 1 Verify is not supported in Privilege Cloud
+
+Providing multiple values for -AccountID performs the operation as a single bulk request against the relevant Bulk API endpoint.
+Bulk requests are not supported via the Gen1 API.
+Requires CyberArk version 15.2+, and is only available for Self-Hosted implementations.
 
 ## EXAMPLES
 
@@ -122,13 +126,23 @@ Invoke-PASCPMOperation -AccountID $ID -ReconcileTask
 
 Marks an account for immediate reconcile
 
+### EXAMPLE 8
+```
+Invoke-PASCPMOperation -AccountID $ID1, $ID2, $ID3 -ChangeTask
+```
+
+Marks multiple accounts for immediate change in a single bulk request
+
 ## PARAMETERS
 
 ### -AccountID
 The unique ID of the account.
 
+Specify multiple values to perform the operation as a single bulk request.
+Bulk requests require CyberArk version 15.2+, are only available for Self-Hosted implementations, and are not supported via the Gen1 API.
+
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: id
 

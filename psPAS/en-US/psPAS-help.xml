@@ -28024,6 +28024,7 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
       <maml:para>CPM Change Options: - Flags a managed account credentials for an immediate CPM password change.   - The "Initiate CPM password management operations" permission is required. - Sets a password to use for an account's next CPM change.   - The "Initiate CPM password management operations" &amp; "Specify next password value" permission is required. - Updates the account's password only in the Vault (without affecting the credentials on the target device).   - The "Update password value" permission is required.</maml:para>
       <maml:para>Verify &amp; Reconcile both require "Initiate CPM password management operations"</maml:para>
       <maml:para>Gen 1 Verify is not supported in Privilege Cloud</maml:para>
+      <maml:para>Providing multiple values for -AccountID performs the operation as a single bulk request against the relevant Bulk API endpoint. Bulk requests are not supported via the Gen1 API. Requires CyberArk version 15.2+, and is only available for Self-Hosted implementations.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -28032,10 +28033,11 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
           <maml:name>AccountID</maml:name>
           <maml:description>
             <maml:para>The unique ID of the account.</maml:para>
+            <maml:para>Specify multiple values to perform the operation as a single bulk request. Bulk requests require CyberArk version 15.2+, are only available for Self-Hosted implementations, and are not supported via the Gen1 API.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -28080,10 +28082,11 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
           <maml:name>AccountID</maml:name>
           <maml:description>
             <maml:para>The unique ID of the account.</maml:para>
+            <maml:para>Specify multiple values to perform the operation as a single bulk request. Bulk requests require CyberArk version 15.2+, are only available for Self-Hosted implementations, and are not supported via the Gen1 API.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -28141,10 +28144,11 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
           <maml:name>AccountID</maml:name>
           <maml:description>
             <maml:para>The unique ID of the account.</maml:para>
+            <maml:para>Specify multiple values to perform the operation as a single bulk request. Bulk requests require CyberArk version 15.2+, are only available for Self-Hosted implementations, and are not supported via the Gen1 API.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -28218,10 +28222,11 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
           <maml:name>AccountID</maml:name>
           <maml:description>
             <maml:para>The unique ID of the account.</maml:para>
+            <maml:para>Specify multiple values to perform the operation as a single bulk request. Bulk requests require CyberArk version 15.2+, are only available for Self-Hosted implementations, and are not supported via the Gen1 API.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -28282,10 +28287,11 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
           <maml:name>AccountID</maml:name>
           <maml:description>
             <maml:para>The unique ID of the account.</maml:para>
+            <maml:para>Specify multiple values to perform the operation as a single bulk request. Bulk requests require CyberArk version 15.2+, are only available for Self-Hosted implementations, and are not supported via the Gen1 API.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -28358,10 +28364,11 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
           <maml:name>AccountID</maml:name>
           <maml:description>
             <maml:para>The unique ID of the account.</maml:para>
+            <maml:para>Specify multiple values to perform the operation as a single bulk request. Bulk requests require CyberArk version 15.2+, are only available for Self-Hosted implementations, and are not supported via the Gen1 API.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -28436,10 +28443,11 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
           <maml:name>AccountID</maml:name>
           <maml:description>
             <maml:para>The unique ID of the account.</maml:para>
+            <maml:para>Specify multiple values to perform the operation as a single bulk request. Bulk requests require CyberArk version 15.2+, are only available for Self-Hosted implementations, and are not supported via the Gen1 API.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -28485,10 +28493,11 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
         <maml:name>AccountID</maml:name>
         <maml:description>
           <maml:para>The unique ID of the account.</maml:para>
+          <maml:para>Specify multiple values to perform the operation as a single bulk request. Bulk requests require CyberArk version 15.2+, are only available for Self-Hosted implementations, and are not supported via the Gen1 API.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -28698,6 +28707,13 @@ PS C:\&gt; Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company
         <dev:code>Invoke-PASCPMOperation -AccountID $ID -ReconcileTask</dev:code>
         <dev:remarks>
           <maml:para>Marks an account for immediate reconcile</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
+        <dev:code>Invoke-PASCPMOperation -AccountID $ID1, $ID2, $ID3 -ChangeTask</dev:code>
+        <dev:remarks>
+          <maml:para>Marks multiple accounts for immediate change in a single bulk request</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
