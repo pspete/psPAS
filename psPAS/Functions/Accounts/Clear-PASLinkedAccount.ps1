@@ -62,8 +62,7 @@ function Clear-PASLinkedAccount {
 
             $Request.Add('Body', $Body)
 
-        }
-        else {
+        } else {
 
             #Create URL for Request
             $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/LinkAccount/$extraPasswordIndex"

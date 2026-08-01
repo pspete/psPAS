@@ -228,6 +228,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 | [List Available Reports][List Available Reports]                                                     | [Get-PASReport][Get-PASReport]                                                           |
 | [List Report Schedules][List Report Schedules]                                                       | [Get-PASReportTask][Get-PASReportTask]                                                   |
 | [Create Report Schedule][Create Report Schedule]                                                     | [New-PASReportTask][New-PASReportTask]                                                   |
+| [Update Report Schedule][Update Report Schedule]                                                     | [Set-PASReportTask][Set-PASReportTask]                                                   |
 | [Export Report][Export Report]                                                                       | [Export-PASReport][Export-PASReport]                                                     |
 | [Add Allowed Authentication Methods][Add Allowed Authentication Methods]                             | [Add-PASUserAllowedAuthenticationMethod][Add-PASUserAllowedAuthenticationMethod]         |
 | [Remove Allowed Authentication Methods][Remove Allowed Authentication Methods]                       | [Remove-PASUserAllowedAuthenticationMethod][Remove-PASUserAllowedAuthenticationMethod]   |
@@ -262,6 +263,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 | [Initiate DR failover][Initiate DR failover]                                                         | [Invoke-PASVRMFailover][Invoke-PASVRMFailover]                                           |
 | [Import Ticketing System][Import Ticketing System]                                                   | [Import-PASTicketingSystem][Import-PASTicketingSystem]                                   |
 | [Export Ticketing System Logs][Export Ticketing System Logs]                                         | [Export-PASTicketingSystemLog][Export-PASTicketingSystemLog]                             |
+| [Get Discovery Scans][Get Discovery Scans]                                                           | [Get-PASDiscoveryScan][Get-PASDiscoveryScan]                                           |
 | [Stop Discovery Scan][Stop Discovery Scan]                                                           | [Stop-PASDiscoveryScan][Stop-PASDiscoveryScan]                                           |
 | [Remove Discovery Scan][Remove Discovery Scan]                                                       | [Remove-PASDiscoveryScan][Remove-PASDiscoveryScan]                                       |
 
@@ -280,6 +282,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get-PASReport]: /psPAS/Functions/Reports/Get-PASReport
 [Get-PASReportTask]: /psPAS/Functions/Reports/Get-PASReportTask
 [New-PASReportTask]: /psPAS/Functions/Reports/New-PASReportTask
+[Set-PASReportTask]: /psPAS/Functions/Reports/Set-PASReportTask
 [Export-PASReport]: /psPAS/Functions/Reports/Export-PASReport
 [Add-PASUserAllowedAuthenticationMethod]: /psPAS/Functions/Users/Add-PASUserAllowedAuthenticationMethod
 [Remove-PASUserAllowedAuthenticationMethod]: /psPAS/Functions/Users/Remove-PASUserAllowedAuthenticationMethod
@@ -698,8 +701,10 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Resume CPM auto management]: https://pspas.pspete.dev/commands/Resume-PASCPMAutoManagement
 [Cancel CPM task]: https://pspas.pspete.dev/commands/Stop-PASCPMTask
 [Generate platform secret]: https://pspas.pspete.dev/commands/New-PASPlatformSecret
+[Get Discovery Scans]: https://pspas.pspete.dev/commands/Get-PASDiscoveryScan
 [Stop Discovery Scan]: https://pspas.pspete.dev/commands/Stop-PASDiscoveryScan
 [Remove-PASDiscoveryScan]: https://pspas.pspete.dev/commands/Remove-PASDiscoveryScan
+[Get-PASDiscoveryScan]: https://pspas.pspete.dev/commands/Get-PASDiscoveryScan
 [Add discovered accounts - Gen 1]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Add%20Discovered%20Account%20v10.8.htm
 [Get discovered accounts]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-discovered-accounts.htm
 [Get discovered account details]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-discovered-account-details.htm

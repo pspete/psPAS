@@ -288,9 +288,7 @@ function Add-PASAccount {
 						#Add key/Value to "properties" hashtable
 						$properties[$_] = $boundParameters[$_]
 
-					}
-
-					else {
+					} else {
 						#for DynamicProperties key=value pairs
 
 						#Enumerate DynamicProperties object

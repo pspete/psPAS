@@ -26,9 +26,7 @@ function Remove-PASPrivateSSHKey {
             $URI = "$URI/$UserID/Secret/SSHKeys/Cache"
 
 
-        }
-
-        else {
+        } else {
 
             $user = 'Personal'
             $URI = "$URI/Secret/SSHKeys/Cache"
