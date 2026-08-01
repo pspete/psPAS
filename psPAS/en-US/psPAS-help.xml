@@ -47276,11 +47276,12 @@ PS C:\&gt; Restart-PASVRMService -serviceName Vault -serverAddress vault.company
       <command:verb>Resume</command:verb>
       <command:noun>PASCPMAutoManagement</command:noun>
       <maml:description>
-        <maml:para>Resumes CPM auto management for an account.</maml:para>
+        <maml:para>Resumes CPM auto management for one or more accounts.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Resumes automatic password management by the CPM for a specific account whose management was previously suspended.</maml:para>
+      <maml:para>Resumes automatic password management by the CPM for one or more accounts whose management was previously suspended.</maml:para>
+      <maml:para>When more than one value is supplied for `-Accountid`, a bulk resume request is sent.</maml:para>
       <maml:para>Requires CyberArk Self-Hosted version 15.2 or higher.</maml:para>
     </maml:description>
     <command:syntax>
@@ -47289,14 +47290,37 @@ PS C:\&gt; Restart-PASVRMService -serviceName Vault -serverAddress vault.company
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
           <maml:name>Accountid</maml:name>
           <maml:description>
-            <maml:para>The unique id of the account to resume CPM auto management for.</maml:para>
+            <maml:para>The unique id of the account(s) to resume CPM auto management for.</maml:para>
+            <maml:para>When more than one value is supplied, a bulk resume request is sent.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>String</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -47304,14 +47328,39 @@ PS C:\&gt; Restart-PASVRMService -serviceName Vault -serverAddress vault.company
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
         <maml:name>Accountid</maml:name>
         <maml:description>
-          <maml:para>The unique id of the account to resume CPM auto management for.</maml:para>
+          <maml:para>The unique id of the account(s) to resume CPM auto management for.</maml:para>
+          <maml:para>When more than one value is supplied, a bulk resume request is sent.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -47356,9 +47405,9 @@ PS C:\&gt; Restart-PASVRMService -serviceName Vault -serverAddress vault.company
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 3 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; '123_4', '125_6' | ForEach-Object { Resume-PASCPMAutoManagement -Accountid $_ }</dev:code>
+        <dev:code>PS C:\&gt; Resume-PASCPMAutoManagement -Accountid 123_4, 125_6</dev:code>
         <dev:remarks>
-          <maml:para>Resumes CPM auto management for each of the specified accounts.</maml:para>
+          <maml:para>Resumes CPM auto management for accounts 123_4 and 125_6 in a single bulk request.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -47366,6 +47415,10 @@ PS C:\&gt; Restart-PASVRMService -serviceName Vault -serverAddress vault.company
       <maml:navigationLink>
         <maml:linkText>https://pspas.pspete.dev/commands/Resume-PASCPMAutoManagement</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/Resume-PASCPMAutoManagement</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/resume-account-bulk.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/resume-account-bulk.htm</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>

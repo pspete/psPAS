@@ -103,6 +103,65 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Bulk Input' {
+
+			BeforeEach {
+				$psPASSession.ExternalVersion = '0.0'
+
+				Mock Invoke-PASRestMethod {
+					param($Uri, $Method, $Body)
+					$Script:RequestBodyRaw = $Body
+				}
+
+				$response = Resume-PASCPMAutoManagement -Accountid '11_1', '33_3'
+
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/Resume/Bulk"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with body for bulk resume' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Body -ne $null
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with expected body for bulk resume' {
+
+				$Script:RequestBody = $Script:RequestBodyRaw | ConvertFrom-Json
+
+				$Script:RequestBody.BulkItems | Should -Not -BeNullOrEmpty
+				$Script:RequestBody.BulkItems.Count | Should -Be 2
+				$Script:RequestBody.BulkItems[0].AccountID | Should -Be '11_1'
+				$Script:RequestBody.BulkItems[1].AccountID | Should -Be '33_3'
+
+			}
+
+		}
+
 		Context 'Output' {
 
 			BeforeEach {
