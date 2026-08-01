@@ -118,7 +118,6 @@ function Get-PASSafeMember {
 
 		$Request = @{ }
 		$Method = 'GET'
-		$Limit = 25   #default if you call the API with no value
 
 	}#begin
 
@@ -284,39 +283,8 @@ function Get-PASSafeMember {
 
 							default {
 
-								$Total = $result.Count
-
-								if ($Total -gt 0) {
-
-									#Set memberlist as output collection
-									$Members = [Collections.Generic.List[Object]]::New(($result.value))
-
-									#Split Request URL into baseURI & any query string value
-									$URLString = $URI.Split('?')
-									$URI = $URLString[0]
-									$queryString = $URLString[1]
-
-									for ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
-
-										#While more members to return, create nextLink query value
-										$nextLink = "limit=$Limit&OffSet=$Offset"
-
-										if ($null -ne $queryString) {
-
-											#If original request contained a queryString, concatenate with nextLink value.
-											$nextLink = "$queryString&$nextLink"
-
-										}
-
-
-										#Request nextLink. Add memberlist to output collection.
-										$Null = $Members.AddRange((Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET -TimeoutSec $TimeoutSec).value)
-
-									}
-
-									$Output = $Members
-
-								}
+								#follows nextLink if present in the response, matching Get-PASSafe's Gen2 behaviour
+								$Output = $result | Get-NextLink -TimeoutSec $TimeoutSec
 
 							}
 
