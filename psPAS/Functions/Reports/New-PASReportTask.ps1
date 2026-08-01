@@ -83,7 +83,14 @@ function New-PASReportTask {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[AllowEmptyString()]
-		[boolean]$notifyOnFailure
+		[boolean]$notifyOnFailure,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[AllowEmptyCollection()]
+		[TaskFilter[]]$Filters
 	)
 
 	begin {
@@ -91,7 +98,7 @@ function New-PASReportTask {
 		Assert-VersionRequirement -RequiredVersion 14.6
 		#array for parameter names which appear in the top-tier of the JSON object
 		$keysToKeep = [Collections.Generic.List[String]]@(
-			'version', 'type', 'subType', 'name', 'keepTaskDefinition', 'Subscribers', 'notifyOnFailure'
+			'version', 'type', 'subType', 'name', 'keepTaskDefinition', 'Subscribers', 'notifyOnFailure', 'Filters'
 		)
 		$scheduleParams = [Collections.Generic.List[String]]@(
 			'startTime', 'recurrenceType', 'recurrenceValue', 'daysOfWeek', 'weekNumber'
@@ -162,6 +169,27 @@ function New-PASReportTask {
 				#Transform weekNumber
 				$boundParameters['schedule']['recurrence']['weekNumber'] = $PSBoundParameters['weekNumber']
 				continue
+
+			}
+
+		}
+
+		if ($PSBoundParameters.ContainsKey('Filters')) {
+
+			#Filters parameter requires a later version than the base endpoint
+			Assert-VersionRequirement -RequiredVersion 15.0
+
+			#Filter names accepted vary by subType; warn (do not block) on names not documented for it,
+			#since CyberArk may support filters here which are not yet reflected in this reference list
+			$KnownFilterNames = Get-PASReportFilterName -SubType $subType
+
+			foreach ($FilterItem in $Filters) {
+
+				if ($KnownFilterNames -notcontains $FilterItem.name) {
+
+					Write-Warning "Filter name '$($FilterItem.name)' is not documented as a valid filter for subType '$subType'. It will still be sent to the API."
+
+				}
 
 			}
 

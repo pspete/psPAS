@@ -179,6 +179,85 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
         }
 
+        Context 'Input - Filters' {
+
+            BeforeEach {
+                Mock Invoke-PASRestMethod -MockWith {
+                    [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' }
+                }
+
+                #'safe' is a documented filter name for the InventoryReports.InventoryReportUI subType
+                $filter = [TaskFilter]::new('safe', 'SomeValue')
+
+                $InputObj = [pscustomobject]@{
+                    'subtype'            = 'InventoryReports.InventoryReportUI'
+                    'name'               = 'SomeName'
+                    'keepTaskDefinition' = $true
+                    'notifyOnFailure'    = $true
+                    'Filters'            = @($filter)
+                }
+
+                $Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+                $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+            }
+
+            It 'includes the Filters array in the request body' {
+
+                $InputObj | New-PASReportTask -WarningVariable JsonWarning -WarningAction SilentlyContinue
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $ParsedBody = $Body | ConvertFrom-Json
+                    ($ParsedBody.Filters[0].name -eq 'safe') -and ($ParsedBody.Filters[0].value -eq 'SomeValue')
+
+                } -Times 1 -Exactly -Scope It
+
+                $JsonWarning | Should -BeNullOrEmpty
+
+            }
+
+            It 'does not warn when a filter name is documented for the specified subType' {
+
+                $InputObj | New-PASReportTask -WarningVariable FilterWarning -WarningAction SilentlyContinue | Out-Null
+
+                $FilterWarning | Should -BeNullOrEmpty
+
+            }
+
+            It 'warns when a filter name is not documented for the specified subType' {
+
+                $undocumentedFilter = [TaskFilter]::new('SomeUndocumentedFilter', 'SomeValue')
+                $InputObj.Filters = @($undocumentedFilter)
+
+                $InputObj | New-PASReportTask -WarningVariable FilterWarning -WarningAction SilentlyContinue | Out-Null
+
+                $FilterWarning | Where-Object { $_ -match "'SomeUndocumentedFilter'" } | Should -Not -BeNullOrEmpty
+
+            }
+
+            It 'does not throw for a subType with no documented filters' {
+
+                $InputObj.subtype = 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI'
+
+                { $InputObj | New-PASReportTask -WarningAction SilentlyContinue } | Should -Not -Throw
+
+            }
+
+            It 'throws error if version requirement for Filters not met' {
+                $psPASSession.ExternalVersion = '14.6'
+                { $InputObj | New-PASReportTask -WarningAction SilentlyContinue } | Should -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+            It 'does not throw when using Filters at the base version requirement' {
+                $psPASSession.ExternalVersion = '15.0'
+                { $InputObj | New-PASReportTask -WarningAction SilentlyContinue } | Should -Not -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
+        }
+
         Context 'Input - Schedule Recurrence' {
 
             BeforeEach {

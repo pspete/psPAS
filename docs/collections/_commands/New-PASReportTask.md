@@ -18,7 +18,8 @@ Creates a new schedule for reports
 New-PASReportTask [[-version] <Int32>] [[-type] <String>] [-subType] <String> [-name] <String>
  [-keepTaskDefinition] <Boolean> [[-startTime] <DateTime>] [[-recurrenceType] <String>]
  [[-recurrenceValue] <String>] [[-daysOfWeek] <String>] [[-weekNumber] <String>]
- [[-Subscribers] <Subscriber[]>] [-notifyOnFailure] <Boolean> [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-Subscribers] <Subscriber[]>] [-notifyOnFailure] <Boolean> [-Filters <TaskFilter[]>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,6 +27,8 @@ New-PASReportTask [[-version] <Int32>] [[-type] <String>] [-subType] <String> [-
 Creates a new schedule for reports
 
 A `[Subscriber]` Class has been created to assist witho formatting of data for this request, see the example below
+
+A `[TaskFilter]` Class has been created to assist with formatting filter data for report tasks
 
 ## EXAMPLES
 
@@ -73,6 +76,16 @@ PS C:\> New-PASReportTask -subType 'CyberArk.Reports.LicenseCapacityReport.Licen
 
 Shows what would happen if the report schedule was created, without actually creating it.
 
+### Example 4
+
+```powershell
+PS C:\> $Filter = [TaskFilter]::new('SomeColumn', 'SomeValue')
+PS C:\> New-PASReportTask -subType 'CyberArk.Reports.ActivitiesReport.ActivitiesReportUI' -name 'Filtered Activity Report' `
+-keepTaskDefinition $true -notifyOnFailure $false -Filters $Filter
+```
+
+Creates a report schedule with a filter applied, restricting the report to rows where "SomeColumn" matches "SomeValue".
+
 ## PARAMETERS
 
 ### -Confirm
@@ -88,6 +101,30 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Filters
+
+Create definition for one or more report filters using the `[TaskFilter]` Class.
+
+Only applicable to report tasks; each filter narrows the report by a name/value pair
+matching one of the columns available in the underlying report.
+
+The set of valid filter names differs per subType - see NOTES. A filter name not
+documented for the specified subType generates a warning, but is still sent to the API.
+
+Requires CyberArk version 15.0 or later.
+
+```yaml
+Type: TaskFilter[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -311,8 +348,44 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 
+The filter names accepted by the `-Filters` parameter differ per report `-subType`. The
+following names are documented by CyberArk for each subType; anything else generates a
+warning (not an error) since CyberArk may support filters here which are not yet reflected
+in this list:
+
+- InventoryReports.InventoryReportUI (Privileged accounts): accountName, deviceType,
+  platformId, numberOfDays, activitiesOption, onlyAccountsWithFailures, onlyDisabledAccounts,
+  freeSearch, group, includeServiceAccounts, safe
+- CyberArk.Reports.ApplicationReports.ApplicationReportUI (Applications): freeSearch,
+  includeSubLocations, location
+- InventoryReports.ComplianceReportUI (Compliance Status): accountName, deviceType,
+  platformId, numberOfDays, activitiesOption, onlyAccountsWithFailures, onlyDisabledAccounts,
+  freeSearch, accountChangeMode, expiresIn, expireOption, includeAboutToExpire,
+  onlyExpiredAccounts, safe
+- CyberArk.Reports.EntitlementReport.EntitlementReportUI (Entitlement): includeCommandPermissions,
+  includeSubLocations, location, safe, includeDisabledUsers, includeGroups, targetAccount,
+  targetPolicyID, targetSystem, userOrGroup, userType
+- CyberArk.Reports.ActivitiesReport.ActivitiesReportUI (Activity log): activitiesFilter,
+  clientId, displayOnlyAlerts, includeSubLocations, historyOptions, actionsInPrevDays,
+  historyFromDate, historyToDate, location, safe, userType, includeDeletedUsers, requestId,
+  targetAccount, targetPolicyID, targetSystem, userOrGroup
+- CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI (License capacity): none
+- CyberArk.Reports.UsersReport.UsersListReportUI (Users): includeDisabledUsers,
+  includeSubLocations, historyOptions, actionsInPrevDays, historyFromDate, historyToDate,
+  location, userOrGroup, userActivityType
+- CyberArk.Reports.ActiveNonActiveSafesReport.ActiveNonActiveSafesReportUI (Safes):
+  activitiesFilter, ignoreBackupActivities, includeSubLocations, historyOptions,
+  actionsInPrevDays, historyFromDate, historyToDate, location, safe, safeType
+- CyberArk.Reports.OwnersListReport.OwnersListReportUI (Owners): safe, userOrGroup
+
+For the `activitiesFilter` filter (Activity log and Safes subTypes), the value is a
+comma-separated list of activity `code`s. Use `Get-PASReportActivity` to look up the
+available activity groups/codes for the connected environment.
+
 ## RELATED LINKS
 
 [https://pspas.pspete.dev/commands/New-PASReportTask](https://pspas.pspete.dev/commands/New-PASReportTask)
+
+[https://pspas.pspete.dev/commands/Get-PASReportActivity](https://pspas.pspete.dev/commands/Get-PASReportActivity)
 
 [https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/create-task.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/create-task.htm)
