@@ -23412,6 +23412,98 @@ $Summary | Format-List</dev:code>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-PASReportActivity</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>PASReportActivity</command:noun>
+      <maml:description>
+        <maml:para>Returns the activity groups and activities available for use in reports</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Returns the list of activity groups available for reports, and the activities within each group. The response is intended to populate filters or selection lists in reporting features.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-PASReportActivity</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+          <maml:name>Type</maml:name>
+          <maml:description>
+            <maml:para>The type of report to return activity groups/activities for.</maml:para>
+            <maml:para>This is not the same as the activityGroup values returned in the response.</maml:para>
+          </maml:description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">ActivitiesReport</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ActiveNonActiveSafesReport</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <maml:name>Type</maml:name>
+        <maml:description>
+          <maml:para>The type of report to return activity groups/activities for.</maml:para>
+          <maml:para>This is not the same as the activityGroup values returned in the response.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>psPAS.CyberArk.Vault.Report.ActivityGroup</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASReportActivity</dev:code>
+        <dev:remarks>
+          <maml:para>Returns all available activity groups and their activities.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PASReportActivity -Type ActivitiesReport</dev:code>
+        <dev:remarks>
+          <maml:para>Returns activity groups and activities scoped to the ActivitiesReport report type.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASReportActivity</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Get-PASReportActivity</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-get-reportparams-activities.htm</maml:linkText>
+        <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-get-reportparams-activities.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-PASReportTask</command:name>
       <command:verb>Get</command:verb>
       <command:noun>PASReportTask</command:noun>
@@ -32368,6 +32460,7 @@ New-PASPSMSession -userName Administrator -secret $secret -address 10.10.10.20 -
     <maml:description>
       <maml:para>Creates a new schedule for reports</maml:para>
       <maml:para>A `[Subscriber]` Class has been created to assist witho formatting of data for this request, see the example below</maml:para>
+      <maml:para>A `[TaskFilter]` Class has been created to assist with formatting filter data for report tasks</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -32539,6 +32632,21 @@ New-PASPSMSession -userName Administrator -secret $secret -address 10.10.10.20 -
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>Filters</maml:name>
+          <maml:description>
+            <maml:para>Create definition for one or more report filters using the `[TaskFilter]` Class.</maml:para>
+            <maml:para>Only applicable to report tasks; each filter narrows the report by a name/value pair matching one of the columns available in the underlying report.</maml:para>
+            <maml:para>The set of valid filter names differs per subType - see NOTES. A filter name not documented for the specified subType generates a warning, but is still sent to the API.</maml:para>
+            <maml:para>Requires CyberArk version 15.0 or later.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">TaskFilter[]</command:parameterValue>
+          <dev:type>
+            <maml:name>TaskFilter[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
           <maml:description>
@@ -32564,6 +32672,21 @@ New-PASPSMSession -userName Administrator -secret $secret -address 10.10.10.20 -
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>Filters</maml:name>
+        <maml:description>
+          <maml:para>Create definition for one or more report filters using the `[TaskFilter]` Class.</maml:para>
+          <maml:para>Only applicable to report tasks; each filter narrows the report by a name/value pair matching one of the columns available in the underlying report.</maml:para>
+          <maml:para>The set of valid filter names differs per subType - see NOTES. A filter name not documented for the specified subType generates a warning, but is still sent to the API.</maml:para>
+          <maml:para>Requires CyberArk version 15.0 or later.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">TaskFilter[]</command:parameterValue>
+        <dev:type>
+          <maml:name>TaskFilter[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="10" aliases="none">
         <maml:name>Subscribers</maml:name>
@@ -32727,7 +32850,11 @@ New-PASPSMSession -userName Administrator -secret $secret -address 10.10.10.20 -
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>The filter names accepted by the `-Filters` parameter differ per report `-subType`. The following names are documented by CyberArk for each subType; anything else generates a warning (not an error) since CyberArk may support filters here which are not yet reflected in this list:</maml:para>
+        <maml:para>- InventoryReports.InventoryReportUI (Privileged accounts): accountName, deviceType,   platformId, numberOfDays, activitiesOption, onlyAccountsWithFailures, onlyDisabledAccounts,   freeSearch, group, includeServiceAccounts, safe - CyberArk.Reports.ApplicationReports.ApplicationReportUI (Applications): freeSearch,   includeSubLocations, location - InventoryReports.ComplianceReportUI (Compliance Status): accountName, deviceType,   platformId, numberOfDays, activitiesOption, onlyAccountsWithFailures, onlyDisabledAccounts,   freeSearch, accountChangeMode, expiresIn, expireOption, includeAboutToExpire,   onlyExpiredAccounts, safe - CyberArk.Reports.EntitlementReport.EntitlementReportUI (Entitlement): includeCommandPermissions,   includeSubLocations, location, safe, includeDisabledUsers, includeGroups, targetAccount,   targetPolicyID, targetSystem, userOrGroup, userType - CyberArk.Reports.ActivitiesReport.ActivitiesReportUI (Activity log): activitiesFilter,   clientId, displayOnlyAlerts, includeSubLocations, historyOptions, actionsInPrevDays,   historyFromDate, historyToDate, location, safe, userType, includeDeletedUsers, requestId,   targetAccount, targetPolicyID, targetSystem, userOrGroup - CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI (License capacity): none</maml:para>
+        <maml:para>- CyberArk.Reports.UsersReport.UsersListReportUI (Users): includeDisabledUsers,</maml:para>
+        <maml:para>  includeSubLocations, historyOptions, actionsInPrevDays, historyFromDate, historyToDate,   location, userOrGroup, userActivityType - CyberArk.Reports.ActiveNonActiveSafesReport.ActiveNonActiveSafesReportUI (Safes):   activitiesFilter, ignoreBackupActivities, includeSubLocations, historyOptions,   actionsInPrevDays, historyFromDate, historyToDate, location, safe, safeType - CyberArk.Reports.OwnersListReport.OwnersListReportUI (Owners): safe, userOrGroup</maml:para>
+        <maml:para>For the `activitiesFilter` filter (Activity log and Safes subTypes), the value is a comma-separated list of activity `code`s. Use `Get-PASReportActivity` to look up the available activity groups/codes for the connected environment.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -32772,11 +32899,24 @@ PS C:\&gt; New-PASReportTask -subType 'CyberArk.Reports.LicenseCapacityReport.Li
           <maml:para>Shows what would happen if the report schedule was created, without actually creating it.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; $Filter = [TaskFilter]::new('SomeColumn', 'SomeValue')
+PS C:\&gt; New-PASReportTask -subType 'CyberArk.Reports.ActivitiesReport.ActivitiesReportUI' -name 'Filtered Activity Report' `
+-keepTaskDefinition $true -notifyOnFailure $false -Filters $Filter</dev:code>
+        <dev:remarks>
+          <maml:para>Creates a report schedule with a filter applied, restricting the report to rows where "SomeColumn" matches "SomeValue".</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>https://pspas.pspete.dev/commands/New-PASReportTask</maml:linkText>
         <maml:uri>https://pspas.pspete.dev/commands/New-PASReportTask</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASReportActivity</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Get-PASReportActivity</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/create-task.htm</maml:linkText>
