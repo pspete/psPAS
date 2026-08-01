@@ -49,7 +49,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{'Recordings' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
+					[PSCustomObject]@{
+						'Recordings' = @([PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' })
+						'Total'      = 1
+					}
 				}
 
 				$InputObj = [pscustomobject]@{
@@ -165,6 +168,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'returns output when querying by ID' {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' }
+				}
+
+				Get-PASPSMRecording -RecordingID SomeID | Should -Not -BeNullOrEmpty
+
+			}
+
 			It 'throws error if version requirement not met' {
 				$psPASSession.ExternalVersion = '1.0'
 				{ $InputObj | Get-PASPSMRecording } | Should -Throw
@@ -183,7 +196,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
-						'Recordings' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' }
+						'Recordings' = @([PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' })
 						'Total'      = 1
 					}
 				}

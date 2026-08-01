@@ -49,7 +49,10 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             BeforeEach {
                 Mock Invoke-PASRestMethod -MockWith {
-                    [PSCustomObject]@{'reports' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' } }
+                    [PSCustomObject]@{
+                        'reports'    = @([PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' })
+                        'totalCount' = 1
+                    }
                 }
 
                 $Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
@@ -243,7 +246,8 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             BeforeEach {
                 Mock Invoke-PASRestMethod -MockWith {
                     [PSCustomObject]@{
-                        'reports' = [PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' }
+                        'reports'    = @([PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2'; 'Prop3' = 'Val3' })
+                        'totalCount' = 1
                     }
                 }
 

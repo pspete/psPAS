@@ -103,62 +103,33 @@ function Get-PASReportTask {
 
             }
 
-            #Collects tasks returned across all pages
-            $Tasks = [Collections.Generic.List[Object]]::New()
+            #Create Query String, escaped for inclusion in request URL
+            $queryString = $boundParameters | ConvertTo-QueryString
 
-            $Offset = 0
+            $URI = $BaseURI
 
-            do {
+            if ($null -ne $queryString) {
 
-                if ($Offset -gt 0) {
+                #Build URL from base URL
+                $URI = "$URI`?$queryString"
 
-                    #Page past the first request via the offset query parameter
-                    $requestParameters = $boundParameters + @{'offset' = $Offset }
+            }
 
-                } else {
+            #Send request to web service
+            $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-                    $requestParameters = $boundParameters
+            if ($null -ne $result) {
 
-                }
+                #API only provides a totalCount value; page via Get-NextLink's offset support
+                $Tasks = $result | Get-NextLink -RequestUri $URI
 
-                #Create Query String, escaped for inclusion in request URL
-                $queryString = $requestParameters | ConvertTo-QueryString
+                if ($null -ne $Tasks) {
 
-                $URI = $BaseURI
-
-                if ($null -ne $queryString) {
-
-                    #Build URL from base URL
-                    $URI = "$URI`?$queryString"
+                    #Return result
+                    $Tasks
+                    #TODO: Add Schedule/Tasks type definition for formatting
 
                 }
-
-                #Send request to web service
-                $result = Invoke-PASRestMethod -Uri $URI -Method GET
-
-                $PageTasks = $null
-
-                if ($null -ne $result) {
-
-                    $PageTasks = $result.tasks
-
-                }
-
-                if ($null -ne $PageTasks) {
-
-                    $PageTasks = [Object[]]$PageTasks
-                    $null = $Tasks.AddRange($PageTasks)
-                    $Offset += $PageTasks.Count
-
-                }
-
-            } while (($null -ne $PageTasks) -and ($PageTasks.Count -gt 0) -and ($Offset -lt $result.totalCount))
-
-            if ($Tasks.Count -gt 0) {
-
-                #Return result
-                $Tasks
-                #TODO: Add Schedule/Tasks type definition for formatting
 
             }
 

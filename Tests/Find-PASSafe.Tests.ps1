@@ -118,18 +118,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
 						'Total' = 100
-						'Safes' = @(
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
-						)
+						#Realistic page of results: 25 items, matching the default Limit requested
+						'Safes' = 1..25 | ForEach-Object { [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
 					}
 				}
 
 				Find-PASSafe
 
+				#1 request from the shared BeforeEach above, plus 4 requests (100 results / 25 per page) to collect all pages
 				Assert-MockCalled Invoke-PASRestMethod -Times 5 -Exactly -Scope It
 
 			}
@@ -145,13 +141,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
 						'Total' = 20
-						'Safes' = @(
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
-						)
+						#Total is within the default Limit, so a real API returns everything in a single page
+						'Safes' = 1..20 | ForEach-Object { [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
 					}
 				}
 
@@ -171,24 +162,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'returns expected number of results' {
+			It 'returns results collected across every page' {
 
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
 						'Total' = 100
-						'Safes' = @(
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' },
-							[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
-						)
+						#Realistic page of results: 25 items, matching the default Limit requested
+						'Safes' = 1..25 | ForEach-Object { [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
 					}
 				}
 
 				$response = Find-PASSafe
 
-				$response.count | Should -Be 20
+				$response.count | Should -Be 100
 
 			}
 

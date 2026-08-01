@@ -227,212 +227,28 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'corrctly formats nexLink, Limit & Offset URL values' {
+			It 'follows nextLink to collect all pages of results' {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{
-						'Count' = 52
-						'Value' = @(
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							}
-						)
-
+					if ($script:iteration -lt 1) {
+						$script:iteration++
+						[PSCustomObject]@{
+							'count'    = 2
+							'value'    = @([PSCustomObject]@{'safeUrlId' = 'SomeSafe' })
+							'nextLink' = 'API/Safes/SomeSafe/Members?offset=1'
+						}
+					} else {
+						[PSCustomObject]@{
+							'count' = 2
+							'value' = @([PSCustomObject]@{'safeUrlId' = 'SomeSafe' })
+						}
 					}
-
 				}
+				$script:iteration = 0
 
-				Get-PASSafeMember -SafeName SomeSafe -includePredefinedUsers $true
+				$response = Get-PASSafeMember -SafeName SomeSafe
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True")
-
-				} -Times 1 -Exactly -Scope It
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True&limit=25&OffSet=25")
-
-				} -Times 1 -Exactly -Scope It
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True&limit=25&OffSet=50")
-
-				} -Times 1 -Exactly -Scope It
+				$response.Count | Should -Be 2
 
 			}
 

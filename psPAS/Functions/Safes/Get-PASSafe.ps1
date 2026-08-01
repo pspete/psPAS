@@ -104,7 +104,6 @@ function Get-PASSafe {
 	begin {
 
 		$typeName = 'psPAS.CyberArk.Vault.Safe'
-		$Limit = 25   #default if you call the API with no value
 
 	}#begin
 
@@ -248,25 +247,20 @@ function Get-PASSafe {
 
 			( { $PSItem -match '^Gen1-' } ) {
 
-				$Total = $result.Total
+				if ($null -ne $result) {
 
-				if ($Total -gt 0) {
+					#API only provides a Total value; page via Get-NextLink's offset support
+					$Reply = $result | Get-NextLink -RequestUri $URI -TimeoutSec $TimeoutSec
 
-					$Safes = [Collections.Generic.List[Object]]::New(($result.$returnProperty))
+					if ($null -ne $Reply) {
 
-					for ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
+						$return = $Reply
 
-						$Null = $Safes.AddRange((Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -TimeoutSec $TimeoutSec).Safes)
+					} else {
+
+						$return = $result.$returnProperty
 
 					}
-
-					$return = $Safes
-
-				}
-
-				elseif ($null -ne $result) {
-
-					$return = $result.$returnProperty
 
 				}
 
