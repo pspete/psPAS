@@ -72,7 +72,7 @@ function Get-PASReportTask {
             if ($null -ne $result) {
 
                 #Return result
-                $result
+                $result | Add-ObjectDetail -TypeName psPAS.CyberArk.Vault.Task
 
             }
 
@@ -157,8 +157,7 @@ function Get-PASReportTask {
             if ($Tasks.Count -gt 0) {
 
                 #Return result
-                $Tasks
-                #TODO: Add Schedule/Tasks type definition for formatting
+                $Tasks | Add-ObjectDetail -TypeName psPAS.CyberArk.Vault.Task
 
             }
 

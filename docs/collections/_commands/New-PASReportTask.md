@@ -245,6 +245,7 @@ Task subtype.
 Type: String
 Parameter Sets: (All)
 Aliases:
+Accepted values: InventoryReports.InventoryReportUI, CyberArk.Reports.ApplicationReports.ApplicationReportUI, InventoryReports.ComplianceReportUI, CyberArk.Reports.EntitlementReport.EntitlementReportUI, CyberArk.Reports.ActivitiesReport.ActivitiesReportUI, CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI, CyberArk.Reports.UsersReport.UsersListReportUI, CyberArk.Reports.ActiveNonActiveSafesReport.ActiveNonActiveSafesReportUI, CyberArk.Reports.OwnersListReport.OwnersListReportUI
 
 Required: True
 Position: 2

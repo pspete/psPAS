@@ -23270,7 +23270,16 @@ $Summary | Format-List</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>psPAS.CyberArk.Vault.Report</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>Undocumented by CyberArk; the API's filter parameter was tested against every property returned by this command. Only createdBy, name, records, status, and type are accepted as filter fields, and each only supports the EQ operator - all other documented operators (NE, GT, GE, LT, LE, IN, NOTIN, CONTAINS, NOTCONTAINS, STARTSWITH, ENDSWITH, IS NULL, IS NOTNULL) are rejected by the API for these fields.</maml:para>
@@ -23502,7 +23511,16 @@ $Summary | Format-List</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>psPAS.CyberArk.Vault.Task</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>Undocumented by CyberArk; the API's filter parameter was tested against every property returned by this command. Only subType and name are accepted as filter fields, and each only supports the EQ operator - other operators were not exhaustively tested.</maml:para>
@@ -32333,6 +32351,17 @@ New-PASPSMSession -userName Administrator -secret $secret -address 10.10.10.20 -
           <maml:description>
             <maml:para>Task subtype.</maml:para>
           </maml:description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">InventoryReports.InventoryReportUI</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CyberArk.Reports.ApplicationReports.ApplicationReportUI</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InventoryReports.ComplianceReportUI</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CyberArk.Reports.EntitlementReport.EntitlementReportUI</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CyberArk.Reports.ActivitiesReport.ActivitiesReportUI</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CyberArk.Reports.UsersReport.UsersListReportUI</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CyberArk.Reports.ActiveNonActiveSafesReport.ActiveNonActiveSafesReportUI</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CyberArk.Reports.OwnersListReport.OwnersListReportUI</command:parameterValue>
+          </command:parameterValueGroup>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
@@ -42196,6 +42225,151 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/Content/Privilege%20Cloud/PrivCloud-DiscoveredAccountsService-Delete.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/privilege-cloud-shared-services/latest/en/Content/Privilege%20Cloud/PrivCloud-DiscoveredAccountsService-Delete.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-PASDiscoveryScan</command:name>
+      <command:verb>Remove</command:verb>
+      <command:noun>PASDiscoveryScan</command:noun>
+      <maml:description>
+        <maml:para>Deletes a single discovery scan that is configured in the Vault.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Deletes a single discovery scan that is configured in the Vault.</maml:para>
+      <maml:para>Requires CyberArk Self-Hosted version 12.2 or higher.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-PASDiscoveryScan</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
+          <maml:name>taskId</maml:name>
+          <maml:description>
+            <maml:para>The unique ID of the discovery scan to remove.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
+        <maml:name>taskId</maml:name>
+        <maml:description>
+          <maml:para>The unique ID of the discovery scan to remove.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a `taskId` or `id` property to this command.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Requires CyberArk Self-Hosted version 12.2 or higher.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Remove-PASDiscoveryScan -taskId 12345</dev:code>
+        <dev:remarks>
+          <maml:para>Removes the discovery scan with the specified task ID.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>Get-PASDiscoveryScan -id 12345 | Remove-PASDiscoveryScan</dev:code>
+        <dev:remarks>
+          <maml:para>Removes the discovery scan via pipeline input.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>Remove-PASDiscoveryScan -taskId 12345 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the discovery scan was removed, without actually removing it.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Remove-PASDiscoveryScan</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Remove-PASDiscoveryScan</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -59668,6 +59842,151 @@ PS C:\&gt; Start-PASVRMService -serviceName ENE -serverAddress vault.company.com
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/cancel-account-task.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/cancel-account-task.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Stop-PASDiscoveryScan</command:name>
+      <command:verb>Stop</command:verb>
+      <command:noun>PASDiscoveryScan</command:noun>
+      <maml:description>
+        <maml:para>Stops an existing discovery scan that is configured in the Vault.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Stops an existing discovery scan that is configured in the Vault.</maml:para>
+      <maml:para>Requires CyberArk Self-Hosted version 12.2 or higher.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Stop-PASDiscoveryScan</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
+          <maml:name>taskId</maml:name>
+          <maml:description>
+            <maml:para>The unique ID of the discovery scan to stop.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
+        <maml:name>taskId</maml:name>
+        <maml:description>
+          <maml:para>The unique ID of the discovery scan to stop.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a `taskId` or `id` property to this command.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Requires CyberArk Self-Hosted version 12.2 or higher.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Stop-PASDiscoveryScan -taskId 12345</dev:code>
+        <dev:remarks>
+          <maml:para>Stops the discovery scan with the specified task ID.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>Get-PASDiscoveryScan -id 12345 | Stop-PASDiscoveryScan</dev:code>
+        <dev:remarks>
+          <maml:para>Stops the discovery scan via pipeline input.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>Stop-PASDiscoveryScan -taskId 12345 -WhatIf</dev:code>
+        <dev:remarks>
+          <maml:para>Shows what would happen if the discovery scan was stopped, without actually stopping it.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Stop-PASDiscoveryScan</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Stop-PASDiscoveryScan</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>

@@ -168,8 +168,7 @@ function Get-PASReport {
         if ($Reports.Count -gt 0) {
 
             #Return result
-            $Reports
-            #TODO: Add Report type definition for formatting
+            $Reports | Add-ObjectDetail -TypeName psPAS.CyberArk.Vault.Report
 
         }
 

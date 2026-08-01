@@ -262,6 +262,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 | [Initiate DR failover][Initiate DR failover]                                                         | [Invoke-PASVRMFailover][Invoke-PASVRMFailover]                                           |
 | [Import Ticketing System][Import Ticketing System]                                                   | [Import-PASTicketingSystem][Import-PASTicketingSystem]                                   |
 | [Export Ticketing System Logs][Export Ticketing System Logs]                                         | [Export-PASTicketingSystemLog][Export-PASTicketingSystemLog]                             |
+| [Stop Discovery Scan][Stop Discovery Scan]                                                           | [Stop-PASDiscoveryScan][Stop-PASDiscoveryScan]                                           |
+| [Remove Discovery Scan][Remove Discovery Scan]                                                       | [Remove-PASDiscoveryScan][Remove-PASDiscoveryScan]                                       |
 
 [Enable-PASTheme]: /psPAS/Functions/Theme/Enable-PASTheme
 [Remove-PASTheme]: /psPAS/Functions/Theme/Remove-PASTheme
@@ -696,6 +698,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Resume CPM auto management]: https://pspas.pspete.dev/commands/Resume-PASCPMAutoManagement
 [Cancel CPM task]: https://pspas.pspete.dev/commands/Stop-PASCPMTask
 [Generate platform secret]: https://pspas.pspete.dev/commands/New-PASPlatformSecret
+[Stop Discovery Scan]: https://pspas.pspete.dev/commands/Stop-PASDiscoveryScan
+[Remove-PASDiscoveryScan]: https://pspas.pspete.dev/commands/Remove-PASDiscoveryScan
 [Add discovered accounts - Gen 1]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Add%20Discovered%20Account%20v10.8.htm
 [Get discovered accounts]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-discovered-accounts.htm
 [Get discovered account details]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-discovered-account-details.htm
