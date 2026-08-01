@@ -319,9 +319,9 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
-            It 'outputs object with expected typename' -Skip {
+            It 'outputs object with expected typename' {
 
-                Get-PASReportTask | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PSM.Recording
+                Get-PASReportTask | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Task
 
             }
 
@@ -353,6 +353,12 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             It 'has output with expected number of properties' {
 
                 (Get-PASReportTask -id 'SomeTaskID' | Get-Member -MemberType NoteProperty).length | Should -Be 3
+
+            }
+
+            It 'outputs object with expected typename' {
+
+                Get-PASReportTask -id 'SomeTaskID' | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Task
 
             }
 

@@ -177,6 +177,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### psPAS.CyberArk.Vault.Task
+
 ## NOTES
 
 Undocumented by CyberArk; the API's filter parameter was tested against every property returned

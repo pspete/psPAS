@@ -172,6 +172,8 @@ If version requirement criteria are not met, operations may be prevented.
 | [`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                             | **12.1**                                      | Generate MFA caching SSH Keys                                   |
 | [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                       | **12.1**                                      | Delete MFA caching SSH Keys                                     |
 | [`Set-PASGroup`][Set-PASGroup]                                                             | **12.0**                                      | Update CyberArk groups                                          |
+| [`Remove-PASDiscoveryScan`][Remove-PASDiscoveryScan]                                       | **12.2**                                      | Deletes a single discovery scan that is configured in the Vault |
+| [`Stop-PASDiscoveryScan`][Stop-PASDiscoveryScan]                                           | **12.2**                                      | Stops an existing discovery scan that is configured in the Vault|
 | [`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                         | **12.2**                                      | Get basic information on current platform system types          |
 | [`Enable-PASUser`][Enable-PASUser]                                                         | **12.6**                                      | Enable CyberArk Users                                           |
 | [`Disable-PASUser`][Disable-PASUser]                                                       | **12.6**                                      | Disable CyberArk Users                                          |
@@ -454,6 +456,8 @@ If version requirement criteria are not met, operations may be prevented.
 [Remove-PASPlatform]: /commands/Remove-PASPlatform
 [Remove-PASGroup]: /commands/Remove-PASGroup
 [Get-PASAccountDetail]: /commands/Get-PASAccountDetail
+[Stop-PASDiscoveryScan]: /commands/Stop-PASDiscoveryScan
+[Remove-PASDiscoveryScan]: /commands/Remove-PASDiscoveryScan
 
 ## Notes
 

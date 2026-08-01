@@ -19,21 +19,21 @@ function New-PASReportTask {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[AllowEmptyString()]
+		[ValidateSet('InventoryReports.InventoryReportUI', 'CyberArk.Reports.ApplicationReports.ApplicationReportUI', 'InventoryReports.ComplianceReportUI', 'CyberArk.Reports.EntitlementReport.EntitlementReportUI',
+			'CyberArk.Reports.ActivitiesReport.ActivitiesReportUI', 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI', 'CyberArk.Reports.UsersReport.UsersListReportUI', 'CyberArk.Reports.ActiveNonActiveSafesReport.ActiveNonActiveSafesReportUI',
+			'CyberArk.Reports.OwnersListReport.OwnersListReportUI')]
 		[string]$subType,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[AllowEmptyString()]
 		[string]$name,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[AllowEmptyString()]
 		[boolean]$keepTaskDefinition,
 
 		[parameter(

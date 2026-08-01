@@ -70,7 +70,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 }
 
                 $InputObj = [pscustomobject]@{
-                    'subtype'            = 'SomeType'
+                    'subtype'            = 'InventoryReports.InventoryReportUI'
                     'name'               = 'SomeName'
                     'keepTaskDefinition' = $true
                     'notifyOnFailure'    = $true
@@ -150,7 +150,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 $subscriber = [Subscriber]::new('someone@example.com', 'email', $true, $ldapInfo)
 
                 $InputObj = [pscustomobject]@{
-                    'subtype'            = 'SomeType'
+                    'subtype'            = 'InventoryReports.InventoryReportUI'
                     'name'               = 'SomeName'
                     'keepTaskDefinition' = $true
                     'notifyOnFailure'    = $true
@@ -194,7 +194,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             It 'does not throw when startTime and recurrence parameters are specified together' {
 
                 $InputObj = [pscustomobject]@{
-                    'subtype'            = 'SomeType'
+                    'subtype'            = 'InventoryReports.InventoryReportUI'
                     'name'               = 'SomeName'
                     'keepTaskDefinition' = $true
                     'notifyOnFailure'    = $true
@@ -212,7 +212,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             It 'does not throw when a recurrence parameter is specified without startTime' {
 
                 $InputObj = [pscustomobject]@{
-                    'subtype'            = 'SomeType'
+                    'subtype'            = 'InventoryReports.InventoryReportUI'
                     'name'               = 'SomeName'
                     'keepTaskDefinition' = $true
                     'notifyOnFailure'    = $true
@@ -226,7 +226,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             It 'builds expected nested schedule/recurrence body' {
 
                 $InputObj = [pscustomobject]@{
-                    'subtype'            = 'SomeType'
+                    'subtype'            = 'InventoryReports.InventoryReportUI'
                     'name'               = 'SomeName'
                     'keepTaskDefinition' = $true
                     'notifyOnFailure'    = $true

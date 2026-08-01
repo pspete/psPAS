@@ -74,7 +74,9 @@
 		'xml\psPAS.CyberArk.Vault.User.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Directory.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.PTA.Formats.ps1xml',
-		'xml\psPAS.CyberArk.Vault.Group.Formats.ps1xml'
+		'xml\psPAS.CyberArk.Vault.Group.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Task.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Report.Formats.ps1xml'
 	)
 
 	# Functions to export from this module
@@ -320,7 +322,9 @@
 		'Set-PASPlatform',
 		'Remove-PASOAuthProvider',
 		'Test-PASDiscoveredLocalAccount',
-		'New-PASDiscoveredAccountObject'
+		'New-PASDiscoveredAccountObject',
+		'Stop-PASDiscoveryScan',
+		'Remove-PASDiscoveryScan'
 	)
 
 	#AliasesToExport   = @()

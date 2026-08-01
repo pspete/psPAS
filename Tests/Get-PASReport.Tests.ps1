@@ -263,9 +263,9 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
-            It 'outputs object with expected typename' -Skip {
+            It 'outputs object with expected typename' {
 
-                Get-PASReport | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.PSM.Recording
+                Get-PASReport | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Report
 
             }
 

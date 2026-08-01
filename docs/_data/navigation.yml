@@ -79,6 +79,13 @@ commands:
       - title: "Remove-PASAccountGroupMember"
         url: /commands/Remove-PASAccountGroupMember
 
+  - title: "Accounts Feed"
+    children:
+      - title: "Stop-PASDiscoveryScan"
+        url: /commands/Stop-PASDiscoveryScan
+      - title: "Remove-PASDiscoveryScan"
+        url: /commands/Remove-PASDiscoveryScan
+
   - title: "Accounts"
     children:
       - title: "Add-PASAccount"
