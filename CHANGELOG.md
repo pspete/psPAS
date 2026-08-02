@@ -50,6 +50,18 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
   - New function to check whether discovered accounts already exist in the vault
 - `New-PASDiscoveredAccountObject`
   - New helper function to build a correctly structured discovered account object for use with `Test-PASDiscoveredLocalAccount`
+- `Disable-PASBYOKConfig`, `Enable-PASBYOKConfig`, `Set-PASBYOKConfig`, `Get-PASBYOKPolicyStatement`, `Invoke-PASBYOKRotation`
+  - New functions to manage Bring Your Own Key (BYOK) configuration
+  - Requires Privilege Cloud
+- `Hide-PASDiscoveredLocalAccount`, `Restore-PASDiscoveredLocalAccount`, `Set-PASDiscoveredLocalAccount`
+  - New functions to ignore/restore/edit Privilege Cloud discovered local accounts
+  - Requires Privilege Cloud
+- `Get-PASDiscoveryScan`, `Remove-PASDiscoveryScan`, `Stop-PASDiscoveryScan`
+  - New functions to retrieve, delete, and stop discovery scans
+  - Requires Idira 12.2+ Self-Hosted
+- `Get-PASReportActivity`
+  - New function to get the list of activity groups available for reports
+  - Requires Idira 15.0+
 
 ### Updated
 
@@ -88,6 +100,19 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
 - `Clear-PASLinkedAccount`, `Set-PASLinkedAccount`, `Resume-PASDependentAccount`, `Stop-PASCPMTask`, `Unlock-PASAccount`
   - Enhances bulk operation support
   - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
+- `Resume-PASCPMAutoManagement`, `Invoke-PASCPMOperation`
+  - Adds bulk operation support: `AccountID` accepts `string[]`, sending a single bulk request instead of one call per account when multiple IDs are passed
+  - Bulk requires Idira 15.2+ Self-Hosted, and isn't available to `Invoke-PASCPMOperation` via `-UseGen1API`/`-ImmediateChangeByCPM`
+- `Add-PASDiscoveredLocalAccount`, `Publish-PASDiscoveredLocalAccount`
+  - Adds a `tags` parameter
+- `New-PASReportTask`
+  - Adds a `Filters` parameter, with validation of filter names against known values for the report `subType`
+    - Requires Idira 15.0+ when `Filters` is specified
+  - `subType` is now validated against a `ValidateSet` of known report types
+- `Get-PASReportTask`, `Get-PASReport`
+  - Output objects gain a `psPAS.CyberArk.Vault.Task`/`psPAS.CyberArk.Vault.Report` type name, enabling default formatting
+- `Get-PASSafe`, `Find-PASSafe`, `Get-PASSafeMember`, `Get-PASReportTask`, `Get-PASReport`, `Get-PASPSMSession`, `Get-PASPSMRecording`, `Get-PASDependentAccount`
+  - Use an updated `Get-NextLink` helper, capable of paginating result sets which don't return a `NextLink`/`NextCursor` property
 - `Get-PASAccount`
   - Adds `DeleteInsightStatus` savedFilter value, applicable to Privilege Cloud
 - `Clear-PASDiscoveredAccountList`
@@ -114,6 +139,8 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
   - Corrects the nested structure used for Schedule Recurrence
 - `Get-PASReportTask`
   - Fixes an output issue when the `id` parameter is specified
+- `Test-PASDiscoveredLocalAccount`
+  - Corrects the request body property name (`accounts` instead of `account`)
 - `New-PASRequest`
   - Fixes JSON conversion of the `BulkItems` request body, which nests 5 levels deep
 - `Out-PASFile`
