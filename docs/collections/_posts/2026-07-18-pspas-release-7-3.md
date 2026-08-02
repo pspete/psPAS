@@ -1,5 +1,5 @@
 ---
-title: "psPAS Release 7.2"
+title: "psPAS Release 7.3"
 date: 2026-07-19 00:00:00
 tags:
   - Release Notes
