@@ -287,6 +287,134 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 		}
 
+		Context 'Input - Subscribers' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2' }
+				}
+
+				Mock Get-PASReportTask -MockWith {
+					[PSCustomObject]@{
+						id                 = 'SomeTaskID'
+						subType            = 'InventoryReports.InventoryReportUI'
+						name               = 'OldName'
+						keepTaskDefinition = $true
+						notifyOnFailure    = $true
+					}
+				}
+
+				$ldapInfo = [LdapInfo]::new('SomeDirectory', 'CN=SomeUser,DC=domain,DC=com')
+				$subscriber = [Subscriber]::new('someone@example.com', 'email', $true, $ldapInfo)
+
+				$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			}
+
+			It 'does not truncate nested Subscriber/LdapInfo properties in the request body' {
+
+				Set-PASReportTask -id 'SomeTaskID' -Subscribers @($subscriber)
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$ParsedBody = $Body | ConvertFrom-Json
+					($ParsedBody.Subscribers[0].name -eq 'someone@example.com') -and
+					($ParsedBody.Subscribers[0].ldapInfo.directoryName -eq 'SomeDirectory') -and
+					($ParsedBody.Subscribers[0].ldapInfo.fullDN -eq 'CN=SomeUser,DC=domain,DC=com')
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
+		Context 'Input - Filters' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'Prop1' = 'VAL1'; 'Prop2' = 'Val2' }
+				}
+
+				Mock Get-PASReportTask -MockWith {
+					[PSCustomObject]@{
+						id                 = 'SomeTaskID'
+						subType            = 'InventoryReports.InventoryReportUI'
+						name               = 'OldName'
+						keepTaskDefinition = $true
+						notifyOnFailure    = $true
+					}
+				}
+
+				#'safe' is a documented filter name for the InventoryReports.InventoryReportUI subType
+				$filter = [TaskFilter]::new('safe', 'SomeValue')
+
+				$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			}
+
+			It 'includes the filters array in the request body' {
+
+				Set-PASReportTask -id 'SomeTaskID' -filters @($filter) -WarningAction SilentlyContinue
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$ParsedBody = $Body | ConvertFrom-Json
+					($ParsedBody.filters[0].name -eq 'safe') -and ($ParsedBody.filters[0].value -eq 'SomeValue')
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'does not warn when a filter name is documented for the specified subType' {
+
+				Set-PASReportTask -id 'SomeTaskID' -filters @($filter) -WarningVariable FilterWarning -WarningAction SilentlyContinue | Out-Null
+
+				$FilterWarning | Should -BeNullOrEmpty
+
+			}
+
+			It 'warns when a filter name is not documented for the specified subType' {
+
+				$undocumentedFilter = [TaskFilter]::new('SomeUndocumentedFilter', 'SomeValue')
+
+				Set-PASReportTask -id 'SomeTaskID' -filters @($undocumentedFilter) -WarningVariable FilterWarning -WarningAction SilentlyContinue | Out-Null
+
+				$FilterWarning | Where-Object { $_ -match "'SomeUndocumentedFilter'" } | Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'does not throw for a subType with no documented filters' {
+
+				Mock Get-PASReportTask -MockWith {
+					[PSCustomObject]@{
+						id                 = 'SomeTaskID'
+						subType            = 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI'
+						name               = 'OldName'
+						keepTaskDefinition = $true
+						notifyOnFailure    = $true
+					}
+				}
+
+				{ Set-PASReportTask -id 'SomeTaskID' -filters @($filter) -WarningAction SilentlyContinue } | Should -Not -Throw
+
+			}
+
+			It 'throws error if version requirement for filters not met' {
+				$psPASSession.ExternalVersion = '14.6'
+				{ Set-PASReportTask -id 'SomeTaskID' -filters @($filter) -WarningAction SilentlyContinue } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'does not throw when using filters at the base version requirement' {
+				$psPASSession.ExternalVersion = '15.0'
+				{ Set-PASReportTask -id 'SomeTaskID' -filters @($filter) -WarningAction SilentlyContinue } | Should -Not -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+		}
+
 		Context 'Output' {
 
 			BeforeEach {

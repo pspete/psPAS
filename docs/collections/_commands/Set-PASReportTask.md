@@ -16,9 +16,9 @@ Updates an existing report schedule
 
 ```
 Set-PASReportTask [-id] <String> [[-name] <String>] [[-keepTaskDefinition] <Boolean>]
- [[-notifyOnFailure] <Boolean>] [[-Subscribers] <PSObject[]>] [[-startTime] <DateTime>]
+ [[-notifyOnFailure] <Boolean>] [[-Subscribers] <Subscriber[]>] [[-startTime] <DateTime>]
  [[-recurrenceType] <String>] [[-recurrenceValue] <String>] [[-daysOfWeek] <String>] [[-weekNumber] <String>]
- [[-filters] <PSObject[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-filters] <TaskFilter[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -111,7 +111,7 @@ Any subscribers currently configured on the task are replaced by the supplied va
 Use the `[Subscriber]` Class to format the required data.
 
 ```yaml
-Type: PSObject[]
+Type: Subscriber[]
 Parameter Sets: (All)
 Aliases:
 
@@ -163,11 +163,14 @@ The filters to apply to the report.
 
 Any filters currently configured on the task are replaced by the supplied value.
 
-Use the `[TaskFilter]` Class to format the required data. The filter names accepted by the API
-differ per report subType.
+Use the `[TaskFilter]` Class to format the required data. The set of valid filter names
+differs per the task's existing subType - see NOTES. A filter name not documented for the
+subType generates a warning, but is still sent to the API.
+
+Requires CyberArk version 15.0 or later.
 
 ```yaml
-Type: PSObject[]
+Type: TaskFilter[]
 Parameter Sets: (All)
 Aliases:
 
@@ -327,6 +330,40 @@ Minimum CyberArk version 14.6. Self-hosted PAS only.
 
 `-Subscribers` and `-filters` replace the current values in full rather than adding to them.
 To add to the existing collections, read the current values from `Get-PASReportTask` first.
+
+The filter names accepted by `-filters` differ per the task's existing `subType`. The
+following names are documented by CyberArk for each subType; anything else generates a
+warning (not an error) since CyberArk may support filters here which are not yet reflected
+in this list:
+
+- InventoryReports.InventoryReportUI (Privileged accounts): accountName, deviceType,
+  platformId, numberOfDays, activitiesOption, onlyAccountsWithFailures, onlyDisabledAccounts,
+  freeSearch, group, includeServiceAccounts, safe
+- CyberArk.Reports.ApplicationReports.ApplicationReportUI (Applications): freeSearch,
+  includeSubLocations, location
+- InventoryReports.ComplianceReportUI (Compliance Status): accountName, deviceType,
+  platformId, numberOfDays, activitiesOption, onlyAccountsWithFailures, onlyDisabledAccounts,
+  freeSearch, accountChangeMode, expiresIn, expireOption, includeAboutToExpire,
+  onlyExpiredAccounts, safe
+- CyberArk.Reports.EntitlementReport.EntitlementReportUI (Entitlement): includeCommandPermissions,
+  includeSubLocations, location, safe, includeDisabledUsers, includeGroups, targetAccount,
+  targetPolicyID, targetSystem, userOrGroup, userType
+- CyberArk.Reports.ActivitiesReport.ActivitiesReportUI (Activity log): activitiesFilter,
+  clientId, displayOnlyAlerts, includeSubLocations, historyOptions, actionsInPrevDays,
+  historyFromDate, historyToDate, location, safe, userType, includeDeletedUsers, requestId,
+  targetAccount, targetPolicyID, targetSystem, userOrGroup
+- CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI (License capacity): none
+- CyberArk.Reports.UsersReport.UsersListReportUI (Users): includeDisabledUsers,
+  includeSubLocations, historyOptions, actionsInPrevDays, historyFromDate, historyToDate,
+  location, userOrGroup, userActivityType
+- CyberArk.Reports.ActiveNonActiveSafesReport.ActiveNonActiveSafesReportUI (Safes):
+  activitiesFilter, ignoreBackupActivities, includeSubLocations, historyOptions,
+  actionsInPrevDays, historyFromDate, historyToDate, location, safe, safeType
+- CyberArk.Reports.OwnersListReport.OwnersListReportUI (Owners): safe, userOrGroup
+
+For the `activitiesFilter` filter (Activity log and Safes subTypes), the value is a
+comma-separated list of activity `code`s. Use `Get-PASReportActivity` to look up the
+available activity groups/codes for the connected environment.
 
 `-daysOfWeek` is supplied as day numbers, but the API returns the configured days as names
 (for example `Monday`).

@@ -30,7 +30,8 @@ function Set-PASReportTask {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [psobject[]]$Subscribers,
+        [AllowEmptyCollection()]
+        [Subscriber[]]$Subscribers,
 
         [parameter(
             Mandatory = $false,
@@ -71,7 +72,8 @@ function Set-PASReportTask {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [psobject[]]$filters
+        [AllowEmptyCollection()]
+        [TaskFilter[]]$filters
     )
 
     begin {
@@ -174,6 +176,27 @@ function Set-PASReportTask {
             'weekNumber' {
                 $schedule['recurrence']['weekNumber'] = $weekNumber
                 continue
+            }
+
+        }
+
+        if ($PSBoundParameters.ContainsKey('filters')) {
+
+            #filters parameter requires a later version than the base endpoint
+            Assert-VersionRequirement -RequiredVersion 15.0
+
+            #Filter names accepted vary by subType; warn (do not block) on names not documented for it,
+            #since CyberArk may support filters here which are not yet reflected in this reference list
+            $KnownFilterNames = Get-PASReportFilterName -SubType $TaskObject.subType
+
+            foreach ($FilterItem in $filters) {
+
+                if ($KnownFilterNames -notcontains $FilterItem.name) {
+
+                    Write-Warning "Filter name '$($FilterItem.name)' is not documented as a valid filter for subType '$($TaskObject.subType)'. It will still be sent to the API."
+
+                }
+
             }
 
         }

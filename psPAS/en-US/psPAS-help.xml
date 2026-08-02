@@ -54059,11 +54059,12 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:description>
             <maml:para>The filters to apply to the report.</maml:para>
             <maml:para>Any filters currently configured on the task are replaced by the supplied value.</maml:para>
-            <maml:para>Use the `[TaskFilter]` Class to format the required data. The filter names accepted by the API differ per report subType.</maml:para>
+            <maml:para>Use the `[TaskFilter]` Class to format the required data. The set of valid filter names differs per the task's existing subType - see NOTES. A filter name not documented for the subType generates a warning, but is still sent to the API.</maml:para>
+            <maml:para>Requires CyberArk version 15.0 or later.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">PSObject[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">TaskFilter[]</command:parameterValue>
           <dev:type>
-            <maml:name>PSObject[]</maml:name>
+            <maml:name>TaskFilter[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -54111,9 +54112,9 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
             <maml:para>Any subscribers currently configured on the task are replaced by the supplied value.</maml:para>
             <maml:para>Use the `[Subscriber]` Class to format the required data.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">PSObject[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Subscriber[]</command:parameterValue>
           <dev:type>
-            <maml:name>PSObject[]</maml:name>
+            <maml:name>Subscriber[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -54212,9 +54213,9 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
           <maml:para>Any subscribers currently configured on the task are replaced by the supplied value.</maml:para>
           <maml:para>Use the `[Subscriber]` Class to format the required data.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">PSObject[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Subscriber[]</command:parameterValue>
         <dev:type>
-          <maml:name>PSObject[]</maml:name>
+          <maml:name>Subscriber[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -54249,11 +54250,12 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
         <maml:description>
           <maml:para>The filters to apply to the report.</maml:para>
           <maml:para>Any filters currently configured on the task are replaced by the supplied value.</maml:para>
-          <maml:para>Use the `[TaskFilter]` Class to format the required data. The filter names accepted by the API differ per report subType.</maml:para>
+          <maml:para>Use the `[TaskFilter]` Class to format the required data. The set of valid filter names differs per the task's existing subType - see NOTES. A filter name not documented for the subType generates a warning, but is still sent to the API.</maml:para>
+          <maml:para>Requires CyberArk version 15.0 or later.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">PSObject[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">TaskFilter[]</command:parameterValue>
         <dev:type>
-          <maml:name>PSObject[]</maml:name>
+          <maml:name>TaskFilter[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -54380,6 +54382,11 @@ Set-PASPlatformPSMConfig -ID 52 -PSMServerID PSM-LoadBalancer-EMEA -PSMConnector
       <maml:alert>
         <maml:para>Minimum CyberArk version 14.6. Self-hosted PAS only.</maml:para>
         <maml:para>`-Subscribers` and `-filters` replace the current values in full rather than adding to them. To add to the existing collections, read the current values from `Get-PASReportTask` first.</maml:para>
+        <maml:para>The filter names accepted by `-filters` differ per the task's existing `subType`. The following names are documented by CyberArk for each subType; anything else generates a warning (not an error) since CyberArk may support filters here which are not yet reflected in this list:</maml:para>
+        <maml:para>- InventoryReports.InventoryReportUI (Privileged accounts): accountName, deviceType,   platformId, numberOfDays, activitiesOption, onlyAccountsWithFailures, onlyDisabledAccounts,   freeSearch, group, includeServiceAccounts, safe - CyberArk.Reports.ApplicationReports.ApplicationReportUI (Applications): freeSearch,   includeSubLocations, location - InventoryReports.ComplianceReportUI (Compliance Status): accountName, deviceType,   platformId, numberOfDays, activitiesOption, onlyAccountsWithFailures, onlyDisabledAccounts,   freeSearch, accountChangeMode, expiresIn, expireOption, includeAboutToExpire,   onlyExpiredAccounts, safe - CyberArk.Reports.EntitlementReport.EntitlementReportUI (Entitlement): includeCommandPermissions,   includeSubLocations, location, safe, includeDisabledUsers, includeGroups, targetAccount,   targetPolicyID, targetSystem, userOrGroup, userType - CyberArk.Reports.ActivitiesReport.ActivitiesReportUI (Activity log): activitiesFilter,   clientId, displayOnlyAlerts, includeSubLocations, historyOptions, actionsInPrevDays,   historyFromDate, historyToDate, location, safe, userType, includeDeletedUsers, requestId,   targetAccount, targetPolicyID, targetSystem, userOrGroup - CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI (License capacity): none</maml:para>
+        <maml:para>- CyberArk.Reports.UsersReport.UsersListReportUI (Users): includeDisabledUsers,</maml:para>
+        <maml:para>  includeSubLocations, historyOptions, actionsInPrevDays, historyFromDate, historyToDate,   location, userOrGroup, userActivityType - CyberArk.Reports.ActiveNonActiveSafesReport.ActiveNonActiveSafesReportUI (Safes):   activitiesFilter, ignoreBackupActivities, includeSubLocations, historyOptions,   actionsInPrevDays, historyFromDate, historyToDate, location, safe, safeType - CyberArk.Reports.OwnersListReport.OwnersListReportUI (Owners): safe, userOrGroup</maml:para>
+        <maml:para>For the `activitiesFilter` filter (Activity log and Safes subTypes), the value is a comma-separated list of activity `code`s. Use `Get-PASReportActivity` to look up the available activity groups/codes for the connected environment.</maml:para>
         <maml:para>`-daysOfWeek` is supplied as day numbers, but the API returns the configured days as names (for example `Monday`).</maml:para>
         <maml:para>The API validates the schedule against the configured recurrence, and may move `startTime` forward to the next occurrence which satisfies `-daysOfWeek`.</maml:para>
       </maml:alert>
