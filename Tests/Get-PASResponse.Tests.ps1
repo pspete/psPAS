@@ -69,6 +69,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$HTMLResponse | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'text/html; charset=utf-8' } -Force
 				$HTMLResponse | Add-Member -MemberType NoteProperty -Name Content -Value '<HTML><HEAD><BODY><P>Test</P></BODY></HEAD></HTML>' -Force
 
+				$TextFileResponse = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
+				$TextFileResponse | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
+				$TextFileResponse | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'text/html; charset=utf-8' ; 'Content-Disposition' = 'attachment; filename=FILENAME.pem' } -Force
+				$TextFileResponse | Add-Member -MemberType NoteProperty -Name Content -Value 'Expected' -Force
+
 				$ApplicationSave = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
 				$ApplicationSave | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
 				$ApplicationSave | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'application/save' ; 'Content-Disposition' = 'attachment; filename=FILENAME.zip' } -Force
@@ -102,6 +107,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'returns expected octet-stream value' {
 				$result = Get-PASResponse -APIResponse $OctetStream
 				$([System.Text.Encoding]::ASCII.GetString($result.Content)) | Should -Be 'Expected'
+			}
+
+			It 'returns Content and Headers for a text/html response with a Content-Disposition header' {
+				$result = Get-PASResponse -APIResponse $TextFileResponse
+				$result.Content | Should -Be 'Expected'
+				$result.Headers['Content-Disposition'] | Should -Be 'attachment; filename=FILENAME.pem'
 			}
 
 		}

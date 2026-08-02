@@ -50,7 +50,14 @@ function Get-PASAccountSSHKey {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[switch]$Machine
+		[string]$Machine,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateScript( { Test-Path -Path $_ -IsValid })]
+		[string]$Path
 	)
 
 	begin {
@@ -63,14 +70,32 @@ function Get-PASAccountSSHKey {
 		$URI = "$($psPASSession.BaseURI)/api/Accounts/$($AccountID | Get-EscapedString)/Secret/Retrieve"
 
 		#Create request body
-		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID | ConvertTo-Json
+		$body = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, Path | ConvertTo-Json
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
 
 		if ($null -ne $result) {
 
-			$result
+			if ($PSBoundParameters.ContainsKey('Path')) {
+
+				#Save the private key to the requested local file path
+				Out-PASFile -InputObject $result -Path $Path
+
+			} else {
+
+				#Content property present when the API sends the key as a file (see Get-PASResponse)
+				if ($result.PSObject.Properties.Name -contains 'Content') {
+
+					$result.Content
+
+				} else {
+
+					$result
+
+				}
+
+			}
 
 		}
 	}

@@ -84,6 +84,55 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Response sent as a file (Content-Disposition present)' {
+
+			BeforeEach {
+
+				$psPASSession.ExternalVersion = 11.5
+
+				#Mirrors the object Get-PASResponse returns when a Content-Disposition
+				#header is present on a text/html response - see Get-PASResponse.ps1
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						Content = 'PrivateSSHKey!'
+						Headers = @{ 'Content-Disposition' = 'attachment; filename=keyfilename.pem' }
+					}
+				}
+				Mock Out-PASFile -MockWith { }
+
+				$InputObject = [PSCustomObject]@{
+					AccountID = 1234
+				}
+
+			}
+
+			It 'returns the key content to the pipeline when Path is not specified' {
+
+				$result = $InputObject | Get-PASAccountSSHKey
+
+				$result | Should -Be 'PrivateSSHKey!'
+				Assert-MockCalled Out-PASFile -Times 0 -Exactly -Scope It
+
+			}
+
+			It 'saves the key content to the specified file path' {
+
+				$InputObject | Get-PASAccountSSHKey -Path 'TestDrive:\key.pem'
+
+				Assert-MockCalled Out-PASFile -ParameterFilter { ($Path -eq 'TestDrive:\key.pem') -and ($InputObject.Content -eq 'PrivateSSHKey!') } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'does not include Path in the request body' {
+
+				$InputObject | Get-PASAccountSSHKey -Path 'TestDrive:\key.pem'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -notmatch 'Path' } -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
 	}
 
 }

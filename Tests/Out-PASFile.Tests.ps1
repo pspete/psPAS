@@ -110,6 +110,35 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'String Content Provided' {
+			BeforeEach {
+
+				#Content is a decoded String, not a Byte Array, when the API sends file
+				#content with an incorrect text/* Content-Type - see Get-PASResponse.ps1
+				$Object = [PSCustomObject]@{
+					Content = 'Some File Content'
+					Headers = @{'Content-Disposition' = 'attachment; filename=FILENAME.pem' }
+				}
+
+				Mock Get-Item -MockWith { }
+
+				Mock Set-Content -MockWith { }
+
+			}
+
+			It 'writes the UTF8 byte representation of the string content' {
+
+				Out-PASFile -InputObject $Object -Path 'C:\Temp\test.pem'
+
+				Assert-MockCalled Set-Content -ParameterFilter {
+					($Path -eq 'C:\Temp\test.pem') -and
+					(-not (Compare-Object $Value ([System.Text.Encoding]::UTF8.GetBytes('Some File Content'))))
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
 		Context 'Folder Path Provided' {
 			BeforeEach {
 
