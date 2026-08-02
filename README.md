@@ -286,24 +286,24 @@ A larger collection of ready-to-run scripts is maintained in the [psPAS-Examples
 
 ## psPAS Functions
 
-`psPAS` currently exports 234 commands, grouped below by the area of Idira they cover:
+`psPAS` currently exports 246 commands, grouped below by the area of Idira they cover:
 
 | Category                      | Commands | Covers                                                                                                                                |
 | ----------------------------- | :------: | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Accounts & Secrets            |    48    | Onboard, retrieve, rotate, link & audit privileged accounts; CPM verify/change/reconcile; JIT access; discovered & dependent accounts |
+| Accounts & Secrets            |    54    | Onboard, retrieve, rotate, link & audit privileged accounts; CPM verify/change/reconcile; JIT access; discovered & dependent accounts; discovery scans |
 | Privileged Threat Analytics   |    31    | Security events, risky command rules, remediation & PTA configuration                                                                 |
 | Users, Groups & Directories   |    27    | Vault users and groups, LDAP directory configuration and mappings                                                                     |
 | Platforms & Onboarding        |    22    | Import/export/copy/rename CPM platforms, master policy, automatic onboarding rules                                                    |
 | Authentication & Sessions     |    21    | Every logon flow (CyberArk, LDAP, RADIUS, SAML, PKI, OIDC, Shared Services), FIDO2 & SSH keys                                         |
+| System, Server & Integrations |    17    | System health, server info, custom ticketing, IP allow lists, BYOK                                                                    |
 | PSM Session Monitoring        |    12    | Live & recorded session activity, suspend/resume/terminate                                                                            |
-| System, Server & Integrations |    12    | System health, server info, custom ticketing, IP allow lists, BYOK                                                                    |
 | Safes & Safe Members          |    9     | Safe lifecycle and Safe membership/permissions                                                                                        |
 | Vault Remote Manager          |    9     | Self-hosted Vault/DR service control, status & failover                                                                               |
 | UI Customization              |    9     | Custom UI themes                                                                                                                      |
 | Access Requests               |    7     | Dual-control request/approve/deny workflow                                                                                            |
+| Reports                       |    7     | Available reports, schedules & exports                                                                                                |
 | ACLs (Account & Policy)       |    6     | OPM privileged command rules                                                                                                          |
 | Applications (AAM)            |    6     | Application Access Manager identities & authentication methods                                                                        |
-| Reports                       |    6     | Available reports, schedules & exports                                                                                                |
 | Account Groups                |    5     | Grouping accounts for coordinated password changes                                                                                    |
 | Connections                   |    4     | Connection Components & PSM Servers                                                                                                   |
 
