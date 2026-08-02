@@ -201,6 +201,61 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'LastCommand Recording' {
+
+			BeforeEach {
+
+				$Response = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
+				$Response | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
+				$Response | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'application/json; charset=utf-8' } -Force
+				$Response | Add-Member -MemberType NoteProperty -Name Content -Value (@{ 'prop1' = 'value1' } | ConvertTo-Json) -Force
+
+				Mock Invoke-WebRequest -MockWith {
+
+					return $Response
+
+				}
+
+				$psPASSession.LastCommand = $null
+				$psPASSession.LastCommandResults = $null
+
+				$WebSession = @{
+					'URI'        = 'https://CyberArk_URL'
+					'Method'     = 'GET'
+					'WebSession' = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				}
+
+			}
+
+			It 'records LastCommand and LastCommandResults for a normal invocation' {
+
+				Mock Get-ParentFunction -MockWith {
+					[PSCustomObject]@{ FunctionName = 'Get-PASAccount'; CommandData = 'SomeCommandData' }
+				}
+
+				Invoke-PASRestMethod @WebSession
+
+				$psPASSession.LastCommand | Should -Be 'SomeCommandData'
+				$psPASSession.LastCommandResults | Should -Not -Be $null
+				$psPASSession.LastCommandResults | Should -Be $Response
+
+			}
+
+			It 'does not record LastCommand or LastCommandResults when invoked via Get-PASAccountSearchProperty' {
+
+				Mock Get-ParentFunction -MockWith {
+					[PSCustomObject]@{ FunctionName = 'Get-PASAccountSearchProperty'; CommandData = 'SomeCommandData' }
+				}
+
+				Invoke-PASRestMethod @WebSession
+
+				$psPASSession.LastCommand | Should -BeNullOrEmpty
+				$psPASSession.LastCommandResults | Should -BeNullOrEmpty
+
+			}
+
+		}
+
 		Context 'Body Handling' {
 
 			BeforeEach {
