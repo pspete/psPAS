@@ -176,48 +176,12 @@ function Get-PASDependentAccount {
 
 		# Initial request
 		$Result = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
-		$Total = $Result.Total
 
-		if ($Total -gt 1) {
-			$DependentAccounts = [Collections.Generic.List[Object]]::New(@($Result.DependentAccounts))
-		}
-		# If pagination is needed
-		if ($Total -eq $Limit) {
+		if ($PSCmdlet.ParameterSetName -eq 'AllDependentAccounts') {
 
-			# Split and sanitize query string
-			$URLParts = $URI.Split('?')
-			$BaseURI = $URLParts[0]
-			$queryString = if ($URLParts.Count -gt 1) { $URLParts[1] } else { '' }
-			$queryString = (($queryString -split '&') | Where-Object {
-					($_ -notmatch '^limit=') -and ($_ -notmatch '^offset=')
-				}) -join '&'
+			# Page via Get-NextLink's offset support (API only provides a Total value)
+			$Result = $Result | Get-NextLink -RequestUri $URI -TimeoutSec $TimeoutSec
 
-			# Begin pagination
-			$Offset = $Limit
-			$pageCount = $Limit
-
-			while ($pageCount -eq $Limit) {
-				$nextLink = "limit=$Limit&Offset=$Offset"
-				if ($queryString) {
-					$nextLink = "$queryString&$nextLink"
-				}
-
-				try {
-					$pageResult = Invoke-PASRestMethod -Uri "$BaseURI`?$nextLink" -Method GET -TimeoutSec $TimeoutSec
-				} catch {
-					# Pagination failed at Offset - terminate the loop."
-					break
-				}
-
-				$pageCount = $pageResult.DependentAccounts.Count
-				$Null = $DependentAccounts.AddRange($pageResult.DependentAccounts)
-				$Offset += $Limit
-			}
-
-		}
-
-		if ($null -ne $DependentAccounts) {
-			$Result = $DependentAccounts
 		}
 
 		if ($null -ne $Result) {

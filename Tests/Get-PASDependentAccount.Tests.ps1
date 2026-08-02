@@ -51,7 +51,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             BeforeEach {
 
                 Mock Invoke-PASRestMethod -MockWith {
-                    Write-Output @{ }
+                    Write-Output ([PSCustomObject]@{ })
                 }
 
             }
@@ -200,8 +200,8 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 Mock Invoke-PASRestMethod -MockWith {
 
                     $result = [pscustomobject]@{
-                        'Total'             = 30
-                        'DependentAccounts' = [pscustomobject]@{
+                        'Total'             = 1
+                        'DependentAccounts' = @([pscustomobject]@{
                             'AccountID'  = '66_6'
                             'Properties' = @(
                                 [pscustomobject]@{
@@ -237,7 +237,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                                     'Value' = 'Operating System'
                                 }
                             )
-                        }
+                        })
                     }
                     return $result
 
@@ -270,17 +270,17 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
-            It 'processes NextLink' {
+            It 'processes NextLink expected number of times' {
                 Mock Invoke-PASRestMethod -MockWith {
                     if ($script:iteration -lt 10) {
-                        [pscustomobject]@{
-                            'Total'             = 100
-                            'DependentAccounts' = 1..100
-
-                        }
-                        $script:iteration++
+                        $items = 1..100
                     } else {
-                        throw 'No more pages'
+                        $items = 1..50
+                    }
+                    $script:iteration++
+                    [pscustomobject]@{
+                        'Total'             = 950
+                        'DependentAccounts' = $items
                     }
                 }
                 $script:iteration = 1
@@ -291,23 +291,16 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'processes NextLink preserving other query parameters alongside limit/offset' {
                 Mock Invoke-PASRestMethod -MockWith {
-                    if ($script:iteration -lt 2) {
-                        [pscustomobject]@{
-                            'Total'             = 100
-                            'DependentAccounts' = 1..100
-
-                        }
-                        $script:iteration++
-                    } else {
-                        throw 'No more pages'
+                    [pscustomobject]@{
+                        'Total'             = 200
+                        'DependentAccounts' = 1..100
                     }
                 }
-                $script:iteration = 1
                 Get-PASDependentAccount -search 'SomeSearchTerm'
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -match 'search=SomeSearchTerm' -and $URI -match 'limit=' -and $URI -match 'Offset='
+                    $URI -match 'search=SomeSearchTerm' -and $URI -match 'limit=' -and $URI -match 'offset='
 
                 } -Times 1 -Exactly -Scope It
 
