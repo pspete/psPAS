@@ -12,7 +12,7 @@ function New-PASReportTask {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[AllowEmptyString()]
+		[ValidateSet('Report')]
 		[string]$type,
 
 		[parameter(
@@ -28,6 +28,7 @@ function New-PASReportTask {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 256)]
 		[string]$name,
 
 		[parameter(

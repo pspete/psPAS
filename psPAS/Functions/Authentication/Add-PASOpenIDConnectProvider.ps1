@@ -8,6 +8,7 @@ function Add-PASOpenIDConnectProvider {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateLength(1, 50)]
+		[ValidatePattern('^[a-zA-Z0-9]+$')]
 		[ValidateNotNullOrEmpty()]
 		[string]$id,
 

@@ -7,18 +7,21 @@ function New-PASAccountGroup {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateNotNullOrEmpty()]
+		[ValidateLength(1, 170)]
 		[string]$GroupName,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 170)]
 		[string]$GroupPlatformID,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 28)]
 		[string]$Safe
 	)
 

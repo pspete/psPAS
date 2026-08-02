@@ -36,6 +36,7 @@ function Get-PASGroup {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'groupType'
 		)]
+		[ValidateLength(1, 500)]
 		[string]$search,
 
 		[parameter(

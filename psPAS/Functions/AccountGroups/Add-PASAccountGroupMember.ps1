@@ -13,6 +13,7 @@ function Add-PASAccountGroupMember {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 170)]
 		[string]$AccountID
 	)
 

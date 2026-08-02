@@ -34,6 +34,7 @@ function Set-PASAuthenticationMethod {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 2000)]
 		[string]$logoffUrl,
 
 		[parameter(

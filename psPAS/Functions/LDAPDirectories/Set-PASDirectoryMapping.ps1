@@ -19,6 +19,7 @@ function Set-PASDirectoryMapping {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 28)]
 		[string]$MappingName,
 
 		[parameter(

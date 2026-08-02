@@ -54,6 +54,7 @@ function Set-PASDependentLinkedAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'SelfHosted'
         )]
+        [ValidateLength(1, 28)]
         [string]$safe,
 
         [parameter(

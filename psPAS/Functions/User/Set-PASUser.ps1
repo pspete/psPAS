@@ -145,6 +145,7 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
+		[ValidateLength(1, 511)]
 		[string]$distinguishedName,
 
 		[parameter(
@@ -193,6 +194,7 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1'
 		)]
+		[ValidateLength(1, 128)]
 		[string]$Location,
 
 		[parameter(

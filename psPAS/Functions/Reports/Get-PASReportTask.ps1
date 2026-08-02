@@ -14,6 +14,7 @@ function Get-PASReportTask {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'byQuery'
         )]
+        [ValidateLength(1, 500)]
         [string]$search,
 
         [parameter(

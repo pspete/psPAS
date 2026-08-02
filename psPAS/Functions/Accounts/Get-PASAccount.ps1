@@ -15,6 +15,7 @@ function Get-PASAccount {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Query'
 		)]
+		[ValidateLength(1, 500)]
 		[string]$search,
 
 		[parameter(
