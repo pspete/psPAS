@@ -1,12 +1,4 @@
-﻿# List functions here which call Invoke-PASRestMethod purely as an internal implementation detail (e.g. a public
-# function's dynamicparam/begin block looking up supporting data) rather than as a command a user directly
-# issued - calls made on their behalf should not overwrite $psPASSession.LastCommand/LastCommandResults.
-# Add further function names here as similar internal-helper patterns emerge.
-$script:LastCommandExclusions = @(
-	'Get-PASAccountSearchProperty'
-)
-
-function Invoke-PASRestMethod {
+﻿function Invoke-PASRestMethod {
 	<#
 	.SYNOPSIS
 	Wrapper for Invoke-WebRequest to call REST method via API
@@ -121,6 +113,14 @@ function Invoke-PASRestMethod {
 	)
 
 	begin {
+
+		#Functions which call Invoke-PASRestMethod purely as an internal implementation detail (e.g. a public
+		#function's dynamicparam/begin block looking up supporting data) rather than as a command a user directly
+		#issued - calls made on their behalf should not overwrite $psPASSession.LastCommand/LastCommandResults.
+		#Add further function names here as similar internal-helper patterns emerge.
+		$LastCommandExclusions = @(
+			'Get-PASAccountSearchProperty'
+		)
 
 		#Set defaults for all function calls
 		$ProgressPreference = 'SilentlyContinue'
@@ -420,7 +420,7 @@ function Invoke-PASRestMethod {
 			#Identify calling function
 			$ParentFunction = Get-ParentFunction
 
-			if ($ParentFunction.FunctionName -notin $script:LastCommandExclusions) {
+			if ($ParentFunction.FunctionName -notin $LastCommandExclusions) {
 
 				#Add Command Data to $psPASSession module scope variable
 				$psPASSession.LastCommand = $ParentFunction.CommandData
