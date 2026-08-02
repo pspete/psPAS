@@ -25,6 +25,7 @@ function Get-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2-ExtendedDetails'
 		)]
+		[ValidateLength(1, 500)]
 		[string]$Search,
 
 		[parameter(

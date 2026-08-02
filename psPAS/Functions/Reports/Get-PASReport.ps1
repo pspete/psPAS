@@ -13,6 +13,7 @@ function Get-PASReport {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [ValidateLength(1, 500)]
         [string]$search,
 
         [parameter(

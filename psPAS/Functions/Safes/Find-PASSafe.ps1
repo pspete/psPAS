@@ -6,6 +6,7 @@ function Find-PASSafe {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
+		[ValidateLength(1, 500)]
 		[string]$search,
 
 		[parameter(

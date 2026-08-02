@@ -57,6 +57,7 @@ function Get-PASSafeMember {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2-MemberFilter'
 		)]
+		[ValidateLength(1, 500)]
 		[string]$search,
 
 		[parameter(

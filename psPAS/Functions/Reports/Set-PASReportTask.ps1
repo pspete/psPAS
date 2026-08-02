@@ -12,6 +12,7 @@ function Set-PASReportTask {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [ValidateLength(1, 256)]
         [string]$name,
 
         [parameter(

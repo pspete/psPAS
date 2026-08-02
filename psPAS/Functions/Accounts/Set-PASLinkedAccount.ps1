@@ -14,6 +14,7 @@ function Set-PASLinkedAccount {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 28)]
 		[string[]]$safe,
 
 		[parameter(

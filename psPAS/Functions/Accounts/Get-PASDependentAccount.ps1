@@ -32,6 +32,7 @@ function Get-PASDependentAccount {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'SpecificAccount'
 		)]
+		[ValidateLength(1, 500)]
 		[string]$search,
 
 		[parameter(

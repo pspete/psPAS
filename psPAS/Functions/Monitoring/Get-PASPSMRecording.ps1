@@ -35,6 +35,7 @@ function Get-PASPSMRecording {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'byQuery'
 		)]
+		[ValidateLength(1, 500)]
 		[string]$Search,
 
 		[parameter(

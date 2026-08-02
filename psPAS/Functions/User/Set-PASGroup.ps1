@@ -13,6 +13,7 @@ function Set-PASGroup {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [ValidateLength(1, 128)]
         [string]$GroupName
     )
 

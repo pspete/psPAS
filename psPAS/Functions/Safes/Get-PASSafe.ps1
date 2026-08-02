@@ -8,6 +8,7 @@ function Get-PASSafe {
 			ParameterSetName = 'Gen2'
 		)]
 		[ValidateNotNullOrEmpty()]
+		[ValidateLength(1, 500)]
 		[string]$search,
 
 		[parameter(

@@ -29,6 +29,7 @@ function Get-PASPlatform {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'dependents'
         )]
+        [ValidateLength(1, 500)]
         [string]$Search,
 
         [parameter(
