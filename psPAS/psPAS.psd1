@@ -58,7 +58,8 @@
 		'xml\psPAS.CyberArk.Vault.Credential.Type.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Safe.Type.ps1xml',
 		'xml\psPAS.CyberArk.Vault.User.Type.ps1xml',
-		'xml\psPAS.CyberArk.Vault.DiscoveryScan.Type.ps1xml'
+		'xml\psPAS.CyberArk.Vault.DiscoveryScan.Type.ps1xml',
+		'xml\psPAS.CyberArk.Vault.OAuthProvider.Type.ps1xml'
 	)
 
 	# Format files (.ps1xml) to be loaded when importing this module
@@ -79,7 +80,8 @@
 		'xml\psPAS.CyberArk.Vault.Group.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Task.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Report.Formats.ps1xml',
-		'xml\psPAS.CyberArk.Vault.DiscoveryScan.Formats.ps1xml'
+		'xml\psPAS.CyberArk.Vault.DiscoveryScan.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.OAuthProvider.Formats.ps1xml'
 	)
 
 	# Functions to export from this module
@@ -325,6 +327,9 @@
 		'Stop-PASCPMTask',
 		'Resume-PASCPMAutoManagement',
 		'Set-PASPlatform',
+		'Add-PASOAuthProvider',
+		'Get-PASOAuthProvider',
+		'Set-PASOAuthProvider',
 		'Remove-PASOAuthProvider',
 		'Test-PASDiscoveredLocalAccount',
 		'New-PASDiscoveredAccountObject',
