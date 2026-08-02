@@ -1294,6 +1294,200 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'SharedServices-URL-SAML' {
+
+			BeforeEach {
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
+
+				function New-IDSession {
+					[CmdletBinding()]
+					param($tenant_url,
+						$SAMLResponse)
+				}
+				$mockResult = New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession
+
+				$mockGetWebSessionMethod = {
+					# count the invocation and store it on the mock object
+					# to avoid using script:scoped variables
+					$this.GetWebSessionInvoked++
+
+					# return the result object as the real method would
+					$mockResult
+				}
+
+				$mockIDSessionObject = [PSCustomObject] @{
+					GetWebSessionInvoked = 0
+					'Token'              = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				}
+
+				$mockIDSessionObject | Add-Member -MemberType ScriptMethod -Name GetWebSession -Value $mockGetWebSessionMethod
+				Mock New-IDSession { $mockIDSessionObject }
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '0.0'
+					}
+				}
+
+				Mock Get-Module -MockWith {}
+
+				Mock Import-Module -MockWith {}
+
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It 'sends request' {
+
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault' -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -Times 1 -Exactly -Scope It -ModuleName psPAS
+
+			}
+
+			It 'sends request to expected tenant_url' {
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -ParameterFilter {
+
+					$tenant_url -eq 'https://SomeIdentityPortal.id.cyberark.cloud'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends expected SAMLResponse' {
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -ParameterFilter {
+
+					$SAMLResponse -eq 'SomeSAMLResponse'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets expected default BaseURI' {
+
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://SomeIdentityPortal.privilegecloud.cyberark.cloud/' -SAMLResponse 'SomeSAMLResponse'
+				$Script:psPASSession.BaseURI | Should -Be 'https://SomeIdentityPortal.privilegecloud.cyberark.cloud/PasswordVault'
+
+			}
+
+			It 'sets expected custom BaseURI' {
+
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -SAMLResponse 'SomeSAMLResponse'
+				$Script:psPASSession.BaseURI | Should -Be 'https://Some.PCloud.Portal/PasswordVault'
+
+			}
+
+			It 'sets expected authorization header' {
+
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -SAMLResponse 'SomeSAMLResponse'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+
+			}
+
+		}
+
+		Context 'SharedServices-Subdomain-SAML' {
+
+			BeforeEach {
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
+
+				function New-IDSession {
+					[CmdletBinding()]
+					param($tenant_url,
+						$SAMLResponse)
+				}
+				$mockResult = New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession
+
+				$mockGetWebSessionMethod = {
+					# count the invocation and store it on the mock object
+					# to avoid using script:scoped variables
+					$this.GetWebSessionInvoked++
+
+					# return the result object as the real method would
+					$mockResult
+				}
+
+				$mockIDSessionObject = [PSCustomObject] @{
+					GetWebSessionInvoked = 0
+					'Token'              = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				}
+
+				$mockIDSessionObject | Add-Member -MemberType ScriptMethod -Name GetWebSession -Value $mockGetWebSessionMethod
+				Mock New-IDSession { $mockIDSessionObject }
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '0.0'
+					}
+				}
+
+				Mock Get-Module -MockWith {}
+
+				Mock Import-Module -MockWith {}
+
+				Mock Find-SharedServicesURL -MockWith {
+
+					[pscustomobject]@{
+						identity_user_portal = [pscustomobject]@{api = 'https://SomeSubDomain.id.cyberark.cloud' }
+						pcloud               = [pscustomobject]@{api = 'https://SomeSubDomain.privilegecloud.cyberark.cloud' }
+					}
+
+				}
+
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It 'sends request' {
+				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected tenant_url' {
+				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -ParameterFilter {
+
+					$tenant_url -eq 'https://SomeSubDomain.id.cyberark.cloud'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends expected SAMLResponse' {
+				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -ParameterFilter {
+
+					$SAMLResponse -eq 'SomeSAMLResponse'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets expected BaseURI' {
+
+				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
+				$Script:psPASSession.BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
+
+			}
+
+			It 'sets expected authorization header' {
+				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+
+			}
+
+		}
+
 		Context 'Gen2 with FIDO2' {
 
 			BeforeEach {

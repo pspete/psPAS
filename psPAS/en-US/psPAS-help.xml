@@ -35053,21 +35053,15 @@ New-PASRequest -BulkItems $Requests</dev:code>
       <command:verb>New</command:verb>
       <command:noun>PASSession</command:noun>
       <maml:description>
-        <maml:para>Authenticates a user to CyberArk Vault/API.</maml:para>
+        <maml:para>Authenticates a user to Idira (CyberArk) Vault/API.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Facilitates user authentication to a CyberArk Vault and retains an authentication token as well as webrequest session data to be used in future API calls.</maml:para>
+      <maml:para>Facilitates user authentication to an Idira (CyberArk) Vault via a self-hosted PVWA, or to an Idira (CyberArk) Identity Security Platform Shared Services (Privilege Cloud/ISPSS) tenant, and retains an authentication token as well as web request session data to be used in future API calls.</maml:para>
       <maml:para>Users can also set a new password via the authentication process.</maml:para>
-      <maml:para>By default, the Gen2 API is used, meaning a recent version of CyberArk is expected.</maml:para>
-      <maml:para>Use the -UseGen1API switch parameter to target the Gen1 API endpoint.</maml:para>
-      <maml:para>Windows authentication requires at least CyberArk PAS version 10.4</maml:para>
-      <maml:para>LDAP, RADIUS, SAML, and shared authentication all require a minimum CyberArk version of 9.7.</maml:para>
+      <maml:para>By default, the Gen2 API is used against a self-hosted PVWA. The -UseGen1API switch parameter exists for legacy environments still running the older Gen1 API endpoint, but is unlikely to be needed today.</maml:para>
+      <maml:para>To authenticate to a Privilege Cloud/ISPSS tenant, use the TenantSubdomain or IdentityTenantURL/PrivilegeCloudURL parameter sets, together with -IdentityUser, -ServiceUser, or -SAMLResponse to select the authentication flow. These require the IdentityCommand module to be installed; it is a separate dependency (see Related Links) and is not installed automatically alongside psPAS.</maml:para>
       <maml:para>Shared authentication is not supported in Privilege Cloud.</maml:para>
-      <maml:para>Versions of CyberArk prior to 9.7: - only the CyberArk authentication mechanism is supported.</maml:para>
-      <maml:para>- newPassword Parameter is not supported.</maml:para>
-      <maml:para>- useRadiusAuthentication Parameter is not supported.</maml:para>
-      <maml:para>- connectionNumber Parameter is not supported.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -36510,6 +36504,125 @@ New-PASRequest -BulkItems $Requests</dev:code>
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>PVWAAppName</maml:name>
+          <maml:description>
+            <maml:para>The name of the CyberArk PVWA Virtual Directory.</maml:para>
+            <maml:para>Defaults to PasswordVault</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>PasswordVault</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>SkipVersionCheck</maml:name>
+          <maml:description>
+            <maml:para>If the SkipVersionCheck switch is specified, Get-PASServer will not be called after successfully authenticating.</maml:para>
+            <maml:para>Get-PASServer is not supported before version 9.7.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Certificate</maml:name>
+          <maml:description>
+            <maml:para>See Invoke-WebRequest</maml:para>
+            <maml:para>Specifies the client certificate that is used for a secure web request.</maml:para>
+            <maml:para>Enter a variable that contains a certificate or a command or expression that gets the certificate.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate</command:parameterValue>
+          <dev:type>
+            <maml:name>X509Certificate</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>See Invoke-WebRequest</maml:para>
+            <maml:para>The thumbprint of the certificate to use for client certificate authentication.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SkipCertificateCheck</maml:name>
+          <maml:description>
+            <maml:para>Skips certificate validation checks.</maml:para>
+            <maml:para>Using this parameter is not secure and is not recommended.</maml:para>
+            <maml:para>This switch is only intended to be used against known hosts using a self-signed certificate for testing purposes.</maml:para>
+            <maml:para>Use at your own risk.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>TenantSubdomain</maml:name>
+          <maml:description>
+            <maml:para>The subdomain name value of the Shared Services Privilege Cloud Tenant.</maml:para>
+            <maml:para>The value provided for the subdomain parameter will be used to discover the identity tenant api URL.</maml:para>
+            <maml:para>- API operations will target URL: https://&lt;TenantSubdomain&gt;.privilegecloud.cyberark.cloud</maml:para>
+            <maml:para>- Authentication will be performed against https://&lt;DiscoveredIdentitySubdomain&gt;.id.cyberark.cloud</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-PASSession</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="SAMLToken">
+          <maml:name>SAMLResponse</maml:name>
+          <maml:description>
+            <maml:para>SAML response token that identifies the session, encoded in BASE 64.</maml:para>
+            <maml:para>The PS-SAML-Interactive can be used to get this value (see related links).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>BaseURI</maml:name>
           <maml:description>
@@ -36623,6 +36736,139 @@ New-PASRequest -BulkItems $Requests</dev:code>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-PASSession</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="SAMLToken">
+          <maml:name>SAMLResponse</maml:name>
+          <maml:description>
+            <maml:para>SAML response token that identifies the session, encoded in BASE 64.</maml:para>
+            <maml:para>The PS-SAML-Interactive can be used to get this value (see related links).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>PVWAAppName</maml:name>
+          <maml:description>
+            <maml:para>The name of the CyberArk PVWA Virtual Directory.</maml:para>
+            <maml:para>Defaults to PasswordVault</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>PasswordVault</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>SkipVersionCheck</maml:name>
+          <maml:description>
+            <maml:para>If the SkipVersionCheck switch is specified, Get-PASServer will not be called after successfully authenticating.</maml:para>
+            <maml:para>Get-PASServer is not supported before version 9.7.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Certificate</maml:name>
+          <maml:description>
+            <maml:para>See Invoke-WebRequest</maml:para>
+            <maml:para>Specifies the client certificate that is used for a secure web request.</maml:para>
+            <maml:para>Enter a variable that contains a certificate or a command or expression that gets the certificate.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate</command:parameterValue>
+          <dev:type>
+            <maml:name>X509Certificate</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>See Invoke-WebRequest</maml:para>
+            <maml:para>The thumbprint of the certificate to use for client certificate authentication.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SkipCertificateCheck</maml:name>
+          <maml:description>
+            <maml:para>Skips certificate validation checks.</maml:para>
+            <maml:para>Using this parameter is not secure and is not recommended.</maml:para>
+            <maml:para>This switch is only intended to be used against known hosts using a self-signed certificate for testing purposes.</maml:para>
+            <maml:para>Use at your own risk.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>IdentityTenantURL</maml:name>
+          <maml:description>
+            <maml:para>Specify the URL value of the CyberArk Identity Portal to authenticate against.</maml:para>
+            <maml:para>E.G.:</maml:para>
+            <maml:para>- https://identity-tenant-id.id.cyberark.cloud</maml:para>
+            <maml:para>- https://identity-tenant-id.my.idaptive.app</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>PrivilegeCloudURL</maml:name>
+          <maml:description>
+            <maml:para>Specify the URL value used to access the CyberArk Privilege Cloud API.</maml:para>
+            <maml:para>E.G.:</maml:para>
+            <maml:para>- https://subdomain.privilegecloud.cyberark.cloud</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -36910,7 +37156,7 @@ New-PASRequest -BulkItems $Requests</dev:code>
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="SAMLToken">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="SAMLToken">
         <maml:name>SAMLResponse</maml:name>
         <maml:description>
           <maml:para>SAML response token that identifies the session, encoded in BASE 64.</maml:para>
@@ -37269,83 +37515,150 @@ New-PASRequest -BulkItems $Requests</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP</dev:code>
-        <dev:remarks>
-          <maml:para>Logon with LDAP credential</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -concurrentSession $true</dev:code>
-        <dev:remarks>
-          <maml:para>Establish a concurrent session</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
         <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type CyberArk</dev:code>
         <dev:remarks>
           <maml:para>Logon with local CyberArk user credential</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>New-PASSession -TenantSubdomain YourTenantName -Credential $Cred -IdentityUser</dev:code>
+        <dev:remarks>
+          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides an authenticated session to the associated Privilege Cloud environment.</maml:para>
+          <maml:para>Assumes a Shared Services URL of https://YourTenantName.id.cyberark.cloud</maml:para>
+          <maml:para>Requires the IdentityCommand module to be installed for the authentication flow to complete.</maml:para>
+          <maml:para>See: Get-Help IdentityCommand</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL https://SomeName.privilegecloud.cyberark.cloud -Credential $Cred -IdentityUser</dev:code>
+        <dev:remarks>
+          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides an authenticated session to a specified Privilege Cloud environment, specifying explicit URL values for the Identity and Privilege Cloud tenants.</maml:para>
+          <maml:para>Requires the IdentityCommand module to be installed for the authentication flow to complete.</maml:para>
+          <maml:para>See: Get-Help IdentityCommand</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
         <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred -ServiceUser</dev:code>
+        <dev:remarks>
+          <maml:para>Authenticates to Privilege Cloud Shared Services using an API Service User (OAuth client credentials), where 'PCloudTenantID' is the Subdomain configured for the Privilege Cloud portal.</maml:para>
+          <maml:para>The subdomain value provided will be used to discover the identity portal URL.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
+        <dev:code>New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred -ServiceUser</dev:code>
+        <dev:remarks>
+          <maml:para>Authenticates to Privilege Cloud Shared Services using an API Service User, specifying explicit URL values for the Identity &amp; Privilege Cloud tenants.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
+        <dev:code>New-PASSession -TenantSubdomain YourTenantName -SAMLResponse $SAMLResponse</dev:code>
+        <dev:remarks>
+          <maml:para>Exchanges a SAML assertion obtained from a federated identity provider for an authenticated Identity Shared Services session, and provides an authenticated session to the associated Privilege Cloud environment.</maml:para>
+          <maml:para>Assumes a Shared Services URL of https://YourTenantName.id.cyberark.cloud</maml:para>
+          <maml:para>Requires the IdentityCommand module to be installed for the authentication flow to complete.</maml:para>
+          <maml:para>See: Get-Help IdentityCommand</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 7 --------------------------</maml:title>
+        <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL https://SomeName.privilegecloud.cyberark.cloud -SAMLResponse $SAMLResponse</dev:code>
+        <dev:remarks>
+          <maml:para>Exchanges a SAML assertion for an authenticated Identity Shared Services session and provides an authenticated session to a specified Privilege Cloud environment, specifying explicit URL values for the Identity and Privilege Cloud tenants.</maml:para>
+          <maml:para>Requires the IdentityCommand module to be installed for the authentication flow to complete.</maml:para>
+          <maml:para>See: Get-Help IdentityCommand</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
+        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -concurrentSession $true</dev:code>
+        <dev:remarks>
+          <maml:para>Logon with LDAP credential, establishing a concurrent session</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 9 --------------------------</maml:title>
         <dev:code>New-PASSession -BaseURI https://PVWA -UseDefaultCredentials</dev:code>
         <dev:remarks>
           <maml:para>Logon using Windows Integrated Authentication</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 10 --------------------------</maml:title>
         <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Logon to Version 9 with credential Request would be sent to PVWA URL https://PVWA/PasswordVault/</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 11 --------------------------</maml:title>
         <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -PVWAAppName CustomVault -UseGen1API</dev:code>
         <dev:remarks>
           <maml:para>Logon to Version 9 where PVWA Virtual Directory has non-default name Request would be sent to PVWA URL https://PVWA/CustomVault/</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 7 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 12 --------------------------</maml:title>
         <dev:code>New-PASSession -UseSharedAuthentication -BaseURI https://PVWA.domain.com</dev:code>
         <dev:remarks>
           <maml:para>Gets authorisation token by authenticating to a CyberArk Vault using shared authentication.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 8 --------------------------</maml:title>
-        <dev:code>New-PASSession -BaseURI $url -SAMLAuth</dev:code>
+        <maml:title>-------------------------- EXAMPLE 13 --------------------------</maml:title>
+        <dev:code>New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb</dev:code>
         <dev:remarks>
-          <maml:para>Perform saml sso authentication from version 11.4</maml:para>
+          <maml:para>Authenticate with provided CertificateThumbprint when IIS authentication via certificates is required.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 9 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS</dev:code>
-        <dev:remarks>
-          <maml:para>Logon using RADIUS</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 10 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -useRadiusAuthentication $True</dev:code>
+        <maml:title>-------------------------- EXAMPLE 14 --------------------------</maml:title>
+        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -UseGen1API -useRadiusAuthentication $True</dev:code>
         <dev:remarks>
           <maml:para>Logon using RADIUS via the Gen1 API</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 11 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 15 --------------------------</maml:title>
         <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456</dev:code>
         <dev:remarks>
           <maml:para>Logon using RADIUS (Challenge) &amp; OTP (Response)</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 12 --------------------------</maml:title>
+        <maml:title>-------------------------- EXAMPLE 16 --------------------------</maml:title>
+        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append</dev:code>
+        <dev:remarks>
+          <maml:para>Logon to using RADIUS &amp; DUO Push Authentication (working with DUO 2FA Append Mode Configuration)</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 17 --------------------------</maml:title>
+        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Append -OTPDelimiter $null</dev:code>
+        <dev:remarks>
+          <maml:para>Logon to using RADIUS &amp; provide password appended with OTP, with no delimiter separating the password &amp; OTP values.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 18 --------------------------</maml:title>
+        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -RadiusChallenge Password -OTPMode Challenge</dev:code>
+        <dev:remarks>
+          <maml:para>For RADIUS, send OTP first and password value as response to challenge.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 19 --------------------------</maml:title>
+        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP 123456</dev:code>
+        <dev:remarks>
+          <maml:para>Perform initial Windows authentication and satisfy secondary RADIUS challenge</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 20 --------------------------</maml:title>
         <dev:code>Add-Type -AssemblyName System.Security
 # Get Valid Certs
 $MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
@@ -37364,103 +37677,7 @@ New-PASSession -Credential $cred -BaseURI $url -type PKI -Certificate $Cert</dev
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 13 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP push -OTPMode Append</dev:code>
-        <dev:remarks>
-          <maml:para>Logon to using RADIUS &amp; DUO Push Authentication (working with DUO 2FA Append Mode Configuration)</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 14 --------------------------</maml:title>
-        <dev:code>New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.some.co -CertificateThumbprint 0e194289c57e666115109d6e2800c24fb7db6edb</dev:code>
-        <dev:remarks>
-          <maml:para>Authenticate with provided CertificateThumbprint when IIS authentication via certificates is required.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 15 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck</dev:code>
-        <dev:remarks>
-          <maml:para>Skip SSL Certificate validation for the session.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 16 --------------------------</maml:title>
-        <dev:code>$Certificate = Get-ChildItem -Path Cert:\CurrentUser\My | Where-Object {$PSItem.Subject -match "CN=SomeUser"}
-New-PASSession -Credential $cred -BaseURI https://PVWA -type LDAP -Certificate $Certificate</dev:code>
-        <dev:remarks>
-          <maml:para>Logon using LDAP credential &amp; Client Certificate</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 17 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type Windows -OTP 123456</dev:code>
-        <dev:remarks>
-          <maml:para>Perform initial Windows authentication and satisfy secondary RADIUS challenge</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 18 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -RadiusChallenge Password -OTPMode Challenge</dev:code>
-        <dev:remarks>
-          <maml:para>For RADIUS, send OTP first and password value as response to challenge.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 19 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS</dev:code>
-        <dev:remarks>
-          <maml:para>Perform initial authentication and supply OTP value for RADIUS challenge when prompted.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 20 --------------------------</maml:title>
-        <dev:code>New-PASSession -BaseURI $url -SAMLResponse $SAMLResponse</dev:code>
-        <dev:remarks>
-          <maml:para>Perform saml authentication</maml:para>
-          <maml:para>Minimum version required 11.4</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
         <maml:title>-------------------------- EXAMPLE 21 --------------------------</maml:title>
-        <dev:code>import-module -name 'C:\PS-SAML-Interactive.psm1'
-
-$loginURL = 'https://company.okta.com/home/app1/0oa11xddwdzhvlbiZ5d7/aln1k2HsUl5d7'
-$baseURL = 'https://pvwa.mycompany.com'
-
-$loginResponse = New-SAMLInteractive -LoginIDP $loginURL
-
-New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLResponse $loginResponse</dev:code>
-        <dev:remarks>
-          <maml:para>Use the PS-SAML-Interactive module to get the SAML Response.</maml:para>
-          <maml:para>Perform saml authentication using the SAMLResponse</maml:para>
-          <maml:para>Minimum version required 11.4</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 22 --------------------------</maml:title>
-        <dev:code>New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain.com</dev:code>
-        <dev:remarks>
-          <maml:para>Authenticates to a CyberArk Vault using SAML authentication &amp; Gen1 API.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 23 --------------------------</maml:title>
-        <dev:code>New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred</dev:code>
-        <dev:remarks>
-          <maml:para>Authenticates to Privilege Cloud Shared Services, where 'PCloudTenantID' is the Subdomain configured for the Privilege Cloud portal.</maml:para>
-          <maml:para>The subdomain value provided will be used to discover the identity portal URL.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 24 --------------------------</maml:title>
-        <dev:code>New-PASSession -Credential $cred -BaseURI https://PVWA -type RADIUS -OTP 123456 -OTPMode Append -OTPDelimiter $null</dev:code>
-        <dev:remarks>
-          <maml:para>Logon to using RADIUS &amp; provide password appended with OTP, with no delimiter separating the password &amp; OTP values.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 25 --------------------------</maml:title>
         <dev:code>Add-Type -AssemblyName System.Security
 # Get Valid Certs
 $MyCerts = [System.Security.Cryptography.X509Certificates.X509Certificate2[]](Get-ChildItem Cert:\CurrentUser\My)
@@ -37478,49 +37695,52 @@ New-PASSession -BaseURI $url -type PKIPN -Certificate $Cert</dev:code>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 26 --------------------------</maml:title>
-        <dev:code>New-PASSession -TenantSubdomain PCloudTenantID -Credential $cred -ServiceUser</dev:code>
+        <maml:title>-------------------------- EXAMPLE 22 --------------------------</maml:title>
+        <dev:code>New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck</dev:code>
         <dev:remarks>
-          <maml:para>Authenticates to Privilege Cloud Shared Services using an API Service User.</maml:para>
+          <maml:para>Skip SSL Certificate validation for the session.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 23 --------------------------</maml:title>
+        <dev:code>New-PASSession -BaseURI $url -SAMLAuth</dev:code>
+        <dev:remarks>
+          <maml:para>Perform saml sso authentication from version 11.4</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 24 --------------------------</maml:title>
+        <dev:code>New-PASSession -BaseURI $url -SAMLResponse $SAMLResponse</dev:code>
+        <dev:remarks>
+          <maml:para>Perform saml authentication</maml:para>
+          <maml:para>Minimum version required 11.4</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 25 --------------------------</maml:title>
+        <dev:code>import-module -name 'C:\PS-SAML-Interactive.psm1'
+
+$loginURL = 'https://company.okta.com/home/app1/0oa11xddwdzhvlbiZ5d7/aln1k2HsUl5d7'
+$baseURL = 'https://pvwa.mycompany.com'
+
+$loginResponse = New-SAMLInteractive -LoginIDP $loginURL
+
+New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLResponse $loginResponse</dev:code>
+        <dev:remarks>
+          <maml:para>Use the PS-SAML-Interactive module to get the SAML Response.</maml:para>
+          <maml:para>Perform saml authentication using the SAMLResponse</maml:para>
+          <maml:para>Minimum version required 11.4</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 26 --------------------------</maml:title>
+        <dev:code>New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain.com</dev:code>
+        <dev:remarks>
+          <maml:para>Authenticates to a CyberArk Vault using SAML authentication &amp; Gen1 API.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 27 --------------------------</maml:title>
-        <dev:code>New-PASSession -IdentityTenantURL 'https://ABC123.id.cyberark.cloud' -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $cred -ServiceUser</dev:code>
-        <dev:remarks>
-          <maml:para>Authenticates to Privilege Cloud Shared Services using an API Service User, specifying individual URL values for Identity &amp; Privilege Cloud tenants.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 28 --------------------------</maml:title>
-        <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL 'https://XYZ789.privilegecloud.cyberark.cloud' -Credential $Cred -IdentityUser</dev:code>
-        <dev:remarks>
-          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privilege Cloud environment.</maml:para>
-          <maml:para>Requires IdentityCommand module to be installed for authentication flow to complete.</maml:para>
-          <maml:para>See: Get-Help IdentityCommand</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 29 --------------------------</maml:title>
-        <dev:code>New-PASSession -TenantSubdomain YourTenantName -Credential $Cred -IdentityUser</dev:code>
-        <dev:remarks>
-          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to associated Privilege Cloud environment.</maml:para>
-          <maml:para>Assumes a Shared Services URL of https://YourTenantName.id.cyberark.cloud</maml:para>
-          <maml:para>Requires IdentityCommand module to be installed for authentication flow to complete.</maml:para>
-          <maml:para>See: Get-Help IdentityCommand</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 30 --------------------------</maml:title>
-        <dev:code>New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -Credential $Cred -PrivilegeCloudURL https://SomeName.privilegecloud.cyberark.cloud -IdentityUser</dev:code>
-        <dev:remarks>
-          <maml:para>Authenticates to Identity Shared Services using an Identity User and provides authenticated session to specified Privilege Cloud environment.</maml:para>
-          <maml:para>Requires IdentityCommand module to be installed for authentication flow to complete.</maml:para>
-          <maml:para>See: Get-Help IdentityCommand</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 31 --------------------------</maml:title>
         <dev:code>New-PASSession -BaseURI https://pvwa.company.com -type FIDO2 -UserName administrator</dev:code>
         <dev:remarks>
           <maml:para>Authenticates to CyberArk using FIDO2/WebAuthn hardware security key authentication.</maml:para>
