@@ -69,10 +69,18 @@ function Out-PASFile {
 
 			try {
 
+				#Content is a byte array for binary responses, but a decoded String for
+				#responses incorrectly sent with a text/* Content-Type - normalise to bytes.
+				$Content = if ($InputObject.Content -is [string]) {
+					[System.Text.Encoding]::UTF8.GetBytes($InputObject.Content)
+				} else {
+					$InputObject.Content
+				}
+
 				#Command Parameters
 				$output = @{
 					Path     = $OutputPath
-					Value    = $InputObject.Content
+					Value    = $Content
 					Encoding = 'Byte'
 				}
 

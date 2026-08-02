@@ -16722,7 +16722,7 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get the private SSH key value from an existing account</maml:para>
+      <maml:para>Get the private SSH key value from an existing account. If the -Path parameter is specified, the private SSH key is saved to the specified local file instead of being returned to the pipeline.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -16812,16 +16812,29 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="8" aliases="none">
           <maml:name>Machine</maml:name>
           <maml:description>
-            <maml:para>The address of the remote machine</maml:para>
+            <maml:para>The address of the remote machine that the user wants to connect to using the SSH key.</maml:para>
           </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>SwitchParameter</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Path</maml:name>
+          <maml:description>
+            <maml:para>Output folder, or full destination file path, to save the retrieved private SSH key to. If the path's leaf component includes a file extension, it is treated as the exact file to save to; otherwise it is treated as an output folder and a filename derived from the AccountID is appended. If not specified, the private SSH key value is returned to the pipeline instead of being saved to a file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -16911,17 +16924,29 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="8" aliases="none">
         <maml:name>Machine</maml:name>
         <maml:description>
-          <maml:para>The address of the remote machine</maml:para>
+          <maml:para>The address of the remote machine that the user wants to connect to using the SSH key.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
-          <maml:name>SwitchParameter</maml:name>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Path</maml:name>
+        <maml:description>
+          <maml:para>Output folder, or full destination file path, to save the retrieved private SSH key to. If the path's leaf component includes a file extension, it is treated as the exact file to save to; otherwise it is treated as an output folder and a filename derived from the AccountID is appended. If not specified, the private SSH key value is returned to the pipeline instead of being saved to a file.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -16948,9 +16973,9 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
-        <dev:code>Get-PASAccountSSHKey -AccountId 12_3 -Version 2 -Machine</dev:code>
+        <dev:code>Get-PASAccountSSHKey -AccountId 12_3 -Version 2 -Machine "unix01.domain.com"</dev:code>
         <dev:remarks>
-          <maml:para>Returns version 2 of the private SSH key for account 12_3, retrieved for use against the remote machine.</maml:para>
+          <maml:para>Returns version 2 of the private SSH key for account 12_3, retrieved for use against the specified remote machine.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -16958,6 +16983,13 @@ PS C:\&gt; $Detail | Format-List *</dev:code>
         <dev:code>Get-PASAccount -search "unix01" | Get-PASAccountSSHKey -Reason "Scheduled maintenance"</dev:code>
         <dev:remarks>
           <maml:para>Gets the matching account and retrieves its private SSH key, using the account ID from the pipeline.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
+        <dev:code>Get-PASAccountSSHKey -AccountId 12_3 -Path C:\Keys\</dev:code>
+        <dev:remarks>
+          <maml:para>Saves the private SSH key for account 12_3 to a file in the C:\Keys\ folder.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
