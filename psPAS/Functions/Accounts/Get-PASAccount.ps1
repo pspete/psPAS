@@ -105,8 +105,8 @@ function Get-PASAccount {
 		if ($PSCmdlet.ParameterSetName -eq 'Gen2Query' -and
 			$script:psPASSession.ExternalVersion -ge [version]'14.4' -and [string]::IsNullOrEmpty($psPASSession.ApiURI)) {
 
-			# Get available search properties from the API
-			$SearchProperties = Get-PASAccountSearchProperty
+			# Get available search properties from the API (cached against the session)
+			$SearchProperties = Get-PASAccountSearchPropertyCache
 			$paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
 			# List of existing static parameters to avoid duplicates
@@ -140,7 +140,7 @@ function Get-PASAccount {
 
 		# Add dynamic search properties to the filter parameters list for Gen2 14.4+ and Self Hosted (no ApiURI)
 		if ($PSCmdlet.ParameterSetName -match 'Gen2' -and $psPASSession.ExternalVersion -ge [version]'14.4' -and [string]::IsNullOrEmpty($psPASSession.ApiURI)) {
-			$SearchProperties = Get-PASAccountSearchProperty
+			$SearchProperties = Get-PASAccountSearchPropertyCache
 			# Build lookup for validation of supported operators
 			$SearchPropertyLookup = @{}
 			foreach ($property in $SearchProperties) {
