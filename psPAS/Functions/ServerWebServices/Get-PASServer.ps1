@@ -1,14 +1,44 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASServer {
-	[CmdletBinding()]
-	param(	)
+	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
+	param(
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ParameterSetName = 'Gen1'
+		)]
+		[switch]$UseGen1API
+
+	)
 
 	begin { }#begin
 
 	process {
 
-		#Create URL for request
-		$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Server"
+		switch ($PSCmdlet.ParameterSetName) {
+
+			'Gen1' {
+
+				Assert-VersionRequirement -SelfHosted
+
+				#Create URL for request
+				$URI = "$($psPASSession.BaseURI)/WebServices/PIMServices.svc/Server"
+
+				break
+
+			}
+
+			'Gen2' {
+
+				#Create URL for request
+				$URI = "$($psPASSession.BaseURI)/api/server"
+
+				break
+
+			}
+
+		}
 
 		#send request to web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
