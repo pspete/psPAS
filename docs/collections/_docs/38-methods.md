@@ -124,6 +124,22 @@ Objects returned by `Get-PASPolicyACL` / `Get-PASAccountACL`.
 Get-PASAccountACL -id 330_5 | ForEach-Object{ $_.Remove($true) }
 ```
 
+### Session (`psPAS.CyberArk.Vault.Session`)
+
+Objects returned by `Get-PASSession`.
+
+- `GetRemainingSessionTime()` returns a live, freshly-calculated `TimeSpan` of how much longer the session has before it idle-times out, rather than the value captured at the time `Get-PASSession` was called:
+
+```powershell
+(Get-PASSession).GetRemainingSessionTime()
+```
+
+- `Refresh()` sends a request to reset the server-side idle timer - the same effect as selecting "stay logged in" in the PVWA - and returns the refreshed time remaining:
+
+```powershell
+(Get-PASSession).Refresh()
+```
+
 ### Discovery Scan (`psPAS.CyberArk.Vault.DiscoveryScan`)
 
 Objects returned by `Get-PASDiscoveryScan`.

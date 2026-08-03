@@ -22,6 +22,8 @@ commands:
         url: /commands/Use-PASSession
       - title: "Close-PASSession"
         url: /commands/Close-PASSession
+      - title: "Get-PASSessionTimeout"
+        url: /commands/Get-PASSessionTimeout
       - title: "Add-PASPublicSSHKey"
         url: /commands/Add-PASPublicSSHKey
       - title: "Get-PASPublicSSHKey"
