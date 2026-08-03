@@ -31,9 +31,8 @@ Manage Users permission is required.
 ### EXAMPLE 1
 ```
 Add-PASApplication -AppID NewApp -Description "A new application" -Location "\" `
-```
-
 -AccessPermittedFrom 9 -AccessPermittedTo 17 -BusinessOwnerEmail 'appowner@company.com'
+```
 
 Will add a new application called "NewApp", in the root location, accessible from 9am to 5pm
 

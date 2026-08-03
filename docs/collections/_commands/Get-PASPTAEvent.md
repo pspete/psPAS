@@ -73,6 +73,15 @@ Returns all PTA security events since $date
 
 Minimum required version 10.3
 
+### EXAMPLE 5
+```
+Get-PASPTAEvent -accountID 27_4
+```
+
+Returns all PTA security events relating to the account with ID 27_4
+
+Minimum required version 11.4
+
 ## PARAMETERS
 
 ### -fromUpdateDate

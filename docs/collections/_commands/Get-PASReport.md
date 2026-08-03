@@ -32,7 +32,7 @@ pages, subsequent pages are requested automatically.
 ### Example 1
 
 ```powershell
-PS C:\> Get-PASReport
+Get-PASReport
 ```
 
 Returns a list of all available reports
@@ -40,7 +40,7 @@ Returns a list of all available reports
 ### Example 2
 
 ```powershell
-PS C:\> Get-PASReport -search "Accounts" -limit 10
+Get-PASReport -search "Accounts" -limit 10
 ```
 
 Returns all reports with a name, description, reportType, or (where available) human-readable status/category
@@ -49,7 +49,7 @@ field matching the term "Accounts", requesting 10 results per page.
 ### Example 3
 
 ```powershell
-PS C:\> Get-PASReport -status Done -createdBy pspete
+Get-PASReport -status Done -createdBy pspete
 ```
 
 Returns reports with a status of Done, created by the user pspete.
@@ -57,7 +57,7 @@ Returns reports with a status of Done, created by the user pspete.
 ### Example 4
 
 ```powershell
-PS C:\> Get-PASReport -status Done -type InventoryReports.InventoryReportUI -FilterLogicalOperator OR
+Get-PASReport -status Done -type InventoryReports.InventoryReportUI -FilterLogicalOperator OR
 ```
 
 Returns reports with a status of Done, or a type of InventoryReports.InventoryReportUI.
@@ -65,7 +65,7 @@ Returns reports with a status of Done, or a type of InventoryReports.InventoryRe
 ### Example 5
 
 ```powershell
-PS C:\> Get-PASReport -sort CreatedAt -sortDirection desc
+Get-PASReport -sort CreatedAt -sortDirection desc
 ```
 
 Returns reports sorted by their creation date, most recently created first.

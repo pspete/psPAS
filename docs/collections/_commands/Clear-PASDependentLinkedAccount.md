@@ -35,7 +35,7 @@ Unlink an account from a dependent account
 ### Example 1 - Privilege Cloud
 
 ```powershell
-PS C:\> Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2 -extraPasswordIndex 1
+Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2 -extraPasswordIndex 1
 ```
 
 Clears linked account index 1 from dependent account 32_2
@@ -43,7 +43,7 @@ Clears linked account index 1 from dependent account 32_2
 ### Example 2 - Self-Hosted
 
 ```powershell
-PS C:\> Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2
+Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2
 ```
 
 Clears the linked account from dependent account 32_2
@@ -53,7 +53,7 @@ Requires Self-Hosted CyberArk PAS v15.2 or greater.
 ### Example 3 - WhatIf
 
 ```powershell
-PS C:\> Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2 -WhatIf
+Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2 -WhatIf
 ```
 
 Shows what would happen if the linked account were cleared from dependent account 32_2, but does not perform the action.
@@ -61,7 +61,7 @@ Shows what would happen if the linked account were cleared from dependent accoun
 ### Example 4 - Pipeline Input
 
 ```powershell
-PS C:\> Get-PASAccount -id 32_1 | Clear-PASDependentLinkedAccount -dependentAccountId 32_2 -extraPasswordIndex 1
+Get-PASAccount -id 32_1 | Clear-PASDependentLinkedAccount -dependentAccountId 32_2 -extraPasswordIndex 1
 ```
 
 Clears linked account index 1 from dependent account 32_2, using pipeline input from Get-PASAccount for the parent account ID.

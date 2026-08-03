@@ -29,29 +29,29 @@ Requires membership of Vault Admins group.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Set-PASOpenIDConnectProvider -id SomeOIDCProvider -discoveryEndpointUrl https://SomeURL -clientId SomeIDValue -clientSecretMethod POST
+Set-PASOpenIDConnectProvider -id SomeOIDCProvider -discoveryEndpointUrl https://SomeURL -clientId SomeIDValue -clientSecretMethod POST
 ```
 
 Updates an existing OIDC Identity Provider with ID SomeOIDCProvider.
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> Get-PASOpenIDConnectProvider -id AzureAD | Set-PASOpenIDConnectProvider -description "Azure AD - Production"
+Get-PASOpenIDConnectProvider -id AzureAD | Set-PASOpenIDConnectProvider -description "Azure AD - Production"
 ```
 
 Updates the description of the OIDC Identity Provider "AzureAD", with the id value supplied via the pipeline.
 
 ### EXAMPLE 3
 ```powershell
-PS C:\> $ClientSecret = ConvertTo-SecureString "SomeNewSecretValue" -AsPlainText -Force
-PS C:\> Set-PASOpenIDConnectProvider -id AzureAD -clientSecret $ClientSecret -clientSecretMethod Basic
+$ClientSecret = ConvertTo-SecureString "SomeNewSecretValue" -AsPlainText -Force
+Set-PASOpenIDConnectProvider -id AzureAD -clientSecret $ClientSecret -clientSecretMethod Basic
 ```
 
 Rotates the client secret used by the OIDC Identity Provider "AzureAD".
 
 ### EXAMPLE 4
 ```powershell
-PS C:\> Set-PASOpenIDConnectProvider -id AzureAD -authenticationFlow Code -userNameClaim upn -WhatIf
+Set-PASOpenIDConnectProvider -id AzureAD -authenticationFlow Code -userNameClaim upn -WhatIf
 ```
 
 Shows what would happen if the authentication flow and username claim of the "AzureAD" OIDC Identity Provider were updated, without making the change.

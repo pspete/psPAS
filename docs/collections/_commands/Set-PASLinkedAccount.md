@@ -37,28 +37,28 @@ Requires CyberArk Version 12.1+
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex 1 -name SomeAdmin -folder root
+Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex 1 -name SomeAdmin -folder root
 ```
 
 Adds "SomeAdmin" account from "Some_Safe" as the logon account for account with id 29_4
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex 2 -name SomeAccount -folder root
+Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex 2 -name SomeAccount -folder root
 ```
 
 Adds "SomeAccount" account from "Some_Safe" as the extrapass2 account for account with id 29_4
 
 ### EXAMPLE 3
 ```powershell
-PS C:\> Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex 3 -name SomeReconcile -folder root
+Set-PASLinkedAccount -AccountID 29_4 -safe Some_Safe -extraPasswordIndex 3 -name SomeReconcile -folder root
 ```
 
 Adds "SomeReconcile" account from "Some_Safe" as the reconcile account for account with id 29_4
 
 ### EXAMPLE 4
 ```powershell
-PS C:\> Set-PASLinkedAccount -AccountID 29_4, 30_5 -safe Some_Safe -extraPasswordIndex 1 -name SomeAdmin -folder root
+Set-PASLinkedAccount -AccountID 29_4, 30_5 -safe Some_Safe -extraPasswordIndex 1 -name SomeAdmin -folder root
 ```
 
 Adds "SomeAdmin" as the logon account for accounts 29_4 and 30_5 in a single bulk request.

@@ -35,28 +35,28 @@ The following Safe authorizations are required on the Safe where the source acco
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3
+Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3
 ```
 
 Clears extraPass3 from account with ID 12_34
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> Clear-PASLinkedAccount -AccountID 12_34, 56_78 -extraPasswordIndex 3
+Clear-PASLinkedAccount -AccountID 12_34, 56_78 -extraPasswordIndex 3
 ```
 
 Clears extraPass3 from accounts with IDs 12_34 and 56_78 in a single bulk request.
 
 ### EXAMPLE 3
 ```powershell
-PS C:\> Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3 -WhatIf
+Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3 -WhatIf
 ```
 
 Shows what would happen if extraPass3 were cleared from account 12_34, but does not perform the action.
 
 ### EXAMPLE 4
 ```powershell
-PS C:\> Get-PASAccount -id 12_34 | Clear-PASLinkedAccount -extraPasswordIndex 3
+Get-PASAccount -id 12_34 | Clear-PASLinkedAccount -extraPasswordIndex 3
 ```
 
 Clears extraPass3 from the account returned by Get-PASAccount, using pipeline input for -AccountID.

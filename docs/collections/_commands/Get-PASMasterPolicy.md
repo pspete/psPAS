@@ -24,7 +24,7 @@ Retrieves Master Policy details
 
 ### Example 1
 ```powershell
-PS C:\> Get-PASMasterPolicy
+Get-PASMasterPolicy
 ```
 
 Outputs all Master Policy details.
@@ -32,21 +32,21 @@ Policy ID 1 is the main Master Policy
 
 ### Example 2
 ```powershell
-PS C:\> Get-PASMasterPolicy -PolicyId 2
+Get-PASMasterPolicy -PolicyId 2
 ```
 
 Outputs all Master Policy details for platform with id 2
 
 ### Example 3
 ```powershell
-PS C:\> 2 | Get-PASMasterPolicy
+2 | Get-PASMasterPolicy
 ```
 
 Outputs all Master Policy details for platform with id 2, providing the PolicyId via the pipeline by value.
 
 ### Example 4
 ```powershell
-PS C:\> [pscustomobject]@{PolicyId = 3} | Get-PASMasterPolicy
+[pscustomobject]@{PolicyId = 3} | Get-PASMasterPolicy
 ```
 
 Outputs all Master Policy details for platform with id 3, providing the PolicyId via the pipeline by property name.

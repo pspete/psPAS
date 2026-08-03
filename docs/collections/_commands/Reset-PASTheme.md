@@ -24,21 +24,21 @@ Deactivates the custom theme and revert the UI to the default theme
 
 ### Example 1
 ```powershell
-PS C:\> Reset-PASTheme
+Reset-PASTheme
 ```
 
 Reverts the UI to the default theme
 
 ### Example 2
 ```powershell
-PS C:\> Reset-PASTheme -WhatIf
+Reset-PASTheme -WhatIf
 ```
 
 Shows what would happen if the UI theme was reset to the default, without actually making the change
 
 ### Example 3
 ```powershell
-PS C:\> Reset-PASTheme -Confirm:$false
+Reset-PASTheme -Confirm:$false
 ```
 
 Reverts the UI to the default theme without prompting for confirmation

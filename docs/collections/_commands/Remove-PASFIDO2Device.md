@@ -33,7 +33,7 @@ Requires CyberArk version 14.6 or later.
 
 ### Example 1
 ```powershell
-PS C:\> Remove-PASFIDO2Device -id "device123"
+Remove-PASFIDO2Device -id "device123"
 ```
 
 Removes the FIDO2 device with ID "device123" from a user's registered authentication methods.
@@ -41,7 +41,7 @@ This requires administrative privileges.
 
 ### Example 2
 ```powershell
-PS C:\> Remove-PASFIDO2Device -id "device123" -OwnDevice
+Remove-PASFIDO2Device -id "device123" -OwnDevice
 ```
 
 Removes the FIDO2 device with ID "device123" from the current user's own registered
@@ -49,7 +49,7 @@ authentication methods. This allows users to self-manage their FIDO2 devices.
 
 ### Example 3
 ```powershell
-PS C:\> Remove-PASFIDO2Device -id "device456" -WhatIf
+Remove-PASFIDO2Device -id "device456" -WhatIf
 ```
 
 Shows what would happen if the FIDO2 device with ID "device456" was removed from a user's
@@ -57,7 +57,7 @@ registered authentication methods, without making any changes.
 
 ### Example 4
 ```powershell
-PS C:\> [PSCustomObject]@{id = "device789"} | Remove-PASFIDO2Device -OwnDevice
+[PSCustomObject]@{id = "device789"} | Remove-PASFIDO2Device -OwnDevice
 ```
 
 Removes the FIDO2 device with ID "device789" from the current user's own registered

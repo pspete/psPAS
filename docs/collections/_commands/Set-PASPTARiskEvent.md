@@ -33,7 +33,7 @@ Requires minimum version of 13.2
 
 ### EXAMPLE 1
 ```powershell
-Set-PASPTARiskEvent -EventID 123 -Status CLOSED
+Set-PASPTARiskEvent -ID 123 -Status CLOSED
 ```
 
 Close PTA Risk Event with id 1234

@@ -28,21 +28,21 @@ Requires CyberArk Self-Hosted version 15.2 or higher.
 
 ### Example 1
 ```powershell
-PS C:\> Resume-PASCPMAutoManagement -Accountid 123_4
+Resume-PASCPMAutoManagement -Accountid 123_4
 ```
 
 Resumes CPM auto management for account with id 123_4.
 
 ### Example 2
 ```powershell
-PS C:\> Get-PASAccount -id 123_4 | Resume-PASCPMAutoManagement
+Get-PASAccount -id 123_4 | Resume-PASCPMAutoManagement
 ```
 
 Resumes CPM auto management for the account returned by Get-PASAccount.
 
 ### Example 3
 ```powershell
-PS C:\> Resume-PASCPMAutoManagement -Accountid 123_4, 125_6
+Resume-PASCPMAutoManagement -Accountid 123_4, 125_6
 ```
 
 Resumes CPM auto management for accounts 123_4 and 125_6 in a single bulk request.

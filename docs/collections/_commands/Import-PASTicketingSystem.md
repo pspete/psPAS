@@ -27,7 +27,7 @@ Imports a custom ticketing system that is not supported by default.
 ### Example 1
 
 ```powershell
-PS C:\> Import-PASTicketingSystem -ImportFile C:\CustomTicketingSystem.zip
+Import-PASTicketingSystem -ImportFile C:\CustomTicketingSystem.zip
 ```
 
 Imports the custom ticketing system defined in the CustomTicketingSystem.zip package
@@ -35,7 +35,7 @@ Imports the custom ticketing system defined in the CustomTicketingSystem.zip pac
 ### Example 2
 
 ```powershell
-PS C:\> Import-PASTicketingSystem -ImportFile C:\CustomTicketingSystem.zip -WhatIf
+Import-PASTicketingSystem -ImportFile C:\CustomTicketingSystem.zip -WhatIf
 ```
 
 Shows what would happen if the custom ticketing system package were imported, without actually importing it.
@@ -43,7 +43,7 @@ Shows what would happen if the custom ticketing system package were imported, wi
 ### Example 3
 
 ```powershell
-PS C:\> Get-ChildItem -Path C:\TicketingSystems -Filter *.zip | ForEach-Object { Import-PASTicketingSystem -ImportFile $_.FullName -Confirm:$false }
+Get-ChildItem -Path C:\TicketingSystems -Filter *.zip | ForEach-Object { Import-PASTicketingSystem -ImportFile $_.FullName -Confirm:$false }
 ```
 
 Imports every custom ticketing system zip package found in the C:\TicketingSystems folder, suppressing the confirmation prompt for each.

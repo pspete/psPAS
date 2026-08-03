@@ -29,7 +29,7 @@ Bulk resume requires CyberArk version 15.0 or later. Single-account resume requi
 
 ### Example 1
 ```powershell
-PS C:\> Resume-PASDependentAccount -AccountID "123_456" -dependentAccountId "22_2"
+Resume-PASDependentAccount -AccountID "123_456" -dependentAccountId "22_2"
 ```
 
 Resumes automatic CPM management for the dependent account with ID "22_2" that is
@@ -37,7 +37,7 @@ associated with the main account "123_456".
 
 ### Example 2
 ```powershell
-PS C:\> Get-PASAccount -id "123_456" | Resume-PASDependentAccount -dependentAccountId "22_2"
+Get-PASAccount -id "123_456" | Resume-PASDependentAccount -dependentAccountId "22_2"
 ```
 
 Uses pipeline input to resume automatic management of dependent account "22_2" for
@@ -45,7 +45,7 @@ the main account retrieved by Get-PASAccount.
 
 ### Example 3
 ```powershell
-PS C:\> Resume-PASDependentAccount -AccountID "123_456", "456_789" -dependentAccountId "22_2"
+Resume-PASDependentAccount -AccountID "123_456", "456_789" -dependentAccountId "22_2"
 ```
 
 Resumes automatic CPM management for dependent account "22_2" against the main accounts

@@ -39,6 +39,13 @@ Invoke-PASBYOKRotation -kms_arn 'arn:aws:kms:us-east-1:1234567890:key/new-hex-ke
 
 Rotates the BYOK encryption key to the specified new AWS KMS key.
 
+### EXAMPLE 2
+```powershell
+Invoke-PASBYOKRotation -kms_arn 'arn:aws:kms:us-east-1:1234567890:key/new-hex-key-goes-here' -WhatIf
+```
+
+Shows what would happen if the BYOK encryption key was rotated to the specified new AWS KMS key, without actually rotating it.
+
 ## PARAMETERS
 
 ### -Confirm

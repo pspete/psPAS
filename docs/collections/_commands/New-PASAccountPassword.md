@@ -28,21 +28,21 @@ Requires CyberArk Version 12.0 or higher.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> New-PASAccountPassword -AccountID 12_3
+New-PASAccountPassword -AccountID 12_3
 ```
 
 Generates a new password for account with ID 12_3.
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> Get-PASAccount -id 12_3 | New-PASAccountPassword
+Get-PASAccount -id 12_3 | New-PASAccountPassword
 ```
 
 Generates a new password for the account returned by Get-PASAccount.
 
 ### EXAMPLE 3
 ```powershell
-PS C:\> New-PASAccountPassword -AccountID 12_3 -WhatIf
+New-PASAccountPassword -AccountID 12_3 -WhatIf
 ```
 
 Shows what would happen if a new password was generated for account 12_3, without actually generating one.

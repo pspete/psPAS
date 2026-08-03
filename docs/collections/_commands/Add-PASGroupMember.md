@@ -41,10 +41,12 @@ Adds TargetUser to PVWAMonitor group
 
 ### EXAMPLE 2
 ```
-Add-PASGroupMember -GroupName PVWAMonitor -UserName TargetUser
+Add-PASGroupMember -groupId 1234 -memberId "DOMAIN\TargetGroup" -memberType domain -domainName domain.com
 ```
 
-Adds TargetUser to PVWAMonitor group
+Adds the domain group TargetGroup to group with id 1234
+
+Minimum required version 10.6
 
 ### EXAMPLE 3
 ```

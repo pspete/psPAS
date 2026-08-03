@@ -26,32 +26,32 @@ Allows Vault admins to update settings on a target platform.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Set-PASPlatform -id 42 -op replace -path 'General/name' -value 'SomeName'
+Set-PASPlatform -id 42 -op replace -path 'General/name' -value 'SomeName'
 ```
 
 Updates the name of platform with id 42 to SomeName
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> $Operations = @(
+$Operations = @(
     [hashtable]@{op = 'replace'; path = 'General/name'; value = 'SomeName'},
     [hashtable]@{op = 'remove'; path = 'General/description'}
 )
-PS C:\> Set-PASPlatform -id 42 -operations $Operations
+Set-PASPlatform -id 42 -operations $Operations
 ```
 
 Performs multiple update operations on platform with id 42
 
 ### EXAMPLE 3
 ```powershell
-PS C:\> Set-PASPlatform -id 42 -op replace -path 'Policy/General/interval' -value '3600' -WhatIf
+Set-PASPlatform -id 42 -op replace -path 'Policy/General/interval' -value '3600' -WhatIf
 ```
 
 Shows what would happen if the interval setting on platform with id 42 was updated, without actually updating it.
 
 ### EXAMPLE 4
 ```powershell
-PS C:\> Set-PASPlatform -id 42 -op remove -path 'Policy/additionalPolicySettings/debug'
+Set-PASPlatform -id 42 -op remove -path 'Policy/additionalPolicySettings/debug'
 ```
 
 Removes the debug additional policy setting from platform with id 42.

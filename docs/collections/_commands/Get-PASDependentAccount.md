@@ -41,21 +41,21 @@ Can return all dependent accounts, specific dependent accounts, or details fo de
 
 ### Example 1
 ```powershell
-PS C:\> Get-PASDependentAccount
+Get-PASDependentAccount
 ```
 
 Returns all Dependent Accounts
 
 ### Example 2
 ```powershell
-PS C:\> Get-PASDependentAccount -id 12_34
+Get-PASDependentAccount -id 12_34
 ```
 
 Returns all Dependent Accounts of Account with id 12_34
 
 ### Example 3
 ```powershell
-PS C:\> Get-PASDependentAccount -id 12_34 -dependentAccountId 12_78
+Get-PASDependentAccount -id 12_34 -dependentAccountId 12_78
 ```
 
 Returns Dependent Account with id of 12_78 of Account with id 12_34

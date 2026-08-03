@@ -28,24 +28,24 @@ Requires authentication with the PARAgent service credentials and supports WhatI
 
 ### Example 1
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Start-PASVRMService -serviceName Vault -serverAddress vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Start-PASVRMService -serviceName Vault -serverAddress vault.company.com -servicePassword $password
 ```
 
 Starts the Vault service on the specified server
 
 ### Example 2
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Start-PASVRMService -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Start-PASVRMService -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password
 ```
 
 Starts the DR service on the specified server
 
 ### Example 3
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Start-PASVRMService -serviceName ENE -serverAddress vault.company.com -servicePassword $password -WhatIf
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Start-PASVRMService -serviceName ENE -serverAddress vault.company.com -servicePassword $password -WhatIf
 ```
 
 Shows what would happen if the ENE service was started, without actually starting it.

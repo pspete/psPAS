@@ -28,7 +28,7 @@ Requires CyberArk version 14.6 or later.
 
 ### Example 1
 ```powershell
-PS C:\> Remove-PASDependentAccount -AccountID "123_456" -dependentAccountId "22_2"
+Remove-PASDependentAccount -AccountID "123_456" -dependentAccountId "22_2"
 ```
 
 Removes the dependent account with ID "789_012" from the main account "123_456". 
@@ -36,7 +36,7 @@ The system will prompt for confirmation before performing the removal.
 
 ### Example 2
 ```powershell
-PS C:\> Get-PASAccount -id "123_456" | Remove-PASDependentAccount -dependentAccountId "22_2" -WhatIf
+Get-PASAccount -id "123_456" | Remove-PASDependentAccount -dependentAccountId "22_2" -WhatIf
 ```
 
 Shows what would happen if the dependent account were removed, but does not actually perform the removal.
@@ -44,14 +44,14 @@ Uses pipeline input from Get-PASAccount for the main account ID.
 
 ### Example 3
 ```powershell
-PS C:\> Remove-PASDependentAccount -id "123_456" -dependentid "22_2" -Confirm:$false
+Remove-PASDependentAccount -id "123_456" -dependentid "22_2" -Confirm:$false
 ```
 
 Removes the dependent account "22_2" from the main account "123_456" without prompting for confirmation, using the -id and -dependentid parameter aliases.
 
 ### Example 4
 ```powershell
-PS C:\> @(
+@(
     [PSCustomObject]@{ AccountID = '123_456'; dependentAccountId = '22_2' }
     [PSCustomObject]@{ AccountID = '123_456'; dependentAccountId = '22_3' }
 ) | Remove-PASDependentAccount

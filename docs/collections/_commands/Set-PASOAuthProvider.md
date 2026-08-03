@@ -31,14 +31,14 @@ Properties not supplied in the request are retrieved from the existing provider 
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Set-PASOAuthProvider -id SomeOAuthProvider -accessTokenValidationMode 2 -issuerUrl 'https://as.example.com' -publicKey '-----BEGIN PUBLIC KEY-----...'
+Set-PASOAuthProvider -id SomeOAuthProvider -accessTokenValidationMode 2 -issuerUrl 'https://as.example.com' -publicKey '-----BEGIN PUBLIC KEY-----...'
 ```
 
 Updates the OAuth 2.0 provider SomeOAuthProvider to use local token validation.
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> Set-PASOAuthProvider -id SomeOAuthProvider -allowedUsers @( @{ userName = 'vaultadmin'; priority = 1 } ) -Confirm:$false
+Set-PASOAuthProvider -id SomeOAuthProvider -allowedUsers @( @{ userName = 'vaultadmin'; priority = 1 } ) -Confirm:$false
 ```
 
 Updates the allowed users of the OAuth 2.0 provider SomeOAuthProvider, suppressing the confirmation prompt.

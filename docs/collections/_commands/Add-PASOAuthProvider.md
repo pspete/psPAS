@@ -29,14 +29,14 @@ Requires membership of Vault Admins group.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Add-PASOAuthProvider -id SomeOAuthProvider -accessTokenValidationMode 1 -introspectionUrl 'https://as.example.com/oauth2/introspect' -audience 'https://pvwa/passwordvault' -clientIdClaimType sub -clientCredentials @{ accountId = 'acc_12345' } -allowedUsers @( @{ userName = 'vaultuser'; priority = 1 } )
+Add-PASOAuthProvider -id SomeOAuthProvider -accessTokenValidationMode 1 -introspectionUrl 'https://as.example.com/oauth2/introspect' -audience 'https://pvwa/passwordvault' -clientIdClaimType sub -clientCredentials @{ accountId = 'acc_12345' } -allowedUsers @( @{ userName = 'vaultuser'; priority = 1 } )
 ```
 
 Adds an OAuth 2.0 provider named SomeOAuthProvider that validates access tokens remotely.
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> Add-PASOAuthProvider -id LocalOAuthProvider -accessTokenValidationMode 2 -issuerUrl 'https://as.example.com' -publicKey '-----BEGIN PUBLIC KEY-----...' -audience 'https://pvwa/passwordvault' -clientIdClaimType sub -clientCredentials @{ accountId = 'acc_12345' }
+Add-PASOAuthProvider -id LocalOAuthProvider -accessTokenValidationMode 2 -issuerUrl 'https://as.example.com' -publicKey '-----BEGIN PUBLIC KEY-----...' -audience 'https://pvwa/passwordvault' -clientIdClaimType sub -clientCredentials @{ accountId = 'acc_12345' }
 ```
 
 Adds an OAuth 2.0 provider named LocalOAuthProvider that validates access tokens locally.

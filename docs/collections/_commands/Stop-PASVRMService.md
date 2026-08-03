@@ -28,24 +28,24 @@ Requires authentication with the PARAgent service credentials and supports WhatI
 
 ### Example 1
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Stop-PASVRMService -serviceName Vault -serverAddress vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Stop-PASVRMService -serviceName Vault -serverAddress vault.company.com -servicePassword $password
 ```
 
 Stops the Vault service on the specified server
 
 ### Example 2
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Stop-PASVRMService -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password -Confirm:$false
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Stop-PASVRMService -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password -Confirm:$false
 ```
 
 Stops the DR service on the specified server without prompting for confirmation
 
 ### Example 3
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Stop-PASVRMService -serviceName ENE -serverAddress vault.company.com -servicePassword $password -WhatIf
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Stop-PASVRMService -serviceName ENE -serverAddress vault.company.com -servicePassword $password -WhatIf
 ```
 
 Shows what would happen if the ENE service was stopped, without actually stopping it.

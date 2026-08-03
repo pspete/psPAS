@@ -28,24 +28,24 @@ Requires authentication with the PARAgent service credentials and supports WhatI
 
 ### Example 1
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePassword $password -Confirm:$false
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePassword $password -Confirm:$false
 ```
 
 Initiates a failover to the DR Vault at the specified address
 
 ### Example 2
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePassword $password -WhatIf
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Invoke-PASVRMFailover -DRAddress dr-vault.company.com -servicePassword $password -WhatIf
 ```
 
 Shows what would happen if a failover to the DR Vault was initiated, without actually performing the failover
 
 ### Example 3
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> [PSCustomObject]@{DRAddress = 'dr-vault.company.com'; servicePassword = $password} | Invoke-PASVRMFailover -Confirm:$false
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+[PSCustomObject]@{DRAddress = 'dr-vault.company.com'; servicePassword = $password} | Invoke-PASVRMFailover -Confirm:$false
 ```
 
 Initiates a failover using pipeline input for the DR address and credentials

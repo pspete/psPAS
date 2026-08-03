@@ -28,21 +28,21 @@ Requires CyberArk Version 12.1 or higher.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Clear-PASDiscoveredAccount
+Clear-PASDiscoveredAccount
 ```
 
 Deletes all discovered accounts from the Pending Accounts list.
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> Clear-PASDiscoveredAccount -id 22_3
+Clear-PASDiscoveredAccount -id 22_3
 ```
 
 Deletes discovered account with id 22_3
 
 ### EXAMPLE 3
 ```powershell
-PS C:\> Clear-PASDiscoveredAccount -id 22_3,22_4
+Clear-PASDiscoveredAccount -id 22_3,22_4
 ```
 
 Deletes accounts in bulk

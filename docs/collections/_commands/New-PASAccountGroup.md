@@ -32,7 +32,7 @@ The following permissions are required on the safe where the account group will 
 
 ### EXAMPLE 1
 ```
-New-PASAccountGroup -GroupName UATGroup -GroupPlatform UnixGroup-NonProd -Safe UAT-Team
+New-PASAccountGroup -GroupName UATGroup -GroupPlatformID UnixGroup-NonProd -Safe UAT-Team
 ```
 
 Creates new account group named UATGroup and assigns to platform in the UAT-Team Safe.
