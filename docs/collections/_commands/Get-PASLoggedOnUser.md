@@ -14,12 +14,26 @@ Returns details of the logged on user
 
 ## SYNTAX
 
+### Gen2 (Default)
 ```
 Get-PASLoggedOnUser [<CommonParameters>]
 ```
 
+### Gen1
+```
+Get-PASLoggedOnUser -UseGen1API [<CommonParameters>]
+```
+
 ## DESCRIPTION
 Returns information on the user who is logged in.
+
+By default, uses the Gen2 `api/currentuser` endpoint, which works against both self-hosted and
+Privilege Cloud/ISPSS shared-services implementations. This is the same request the PVWA sends
+when a user selects "stay logged in" in response to the session timeout warning, so it can also
+be used as a lightweight way to keep a session alive.
+
+Specify `-UseGen1API` to use the legacy `WebServices/PIMServices.svc/User` endpoint instead. This
+is only applicable to self-hosted implementations.
 
 ## EXAMPLES
 
@@ -45,6 +59,23 @@ Saves the details of the currently authenticated user in the $user variable.
 Returns just the UserName property value of the currently authenticated user.
 
 ## PARAMETERS
+
+### -UseGen1API
+Use the legacy Gen1 `WebServices/PIMServices.svc/User` endpoint instead of the Gen2 `api/currentuser` endpoint.
+
+Only applicable to self-hosted implementations.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Gen1
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).

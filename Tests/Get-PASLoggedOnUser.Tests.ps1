@@ -45,16 +45,73 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach {
-			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{'Detail1' = 'Detail'; 'Detail2' = 'Detail' }
+		Context 'Gen2 (Default)' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'Detail1' = 'Detail'; 'Detail2' = 'Detail' }
+				}
+
+				$response = Get-PASLoggedOnUser
 			}
 
+			It 'sends request' {
 
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
-			$response = Get-PASLoggedOnUser
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/currentuser"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with no body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'provides output' {
+
+				$response | Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'has output with expected number of properties' {
+
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
+
+			}
+
+			It 'outputs object with expected typename' {
+
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.User.Current
+
+			}
+
 		}
-		Context 'Input' {
+
+		Context 'Gen1 (-UseGen1API)' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'Detail1' = 'Detail'; 'Detail2' = 'Detail' }
+				}
+
+				$response = Get-PASLoggedOnUser -UseGen1API
+			}
 
 			It 'sends request' {
 
@@ -84,10 +141,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-		}
-
-		Context 'Output' {
-
 			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
@@ -106,7 +159,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-
+			It 'throws error if not self-hosted' {
+				$psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud/SomeApp'
+				{ Get-PASLoggedOnUser -UseGen1API } | Should -Throw
+				$psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+			}
 
 		}
 

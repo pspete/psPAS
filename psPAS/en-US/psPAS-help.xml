@@ -20137,13 +20137,41 @@ $Detail | Format-List *</dev:code>
     </command:details>
     <maml:description>
       <maml:para>Returns information on the user who is logged in.</maml:para>
+      <maml:para>By default, uses the Gen2 `api/currentuser` endpoint, which works against both self-hosted and Privilege Cloud/ISPSS shared-services implementations. This is the same request the PVWA sends when a user selects "stay logged in" in response to the session timeout warning, so it can also be used as a lightweight way to keep a session alive.</maml:para>
+      <maml:para>Specify `-UseGen1API` to use the legacy `WebServices/PIMServices.svc/User` endpoint instead. This is only applicable to self-hosted implementations.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-PASLoggedOnUser</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Use the legacy Gen1 `WebServices/PIMServices.svc/User` endpoint instead of the Gen2 `api/currentuser` endpoint.</maml:para>
+            <maml:para>Only applicable to self-hosted implementations.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>UseGen1API</maml:name>
+        <maml:description>
+          <maml:para>Use the legacy Gen1 `WebServices/PIMServices.svc/User` endpoint instead of the Gen2 `api/currentuser` endpoint.</maml:para>
+          <maml:para>Only applicable to self-hosted implementations.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues />
     <maml:alertSet>
@@ -25628,13 +25656,41 @@ $Summary | Format-List</dev:code>
       <maml:para>Returns information on Server.</maml:para>
       <maml:para>Returns the name of the Vault configured in the ServerDisplayName configuration parameter</maml:para>
       <maml:para>Appears to need Vault administrator rights</maml:para>
+      <maml:para>By default, uses the Gen2 `api/server` endpoint, which works against both self-hosted and Privilege Cloud/ISPSS shared-services implementations.</maml:para>
+      <maml:para>Specify `-UseGen1API` to use the legacy `WebServices/PIMServices.svc/Server` endpoint instead. This is only applicable to self-hosted implementations.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-PASServer</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>UseGen1API</maml:name>
+          <maml:description>
+            <maml:para>Use the legacy Gen1 `WebServices/PIMServices.svc/Server` endpoint instead of the Gen2 `api/server` endpoint.</maml:para>
+            <maml:para>Only applicable to self-hosted implementations.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>UseGen1API</maml:name>
+        <maml:description>
+          <maml:para>Use the legacy Gen1 `WebServices/PIMServices.svc/Server` endpoint instead of the Gen2 `api/server` endpoint.</maml:para>
+          <maml:para>Only applicable to self-hosted implementations.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues />
     <maml:alertSet>
