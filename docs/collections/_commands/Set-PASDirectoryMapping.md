@@ -45,7 +45,7 @@ Minimum required version 10.7
 ### EXAMPLE 2
 ```
 Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -MappingName $MappingName -LDAPBranch $LDAPBranch `
--MappingAuthorizations AddUpdateUsers, ActivateUsers & ResetUsersPasswords
+-MappingAuthorizations AddUpdateUsers, ActivateUsers, ResetUsersPasswords
 ```
 
 Sets AddUpdateUsers, ActivateUsers & ResetUsersPasswords authorisations on the directory mapping

@@ -34,7 +34,7 @@ Check discovered account existence
 ### Example 1
 
 ```powershell
-PS C:\> Test-PASDiscoveredLocalAccount -type Windows -subtype Domain -address win-computer.cyber-ark.com -username admin -externalId "user_account_5924"
+Test-PASDiscoveredLocalAccount -type Windows -subtype Domain -address win-computer.cyber-ark.com -username admin -externalId "user_account_5924"
 ```
 
 Checks for the existence of the specified account
@@ -42,11 +42,11 @@ Checks for the existence of the specified account
 ### Example 2
 
 ```powershell
-PS C:\> $accounts = @(
+$accounts = @(
     New-PASDiscoveredAccountObject -type windows -subType loosely -address win-computer.cyber-ark.com -username admin -externalId user_account_5924
     New-PASDiscoveredAccountObject -type mac -subType loosely -address mac-computer.cyber-ark.com -username root -externalId user_account_1132
 )
-PS C:\> Test-PASDiscoveredLocalAccount -accounts $accounts
+Test-PASDiscoveredLocalAccount -accounts $accounts
 ```
 
 Uses New-PASDiscoveredAccountObject to build an array of correctly structured account objects, and checks for the existence of all of them in a single request.
@@ -54,7 +54,7 @@ Uses New-PASDiscoveredAccountObject to build an array of correctly structured ac
 ### Example 3
 
 ```powershell
-PS C:\> [PSCustomObject]@{type='Windows'; subtype='Domain'; address='win-computer.cyber-ark.com'; username='admin'; externalId='user_account_5924'} | Test-PASDiscoveredLocalAccount
+[PSCustomObject]@{type='Windows'; subtype='Domain'; address='win-computer.cyber-ark.com'; username='admin'; externalId='user_account_5924'} | Test-PASDiscoveredLocalAccount
 ```
 
 Checks for the existence of the specified account, using pipeline input for the account identifier properties.
@@ -62,10 +62,10 @@ Checks for the existence of the specified account, using pipeline input for the 
 ### Example 4
 
 ```powershell
-PS C:\> $accounts = @(
+$accounts = @(
     @{ type = 'Windows'; subType = 'Domain'; identifiers = @{ address = 'win-computer.cyber-ark.com'; username = 'admin' }; externalId = 'user_account_5924' }
 )
-PS C:\> Test-PASDiscoveredLocalAccount -accounts $accounts
+Test-PASDiscoveredLocalAccount -accounts $accounts
 ```
 
 Checks for the existence of an account using a manually constructed array of hashtables, matching the raw structure expected by the API instead of using New-PASDiscoveredAccountObject.

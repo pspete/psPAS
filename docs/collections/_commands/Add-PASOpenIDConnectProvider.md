@@ -29,7 +29,7 @@ Requires membership of Vault Admins group.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Add-PASOpenIDConnectProvider -id SomeOIDCProvider -discoveryEndpointUrl https://SomeURLValue
+Add-PASOpenIDConnectProvider -id SomeOIDCProvider -discoveryEndpointUrl https://SomeURLValue
  -clientId SomeID -clientSecretMethod POST
 ```
 
@@ -37,22 +37,22 @@ Adds an OIDC Identity Provider with ID SomeOIDCProvider.
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> $ClientSecret = ConvertTo-SecureString "SomeSecretValue" -AsPlainText -Force
-PS C:\> Add-PASOpenIDConnectProvider -id AzureAD -authenticationFlow Code -discoveryEndpointUrl "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration" -clientId 11111111-2222-3333-4444-555555555555 -clientSecret $ClientSecret -clientSecretMethod Basic -description "Azure AD OIDC Provider" -userNameClaim upn
+$ClientSecret = ConvertTo-SecureString "SomeSecretValue" -AsPlainText -Force
+Add-PASOpenIDConnectProvider -id AzureAD -authenticationFlow Code -discoveryEndpointUrl "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration" -clientId 11111111-2222-3333-4444-555555555555 -clientSecret $ClientSecret -clientSecretMethod Basic -description "Azure AD OIDC Provider" -userNameClaim upn
 ```
 
 Adds an OIDC Identity Provider named AzureAD that uses the authorization code flow, authenticates with a client secret sent via HTTP Basic authentication, and maps the "upn" claim from the ID token to the vault username.
 
 ### EXAMPLE 3
 ```powershell
-PS C:\> Add-PASOpenIDConnectProvider -id Okta -discoveryEndpointUrl "https://SomeCompany.okta.com/.well-known/openid-configuration" -issuer "https://SomeCompany.okta.com" -clientId SomeOktaClientId -clientSecretMethod Post -authenticationFlow Implicit
+Add-PASOpenIDConnectProvider -id Okta -discoveryEndpointUrl "https://SomeCompany.okta.com/.well-known/openid-configuration" -issuer "https://SomeCompany.okta.com" -clientId SomeOktaClientId -clientSecretMethod Post -authenticationFlow Implicit
 ```
 
 Adds an OIDC Identity Provider named Okta that uses the implicit authentication flow.
 
 ### EXAMPLE 4
 ```powershell
-PS C:\> Import-Csv .\oidc-providers.csv | Add-PASOpenIDConnectProvider
+Import-Csv .\oidc-providers.csv | Add-PASOpenIDConnectProvider
 ```
 
 Adds a new OIDC Identity Provider for each row in oidc-providers.csv, matching column names to parameters.

@@ -29,7 +29,7 @@ features.
 ### Example 1
 
 ```powershell
-PS C:\> Get-PASReportActivity
+Get-PASReportActivity
 ```
 
 Returns all available activity groups and their activities.
@@ -37,7 +37,7 @@ Returns all available activity groups and their activities.
 ### Example 2
 
 ```powershell
-PS C:\> Get-PASReportActivity -Type ActivitiesReport
+Get-PASReportActivity -Type ActivitiesReport
 ```
 
 Returns activity groups and activities scoped to the ActivitiesReport report type.

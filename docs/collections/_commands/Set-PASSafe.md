@@ -73,6 +73,13 @@ Updates the size quota (in MB) of SAFE
 
 Minimum required version 15.2 (Self-Hosted)
 
+### EXAMPLE 4
+```
+Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfVersionsRetention 10 -UseGen1API
+```
+
+Updates description and version retention on SAFE using Gen1 API
+
 ## PARAMETERS
 
 ### -SafeName

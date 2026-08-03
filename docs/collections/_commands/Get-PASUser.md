@@ -101,6 +101,22 @@ Returns all currently suspended LDAP users
 
 Minimum required version 13.2
 
+### EXAMPLE 7
+```
+Get-PASUser -id 123 -safes
+```
+
+Returns all safes, and the associated permissions, that the user with id 123 has access to
+
+Minimum required version 10.10
+
+### EXAMPLE 8
+```
+Get-PASUser -UserName Target_User -UseGen1API
+```
+
+Displays information on Target_User via the Gen1 API, for use against CyberArk versions earlier than 12.2
+
 ## PARAMETERS
 
 ### -id

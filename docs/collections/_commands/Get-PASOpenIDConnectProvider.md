@@ -26,28 +26,28 @@ Requires membership of Vault Admins group.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Get-PASOpenIDConnectProvider
+Get-PASOpenIDConnectProvider
 ```
 
 Returns details of all configured OIDC Providers.
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> Get-PASOpenIDConnectProvider -id SomeOIDCProvider
+Get-PASOpenIDConnectProvider -id SomeOIDCProvider
 ```
 
 Returns details of OIDC Provider with ID SomeOIDCProvider
 
 ### EXAMPLE 3
 ```powershell
-PS C:\> Get-PASOpenIDConnectProvider | Where-Object { $_.IdpType -eq 'Okta' }
+Get-PASOpenIDConnectProvider | Where-Object { $_.IdpType -eq 'Okta' }
 ```
 
 Returns details of all configured OIDC Providers, filtered to those with an IdpType of Okta.
 
 ### EXAMPLE 4
 ```powershell
-PS C:\> [PSCustomObject]@{id = 'SomeOIDCProvider'} | Get-PASOpenIDConnectProvider
+[PSCustomObject]@{id = 'SomeOIDCProvider'} | Get-PASOpenIDConnectProvider
 ```
 
 Returns details of OIDC Provider with ID SomeOIDCProvider, using pipeline input.

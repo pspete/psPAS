@@ -35,7 +35,7 @@ A `[TaskFilter]` Class has been created to assist with formatting filter data fo
 ### Example 1
 
 ```powershell
-PS C:\> $Subscriber = [Subscriber]::AddSubscriber()
+$Subscriber = [Subscriber]::AddSubscriber()
 Enter subscriber name: pspete
 Enter subscriber type: User
 Notify on success? (true/false): true
@@ -49,8 +49,8 @@ name   type notifyOnSuccess ldapInfo
 ----   ---- --------------- --------
 pspete User            True LdapInfo
 
-PS C:\> New-PASReportTask -version 1 -type 'Report' -subType 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI' `
--name 'Some Report' -keepTaskDefinition $true -Subscribers $Subscriber -notifyOnFailure $True$
+New-PASReportTask -version 1 -type 'Report' -subType 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI' `
+-name 'Some Report' -keepTaskDefinition $true -Subscribers $Subscriber -notifyOnFailure $true
 ```
 
 Adds a new report schedule
@@ -58,9 +58,9 @@ Adds a new report schedule
 ### Example 2
 
 ```powershell
-PS C:\> $LdapInfo = [LdapInfo]::new('cyberark.local', 'CN=pspete,OU=Users,DC=cyberark,DC=local')
-PS C:\> $Subscriber = [Subscriber]::new('pspete', 'User', $true, $LdapInfo)
-PS C:\> New-PASReportTask -subType 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI' -name 'Weekly License Report' `
+$LdapInfo = [LdapInfo]::new('cyberark.local', 'CN=pspete,OU=Users,DC=cyberark,DC=local')
+$Subscriber = [Subscriber]::new('pspete', 'User', $true, $LdapInfo)
+New-PASReportTask -subType 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI' -name 'Weekly License Report' `
 -keepTaskDefinition $true -startTime (Get-Date '02:00') -recurrenceType Weekly -recurrenceValue 1 -daysOfWeek '1,3,5' `
 -Subscribers $Subscriber -notifyOnFailure $true
 ```
@@ -70,7 +70,7 @@ Creates a report schedule that runs weekly on Monday, Wednesday and Friday, non-
 ### Example 3
 
 ```powershell
-PS C:\> New-PASReportTask -subType 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI' -name 'Some Report' `
+New-PASReportTask -subType 'CyberArk.Reports.LicenseCapacityReport.LicenseCapacityReportUI' -name 'Some Report' `
 -keepTaskDefinition $true -notifyOnFailure $false -WhatIf
 ```
 
@@ -79,8 +79,8 @@ Shows what would happen if the report schedule was created, without actually cre
 ### Example 4
 
 ```powershell
-PS C:\> $Filter = [TaskFilter]::new('SomeColumn', 'SomeValue')
-PS C:\> New-PASReportTask -subType 'CyberArk.Reports.ActivitiesReport.ActivitiesReportUI' -name 'Filtered Activity Report' `
+$Filter = [TaskFilter]::new('SomeColumn', 'SomeValue')
+New-PASReportTask -subType 'CyberArk.Reports.ActivitiesReport.ActivitiesReportUI' -name 'Filtered Activity Report' `
 -keepTaskDefinition $true -notifyOnFailure $false -Filters $Filter
 ```
 

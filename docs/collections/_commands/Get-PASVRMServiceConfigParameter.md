@@ -28,24 +28,24 @@ Requires authentication with the PARAgent service credentials.
 
 ### Example 1
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Get-PASVRMServiceConfigParameter -parameterName 'ReplicationInterval' -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Get-PASVRMServiceConfigParameter -parameterName 'ReplicationInterval' -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password
 ```
 
 Retrieves the value of the ReplicationInterval configuration parameter from the DR service
 
 ### Example 2
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Get-PASVRMServiceConfigParameter -parameterName EnableFailover -serviceName Vault -serverAddress vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Get-PASVRMServiceConfigParameter -parameterName EnableFailover -serviceName Vault -serverAddress vault.company.com -servicePassword $password
 ```
 
 Retrieves the value of the EnableFailover configuration parameter from the Vault service
 
 ### Example 3
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> [PSCustomObject]@{parameterName = 'FailoverMode'; serviceName = 'DR'; serverAddress = 'dr-vault.company.com'; servicePassword = $password} | Get-PASVRMServiceConfigParameter
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+[PSCustomObject]@{parameterName = 'FailoverMode'; serviceName = 'DR'; serverAddress = 'dr-vault.company.com'; servicePassword = $password} | Get-PASVRMServiceConfigParameter
 ```
 
 Retrieves the FailoverMode configuration parameter value using pipeline input

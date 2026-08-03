@@ -43,28 +43,28 @@ Requires membership of Vault Admins group
 
 ### Example 1
 ```powershell
-PS C:\> New-PASTheme -ThemeName "Barbie Pink" -name "Pink Pony Club"
+Set-PASTheme -ThemeName "Barbie Pink" -name "Pink Pony Club"
 ```
 
 Updates the theme name from "Barbie Pink" to "Pink Pony Club"
 
 ### Example 2
 ```powershell
-PS C:\> Set-PASTheme -ThemeName "Pink Pony Club" -colorsStyle "Dark" -backgroundMain_Dark "#1A001D" -textMain_Dark "#FFC0CB"
+Set-PASTheme -ThemeName "Pink Pony Club" -colorsStyle "Dark" -backgroundMain_Dark "#1A001D" -textMain_Dark "#FFC0CB"
 ```
 
 Updates the dark mode background and text colors of the "Pink Pony Club" theme
 
 ### Example 3
 ```powershell
-PS C:\> Set-PASTheme -ThemeName "Pink Pony Club" -isDraft $false -WhatIf
+Set-PASTheme -ThemeName "Pink Pony Club" -isDraft $false -WhatIf
 ```
 
 Shows what would happen if the "Pink Pony Club" theme's draft state was set to false, without actually making the change
 
 ### Example 4
 ```powershell
-PS C:\> [PSCustomObject]@{ThemeName = "Pink Pony Club"; name = "Pony Club Pink"} | Set-PASTheme
+[PSCustomObject]@{ThemeName = "Pink Pony Club"; name = "Pony Club Pink"} | Set-PASTheme
 ```
 
 Renames the "Pink Pony Club" theme to "Pony Club Pink", with the ThemeName and name values supplied via the pipeline

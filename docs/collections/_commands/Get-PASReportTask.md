@@ -37,7 +37,7 @@ pages, subsequent pages are requested automatically.
 ### Example 1
 
 ```powershell
-PS C:\> Get-PASReportTask
+Get-PASReportTask
 ```
 
 Returns all report schedules for the user
@@ -45,7 +45,7 @@ Returns all report schedules for the user
 ### Example 2
 
 ```powershell
-PS C:\> Get-PASReportTask -id 6b35d0ae-4fc2-4a30-ab2e-89a944cf4b10
+Get-PASReportTask -id 6b35d0ae-4fc2-4a30-ab2e-89a944cf4b10
 ```
 
 Returns the specified report schedule
@@ -53,7 +53,7 @@ Returns the specified report schedule
 ### Example 3
 
 ```powershell
-PS C:\> Get-PASReportTask -search "Privileged accounts" -limit 10
+Get-PASReportTask -search "Privileged accounts" -limit 10
 ```
 
 Returns all report schedules matching the term "Privileged accounts", requesting 10 results per page.
@@ -61,7 +61,7 @@ Returns all report schedules matching the term "Privileged accounts", requesting
 ### Example 4
 
 ```powershell
-PS C:\> Get-PASReportTask -subType InventoryReports.InventoryReportUI
+Get-PASReportTask -subType InventoryReports.InventoryReportUI
 ```
 
 Returns report schedules of the InventoryReports.InventoryReportUI subtype.

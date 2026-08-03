@@ -39,7 +39,7 @@ Provide parameter values to return hashtable structured to be used as input for 
 
 ### EXAMPLE 1
 ```powershell
-New-PASRequest -AccountId 123_4 -TicketingSystemName SomeITSM -TicketID 4321 -FromDate (Get-date) -ToDate $((Get-Date).AddHours(4)) -PSMRemoteMachine SomeServer
+New-PASRequestObject -AccountId 123_4 -TicketingSystemName SomeITSM -TicketID 4321 -FromDate (Get-date) -ToDate $((Get-Date).AddHours(4)) -PSMRemoteMachine SomeServer
 ```
 
 Returns hashtable structured to be used as input for account access request operations

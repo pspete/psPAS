@@ -2,7 +2,7 @@
 title: "Troubleshooting"
 permalink: /docs/troubleshooting/
 excerpt: "Troubleshooting"
-last_modified_at: 2022-09-23T01:23:45-00:00
+last_modified_at: 2026-08-03T01:23:45-00:00
 toc: true
 ---
 
@@ -93,7 +93,32 @@ It typically means that there is nothing to address in the module itself if a pr
 If an issue is only observed when using the module, and tests outside the module are successful, [open an issue](#logging-an-issue) for investigation.
 {: .notice--info}
 
+## Diagnosing with Get-PASSession
+
+`Get-PASSession` returns the module's internal session object, which tracks details of the most recent command run and any error encountered.
+
+```powershell
+Get-PASSession | Select-Object LastCommand, LastCommandTime, LastError, LastErrorTime
+```
+
+- `LastCommand` - The name and bound parameters of the last psPAS command that was run. Useful for confirming what was actually called, and with what values, rather than relying on a paraphrased description.
+- `LastCommandTime` - When the last command was run.
+- `LastCommandResults` - The raw API response object returned by the last successful command.
+- `LastError` - The `ErrorRecord` thrown by the last failed command. This contains the parsed status code, CyberArk error code and error message (including any inner `Details`), which is normally enough to identify the underlying cause without further access to the target environment.
+- `LastErrorTime` - When the last error occurred.
+- `ExternalVersion` - The CyberArk PAS version psPAS detected and is applying [version compatibility](#version-compatibility) checks against. Useful for ruling out version-related incompatibilities.
+
+If you face any difficulty, reproduce the problem and then check the output of the following to triage the issue:
+
+```powershell
+Get-PASSession | Select-Object LastCommand, LastError | Format-List
+```
+
+Because the session object only ever holds details of the _most recent_ command, run this immediately after reproducing the problem, rather than reusing an older PowerShell session where other commands may have run since.
+{: .notice--info}
+
 ## Logging an Issue
+
 [Open a new issue](https://github.com/pspete/psPAS/issues/new?assignees=&labels=&template=issue-report.md&title=) to engage with the project on issues being faced with the usage of the psPAS tool itself.
 
 Ensure all detail requested in the issue template is provided (but be sure to anonymise as required).

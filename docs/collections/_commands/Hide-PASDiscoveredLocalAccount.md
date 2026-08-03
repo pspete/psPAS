@@ -34,6 +34,13 @@ Hide-PASDiscoveredLocalAccount -id 54507db1-66d7-4dc7-93cf-a310cc19b9fc -reason 
 
 Moves the specified discovered account to the ignore list.
 
+### EXAMPLE 2
+```powershell
+Hide-PASDiscoveredLocalAccount -id 54507db1-66d7-4dc7-93cf-a310cc19b9fc -WhatIf
+```
+
+Shows what would happen if the specified discovered account was moved to the ignore list, without actually moving it.
+
 ## PARAMETERS
 
 ### -Confirm

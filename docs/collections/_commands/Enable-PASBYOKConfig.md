@@ -39,6 +39,13 @@ Enable-PASBYOKConfig
 
 Enables BYOK encryption.
 
+### EXAMPLE 2
+```powershell
+Enable-PASBYOKConfig -WhatIf
+```
+
+Shows what would happen if BYOK encryption was enabled, without actually enabling it.
+
 ## PARAMETERS
 
 ### -Confirm

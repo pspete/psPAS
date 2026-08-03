@@ -37,6 +37,13 @@ Disable-PASBYOKConfig
 
 Disables BYOK encryption.
 
+### EXAMPLE 2
+```powershell
+Disable-PASBYOKConfig -WhatIf
+```
+
+Shows what would happen if BYOK encryption was disabled, without actually disabling it.
+
 ## PARAMETERS
 
 ### -Confirm

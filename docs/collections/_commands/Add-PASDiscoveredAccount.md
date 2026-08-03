@@ -123,6 +123,27 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
 
 Adds or updates matching pending account with defined dependencies.
 
+### EXAMPLE 4
+```
+Add-PASDiscoveredAccount -UserName UnixUser -Address unix.domain.com -discoveryDate (Get-Date) -AccountEnabled $true -platformType Unix -uid 1001 -gid 1001
+```
+
+Adds matching Unix discovered account as pending account, using the Unix parameter set.
+
+### EXAMPLE 5
+```
+Add-PASDiscoveredAccount -UserName SSHUser -Address unix.domain.com -discoveryDate (Get-Date) -AccountEnabled $true -platformType "Unix SSH Key" -uid 1001 -gid 1001 -fingerprint "AA:BB:CC:DD:EE:FF" -path "/home/SSHUser/.ssh/id_rsa"
+```
+
+Adds matching discovered SSH key as pending account, using the UnixSSHKey parameter set.
+
+### EXAMPLE 6
+```
+Add-PASDiscoveredAccount -UserName AzureUser -Address azure.domain.com -discoveryDate (Get-Date) -AccountEnabled $true -platformType Azure -activeDirectoryID 00000000-0000-0000-0000-000000000000
+```
+
+Adds matching Azure discovered account as pending account, using the Azure parameter set.
+
 ## PARAMETERS
 
 ### -UserName

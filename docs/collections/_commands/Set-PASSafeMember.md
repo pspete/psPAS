@@ -109,6 +109,27 @@ Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -MembershipExpirat
 
 Updates TargetUser's permissions as safe member on TargetSafe to the predefined "Full" role, and sets their safe membership to expire in 6 months.
 
+### EXAMPLE 5
+```
+Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -AccountsManager
+```
+
+Updates TargetUser's permissions as safe member on TargetSafe to the predefined "Accounts Manager" role.
+
+### EXAMPLE 6
+```
+Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -Approver
+```
+
+Updates TargetUser's permissions as safe member on TargetSafe to the predefined "Approver" role.
+
+### EXAMPLE 7
+```
+Set-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -ConnectOnly
+```
+
+Updates TargetUser's permissions as safe member on TargetSafe to the predefined "Connect Only" role.
+
 ## PARAMETERS
 
 ### -SafeName

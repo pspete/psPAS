@@ -137,6 +137,15 @@ Lists all permissions for member SomeUser on Target_Safe using Gen1 API
 
 Deprecated from CyberArk Version 12.3
 
+### EXAMPLE 5
+```
+Get-PASSafeMember -SafeName Target_Safe -memberType Group -search Admin -sort memberName
+```
+
+Lists group members on Target_Safe whose name matches "Admin", sorted by member name, using the Gen2 API member filter parameters.
+
+Minimum required version 12.1
+
 ## PARAMETERS
 
 ### -SafeName

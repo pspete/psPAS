@@ -27,24 +27,24 @@ Requires authentication with the PARAgent service credentials.
 
 ### Example 1
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Get-PASVRMServiceStatus -serviceName Vault -serverAddress vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Get-PASVRMServiceStatus -serviceName Vault -serverAddress vault.company.com -servicePassword $password
 ```
 
 Gets the operational status of the Vault service on the specified server
 
 ### Example 2
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Get-PASVRMServiceStatus -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Get-PASVRMServiceStatus -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password
 ```
 
 Gets the operational status of the DR service on the specified server
 
 ### Example 3
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Get-PASVRMServiceStatus -serviceName ENE -serverAddress vault.company.com -servicePassword $password
 ```
 
 Gets the operational status of the ENE service on the specified server.

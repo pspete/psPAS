@@ -50,7 +50,7 @@ Returns hashtable structured to be used as input for add account operations
 
 ### EXAMPLE 2
 ```
-New-PASAccountObject -name SomeName -platformAccountProperties @{"Some"="Prop"} -DependentAccountObject
+New-PASAccountObject -name SomeName -platformAccountProperties @{"Some"="Prop"} -DependentAccount
 ```
 
 Returns hashtable structured to be used as input for dependent account operations

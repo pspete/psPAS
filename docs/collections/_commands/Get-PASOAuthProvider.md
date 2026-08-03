@@ -26,10 +26,17 @@ Requires membership of Vault Admins group.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Get-PASOAuthProvider
+Get-PASOAuthProvider
 ```
 
 Returns all configured OAuth 2.0 providers.
+
+### EXAMPLE 2
+```powershell
+Get-PASOAuthProvider | Where-Object { $_.name -eq 'SomeProvider' }
+```
+
+Returns all configured OAuth 2.0 providers and filters the results to the provider named "SomeProvider".
 
 ## PARAMETERS
 

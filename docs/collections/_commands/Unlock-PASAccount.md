@@ -51,7 +51,7 @@ Will check-in exclusive access account with ID of "21_3"
 
 ### EXAMPLE 2
 ```
-Get-PASAccount xAccount | Unlock-PASAccount
+Get-PASAccount -Keywords xAccount | Unlock-PASAccount
 ```
 
 Will check-in exclusive access account xAccount

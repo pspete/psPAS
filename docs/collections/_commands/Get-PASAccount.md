@@ -140,6 +140,16 @@ Returns all accounts, in page sizes of 1000.
 
 Requires minimum version of 10.4
 
+### EXAMPLE 10
+
+```
+Get-PASAccount -id 27_4
+```
+
+Returns details of the account with the ID "27_4"
+
+Requires minimum version of 10.4
+
 ## PARAMETERS
 
 ### -id

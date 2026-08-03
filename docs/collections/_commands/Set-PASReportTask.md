@@ -35,7 +35,7 @@ This command is only available for self-hosted PAS, and requires CyberArk versio
 ### Example 1
 
 ```powershell
-PS C:\> Set-PASReportTask -id 9c91791b-76cf-46c4-a961-b562b9447dc3 -name 'Weekly License Report'
+Set-PASReportTask -id 9c91791b-76cf-46c4-a961-b562b9447dc3 -name 'Weekly License Report'
 ```
 
 Renames the report schedule. The schedule, subscribers, filters and all other properties of the task
@@ -44,7 +44,7 @@ are left unchanged.
 ### Example 2
 
 ```powershell
-PS C:\> Set-PASReportTask -id 9c91791b-76cf-46c4-a961-b562b9447dc3 -recurrenceType Weekly -recurrenceValue 1 -daysOfWeek '2,4'
+Set-PASReportTask -id 9c91791b-76cf-46c4-a961-b562b9447dc3 -recurrenceType Weekly -recurrenceValue 1 -daysOfWeek '2,4'
 ```
 
 Updates the schedule to run weekly on Tuesday and Thursday. The existing start time is retained.
@@ -52,7 +52,7 @@ Updates the schedule to run weekly on Tuesday and Thursday. The existing start t
 ### Example 3
 
 ```powershell
-PS C:\> Get-PASReportTask -name 'Weekly License Report' | Set-PASReportTask -startTime (Get-Date '2026-09-01 02:00') -notifyOnFailure $true
+Get-PASReportTask -name 'Weekly License Report' | Set-PASReportTask -startTime (Get-Date '2026-09-01 02:00') -notifyOnFailure $true
 ```
 
 Finds the report schedule by name and updates its start time, enabling failure notifications.
@@ -60,9 +60,9 @@ Finds the report schedule by name and updates its start time, enabling failure n
 ### Example 4
 
 ```powershell
-PS C:\> $LdapInfo = [LdapInfo]::new('cyberark.local', 'CN=pspete,OU=Users,DC=cyberark,DC=local')
-PS C:\> $Subscriber = [Subscriber]::new('pspete', 'User', $true, $LdapInfo)
-PS C:\> Set-PASReportTask -id 9c91791b-76cf-46c4-a961-b562b9447dc3 -Subscribers $Subscriber
+$LdapInfo = [LdapInfo]::new('cyberark.local', 'CN=pspete,OU=Users,DC=cyberark,DC=local')
+$Subscriber = [Subscriber]::new('pspete', 'User', $true, $LdapInfo)
+Set-PASReportTask -id 9c91791b-76cf-46c4-a961-b562b9447dc3 -Subscribers $Subscriber
 ```
 
 Replaces the subscribers of the report schedule, notifying "pspete" of the results.
@@ -70,8 +70,8 @@ Replaces the subscribers of the report schedule, notifying "pspete" of the resul
 ### Example 5
 
 ```powershell
-PS C:\> $Filter = [TaskFilter]::new('safe', 'SomeSafe')
-PS C:\> Set-PASReportTask -id 9c91791b-76cf-46c4-a961-b562b9447dc3 -filters $Filter
+$Filter = [TaskFilter]::new('safe', 'SomeSafe')
+Set-PASReportTask -id 9c91791b-76cf-46c4-a961-b562b9447dc3 -filters $Filter
 ```
 
 Replaces the filters of the report schedule, restricting the report to the "SomeSafe" safe.
@@ -79,7 +79,7 @@ Replaces the filters of the report schedule, restricting the report to the "Some
 ### Example 6
 
 ```powershell
-PS C:\> Set-PASReportTask -id 9c91791b-76cf-46c4-a961-b562b9447dc3 -name 'Some Report' -WhatIf
+Set-PASReportTask -id 9c91791b-76cf-46c4-a961-b562b9447dc3 -name 'Some Report' -WhatIf
 ```
 
 Shows what would happen if the report schedule was updated, without actually updating it.

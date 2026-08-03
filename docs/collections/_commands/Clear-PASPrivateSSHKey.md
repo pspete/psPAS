@@ -29,22 +29,22 @@ Requires CyberArk Version 12.1 or higher.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Clear-PASPrivateSSHKey
+Clear-PASPrivateSSHKey
 ```
 
 Delete all MFA caching SSH keys
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> Clear-PASPrivateSSHKey -Verbose
+Clear-PASPrivateSSHKey -Verbose
 ```
 
 Deletes all MFA caching SSH keys for all users and writes verbose details of the request to the console.
 
 ### EXAMPLE 3
 ```powershell
-PS C:\> New-PASSession -Credential $Credential -BaseURI https://SomePVWAURL
-PS C:\> Clear-PASPrivateSSHKey
+New-PASSession -Credential $Credential -BaseURI https://SomePVWAURL
+Clear-PASPrivateSSHKey
 ```
 
 Authenticates to the vault, then deletes all MFA caching SSH keys for all users on that vault.

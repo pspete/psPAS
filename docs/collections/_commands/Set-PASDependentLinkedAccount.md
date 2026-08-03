@@ -36,7 +36,7 @@ Links an account to a dependent account
 ### Example 1 - Privilege Cloud
 
 ```powershell
-PS C:\> Set-PASDependentLinkedAccount -accountId 12_3 -dependentAccountId 12_4 -extraPasswordAccountId 56_7 -extraPasswordIndex 1
+Set-PASDependentLinkedAccount -accountId 12_3 -dependentAccountId 12_4 -extraPasswordAccountId 56_7 -extraPasswordIndex 1
 ```
 
 Links account with ID 56_7 to linked account index 1 for dependent account 12_4 with parent account 12_3
@@ -44,7 +44,7 @@ Links account with ID 56_7 to linked account index 1 for dependent account 12_4 
 ### Example 2 - Self-Hosted
 
 ```powershell
-PS C:\> Set-PASDependentLinkedAccount -accountId 22_3 -dependentAccountId 22_4 -extraPasswordIndex 1 -safe somesafe -name accountname
+Set-PASDependentLinkedAccount -accountId 22_3 -dependentAccountId 22_4 -extraPasswordIndex 1 -safe somesafe -name accountname
 ```
 
 Links the account named accountname in the somesafe Safe to linked account index 1 (logon account) for dependent account 22_4 with parent account 22_3
@@ -52,7 +52,7 @@ Links the account named accountname in the somesafe Safe to linked account index
 ### Example 3 - Self-Hosted with folder
 
 ```powershell
-PS C:\> Set-PASDependentLinkedAccount -accountId 22_3 -dependentAccountId 22_4 -extraPasswordIndex 2 -safe somesafe -name reconcileaccount -folder Reconcile
+Set-PASDependentLinkedAccount -accountId 22_3 -dependentAccountId 22_4 -extraPasswordIndex 2 -safe somesafe -name reconcileaccount -folder Reconcile
 ```
 
 Links the account named reconcileaccount in the Reconcile folder of the somesafe Safe to linked account index 2 (reconcile account) for dependent account 22_4 with parent account 22_3
@@ -60,7 +60,7 @@ Links the account named reconcileaccount in the Reconcile folder of the somesafe
 ### Example 4 - WhatIf
 
 ```powershell
-PS C:\> Set-PASDependentLinkedAccount -accountId 12_3 -dependentAccountId 12_4 -extraPasswordAccountId 56_7 -extraPasswordIndex 3 -WhatIf
+Set-PASDependentLinkedAccount -accountId 12_3 -dependentAccountId 12_4 -extraPasswordAccountId 56_7 -extraPasswordIndex 3 -WhatIf
 ```
 
 Shows what would happen if account 56_7 were linked as index 3 for dependent account 12_4, but does not perform the link

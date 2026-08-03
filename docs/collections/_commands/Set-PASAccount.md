@@ -87,7 +87,7 @@ Requires minimum version of 10.4
 
 ### EXAMPLE 4
 ```
-Get-PASAccount DBUser | Set-PASAccount -Properties @{"DSN"="myDSN"}
+Get-PASAccount -Keywords DBUser | Set-PASAccount -Properties @{"DSN"="myDSN"}
 ```
 
 Sets DSN value on matched account dbUser

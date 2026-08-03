@@ -35,7 +35,7 @@ Requires minimum version 14.6.
 ### EXAMPLE 1
 
 ```powershell
-PS C:\> Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 56_78
+Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 56_78
 ```
 
 Synchronizes the password of dependent account with ID 56_78 with its parent account 12_34.
@@ -43,7 +43,7 @@ Synchronizes the password of dependent account with ID 56_78 with its parent acc
 ### EXAMPLE 2
 
 ```powershell
-PS C:\> Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 12_78, 12_01, 12_45, 12_89
+Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 12_78, 12_01, 12_45, 12_89
 ```
 
 Synchronizes the password of the specified dependent accounts for parent account with id 12_34.
@@ -51,7 +51,7 @@ Synchronizes the password of the specified dependent accounts for parent account
 ### EXAMPLE 3
 
 ```powershell
-PS C:\> Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 56_78 -WhatIf
+Sync-PASDependentAccount -accountId 12_34 -dependentAccountId 56_78 -WhatIf
 ```
 
 Shows what would happen if the dependent account secret were synchronized, but does not perform the synchronization.
@@ -59,7 +59,7 @@ Shows what would happen if the dependent account secret were synchronized, but d
 ### EXAMPLE 4
 
 ```powershell
-PS C:\> Sync-PASDependentAccount -id 12_34 -dependentid 12_78, 12_01 -Confirm:$false
+Sync-PASDependentAccount -id 12_34 -dependentid 12_78, 12_01 -Confirm:$false
 ```
 
 Synchronizes the password of the specified dependent accounts for parent account 12_34 without prompting for confirmation, using the -id and -dependentid parameter aliases.

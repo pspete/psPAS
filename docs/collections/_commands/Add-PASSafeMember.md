@@ -144,6 +144,41 @@ PS > $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Va
 
 Grant User23 UseAccounts, RetrieveAccounts & ListAccounts using the Gen1 API
 
+### EXAMPLE 5
+```
+Add-PASSafeMember -SafeName NewSafe -MemberName User24 -SearchIn Vault -Full
+```
+
+Adds User24 to NewSafe with the predefined "Full" role.
+
+### EXAMPLE 6
+```
+Add-PASSafeMember -SafeName NewSafe -MemberName User25 -SearchIn Vault -AccountsManager
+```
+
+Adds User25 to NewSafe with the predefined "Accounts Manager" role.
+
+### EXAMPLE 7
+```
+Add-PASSafeMember -SafeName NewSafe -MemberName User26 -SearchIn Vault -Approver
+```
+
+Adds User26 to NewSafe with the predefined "Approver" role.
+
+### EXAMPLE 8
+```
+Add-PASSafeMember -SafeName NewSafe -MemberName User27 -SearchIn Vault -ReadOnly
+```
+
+Adds User27 to NewSafe with the predefined "Read Only" role.
+
+### EXAMPLE 9
+```
+Add-PASSafeMember -SafeName NewSafe -MemberName User28 -SearchIn Vault -ConnectOnly
+```
+
+Adds User28 to NewSafe with the predefined "Connect Only" role.
+
 ## PARAMETERS
 
 ### -SafeName

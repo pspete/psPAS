@@ -62,6 +62,12 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
 - `Get-PASReportActivity`
   - New function to get the list of activity groups available for reports
   - Requires Idira 15.0+
+- `Add-PASOAuthProvider`, `Get-PASOAuthProvider`, `Set-PASOAuthProvider`
+  - New functions to configure and retrieve OAuth 2.0 Identity Providers
+  - Requires Idira 15.0+ Self-Hosted
+- `Set-PASReportTask`
+  - New function to update an existing report task schedule
+  - Requires Idira 14.6+
 
 ### Updated
 
@@ -127,6 +133,14 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
   - `UserType` parameter gains an `ArgumentCompleter` sourced from the configured user types of the current environment
 - `Set-PASAccount`
   - Adds an `ArgumentCompleter` for the `Path` parameter
+- `New-PASSession`
+  - Adds `ISPSS-Subdomain-SAML` and `ISPSS-URL-SAML` parameter sets, allowing a SAML assertion to be exchanged for an authenticated Identity Shared Services/Privilege Cloud session, alongside the existing IdentityUser/ServiceUser flows
+  - Rationalises the command's examples down to one per parameter set, and refreshes the description to drop outdated CyberArk version-support trivia
+- `Get-PASAccountSSHKey`
+  - Adds a `Path` parameter, to save the retrieved SSH key directly to a file
+- `Add-PASAccountGroupMember`, `New-PASAccountGroup`, `Get-PASAccount`, `Get-PASDependentAccount`, `Get-PASDiscoveredAccount`, `Get-PASDiscoveredLocalAccount`, `Set-PASDependentLinkedAccount`, `Set-PASLinkedAccount`, `Add-PASAuthenticationMethod`, `Add-PASOpenIDConnectProvider`, `Set-PASAuthenticationMethod`, `Set-PASDirectoryMapping`, `Get-PASPSMRecording`, `Get-PASPSMSession`, `Get-PASPlatform`, `Get-PASReport`, `Get-PASReportTask`, `New-PASReportTask`, `Set-PASReportTask`, `Get-PASSafeMember`, `Find-PASSafe`, `Get-PASSafe`, `Get-PASGroup`, `Get-PASUser`, `New-PASGroup`, `New-PASUser`, `Set-PASGroup`, `Set-PASUser`
+  - Adds parameter length validation attributes
+  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
 
 ### Fixed
 
@@ -148,6 +162,8 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
   - Thanks [everyone who reported #551](https://github.com/pspete/psPAS/issues/551)!
 - `Export-PASTicketingSystemLog`
   - Updates the API URL and renames the `UserId` parameter to `username`, in line with changes made in vendor documentation
+- `Get-PASAccount`
+  - Fixes an issue where dynamic search-property lookups performed against Idira 14.4+ (to build search parameters) could overwrite `LastCommand`/`LastCommandResult` in the session; results are now read from a cache instead of calling `Get-PASAccountSearchProperty` directly, and internal helper calls no longer clobber session state
 
 ## [7.3.0]
 

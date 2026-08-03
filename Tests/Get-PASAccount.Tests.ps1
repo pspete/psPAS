@@ -21,15 +21,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		$Script:RequestBody = $null
 		$psPASSession = [ordered]@{
-			BaseURI            = 'https://SomeURL/SomeApp'
-			User               = $null
-			ExternalVersion    = [System.Version]'0.0'
-			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			StartTime          = $null
-			ElapsedTime        = $null
-			LastCommand        = $null
-			LastCommandTime    = $null
-			LastCommandResults = $null
+			BaseURI                 = 'https://SomeURL/SomeApp'
+			User                    = $null
+			ExternalVersion         = [System.Version]'0.0'
+			WebSession              = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime               = $null
+			ElapsedTime             = $null
+			LastCommand             = $null
+			LastCommandTime         = $null
+			LastCommandResults      = $null
+			AccountSearchProperties = $null
 		}
 
 		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
@@ -217,13 +218,23 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					[pscustomobject]@{PropertyName = 'customProperty' }
 				}
 
+				$psPASSession.AccountSearchProperties = $null
 				$psPASSession.ExternalVersion = '14.6'
 
 			}
 
 			AfterEach {
 
+				$psPASSession.AccountSearchProperties = $null
 				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'only calls Get-PASAccountSearchProperty once per invocation, despite dynamicparam and begin both needing it' {
+
+				Get-PASAccount -customProperty 'SomeValue'
+
+				Assert-MockCalled Get-PASAccountSearchProperty -Times 1 -Exactly -Scope It
 
 			}
 

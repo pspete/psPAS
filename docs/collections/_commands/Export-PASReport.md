@@ -25,7 +25,7 @@ Exports a report to an Excel or CSV
 
 ### Example 1
 ```powershell
-PS C:\> Export-PASReport -Safe 'PVWAReports' -Folder 'Root\33' `
+Export-PASReport -Safe 'PVWAReports' -Folder 'Root\33' `
     -FileName 'InventoryReports.InventoryReportUI_2025-09-07_180314.094.xml' `
     -Type 'InventoryReports.InventoryReportUI' -ReportFormat XLSX -path C:\Temp\
 ```
@@ -34,7 +34,7 @@ Exports a report in XLSX format
 
 ### Example 2
 ```powershell
-PS C:\> Export-PASReport -Safe 'PVWAReports' -Folder 'Root\33' `
+Export-PASReport -Safe 'PVWAReports' -Folder 'Root\33' `
     -FileName 'InventoryReports.InventoryReportUI_2025-09-07_180314.094.xml' `
     -Type 'InventoryReports.InventoryReportUI' -ReportFormat XLS -path C:\Temp\
 ```
@@ -43,7 +43,7 @@ Exports a report in XLS format
 
 ### Example 3
 ```powershell
-PS C:\> Export-PASReport -Safe 'PVWAReports' -Folder 'Root\33' `
+Export-PASReport -Safe 'PVWAReports' -Folder 'Root\33' `
     -FileName 'InventoryReports.InventoryReportUI_2025-09-07_180314.094.xml' `
     -Type 'InventoryReports.InventoryReportUI' -ReportFormat CSV -path C:\Temp\Report.csv
 ```

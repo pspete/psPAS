@@ -95,6 +95,13 @@ Add-PASApplicationAuthenticationMethod -AppID AppWebService -SubjectAlternativeN
 
 Adds Certificate Attribute authentication for certificate SAN attribute
 
+### EXAMPLE 7
+```
+Add-PASApplicationAuthenticationMethod -AppID NewApp -hash B7EE0505FE0940FF16F0E3FEB79374F5A9BFCF52 -Comment "DEV Hash"
+```
+
+Adds a hash application authentication mechanism to NewApp
+
 ## PARAMETERS
 
 ### -AppID

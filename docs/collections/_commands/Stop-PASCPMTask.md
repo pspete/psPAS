@@ -29,28 +29,28 @@ Requires CyberArk Self-Hosted version 15.2 or higher.
 
 ### Example 1
 ```powershell
-PS C:\> Stop-PASCPMTask -Accountid 123_4
+Stop-PASCPMTask -Accountid 123_4
 ```
 
 Cancels the pending CPM task for account with id 123_4.
 
 ### Example 2
 ```powershell
-PS C:\> Stop-PASCPMTask -Accountid 123_4, 567_8
+Stop-PASCPMTask -Accountid 123_4, 567_8
 ```
 
 Cancels the pending CPM tasks for accounts 123_4 and 567_8 in a single bulk request.
 
 ### Example 3
 ```powershell
-PS C:\> Stop-PASCPMTask -Accountid 123_4 -dependentAccountid 123_5
+Stop-PASCPMTask -Accountid 123_4 -dependentAccountid 123_5
 ```
 
 Cancels the pending CPM task for dependent account 123_5 under parent account 123_4.
 
 ### Example 4
 ```powershell
-PS C:\> Get-PASAccount -id 123_4 | Stop-PASCPMTask -WhatIf
+Get-PASAccount -id 123_4 | Stop-PASCPMTask -WhatIf
 ```
 
 Shows what would happen if the pending CPM task for account 123_4 were cancelled, but does not perform the cancellation. Uses pipeline input from Get-PASAccount for -Accountid.

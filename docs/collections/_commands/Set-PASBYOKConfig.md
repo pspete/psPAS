@@ -37,6 +37,13 @@ Set-PASBYOKConfig -kms_arn 'arn:aws:kms:us-east-1:1234567890:key/hex-key-goes-he
 
 Configures BYOK to use the specified AWS KMS key.
 
+### EXAMPLE 2
+```powershell
+[PSCustomObject]@{kms_arn = 'arn:aws:kms:us-east-1:1234567890:key/hex-key-goes-here'} | Set-PASBYOKConfig -WhatIf
+```
+
+Shows what would happen if BYOK was configured to use the KMS key supplied via the pipeline, without actually configuring it.
+
 ## PARAMETERS
 
 ### -Confirm
