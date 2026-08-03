@@ -56,6 +56,14 @@ commands:
         url: /commands/Remove-PASUserAllowedAuthenticationMethod
       - title: "Register-PASFIDO2Device"
         url: /commands/Register-PASFIDO2Device
+      - title: "Add-PASOAuthProvider"
+        url: /commands/Add-PASOAuthProvider
+      - title: "Get-PASOAuthProvider"
+        url: /commands/Get-PASOAuthProvider
+      - title: "Set-PASOAuthProvider"
+        url: /commands/Set-PASOAuthProvider
+      - title: "Remove-PASOAuthProvider"
+        url: /commands/Remove-PASOAuthProvider
 
   - title: "Account ACL"
     children:
@@ -160,6 +168,22 @@ commands:
         url: /commands/Remove-PASDiscoveredLocalAccount
       - title: "Get-PASAccountSearchProperty"
         url: /commands/Get-PASAccountSearchProperty
+      - title: "Get-PASLinkedGroup"
+        url: /commands/Get-PASLinkedGroup
+      - title: "Hide-PASDiscoveredLocalAccount"
+        url: /commands/Hide-PASDiscoveredLocalAccount
+      - title: "Restore-PASDiscoveredLocalAccount"
+        url: /commands/Restore-PASDiscoveredLocalAccount
+      - title: "Set-PASDiscoveredLocalAccount"
+        url: /commands/Set-PASDiscoveredLocalAccount
+      - title: "New-PASDiscoveredAccountObject"
+        url: /commands/New-PASDiscoveredAccountObject
+      - title: "Test-PASDiscoveredLocalAccount"
+        url: /commands/Test-PASDiscoveredLocalAccount
+      - title: "Resume-PASCPMAutoManagement"
+        url: /commands/Resume-PASCPMAutoManagement
+      - title: "Stop-PASCPMTask"
+        url: /commands/Stop-PASCPMTask
 
   - title: "Dependent Accounts"
     children:
@@ -232,6 +256,30 @@ commands:
         url: /commands/Set-PASPTARiskEvent
       - title: "Get-PASPTARiskSummary"
         url: /commands/Get-PASPTARiskSummary
+      - title: "Add-PASPTAExcludedTarget"
+        url: /commands/Add-PASPTAExcludedTarget
+      - title: "Get-PASPTAExcludedTarget"
+        url: /commands/Get-PASPTAExcludedTarget
+      - title: "Remove-PASPTAExcludedTarget"
+        url: /commands/Remove-PASPTAExcludedTarget
+      - title: "Add-PASPTAIncludedTarget"
+        url: /commands/Add-PASPTAIncludedTarget
+      - title: "Get-PASPTAIncludedTarget"
+        url: /commands/Get-PASPTAIncludedTarget
+      - title: "Remove-PASPTAIncludedTarget"
+        url: /commands/Remove-PASPTAIncludedTarget
+      - title: "Add-PASPTAPrivilegedGroup"
+        url: /commands/Add-PASPTAPrivilegedGroup
+      - title: "Get-PASPTAPrivilegedGroup"
+        url: /commands/Get-PASPTAPrivilegedGroup
+      - title: "Remove-PASPTAPrivilegedGroup"
+        url: /commands/Remove-PASPTAPrivilegedGroup
+      - title: "Add-PASPTAPrivilegedUser"
+        url: /commands/Add-PASPTAPrivilegedUser
+      - title: "Get-PASPTAPrivilegedUser"
+        url: /commands/Get-PASPTAPrivilegedUser
+      - title: "Remove-PASPTAPrivilegedUser"
+        url: /commands/Remove-PASPTAPrivilegedUser
 
   - title: "PTA Configuration"
     children:
@@ -344,6 +392,10 @@ commands:
         url: /commands/Remove-PASStoredPlatform
       - title: "Rename-PASPlatform"
         url: /commands/Rename-PASPlatform
+      - title: "New-PASPlatformSecret"
+        url: /commands/New-PASPlatformSecret
+      - title: "Set-PASPlatform"
+        url: /commands/Set-PASPlatform
 
   - title: "Policy ACL"
     children:
@@ -461,6 +513,16 @@ commands:
     children:
       - title: "Get-PASBYOKConfig"
         url: /commands/Get-PASBYOKConfig
+      - title: "Enable-PASBYOKConfig"
+        url: /commands/Enable-PASBYOKConfig
+      - title: "Disable-PASBYOKConfig"
+        url: /commands/Disable-PASBYOKConfig
+      - title: "Set-PASBYOKConfig"
+        url: /commands/Set-PASBYOKConfig
+      - title: "Invoke-PASBYOKRotation"
+        url: /commands/Invoke-PASBYOKRotation
+      - title: "Get-PASBYOKPolicyStatement"
+        url: /commands/Get-PASBYOKPolicyStatement
 
   - title: "IP Allow List"
     children:
@@ -481,6 +543,10 @@ commands:
         url: /commands/New-PASReportTask
       - title: "Set-PASReportTask"
         url: /commands/Set-PASReportTask
+      - title: "Remove-PASReportTask"
+        url: /commands/Remove-PASReportTask
+      - title: "Get-PASReportActivity"
+        url: /commands/Get-PASReportActivity
       - title: "Export-PASReport"
         url: /commands/Export-PASReport
 
