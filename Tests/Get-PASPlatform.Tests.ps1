@@ -389,10 +389,10 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 			}
 
-			It 'sets typename to Basic when Total is 0' {
+			It 'sets typename to Basic when the response has no Total property' {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{ Total = 0; Platforms = @([PSCustomObject]@{PlatformID = 'Plat1' }) }
+					[PSCustomObject]@{ Platforms = @([PSCustomObject]@{PlatformID = 'Plat1' }) }
 				}
 
 				$result = Get-PASPlatform
@@ -417,6 +417,40 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 				$result = Get-PASPlatform @Switch
 
 				$result | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be $Expected
+
+			}
+
+			It 'sets typename to <Expected> when Total is 0 but Platforms is populated' -TestCases $TypeNameCases {
+
+				param($Switch, $Expected)
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{ Total = 0; Platforms = @([PSCustomObject]@{PlatformID = 'Plat1' }) }
+				}
+
+				$result = Get-PASPlatform @Switch
+
+				$result | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be $Expected
+
+			}
+
+			It 'returns an empty result rather than leaking unmatched PlatformData when Platforms is genuinely empty' {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					param($URI)
+
+					if ($URI -match '/rotationalGroups') {
+						[PSCustomObject]@{ Total = 0; Platforms = @() }
+					} else {
+						#Get-Platform helper call, returns unrelated Group platform data
+						[PSCustomObject]@{ Platforms = @([PSCustomObject]@{ general = [PSCustomObject]@{ id = 'SampleGroup' } }) }
+					}
+
+				}
+
+				$result = Get-PASPlatform -RotationalGroup
+
+				$result | Should -BeNullOrEmpty
 
 			}
 

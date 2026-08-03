@@ -405,15 +405,26 @@ function Get-PASPlatform {
 
             default {
 
-                if ($result.Total -eq 0) {
+                if ($result.PSObject.Properties.Match('Total').Count -eq 0) {
+                    #Pre-11.1 legacy response has no "Total"/"Platforms" wrapper
 
                     $result = Join-ObjectByProperty -PrimaryObjects $($result | Select-Object -ExpandProperty Platforms) -SecondaryObjects $PlatformData -PrimaryKey 'PlatformID' -SecondaryKey 'general.id'
                     $typename = 'psPAS.CyberArk.Vault.Platform.Basic'
 
-                } elseif (($null -ne $result.Platforms) -and ($result.Total -gt 0)) {
-                    #11.1+ returns result under "platforms" property
-                    #Merge platform details from Get-Platforms call into results
-                    $result = Join-ObjectByProperty -PrimaryObjects $($result | Select-Object -ExpandProperty Platforms) -SecondaryObjects $PlatformData -PrimaryKey 'PlatformID' -SecondaryKey 'general.id'
+                } elseif ($null -ne $result.Platforms) {
+                    #11.1+ returns result under "platforms" property, Total may legitimately be 0
+
+                    #Force array context so a genuinely empty Platforms list isn't collapsed to $null,
+                    #which would otherwise be indistinguishable from "no primary objects" to Join-ObjectByProperty
+                    #and incorrectly dump all of $PlatformData back out unmatched
+                    $PrimaryPlatforms = @($result | Select-Object -ExpandProperty Platforms)
+
+                    if ($PrimaryPlatforms.Count -eq 0) {
+                        $result = [Collections.Generic.List[Object]]::New()
+                    } else {
+                        #Merge platform details from Get-Platforms call into results
+                        $result = Join-ObjectByProperty -PrimaryObjects $PrimaryPlatforms -SecondaryObjects $PlatformData -PrimaryKey 'PlatformID' -SecondaryKey 'general.id'
+                    }
 
                     # ensure typename is set; switch below will override appropriately
                     $typename = ''

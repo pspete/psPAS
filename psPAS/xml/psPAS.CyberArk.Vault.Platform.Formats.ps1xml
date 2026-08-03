@@ -8,26 +8,47 @@
 			</ViewSelectedBy>
 			<TableControl>
 				<TableHeaders>
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>PlatformID</Label>
+						<Width>20</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>ID</Label>
+						<Width>4</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Active</Label>
+						<Width>7</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Name</Label>
+						<Width>30</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>GracePeriod</Label>
+						<Width>11</Width>
+					</TableColumnHeader>
 				</TableHeaders>
 				<TableRowEntries>
 					<TableRowEntry>
 						<TableColumnItems>
 							<TableColumnItem>
-								<PropertyName>PlatformID</PropertyName>
+								<ScriptBlock>
+									if ($_.PSObject.Properties.Match('PlatformID').Count) { $_.PlatformID } else { $_.general.id }
+								</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>ID</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>Active</PropertyName>
+								<ScriptBlock>
+									if ($_.PSObject.Properties.Match('Active').Count) { $_.Active } else { $_.general.active }
+								</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>Name</PropertyName>
+								<ScriptBlock>
+									if ($_.PSObject.Properties.Match('Name').Count) { $_.Name } else { $_.general.name }
+								</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>GracePeriod</PropertyName>
@@ -44,14 +65,22 @@
 			</ViewSelectedBy>
 			<TableControl>
 				<TableHeaders>
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>PlatformID</Label>
+						<Width>20</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>ID</Label>
+						<Width>4</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Name</Label>
+						<Width>30</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>NumberOfLinkedTargetPlatforms</Label>
+						<Width>29</Width>
+					</TableColumnHeader>
 				</TableHeaders>
 				<TableRowEntries>
 					<TableRowEntry>
@@ -66,19 +95,7 @@
 								<PropertyName>Name</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>PlatformBaseType</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>PlatformBaseID</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>CredentialsManagementPolicy</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
 								<PropertyName>NumberOfLinkedTargetPlatforms</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>LinkedAccounts</PropertyName>
 							</TableColumnItem>
 						</TableColumnItems>
 					</TableRowEntry>
@@ -97,27 +114,23 @@
 							<Width>15</Width>
 						</TableColumnHeader>
 						<TableColumnHeader>
-							<Label>General</Label>
+							<Label>ID</Label>
+							<Width>4</Width>
+						</TableColumnHeader>
+						<TableColumnHeader>
+							<Label>Active</Label>
+							<Width>7</Width>
+						</TableColumnHeader>
+						<TableColumnHeader>
+							<Label>SystemType</Label>
 							<Width>15</Width>
 						</TableColumnHeader>
 						<TableColumnHeader>
-							<Label>Properties</Label>
-							<Width>15</Width>
+							<Label>Name</Label>
+							<Width>25</Width>
 						</TableColumnHeader>
 						<TableColumnHeader>
-							<Label>LinkedAccounts</Label>
-							<Width>15</Width>
-						</TableColumnHeader>
-						<TableColumnHeader>
-							<Label>SessionManagement</Label>
-							<Width>15</Width>
-						</TableColumnHeader>
-						<TableColumnHeader>
-							<Label>CredentialsManagement</Label>
-							<Width>15</Width>
-						</TableColumnHeader>
-						<TableColumnHeader>
-							<Label>privilegedAccessWorkflows</Label>
+							<Label>AllowedSafes</Label>
 							<Width>15</Width>
 						</TableColumnHeader>
 					</TableHeaders>
@@ -130,22 +143,29 @@
 								</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>general</PropertyName>
+								<ScriptBlock>
+									$_.ID
+								</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>properties</PropertyName>
+								<ScriptBlock>
+									$_.general.active
+								</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>linkedAccounts</PropertyName>
+								<ScriptBlock>
+									$_.general.systemType
+								</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>sessionManagement</PropertyName>
+								<ScriptBlock>
+									$_.general.name
+								</ScriptBlock>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>credentialsManagement</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>privilegedAccessWorkflows</PropertyName>
+								<ScriptBlock>
+									if ($_.AllowedSafes) { $_.AllowedSafes } else { $_.credentialsManagement.allowedSafes }
+								</ScriptBlock>
 							</TableColumnItem>
 						</TableColumnItems>
 					</TableRowEntry>
@@ -173,23 +193,15 @@
 					<Width>7</Width>
 				</TableColumnHeader>
 				<TableColumnHeader>
-					<Label>General</Label>
+					<Label>SystemType</Label>
 					<Width>15</Width>
 				</TableColumnHeader>
 				<TableColumnHeader>
-					<Label>Properties</Label>
-					<Width>15</Width>
+					<Label>Name</Label>
+					<Width>25</Width>
 				</TableColumnHeader>
 				<TableColumnHeader>
-					<Label>LinkedAccounts</Label>
-					<Width>15</Width>
-				</TableColumnHeader>
-				<TableColumnHeader>
-					<Label>CredentialsManagement</Label>
-					<Width>15</Width>
-				</TableColumnHeader>
-				<TableColumnHeader>
-					<Label>SessionManagement</Label>
+					<Label>AllowedSafes</Label>
 					<Width>15</Width>
 				</TableColumnHeader>
 				</TableHeaders>
@@ -206,19 +218,17 @@
 						<PropertyName>Active</PropertyName>
 					</TableColumnItem>
 					<TableColumnItem>
-						<PropertyName>general</PropertyName>
+						<ScriptBlock>
+							if ($_.SystemType) { $_.SystemType } else { $_.general.systemType }
+						</ScriptBlock>
 					</TableColumnItem>
 					<TableColumnItem>
-						<PropertyName>properties</PropertyName>
+						<PropertyName>Name</PropertyName>
 					</TableColumnItem>
 					<TableColumnItem>
-						<PropertyName>linkedAccounts</PropertyName>
-					</TableColumnItem>
-					<TableColumnItem>
-						<PropertyName>credentialsManagement</PropertyName>
-					</TableColumnItem>
-					<TableColumnItem>
-						<PropertyName>sessionManagement</PropertyName>
+						<ScriptBlock>
+							if ($_.AllowedSafes) { $_.AllowedSafes } else { $_.credentialsManagement.allowedSafes }
+						</ScriptBlock>
 					</TableColumnItem>
 					</TableColumnItems>
 				</TableRowEntry>
@@ -232,12 +242,26 @@
 			</ViewSelectedBy>
 			<TableControl>
 				<TableHeaders>
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
-					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>PlatformID</Label>
+						<Width>20</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Active</Label>
+						<Width>7</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>PolicyName</Label>
+						<Width>25</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>AllowManualChange</Label>
+						<Width>18</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>ExeName</Label>
+						<Width>25</Width>
+					</TableColumnHeader>
 				</TableHeaders>
 				<TableRowEntries>
 					<TableRowEntry>
@@ -249,13 +273,10 @@
 								<PropertyName>Active</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>PolicyType</PropertyName>
+								<PropertyName>PolicyName</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
-								<PropertyName>AllowedSafes</PropertyName>
-							</TableColumnItem>
-							<TableColumnItem>
-								<PropertyName>PerformPeriodicChange</PropertyName>
+								<PropertyName>AllowManualChange</PropertyName>
 							</TableColumnItem>
 							<TableColumnItem>
 								<PropertyName>ExeName</PropertyName>
@@ -266,27 +287,65 @@
 			</TableControl>
 		</View>
 		<View>
-			<Name>psPAS.CyberArk.Vault.Platform</Name>
+			<Name>psPAS.CyberArk.Vault.Platform.TargetDetails</Name>
 			<ViewSelectedBy>
-				<TypeName>psPAS.CyberArk.Vault.Platform</TypeName>
+				<TypeName>psPAS.CyberArk.Vault.Platform.TargetDetails</TypeName>
 			</ViewSelectedBy>
-			<ListControl>
-				<ListEntries>
-					<ListEntry>
-						<ListItems>
-							<ListItem>
-								<PropertyName>PlatformID</PropertyName>
-							</ListItem>
-							<ListItem>
-								<PropertyName>Active</PropertyName>
-							</ListItem>
-							<ListItem>
-								<PropertyName>Details</PropertyName>
-							</ListItem>
-						</ListItems>
-					</ListEntry>
-				</ListEntries>
-			</ListControl>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Label>PlatformID</Label>
+						<Width>20</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Name</Label>
+						<Width>25</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Status</Label>
+						<Width>10</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>DeviceType</Label>
+						<Width>20</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>PlatformBaseType</Label>
+						<Width>18</Width>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<ScriptBlock>
+									$_.general.platformId
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									$_.general.name
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									$_.general.status
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									$_.general.deviceType
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>
+									$_.general.platformBaseType
+								</ScriptBlock>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
 		</View>
 	</ViewDefinitions>
 </Configuration>
