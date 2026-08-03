@@ -21,15 +21,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		$Script:RequestBody = $null
 		$psPASSession = [ordered]@{
-			BaseURI            = 'https://SomeURL/SomeApp'
-			User               = $null
-			ExternalVersion    = [System.Version]'0.0'
-			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			StartTime          = $null
-			ElapsedTime        = $null
-			LastCommand        = $null
-			LastCommandTime    = $null
-			LastCommandResults = $null
+			BaseURI                 = 'https://SomeURL/SomeApp'
+			User                    = $null
+			ExternalVersion         = [System.Version]'0.0'
+			WebSession              = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime               = $null
+			ElapsedTime             = $null
+			LastCommand             = $null
+			LastCommandTime         = $null
+			LastCommandResults      = $null
+			IdleTimeout             = $null
+			SessionTimeRemaining    = $null
+			SessionWarningThreshold = 5
 		}
 
 		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
@@ -251,6 +254,84 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$psPASSession.LastCommand | Should -BeNullOrEmpty
 				$psPASSession.LastCommandResults | Should -BeNullOrEmpty
+
+			}
+
+		}
+
+		Context 'Idle Timeout Warning' {
+
+			BeforeEach {
+
+				$Response = New-MockObject -Type Microsoft.PowerShell.Commands.WebResponseObject
+				$Response | Add-Member -MemberType NoteProperty -Name StatusCode -Value 200 -Force
+				$Response | Add-Member -MemberType NoteProperty -Name Headers -Value @{ 'Content-Type' = 'application/json; charset=utf-8' } -Force
+				$Response | Add-Member -MemberType NoteProperty -Name Content -Value (@{ 'prop1' = 'value1' } | ConvertTo-Json) -Force
+
+				Mock Invoke-WebRequest -MockWith {
+
+					return $Response
+
+				}
+
+				Mock Get-ParentFunction -MockWith {
+					[PSCustomObject]@{ FunctionName = 'Get-PASAccount'; CommandData = 'SomeCommandData' }
+				}
+
+				$WebSession = @{
+					'URI'        = 'https://CyberArk_URL'
+					'Method'     = 'GET'
+					'WebSession' = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+				}
+
+			}
+
+			It 'does not warn when remaining time is not known' {
+
+				Mock Get-PASIdleTimeRemaining -MockWith { $null }
+
+				Invoke-PASRestMethod @WebSession -WarningVariable w -WarningAction SilentlyContinue
+				$w | Should -BeNullOrEmpty
+
+			}
+
+			It 'does not warn when remaining time exceeds the warning threshold' {
+
+				Mock Get-PASIdleTimeRemaining -MockWith { New-TimeSpan -Minutes 10 }
+
+				Invoke-PASRestMethod @WebSession -WarningVariable w -WarningAction SilentlyContinue
+				$w | Should -BeNullOrEmpty
+
+			}
+
+			It 'warns when remaining time is at or below the warning threshold' {
+
+				Mock Get-PASIdleTimeRemaining -MockWith { New-TimeSpan -Minutes 3 }
+
+				Invoke-PASRestMethod @WebSession -WarningVariable w -WarningAction SilentlyContinue
+				$w | Should -Not -BeNullOrEmpty
+				$w | Should -Match 'Refresh'
+
+			}
+
+			It 'does not warn when remaining time is already zero (session already idle-timed out)' {
+
+				Mock Get-PASIdleTimeRemaining -MockWith { New-TimeSpan }
+
+				Invoke-PASRestMethod @WebSession -WarningVariable w -WarningAction SilentlyContinue
+				$w | Should -BeNullOrEmpty
+
+			}
+
+			It 'does not warn when invoked via an internal helper function' {
+
+				Mock Get-ParentFunction -MockWith {
+					[PSCustomObject]@{ FunctionName = 'Get-PASAccountSearchProperty'; CommandData = 'SomeCommandData' }
+				}
+				Mock Get-PASIdleTimeRemaining -MockWith { New-TimeSpan -Minutes 3 }
+
+				Invoke-PASRestMethod @WebSession -WarningVariable w -WarningAction SilentlyContinue
+				$w | Should -BeNullOrEmpty
 
 			}
 

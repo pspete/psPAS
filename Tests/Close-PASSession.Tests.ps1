@@ -21,16 +21,19 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
 		$Script:RequestBody = $null
 		$psPASSession = [ordered]@{
-			BaseURI            = 'https://SomeURL/SomeApp'
-			ApiURI             = 'https://SomeTenant.cyberark.cloud'
-			User               = $null
-			ExternalVersion    = [System.Version]'0.0'
-			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			StartTime          = $null
-			ElapsedTime        = $null
-			LastCommand        = $null
-			LastCommandTime    = $null
-			LastCommandResults = $null
+			BaseURI                 = 'https://SomeURL/SomeApp'
+			ApiURI                  = 'https://SomeTenant.cyberark.cloud'
+			User                    = $null
+			ExternalVersion         = [System.Version]'0.0'
+			WebSession              = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime               = $null
+			ElapsedTime             = $null
+			LastCommand             = $null
+			LastCommandTime         = $null
+			LastCommandResults      = $null
+			IdleTimeout             = $null
+			SessionTimeRemaining    = $null
+			SessionWarningThreshold = 5
 		}
 
 		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
@@ -129,6 +132,38 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 			It 'provides no output' {
 
 				$response | Should -BeNullOrEmpty
+
+			}
+
+		}
+
+		Context 'Session Cleanup' {
+
+			BeforeEach {
+
+				$psPASSession.IdleTimeout = 20
+				$psPASSession.SessionTimeRemaining = New-TimeSpan -Minutes 15
+				$psPASSession.SessionWarningThreshold = 10
+
+				Close-PASSession -UseClassicAPI
+
+			}
+
+			It 'resets IdleTimeout' {
+
+				$psPASSession.IdleTimeout | Should -BeNullOrEmpty
+
+			}
+
+			It 'resets SessionTimeRemaining' {
+
+				$psPASSession.SessionTimeRemaining | Should -BeNullOrEmpty
+
+			}
+
+			It 'resets SessionWarningThreshold to its default' {
+
+				$psPASSession.SessionWarningThreshold | Should -Be 5
 
 			}
 
