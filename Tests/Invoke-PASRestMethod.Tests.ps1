@@ -284,11 +284,23 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					'WebSession' = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 				}
 
+				#Drive the real Get-PASIdleTimeRemaining calculation via $psPASSession state rather than
+				#mocking Get-PASIdleTimeRemaining, since Mock has no hard per-It isolation in this Pester
+				#version and this proved to leak in full-suite runs where many other files also mock
+				#Get-ParentFunction/similarly-named commands.
+				#Set fields explicitly here (module scope, inside InModuleScope) rather than relying on
+				#the Describe-level BeforeAll fixture above - in a whole-folder run, hundreds of other
+				#test files' own top-level BeforeAll blocks end up resetting this same shared module-scope
+				#object with fixtures that omit SessionWarningThreshold, leaving it $null by the time this
+				#file's tests run.
+				$psPASSession.IdleTimeout = $null
+				$psPASSession.StartTime = $null
+				$psPASSession.LastCommandTime = $null
+				$psPASSession.SessionWarningThreshold = 5
+
 			}
 
 			It 'does not warn when remaining time is not known' {
-
-				Mock Get-PASIdleTimeRemaining -MockWith { $null }
 
 				Invoke-PASRestMethod @WebSession -WarningVariable w -WarningAction SilentlyContinue
 				$w | Should -BeNullOrEmpty
@@ -297,7 +309,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'does not warn when remaining time exceeds the warning threshold' {
 
-				Mock Get-PASIdleTimeRemaining -MockWith { New-TimeSpan -Minutes 10 }
+				$psPASSession.IdleTimeout = 20
+				$psPASSession.LastCommandTime = (Get-Date)
 
 				Invoke-PASRestMethod @WebSession -WarningVariable w -WarningAction SilentlyContinue
 				$w | Should -BeNullOrEmpty
@@ -306,7 +319,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'warns when remaining time is at or below the warning threshold' {
 
-				Mock Get-PASIdleTimeRemaining -MockWith { New-TimeSpan -Minutes 3 }
+				$psPASSession.IdleTimeout = 20
+				$psPASSession.LastCommandTime = (Get-Date).AddMinutes(-17)
 
 				Invoke-PASRestMethod @WebSession -WarningVariable w -WarningAction SilentlyContinue
 				$w | Should -Not -BeNullOrEmpty
@@ -316,7 +330,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'does not warn when remaining time is already zero (session already idle-timed out)' {
 
-				Mock Get-PASIdleTimeRemaining -MockWith { New-TimeSpan }
+				$psPASSession.IdleTimeout = 20
+				$psPASSession.LastCommandTime = (Get-Date).AddMinutes(-25)
 
 				Invoke-PASRestMethod @WebSession -WarningVariable w -WarningAction SilentlyContinue
 				$w | Should -BeNullOrEmpty
@@ -328,7 +343,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Mock Get-ParentFunction -MockWith {
 					[PSCustomObject]@{ FunctionName = 'Get-PASAccountSearchProperty'; CommandData = 'SomeCommandData' }
 				}
-				Mock Get-PASIdleTimeRemaining -MockWith { New-TimeSpan -Minutes 3 }
+
+				$psPASSession.IdleTimeout = 20
+				$psPASSession.LastCommandTime = (Get-Date).AddMinutes(-17)
 
 				Invoke-PASRestMethod @WebSession -WarningVariable w -WarningAction SilentlyContinue
 				$w | Should -BeNullOrEmpty
