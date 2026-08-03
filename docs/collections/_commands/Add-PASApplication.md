@@ -18,7 +18,7 @@ Adds a new application to the Vault
 Add-PASApplication [-AppID] <String> [[-Description] <String>] [-Location] <String>
  [[-AccessPermittedFrom] <Int32>] [[-AccessPermittedTo] <Int32>] [[-ExpirationDate] <DateTime>]
  [[-Disabled] <Boolean>] [[-BusinessOwnerFName] <String>] [[-BusinessOwnerLName] <String>]
- [[-BusinessOwnerEmail] <String>] [[-BusinessOwnerPhone] <String>] [<CommonParameters>]
+ [[-BusinessOwnerEmail] <String>] [[-BusinessOwnerPhone] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -230,6 +230,36 @@ Required: False
 Position: 11
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

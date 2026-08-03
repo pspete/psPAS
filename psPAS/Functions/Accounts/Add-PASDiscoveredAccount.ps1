@@ -2,7 +2,7 @@
 function Add-PASDiscoveredAccount {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPassWordParams', '', Justification = 'Username not used for authentication')]
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'platformTypeAccountProperties', Justification = 'False Positive')]
-	[CmdletBinding(DefaultParameterSetName = 'Windows')]
+	[CmdletBinding(DefaultParameterSetName = 'Windows', SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -314,7 +314,11 @@ function Add-PASDiscoveredAccount {
 		$Body = $boundParameters | Get-PASParameter -ParametersToRemove $AccountProperties, 'AllowAccountDuplications' | ConvertTo-Json
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess($UserName, 'Add Discovered Account')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+
+		}
 
 		if ($null -ne $result) {
 

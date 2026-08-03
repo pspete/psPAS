@@ -137,6 +137,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'does not send request when WhatIf is used' {
+
+				$InputObj | Add-PASAccount -WhatIf
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 0 -Exactly -Scope It
+
+			}
+
+			It 'does not send request when WhatIf is used - V10 ParameterSet' {
+
+				{ $InputObjV10 | Add-PASAccount -WhatIf } | Should -Not -Throw
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 0 -Exactly -Scope It
+
+			}
+
 			It 'sends request to expected endpoint - V9 ParameterSet' {
 
 				$InputObj | Add-PASAccount

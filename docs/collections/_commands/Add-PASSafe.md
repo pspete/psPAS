@@ -18,26 +18,27 @@ Adds a new safe to the Vault
 ```
 Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
  [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-AutoPurgeEnabled <Boolean>] [-Quota <Int32>]
- [<CommonParameters>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1-NumberOfVersionsRetention
 ```
 Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-UseGen1API] [<CommonParameters>]
+ [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-UseGen1API] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### NumberOfDaysRetention
 ```
 Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
  [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-AutoPurgeEnabled <Boolean>] [-Quota <Int32>]
- [<CommonParameters>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1-NumberOfDaysRetention
 ```
 Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-UseGen1API] [<CommonParameters>]
+ [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-UseGen1API] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -266,6 +267,36 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

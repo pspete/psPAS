@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASPTAGlobalCatalog {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
             Mandatory = $false,
@@ -73,7 +73,11 @@ function Add-PASPTAGlobalCatalog {
         $body = [System.Text.Encoding]::UTF8.GetBytes($($AccountObject | ConvertTo-Json))
 
         #send request to PAS web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+        if ($PSCmdlet.ShouldProcess($ldap_server, 'Add PTA Global Catalog')) {
+
+            $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+
+        }
 
         if ($null -ne $result) {
 

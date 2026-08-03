@@ -17,8 +17,8 @@ Adds a new OAuth 2.0 provider.
 ```
 Add-PASOAuthProvider [[-id] <String>] [[-accessTokenValidationMode] <Int32>] [[-introspectionUrl] <String>]
  [[-issuerUrl] <String>] [[-publicKey] <String>] [[-signatureValidationMode] <Int32>]
- [[-allowedUsers] <PSObject[]>] [[-audience] <String>] [[-jwksUrl] <String>] [[-clientCredentials] <PSObject>]
- [[-clientIdClaimType] <String>] [<CommonParameters>]
+ [-allowedUsers] <PSObject[]> [-audience] <String> [[-jwksUrl] <String>] [-clientCredentials] <PSObject>
+ [-clientIdClaimType] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -68,7 +68,7 @@ Type: PSObject[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 6
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -83,7 +83,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 7
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -98,7 +98,7 @@ Type: PSObject
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 9
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -113,7 +113,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 10
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -216,6 +216,35 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).

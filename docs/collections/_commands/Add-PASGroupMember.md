@@ -16,13 +16,13 @@ Adds a vault user as a group member
 
 ### Gen2 (Default)
 ```
-Add-PASGroupMember -groupId <Int32> -memberId <String> [-memberType <String>] [-domainName <String>]
- [<CommonParameters>]
+Add-PASGroupMember -groupId <Int32> -memberId <String> [-memberType <String>] [-domainName <String>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1
 ```
-Add-PASGroupMember -GroupName <String> -UserName <String> [<CommonParameters>]
+Add-PASGroupMember -GroupName <String> -UserName <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -156,6 +156,36 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

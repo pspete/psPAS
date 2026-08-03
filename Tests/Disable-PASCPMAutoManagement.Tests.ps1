@@ -79,6 +79,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'does not send request when WhatIf is used' {
+
+				$InputObj | Disable-PASCPMAutoManagement -Reason 'Pester Test' -WhatIf
+				Assert-MockCalled Set-PASAccount -Times 0 -Exactly -Scope It
+
+			}
+
 			It 'throws error if version requirement not met' {
 
 				$psPASSession.ExternalVersion = '1.2'

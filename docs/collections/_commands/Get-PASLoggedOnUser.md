@@ -21,7 +21,7 @@ Get-PASLoggedOnUser [<CommonParameters>]
 
 ### Gen1
 ```
-Get-PASLoggedOnUser -UseGen1API [<CommonParameters>]
+Get-PASLoggedOnUser [-UseGen1API] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
