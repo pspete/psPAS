@@ -142,6 +142,10 @@ To authenticate to a Privilege Cloud/ISPSS tenant, use the TenantSubdomain or Id
 
 Shared authentication is not supported in Privilege Cloud.
 
+On successful authentication, the idle session timeout configured on the server is also retrieved
+(see Get-PASSessionTimeout) and stored in the session's IdleTimeout property. This is used by
+Get-PASSession to calculate SessionTimeRemaining.
+
 ## EXAMPLES
 
 ### EXAMPLE 1

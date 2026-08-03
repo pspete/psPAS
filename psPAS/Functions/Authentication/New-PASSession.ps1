@@ -910,6 +910,13 @@ function New-PASSession {
 
 					}
 
+					try {
+
+						#Get the idle session timeout (minutes) configured on the server.
+						$psPASSession.IdleTimeout = Get-PASSessionTimeout -ErrorAction Stop | Select-Object -ExpandProperty Timeout
+
+					} catch { $psPASSession.IdleTimeout = $null }
+
 				}
 
 			}

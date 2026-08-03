@@ -81,6 +81,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				Mock Set-Variable -MockWith { }
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
@@ -480,6 +484,30 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'calls Get-PASSessionTimeout' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type LDAP
+				Assert-MockCalled Get-PASSessionTimeout -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets IdleTimeout from Get-PASSessionTimeout result' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type LDAP
+				$psPASSession.IdleTimeout | Should -Be '20'
+
+			}
+
+			It 'sets IdleTimeout to null on Get-PASSessionTimeout error' {
+				Mock Get-PASSessionTimeout -MockWith {
+					throw 'Some Error'
+				}
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -PVWAAppName 'SomeApp'
+				$psPASSession.IdleTimeout | Should -BeNullOrEmpty
+
+			}
+
 			It 'sets expected authorization header' {
 
 				$Credentials | New-PASSession -BaseURI 'https://P_URI'
@@ -567,6 +595,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Get-PASLoggedOnUser -MockWith {
 					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
@@ -709,6 +741,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				if ($IsCoreCLR) {
 					$errorDetails1 = $([pscustomobject]@{'ErrorCode' = 'ITATS542I'; 'ErrorMessage' = 'Some Radius Message' } | ConvertTo-Json)
 					$errorDetails2 = $([pscustomobject]@{'ErrorCode' = 'ITATS555E'; 'ErrorMessage' = 'Some Error Message' } | ConvertTo-Json)
@@ -823,6 +859,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
 						'CyberArkLogonResult' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
@@ -931,6 +971,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				function New-IDPlatformToken {
 					[CmdletBinding()]
 					param($tenant_url,
@@ -1021,6 +1065,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Get-PASLoggedOnUser -MockWith {
 					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
 				function New-IDPlatformToken {
@@ -1122,6 +1170,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				function New-IDSession {
 					[CmdletBinding()]
 					param($tenant_url,
@@ -1209,6 +1261,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Get-PASLoggedOnUser -MockWith {
 					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
 				function New-IDSession {
@@ -1300,6 +1356,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Get-PASLoggedOnUser -MockWith {
 					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
 				function New-IDSession {
@@ -1397,6 +1457,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Get-PASLoggedOnUser -MockWith {
 					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
 				function New-IDSession {
@@ -1508,6 +1572,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Get-PASLoggedOnUser -MockWith {
 					@{'UserName' = 'TestUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
 				$psPASSession.ExternalVersion = '14.6'
