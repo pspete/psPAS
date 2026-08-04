@@ -91,6 +91,8 @@ commands:
 
   - title: "Accounts Feed"
     children:
+      - title: "Add-PASDiscoveryScan"
+        url: /commands/Add-PASDiscoveryScan
       - title: "Get-PASDiscoveryScan"
         url: /commands/Get-PASDiscoveryScan
       - title: "Stop-PASDiscoveryScan"

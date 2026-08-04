@@ -174,6 +174,7 @@ If version requirement criteria are not met, operations may be prevented.
 | [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                       | **12.1**                                                                                                      | Delete MFA caching SSH Keys                                      |
 | [`Set-PASGroup`][Set-PASGroup]                                                             | **12.0**                                                                                                      | Update CyberArk groups                                           |
 | [`Get-PASDiscoveryScan`][Get-PASDiscoveryScan]                                             | **12.2**                                                                                                      | Gets configured discovery scans                                  |
+| [`Add-PASDiscoveryScan`][Add-PASDiscoveryScan]                                             | **12.2**                                                                                                      | Creates a discovery scan                                         |
 | [`Remove-PASDiscoveryScan`][Remove-PASDiscoveryScan]                                       | **12.2**                                                                                                      | Deletes a single discovery scan that is configured in the Vault  |
 | [`Stop-PASDiscoveryScan`][Stop-PASDiscoveryScan]                                           | **12.2**                                                                                                      | Stops an existing discovery scan that is configured in the Vault |
 | [`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                         | **12.2**                                                                                                      | Get basic information on current platform system types           |
@@ -497,6 +498,7 @@ If version requirement criteria are not met, operations may be prevented.
 [Remove-PASGroup]: /commands/Remove-PASGroup
 [Get-PASAccountDetail]: /commands/Get-PASAccountDetail
 [Get-PASDiscoveryScan]: /commands/Get-PASDiscoveryScan
+[Add-PASDiscoveryScan]: /commands/Add-PASDiscoveryScan
 [Stop-PASDiscoveryScan]: /commands/Stop-PASDiscoveryScan
 [Remove-PASDiscoveryScan]: /commands/Remove-PASDiscoveryScan
 [Add-PASOAuthProvider]: /commands/Add-PASOAuthProvider
