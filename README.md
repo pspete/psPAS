@@ -286,14 +286,14 @@ A larger collection of ready-to-run scripts is maintained in the [psPAS-Examples
 
 ## psPAS Functions
 
-`psPAS` currently exports 250 commands, grouped below by the area of Idira they cover:
+`psPAS` currently exports 251 commands, grouped below by the area of Idira they cover:
 
 | Category                      | Commands | Covers                                                                                                                                |
 | ----------------------------- | :------: | ------------------------------------------------------------------------------------------------------------------------------------- |
 | Accounts & Secrets            |    54    | Onboard, retrieve, rotate, link & audit privileged accounts; CPM verify/change/reconcile; JIT access; discovered & dependent accounts; discovery scans |
 | Privileged Threat Analytics   |    31    | Security events, risky command rules, remediation & PTA configuration                                                                 |
 | Users, Groups & Directories   |    27    | Vault users and groups, LDAP directory configuration and mappings                                                                     |
-| Authentication & Sessions     |    24    | Every logon flow (CyberArk, LDAP, RADIUS, SAML, PKI, OIDC, Shared Services), FIDO2 & SSH keys, OAuth Identity Providers               |
+| Authentication & Sessions     |    25    | Every logon flow (CyberArk, LDAP, RADIUS, SAML, PKI, OIDC, Shared Services), session timeout/idle tracking, FIDO2 & SSH keys, OAuth Identity Providers |
 | Platforms & Onboarding        |    22    | Import/export/copy/rename CPM platforms, master policy, automatic onboarding rules                                                    |
 | System, Server & Integrations |    17    | System health, server info, custom ticketing, IP allow lists, BYOK                                                                    |
 | PSM Session Monitoring        |    12    | Live & recorded session activity, suspend/resume/terminate                                                                            |

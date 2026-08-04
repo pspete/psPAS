@@ -1,6 +1,6 @@
 ﻿# .ExternalHelp psPAS-help.xml
 function Add-PASAccount {
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 
 		[parameter(
@@ -254,7 +254,7 @@ function Add-PASAccount {
 
 				}
 
-				$Account = New-PASAccountObject @boundParameters
+				$Account = New-PASAccountObject @boundParameters -WhatIf:$false
 
 				$body = $Account | ConvertTo-Json
 
@@ -338,7 +338,11 @@ function Add-PASAccount {
 		$Body = [System.Text.Encoding]::UTF8.GetBytes($Body)
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess($userName, 'Add Account')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+
+		}
 
 		if ($PSCmdlet.ParameterSetName -eq 'Gen2') {
 

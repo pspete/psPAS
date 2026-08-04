@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Revoke-PASJustInTimeAccess {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
             Mandatory = $true,
@@ -22,7 +22,11 @@ function Revoke-PASJustInTimeAccess {
         $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/RevokeAdministrativeAccess"
 
         #Send request to webservice
-        Invoke-PASRestMethod -Uri $URI -Method POST
+        if ($PSCmdlet.ShouldProcess($AccountID, 'Revoke Just In Time Access')) {
+
+            Invoke-PASRestMethod -Uri $URI -Method POST
+
+        }
 
     }#process
 

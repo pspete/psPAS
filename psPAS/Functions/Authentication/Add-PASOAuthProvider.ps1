@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASOAuthProvider {
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $false,
@@ -100,7 +100,11 @@ function Add-PASOAuthProvider {
 		$body = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json -Depth 5))
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body
+		if ($PSCmdlet.ShouldProcess($id, 'Add OAuth Provider')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $body
+
+		}
 
 		if ($null -ne $result) {
 

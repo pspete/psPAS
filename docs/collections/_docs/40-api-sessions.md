@@ -72,3 +72,18 @@ SafeAdmin Internal EPVUser      False     False   False    False
 #End second session
 Close-PASSession
 ````
+
+## Tracking session idle-timeout
+
+`Get-PASSession` includes an estimate of how much longer the current session has before it idle-times out on the server, calculated from the idle timeout value retrieved at logon and the time of the most recent request:
+
+```powershell
+(Get-PASSession).SessionTimeRemaining
+```
+
+If a request is sent while the session has 5 minutes (configurable via `SessionWarningThreshold`) or less remaining, `psPAS` writes a warning that the session is close to idle-timing out.
+
+The session object also exposes two methods for working with this data - see [Methods](/docs/methods/) for details:
+
+- `(Get-PASSession).GetRemainingSessionTime()` - returns a live, freshly-calculated time remaining.
+- `(Get-PASSession).Refresh()` - resets the idle timer for the current session, extending it.

@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASSafe {
-	[CmdletBinding(DefaultParameterSetName = 'NumberOfVersionsRetention')]
+	[CmdletBinding(DefaultParameterSetName = 'NumberOfVersionsRetention', SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -152,7 +152,11 @@ function Add-PASSafe {
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess($SafeName, 'Add Safe')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+
+		}
 
 		if ($null -ne $result) {
 

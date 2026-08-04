@@ -23,7 +23,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 		$psPASSession = [ordered]@{
 			BaseURI            = 'https://SomeURL/SomeApp'
 			User               = $null
-			ExternalVersion    = [System.Version]'0.0'
+			ExternalVersion    = [System.Version]'13.2'
 			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 			StartTime          = $null
 			ElapsedTime        = $null
@@ -47,10 +47,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		BeforeEach {
 			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+				[PSCustomObject]@{'Timeout' = '20' }
 			}
 
-			$response = Add-PASAuthenticationMethod -id SomeID
+			$response = Get-PASSessionTimeout
 		}
 		Context 'Input' {
 
@@ -60,19 +60,11 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'does not send an additional request when WhatIf is used' {
-
-				Add-PASAuthenticationMethod -id SomeID -WhatIf
-
-				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
-
-			}
-
 			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$URI -eq "$($Script:psPASSession.BaseURI)/api/Configuration/AuthenticationMethods"
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Settings/Timeout"
 
 				} -Times 1 -Exactly -Scope It
 
@@ -80,22 +72,26 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'uses expected method' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
 			}
 
-			It 'sends request with expected body' {
+			It 'sends request with no body' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$($Body | ConvertFrom-Json | Select-Object -ExpandProperty id) -eq 'SomeID'
-				} -Times 1 -Exactly -Scope It
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
 			}
 
 			It 'throws error if version requirement not met' {
-				$psPASSession.ExternalVersion = '1.0'
-				{ Add-PASAuthenticationMethod -id SomeID } | Should -Throw
-				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.ExternalVersion = '13.1'
+				{ Get-PASSessionTimeout } | Should -Throw
+				$psPASSession.ExternalVersion = '13.2'
+			}
+
+			It 'throws error if not self-hosted' {
+				$psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud/SomeApp'
+				{ Get-PASSessionTimeout } | Should -Throw
+				$psPASSession.BaseURI = 'https://SomeURL/SomeApp'
 			}
 
 		}
@@ -110,7 +106,19 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'has output with expected number of properties' {
 
-				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 1
+
+			}
+
+			It 'outputs object with expected typename' {
+
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Session.Timeout
+
+			}
+
+			It 'outputs the expected Timeout value' {
+
+				$response.Timeout | Should -Be '20'
 
 			}
 

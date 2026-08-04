@@ -59,7 +59,8 @@
 		'xml\psPAS.CyberArk.Vault.Safe.Type.ps1xml',
 		'xml\psPAS.CyberArk.Vault.User.Type.ps1xml',
 		'xml\psPAS.CyberArk.Vault.DiscoveryScan.Type.ps1xml',
-		'xml\psPAS.CyberArk.Vault.OAuthProvider.Type.ps1xml'
+		'xml\psPAS.CyberArk.Vault.OAuthProvider.Type.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Session.Type.ps1xml'
 	)
 
 	# Format files (.ps1xml) to be loaded when importing this module
@@ -335,7 +336,8 @@
 		'New-PASDiscoveredAccountObject',
 		'Stop-PASDiscoveryScan',
 		'Remove-PASDiscoveryScan',
-		'Get-PASDiscoveryScan'
+		'Get-PASDiscoveryScan',
+		'Get-PASSessionTimeout'
 	)
 
 	#AliasesToExport   = @()

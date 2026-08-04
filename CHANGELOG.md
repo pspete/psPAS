@@ -68,6 +68,9 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
 - `Set-PASReportTask`
   - New function to update an existing report task schedule
   - Requires Idira 14.6+
+- `Get-PASSessionTimeout`
+  - New function to retrieve the idle session timeout configured on the server
+  - Requires Idira 13.2+ Self-Hosted
 
 ### Updated
 
@@ -141,6 +144,15 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
 - `Add-PASAccountGroupMember`, `New-PASAccountGroup`, `Get-PASAccount`, `Get-PASDependentAccount`, `Get-PASDiscoveredAccount`, `Get-PASDiscoveredLocalAccount`, `Set-PASDependentLinkedAccount`, `Set-PASLinkedAccount`, `Add-PASAuthenticationMethod`, `Add-PASOpenIDConnectProvider`, `Set-PASAuthenticationMethod`, `Set-PASDirectoryMapping`, `Get-PASPSMRecording`, `Get-PASPSMSession`, `Get-PASPlatform`, `Get-PASReport`, `Get-PASReportTask`, `New-PASReportTask`, `Set-PASReportTask`, `Get-PASSafeMember`, `Find-PASSafe`, `Get-PASSafe`, `Get-PASGroup`, `Get-PASUser`, `New-PASGroup`, `New-PASUser`, `Set-PASGroup`, `Set-PASUser`
   - Adds parameter length validation attributes
   - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
+- `Get-PASServer`, `Get-PASLoggedOnUser`
+  - Use their Gen2 endpoints by default
+- `Get-PASSession`
+  - Adds `IdleTimeout`, `SessionTimeRemaining` and `SessionWarningThreshold` to the returned session data, and `GetRemainingSessionTime()`/`Refresh()` methods to the returned object, to help track and avoid idle session timeouts - see [API Sessions](https://pspas.pspete.dev/docs/api-sessions/) and [Methods](https://pspas.pspete.dev/docs/methods/)
+- `New-PASSession`
+  - Retrieves and stores the idle session timeout (via `Get-PASSessionTimeout`, where supported) at logon, for use by the above `Get-PASSession` additions
+- Requests made via `Invoke-PASRestMethod` now emit a warning when the session is close to idle-timing out, based on the tracked idle timeout
+- `Add-PASAccount`, `Add-PASAccountACL`, `Add-PASAccountGroupMember`, `Add-PASAllowedReferrer`, `Add-PASApplication`, `Add-PASApplicationAuthenticationMethod`, `Add-PASAuthenticationMethod`, `Add-PASDirectory`, `Add-PASDiscoveredAccount`, `Add-PASDiscoveredLocalAccount`, `Add-PASGroupMember`, `Add-PASOAuthProvider`, `Add-PASOpenIDConnectProvider`, `Add-PASPTAGlobalCatalog`, `Add-PASPTARule`, `Add-PASPTASyslog`, `Add-PASPendingAccount`, `Add-PASPersonalAdminAccount`, `Add-PASPolicyACL`, `Add-PASPublicSSHKey`, `Add-PASSafe`, `Add-PASSafeMember`, `Disable-PASCPMAutoManagement`, `Enable-PASCPMAutoManagement`, `Revoke-PASJustInTimeAccess`
+  - Adds `SupportsShouldProcess`/`-WhatIf`/`-Confirm` support to state-changing functions which did not already have it
 
 ### Fixed
 

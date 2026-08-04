@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASAccountACL {
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -85,7 +85,11 @@ function Add-PASAccountACL {
 			ConvertTo-Json
 
 		#Send Request
-		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
+		if ($PSCmdlet.ShouldProcess($AccountAddress, 'Add Account ACL')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
+
+		}
 
 		if ($null -ne $result) {
 

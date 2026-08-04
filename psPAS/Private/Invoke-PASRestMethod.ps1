@@ -218,6 +218,22 @@
 
 	process {
 
+		#Identify calling function
+		$ParentFunction = Get-ParentFunction
+
+		if ($ParentFunction.FunctionName -notin $LastCommandExclusions) {
+
+			#Warn if the session is close to idle-timing out, based on activity prior to this request
+			$IdleTimeRemaining = Get-PASIdleTimeRemaining
+
+			if (($null -ne $IdleTimeRemaining) -and ($IdleTimeRemaining.Ticks -gt 0) -and ($IdleTimeRemaining.TotalMinutes -le $psPASSession.SessionWarningThreshold)) {
+
+				Write-Warning "Session was approximately $([math]::Round($IdleTimeRemaining.TotalMinutes, 1)) minute(s) from idle-timing out - this request has now refreshed it. If your next command will be delayed, call (Get-PASSession).Refresh() to keep the session alive in the meantime."
+
+			}
+
+		}
+
 		#Show URI, Method & sanitised request body if in debug mode
 		if ([System.Management.Automation.ActionPreference]::SilentlyContinue -ne $DebugPreference) {
 
@@ -416,9 +432,6 @@
 			)
 
 		} finally {
-
-			#Identify calling function
-			$ParentFunction = Get-ParentFunction
 
 			if ($ParentFunction.FunctionName -notin $LastCommandExclusions) {
 

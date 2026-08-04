@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASSafeMember {
-	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2', SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -618,7 +618,11 @@ function Add-PASSafeMember {
 		}
 
 		#Send request to Web Service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess($MemberName, 'Add Safe Member')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+
+		}
 
 		if ($null -ne $result) {
 

@@ -16,35 +16,38 @@ Adds an authentication method to an application.
 
 ### machineAddress
 ```
-Add-PASApplicationAuthenticationMethod -AppID <String> -machineAddress <String> [<CommonParameters>]
+Add-PASApplicationAuthenticationMethod -AppID <String> -machineAddress <String> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### osUser
 ```
-Add-PASApplicationAuthenticationMethod -AppID <String> -osUser <String> [<CommonParameters>]
+Add-PASApplicationAuthenticationMethod -AppID <String> -osUser <String> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### hash
 ```
-Add-PASApplicationAuthenticationMethod -AppID <String> -hash <String> [-Comment <String>] [<CommonParameters>]
+Add-PASApplicationAuthenticationMethod -AppID <String> -hash <String> [-Comment <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### certificateserialnumber
 ```
 Add-PASApplicationAuthenticationMethod -AppID <String> -certificateserialnumber <String> [-Comment <String>]
- [<CommonParameters>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### certificateattr
 ```
 Add-PASApplicationAuthenticationMethod -AppID <String> [-Subject <String[]>] [-Issuer <String[]>]
- [-SubjectAlternativeName <String[]>] [-Comment <String>] [<CommonParameters>]
+ [-SubjectAlternativeName <String[]>] [-Comment <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### path
 ```
 Add-PASApplicationAuthenticationMethod -AppID <String> -path <String> [-IsFolder <Boolean>]
- [-AllowInternalScripts <Boolean>] [<CommonParameters>]
+ [-AllowInternalScripts <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -283,6 +286,36 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

@@ -22,7 +22,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-SID <String>]
- [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
+ [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### UnixSSHKey
@@ -34,7 +34,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-uid <String>] [-gid <String>]
  -fingerprint <String> [-size <Int32>] [-path <String>] [-format <String>] [-comment <String>]
- [-encryption <String>] [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
+ [-encryption <String>] [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Unix
@@ -45,7 +45,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-uid <String>] [-gid <String>]
- [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
+ [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### AWS
@@ -56,7 +56,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-awsAccountID <String>]
- [-awsAccessKeyID <String>] [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
+ [-awsAccessKeyID <String>] [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Dependency
@@ -67,7 +67,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-Dependencies <Hashtable[]>]
- [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
+ [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Azure
@@ -78,7 +78,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-activeDirectoryID <String>]
- [-AllowAccountDuplications <Boolean>] [<CommonParameters>]
+ [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -689,6 +689,36 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

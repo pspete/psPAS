@@ -19,7 +19,7 @@ To run this method, you must be a member of the Vault Admins or Security Admins 
 
 ```
 Add-PASPTAGlobalCatalog [[-ldap_certificate] <String>] [-ldap_server] <String> [[-ssl] <Boolean>]
- [-ldap_port] <Int32> [-upn] <String> [-ldapPassword] <SecureString> [<CommonParameters>]
+ [-ldap_port] <Int32> [-upn] <String> [-ldapPassword] <SecureString> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -162,6 +162,36 @@ Required: True
 Position: 6
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

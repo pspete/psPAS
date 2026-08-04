@@ -70,6 +70,9 @@ $psPASSession = [ordered]@{
 	LastError               = $null
 	LastErrorTime           = $null
 	AccountSearchProperties = $null
+	IdleTimeout             = $null
+	SessionTimeRemaining    = $null
+	SessionWarningThreshold = 5
 } | Add-ObjectDetail -typename psPAS.CyberArk.Vault.Session
 
 New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force

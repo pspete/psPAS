@@ -35,6 +35,7 @@ If version requirement criteria are not met, operations may be prevented.
 | [`Close-PASSession`][Close-PASSession]                                                     | **9.0** ([Notes](#close-passession))                                                                          | Logoff from CyberArk Vault.                                      |
 | [`Get-PASSession`][Get-PASSession]                                                         | **---**                                                                                                       | Get `psPAS` Session Data.                                        |
 | [`Use-PASSession`][Use-PASSession]                                                         | **---**                                                                                                       | Set `psPAS` Session Data.                                        |
+| [`Get-PASSessionTimeout`][Get-PASSessionTimeout]                                           | **13.2** (Self-Hosted)                                                                                        | Returns the idle session timeout configured on the server.       |
 | [`Add-PASPublicSSHKey`][Add-PASPublicSSHKey]                                               | **9.6**                                                                                                       | Adds an authorised public SSH key for a user.                    |
 | [`Get-PASPublicSSHKey`][Get-PASPublicSSHKey]                                               | **9.6**                                                                                                       | Retrieves a user's SSH Keys.                                     |
 | [`Remove-PASPublicSSHKey`][Remove-PASPublicSSHKey]                                         | **9.6**                                                                                                       | Deletes a Public SSH Key from a user                             |
@@ -385,6 +386,7 @@ If version requirement criteria are not met, operations may be prevented.
 [Close-PASSession]: /commands/Close-PASSession
 [Get-PASSession]: /commands/Get-PASSession
 [Use-PASSession]: /commands/Use-PASSession
+[Get-PASSessionTimeout]: /commands/Get-PASSessionTimeout
 [Add-PASPublicSSHKey]: /commands/Add-PASPublicSSHKey
 [Get-PASPublicSSHKey]: /commands/Get-PASPublicSSHKey
 [Remove-PASPublicSSHKey]: /commands/Remove-PASPublicSSHKey

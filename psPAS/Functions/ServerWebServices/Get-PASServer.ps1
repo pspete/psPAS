@@ -1,5 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASServer {
+	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = 'False Positive')]
 	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
 	param(
 

@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASPTARule {
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -125,7 +125,11 @@ function Add-PASPTARule {
 		$Body = $boundParameters | Get-PASParameter -ParametersToRemove $scopeParams | ConvertTo-Json -Depth 3
 
 		#send request to PAS web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess($description, 'Add PTA Rule')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+
+		}
 
 		if ($null -ne $result) {
 

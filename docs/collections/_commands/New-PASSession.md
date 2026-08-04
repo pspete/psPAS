@@ -16,7 +16,6 @@ Authenticates a user to Idira (CyberArk) Vault/API.
 ## SYNTAX
 
 ### Gen2 (Default)
-
 ```
 New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-UserName <String>]
  [-newPassword <SecureString>] [-type <String>] [-concurrentSession <Boolean>] [-PVWAAppName <String>]
@@ -25,7 +24,6 @@ New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-UserName <String
 ```
 
 ### ISPSS-URL-ServiceUser
-
 ```
 New-PASSession -Credential <PSCredential> -IdentityTenantURL <String> -PrivilegeCloudURL <String>
  [-ServiceUser] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
@@ -33,7 +31,6 @@ New-PASSession -Credential <PSCredential> -IdentityTenantURL <String> -Privilege
 ```
 
 ### ISPSS-Subdomain-ServiceUser
-
 ```
 New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-ServiceUser] [-PVWAAppName <String>]
  [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
@@ -41,7 +38,6 @@ New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-ServiceUse
 ```
 
 ### ISPSS-URL-IdentityUser
-
 ```
 New-PASSession -Credential <PSCredential> -IdentityTenantURL <String> -PrivilegeCloudURL <String>
  [-IdentityUser] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
@@ -49,7 +45,6 @@ New-PASSession -Credential <PSCredential> -IdentityTenantURL <String> -Privilege
 ```
 
 ### ISPSS-Subdomain-IdentityUser
-
 ```
 New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-IdentityUser] [-PVWAAppName <String>]
  [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
@@ -57,7 +52,6 @@ New-PASSession -Credential <PSCredential> -TenantSubdomain <String> [-IdentityUs
 ```
 
 ### Gen1Radius
-
 ```
 New-PASSession -Credential <PSCredential> -BaseURI <String> [-UseGen1API] -useRadiusAuthentication <Boolean>
  [-OTP <String>] [-OTPMode <String>] [-OTPDelimiter <String>] [-RadiusChallenge <String>]
@@ -66,7 +60,6 @@ New-PASSession -Credential <PSCredential> -BaseURI <String> [-UseGen1API] -useRa
 ```
 
 ### Gen1
-
 ```
 New-PASSession -Credential <PSCredential> -BaseURI <String> [-UseGen1API] [-newPassword <SecureString>]
  [-connectionNumber <Int32>] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
@@ -74,7 +67,6 @@ New-PASSession -Credential <PSCredential> -BaseURI <String> [-UseGen1API] [-newP
 ```
 
 ### Gen2Radius
-
 ```
 New-PASSession -Credential <PSCredential> -BaseURI <String> [-type <String>] [-OTP <String>]
  [-OTPMode <String>] [-OTPDelimiter <String>] [-RadiusChallenge <String>] [-concurrentSession <Boolean>]
@@ -83,7 +75,6 @@ New-PASSession -Credential <PSCredential> -BaseURI <String> [-type <String>] [-O
 ```
 
 ### ISPSS-Subdomain-SAML
-
 ```
 New-PASSession -TenantSubdomain <String> -SAMLResponse <String> [-PVWAAppName <String>] [-SkipVersionCheck]
  [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
@@ -91,7 +82,6 @@ New-PASSession -TenantSubdomain <String> -SAMLResponse <String> [-PVWAAppName <S
 ```
 
 ### integrated
-
 ```
 New-PASSession -BaseURI <String> [-UseDefaultCredentials] [-concurrentSession <Boolean>]
  [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
@@ -99,7 +89,6 @@ New-PASSession -BaseURI <String> [-UseDefaultCredentials] [-concurrentSession <B
 ```
 
 ### shared
-
 ```
 New-PASSession -BaseURI <String> [-UseSharedAuthentication] [-PVWAAppName <String>] [-SkipVersionCheck]
  [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
@@ -107,7 +96,6 @@ New-PASSession -BaseURI <String> [-UseSharedAuthentication] [-PVWAAppName <Strin
 ```
 
 ### Gen2SAML
-
 ```
 New-PASSession -BaseURI <String> [-SAMLAuth] [-SAMLResponse <String>] [-concurrentSession <Boolean>]
  [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
@@ -115,7 +103,6 @@ New-PASSession -BaseURI <String> [-SAMLAuth] [-SAMLResponse <String>] [-concurre
 ```
 
 ### Gen1SAML
-
 ```
 New-PASSession -BaseURI <String> [-UseGen1API] -SAMLResponse <String> [-PVWAAppName <String>]
  [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
@@ -123,7 +110,6 @@ New-PASSession -BaseURI <String> [-UseGen1API] -SAMLResponse <String> [-PVWAAppN
 ```
 
 ### ISPSS-URL-SAML
-
 ```
 New-PASSession -IdentityTenantURL <String> -PrivilegeCloudURL <String> -SAMLResponse <String>
  [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>]
@@ -141,6 +127,10 @@ By default, the Gen2 API is used against a self-hosted PVWA. The -UseGen1API swi
 To authenticate to a Privilege Cloud/ISPSS tenant, use the TenantSubdomain or IdentityTenantURL/PrivilegeCloudURL parameter sets, together with -IdentityUser, -ServiceUser, or -SAMLResponse to select the authentication flow. These require the IdentityCommand module to be installed; it is a separate dependency (see Related Links) and is not installed automatically alongside psPAS.
 
 Shared authentication is not supported in Privilege Cloud.
+
+On successful authentication, the idle session timeout configured on the server is also retrieved
+(see Get-PASSessionTimeout) and stored in the session's IdleTimeout property. This is used by
+Get-PASSession to calculate SessionTimeRemaining.
 
 ## EXAMPLES
 
@@ -990,7 +980,6 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS

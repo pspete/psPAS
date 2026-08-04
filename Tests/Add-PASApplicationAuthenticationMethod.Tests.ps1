@@ -83,6 +83,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'does not send request when WhatIf is used' {
+				$InputObj | Add-PASApplicationAuthenticationMethod -path 'SomePath' -IsFolder $true -AllowInternalScripts $true -WhatIf
+				Assert-MockCalled Invoke-PASRestMethod -Times 0 -Exactly -Scope It
+
+			}
+
 			It 'sends request to expected endpoint' {
 
 				$InputObj | Add-PASApplicationAuthenticationMethod -path 'SomePath' -IsFolder $true -AllowInternalScripts $true
