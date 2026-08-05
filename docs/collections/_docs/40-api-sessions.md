@@ -2,12 +2,12 @@
 title: "API Sessions"
 permalink: /docs/api-sessions/
 excerpt: "psPAS API Sessions"
-last_modified_at: 2019-09-01T01:33:52-00:00
+last_modified_at: 2026-08-01T01:33:52-00:00
 ---
 
 - If actions are required to be performed under the context of different user accounts, it is possible to work with different authenticated sessions:
 
-````powershell
+```powershell
 #Start first session
 $VaultAdmin = Get-Credential
 
@@ -71,7 +71,7 @@ SafeAdmin Internal EPVUser      False     False   False    False
 
 #End second session
 Close-PASSession
-````
+```
 
 ## Tracking session idle-timeout
 

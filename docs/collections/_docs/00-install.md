@@ -2,14 +2,15 @@
 title: "Installation"
 permalink: /docs/install/
 excerpt: "psPAS Download & Install Options"
-last_modified_at: 2022-09-25T01:23:45-00:00
+last_modified_at: 2026-08-05T00:00:00-00:00
 ---
 
 {% capture notice-text %}
+
 - PowerShell Core, or Windows Powershell v5 (minimum)
 - CyberArk PAS REST API/PVWA Web Service (available and accessible over HTTPS using TLS 1.2)
 - A user who can authenticate and has the necessary Vault/Safe permissions.
-{% endcapture %}
+  {% endcapture %}
 
 <div class="notice--info">
   <h2>Prerequisites:</h2>
@@ -34,6 +35,9 @@ Install-Module -Name psPAS -Scope CurrentUser
 
 **PowerShell 5.0 or above** must be used to download the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/psPAS/).
 {: .notice--warning}
+
+If you need to authenticate against CyberArk Identity/ISPSS (Privilege Cloud or other SaaS-based deployments), also install the [IdentityCommand](https://www.powershellgallery.com/packages/IdentityCommand/) module - `New-PASSession` relies on it for any of the `ISPSS-*` parameter sets. Self-hosted users who don't use those parameter sets don't need it.
+{: .notice--info}
 
 ## Option 2: Manual Install
 
@@ -68,7 +72,7 @@ The module files are available to download using a variety of methods:
 
 ### psPAS Branch
 
-- [Download ```GitHub Branch```](https://github.com/pspete/psPAS/archive/master.zip)
+- [Download `GitHub Branch`](https://github.com/pspete/psPAS/archive/master.zip)
   - Unblock & Extract the archive
   - Copy the `psPAS` (`\<Archive Root>\psPAS-master\psPAS`) folder to your "Powershell Modules" directory of choice.
 

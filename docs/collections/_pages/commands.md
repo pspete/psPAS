@@ -2,7 +2,7 @@
 title: "psPAS + API Command Reference"
 permalink: /commands/
 excerpt: "Command Reference"
-last_modified_at: 2025-09-09T01:23:45-00:00
+last_modified_at: 2026-08-05T00:00:00-00:00
 toc: false
 layout: single-mod
 classes: wide
@@ -228,7 +228,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 | [List Available Reports][List Available Reports]                                                     | [Get-PASReport][Get-PASReport]                                                           |
 | [List Report Schedules][List Report Schedules]                                                       | [Get-PASReportTask][Get-PASReportTask]                                                   |
 | [Create Report Schedule][Create Report Schedule]                                                     | [New-PASReportTask][New-PASReportTask]                                                   |
-| [Update Report Schedule][Update Report Schedule]                                                     | [Set-PASReportTask][Set-PASReportTask]                                                   |
+| Undocumented                                                                                          | [Set-PASReportTask][Set-PASReportTask]                                                   |
 | [Export Report][Export Report]                                                                       | [Export-PASReport][Export-PASReport]                                                     |
 | [Add Allowed Authentication Methods][Add Allowed Authentication Methods]                             | [Add-PASUserAllowedAuthenticationMethod][Add-PASUserAllowedAuthenticationMethod]         |
 | [Remove Allowed Authentication Methods][Remove Allowed Authentication Methods]                       | [Remove-PASUserAllowedAuthenticationMethod][Remove-PASUserAllowedAuthenticationMethod]   |
@@ -263,10 +263,27 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 | [Initiate DR failover][Initiate DR failover]                                                         | [Invoke-PASVRMFailover][Invoke-PASVRMFailover]                                           |
 | [Import Ticketing System][Import Ticketing System]                                                   | [Import-PASTicketingSystem][Import-PASTicketingSystem]                                   |
 | [Export Ticketing System Logs][Export Ticketing System Logs]                                         | [Export-PASTicketingSystemLog][Export-PASTicketingSystemLog]                             |
-| [Add Discovery Scan][Add Discovery Scan]                                                             | [Add-PASDiscoveryScan][Add-PASDiscoveryScan]                                           |
-| [Get Discovery Scans][Get Discovery Scans]                                                           | [Get-PASDiscoveryScan][Get-PASDiscoveryScan]                                           |
-| [Stop Discovery Scan][Stop Discovery Scan]                                                           | [Stop-PASDiscoveryScan][Stop-PASDiscoveryScan]                                           |
-| [Remove Discovery Scan][Remove Discovery Scan]                                                       | [Remove-PASDiscoveryScan][Remove-PASDiscoveryScan]                                       |
+| Undocumented                                                                                          | [Add-PASDiscoveryScan][Add-PASDiscoveryScan]                                           |
+| Undocumented                                                                                          | [Get-PASDiscoveryScan][Get-PASDiscoveryScan]                                           |
+| Undocumented                                                                                          | [Stop-PASDiscoveryScan][Stop-PASDiscoveryScan]                                           |
+| Undocumented                                                                                          | [Remove-PASDiscoveryScan][Remove-PASDiscoveryScan]                                       |
+| [Update target platform settings][Update target platform settings]                                   | [Set-PASPlatform][Set-PASPlatform]                                                       |
+| [Add OAuth 2.0 provider][Add OAuth 2.0 provider]                                                     | [Add-PASOAuthProvider][Add-PASOAuthProvider]                                             |
+| [Get all OAuth 2.0 providers][Get all OAuth 2.0 providers]                                           | [Get-PASOAuthProvider][Get-PASOAuthProvider]                                             |
+| [Update OAuth 2.0 provider][Update OAuth 2.0 provider]                                               | [Set-PASOAuthProvider][Set-PASOAuthProvider]                                             |
+| [Delete OAuth 2.0 provider][Delete OAuth 2.0 provider]                                               | [Remove-PASOAuthProvider][Remove-PASOAuthProvider]                                       |
+| Undocumented                                                                                          | [Remove-PASReportTask][Remove-PASReportTask]                                             |
+| [Get report activities][Get report activities]                                                       | [Get-PASReportActivity][Get-PASReportActivity]                                           |
+| Undocumented                                                                                          | [Get-PASSessionTimeout][Get-PASSessionTimeout]                                           |
+| [Check discovered accounts][Check discovered accounts]                                               | [Test-PASDiscoveredLocalAccount][Test-PASDiscoveredLocalAccount]                         |
+| [Ignore discovered account][Ignore discovered account]                                               | [Hide-PASDiscoveredLocalAccount][Hide-PASDiscoveredLocalAccount]                         |
+| [Restore discovered account][Restore discovered account]                                             | [Restore-PASDiscoveredLocalAccount][Restore-PASDiscoveredLocalAccount]                   |
+| [Edit discovered account properties][Edit discovered account properties]                             | [Set-PASDiscoveredLocalAccount][Set-PASDiscoveredLocalAccount]                           |
+| [Enable BYOK][Enable BYOK]                                                                           | [Enable-PASBYOKConfig][Enable-PASBYOKConfig]                                             |
+| [Disable BYOK][Disable BYOK]                                                                         | [Disable-PASBYOKConfig][Disable-PASBYOKConfig]                                           |
+| [Configure BYOK][Configure BYOK]                                                                     | [Set-PASBYOKConfig][Set-PASBYOKConfig]                                                   |
+| [BYOK Get key policy statement][BYOK Get key policy statement]                                       | [Get-PASBYOKPolicyStatement][Get-PASBYOKPolicyStatement]                                 |
+| [BYOK key rotation][BYOK key rotation]                                                               | [Invoke-PASBYOKRotation][Invoke-PASBYOKRotation]                                         |
 
 [Enable-PASTheme]: /psPAS/Functions/Theme/Enable-PASTheme
 [Remove-PASTheme]: /psPAS/Functions/Theme/Remove-PASTheme
@@ -471,7 +488,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Disable-PASUser]: /commands/Disable-PASUser
 [Get-PASPTAGlobalCatalog]: /commands/Get-PASPTAGlobalCatalog
 [Add-PASPTAGlobalCatalog]: /commands/Add-PASPTAGlobalCatalog
-[Enable UI Theme]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/EnableTheme.htm
+[Activate UI Theme]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/EnableTheme.htm
 [Remove UI Theme]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemoveTheme.htm
 [Import Theme Image]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ImportThemeImage.htm
 [Export Theme Image]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ExportThemeImage.htm
@@ -699,15 +716,13 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Change credentials, set next password]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/SetNextPassword.htm
 [Change credentials in Vault]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ChangeCredentialsInVault.htm
 [Reconcile credentials]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Reconcile-account.htm
-[Resume CPM auto management]: https://pspas.pspete.dev/commands/Resume-PASCPMAutoManagement
-[Cancel CPM task]: https://pspas.pspete.dev/commands/Stop-PASCPMTask
-[Generate platform secret]: https://pspas.pspete.dev/commands/New-PASPlatformSecret
-[Add Discovery Scan]: https://pspas.pspete.dev/commands/Add-PASDiscoveryScan
+[Resume CPM auto management]: https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/resume-account.htm
+[Cancel CPM task]: https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/cancel-account-task.htm
+[Generate platform secret]: https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/generate%20secret%20for%20platform.htm
 [Add-PASDiscoveryScan]: https://pspas.pspete.dev/commands/Add-PASDiscoveryScan
-[Get Discovery Scans]: https://pspas.pspete.dev/commands/Get-PASDiscoveryScan
-[Stop Discovery Scan]: https://pspas.pspete.dev/commands/Stop-PASDiscoveryScan
-[Remove-PASDiscoveryScan]: https://pspas.pspete.dev/commands/Remove-PASDiscoveryScan
 [Get-PASDiscoveryScan]: https://pspas.pspete.dev/commands/Get-PASDiscoveryScan
+[Stop-PASDiscoveryScan]: https://pspas.pspete.dev/commands/Stop-PASDiscoveryScan
+[Remove-PASDiscoveryScan]: https://pspas.pspete.dev/commands/Remove-PASDiscoveryScan
 [Add discovered accounts - Gen 1]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Add%20Discovered%20Account%20v10.8.htm
 [Get discovered accounts]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-discovered-accounts.htm
 [Get discovered account details]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-discovered-account-details.htm
@@ -716,3 +731,35 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Get bulk account upload result]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/Get-bulk-account-upload-result-v10.htm
 [Import connection component]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/ImportConnComponent.htm
 [Get all connection components]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/Session%20Mngmnt%20-%20Get_All_Connection_Components.htm
+[Update target platform settings]: https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-update-target-platform-settings.htm
+[Set-PASPlatform]: /commands/Set-PASPlatform
+[Add OAuth 2.0 provider]: https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/oauth-add-provider.htm
+[Add-PASOAuthProvider]: /commands/Add-PASOAuthProvider
+[Get all OAuth 2.0 providers]: https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/oauth-get-all-providers.htm
+[Get-PASOAuthProvider]: /commands/Get-PASOAuthProvider
+[Update OAuth 2.0 provider]: https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/oauth-update-provider.htm
+[Set-PASOAuthProvider]: /commands/Set-PASOAuthProvider
+[Delete OAuth 2.0 provider]: https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/oauth-delete-provider.htm
+[Remove-PASOAuthProvider]: /commands/Remove-PASOAuthProvider
+[Remove-PASReportTask]: /commands/Remove-PASReportTask
+[Get report activities]: https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-get-reportparams-activities.htm
+[Get-PASReportActivity]: /commands/Get-PASReportActivity
+[Get-PASSessionTimeout]: /commands/Get-PASSessionTimeout
+[Check discovered accounts]: https://docs.cyberark.com/manage/latest/en/content/discovery/discovery-discoveredaccountsservice-check.htm
+[Test-PASDiscoveredLocalAccount]: /commands/Test-PASDiscoveredLocalAccount
+[Ignore discovered account]: https://docs.cyberark.com/manage/latest/en/content/discovery/discovery-discoveredaccountsservice-ignore.htm
+[Hide-PASDiscoveredLocalAccount]: /commands/Hide-PASDiscoveredLocalAccount
+[Restore discovered account]: https://docs.cyberark.com/manage/latest/en/content/discovery/discovery-discoveredaccountsservice-restore.htm
+[Restore-PASDiscoveredLocalAccount]: /commands/Restore-PASDiscoveredLocalAccount
+[Edit discovered account properties]: https://docs.cyberark.com/manage/latest/en/content/discovery/discovery-apis/discovery-editaccountproperties.htm
+[Set-PASDiscoveredLocalAccount]: /commands/Set-PASDiscoveredLocalAccount
+[Enable BYOK]: https://docs.cyberark.com/ispss-deployment/latest/en/content/privilege%20cloud/privcloud-byok-api-enable.htm
+[Enable-PASBYOKConfig]: /commands/Enable-PASBYOKConfig
+[Disable BYOK]: https://docs.cyberark.com/ispss-deployment/latest/en/content/privilege%20cloud/privcloud-byok-api-disable.htm
+[Disable-PASBYOKConfig]: /commands/Disable-PASBYOKConfig
+[Configure BYOK]: https://docs.cyberark.com/ispss-deployment/latest/en/content/privilege%20cloud/privcloud-byok-api-configure.htm
+[Set-PASBYOKConfig]: /commands/Set-PASBYOKConfig
+[BYOK Get key policy statement]: https://docs.cyberark.com/ispss-deployment/latest/en/content/privilege%20cloud/privcloud-byok-api-key-policy-options.htm
+[Get-PASBYOKPolicyStatement]: /commands/Get-PASBYOKPolicyStatement
+[BYOK key rotation]: https://docs.cyberark.com/ispss-deployment/latest/en/content/privilege%20cloud/privcloud-byok-api-rotation.htm
+[Invoke-PASBYOKRotation]: /commands/Invoke-PASBYOKRotation
