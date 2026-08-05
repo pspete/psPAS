@@ -42,7 +42,7 @@ Full documentation: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 ## Why psPAS
 
 - **First-class Privilege Cloud / ISPSS support** — authenticate as an Identity or Service user (via the companion [IdentityCommand](https://github.com/pspete/IdentityCommand) module) and use the same `psPAS` module as self-hosted PVWA. Some commands are Privilege Cloud-only, some self-hosted-only — `psPAS` enforces that automatically instead of leaving you to work it out. See [Authenticate](#authenticate).
-- **Complete API coverage** — 234 commands spanning every major area of Idira: Accounts, Safes, Users & Directories, Platforms, Authentication, PSM, Privileged Threat Analytics, Vault Remote Manager, Reports and more. See [psPAS Functions](#pspas-functions).
+- **Complete API coverage** — Over 250 commands spanning every major area of Idira: Accounts, Safes, Users & Directories, Platforms, Authentication, PSM, Privileged Threat Analytics, Vault Remote Manager, Reports and more. See [psPAS Functions](#pspas-functions).
 - **Trusted at scale** — 230,000+ downloads on the PowerShell Gallery and counting (see the live badge above).
 - **Built for the PowerShell pipeline, not just the REST API** — commands accept and emit typed objects, so `Get-PASSafe | Get-PASSafeMember` (and much longer chains) just work, instead of you gluing `Invoke-RestMethod` calls and JSON parsing together by hand.
 - **Tested, not just written** — every public function ships with a Pester test and is gated by PSScriptAnalyzer in CI; nothing reaches the PowerShell Gallery without passing both.
