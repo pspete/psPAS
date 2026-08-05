@@ -5,51 +5,116 @@ function Set-PASDependentLinkedAccount {
     param(
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SelfHosted'
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SaaS'
         )]
         [Alias('id')]
         [string]$accountId,
 
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SelfHosted'
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SaaS'
         )]
         [Alias('dependentid')]
         [string]$dependentAccountId,
 
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SaaS'
         )]
         [string]$extraPasswordAccountId,
 
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SaaS'
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SelfHosted'
         )]
         [ValidateSet('1', '2', '3')]
-        [string]$extraPasswordIndex
+        [string]$extraPasswordIndex,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SelfHosted'
+        )]
+        [ValidateLength(1, 28)]
+        [string]$safe,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SelfHosted'
+        )]
+        [string]$name,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'SelfHosted'
+        )]
+        [string]$folder = "Root"
 
     )
 
     begin {
 
-        Assert-VersionRequirement -PrivilegeCloud
-
     }#begin
 
     process {
 
-        #Create URL for Request
-        $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/account-dependents/$dependentAccountId/link-accounts"
+        switch ($PSCmdlet.ParameterSetName) {
 
-        #Get Parameters to include in request
-        $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, dependentAccountId
+            'SaaS' {
 
-        # Rename the extraPasswordAccountId key to AccountID
-        $boundParameters.accountID = $boundParameters.extraPasswordAccountId
-        $boundParameters.Remove('extraPasswordAccountId')
+                Assert-VersionRequirement -PrivilegeCloud
 
+                #Create URL for Request
+                $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/account-dependents/$dependentAccountId/link-accounts"
+
+                #Get Parameters to include in request
+                $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, dependentAccountId
+
+                # Rename the extraPasswordAccountId key to AccountID
+                $boundParameters.accountID = $boundParameters.extraPasswordAccountId
+                $boundParameters.Remove('extraPasswordAccountId')
+
+            }
+
+            'SelfHosted' {
+
+                Assert-VersionRequirement -SelfHosted
+                Assert-VersionRequirement -RequiredVersion 15.0
+
+                #Create URL for Request
+                $URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID/dependentAccounts/$dependentAccountId/Link"
+
+                #Get Parameters to include in request
+                $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove AccountID, dependentAccountId
+
+                #Ensure folder value is included in the request body
+                $boundParameters['folder'] = $folder
+
+            }
+
+        }
+        
         $body = $boundParameters | ConvertTo-Json
 
         if ($PSCmdlet.ShouldProcess($dependentAccountId, 'Set Linked Account')) {
@@ -58,9 +123,6 @@ function Set-PASDependentLinkedAccount {
             Invoke-PASRestMethod -Uri $URI -Method POST -Body $body
 
         }
-
-    }#process
-
+    }
     end { }#end
-
 }

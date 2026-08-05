@@ -1,5 +1,5 @@
 # version format
-version: 7.3.{build}
+version: 8.0.{build}
 
 environment:
   #GIT_TRACE: 1
@@ -12,7 +12,7 @@ environment:
   github_email:
     secure: x5ljenzXfYXkzpEu9eX7AQvb3AkFbiXG2NndMzw9Zc4=
   CODECOV_TOKEN:
-    secure: bLnfnH8+QlpeQgvoOrgrCLkOrgpOBMwfnjwtdVphoUE0YEeEdzP9/7dILfzpFGFg
+    secure: nUMw4tUP8DnGUwUMbXy8WrcW6YTBwS1td2BR1bHV9tE8MWE4XEYWDjPmUA/skGJp
   #sig_key:
     #secure: LPEv2aGCLb1WPw89OFF8gmhk5tVZtOAPaUJ9cAATBnD1+qREYmvh/fH53NbJSNP
   #PfxSecure:

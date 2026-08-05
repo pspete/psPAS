@@ -32,6 +32,27 @@ Remove-PASDirectory -id LDAPDirectory
 
 Removes LDAP directory configured in the Vault
 
+### EXAMPLE 2
+```
+Remove-PASDirectory -DomainName cyberark.local
+```
+
+Removes the LDAP directory named "cyberark.local" from the Vault, using the DomainName alias for the id parameter.
+
+### EXAMPLE 3
+```
+Get-PASDirectory -id cyberark.local | Remove-PASDirectory
+```
+
+Retrieves the "cyberark.local" directory and removes it via the pipeline.
+
+### EXAMPLE 4
+```
+Remove-PASDirectory -id cyberark.local -WhatIf
+```
+
+Shows what would happen if the LDAP directory was removed, without actually removing it.
+
 ## PARAMETERS
 
 ### -id

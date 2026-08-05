@@ -6,18 +6,21 @@ function New-PASGroup {
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 128)]
 		[string]$groupName,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 100)]
 		[string]$description,
 
 		[parameter(
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 128)]
 		[string]$location
 	)
 

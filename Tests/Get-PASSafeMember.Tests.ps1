@@ -203,212 +203,52 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
-			It 'corrctly formats nexLink, Limit & Offset URL values' {
+			It 'includes useCache in the query string' {
+
+				Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember -useCache $true
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members/SomeMember/?useCache=True"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'returns the member permissions result directly' {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					[PSCustomObject]@{
-						'Count' = 52
-						'Value' = @(
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							},
-							[PSCustomObject]@{
-								'safeUrlId'   = 'SomeSafe'
-								'safeName'    = 'SomeSafe'
-								'safeNumber'  = 37
-								'permissions' = [PSCustomObject]@{}
-
-							}
-						)
-
-					}
-
+					[PSCustomObject]@{'memberName' = 'SomeMember'; 'permissions' = [PSCustomObject]@{'useAccounts' = $true } }
 				}
 
-				Get-PASSafeMember -SafeName SomeSafe -includePredefinedUsers $true
+				$MemberPermissionsResponse = Get-PASSafeMember -SafeName SomeSafe -MemberName SomeMember
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+				$MemberPermissionsResponse.memberName | Should -Be 'SomeMember'
 
-					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True")
+			}
 
-				} -Times 1 -Exactly -Scope It
+			It 'follows nextLink to collect all pages of results' {
 
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+				Mock Invoke-PASRestMethod -MockWith {
+					if ($script:iteration -lt 1) {
+						$script:iteration++
+						[PSCustomObject]@{
+							'count'    = 2
+							'value'    = @([PSCustomObject]@{'safeUrlId' = 'SomeSafe' })
+							'nextLink' = 'API/Safes/SomeSafe/Members?offset=1'
+						}
+					} else {
+						[PSCustomObject]@{
+							'count' = 2
+							'value' = @([PSCustomObject]@{'safeUrlId' = 'SomeSafe' })
+						}
+					}
+				}
+				$script:iteration = 0
 
-					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True&limit=25&OffSet=25")
+				$response = Get-PASSafeMember -SafeName SomeSafe
 
-				} -Times 1 -Exactly -Scope It
-
-				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-
-					($URI -eq "$($Script:psPASSession.BaseURI)/api/Safes/SomeSafe/Members?filter=includePredefinedUsers%20eq%20True&limit=25&OffSet=50")
-
-				} -Times 1 -Exactly -Scope It
+				$response.Count | Should -Be 2
 
 			}
 

@@ -24,8 +24,8 @@ tags:
   - Remove-PASStoredPlatform
   - Get-PASUserLicenseReport
   - Get-PASReport
-  - Get-PASReportSchedule
-  - New-PASReportSchedule
+  - Get-PASReportTask
+  - New-PASReportTask
   - Export-PASReport
   - Remove-PASUserAllowedAuthenticationMethod
   - Add-PASUserAllowedAuthenticationMethod
@@ -125,9 +125,9 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
   - Returns information about usage of Privilege Cloud user licenses
 - `Get-PASReport`
   - New 14.6 command to list reports available to your user
-- `Get-PASReportSchedule`
+- `Get-PASReportTask`
   - New 14.6 command to list report schedules
-- `New-PASReportSchedule`
+- `New-PASReportTask`
   - New 14.6 command to create a scheduled report
 - `Export-PASReport`
   - New 14.6 command to export an available report

@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASGroupMember {
-	[CmdletBinding(DefaultParameterSetName = 'Gen2')]
+	[CmdletBinding(DefaultParameterSetName = 'Gen2', SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -83,7 +83,11 @@ function Add-PASGroupMember {
 		$Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove GroupName, groupId | ConvertTo-Json
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess($memberId, 'Add Group Member')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+
+		}
 
 		if ($null -ne $result) {
 

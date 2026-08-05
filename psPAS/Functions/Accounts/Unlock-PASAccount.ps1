@@ -10,24 +10,42 @@ function Unlock-PASAccount {
 		)]
 		[ValidateNotNullOrEmpty()]
 		[Alias('id')]
-		[string]$AccountID,
+		[string[]]$AccountID,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
+			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = 'CheckIn'
 		)]
 		[switch]$CheckIn,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
+			ValueFromPipelinebyPropertyName = $false,
 			ParameterSetName = 'Unlock'
 		)]
 		[switch]$Unlock
 	)
 
-	begin { }#begin
+	begin { 
+		# Variable to track if we are doing bulk confirmation
+		$BulkConfirmation = $false
+		
+		$boundInput = $PSBoundParameters['AccountID']
+
+		if (Test-IsMultiValue -Value $boundInput) {
+
+			#Bulk Confirmations supported from 15.2
+			Assert-VersionRequirement -RequiredVersion 15.2
+
+			$BulkConfirmation = $true
+		}
+
+		$Request = @{
+			Method = 'POST'
+		}
+
+	}#begin
 
 	process {
 
@@ -35,30 +53,77 @@ function Unlock-PASAccount {
 
 			'CheckIn' {
 
-				#Create URL for request
-				$URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/CheckIn"
-				break
+				if ($BulkConfirmation) {
+
+					#Create URL for Request
+					$URI = "$($psPASSession.BaseURI)/API/Accounts/CheckIn/Bulk"
+
+					#Create body of request
+					$Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }
+					$AccountID | ForEach-Object {
+						$Body.BulkItems.Add(
+							@{
+								AccountID = $PSItem
+							}
+						)
+					}
+					#Format body as JSON
+					$Body = $Body | ConvertTo-Json -Depth 3
+
+					$Request.Add('Body', $Body)
+
+				} else {
+
+					#Create URL for request
+					$URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/CheckIn"
+					break
+
+				}
 
 			}
 
 			'Unlock' {
 
-				#*Assumed working for 11.6+ (not verified/tested for all versions)
-				Assert-VersionRequirement -RequiredVersion 11.6
+				if ($BulkConfirmation) {
 
-				#Create URL for request
-				$URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/Unlock"
-				break
+					#Create URL for Request
+					$URI = "$($psPASSession.BaseURI)/API/Accounts/Unlock/Bulk"
+
+					#Create body of request
+					$Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }
+					$AccountID | ForEach-Object {
+						$Body.BulkItems.Add(
+							@{
+								AccountID = $PSItem
+							}
+						)
+					}
+					#Format body as JSON
+					$Body = $Body | ConvertTo-Json -Depth 3
+
+					$Request.Add('Body', $Body)
+
+				} else {
+
+					#*Assumed working for 11.6+ (not verified/tested for all versions)
+					Assert-VersionRequirement -RequiredVersion 11.6
+
+					#Create URL for request
+					$URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/Unlock"
+					break
+
+				}
 
 			}
 
 		}
 
+		$Request.Add('Uri', $URI)
 
 		if ($PSCmdlet.ShouldProcess($AccountID, "$($PSCmdlet.ParameterSetName) Account")) {
 
 			#send request to web service
-			Invoke-PASRestMethod -Uri $URI -Method POST
+			Invoke-PASRestMethod @Request
 
 		}
 

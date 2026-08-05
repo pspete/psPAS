@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASSafe {
-	[CmdletBinding(DefaultParameterSetName = 'NumberOfVersionsRetention')]
+	[CmdletBinding(DefaultParameterSetName = 'NumberOfVersionsRetention', SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -46,7 +46,7 @@ function Add-PASSafe {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'NumberOfVersionsRetention'
 		)]
-		[ValidateRange(1, 999)]
+		[ValidateRange(0, 999)]
 		[int]$NumberOfVersionsRetention,
 
 		[parameter(
@@ -74,6 +74,20 @@ function Add-PASSafe {
 		)]
 		[boolean]$AutoPurgeEnabled,
 
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'NumberOfVersionsRetention'
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'NumberOfDaysRetention'
+		)]
+		[ValidateNotNullOrEmpty()]
+		[ValidateRange(1, 2000000000)]
+		[int]$Quota,
+
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true,
@@ -92,6 +106,14 @@ function Add-PASSafe {
 	}#begin
 
 	process {
+
+		switch ($PSBoundParameters.Keys) {
+			'Quota' {
+				Assert-VersionRequirement -SelfHosted
+				Assert-VersionRequirement -RequiredVersion 15.2
+				continue 
+			}
+		}
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -130,7 +152,11 @@ function Add-PASSafe {
 		}
 
 		#send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess($SafeName, 'Add Safe')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+
+		}
 
 		if ($null -ne $result) {
 

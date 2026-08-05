@@ -89,6 +89,49 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sends request with expected query - limit parameter' {
+				Get-PASGroup -limit 500
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/UserGroups?limit=500"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws when limit is out of range' {
+
+				{ Get-PASGroup -limit 20001 } | Should -Throw
+
+			}
+
+			It 'throws error if version requirement not met - limit parameter' {
+				$psPASSession.ExternalVersion = '15.1'
+
+				{ Get-PASGroup -limit 500 } | Should -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'throws error if version requirement not met - includeMembers parameter' {
+				$psPASSession.ExternalVersion = '11.9'
+
+				{ Get-PASGroup -includeMembers $true } | Should -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'throws error if version requirement not met - sort parameter' {
+				$psPASSession.ExternalVersion = '12.1'
+
+				{ Get-PASGroup -sort groupName } | Should -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
 			It 'uses expected method' {
 				Get-PASGroup
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
@@ -116,14 +159,55 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			BeforeEach {
 
+				Mock Get-NextLink -MockWith { }
+
 				Mock Invoke-PASRestMethod -MockWith {
 					[pscustomobject]@{
-						'value' = [pscustomobject]@{
-							'Prop1' = 'Value1'
-							'Prop2' = 'Value2'
-							'Prop3' = 'Value3'
-							'Prop4' = 'Value4'
-						}
+						'value'    = @(
+							[pscustomobject]@{
+								'Prop1' = 'Value1'
+								'Prop2' = 'Value2'
+								'Prop3' = 'Value3'
+								'Prop4' = 'Value4'
+							}
+						)
+						'count'    = 1
+						'nextLink' = $null
+					}
+				}
+
+			}
+
+			It 'invokes Get-NextLink - groupType ParameterSet' {
+				Get-PASGroup
+				Assert-MockCalled Get-NextLink -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'does not invoke Get-NextLink - byID ParameterSet' {
+				Get-PASGroup -id 666
+				Assert-MockCalled Get-NextLink -Times 0 -Exactly -Scope It
+
+			}
+
+		}
+
+		Context 'Output - Single Page' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'value'    = @(
+							[pscustomobject]@{
+								'Prop1' = 'Value1'
+								'Prop2' = 'Value2'
+								'Prop3' = 'Value3'
+								'Prop4' = 'Value4'
+							}
+						)
+						'count'    = 1
+						'nextLink' = $null
 					}
 				}
 
@@ -141,7 +225,57 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+		}
 
+		Context 'Output - Paging' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'value'    = @(
+							[pscustomobject]@{'id' = 1 }
+						)
+						'count'    = 2
+						'nextLink' = 'API/UserGroups?offset=1'
+					}
+				} -ParameterFilter { $URI -eq "$($Script:psPASSession.BaseURI)/API/UserGroups" }
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'value'    = @(
+							[pscustomobject]@{'id' = 2 }
+						)
+						'count'    = 2
+						'nextLink' = $null
+					}
+				} -ParameterFilter { $URI -eq "$($Script:psPASSession.BaseURI)/API/UserGroups?offset=1" }
+
+			}
+
+			It 'follows nextLink and returns all pages of results' {
+				$response = Get-PASGroup
+				$response.Count | Should -Be 2
+				$response[0].id | Should -Be 1
+				$response[1].id | Should -Be 2
+
+			}
+
+			It 'sends requests to expected endpoints' {
+				Get-PASGroup
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/UserGroups"
+
+				} -Times 1 -Exactly -Scope It
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/UserGroups?offset=1"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
 
 		}
 

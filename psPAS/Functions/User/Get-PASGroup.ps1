@@ -36,7 +36,16 @@ function Get-PASGroup {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'groupType'
 		)]
+		[ValidateLength(1, 500)]
 		[string]$search,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'groupType'
+		)]
+		[ValidateRange(1, 20000)]
+		[int]$limit,
 
 		[parameter(
 			Mandatory = $false,
@@ -101,6 +110,13 @@ function Get-PASGroup {
 
 					}
 
+					{ $_ -match 'limit' } {
+
+						#limit parameter requires 15.2
+						Assert-VersionRequirement -RequiredVersion 15.2
+
+					}
+
 				}
 
 				#Parse parameters to include as filter value in url
@@ -137,7 +153,8 @@ function Get-PASGroup {
 
 				'groupType' {
 
-					$result = $result.value
+					#Process nextlink if paged results are returned
+					$result = $result | Get-NextLink
 
 					continue
 

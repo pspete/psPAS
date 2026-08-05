@@ -18,7 +18,7 @@ Adds a new application to the Vault
 Add-PASApplication [-AppID] <String> [[-Description] <String>] [-Location] <String>
  [[-AccessPermittedFrom] <Int32>] [[-AccessPermittedTo] <Int32>] [[-ExpirationDate] <DateTime>]
  [[-Disabled] <Boolean>] [[-BusinessOwnerFName] <String>] [[-BusinessOwnerLName] <String>]
- [[-BusinessOwnerEmail] <String>] [[-BusinessOwnerPhone] <String>] [<CommonParameters>]
+ [[-BusinessOwnerEmail] <String>] [[-BusinessOwnerPhone] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,11 +31,24 @@ Manage Users permission is required.
 ### EXAMPLE 1
 ```
 Add-PASApplication -AppID NewApp -Description "A new application" -Location "\" `
+-AccessPermittedFrom 9 -AccessPermittedTo 17 -BusinessOwnerEmail 'appowner@company.com'
 ```
 
--AccessPermittedFrom 9 -AccessPermittedTo 17 -BusinessOwnerEmail 'appowner@company.com'
-
 Will add a new application called "NewApp", in the root location, accessible from 9am to 5pm
+
+### EXAMPLE 2
+```
+Add-PASApplication -AppID FinanceApp -Location "\Applications\Finance" -ExpirationDate (Get-Date).AddYears(1) -Disabled $false -BusinessOwnerFName John -BusinessOwnerLName Smith -BusinessOwnerEmail 'john.smith@company.com' -BusinessOwnerPhone '555-0100'
+```
+
+Adds a new application called "FinanceApp" in the Finance vault location, with an expiration date one year from today and business owner contact details recorded against the application.
+
+### EXAMPLE 3
+```
+Import-Csv .\NewApplications.csv | Add-PASApplication
+```
+
+Adds a new application for every row in NewApplications.csv, where the CSV column headers match the parameter names of Add-PASApplication (AppID, Location, Description, etc).
 
 ## PARAMETERS
 
@@ -217,6 +230,36 @@ Required: False
 Position: 11
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

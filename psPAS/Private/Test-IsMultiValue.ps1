@@ -29,6 +29,7 @@ function Test-IsMultiValue {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
+        [AllowNull()]
         [object]$Value
     )
 

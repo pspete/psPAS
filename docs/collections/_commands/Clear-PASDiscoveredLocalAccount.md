@@ -43,6 +43,20 @@ Clear-PASDiscoveredLocalAccount
 
 Initiates Delete All discovered local accounts action.
 
+### EXAMPLE 2
+```
+Clear-PASDiscoveredLocalAccount -WhatIf
+```
+
+Shows what would happen if all discovered local accounts were deleted, without performing the deletion.
+
+### EXAMPLE 3
+```
+Clear-PASDiscoveredLocalAccount -Confirm:$false
+```
+
+Deletes all discovered local accounts without prompting for confirmation.
+
 ## PARAMETERS
 
 ### -WhatIf

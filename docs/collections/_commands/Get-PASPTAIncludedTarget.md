@@ -30,6 +30,27 @@ Get-PASPTAIncludedTarget
 
 Returns all configured included targets from PTA configuration
 
+### EXAMPLE 2
+```powershell
+(Get-PASPTAIncludedTarget).cidr
+```
+
+Returns only the CIDR values of the configured included targets
+
+### EXAMPLE 3
+```powershell
+Get-PASPTAIncludedTarget | Where-Object { $_.cidr -eq '192.168.60.10/24' }
+```
+
+Returns the included target matching the specified CIDR value
+
+### EXAMPLE 4
+```powershell
+(Get-PASPTAIncludedTarget | Measure-Object).Count
+```
+
+Returns the number of included targets currently configured in PTA
+
 ## PARAMETERS
 
 ### CommonParameters

@@ -40,6 +40,20 @@ Get-PASAccount root | Get-PASAccountACL | Where-Object{$_.Command -eq "ifconfig"
 
 Removes matching Privileged Account Rule from account.
 
+### EXAMPLE 3
+```
+Remove-PASAccountACL -AccountPolicyId UNIXSSH -AccountAddress machine -AccountUserName root -Id 12 -WhatIf
+```
+
+Shows what would happen if the privileged command rule was removed, without actually removing it.
+
+### EXAMPLE 4
+```
+Remove-PASAccountACL -PolicyID UNIXSSH -AccountAddress machine -AccountUserName root -Id 8 -Confirm:$false
+```
+
+Removes the privileged command rule with ID 8, using the PolicyID alias and suppressing the confirmation prompt.
+
 ## PARAMETERS
 
 ### -AccountPolicyId

@@ -1,5 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASPTASyslog {
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
             Mandatory = $true,
@@ -99,7 +100,11 @@ function Add-PASPTASyslog {
         $Body = $boundParameters | ConvertTo-Json
 
         #send request to PAS web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body
+        if ($PSCmdlet.ShouldProcess($siem, 'Add PTA Syslog')) {
+
+            $result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body
+
+        }
 
         if ($null -ne $result) {
 

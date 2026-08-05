@@ -112,6 +112,40 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
         }
 
+        Context 'SelfHosted' {
+
+            BeforeEach {
+                $psPASSession.ExternalVersion = [System.Version]'15.0'
+
+                $InputObject = [PSCustomObject]@{
+                    AccountID          = '22_3'
+                    dependentAccountId = '22_4'
+                    extraPasswordIndex = 1
+                    safe               = 'PSM'
+                    name               = 'PSMAdmin_WIN-4P294L4IT10'
+                }
+
+                $response = $InputObject | Set-PASDependentLinkedAccount
+            }
+
+            It 'sends request to expected SelfHosted endpoint' {
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+                    $URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts/22_3/dependentAccounts/22_4/Link"
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request with default folder value' {
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+                    ($Body | ConvertFrom-Json).folder -eq 'Root'
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+        }
+
     }
 
 }

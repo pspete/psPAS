@@ -99,7 +99,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					($Script:RequestBody.DRAddress) -ne $null
 
@@ -111,6 +111,20 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '1.0'
 				{ Invoke-PASVRMFailover -DRAddress '192.168.1.2' -servicePassword $SecurePassword -Confirm:$false } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
+			}
+
+		}
+
+		Context 'Output' {
+
+			It 'returns a result when one is provided by the API' {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'Success' = $true } }
+
+				$result = Invoke-PASVRMFailover -DRAddress '192.168.1.2' -servicePassword $SecurePassword -Confirm:$false
+
+				$result | Should -Not -BeNullOrEmpty
+
 			}
 
 		}

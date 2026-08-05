@@ -43,6 +43,20 @@ Get-PASAccountActivity -id 123_4 -useGen1API
 
 Will return the account activity for the account using the Gen1 API
 
+### EXAMPLE 3
+```
+Get-PASAccountActivity -AccountID 19_1
+```
+
+Returns account activity for account with ID 19_1 using the default Gen2 API
+
+### EXAMPLE 4
+```
+Get-PASAccountActivity -AccountID 123_4 -UseClassicAPI
+```
+
+Returns account activity for account with ID 123_4 using the Gen1 API, via the UseClassicAPI alias for -UseGen1API
+
 ## PARAMETERS
 
 ### -AccountID

@@ -30,6 +30,27 @@ Add-PASPTAExcludedTarget -cidr 192.168.60.10/24
 
 Adds 192.168.60.10/24 as an excluded target in PTA administration
 
+### EXAMPLE 2
+```powershell
+[PSCustomObject]@{cidr = '10.10.0.0/16'} | Add-PASPTAExcludedTarget
+```
+
+Adds 10.10.0.0/16 as an excluded target using pipeline input
+
+### EXAMPLE 3
+```powershell
+Add-PASPTAExcludedTarget -cidr 172.16.0.0/12 -WhatIf
+```
+
+Shows what would happen if 172.16.0.0/12 were added as an excluded target, without making the change
+
+### EXAMPLE 4
+```powershell
+Import-Csv .\excluded-targets.csv | Add-PASPTAExcludedTarget
+```
+
+Reads a list of CIDR values from a CSV file with a "cidr" column and adds each one as an excluded target in PTA administration
+
 ## PARAMETERS
 
 ### -cidr

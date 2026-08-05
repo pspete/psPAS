@@ -15,7 +15,8 @@ Add a SYSLOG configuration to PTA
 
 ```
 Add-PASPTASyslog [-siem] <String> [-format] <String> [-host] <String> [-port] <Int32> [-protocol] <String>
- [[-CertificateFile] <String>] [-syslogType] <String> [-tcpOctetCounting] <Boolean> [<CommonParameters>]
+ [[-CertificateFile] <String>] [-syslogType] <String> [-tcpOctetCounting] <Boolean> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,10 +28,31 @@ This API is not officially documented, so this help file may not help 100%
 
 ### Example 1
 ```powershell
-PS C:\> Add-PASPTASyslog -siem SomeSIEM -format CEF -host SOMEHOST.domain.com -port 514 -protocol UDP -syslogType SomeType -tcpOctetCounting $false
+Add-PASPTASyslog -siem SomeSIEM -format CEF -host SOMEHOST.domain.com -port 514 -protocol UDP -syslogType SomeType -tcpOctetCounting $false
 ```
 
 Adds the specified SYSLOG configuration to PTA
+
+### Example 2
+```powershell
+Add-PASPTASyslog -siem 'CorpSIEM' -format LEEF -host syslog.cyberark.local -port 6514 -protocol TCP -syslogType RFC5424 -tcpOctetCounting $true
+```
+
+Adds a LEEF-formatted SYSLOG configuration named "CorpSIEM" that sends events to syslog.cyberark.local over TCP on port 6514, using RFC5424 framing with TCP octet-counting enabled
+
+### Example 3
+```powershell
+Add-PASPTASyslog -siem 'SecureSIEM' -format CEF -host siem.cyberark.local -port 6514 -protocol TLS -CertificateFile C:\Certs\siem.cer -syslogType RFC3164 -tcpOctetCounting $false
+```
+
+Adds a SYSLOG configuration that connects to siem.cyberark.local over TLS on port 6514, presenting the specified certificate file for the connection
+
+### Example 4
+```powershell
+[PSCustomObject]@{siem='RemoteSIEM'; format='CEF'; host='192.168.1.10'; port=514; protocol='UDP'; syslogType='SEMI_RFC5424'; tcpOctetCounting=$false} | Add-PASPTASyslog
+```
+
+Adds a SYSLOG configuration using property values supplied via the pipeline
 
 ## PARAMETERS
 
@@ -151,6 +173,36 @@ Required: True
 Position: 8
 Default value: False
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

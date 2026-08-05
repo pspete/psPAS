@@ -41,6 +41,20 @@ Find-PASSafe -search "xyz abc"
 
 Returns details of all matching safes which the user has access to.
 
+### EXAMPLE 3
+```
+Find-PASSafe -TimeoutSec 30
+```
+
+Returns details of all safes which the user has access to, specifying a 30 second timeout for the request.
+
+### EXAMPLE 4
+```
+Find-PASSafe -search "UNIX" -TimeoutSec 30
+```
+
+Returns details of all matching safes which the user has access to, specifying a 30 second timeout for the request.
+
 ## PARAMETERS
 
 ### -search

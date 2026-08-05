@@ -16,7 +16,7 @@
 	# CompanyName       = ''
 
 	# Copyright statement for this module
-	Copyright         = '(c) 2017-2025 Pete Maan. All rights reserved.'
+	Copyright         = '(c) 2017-2026 Pete Maan. All rights reserved.'
 
 	# Description of the functionality provided by this module
 	Description       = 'Module for Idira (CyberArk) Privileged Access Security Web Service REST API'
@@ -47,7 +47,8 @@
 
 	# Script files (.ps1) that are run in the caller's environment prior to importing this module.
 	ScriptsToProcess  = @(
-		'.\subscriberClasses.ps1'
+		'.\subscriberClasses.ps1',
+		'.\reportTaskFilterClasses.ps1'
 	)
 
 	# Type files (.ps1xml) to be loaded when importing this module
@@ -56,7 +57,10 @@
 		'xml\psPAS.CyberArk.Vault.ACL.Type.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Credential.Type.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Safe.Type.ps1xml',
-		'xml\psPAS.CyberArk.Vault.User.Type.ps1xml'
+		'xml\psPAS.CyberArk.Vault.User.Type.ps1xml',
+		'xml\psPAS.CyberArk.Vault.DiscoveryScan.Type.ps1xml',
+		'xml\psPAS.CyberArk.Vault.OAuthProvider.Type.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Session.Type.ps1xml'
 	)
 
 	# Format files (.ps1xml) to be loaded when importing this module
@@ -74,7 +78,11 @@
 		'xml\psPAS.CyberArk.Vault.User.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.Directory.Formats.ps1xml',
 		'xml\psPAS.CyberArk.Vault.PTA.Formats.ps1xml',
-		'xml\psPAS.CyberArk.Vault.Group.Formats.ps1xml'
+		'xml\psPAS.CyberArk.Vault.Group.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Task.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.Report.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.DiscoveryScan.Formats.ps1xml',
+		'xml\psPAS.CyberArk.Vault.OAuthProvider.Formats.ps1xml'
 	)
 
 	# Functions to export from this module
@@ -212,7 +220,7 @@
 		'Remove-PASAuthenticationMethod',
 		'Set-PASGroup',
 		'Set-PASLinkedAccount',
-		'Clear-PASDiscoveredAccountList',
+		'Clear-PASDiscoveredAccount',
 		'New-PASAccountPassword',
 		'Get-PASAccountPasswordVersion',
 		'New-PASPrivateSSHKey',
@@ -250,12 +258,20 @@
 		'Set-PASIPAllowList',
 		'Get-PASIPAllowList',
 		'Get-PASBYOKConfig',
+		'Set-PASBYOKConfig',
+		'Enable-PASBYOKConfig',
+		'Disable-PASBYOKConfig',
+		'Get-PASBYOKPolicyStatement',
+		'Invoke-PASBYOKRotation',
 		'Get-PASDiscoveredLocalAccount',
 		'Get-PASDiscoveredLocalAccountActivity',
 		'Publish-PASDiscoveredLocalAccount',
 		'Add-PASDiscoveredLocalAccount',
 		'Clear-PASDiscoveredLocalAccount',
 		'Remove-PASDiscoveredLocalAccount',
+		'Set-PASDiscoveredLocalAccount',
+		'Hide-PASDiscoveredLocalAccount',
+		'Restore-PASDiscoveredLocalAccount',
 		'Enable-PASTheme',
 		'Remove-PASTheme',
 		'Get-PASStoredPlatform',
@@ -263,12 +279,14 @@
 		'Get-PASUserLicenseReport',
 		'Get-PASAccountSearchProperty',
 		'Get-PASReport',
-		'Get-PASReportSchedule',
-		'New-PASReportSchedule',
+		'Get-PASReportActivity',
+		'Get-PASReportTask',
+		'New-PASReportTask',
+		'Set-PASReportTask',
+		'Remove-PASReportTask',
 		'Export-PASReport',
 		'Remove-PASUserAllowedAuthenticationMethod',
 		'Add-PASUserAllowedAuthenticationMethod',
-		'Remove-PASDiscoveredLocalAccount',
 		'Remove-PASDependentAccount',
 		'Resume-PASDependentAccount',
 		'Remove-PASFIDO2Device',
@@ -305,8 +323,22 @@
 		'Get-PASVRMDRSystemHealth',
 		'Invoke-PASVRMFailover',
 		'Get-PASVRMServiceConfigParameter',
-		'Set-PASVRMServiceConfig'
-
+		'Set-PASVRMServiceConfig',
+		'New-PASPlatformSecret',
+		'Stop-PASCPMTask',
+		'Resume-PASCPMAutoManagement',
+		'Set-PASPlatform',
+		'Add-PASOAuthProvider',
+		'Get-PASOAuthProvider',
+		'Set-PASOAuthProvider',
+		'Remove-PASOAuthProvider',
+		'Test-PASDiscoveredLocalAccount',
+		'New-PASDiscoveredAccountObject',
+		'Add-PASDiscoveryScan',
+		'Stop-PASDiscoveryScan',
+		'Remove-PASDiscoveryScan',
+		'Get-PASDiscoveryScan',
+		'Get-PASSessionTimeout'
 	)
 
 	#AliasesToExport   = @()

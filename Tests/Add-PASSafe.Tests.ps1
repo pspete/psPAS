@@ -81,6 +81,24 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'specifies parameter Quota as not mandatory' {
+
+				(Get-Command Add-PASSafe).Parameters['Quota'].Attributes.Mandatory | Should -Not -Be $true
+
+			}
+
+			It 'specifies parameter Quota for ParameterSet NumberOfVersionsRetention' {
+
+				(Get-Command Add-PASSafe).Parameters['Quota'].ParameterSets['NumberOfVersionsRetention'].IsMandatory | Should -Be $false
+
+			}
+
+			It 'specifies parameter Quota for ParameterSet NumberOfDaysRetention' {
+
+				(Get-Command Add-PASSafe).Parameters['Quota'].ParameterSets['NumberOfDaysRetention'].IsMandatory | Should -Be $false
+
+			}
+
 		}
 
 		Context 'Gen1 Input' {
@@ -101,6 +119,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'does not send an additional request when WhatIf is used' {
+
+				$InputObj | Add-PASSafe -NumberOfDaysRetention 1 -UseGen1API -WhatIf
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
@@ -165,6 +191,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'does not send an additional request when WhatIf is used' {
+
+				$InputObj | Add-PASSafe -NumberOfDaysRetention 1 -WhatIf
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -202,6 +236,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '1.0'
 				{ Add-PASSafe -SafeName SomeSafe -NumberOfVersionsRetention 1 } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'accepts 0 for NumberOfVersionsRetention' {
+
+				{ Add-PASSafe -SafeName SomeSafe -NumberOfVersionsRetention 0 } | Should -Not -Throw
+
 			}
 
 		}
@@ -281,6 +321,101 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 
+
+		}
+
+		Context 'Gen2 Input - Quota' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'addsaferesult' = [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' } }
+				}
+
+				$Script:psPASSession.ExternalVersion = [System.Version]'15.2'
+
+				$InputObj = [pscustomobject]@{
+					'SafeName' = 'SomeName'
+
+				}
+
+				$response = $InputObj | Add-PASSafe -NumberOfVersionsRetention 0 -Quota 100
+
+			}
+
+			AfterEach {
+
+				$Script:psPASSession.ExternalVersion = [System.Version]'0.0'
+
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Safes"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with expected body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+
+					($Script:RequestBody) -ne $null
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'has a request body with expected number of properties' {
+
+				($Script:RequestBody | Get-Member -MemberType NoteProperty).length | Should -Be 3
+
+			}
+
+			It 'has request body with expected Quota value' {
+
+				$Script:RequestBody.Quota | Should -Be 100
+
+			}
+
+			It 'throws error if version 15.2 requirement not met' {
+
+				$Script:psPASSession.ExternalVersion = [System.Version]'15.1'
+
+				{ Add-PASSafe -SafeName SomeSafe -NumberOfVersionsRetention 0 -Quota 100 } | Should -Throw
+
+				$Script:psPASSession.ExternalVersion = [System.Version]'0.0'
+
+			}
+
+			It 'throws error if not Self-Hosted' {
+
+				$OriginalBaseURI = $Script:psPASSession.BaseURI
+
+				$Script:psPASSession.BaseURI = 'https://SomeTenant.cyberark.cloud/'
+
+				{ Add-PASSafe -SafeName SomeSafe -NumberOfVersionsRetention 0 -Quota 100 } | Should -Throw
+
+				$Script:psPASSession.BaseURI = $OriginalBaseURI
+
+			}
 
 		}
 

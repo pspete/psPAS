@@ -122,6 +122,52 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
         }
 
+        Context 'Report Formats' {
+
+            BeforeEach {
+
+                Mock Out-PASFile -MockWith { }
+
+            }
+
+            It 'uses expected content type for XLSX format' {
+
+                Mock Invoke-PASRestMethod -MockWith { New-Object Byte[] 512 }
+
+                Export-PASReport -Safe SomeSafe -Folder SomeFolder -FileName SomeReport -Type SomeType -ReportFormat XLSX -path "$env:Temp\testExportXlsx.zip"
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $ContentType -eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'converts and exports CSV format results to the specified path' {
+
+                Mock Invoke-PASRestMethod -MockWith { "Name,Value`r`nSomeName,SomeValue" }
+
+                $CsvPath = Join-Path $env:Temp "psPASTests_$([guid]::NewGuid().Guid).csv"
+
+                try {
+
+                    $response = Export-PASReport -Safe SomeSafe -Folder SomeFolder -FileName SomeReport -Type SomeType -ReportFormat CSV -path $CsvPath
+
+                    $response.Name | Should -Be (Split-Path -Path $CsvPath -Leaf)
+                    (Import-Csv -Path $CsvPath).Name | Should -Be 'SomeName'
+                    (Import-Csv -Path $CsvPath).Value | Should -Be 'SomeValue'
+
+                } finally {
+
+                    Remove-Item -Path $CsvPath -Force -ErrorAction SilentlyContinue
+
+                }
+
+            }
+
+        }
+
     }
 
 }

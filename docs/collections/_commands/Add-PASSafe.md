@@ -17,25 +17,28 @@ Adds a new safe to the Vault
 ### NumberOfVersionsRetention (Default)
 ```
 Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-AutoPurgeEnabled <Boolean>] [<CommonParameters>]
+ [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-AutoPurgeEnabled <Boolean>] [-Quota <Int32>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1-NumberOfVersionsRetention
 ```
 Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-UseGen1API] [<CommonParameters>]
+ [-ManagingCPM <String>] -NumberOfVersionsRetention <Int32> [-UseGen1API] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### NumberOfDaysRetention
 ```
 Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-AutoPurgeEnabled <Boolean>] [<CommonParameters>]
+ [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-AutoPurgeEnabled <Boolean>] [-Quota <Int32>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1-NumberOfDaysRetention
 ```
 Add-PASSafe -SafeName <String> [-Description <String>] [-location <String>] [-OLACEnabled <Boolean>]
- [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-UseGen1API] [<CommonParameters>]
+ [-ManagingCPM <String>] -NumberOfDaysRetention <Int32> [-UseGen1API] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -154,7 +157,9 @@ Accept wildcard characters: False
 ### -NumberOfVersionsRetention
 The number of retained versions of every password that is stored in the Safe.
 
-Max value = 999
+Minimum value = 0
+
+Maximum value = 999
 
 Specify either this parameter or NumberOfDaysRetention.
 
@@ -208,6 +213,29 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -Quota
+The maximum size of the Safe in MB.
+
+Minimum value = 1
+
+Maximum value = 2000000000
+
+Only applicable to Self-Hosted implementations.
+
+Minimum required version 15.2
+
+```yaml
+Type: Int32
+Parameter Sets: NumberOfVersionsRetention, NumberOfDaysRetention
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -location
 The location of the Safe in the Vault.
 
@@ -239,6 +267,36 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

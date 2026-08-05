@@ -50,10 +50,26 @@ Returns hashtable structured to be used as input for add account operations
 
 ### EXAMPLE 2
 ```
-New-PASAccountObject -name SomeName -platformAccountProperties @{"Some"="Prop"} -DependentAccountObject
+New-PASAccountObject -name SomeName -platformAccountProperties @{"Some"="Prop"} -DependentAccount
 ```
 
 Returns hashtable structured to be used as input for dependent account operations
+
+### EXAMPLE 3
+```
+$SecureString = ConvertTo-SecureString "Str0ngP@ssw0rd!" -AsPlainText -Force
+New-PASAccountObject -userName AdminUser1 -address 10.0.0.5 -secret $SecureString -PersonalAdminAccount
+```
+
+Returns hashtable structured to be used as input for a personal admin account operation
+
+### EXAMPLE 4
+```
+$SecureKey = ConvertTo-SecureString "SomeKeyValue" -AsPlainText -Force
+New-PASAccountObject -userName SomeAccount2 -address 10.0.0.10 -platformID UnixSSH -SafeName UNIX -secretType Key -secret $SecureKey -automaticManagementEnabled $false -manualManagementReason "Pending review" -remoteMachines "host1.domain.com,host2.domain.com" -accessRestrictedToRemoteMachines $true -groupName UnixAdmins
+```
+
+Returns hashtable structured to represent an account object with an SSH key secret, CPM management disabled with a reason, and access restricted to the specified remote machines and platform group
 
 ## PARAMETERS
 

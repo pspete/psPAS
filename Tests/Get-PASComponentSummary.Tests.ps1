@@ -152,7 +152,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				It 'outputs DR vaults with replication fields' {
-					
+
 					$drVault = $response | Where-Object { $_.Role -eq 'DR' }
 					$drVault | Should -Not -BeNullOrEmpty
 					$drVault.ComponentID | Should -Be 'EPV'
@@ -162,6 +162,32 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					$drVault.IsDBReplicationHealthy | Should -Be $true
 					$drVault.FileReplicationDiffSecs | Should -Be 45
 					$drVault.IsFileReplicationHealthy | Should -Be $true
+
+				}
+
+				It 'outputs null replication fields for a DR vault with no ReplicationStatus' {
+
+					Mock Invoke-PASRestMethod -MockWith {
+						[PSCustomObject]@{
+							'Components' = [PSCustomObject]@{'ComponentID' = 'SomValue'; 'ComponentName' = 'OtherValue'; 'Role' = 'SomValue'; 'IP' = 'OtherValue'; 'IsLoggedOn' = 'OtherValue' }
+							'Vaults'     = @(
+								[PSCustomObject]@{
+									'Role'              = 'DR';
+									'IP'                = '192.168.1.3';
+									'IsLoggedOn'        = $true;
+									'ReplicationStatus' = $null
+								}
+							)
+						}
+					}
+
+					$NoReplicationResponse = Get-PASComponentSummary
+					$drVault = $NoReplicationResponse | Where-Object { $_.Role -eq 'DR' }
+
+					$drVault.DBReplicationDiffSecs | Should -BeNullOrEmpty
+					$drVault.IsDBReplicationHealthy | Should -BeNullOrEmpty
+					$drVault.FileReplicationDiffSecs | Should -BeNullOrEmpty
+					$drVault.IsFileReplicationHealthy | Should -BeNullOrEmpty
 
 				}
 

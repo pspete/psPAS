@@ -38,6 +38,27 @@ Get-PASPublicSSHKey -UserName user1
 
 Lists all SSH Keys for vault user
 
+### EXAMPLE 2
+```
+Get-PASUser -Search Bob | Get-PASPublicSSHKey
+```
+
+Returns all authorized SSH keys for the vault user found by Get-PASUser, with the UserName value supplied via the pipeline.
+
+### EXAMPLE 3
+```
+Get-PASPublicSSHKey -UserName Bob | Where-Object PublicSSHKey -match '^ssh-ed25519'
+```
+
+Returns only the Ed25519 format public SSH keys authorized for vault user Bob.
+
+### EXAMPLE 4
+```
+Get-PASPublicSSHKey -UserName Bob | Export-Csv .\bob-ssh-keys.csv -NoTypeInformation
+```
+
+Exports all of vault user Bob's authorized SSH keys to a CSV file.
+
 ## PARAMETERS
 
 ### -UserName

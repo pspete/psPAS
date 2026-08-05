@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASPolicyACL {
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -63,7 +63,11 @@ function Add-PASPolicyACL {
 			ConvertTo-Json
 
 		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
+		if ($PSCmdlet.ShouldProcess($PolicyId, 'Add Policy ACL')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
+
+		}
 
 		if ($null -ne $result) {
 

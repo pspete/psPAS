@@ -28,6 +28,20 @@ Returns all safes for a given platform ID
 Get-PASPlatformSafe -PlatformID WINDOMAIN
 ```
 
+### EXAMPLE 2
+```
+Get-PASPlatform -Active $true | Get-PASPlatformSafe
+```
+
+Returns the safes associated with each currently active platform.
+
+### EXAMPLE 3
+```
+"WinDomain", "WinServerLocal" | ForEach-Object { Get-PASPlatformSafe -PlatformID $_ }
+```
+
+Returns the safes associated with both the "WinDomain" and "WinServerLocal" platforms.
+
 ## PARAMETERS
 
 ### -PlatformID

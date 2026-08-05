@@ -33,6 +33,20 @@ Get-PASAccount root | Get-PASAccountACL
 
 Returns Privileged Account Rules for the account root found by Get-PASAccount
 
+### EXAMPLE 2
+```
+Get-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerA.domain.com -AccountUserName root
+```
+
+Returns the privileged command rules defined for the root account on ServerA.domain.com under the UNIXSSH policy.
+
+### EXAMPLE 3
+```
+Get-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerA.domain.com -AccountUserName root | Where-Object PermissionType -eq Deny
+```
+
+Returns only the "Deny" privileged command rules for the root account on ServerA.domain.com.
+
 ## PARAMETERS
 
 ### -AccountPolicyId

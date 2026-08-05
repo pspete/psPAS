@@ -155,6 +155,128 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Scope Merging' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {}
+
+			}
+
+			It 'copies existing machines scope when only vaultUsers scope is updated' {
+
+				#Note: Format-PutRequestObject copies any *existing* scope wholesale before the
+				#scope-merge logic below runs, so the "fill in the untouched half" branch only
+				#fires when the existing rule never had that half configured at all.
+				Mock Get-PASPTARule -MockWith {
+					[pscustomobject]@{
+						'ID'    = 99
+						'scope' = @{
+							'machines' = @{'mode' = 'EXCLUDE'; 'list' = @('ExistingMachine') }
+						}
+					}
+				}
+
+				[pscustomobject]@{'id' = 99; 'vaultUsersMode' = 'INCLUDE'; 'vaultUsersList' = 'NewUser' } | Set-PASPTARule
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Parsed = $Body | ConvertFrom-Json
+					$Parsed.scope.machines.list -contains 'ExistingMachine'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'copies existing vaultUsers scope when only machines scope is updated' {
+
+				Mock Get-PASPTARule -MockWith {
+					[pscustomobject]@{
+						'ID'    = 99
+						'scope' = @{
+							'vaultUsers' = @{'mode' = 'INCLUDE'; 'list' = @('ExistingUser') }
+						}
+					}
+				}
+
+				[pscustomobject]@{'id' = 99; 'machinesMode' = 'INCLUDE'; 'machinesList' = 'NewMachine' } | Set-PASPTARule
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Parsed = $Body | ConvertFrom-Json
+					$Parsed.scope.vaultUsers.list -contains 'ExistingUser'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets scope to the (absent) existing scope when no scope parameters are specified' {
+
+				#Existing rule has no scope property at all, and no scope parameters are supplied -
+				#exercises the default branch that copies whatever existing scope there is (here: none).
+				Mock Get-PASPTARule -MockWith {
+					[pscustomobject]@{
+						'ID' = 99
+					}
+				}
+
+				[pscustomobject]@{'id' = 99; 'category' = 'KEYSTROKES' } | Set-PASPTARule
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Parsed = $Body | ConvertFrom-Json
+					$null -eq $Parsed.scope
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'clears a scope item when its value is explicitly null' {
+
+				Mock Get-PASPTARule -MockWith {
+					[pscustomobject]@{
+						'ID'    = 99
+						'scope' = @{
+							'vaultUsers' = @{'mode' = 'INCLUDE'; 'list' = @('ExistingUser') }
+						}
+					}
+				}
+
+				Set-PASPTARule -id 99 -vaultUsersList $null
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Parsed = $Body | ConvertFrom-Json
+					$null -eq $Parsed.scope.vaultUsers
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'clears a machines scope item when its value is explicitly null' {
+
+				Mock Get-PASPTARule -MockWith {
+					[pscustomobject]@{
+						'ID'    = 99
+						'scope' = @{
+							'machines' = @{'mode' = 'EXCLUDE'; 'list' = @('ExistingMachine') }
+						}
+					}
+				}
+
+				Set-PASPTARule -id 99 -machinesList $null
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Parsed = $Body | ConvertFrom-Json
+					$null -eq $Parsed.scope.machines
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
 	}
 
 }

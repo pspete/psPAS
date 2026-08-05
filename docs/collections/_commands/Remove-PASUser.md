@@ -47,6 +47,20 @@ Remove-PASUser -UserName This_User
 
 Deletes vault user "This_User"
 
+### EXAMPLE 3
+```
+Remove-PASUser -id 1234 -WhatIf
+```
+
+Shows what would happen if vault user with id 1234 was deleted, without making any changes
+
+### EXAMPLE 4
+```
+Get-PASUser -id 1234 | Remove-PASUser
+```
+
+Deletes the vault user found by id 1234, using pipeline input
+
 ## PARAMETERS
 
 ### -id

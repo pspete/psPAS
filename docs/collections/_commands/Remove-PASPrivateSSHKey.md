@@ -28,17 +28,31 @@ Requires CyberArk Version 12.1 or higher.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Remove-PASPrivateSSHKey
+Remove-PASPrivateSSHKey
 ```
 
 Deletes your MFA caching SSH key.
 
 ### EXAMPLE 2
 ```powershell
-PS C:\> Remove-PASPrivateSSHKey -UserID 646
+Remove-PASPrivateSSHKey -UserID 646
 ```
 
 Deletes MFA caching SSH key for user with id 646.
+
+### EXAMPLE 3
+```powershell
+Remove-PASPrivateSSHKey -UserID 646 -WhatIf
+```
+
+Shows what would happen if the MFA caching SSH key for user with id 646 was deleted, without making any changes.
+
+### EXAMPLE 4
+```powershell
+[PSCustomObject]@{UserID = 646} | Remove-PASPrivateSSHKey
+```
+
+Deletes MFA caching SSH key for user with id 646, using pipeline input.
 
 ## PARAMETERS
 

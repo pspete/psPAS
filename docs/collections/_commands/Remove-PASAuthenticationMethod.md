@@ -26,10 +26,24 @@ Membership of the Vault admins group required.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Remove-PASAuthenticationMethod -id SomeID
+Remove-PASAuthenticationMethod -id SomeID
 ```
 
 Deletes authentication method with id "SomeID"
+
+### EXAMPLE 2
+```powershell
+Remove-PASAuthenticationMethod -id SAML -WhatIf
+```
+
+Shows what would happen if the "SAML" authentication method were deleted, without actually deleting it.
+
+### EXAMPLE 3
+```powershell
+Get-PASAuthenticationMethod | Where-Object { $_.enabled -eq $false } | Remove-PASAuthenticationMethod
+```
+
+Deletes every authentication method that is currently disabled.
 
 ## PARAMETERS
 

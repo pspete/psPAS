@@ -24,10 +24,24 @@ Updates the draft state of a specific custom theme from $true to $false
 
 ### Example 1
 ```powershell
-PS C:\> Publish-PASTheme -ThemeName SomeTheme
+Publish-PASTheme -ThemeName SomeTheme
 ```
 
 Update the draft state of SomeTheme
+
+### Example 2
+```powershell
+Publish-PASTheme -ThemeName "Custom Dark" -WhatIf
+```
+
+Shows what would happen if the draft state of "Custom Dark" was updated, without actually making the change
+
+### Example 3
+```powershell
+"Custom Dark", "Custom Light" | ForEach-Object { Publish-PASTheme -ThemeName $_ }
+```
+
+Publishes both the "Custom Dark" and "Custom Light" draft themes
 
 ## PARAMETERS
 

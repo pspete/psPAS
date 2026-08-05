@@ -30,6 +30,20 @@ Get-PASUserLoginInfo
 
 Returns Login Info for the current user
 
+### EXAMPLE 2
+```
+$loginInfo = Get-PASUserLoginInfo
+```
+
+Saves the login information for the current user in the $loginInfo variable
+
+### EXAMPLE 3
+```
+(Get-PASUserLoginInfo).FailedLogins
+```
+
+Returns the number of failed login attempts recorded for the current user
+
 ## PARAMETERS
 
 ### CommonParameters

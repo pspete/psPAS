@@ -18,7 +18,7 @@ Adds a new OIDC Identity Provider.
 Add-PASOpenIDConnectProvider -id <String> [-authenticationFlow <String>] [-authenticationEndpointUrl <String>]
  [-issuer <String>] [-description <String>] -discoveryEndpointUrl <String> [-jwkSet <String>]
  -clientId <String> [-clientSecret <SecureString>] -clientSecretMethod <String> [-userNameClaim <String>]
- [<CommonParameters>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,11 +29,33 @@ Requires membership of Vault Admins group.
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Add-PASOpenIDConnectProvider -id SomeOIDCProvider -discoveryEndpointUrl https://SomeURLValue
+Add-PASOpenIDConnectProvider -id SomeOIDCProvider -discoveryEndpointUrl https://SomeURLValue
  -clientId SomeID -clientSecretMethod POST
 ```
 
 Adds an OIDC Identity Provider with ID SomeOIDCProvider.
+
+### EXAMPLE 2
+```powershell
+$ClientSecret = ConvertTo-SecureString "SomeSecretValue" -AsPlainText -Force
+Add-PASOpenIDConnectProvider -id AzureAD -authenticationFlow Code -discoveryEndpointUrl "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration" -clientId 11111111-2222-3333-4444-555555555555 -clientSecret $ClientSecret -clientSecretMethod Basic -description "Azure AD OIDC Provider" -userNameClaim upn
+```
+
+Adds an OIDC Identity Provider named AzureAD that uses the authorization code flow, authenticates with a client secret sent via HTTP Basic authentication, and maps the "upn" claim from the ID token to the vault username.
+
+### EXAMPLE 3
+```powershell
+Add-PASOpenIDConnectProvider -id Okta -discoveryEndpointUrl "https://SomeCompany.okta.com/.well-known/openid-configuration" -issuer "https://SomeCompany.okta.com" -clientId SomeOktaClientId -clientSecretMethod Post -authenticationFlow Implicit
+```
+
+Adds an OIDC Identity Provider named Okta that uses the implicit authentication flow.
+
+### EXAMPLE 4
+```powershell
+Import-Csv .\oidc-providers.csv | Add-PASOpenIDConnectProvider
+```
+
+Adds a new OIDC Identity Provider for each row in oidc-providers.csv, matching column names to parameters.
 
 ## PARAMETERS
 
@@ -207,6 +229,36 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+	<Type>
+		<Name>psPAS.CyberArk.Vault.DiscoveryScan</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>Stop</Name>
+				<Script>
+					Param([bool]$force)
+
+					if ($force) {
+
+					$this | Stop-PASDiscoveryScan -Confirm:$false
+
+					}
+
+					else{
+
+					$this | Stop-PASDiscoveryScan -Confirm
+
+					}
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>Remove</Name>
+				<Script>
+					Param([bool]$force)
+
+					if ($force) {
+
+					$this | Remove-PASDiscoveryScan -Confirm:$false
+
+					}
+
+					else{
+
+					$this | Remove-PASDiscoveryScan -Confirm
+
+					}
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+</Types>

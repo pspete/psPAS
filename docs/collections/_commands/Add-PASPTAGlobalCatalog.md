@@ -19,7 +19,7 @@ To run this method, you must be a member of the Vault Admins or Security Admins 
 
 ```
 Add-PASPTAGlobalCatalog [[-ldap_certificate] <String>] [-ldap_server] <String> [[-ssl] <Boolean>]
- [-ldap_port] <Int32> [-upn] <String> [-ldapPassword] <SecureString> [<CommonParameters>]
+ [-ldap_port] <Int32> [-upn] <String> [-ldapPassword] <SecureString> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,6 +36,41 @@ Add-PASPTAGlobalCatalog -ldap_certificate $Base64Cert -ldap_server GC.domain.com
 ```
 
 Adds Global Catalog to PTA configuration
+
+### EXAMPLE 2
+```powershell
+Add-PASPTAGlobalCatalog -ldap_server gc2.cyberark.local -ldap_port 3268 -ssl $false -upn svc_pta@cyberark.local -ldapPassword (ConvertTo-SecureString 'P@ssw0rd123!' -AsPlainText -Force)
+```
+
+Adds a Global Catalog connection using the default unencrypted LDAP port, without specifying a certificate
+
+### EXAMPLE 3
+```powershell
+[PSCustomObject]@{
+    ldap_server  = 'gc3.cyberark.local'
+    ldap_port    = 3268
+    ssl          = $false
+    upn          = 'bind-account@cyberark.local'
+    ldapPassword = (ConvertTo-SecureString 'P@ssw0rd123!' -AsPlainText -Force)
+} | Add-PASPTAGlobalCatalog
+```
+
+Adds Global Catalog connectivity details using property values supplied via the pipeline
+
+### EXAMPLE 4
+```powershell
+$GCParams = @{
+    ldap_server      = 'gc.cyberark.local'
+    ldap_port        = 3269
+    ssl              = $true
+    ldap_certificate = $Base64Cert
+    upn              = 'bind-account@cyberark.local'
+    ldapPassword     = (ConvertTo-SecureString $env:GC_BIND_PASSWORD -AsPlainText -Force)
+}
+Add-PASPTAGlobalCatalog @GCParams
+```
+
+Uses splatting to add Global Catalog connectivity details, sourcing the bind account password from an environment variable
 
 ## PARAMETERS
 
@@ -127,6 +162,36 @@ Required: True
 Position: 6
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

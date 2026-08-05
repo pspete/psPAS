@@ -91,6 +91,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'automatically quotes values containing spaces for API 14.6+, without QuoteValue specified' {
+
+				$psPASSession.ExternalVersion = '14.6'
+
+				$Value = @{Property2 = 'Another Value' } | ConvertTo-FilterString
+
+				$Value['filter'] | Should -Match 'Property2 eq "Another Value"'
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
 		}
 
 	}

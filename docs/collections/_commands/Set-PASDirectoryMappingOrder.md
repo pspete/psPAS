@@ -35,6 +35,20 @@ Set-PASDirectoryMappingOrder -DirectoryName "DOMAIN.COM" -MappingsOrder 39,43,41
 
 Sets the order of the directory mappings for directory "DOMAIN.COM"
 
+### EXAMPLE 2
+```
+[PSCustomObject]@{DirectoryName = 'cyberark.local'; MappingsOrder = 39,43,41,669,668,667} | Set-PASDirectoryMappingOrder
+```
+
+Pipes an object with DirectoryName and MappingsOrder properties to set the mapping order for the cyberark.local directory.
+
+### EXAMPLE 3
+```
+Set-PASDirectoryMappingOrder -DirectoryName "DOMAIN.COM" -MappingsOrder 39,43,41,669,668,667 -WhatIf
+```
+
+Shows what would happen if the mapping order was updated, without actually applying the change.
+
 ## PARAMETERS
 
 ### -DirectoryName

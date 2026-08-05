@@ -1,6 +1,6 @@
 ﻿# .ExternalHelp psPAS-help.xml
 function Add-PASPublicSSHKey {
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -35,7 +35,11 @@ function Add-PASPublicSSHKey {
 		} | ConvertTo-Json
 
 		#send request to webservice
-		$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+		if ($PSCmdlet.ShouldProcess($UserName, 'Add Public SSH Key')) {
+
+			$result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+
+		}
 
 		if ($null -ne $result) {
 

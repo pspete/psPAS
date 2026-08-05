@@ -15,7 +15,7 @@ Export ticketing system logs from Privilege Cloud
 ## SYNTAX
 
 ```
-Export-PASTicketingSystemLog [[-days] <Int32>] [[-userID] <String>] [-path] <String> [-WhatIf] [-Confirm]
+Export-PASTicketingSystemLog [[-days] <Int32>] [-username <String>] [-path] <String> [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -28,7 +28,7 @@ Export ticketing system logs collected from the Privilege Cloud Portal, for a sp
 ### Example 1
 
 ```powershell
-PS C:\> Export-PASTicketingSystemLog -days 5 -path C:\SomeDirectory
+Export-PASTicketingSystemLog -days 5 -path C:\SomeDirectory
 ```
 
 Export the logs from the last 5 days for the privilege cloud ticketing systems
@@ -36,10 +36,26 @@ Export the logs from the last 5 days for the privilege cloud ticketing systems
 ### Example 2
 
 ```powershell
-PS C:\> Export-PASTicketingSystemLog -days 1 -userID TicketingUser -path C:\SomeDirectory
+Export-PASTicketingSystemLog -days 1 -username TicketingUser -path C:\SomeDirectory
 ```
 
 Export the logs from the previous day for the specified ticketing system user
+
+### Example 3
+
+```powershell
+Export-PASTicketingSystemLog -days 7 -path C:\Logs -WhatIf
+```
+
+Shows what would happen when exporting logs for all users over the last 7 days, without performing the export
+
+### Example 4
+
+```powershell
+Export-PASTicketingSystemLog -path C:\SomeDirectory
+```
+
+Exports logs for the previous 7 days (the default value of -days) covering all system users, since -username is not specified
 
 ## PARAMETERS
 
@@ -55,24 +71,6 @@ Aliases:
 Required: False
 Position: 1
 Default value: 0
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -userID
-
-The unique ID of the user who requested the ticketing system.
-
-If no user is defined, the log covers all system users.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
@@ -123,6 +121,24 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -username
+
+The name of the user who requested the ticketing system.
+
+If no user is defined, the log covers all system users.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

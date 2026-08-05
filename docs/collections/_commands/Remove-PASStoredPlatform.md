@@ -26,10 +26,24 @@ Requires Vault Admin membership
 
 ### Example 1
 ```powershell
-PS C:\> Remove-PASStoredPlatform
+Remove-PASStoredPlatform
 ```
 
 Delete the stored platform from memory
+
+### Example 2
+```powershell
+Remove-PASStoredPlatform -WhatIf
+```
+
+Shows what would happen if the stored platform was deleted, without actually deleting it
+
+### Example 3
+```powershell
+if (Get-PASStoredPlatform) { Remove-PASStoredPlatform -Confirm:$false }
+```
+
+Removes the stored platform only if one is currently present in memory, without prompting for confirmation
 
 ## PARAMETERS
 

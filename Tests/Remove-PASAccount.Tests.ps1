@@ -162,6 +162,76 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Input - DeleteSSHKey' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					Write-Output @{ }
+				}
+			}
+
+			It 'cannot be used in conjunction with UseGen1API' {
+
+				{ Remove-PASAccount -AccountID 11_1 -UseGen1API -DeleteSSHKey $true } | Should -Throw
+
+			}
+
+			It 'sends expected query - Self-Hosted' {
+				Remove-PASAccount -AccountID 11_1 -DeleteSSHKey $true -Confirm:$false
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts/11_1?deleteSshKeyFromVaultAndTarget=True"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws error if version requirement not met - Self-Hosted' {
+				$psPASSession.ExternalVersion = '15.1'
+
+				{ Remove-PASAccount -AccountID 11_1 -DeleteSSHKey $true -Confirm:$false } | Should -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'sends expected query - Privilege Cloud' {
+				$psPASSession.ApiURI = 'https://SomeSubdomain.cyberark.cloud/SomeApp'
+
+				Remove-PASAccount -AccountID 11_1 -DeleteSSHKey $false -Confirm:$false
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts/11_1?deleteOnlyPrivateSshKey=False"
+
+				} -Times 1 -Exactly -Scope It
+
+				$psPASSession.ApiURI = $null
+			}
+
+			It 'does not require minimum version 15.2 - Privilege Cloud' {
+				$psPASSession.ApiURI = 'https://SomeSubdomain.cyberark.cloud/SomeApp'
+				$psPASSession.ExternalVersion = '15.1'
+
+				{ Remove-PASAccount -AccountID 11_1 -DeleteSSHKey $true -Confirm:$false } | Should -Not -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.ApiURI = $null
+			}
+
+			It 'does not send DeleteSSHKey query string if parameter not specified' {
+				Remove-PASAccount -AccountID 11_1 -Confirm:$false
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts/11_1"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
 		Context 'Output' {
 
 			BeforeEach {

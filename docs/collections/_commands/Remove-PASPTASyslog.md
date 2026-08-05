@@ -24,10 +24,24 @@ Removes a SYSLOG configuration from PTA
 
 ### Example 1
 ```powershell
-PS C:\> Remove-PASPTASyslog -ID SomeID
+Remove-PASPTASyslog -ID SomeID
 ```
 
 Removes specified SYSLOG configuration from PTA
+
+### Example 2
+```powershell
+Remove-PASPTASyslog -ID 65f2a1c3b8e4a900123abcde -WhatIf
+```
+
+Shows what would happen if the SYSLOG configuration with the specified ID were removed, without making the change
+
+### Example 3
+```powershell
+[PSCustomObject]@{ID = '65f2a1c3b8e4a900123abcde'} | Remove-PASPTASyslog
+```
+
+Removes the SYSLOG configuration using an ID value supplied via the pipeline
 
 ## PARAMETERS
 

@@ -114,6 +114,14 @@
 
 	begin {
 
+		#Functions which call Invoke-PASRestMethod purely as an internal implementation detail (e.g. a public
+		#function's dynamicparam/begin block looking up supporting data) rather than as a command a user directly
+		#issued - calls made on their behalf should not overwrite $psPASSession.LastCommand/LastCommandResults.
+		#Add further function names here as similar internal-helper patterns emerge.
+		$LastCommandExclusions = @(
+			'Get-PASAccountSearchProperty'
+		)
+
 		#Set defaults for all function calls
 		$ProgressPreference = 'SilentlyContinue'
 		$PSBoundParameters.Add('UseBasicParsing', $true)
@@ -210,17 +218,47 @@
 
 	process {
 
+		#Identify calling function
+		$ParentFunction = Get-ParentFunction
+
+		if ($ParentFunction.FunctionName -notin $LastCommandExclusions) {
+
+			#Warn if the session is close to idle-timing out, based on activity prior to this request
+			$IdleTimeRemaining = Get-PASIdleTimeRemaining
+
+			if (($null -ne $IdleTimeRemaining) -and ($IdleTimeRemaining.Ticks -gt 0) -and ($IdleTimeRemaining.TotalMinutes -le $psPASSession.SessionWarningThreshold)) {
+
+				Write-Warning "Session was approximately $([math]::Round($IdleTimeRemaining.TotalMinutes, 1)) minute(s) from idle-timing out - this request has now refreshed it. If your next command will be delayed, call (Get-PASSession).Refresh() to keep the session alive in the meantime."
+
+			}
+
+		}
+
 		#Show URI, Method & sanitised request body if in debug mode
 		if ([System.Management.Automation.ActionPreference]::SilentlyContinue -ne $DebugPreference) {
 
 			Write-Debug "[Uri] $URI"
 			Write-Debug "[Method] $Method"
 
-			if (($PSBoundParameters.ContainsKey('Body')) -and (($PSBoundParameters['Body']).GetType().Name -eq 'String')) {
+			if ($PSBoundParameters.ContainsKey('Body')) {
 
-				Write-Debug "[Body] $(Hide-SecretValue -InputValue $Body)"
+				switch (($Body).GetType().Name) {
+
+					'String' { Write-Debug "[Body] $(Hide-SecretValue -InputValue $Body)" }
+
+					'Byte[]' { Write-Debug "[Body] $(Hide-SecretValue -InputValue $([System.Text.Encoding]::UTF8.GetString($Body)))" }
+
+				}
 
 			}
+
+		}
+
+		#Send a String body as raw UTF8 bytes so ParameterBinding/module logging of the Invoke-WebRequest call
+		#records a non-revealing type name (System.Byte[]) instead of the literal request content.
+		if (($PSBoundParameters.ContainsKey('Body')) -and (($Body).GetType().Name -eq 'String')) {
+
+			$PSBoundParameters['Body'] = [System.Text.Encoding]::UTF8.GetBytes($Body)
 
 		}
 
@@ -395,10 +433,14 @@
 
 		} finally {
 
-			#Add Command Data to $psPASSession module scope variable
-			$psPASSession.LastCommand = Get-ParentFunction | Select-Object -ExpandProperty CommandData
-			$psPASSession.LastCommandResults = $APIResponse
-			$psPASSession.LastCommandTime = Get-Date
+			if ($ParentFunction.FunctionName -notin $LastCommandExclusions) {
+
+				#Add Command Data to $psPASSession module scope variable
+				$psPASSession.LastCommand = $ParentFunction.CommandData
+				$psPASSession.LastCommandResults = $APIResponse
+				$psPASSession.LastCommandTime = Get-Date
+
+			}
 
 			#If Session Variable passed as argument
 			if ($PSCmdlet.ParameterSetName -eq 'SessionVariable') {

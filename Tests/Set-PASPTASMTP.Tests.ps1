@@ -144,6 +144,107 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
+            It 'returns a result when one is provided by the API' {
+
+                Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'Success' = $true } }
+
+                $result = $InputObj | Set-PASPTASMTP
+
+                $result | Should -Not -BeNullOrEmpty
+
+            }
+
+        }
+
+        Context 'Certificate Handling' {
+
+            BeforeAll {
+
+                $Script:CertTestDrive = Join-Path $env:TEMP "psPASTests_$([guid]::NewGuid().Guid)"
+                New-Item -ItemType Directory -Path $Script:CertTestDrive -Force | Out-Null
+
+            }
+
+            AfterAll {
+
+                Remove-Item -Path $Script:CertTestDrive -Recurse -Force -ErrorAction SilentlyContinue
+
+            }
+
+            BeforeEach {
+
+                Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'Success' = $true } }
+
+                $CertInputObj = [pscustomobject]@{
+                    'host'                       = 'SomeHost'
+                    'port'                       = 514
+                    'sender'                     = 'SomeSender'
+                    'recipients'                 = @('SomeRecipient1')
+                    'AlertToEmailScoreThreshold' = 75
+                }
+
+                $CertPath = Join-Path $Script:CertTestDrive 'cert.pem'
+                [System.IO.File]::WriteAllText($CertPath, 'SomeCertificateContent')
+
+            }
+
+            It 'throws if CertificateFile does not exist' {
+
+                { $CertInputObj | Set-PASPTASMTP -protocol SSL -CertificateFile (Join-Path $Script:CertTestDrive 'missing.pem') } | Should -Throw
+
+            }
+
+            It 'throws if CertificateFile has an unsupported extension' {
+
+                $BadExtPath = Join-Path $Script:CertTestDrive 'cert.txt'
+                Set-Content -Path $BadExtPath -Value 'SomeCertificateContent'
+
+                { $CertInputObj | Set-PASPTASMTP -protocol SSL -CertificateFile $BadExtPath } | Should -Throw
+
+            }
+
+            It 'throws if protocol is not NONE and no CertificateFile is specified' {
+
+                { $CertInputObj | Set-PASPTASMTP -protocol SSL } | Should -Throw
+
+            }
+
+            It 'includes base64 encoded certificate content in the request body when protocol requires it' {
+
+                $CertInputObj | Set-PASPTASMTP -protocol SSL -CertificateFile $CertPath
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    #Body is a JSON array of {key, value} pairs, not a flat object
+                    $ExpectedBase64 = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes('SomeCertificateContent'))
+                    $SmtpDetails = ($Body | ConvertFrom-Json | Where-Object key -eq 'SMTPConnectivityDetails').value
+                    $SmtpDetails.certificate -eq $ExpectedBase64
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'includes accountId in the authenticationMethod when specified' {
+
+                $CertInputObj | Set-PASPTASMTP -protocol NONE -accountId 'SomeAccountID123'
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    #Body is a JSON array of {key, value} pairs, not a flat object
+                    $SmtpDetails = ($Body | ConvertFrom-Json | Where-Object key -eq 'SMTPConnectivityDetails').value
+                    $SmtpDetails.authenticationMethod.accountId -eq 'SomeAccountID123'
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'wraps errors encountered reading or encoding the certificate file' {
+
+                Mock Get-Content -MockWith { throw 'Disk error' }
+
+                { $CertInputObj | Set-PASPTASMTP -protocol SSL -CertificateFile $CertPath } | Should -Throw "*Failed to read or encode certificate file*"
+
+            }
 
         }
 

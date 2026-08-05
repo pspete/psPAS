@@ -39,6 +39,20 @@ Get-PASOnboardingRule -Names Rule1,Rule2
 
 List information on On-boarding rules "Rule1" & "Rule2"
 
+### EXAMPLE 3
+```
+Get-PASOnboardingRule -Names Rule1
+```
+
+List information on the On-boarding rule named "Rule1"
+
+### EXAMPLE 4
+```
+[PSCustomObject]@{Names='Rule1,Rule2'} | Get-PASOnboardingRule
+```
+
+Passes the rule names to retrieve via the pipeline
+
 ## PARAMETERS
 
 ### -Names

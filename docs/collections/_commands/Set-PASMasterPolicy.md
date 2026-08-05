@@ -14,7 +14,7 @@ Updates Master Policy
 ## SYNTAX
 
 ```
-Set-PASMasterPolicy [[-DualControl] <Boolean>] [[-MultiLevelApproval] <Boolean>]
+Set-PASMasterPolicy [-PolicyId <Int32>] [[-DualControl] <Boolean>] [[-MultiLevelApproval] <Boolean>]
  [[-OnlyManagersApproval] <Boolean>] [[-ConfirmersNumber] <Int32>] [[-EnforceExclusiveAccess] <Boolean>]
  [[-EnforceOneTimePassword] <Boolean>] [[-TransparentConnection] <Boolean>] [[-AllowViewPassword] <Boolean>]
  [[-RequireReason] <Boolean>] [[-AllowFreeText] <Boolean>] [[-PasswordChangeDays] <Int32>]
@@ -29,10 +29,31 @@ Allows a Vault Admin to update Master Policy Settings
 
 ### Example 1
 ```powershell
-PS C:\> Set-PASMasterPolicy -DualControl $false
+Set-PASMasterPolicy -DualControl $false
 ```
 
 Disables Dual Control in master Policy
+
+### Example 2
+```powershell
+Set-PASMasterPolicy -DualControl $true -ConfirmersNumber 2 -RequireReason $true
+```
+
+Enables Dual Control in the Master Policy, sets the required number of confirmers to 2, and requires a reason to be entered before an account can be accessed.
+
+### Example 3
+```powershell
+Set-PASMasterPolicy -RecordActivity $true -RetentionPeriod 90 -WhatIf
+```
+
+Shows what would happen if session recording were enabled with a 90 day retention period, without applying the change.
+
+### Example 4
+```powershell
+2 | Set-PASMasterPolicy -DualControl $true
+```
+
+Enables Dual Control on policy ID 2, received from the pipeline. Managing a policy other than the default Master Policy (ID 1) requires CyberArk version 15.0 or later.
 
 ## PARAMETERS
 
@@ -288,6 +309,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PolicyId
+The ID of the policy to update.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 1
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 

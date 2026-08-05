@@ -6,6 +6,7 @@ function Find-PASSafe {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
+		[ValidateLength(1, 500)]
 		[string]$search,
 
 		[parameter(
@@ -35,21 +36,14 @@ function Find-PASSafe {
 
 		}
 
-		$InitialResponse = Invoke-PASRestMethod -Uri "$URI`?limit=$Limit$SearchQuery" -Method GET -TimeoutSec $TimeoutSec
+		$RequestUri = "$URI`?limit=$Limit$SearchQuery"
 
-		$Total = $InitialResponse.Total
+		$InitialResponse = Invoke-PASRestMethod -Uri $RequestUri -Method GET -TimeoutSec $TimeoutSec
 
-		if ($Total -gt 0) {
+		if ($null -ne $InitialResponse) {
 
-			$Safes = [Collections.Generic.List[Object]]::New(($InitialResponse.Safes))
-
-			for ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
-
-				$Null = $Safes.AddRange((Invoke-PASRestMethod -Uri "$URI`?limit=$Limit&OffSet=$Offset$searchQuery" -Method GET -TimeoutSec $TimeoutSec).Safes)
-
-			}
-
-			$Safes
+			#API only provides a Total value; page via Get-NextLink's offset support
+			$InitialResponse | Get-NextLink -RequestUri $RequestUri -TimeoutSec $TimeoutSec
 
 		}
 

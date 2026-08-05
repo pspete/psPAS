@@ -44,6 +44,20 @@ Remove-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -UseGen1API
 
 Removes TargetUser as safe member from TargetSafe using Gen1 API
 
+### EXAMPLE 3
+```
+Remove-PASSafeMember -SafeName TargetSafe -MemberName TargetUser -WhatIf
+```
+
+Shows what would happen if TargetUser was removed as a safe member from TargetSafe, without actually removing them.
+
+### EXAMPLE 4
+```
+Get-PASSafeMember -SafeName TargetSafe -MemberName TargetUser | Remove-PASSafeMember
+```
+
+Gets the TargetUser safe member on TargetSafe, and removes them via pipeline input.
+
 ## PARAMETERS
 
 ### -SafeName

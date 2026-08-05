@@ -16,12 +16,13 @@ Retrieves a private SSH key
 
 ```
 Get-PASAccountSSHKey [-AccountID] <String> [[-Reason] <String>] [[-TicketingSystem] <String>]
- [[-TicketId] <String>] [[-Version] <Int32>] [[-ActionType] <String>] [[-isUse] <Boolean>] [-Machine]
- [<CommonParameters>]
+ [[-TicketId] <String>] [[-Version] <Int32>] [[-ActionType] <String>] [[-isUse] <Boolean>]
+ [[-Machine] <String>] [-Path <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get the private SSH key value from an existing account
+Get the private SSH key value from an existing account.
+If the -Path parameter is specified, the private SSH key is saved to the specified local file instead of being returned to the pipeline.
 
 ## EXAMPLES
 
@@ -31,6 +32,34 @@ Get-PASAccountSSHKey -AccountId 12_3 -Reason "Some Reason"
 ```
 
 Returns Private SSH Key associated with account 12_3
+
+### EXAMPLE 2
+```
+Get-PASAccountSSHKey -AccountId 12_3 -Reason "Emergency access" -TicketingSystem ServiceNow -TicketId "INC0012345"
+```
+
+Returns the private SSH key for account 12_3, recording the ticketing system and ticket ID used to justify the retrieval.
+
+### EXAMPLE 3
+```
+Get-PASAccountSSHKey -AccountId 12_3 -Version 2 -Machine "unix01.domain.com"
+```
+
+Returns version 2 of the private SSH key for account 12_3, retrieved for use against the specified remote machine.
+
+### EXAMPLE 4
+```
+Get-PASAccount -search "unix01" | Get-PASAccountSSHKey -Reason "Scheduled maintenance"
+```
+
+Gets the matching account and retrieves its private SSH key, using the account ID from the pipeline.
+
+### EXAMPLE 5
+```
+Get-PASAccountSSHKey -AccountId 12_3 -Path C:\Keys\
+```
+
+Saves the private SSH key for account 12_3 to a file in the C:\Keys\ folder.
 
 ## PARAMETERS
 
@@ -143,16 +172,33 @@ Accept wildcard characters: False
 ```
 
 ### -Machine
-The address of the remote machine
+The address of the remote machine that the user wants to connect to using the SSH key.
 
 ```yaml
-Type: SwitchParameter
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Path
+Output folder, or full destination file path, to save the retrieved private SSH key to.
+If the path's leaf component includes a file extension, it is treated as the exact file to save to; otherwise it is treated as an output folder and a filename derived from the AccountID is appended.
+If not specified, the private SSH key value is returned to the pipeline instead of being saved to a file.
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```

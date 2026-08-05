@@ -112,6 +112,161 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'items/nextCursor pagination' {
+
+			BeforeEach {
+
+				$InputObj = [pscustomobject]@{
+					'items'      = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+					'nextCursor' = 'SomeCursor'
+				}
+
+				Mock Invoke-PASRestMethod -MockWith {
+					if ($script:iteration -lt 1) {
+						$script:iteration++
+						[pscustomobject]@{
+							'items'      = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+							'nextCursor' = 'SomeCursor'
+						}
+					} else {
+						[pscustomobject]@{
+							'items' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+						}
+					}
+				}
+				$script:iteration = 0
+
+			}
+
+			It 'follows nextCursor and merges items results' {
+
+				$results = $InputObj | Get-NextLink
+				$results.count | Should -Be 6
+				Assert-MockCalled Invoke-PASRestMethod -Times 2 -Exactly -Scope It
+
+			}
+
+		}
+
+		Context 'totalCount pagination' {
+
+			BeforeEach {
+
+				$InputObj = [pscustomobject]@{
+					'reports'    = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+					'totalCount' = 6
+				}
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'reports'    = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+						'totalCount' = 6
+					}
+				}
+
+			}
+
+			It 'pages via offset until totalCount results are collected' {
+
+				$results = $InputObj | Get-NextLink -RequestUri 'https://SomeTenant/API/Reports'
+				$results.count | Should -Be 6
+				Assert-MockCalled Invoke-PASRestMethod -Times 2 -Exactly -Scope It
+
+			}
+
+			It 'requests the expected offset value in the URI' {
+
+				$InputObj | Get-NextLink -RequestUri 'https://SomeTenant/API/Reports'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://SomeTenant/API/Reports?offset=2'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'requests the expected offset value when the URI already has a query string' {
+
+				$InputObj | Get-NextLink -RequestUri 'https://SomeTenant/API/Reports?search=admin'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://SomeTenant/API/Reports?search=admin&offset=2'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'stops paging if a page returns no results' {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'reports'    = @()
+						'totalCount' = 6
+					}
+				}
+
+				$results = $InputObj | Get-NextLink -RequestUri 'https://SomeTenant/API/Reports'
+				$results.count | Should -Be 2
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'includes SavedFilter in the offset request' {
+
+				$InputObj | Get-NextLink -RequestUri 'https://SomeTenant/API/Reports' -SavedFilter SomeFilter
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://SomeTenant/API/Reports?offset=2&SavedFilter=SomeFilter'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
+		Context 'Total pagination' {
+
+			BeforeEach {
+
+				$InputObj = [pscustomobject]@{
+					'Total'        = 6
+					'LiveSessions' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+				}
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'Total'        = 6
+						'LiveSessions' = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val1' })
+					}
+				}
+
+			}
+
+			It 'pages via offset until Total results are collected' {
+
+				$results = $InputObj | Get-NextLink -RequestUri 'https://SomeURL/API/LiveSessions'
+				$results.count | Should -Be 6
+				Assert-MockCalled Invoke-PASRestMethod -Times 2 -Exactly -Scope It
+
+			}
+
+			It 'requests the expected offset value in the URI' {
+
+				$InputObj | Get-NextLink -RequestUri 'https://SomeURL/API/LiveSessions'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://SomeURL/API/LiveSessions?offset=2'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
 	}
 
 }

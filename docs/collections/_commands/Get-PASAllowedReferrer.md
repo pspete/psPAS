@@ -32,6 +32,20 @@ Get-PASAllowedReferrer
 
 Returns referrer list
 
+### EXAMPLE 2
+```
+Get-PASAllowedReferrer | Where-Object referrerURL -like '*.company.com*'
+```
+
+Returns only the allowed referrer entries whose URL matches "*.company.com*".
+
+### EXAMPLE 3
+```
+Get-PASAllowedReferrer | Format-List *
+```
+
+Displays full details of every configured allowed referrer entry.
+
 ## PARAMETERS
 
 ### CommonParameters

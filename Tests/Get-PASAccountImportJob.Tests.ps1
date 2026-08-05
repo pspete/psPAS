@@ -97,6 +97,40 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Output' {
+
+			It 'unwraps the BulkActions property when listing all jobs' {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						'BulkActions' = @([PSCustomObject]@{'Id' = 1 }, [PSCustomObject]@{'Id' = 2 })
+					}
+				}
+
+				$response = Get-PASAccountImportJob
+
+				$response.Count | Should -Be 2
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.Job
+
+			}
+
+			It 'does not unwrap the result when requesting a single job by id' {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{
+						'Id' = 1234
+					}
+				}
+
+				$response = Get-PASAccountImportJob -id 1234
+
+				$response.Id | Should -Be 1234
+				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Account.Job
+
+			}
+
+		}
+
 	}
 
 }

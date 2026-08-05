@@ -98,6 +98,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				[System.Threading.Thread]::CurrentThread.CurrentCulture = $currentCulture
 			}
 
+			It 'converts the epoch date itself to 0' {
+
+				ConvertTo-UnixTime -Date $(Get-Date 1/1/1970) | Should -Be 0
+
+			}
+
 		}
 
 	}

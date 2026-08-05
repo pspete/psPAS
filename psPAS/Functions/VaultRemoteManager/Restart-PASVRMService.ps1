@@ -13,7 +13,7 @@ function Restart-PASVRMService {
             ValueFromPipelineByPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
-        [ValidateSet('Vault', 'DR')]
+        [ValidateSet('Vault', 'DR', 'ENE')]
         [string]$serviceName,
 
         [parameter(
@@ -43,6 +43,9 @@ function Restart-PASVRMService {
     begin {
         Assert-VersionRequirement -SelfHosted
         Assert-VersionRequirement -RequiredVersion 15.0
+        if ($serviceName -eq 'ENE') {
+            Assert-VersionRequirement -RequiredVersion 15.2
+        }
     }#begin
 
     process {
@@ -72,7 +75,9 @@ function Restart-PASVRMService {
         }
 
         #Create body of request
-        $body = $boundParameters | ConvertTo-Json
+        #Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+        #call records a non-revealing type name instead of the literal request content.
+        $body = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
 
         if ($PSCmdlet.ShouldProcess("$serviceName on $serverAddress", 'Restart Service')) {
 

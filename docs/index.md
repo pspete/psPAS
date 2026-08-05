@@ -1,7 +1,7 @@
 ---
 title: "psPAS"
 layout: splash
-excerpt: "The Community Developed PowerShell Module for the CyberArk REST API."
+excerpt: "The Community Developed PowerShell Module for the CyberArk / Idira REST API."
 header:
   overlay_image: /assets/images/shop_banner_symbol.png
   overlay_filter: rgba(40, 106, 205, 0.9)

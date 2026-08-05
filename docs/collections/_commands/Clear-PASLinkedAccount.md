@@ -10,17 +10,20 @@ title: Clear-PASLinkedAccount
 
 ## SYNOPSIS
 
-Clears a linked account association.
+Clears one or more linked account associations.
 
 ## SYNTAX
 
 ```
-Clear-PASLinkedAccount [-AccountID] <String> [-extraPasswordIndex] <Int32> [-WhatIf] [-Confirm]
+Clear-PASLinkedAccount [-AccountID] <String[]> [-extraPasswordIndex] <Int32[]> [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Clears the association between a linked account and a source account.
+
+Multiple accounts can be processed in a single bulk request by supplying more than one value for `-AccountID`.
+Bulk unlinking requires CyberArk version 15.2 or later.
 
 The following Safe authorizations are required on the Safe where the source account is stored to run this command:
 - List accounts
@@ -32,18 +35,41 @@ The following Safe authorizations are required on the Safe where the source acco
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3
+Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3
 ```
 
 Clears extraPass3 from account with ID 12_34
 
+### EXAMPLE 2
+```powershell
+Clear-PASLinkedAccount -AccountID 12_34, 56_78 -extraPasswordIndex 3
+```
+
+Clears extraPass3 from accounts with IDs 12_34 and 56_78 in a single bulk request.
+
+### EXAMPLE 3
+```powershell
+Clear-PASLinkedAccount -AccountID 12_34 -extraPasswordIndex 3 -WhatIf
+```
+
+Shows what would happen if extraPass3 were cleared from account 12_34, but does not perform the action.
+
+### EXAMPLE 4
+```powershell
+Get-PASAccount -id 12_34 | Clear-PASLinkedAccount -extraPasswordIndex 3
+```
+
+Clears extraPass3 from the account returned by Get-PASAccount, using pipeline input for -AccountID.
+
 ## PARAMETERS
 
 ### -AccountID
-The id value of the source account
+The id value of the source account.
+
+When more than one value is supplied, a bulk unlink request is sent.
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: id
 
@@ -60,7 +86,7 @@ The linked account's extra password index.
 The index can be for a Reconcile account, Logon account, or other linked account that is defined in the Platform configuration.
 
 ```yaml
-Type: Int32
+Type: Int32[]
 Parameter Sets: (All)
 Aliases:
 

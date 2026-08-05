@@ -60,9 +60,9 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             $InputObject = [PSCustomObject]@{
 
-                'days'   = 1
-                'userID' = 'SomeID'
-                'path'   = 'C:\SomePath'
+                'days'     = 1
+                'username' = 'SomeID'
+                'path'     = 'C:\SomePath'
 
             }
 
@@ -82,7 +82,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:psPASSession.ApiURI)/API/ticketing-systems/logs/1/SomeID"
+                    $URI -eq "$($Script:psPASSession.ApiURI)/API/TicketingSystems/logs/1/SomeID"
 
                 } -Times 1 -Exactly -Scope It
 
@@ -94,7 +94,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:psPASSession.ApiURI)/API/ticketing-systems/logs/7/"
+                    $URI -eq "$($Script:psPASSession.ApiURI)/API/TicketingSystems/logs/7/"
 
                 } -Times 1 -Exactly -Scope It
 

@@ -115,6 +115,14 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
+            It 'rethrows errors encountered sending the request' {
+
+                Mock Invoke-PASRestMethod -MockWith { throw 'Some Error' }
+
+                { $InputObj | Import-PASThemeImage } | Should -Throw 'Some Error'
+
+            }
+
         }
 
         Context 'Output' {

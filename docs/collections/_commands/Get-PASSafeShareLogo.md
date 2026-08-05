@@ -32,6 +32,20 @@ Get-PASSafeShareLogo -ImageType Square
 
 Retrieves Safe Share Logo
 
+### EXAMPLE 2
+```
+Get-PASSafeShareLogo -ImageType Watermark
+```
+
+Retrieves the configured SafeShare watermark logo.
+
+### EXAMPLE 3
+```
+Get-PASSafeShareLogo -ImageType Square | Set-Content -Path C:\Temp\SafeShareLogo.png -Encoding Byte
+```
+
+Retrieves the configured SafeShare square logo and saves it to a file.
+
 ## PARAMETERS
 
 ### -ImageType

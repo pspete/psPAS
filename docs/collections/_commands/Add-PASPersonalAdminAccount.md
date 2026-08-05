@@ -1,7 +1,7 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Add-PASPendingAccount
+online version: https://pspas.pspete.dev/commands/Add-PASPersonalAdminAccount
 schema: 2.0.0
 title: Add-PASPersonalAdminAccount
 ---
@@ -14,8 +14,8 @@ Adds a personal privileged account in Privilege Cloud.
 ## SYNTAX
 
 ```
-Add-PASPersonalAdminAccount [-address] <String> [-userName] <String> [-secret] <SecureString>
- [<CommonParameters>]
+Add-PASPersonalAdminAccount [-address] <String> [-userName] <String> [-secret] <SecureString> [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -33,6 +33,29 @@ Add-PASPersonalAdminAccount -address somedomain -userName someUser -secret $Some
 ```
 
 Adds Personal Admin Account to private dedicated Safe.
+
+### EXAMPLE 2
+```powershell
+$SecureString = ConvertTo-SecureString "Str0ngP@ssw0rd!" -AsPlainText -Force
+Add-PASPersonalAdminAccount -address contoso.com -userName Bob -secret $SecureString
+```
+
+Creates a SecureString for the account password and adds a personal admin account for Bob.
+
+### EXAMPLE 3
+```powershell
+[pscustomobject]@{address = 'contoso.com'; userName = 'Alice'; secret = $SecureString } | Add-PASPersonalAdminAccount
+```
+
+Adds a personal admin account using property values supplied via the pipeline.
+
+### EXAMPLE 4
+```powershell
+$PersonalAccount = Add-PASPersonalAdminAccount -address contoso.com -userName Bob -secret $SecureString
+$PersonalAccount.id
+```
+
+Adds a personal admin account and returns the id of the newly created account from the response.
 
 ## PARAMETERS
 
@@ -78,6 +101,36 @@ Required: True
 Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

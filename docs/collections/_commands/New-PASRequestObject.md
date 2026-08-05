@@ -39,10 +39,32 @@ Provide parameter values to return hashtable structured to be used as input for 
 
 ### EXAMPLE 1
 ```powershell
-New-PASRequest -AccountId 123_4 -TicketingSystemName SomeITSM -TicketID 4321 -FromDate (Get-date) -ToDate $((Get-Date).AddHours(4)) -PSMRemoteMachine SomeServer
+New-PASRequestObject -AccountId 123_4 -TicketingSystemName SomeITSM -TicketID 4321 -FromDate (Get-date) -ToDate $((Get-Date).AddHours(4)) -PSMRemoteMachine SomeServer
 ```
 
 Returns hashtable structured to be used as input for account access request operations
+
+### EXAMPLE 2
+```powershell
+New-PASRequestObject -AccountId 19_1 -Reason "Scheduled maintenance" -ConnectionParams @{Address = '10.0.0.5'; Port = 3389 }
+```
+
+Returns a hashtable using the ManualParams parameter set, where ConnectionParams supplies the connection details directly instead of the individual connection component parameters.
+
+### EXAMPLE 3
+```powershell
+$Requests = '19_1', '19_2', '19_3' | ForEach-Object { New-PASRequestObject -AccountId $_ -Reason "Quarterly access review" }
+New-PASRequest -BulkItems $Requests
+```
+
+Builds an array of request objects for three accounts and submits them together in a single bulk request.
+
+### EXAMPLE 4
+```powershell
+[PSCustomObject]@{AccountId = '19_1'; Reason = 'On-call incident response' } | New-PASRequestObject -ConnectionComponent PSM-RDP
+```
+
+Creates a request object using pipeline input for the AccountId and Reason values.
 
 ## PARAMETERS
 

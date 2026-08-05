@@ -32,6 +32,27 @@ Get-PASPTAGlobalCatalog
 
 Returns Global Catalog configuration details from PTA
 
+### EXAMPLE 2
+```powershell
+(Get-PASPTAGlobalCatalog).ldap_server
+```
+
+Returns just the configured Global Catalog server address
+
+### EXAMPLE 3
+```powershell
+Get-PASPTAGlobalCatalog | Select-Object ldap_server, ldap_port, ssl
+```
+
+Returns only the connectivity-related properties of the Global Catalog configuration
+
+### EXAMPLE 4
+```powershell
+if ((Get-PASPTAGlobalCatalog).ssl) { 'Global Catalog connection is encrypted' } else { 'Global Catalog connection is not encrypted' }
+```
+
+Returns a message indicating whether the Global Catalog connection is configured to use SSL
+
 ## PARAMETERS
 
 ### CommonParameters

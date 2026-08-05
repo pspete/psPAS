@@ -10,18 +10,18 @@ title: Unlock-PASAccount
 # Unlock-PASAccount
 
 ## SYNOPSIS
-Checks-in an exclusive access account, or unlocks an account checked-out or locked by another user.
+Checks-in one or more exclusive access accounts, or unlocks an account checked-out or locked by another user.
 
 ## SYNTAX
 
 ### CheckIn (Default)
 ```
-Unlock-PASAccount [-AccountID] <String> [-CheckIn] [-WhatIf] [-Confirm] [<CommonParameters>]
+Unlock-PASAccount [-AccountID] <String[]> [-CheckIn] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Unlock
 ```
-Unlock-PASAccount [-AccountID] <String> [-Unlock] [-WhatIf] [-Confirm] [<CommonParameters>]
+Unlock-PASAccount [-AccountID] <String[]> [-Unlock] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,6 +37,9 @@ Requires Initiate CPM password management operations on the Safe where the accou
 
 Where a user holds the "Unlock Account" permission on a safe, they may use this function to issue an "Unlock" command on an account checked out or locked by another user.
 
+Multiple accounts can be checked in, or unlocked, using a single bulk request by supplying more than one value for `-AccountID`.
+Bulk check-in and bulk unlock require CyberArk version 15.2 or later.
+
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -48,7 +51,7 @@ Will check-in exclusive access account with ID of "21_3"
 
 ### EXAMPLE 2
 ```
-Get-PASAccount xAccount | Unlock-PASAccount
+Get-PASAccount -Keywords xAccount | Unlock-PASAccount
 ```
 
 Will check-in exclusive access account xAccount
@@ -60,6 +63,20 @@ Unlock-PASAccount -AccountID 21_3 -Unlock
 
 Unlocks account with ID of "21_3" when locked by another user.
 
+### EXAMPLE 4
+```
+Unlock-PASAccount -AccountID 21_3, 22_4
+```
+
+Checks in accounts 21_3 and 22_4 in a single bulk request.
+
+### EXAMPLE 5
+```
+Unlock-PASAccount -AccountID 21_3, 22_4 -Unlock
+```
+
+Unlocks accounts 21_3 and 22_4 in a single bulk request.
+
 ## PARAMETERS
 
 ### -AccountID
@@ -67,8 +84,10 @@ The unique ID of the account.
 
 This is retrieved by the Get-PASAccount function.
 
+When more than one value is supplied, a bulk request is sent (bulk check-in for the `CheckIn` parameter set, bulk unlock for the `Unlock` parameter set).
+
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: id
 
@@ -121,7 +140,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -136,7 +155,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -150,6 +169,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 Minimum CyberArk version 9.10 (Check-In Account)
 Minimum CyberArk version 11.6 (Unlock Account)
+
+Bulk check-in and bulk unlock require CyberArk version 15.2 or later.
 
 ## RELATED LINKS
 

@@ -15,7 +15,8 @@ Adds an entry to the allowed referrer list.
 ## SYNTAX
 
 ```
-Add-PASAllowedReferrer [-referrerURL] <String> [[-regularExpression] <Boolean>] [<CommonParameters>]
+Add-PASAllowedReferrer [-referrerURL] <String> [[-regularExpression] <Boolean>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,6 +39,20 @@ Add-PASAllowedReferrer -referrerURL "https://CompanyB/management/dashboard"
 ```
 
 Adds URL that only allows access from a specific page
+
+### EXAMPLE 3
+```
+Add-PASAllowedReferrer -referrerURL "https://CompanyC/.*" -regularExpression $true
+```
+
+Adds a URL pattern that is evaluated as a regular expression
+
+### EXAMPLE 4
+```
+Import-Csv referrers.csv | Add-PASAllowedReferrer
+```
+
+Adds every allowed referrer URL listed in the referrerURL column of referrers.csv
 
 ## PARAMETERS
 
@@ -68,6 +83,36 @@ Required: False
 Position: 2
 Default value: False
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

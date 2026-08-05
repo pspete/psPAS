@@ -31,6 +31,8 @@ Applies to the accounts that are discovered by the EPM scanning of endpoints, in
 - Mac loosely connected devices
 - Linux loosely connected devices
 
+When querying (not retrieving a single account by id), results are automatically paginated: if the API response contains a `nextCursor` value, subsequent pages are retrieved and merged into the returned results.
+
 Requires one of the following roles:
 - Privilege Cloud Administrator
 - Privilege Cloud Administrator Basic
@@ -51,6 +53,20 @@ Get-PASDiscoveredLocalAccount -id SomeID
 ```
 
 Get specific discovered local account
+
+### EXAMPLE 3
+```powershell
+Get-PASDiscoveredLocalAccount -type Windows -isPrivileged $true
+```
+
+Get discovered local accounts of type Windows that are marked as privileged
+
+### EXAMPLE 4
+```powershell
+Get-PASDiscoveredLocalAccount -search admin -searchOnAllFields $true -sort "username desc" -limit 50
+```
+
+Search all discovered local accounts for "admin" across all fields, sorted by username in descending order, returning up to 50 results per page
 
 ## PARAMETERS
 

@@ -39,6 +39,20 @@ Reset-PASPTASecurityConfigurationProperty -propertyKey "FailedVaultLogonAttempts
 
 Resets the FailedVaultLogonAttemptsThreshold property to its default value
 
+### EXAMPLE 3
+```
+[PSCustomObject]@{propertyKey = 'SCTPasswordRetrievalTimeWindow'} | Reset-PASPTASecurityConfigurationProperty
+```
+
+Resets the SCTPasswordRetrievalTimeWindow property to its default value, using pipeline input
+
+### EXAMPLE 4
+```
+Reset-PASPTASecurityConfigurationProperty -propertyKey "UPAExcludedAccountsList" -WhatIf
+```
+
+Shows what would happen if the UPAExcludedAccountsList property was reset to its default value, without making any changes
+
 ## PARAMETERS
 
 ### -propertyKey

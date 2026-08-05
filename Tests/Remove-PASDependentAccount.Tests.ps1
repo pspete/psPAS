@@ -109,6 +109,20 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'sends request to expected endpoint - ISPSS' {
+
+				Mock -CommandName Test-IsISPSS -MockWith { $true }
+
+				$InputObj | Remove-PASDependentAccount
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Accounts/11_1/account-dependents/22_2"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 		}
 
 		Context 'Output' {

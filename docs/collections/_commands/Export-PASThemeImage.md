@@ -26,10 +26,31 @@ Requires Vault Admin Privileges
 
 ### Example 1
 ```powershell
-PS C:\> Export-PASThemeImage -imageName SomeImage -Path C:\SomeFolder
+Export-PASThemeImage -imageName SomeImage -Path C:\SomeFolder
 ```
 
 Retrieves the theme image to the specified location
+
+### Example 2
+```powershell
+Export-PASThemeImage -imageName CompanyLogo -Path C:\Images\CompanyLogo.png
+```
+
+Retrieves the "CompanyLogo" image and saves it to the exact file specified, rather than a destination folder
+
+### Example 3
+```powershell
+"MainLogo", "LoginBackground", "FooterIcon" | ForEach-Object { Export-PASThemeImage -imageName $_ -Path C:\Images }
+```
+
+Retrieves each of the named theme images and saves them to the C:\Images folder
+
+### Example 4
+```powershell
+[PSCustomObject]@{imageName = 'CompanyLogo'; Path = 'C:\Images\CompanyLogo.png'} | Export-PASThemeImage
+```
+
+Retrieves the "CompanyLogo" image, with the imageName and Path values supplied via the pipeline
 
 ## PARAMETERS
 

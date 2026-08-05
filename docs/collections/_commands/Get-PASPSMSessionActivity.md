@@ -30,6 +30,27 @@ Get-PASPSMSessionActivity -liveSessionId 123_45
 
 Returns details of activities in active PSM Session with Id 123_45
 
+### EXAMPLE 2
+```
+Get-PASPSMSessionActivity -SessionID 123_45
+```
+
+Returns details of activities in active PSM Session with Id 123_45, using the SessionID alias for the liveSessionId parameter.
+
+### EXAMPLE 3
+```
+Get-PASPSMSession -liveSessionId 123_45 | Get-PASPSMSessionActivity
+```
+
+Gets the active PSM Session with Id 123_45, and returns its activity details. The liveSessionId is passed via the pipeline.
+
+### EXAMPLE 4
+```
+Get-PASPSMSession -Safe Win-Safe | Get-PASPSMSessionActivity
+```
+
+Returns activity details for every active PSM Session on the Win-Safe safe.
+
 ## PARAMETERS
 
 ### -liveSessionId

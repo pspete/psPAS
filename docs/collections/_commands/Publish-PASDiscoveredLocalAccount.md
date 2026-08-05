@@ -15,8 +15,8 @@ Onboard a discovered local account
 
 ```
 Publish-PASDiscoveredLocalAccount [-id] <String> [-safeName] <String> [-platformID] <String>
- [[-additionalProperties] <Hashtable>] [[-secret] <SecureString>] [[-resetSecret] <Boolean>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [[-additionalProperties] <Hashtable>] [[-secret] <SecureString>] [[-resetSecret] <Boolean>] [-tags <String[]>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,6 +41,28 @@ Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID Some
 ```
 
 Onboards the specified discovered local account.
+
+### EXAMPLE 2
+```
+Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID SomePlatform -additionalProperties @{'Location'='HQ'}
+```
+
+Onboards the specified discovered local account, adding an additional property.
+
+### EXAMPLE 3
+```
+$secret = Read-Host -AsSecureString -Prompt "secret value"
+Publish-PASDiscoveredLocalAccount -id SomeID -safeName SomeSafe -platformID SomePlatform -secret $secret -resetSecret $true
+```
+
+Onboards the specified discovered local account with the provided initial secret value, and immediately rotates it.
+
+### EXAMPLE 4
+```
+Get-PASDiscoveredLocalAccount -type Windows | Publish-PASDiscoveredLocalAccount -safeName WinLocal -platformID WinServerLocal
+```
+
+Onboards every discovered Windows local account to the WinLocal safe using the WinServerLocal platform.
 
 ## PARAMETERS
 
@@ -163,6 +185,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -tags
+List of tag(s) assigned to the discovered account by the scan definition.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

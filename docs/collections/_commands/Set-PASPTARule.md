@@ -40,6 +40,20 @@ Set-PASPTARule -id 66 -category KEYSTROKES -regex '(*.)risky cmd(.*)' -score 65 
 
 Updates rule 66 in PTA, scoped to exclude listed users, and include listed machines
 
+### EXAMPLE 3
+```
+Get-PASPTARule | Where-Object { $_.category -eq 'SQL' } | Set-PASPTARule -active $false
+```
+
+Disables all existing PTA rules in the SQL category, using the piped rule properties to populate the remaining values
+
+### EXAMPLE 4
+```
+Set-PASPTARule -id 66 -score 80 -active $true -WhatIf
+```
+
+Shows what would happen if rule 66's score was updated, without making any changes
+
 ## PARAMETERS
 
 ### -id

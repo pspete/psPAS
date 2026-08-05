@@ -37,21 +37,21 @@ Requires Membership of the Vault Admin group.
 
 ### Example 1
 ```powershell
-PS C:\> Get-PASTheme
+Get-PASTheme
 ```
 
 Return all available custom themes
 
 ### Example 2
 ```powershell
-PS C:\> Get-PASTheme -ThemeName SomeTheme
+Get-PASTheme -ThemeName SomeTheme
 ```
 
 Return details of the specified theme
 
 ### Example 3
 ```powershell
-PS C:\> Get-PASTheme -Active
+Get-PASTheme -Active
 ```
 
 Return details fo the active theme

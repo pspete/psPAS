@@ -64,6 +64,13 @@ function Get-PASResponse {
 
 						)
 
+					} elseif ($APIResponse.Headers.ContainsKey('Content-Disposition')) {
+
+						#Some endpoints send file content with an incorrect text/html Content-Type.
+						#A Content-Disposition header identifies these as files to be saved, so
+						#return content and headers to be passed to `Out-PASFile`
+						$PASResponse = $APIResponse | Select-Object Content, Headers
+
 					}
 
 				}

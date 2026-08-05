@@ -42,6 +42,20 @@ Get-PASAccountGroup -Safe SafeName
 
 List all account groups in SafeName
 
+### EXAMPLE 2
+```
+Get-PASAccountGroup -Safe SafeName -UseGen1API
+```
+
+Lists account groups in SafeName using the deprecated Gen1 API endpoint.
+
+### EXAMPLE 3
+```
+[PSCustomObject]@{Safe = 'TargetSafe' } | Get-PASAccountGroup
+```
+
+Lists account groups in the TargetSafe safe, using pipeline input bound by property name.
+
 ## PARAMETERS
 
 ### -Safe

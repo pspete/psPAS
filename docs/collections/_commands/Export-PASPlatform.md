@@ -14,8 +14,24 @@ Export a platform
 
 ## SYNTAX
 
+### PlatformID
 ```
 Export-PASPlatform [-PlatformID] <String> [-path] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### RotationalGroupID
+```
+Export-PASPlatform [-RotationalGroupID <String>] [-path] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### DependentID
+```
+Export-PASPlatform [-DependentID <Int32>] [-path] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### GroupPlatformID
+```
+Export-PASPlatform [-GroupPlatformID <String>] [-path] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,6 +48,27 @@ Export-PASPlatform -PlatformID YourPlatform -Path C:\Platform.zip
 
 Exports UnixSSH to Platform.zip platform package.
 
+### EXAMPLE 2
+```
+Export-PASPlatform -RotationalGroupID RotGroup1 -path C:\Platforms\RotGroup1.zip
+```
+
+Exports the rotational group platform with ID "RotGroup1" to RotGroup1.zip.
+
+### EXAMPLE 3
+```
+Export-PASPlatform -DependentID 15 -path C:\Platforms\DependentPlatform15.zip
+```
+
+Exports the dependent platform with ID 15 to DependentPlatform15.zip.
+
+### EXAMPLE 4
+```
+Export-PASPlatform -GroupPlatformID GroupPlatform1 -path C:\Platforms
+```
+
+Exports the group platform "GroupPlatform1" to the C:\Platforms folder, using the platform's own file name.
+
 ## PARAMETERS
 
 ### -PlatformID
@@ -39,7 +76,7 @@ The name of the platform.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: PlatformID
 Aliases:
 
 Required: True
@@ -50,7 +87,8 @@ Accept wildcard characters: False
 ```
 
 ### -path
-The folder to export the platform configuration to.
+The path to export the platform configuration to.
+If the path includes a file name and extension, the platform is saved to that exact file; otherwise the path is treated as a destination folder.
 
 ```yaml
 Type: String
@@ -92,6 +130,51 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DependentID
+Exports a Dependent platform
+
+```yaml
+Type: Int32
+Parameter Sets: DependentID
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -GroupPlatformID
+Exports a Group platform
+
+```yaml
+Type: String
+Parameter Sets: GroupPlatformID
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -RotationalGroupID
+Exports a Rotational Group platform
+
+```yaml
+Type: String
+Parameter Sets: RotationalGroupID
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

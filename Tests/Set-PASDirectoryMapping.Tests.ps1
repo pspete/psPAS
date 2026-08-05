@@ -111,6 +111,44 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'AuthorizedInterfaces ArgumentCompleter' {
+
+			It 'provides ArgumentCompleter for AuthorizedInterfaces parameter' {
+
+				(Get-Command Set-PASDirectoryMapping).Parameters['AuthorizedInterfaces'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'returns matching client ids from Get-PASClientID' {
+
+				Mock Get-PASClientID -MockWith { 'PVWA', 'PSM' }
+
+				$Completer = (Get-Command Set-PASDirectoryMapping).Parameters['AuthorizedInterfaces'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Select-Object -ExpandProperty ScriptBlock
+
+				$Result = & $Completer -commandName 'Set-PASDirectoryMapping' -parameterName 'AuthorizedInterfaces' -wordToComplete 'PV' -commandAst $null -fakeBoundParameters @{}
+
+				$Result.CompletionText | Should -Be 'PVWA'
+
+			}
+
+			It 'returns nothing if Get-PASClientID throws' {
+
+				Mock Get-PASClientID -MockWith { throw 'Some Error' }
+
+				$Completer = (Get-Command Set-PASDirectoryMapping).Parameters['AuthorizedInterfaces'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Select-Object -ExpandProperty ScriptBlock
+
+				{ & $Completer -commandName 'Set-PASDirectoryMapping' -parameterName 'AuthorizedInterfaces' -wordToComplete '' -commandAst $null -fakeBoundParameters @{} } | Should -Not -Throw
+
+			}
+
+		}
+
 	}
 
 }

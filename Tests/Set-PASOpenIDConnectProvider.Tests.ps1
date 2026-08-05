@@ -96,7 +96,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sends request with expected body' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					$($Body | ConvertFrom-Json) -ne $null
+					$([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json) -ne $null
 				} -Times 1 -Exactly -Scope It
 
 			}
@@ -109,6 +109,26 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '1.0'
 				{ $InputObject | Set-PASOpenIDConnectProvider } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'merges existing provider properties when a matching provider exists' {
+
+				Mock Get-PASOpenIDConnectProvider -MockWith {
+					[PSCustomObject]@{
+						'id'                 = 'idValue'
+						'authenticationFlow' = 'Code'
+						'userNameClaim'      = 'ExistingClaim'
+					}
+				}
+
+				$InputObject | Set-PASOpenIDConnectProvider
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json).userNameClaim -eq 'ExistingClaim'
+
+				} -Times 1 -Exactly -Scope It
+
 			}
 
 		}

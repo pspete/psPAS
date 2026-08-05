@@ -31,6 +31,20 @@ Import-PASConnectionComponent -ImportFile ConnectionComponent.zip
 
 Imports ConnectionComponent.zip Connection Component
 
+### EXAMPLE 2
+```
+Get-ChildItem -Path C:\ConnectionComponents -Filter *.zip | ForEach-Object { Import-PASConnectionComponent -ImportFile $_.FullName }
+```
+
+Imports every connection component zip file found in the C:\ConnectionComponents folder.
+
+### EXAMPLE 3
+```
+Import-PASConnectionComponent -ImportFile ConnectionComponent.zip -WhatIf
+```
+
+Shows what would happen if the connection component was imported, without actually importing it.
+
 ## PARAMETERS
 
 ### -ImportFile

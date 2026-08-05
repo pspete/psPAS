@@ -45,14 +45,67 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach {
-			Mock Invoke-PASRestMethod -MockWith {
-				[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+		Context 'Gen2 (Default)' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+				}
+
+				$response = Get-PASServer
 			}
 
-			$response = Get-PASServer
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/server"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request with no body' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'provides output' {
+
+				$response | Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'has output with expected number of properties' {
+
+				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
+
+			}
+
 		}
-		Context 'Input' {
+
+		Context 'Gen1 (-UseGen1API)' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }
+				}
+
+				$response = Get-PASServer -UseGen1API
+			}
 
 			It 'sends request' {
 
@@ -82,10 +135,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-		}
-
-		Context 'Output' {
-
 			It 'provides output' {
 
 				$response | Should -Not -BeNullOrEmpty
@@ -96,6 +145,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				($response | Get-Member -MemberType NoteProperty).length | Should -Be 2
 
+			}
+
+			It 'throws error if not self-hosted' {
+				$psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud/SomeApp'
+				{ Get-PASServer -UseGen1API } | Should -Throw
+				$psPASSession.BaseURI = 'https://SomeURL/SomeApp'
 			}
 
 		}

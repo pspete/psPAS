@@ -13,7 +13,7 @@ function Get-PASVRMServiceStatus {
             ValueFromPipelineByPropertyName = $true
         )]
         [ValidateNotNullOrEmpty()]
-        [ValidateSet('Vault', 'DR')]
+        [ValidateSet('Vault', 'DR', 'ENE')]
         [string]$serviceName,
 
         [parameter(
@@ -52,6 +52,10 @@ function Get-PASVRMServiceStatus {
             $BaseURI = $psPASSession.BaseURI
         }
 
+        if ($serviceName -eq 'ENE') {
+            Assert-VersionRequirement -RequiredVersion 15.2
+        }
+
         #Create URL for request
         $URI = "$BaseURI/API/VaultActions/GetServiceStatus"
 
@@ -72,7 +76,9 @@ function Get-PASVRMServiceStatus {
         }
 
         #Create body of request
-        $body = $boundParameters | ConvertTo-Json
+        #Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+        #call records a non-revealing type name instead of the literal request content.
+        $body = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
 
         #send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body

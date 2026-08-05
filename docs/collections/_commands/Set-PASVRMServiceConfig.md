@@ -29,12 +29,28 @@ Requires authentication with the PARAgent service credentials and supports WhatI
 
 ### Example 1
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> $params = @{ 'ReplicationInterval' = '300'; 'MaxRetries' = '5' }
-PS C:\> Set-PASVRMServiceConfig -parameters $params -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+$params = @{ 'ReplicationInterval' = '300'; 'MaxRetries' = '5' }
+Set-PASVRMServiceConfig -parameters $params -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password
 ```
 
 Sets multiple DR configuration parameters on the specified server
+
+### Example 2
+```powershell
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Set-PASVRMServiceConfig -parameters @{ 'DebugLevel' = '3' } -serviceName Vault -serverAddress vault.company.com -servicePassword $password
+```
+
+Sets the DebugLevel configuration parameter on the Vault service
+
+### Example 3
+```powershell
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Set-PASVRMServiceConfig -parameters @{ 'EnableReplicate' = 'Yes'; 'ReplicateInterval' = '60' } -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password -WhatIf
+```
+
+Shows what would happen if the EnableReplicate and ReplicateInterval parameters were set on the DR service, without actually applying the change
 
 ## PARAMETERS
 
@@ -173,3 +189,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Set-PASVRMServiceConfig](https://pspas.pspete.dev/commands/Set-PASVRMServiceConfig)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-config-.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-config-.htm)

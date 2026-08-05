@@ -14,8 +14,15 @@ Updates the status of a security event
 
 ## SYNTAX
 
+### 11.3 (Default)
 ```
 Set-PASPTAEvent [-EventID] <String> [[-mStatus] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### 14.0
+```
+Set-PASPTAEvent [-EventID] <String> [[-mStatus] <String>] [-closeReason <String>] [-reasonText <String>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,6 +34,27 @@ Updates the status of a security event to open or closed
 ```
 Set-PASPTAEvent -EventID $id
 ```
+
+### EXAMPLE 2
+```
+Set-PASPTAEvent -EventID $id -mStatus CLOSED
+```
+
+Closes the security event matching the specified EventID.
+
+### EXAMPLE 3
+```
+Set-PASPTAEvent -EventID $id -mStatus CLOSED -closeReason HANDLED -reasonText 'Confirmed as expected administrative activity'
+```
+
+Closes the security event and records a close reason and explanatory text. Requires minimum version 14.0.
+
+### EXAMPLE 4
+```
+Set-PASPTAEvent -EventID $id -mStatus CLOSED -WhatIf
+```
+
+Shows what would happen if the security event was closed, without making the change.
 
 ## PARAMETERS
 
@@ -88,6 +116,36 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -closeReason
+The close reason for the security event after you have investigated and handled the event successfully or determined to close it for other reasons
+
+```yaml
+Type: String
+Parameter Sets: 14.0
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -reasonText
+Free text for the user to elaborate on the close reason. Limited to 100 characters
+
+```yaml
+Type: String
+Parameter Sets: 14.0
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

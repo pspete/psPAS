@@ -26,10 +26,31 @@ Requires Vault Admin Privileges
 
 ### Example 1
 ```powershell
-PS C:\> Import-PASThemeImage -Name SomeImage -ImageFile SomeImageFile.png
+Import-PASThemeImage -Name SomeImage -ImageFile SomeImageFile.png
 ```
 
 Adds SomeImageFile.png to the system for use in a theme
+
+### Example 2
+```powershell
+Import-PASThemeImage -Name CompanyLogo -ImageFile C:\Images\CompanyLogo.png
+```
+
+Adds the image at C:\Images\CompanyLogo.png to the system as "CompanyLogo", for use in a custom theme
+
+### Example 3
+```powershell
+Import-PASThemeImage -Name CompanyLogo -ImageFile C:\Images\CompanyLogo.png -WhatIf
+```
+
+Shows what would happen if the image was added, without actually adding it
+
+### Example 4
+```powershell
+Get-ChildItem -Path C:\Images -Filter *.png | ForEach-Object { Import-PASThemeImage -Name $_.BaseName -ImageFile $_.FullName }
+```
+
+Imports every PNG file in C:\Images, using each file's base name as the image name
 
 ## PARAMETERS
 

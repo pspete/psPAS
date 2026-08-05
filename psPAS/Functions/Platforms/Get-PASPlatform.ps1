@@ -1,296 +1,470 @@
 # .ExternalHelp psPAS-help.xml
 function Get-PASPlatform {
-	[CmdletBinding(DefaultParameterSetName = 'targets')]
-	param(
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'platforms'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'targets'
-		)]
-		[boolean]$Active,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'platforms'
-		)]
-		[ValidateSet('Regular', 'Group')]
-		[string]$PlatformType,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'platforms'
-		)]
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'targets'
-		)]
-		[string]$Search,
-
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'platform-details'
-		)]
-		[Alias('Name')]
-		[string]$PlatformID,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'dependents'
-		)]
-		[switch]$DependentPlatform,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'groups'
-		)]
-		[switch]$GroupPlatform,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'rotationalGroups'
-		)]
-		[switch]$RotationalGroup,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'targets'
-		)]
-		[string]$SystemType,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'targets'
-		)]
-		[boolean]$PeriodicVerify,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'targets'
-		)]
-		[boolean]$ManualVerify,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'targets'
-		)]
-		[boolean]$PeriodicChange,
-
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'targets'
-		)]
-		[boolean]$ManualChange,
+    [CmdletBinding(DefaultParameterSetName = 'targets')]
+    param(
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'targets'
+        )]
+        [boolean]$Active,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'targets'
+        )]
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'groups'
+        )]
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'rotationalGroups'
+        )]
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'dependents'
+        )]
+        [ValidateLength(1, 500)]
+        [string]$Search,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'platform-details'
+        )]
+        [Alias('Name')]
+        [string]$PlatformID,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'target-details'
+        )]
+        [int]$ID,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'target-details'
+        )]
+        [ArgumentCompleter({
+                #Standard ArgumentCompleter parameters.
+                param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+                #Avoid PSScriptAnalyzer PSReviewUnusedParameter rule on standard ArgumentCompleter parameters.
+                $null = $parameterName, $commandAst, $fakeBoundParameters
+
+                #ask the API for valid scopes
+                try {
+
+                    $Module = (Get-Command $commandName -ErrorAction Stop).Module
+                    $Scopes = & $Module { Get-PASPlatformTargetScope -ErrorAction Stop }
+
+                } catch { return }
+
+                $Scopes |
+                    Where-Object { $_ -like "$wordToComplete*" } |
+                    ForEach-Object { [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_) }
+
+            })]
+        [string]$Scope,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'dependents'
+        )]
+        [switch]$DependentPlatform,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'groups'
+        )]
+        [switch]$GroupPlatform,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'rotationalGroups'
+        )]
+        [switch]$RotationalGroup,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'targets'
+        )]
+        [string]$SystemType,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'targets'
+        )]
+        [boolean]$PeriodicVerify,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'targets'
+        )]
+        [boolean]$ManualVerify,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'targets'
+        )]
+        [boolean]$PeriodicChange,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'targets'
+        )]
+        [boolean]$ManualChange,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'targets'
+        )]
+        [boolean]$AutomaticReconcile,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'targets'
+        )]
+        [boolean]$ManualReconcile
+
+    )
+
+    begin {
+
+        function Get-Platform {
+            ## Helper function to get platform details using the "Get platforms" API endpoint
+            param(
+                [parameter(
+                    Mandatory = $false,
+                    ValueFromPipelinebyPropertyName = $true
+                )]
+                [boolean]$Active,
+
+                [parameter(
+                    Mandatory = $false,
+                    ValueFromPipelinebyPropertyName = $true
+                )]
+                [ValidateSet('Regular', 'Group')]
+                [string]$PlatformType,
+
+                [parameter(
+                    Mandatory = $false,
+                    ValueFromPipelinebyPropertyName = $true
+                )]
+                [string]$Search
+            )
+            begin {
+                #Create request URL
+                $URI = "$($psPASSession.BaseURI)/API/Platforms"
+            }
+            process {
+                #Get Parameters to include in request
+                $boundParameters = $PSBoundParameters | Get-PASParameter
+
+                #Create Query String, escaped for inclusion in request URL
+                $queryString = $boundParameters | ConvertTo-QueryString
+
+                if ($null -ne $queryString) {
+                    #Build URL from base URL
+                    $URI = "$URI`?$queryString"
+                }
+
+                $PlatformQuery = Invoke-PASRestMethod -Uri $URI -Method GET
+            }
+            end {
+                if ($null -ne $PlatformQuery.Platforms) {
+                    #Return the details of the platforms
+                    $PlatformQuery.Platforms
+                }
+            }
+
+        }
+
+        function ConvertTo-FlatPlatformSetting {
+            ## Helper function to flatten target platform settings config-value objects to their raw value
+            param(
+                [parameter(
+                    Mandatory = $false,
+                    ValueFromPipeline = $true
+                )]
+                $InputObject
+            )
+            process {
+
+                if ($null -eq $InputObject) {
+                    #Nothing to flatten
+                    return $InputObject
+                }
+
+                if (($InputObject.PSObject.Properties.Match('value').Count -gt 0) -and ($InputObject.PSObject.Properties.Match('isReadOnly').Count -gt 0)) {
+                    #Leaf config-value object, flatten to its value
+                    return $InputObject.value
+                }
+
+                if ($InputObject -is [System.Collections.IList]) {
+                    #Array of items, flatten each element
+                    #Array properties (e.g. SyncRoot) self-reference the array, so it must not be treated as a section below
+                    return @($InputObject | ForEach-Object { ConvertTo-FlatPlatformSetting -InputObject $PSItem })
+                }
 
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'targets'
-		)]
-		[boolean]$AutomaticReconcile,
+                if ($InputObject -is [PSCustomObject]) {
+                    #Section object, recurse into each property
+                    $Output = [PSCustomObject]@{}
 
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true,
-			ParameterSetName = 'targets'
-		)]
-		[boolean]$ManualReconcile
+                    foreach ($prop in $InputObject.PSObject.Properties) {
+                        $Output | Add-Member -NotePropertyName $prop.Name -NotePropertyValue $(ConvertTo-FlatPlatformSetting -InputObject $prop.Value)
+                    }
 
-	)
+                    return $Output
+                }
 
-	begin {
+                #Scalar value, return as-is
+                $InputObject
 
-	}#begin
+            }
 
-	process {
+        }
 
-		switch ($PSCmdlet.ParameterSetName) {
+        #include these parameter values in url for Get-Platform call
+        $PlatformQueryParameters = [Collections.Generic.List[Object]]::New(@('Active', 'Search'))
 
-			'platforms' {
+        # Ensure PlatformData is always defined
+        $PlatformData = @()
 
-				Assert-VersionRequirement -RequiredVersion 11.1
+    }#begin
 
-				#Create request URL
-				$URI = "$($psPASSession.BaseURI)/API/Platforms"
+    process {
 
-				#Get Parameters to include in request
-				$boundParameters = $PSBoundParameters | Get-PASParameter
+        switch ($PSCmdlet.ParameterSetName) {
 
-				#Create Query String, escaped for inclusion in request URL
-				$queryString = $boundParameters | ConvertTo-QueryString
+            'platform-details' {
+                #Returns details of a specific platform
 
-				if ($null -ne $queryString) {
-					#Build URL from base URL
-					$URI = "$URI`?$queryString"
-				}
+                Assert-VersionRequirement -RequiredVersion 9.10
 
-				break
+                #Create request URL
+                $URI = "$($psPASSession.BaseURI)/API/Platforms/$($PlatformID | Get-EscapedString)/"
 
-			}
+                break
 
-			'platform-details' {
+            }
 
-				Assert-VersionRequirement -RequiredVersion 9.10
+            'target-details' {
+                #Returns settings for a specific target platform
 
-				#Create request URL
-				$URI = "$($psPASSession.BaseURI)/API/Platforms/$($PlatformID | Get-EscapedString)/"
+                Assert-VersionRequirement -SelfHosted
+                Assert-VersionRequirement -RequiredVersion 15.2
 
-				break
+                #Create request URL
+                $URI = "$($psPASSession.BaseURI)/API/Platforms/targets/$ID/settings"
 
-			}
+                #Get Parameters to include in request
+                $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep 'Scope'
 
-			'targets' {
+                #Create Query String, escaped for inclusion in request URL
+                $queryString = $boundParameters | ConvertTo-QueryString
 
-				Assert-VersionRequirement -RequiredVersion 11.4
+                if ($null -ne $queryString) {
+                    #Add query string to request URL
+                    $URI = "$URI`?$queryString"
 
-				$URI = "$($psPASSession.BaseURI)/API/Platforms/$($PSCmdlet.ParameterSetName)"
+                }
 
-				#Parameter to include parameter value in url
-				$Parameters = [Collections.Generic.List[Object]]::New(@('Search'))
+                break
 
-				#Get Parameters to include in request filter string
-				$filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
-				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
-				$FilterString = $filterParameters | ConvertTo-FilterString
+            }
 
-				if ($null -ne $FilterString) {
+            'targets' {
+                #Returns details of target platforms
 
-					$boundParameters = $boundParameters + $FilterString
+                Assert-VersionRequirement -RequiredVersion 11.4
 
-				}
+                $URI = "$($psPASSession.BaseURI)/API/Platforms/$($PSCmdlet.ParameterSetName)"
 
-				#Create Query String, escaped for inclusion in request URL
-				$queryString = $boundParameters | ConvertTo-QueryString
+                #Parameter to include parameter value in url
+                $Parameters = [Collections.Generic.List[Object]]::New(@('Search'))
 
-				if ($null -ne $queryString) {
+                #Get Parameters to include in request filter string
+                $filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove $Parameters
+                $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
+                $FilterString = $filterParameters | ConvertTo-FilterString
 
-					$URI = "$URI`?$queryString"
+                if ($null -ne $FilterString) {
+                    #Add filter string to parameters
+                    $boundParameters = $boundParameters + $FilterString
 
-				}
+                }
 
-				break
+                #Create Query String, escaped for inclusion in request URL
+                $queryString = $boundParameters | ConvertTo-QueryString
 
-			}
+                if ($null -ne $queryString) {
 
-			default {
+                    #Add query string to request URL
+                    $URI = "$URI`?$queryString"
 
-				Assert-VersionRequirement -RequiredVersion 11.4
+                }
 
-				$URI = "$($psPASSession.BaseURI)/API/Platforms/$($PSCmdlet.ParameterSetName)"
+                #Get additional regular platform details using the Get-Platforms Helper function for merging into results
+                $PlatformParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $PlatformQueryParameters
+                $PlatformData = Get-Platform @PlatformParameters -PlatformType 'Regular'
 
-				break
+                break
 
-			}
+            }
 
-		}
+            default {
+                #details of group, rotational, and dependent platforms
+                Assert-VersionRequirement -RequiredVersion 11.4
 
-		#Send request to web service
-		$result = Invoke-PASRestMethod -Uri $URI -Method GET
+                $URI = "$($psPASSession.BaseURI)/API/Platforms/$($PSCmdlet.ParameterSetName)"
 
-		if ($null -ne $result) {
+                $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove GroupPlatform, RotationalGroup, DependentPlatform
 
-			#11.1+ returns result under "platforms" property
-			if ($null -ne $result.Platforms) {
+                #Create Query String, escaped for inclusion in request URL
+                $queryString = $boundParameters | ConvertTo-QueryString
 
-				$result = $result | Select-Object -ExpandProperty Platforms
+                if ($null -ne $queryString) {
+                    #Add query string to request URL
+                    $URI = "$URI`?$queryString"
 
-				switch ($PSCmdlet.ParameterSetName) {
+                }
 
-					'platforms' {
-						$result = $result |
-							Select-Object @{ Name = 'PlatformID'; Expression = { $_.general.id } }, @{ Name = 'Active'; Expression = { $_.general.active } }, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-										'General'                   = $_.general
-										'properties'                = $_.properties
-										'linkedAccounts'            = $_.linkedAccounts
-										'credentialsManagement'     = $_.credentialsManagement
-										'sessionManagement'         = $_.sessionManagement
-										'privilegedAccessWorkflows' = $_.privilegedAccessWorkflows
-									}
-								}
-							}
+                if ($PSCmdlet.ParameterSetName -ne 'dependents') {
+                    #Get additional group platform details using the Get-Platforms Helper function for merging into results
+                    $PlatformParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $PlatformQueryParameters
+                    $PlatformData = Get-Platform @PlatformParameters -PlatformType 'Group'
+                } else {
+                    $PlatformData = @()
+                }
+                break
 
-						break
-					}
+            }
 
-					'targets' {
-						$result = $result |
-							Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-										'ID'                          = $_.ID
-										'Name'                        = $_.Name
-										'SystemType'                  = $_.SystemType
-										'AllowedSafes'                = $_.AllowedSafes
-										'CredentialsManagementPolicy' = $_.CredentialsManagementPolicy
-										'PrivilegedAccessWorkflows'   = $_.PrivilegedAccessWorkflows
-										'PrivilegedSessionManagement' = $_.PrivilegedSessionManagement
-									}
-								}
-							}
-						break
-					}
+        }
 
-					'groups' {
-						$result = $result |
-							Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-										'ID'   = $_.ID
-										'Name' = $_.Name
-									}
-								}
-							}
-						break
-					}
+        #Send request to web service
+        $result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-					'dependents' {
-						$result = $result |
-							Select-Object PlatformID, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-										'ID'                            = $_.ID
-										'Name'                          = $_.Name
-										'NumberOfLinkedTargetPlatforms' = $_.NumberOfLinkedTargetPlatforms
-										'CredentialsManagementPolicy'   = $_.CredentialsManagementPolicy
-									}
-								}
-							}
-						break
-					}
+        switch ($PSCmdlet.ParameterSetName) {
 
-					'rotationalGroups' {
-						$result = $result |
-							Select-Object PlatformID, Active, @{ Name = 'Details'; Expression = { [pscustomobject]@{
-										'ID'          = $_.ID
-										'Name'        = $_.Name
-										'GracePeriod' = $_.GracePeriod
-									}
-								}
-							}
-						break
-					}
+            'platform-details' {
 
-				}
+                if ($null -ne $result.Details) {
+                    #Single platform detail response
+                    #Flatten the Details property into top-level
+                    $platform = [PSCustomObject]@{}
 
-			}
+                    # Add top-level properties
+                    foreach ($prop in $result.PSObject.Properties) {
+                        if ($prop.Name -ne 'Details') {
+                            $platform | Add-Member -NotePropertyName $prop.Name -NotePropertyValue $prop.Value
+                        }
+                    }
 
-			#Return Results
-			$result | Add-ObjectDetail -typename 'psPAS.CyberArk.Vault.Platform'
+                    # Add nested properties from Details
+                    foreach ($prop in $result.Details.PSObject.Properties) {
+                        $platform | Add-Member -NotePropertyName $prop.Name -NotePropertyValue $prop.Value
+                    }
 
-		}
+                    $result = $platform
 
-	}#process
+                    $typename = 'psPAS.CyberArk.Vault.Platform.Details'
 
-	end { }#end
+                }
+
+            }
+
+            'target-details' {
+
+                if ($null -ne $result) {
+                    #Flatten config-value objects to their raw values
+                    $result = ConvertTo-FlatPlatformSetting -InputObject $result
+                }
+
+                $typename = 'psPAS.CyberArk.Vault.Platform.TargetDetails'
+
+            }
+
+            default {
+
+                if ($result.PSObject.Properties.Match('Total').Count -eq 0) {
+                    #Pre-11.1 legacy response has no "Total"/"Platforms" wrapper
+
+                    $result = Join-ObjectByProperty -PrimaryObjects $($result | Select-Object -ExpandProperty Platforms) -SecondaryObjects $PlatformData -PrimaryKey 'PlatformID' -SecondaryKey 'general.id'
+                    $typename = 'psPAS.CyberArk.Vault.Platform.Basic'
+
+                } elseif ($null -ne $result.Platforms) {
+                    #11.1+ returns result under "platforms" property, Total may legitimately be 0
+
+                    #Force array context so a genuinely empty Platforms list isn't collapsed to $null,
+                    #which would otherwise be indistinguishable from "no primary objects" to Join-ObjectByProperty
+                    #and incorrectly dump all of $PlatformData back out unmatched
+                    $PrimaryPlatforms = @($result | Select-Object -ExpandProperty Platforms)
+
+                    if ($PrimaryPlatforms.Count -eq 0) {
+                        $result = [Collections.Generic.List[Object]]::New()
+                    } else {
+                        #Merge platform details from Get-Platforms call into results
+                        $result = Join-ObjectByProperty -PrimaryObjects $PrimaryPlatforms -SecondaryObjects $PlatformData -PrimaryKey 'PlatformID' -SecondaryKey 'general.id'
+                    }
+
+                    # ensure typename is set; switch below will override appropriately
+                    $typename = ''
+
+                    switch ($PSCmdlet.ParameterSetName) {
+                        #Set output type name based on parameter set used
+                        'targets' {
+                            $typename = 'psPAS.CyberArk.Vault.Platform.Targets'
+                            break
+                        }
+
+                        'groups' {
+                            $typename = 'psPAS.CyberArk.Vault.Platform.Groups'
+                            break
+                        }
+
+                        'dependents' {
+                            $typename = 'psPAS.CyberArk.Vault.Platform.Dependents'
+                            break
+                        }
+
+                        'rotationalGroups' {
+                            $typename = 'psPAS.CyberArk.Vault.Platform.RotationalGroups'
+                            break
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        if ($null -ne $result) {
+            $result | Add-ObjectDetail -typename $typename
+        }
+
+    }#process
+
+    end { }#end
 
 }

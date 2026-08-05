@@ -21,15 +21,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		$Script:RequestBody = $null
 		$psPASSession = [ordered]@{
-			BaseURI            = 'https://SomeURL/SomeApp'
-			User               = $null
-			ExternalVersion    = [System.Version]'0.0'
-			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-			StartTime          = $null
-			ElapsedTime        = $null
-			LastCommand        = $null
-			LastCommandTime    = $null
-			LastCommandResults = $null
+			BaseURI                 = 'https://SomeURL/SomeApp'
+			User                    = $null
+			ExternalVersion         = [System.Version]'0.0'
+			WebSession              = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			StartTime               = $null
+			ElapsedTime             = $null
+			LastCommand             = $null
+			LastCommandTime         = $null
+			LastCommandResults      = $null
+			AccountSearchProperties = $null
 		}
 
 		New-Variable -Name psPASSession -Value $psPASSession -Scope Script -Force
@@ -50,7 +51,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Invoke-PASRestMethod -MockWith {
-					Write-Output @{ }
+					#Realistic shape: a real (non-mocked) API response is a PSCustomObject (from ConvertFrom-Json),
+					#not a bare Hashtable - Get-NextLink relies on recognizing a `value`/`items` property on it.
+					[PSCustomObject]@{ value = @() }
 				}
 
 			}
@@ -172,6 +175,106 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '1.0'
 				{ Get-PASAccount -id 'SomeID' } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'throws error if savedFilter DeleteInsightStatus used against non Privilege Cloud implementation' {
+
+				$psPASSession.ExternalVersion = '12.6'
+				{ Get-PASAccount -savedFilter DeleteInsightStatus } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'does not throw error if savedFilter DeleteInsightStatus used against Privilege Cloud implementation' {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[pscustomobject]@{
+						'Count' = 0
+						'Value' = @()
+					}
+				}
+
+				$psPASSession.ExternalVersion = '12.6'
+				$psPASSession.BaseURI = 'https://SomeSubDomain.cyberark.cloud'
+				{ Get-PASAccount -savedFilter DeleteInsightStatus } | Should -Not -Throw
+				$psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+		}
+
+		Context 'Dynamic Search Parameters' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith {
+					[PSCustomObject]@{ value = @() }
+				}
+
+				Mock Get-PASAccountSearchProperty -MockWith {
+					[pscustomobject]@{PropertyName = 'safeName' },
+					[pscustomobject]@{PropertyName = 'customProperty' }
+				}
+
+				$psPASSession.AccountSearchProperties = $null
+				$psPASSession.ExternalVersion = '14.6'
+
+			}
+
+			AfterEach {
+
+				$psPASSession.AccountSearchProperties = $null
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'only calls Get-PASAccountSearchProperty once per invocation, despite dynamicparam and begin both needing it' {
+
+				Get-PASAccount -customProperty 'SomeValue'
+
+				Assert-MockCalled Get-PASAccountSearchProperty -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'adds a dynamic parameter for a search property not already defined' {
+
+				{ Get-PASAccount -customProperty 'SomeValue' } | Should -Not -Throw
+
+			}
+
+			It 'includes the dynamic search property value as a filter parameter' {
+
+				Get-PASAccount -customProperty 'SomeValue'
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match 'customProperty'
+
+				} -Scope It
+
+			}
+
+			It 'uses the specified LogicalOperator to join filter values for 14.6+ self hosted requests' {
+
+				Get-PASAccount -customProperty 'SomeValue' -safeName 'SomeSafe' -LogicalOperator OR
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -match 'OR'
+
+				} -Scope It
+
+			}
+
+			It 'does not add dynamic parameters when not self hosted' {
+
+				$psPASSession.ApiURI = 'https://SomeSubDomain.cyberark.cloud/PasswordVault'
+
+				{ Get-PASAccount -customProperty 'SomeValue' } | Should -Throw
+
+				$psPASSession.ApiURI = $null
 
 			}
 

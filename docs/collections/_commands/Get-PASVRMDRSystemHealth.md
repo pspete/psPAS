@@ -26,11 +26,27 @@ This method evaluates the overall system health of the DR environment.
 
 ### Example 1
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Get-PASVRMDRSystemHealth -DRAddress dr-vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Get-PASVRMDRSystemHealth -DRAddress dr-vault.company.com -servicePassword $password
 ```
 
 Retrieves the DR system health status including replication information
+
+### Example 2
+```powershell
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Get-PASVRMDRSystemHealth -BaseURI https://pvwa.company.com/PasswordVault -DRAddress dr-vault.company.com -serviceUserName PARAgentSvc -servicePassword $password
+```
+
+Retrieves the DR system health status using an explicit PVWA BaseURI and a non-default PARAgent user name
+
+### Example 3
+```powershell
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+[PSCustomObject]@{DRAddress = 'dr-vault.company.com'; servicePassword = $password} | Get-PASVRMDRSystemHealth | Format-List
+```
+
+Passes the DR address and credentials via the pipeline and displays all returned health properties
 
 ## PARAMETERS
 
@@ -101,13 +117,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
-
-### System.Security.SecureString
-
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Get-PASVRMDRSystemHealth](https://pspas.pspete.dev/commands/Get-PASVRMDRSystemHealth)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-system-health.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-system-health.htm)

@@ -21,7 +21,7 @@ Add-PASPendingAccount [-UserName] <String> [-Address] <String> [-AccountDiscover
  [[-LastPasswordSet] <String>] [[-PasswordNeverExpires] <Boolean>] [[-OSVersion] <String>] [[-OU] <String>]
  [[-AccountCategory] <String>] [[-AccountCategoryCriteria] <String>] [[-UserDisplayName] <String>]
  [[-AccountDescription] <String>] [[-AccountExpirationDate] <String>] [[-UID] <String>] [[-GID] <String>]
- [[-MachineOSFamily] <String>] [<CommonParameters>]
+ [[-MachineOSFamily] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,6 +40,27 @@ Add-PASPendingAccount -UserName Administrator -Address ServerA.domain.com -Accou
 ```
 
 Adds matching discovered account as pending account.
+
+### EXAMPLE 2
+```
+Add-PASPendingAccount -UserName oracle -Address unixsrv01.domain.com -AccountDiscoveryDate 2020-05-12T00:00:00Z -OSType Unix -AccountEnabled enabled -AccountType local -AccountCategory Privileged -AccountCategoryCriteria "oracle;dba"
+```
+
+Adds a privileged local Unix account discovered on unixsrv01.domain.com as a pending account.
+
+### EXAMPLE 3
+```
+Add-PASPendingAccount -UserName Bob -Address ServerB.domain.com -AccountDiscoveryDate 2020-06-01T00:00:00Z -OSType Windows -AccountEnabled enabled -AccountType domain -Domain domain.com -DiscoveryPlatformType WinDomain -OU "OU=Servers,DC=domain,DC=com" -UserDisplayName "Bob Smith" -PasswordNeverExpires $false
+```
+
+Adds a domain Windows account as a pending account, including domain, OU and display name details.
+
+### EXAMPLE 4
+```
+Import-Csv .\DiscoveredAccounts.csv | Add-PASPendingAccount
+```
+
+Adds every account contained in the CSV file as a pending account, matching column names to parameter names by property name.
 
 ## PARAMETERS
 
@@ -377,6 +398,36 @@ Required: False
 Position: 22
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

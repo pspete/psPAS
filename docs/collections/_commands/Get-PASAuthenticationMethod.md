@@ -32,6 +32,27 @@ Get-PASAuthenticationMethod
 
 Returns list of all authentication methods.
 
+### EXAMPLE 2
+```
+Get-PASAuthenticationMethod -ID RADIUS
+```
+
+Returns details of the "RADIUS" authentication method only.
+
+### EXAMPLE 3
+```
+[PSCustomObject]@{ID = 'SAML'} | Get-PASAuthenticationMethod
+```
+
+Returns details of the "SAML" authentication method, with the ID value supplied via the pipeline.
+
+### EXAMPLE 4
+```
+Get-PASAuthenticationMethod | Where-Object enabled -eq $false
+```
+
+Returns all authentication methods that are currently disabled.
+
 ## PARAMETERS
 
 ### -ID

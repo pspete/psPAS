@@ -11,7 +11,9 @@ function Out-PASFile {
 	Content and Header properties from a web response
 
 	.PARAMETER Path
-	Output folder for the file.
+	Output folder, or full destination file path, for the file.
+	If the path's leaf component includes a file extension, it is treated as the exact file to save to;
+	otherwise it is treated as an output folder and a suggested filename is appended.
 	Defaults to $ENV:TEMP
 
 	.EXAMPLE
@@ -44,7 +46,12 @@ function Out-PASFile {
 
 		}
 
-		if (Test-Path -Path $Path -PathType Container) {
+		if ([System.IO.Path]::GetExtension($Path)) {
+
+			#Path's leaf component has a file extension - treat as the exact destination file
+			$OutputPath = $Path
+
+		} elseif (Test-Path -Path $Path -PathType Container) {
 
 			if ($InputObject.Headers.ContainsKey('Content-Disposition')) {
 				#Get filename from Content-Disposition Header element.
@@ -62,10 +69,18 @@ function Out-PASFile {
 
 			try {
 
+				#Content is a byte array for binary responses, but a decoded String for
+				#responses incorrectly sent with a text/* Content-Type - normalise to bytes.
+				$Content = if ($InputObject.Content -is [string]) {
+					[System.Text.Encoding]::UTF8.GetBytes($InputObject.Content)
+				} else {
+					$InputObject.Content
+				}
+
 				#Command Parameters
 				$output = @{
 					Path     = $OutputPath
-					Value    = $InputObject.Content
+					Value    = $Content
 					Encoding = 'Byte'
 				}
 

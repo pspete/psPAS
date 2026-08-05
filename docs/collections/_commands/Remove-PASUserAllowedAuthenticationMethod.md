@@ -27,10 +27,32 @@ Requires the Add/Update Users authorizations to be held by the user running the 
 
 ### Example 1
 ```powershell
-PS C:\> Remove-PASUserAllowedAuthenticationMethod -userIds 67,68,69 -allowedAuthenticationMethods LDAP
+Remove-PASUserAllowedAuthenticationMethod -userIds 67,68,69 -allowedAuthenticationMethods LDAP
 ```
 
 Deletes the LDAP authentication methods from users with ids 67, 68 & 69
+
+### Example 2
+```powershell
+Remove-PASUserAllowedAuthenticationMethod -userIds 70 -allowedAuthenticationMethods RADIUS
+```
+
+Deletes the RADIUS authentication method from the user with id 70
+
+### Example 3
+```powershell
+Remove-PASUserAllowedAuthenticationMethod -userIds 67,68,69 -allowedAuthenticationMethods LDAP -WhatIf
+```
+
+Shows what would happen if the LDAP authentication method was removed from users 67, 68 & 69, without making the change
+
+### Example 4
+```powershell
+$userIds = 101,102,103,104
+Remove-PASUserAllowedAuthenticationMethod -userIds $userIds -allowedAuthenticationMethods SAML,PKI
+```
+
+Deletes both the SAML and PKI authentication methods from a list of users held in the $userIds variable
 
 ## PARAMETERS
 

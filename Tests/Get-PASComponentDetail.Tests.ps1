@@ -107,6 +107,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
+			It 'throws error if version 12.0 requirement not met for PTA ComponentID' {
+				$psPASSession.ExternalVersion = '11.9'
+				{ Get-PASComponentDetail -ComponentID PTA } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'throws error if not self-hosted for PTA ComponentID' {
+				$psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud'
+				{ Get-PASComponentDetail -ComponentID PTA } | Should -Throw
+				$psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+			}
+
 		}
 
 		Context 'Output' {

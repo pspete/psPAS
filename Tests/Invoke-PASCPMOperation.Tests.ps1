@@ -203,6 +203,89 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'Bulk Operation' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith { }
+
+				$AccountIDs = 'SomeID1', 'SomeID2'
+				$Password = 'SomePassword' | ConvertTo-SecureString -AsPlainText -Force
+
+				$Script:RequestBody = $null
+				$Script:psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+			}
+
+			It 'sends bulk verify request to expected api endpoint' {
+
+				Invoke-PASCPMOperation -AccountID $AccountIDs -VerifyTask
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
+
+					$URI -eq 'https://SomeURL/SomeApp/API/Accounts/Verify/Bulk'
+				}
+
+			}
+
+			It 'sends bulk change request to expected api endpoint' {
+
+				Invoke-PASCPMOperation -AccountID $AccountIDs -ChangeTask
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
+
+					$URI -eq 'https://SomeURL/SomeApp/API/Accounts/Change/Bulk'
+				}
+
+			}
+
+			It 'sends bulk reconcile request to expected api endpoint' {
+
+				Invoke-PASCPMOperation -AccountID $AccountIDs -ReconcileTask
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Scope It -ParameterFilter {
+
+					$URI -eq 'https://SomeURL/SomeApp/API/Accounts/Reconcile/Bulk'
+				}
+
+			}
+
+			It 'sends bulk request with expected body' {
+
+				Mock Invoke-PASRestMethod {
+					param($Body)
+					$Script:RequestBody = $Body
+				}
+
+				Invoke-PASCPMOperation -AccountID $AccountIDs -ChangeTask
+
+				$Result = [System.Text.Encoding]::UTF8.GetString($Script:RequestBody) | ConvertFrom-Json
+
+				$Result.BulkItems | Should -Not -BeNullOrEmpty
+				$Result.BulkItems.Count | Should -Be 2
+				$Result.BulkItems[0].AccountID | Should -Be 'SomeID1'
+				$Result.BulkItems[1].AccountID | Should -Be 'SomeID2'
+
+			}
+
+			It 'throws when bulk requested via the classic api' {
+
+				{ Invoke-PASCPMOperation -AccountID $AccountIDs -VerifyTask -UseClassicAPI } | Should -Throw
+
+			}
+
+			It 'throws if version requirement for bulk operations is not met' {
+
+				$psPASSession.ExternalVersion = '15.1'
+
+				{ Invoke-PASCPMOperation -AccountID $AccountIDs -VerifyTask } | Should -Throw
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+		}
+
 	}
 
 }

@@ -10,6 +10,7 @@ title: Get-PASPlatform
 # Get-PASPlatform
 
 ## SYNOPSIS
+
 Retrieves details of Vault platforms.
 
 ## SYNTAX
@@ -21,9 +22,19 @@ Get-PASPlatform [-Active <Boolean>] [-Search <String>] [-SystemType <String>] [-
  [-AutomaticReconcile <Boolean>] [-ManualReconcile <Boolean>] [<CommonParameters>]
 ```
 
-### platforms
+### dependents
 ```
-Get-PASPlatform [-Active <Boolean>] [-PlatformType <String>] [-Search <String>] [<CommonParameters>]
+Get-PASPlatform [-Search <String>] [-DependentPlatform] [<CommonParameters>]
+```
+
+### rotationalGroups
+```
+Get-PASPlatform [-Search <String>] [-RotationalGroup] [<CommonParameters>]
+```
+
+### groups
+```
+Get-PASPlatform [-Search <String>] [-GroupPlatform] [<CommonParameters>]
 ```
 
 ### platform-details
@@ -31,22 +42,13 @@ Get-PASPlatform [-Active <Boolean>] [-PlatformType <String>] [-Search <String>] 
 Get-PASPlatform -PlatformID <String> [<CommonParameters>]
 ```
 
-### dependents
+### target-details
 ```
-Get-PASPlatform [-DependentPlatform] [<CommonParameters>]
-```
-
-### groups
-```
-Get-PASPlatform [-GroupPlatform] [<CommonParameters>]
-```
-
-### rotationalGroups
-```
-Get-PASPlatform [-RotationalGroup] [<CommonParameters>]
+Get-PASPlatform -ID <Int32> [-Scope <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+
 Request platform configuration information from the Vault.
 
 Default operation requires minimum version of 11.4
@@ -56,12 +58,15 @@ with additional filters available for target group queries.
 
 11.1+ can return details of all target platforms.
 
-Limited filters can be used to retrieve a subset of the platforms
-For 9.10+, the "PlatformID" parameter is used to retrieve details of a single
-specified platform from the Vault.
+Where appropriate, each invocation of the command issues an additional API request to retrieve additional platform values using a legacy API endpoint
 
-The output contained under the "Details" property differs depending
-on which method (9.10+,11.1+ or 11.4+) is used, and which platform type is queried.
+15.2+ Self-Hosted can return the full settings of a specific target platform, optionally
+limited to a specific section via the "Scope" parameter. Each setting's value is
+returned directly; the underlying API's description/isDefault/isReadOnly metadata for
+each setting is not included in the output.
+
+The "PlatformID" parameter is used to retrieve details of a single
+specified platform from the Vault.
 
 **Note:** When specifying PlatformID:
 
@@ -71,6 +76,7 @@ on which method (9.10+,11.1+ or 11.4+) is used, and which platform type is queri
 ## EXAMPLES
 
 ### EXAMPLE 1
+
 ```
 Get-PASPlatform
 ```
@@ -80,6 +86,7 @@ Return details of all platforms
 Minimum required version 11.4
 
 ### EXAMPLE 2
+
 ```
 Get-PASPlatform -Active $true
 ```
@@ -89,15 +96,17 @@ Get all active platforms
 Minimum required version 11.4
 
 ### EXAMPLE 3
+
 ```
 Get-PASPlatform -Active $true -Search "WIN_"
 ```
 
-Get active platforms matching search string "WIN_"
+Get active platforms matching search string "WIN\_"
 
 Minimum required version 11.1
 
 ### EXAMPLE 4
+
 ```
 Get-PASPlatform -PlatformID "CyberArk"
 ```
@@ -107,6 +116,7 @@ Get details of specific platform CyberArk
 Minimum required version 9.10
 
 ### EXAMPLE 5
+
 ```
 Get-PASPlatform -GroupPlatform
 ```
@@ -116,6 +126,7 @@ Get details of all group platforms
 Minimum required version 11.4
 
 ### EXAMPLE 6
+
 ```
 Get-PASPlatform -RotationalGroup
 ```
@@ -125,6 +136,7 @@ Get details of all rotational group platforms
 Minimum required version 11.4
 
 ### EXAMPLE 7
+
 ```
 Get-PASPlatform -DependentPlatform
 ```
@@ -134,6 +146,7 @@ Get details of all dependent platforms
 Minimum required version 11.4
 
 ### EXAMPLE 8
+
 ```
 Get-PASPlatform -Active $false -SystemType Windows
 ```
@@ -143,6 +156,7 @@ Get details of all deactivated Windows platforms
 Minimum required version 11.4
 
 ### EXAMPLE 9
+
 ```
 Get-PASPlatform -Active $true -SystemType '*NIX' -AutomaticReconcile $true
 ```
@@ -152,33 +166,36 @@ Get details of all active Unix platforms configured for automatic reconciliation
 Minimum required version 11.4
 
 ### EXAMPLE 10
+
 ```
-Get-PASPlatform -PlatformType Regular -Search "WIN_"
+Get-PASPlatform -ID 123
 ```
 
-Get platforms matching search string "WIN_"
+Get all settings for target platform with ID 123
 
-Minimum required version 11.1
+Minimum required version 15.2, Self-Hosted only
 
 ### EXAMPLE 11
+
 ```
-Get-PASPlatform -PlatformType Regular -Search "WIN_" -Active $true
+Get-PASPlatform -ID 123 -Scope policy/general
 ```
 
-Get active platforms matching search string "WIN_"
+Get the "policy/general" settings for target platform with ID 123
 
-Minimum required version 11.1
+Minimum required version 15.2, Self-Hosted only
 
 ## PARAMETERS
 
 ### -Active
+
 Filter active/inactive platforms
 
 Minimum required version 11.1
 
 ```yaml
 Type: Boolean
-Parameter Sets: targets, platforms
+Parameter Sets: targets
 Aliases:
 
 Required: False
@@ -188,31 +205,15 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -PlatformType
-Filter regular/group platforms
-
-Minimum required version 11.1
-
-```yaml
-Type: String
-Parameter Sets: platforms
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -Search
+
 Filter platform by search pattern
 
 Minimum required version 11.1
 
 ```yaml
 Type: String
-Parameter Sets: targets, platforms
+Parameter Sets: targets, dependents, rotationalGroups, groups
 Aliases:
 
 Required: False
@@ -223,6 +224,7 @@ Accept wildcard characters: False
 ```
 
 ### -PlatformID
+
 The unique ID/Name of the platform.
 
 Minimum required version 9.10
@@ -240,6 +242,7 @@ Accept wildcard characters: False
 ```
 
 ### -DependentPlatform
+
 Specify to return details of dependent platforms
 
 Minimum required version 11.4
@@ -257,6 +260,7 @@ Accept wildcard characters: False
 ```
 
 ### -GroupPlatform
+
 Specify to return details of group platforms
 
 Minimum required version 11.4
@@ -274,6 +278,7 @@ Accept wildcard characters: False
 ```
 
 ### -RotationalGroup
+
 Specify to return details of rotational group platforms
 
 Minimum required version 11.4
@@ -291,6 +296,7 @@ Accept wildcard characters: False
 ```
 
 ### -SystemType
+
 Filter target platforms for specific system type
 
 Minimum required version 11.4
@@ -308,6 +314,7 @@ Accept wildcard characters: False
 ```
 
 ### -PeriodicVerify
+
 Filter target platforms by periodic verification configuration
 
 Minimum required version 11.4
@@ -325,6 +332,7 @@ Accept wildcard characters: False
 ```
 
 ### -ManualVerify
+
 Filter target platforms by manual verification configuration
 
 Minimum required version 11.4
@@ -342,6 +350,7 @@ Accept wildcard characters: False
 ```
 
 ### -PeriodicChange
+
 Filter target platforms by periodic change configuration
 
 Minimum required version 11.4
@@ -359,6 +368,7 @@ Accept wildcard characters: False
 ```
 
 ### -ManualChange
+
 Filter target platforms by manual change configuration
 
 Minimum required version 11.4
@@ -376,6 +386,7 @@ Accept wildcard characters: False
 ```
 
 ### -AutomaticReconcile
+
 Filter target platforms by automatic reconciliation configuration
 
 Minimum required version 11.4
@@ -393,6 +404,7 @@ Accept wildcard characters: False
 ```
 
 ### -ManualReconcile
+
 Filter target platforms by manual reconciliation configuration
 
 Minimum required version 11.4
@@ -409,6 +421,45 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -ID
+
+The unique numeric ID of the target platform.
+
+Minimum required version 15.2, Self-Hosted only
+
+```yaml
+Type: Int32
+Parameter Sets: target-details
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Scope
+
+Limits the response to a specific section of the target platform's settings.
+If omitted, the response includes all sections.
+
+Supports tab completion; valid values depend on the connected environment/version.
+
+Minimum required version 15.2, Self-Hosted only
+
+```yaml
+Type: String
+Parameter Sets: target-details
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -417,11 +468,14 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+
 Minimum CyberArk version 9.10
 
 CyberArk version 11.1 required for Active, PlatformType & Search parameters.
 
 CyberArk version 11.4 required for extended filters for target platforms, and requests for dependent, group & rotational group platforms
+
+CyberArk version 15.2 (Self-Hosted only) required for ID & Scope parameters
 
 ## RELATED LINKS
 
@@ -438,3 +492,5 @@ CyberArk version 11.4 required for extended filters for target platforms, and re
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-group-platforms.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-group-platforms.htm)
 
 [https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-rotational-group-platforms.htm](https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/rest-api-get-rotational-group-platforms.htm)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-get-target-platform-settings.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/rest-api-get-target-platform-settings.htm)

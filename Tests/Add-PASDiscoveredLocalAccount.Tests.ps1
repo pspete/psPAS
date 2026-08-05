@@ -75,6 +75,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'does not send an additional request when WhatIf is used' {
+
+                $InputObject | Add-PASDiscoveredLocalAccount -WhatIf
+
+                Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+            }
+
             It 'sends request to expected endpoint' {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -88,6 +96,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             It 'uses expected method' {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'PUT' } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'sends request with expected tags in body' {
+
+                Add-PASDiscoveredLocalAccount -type windows -identifiers @{'SomeProperty' = 'SomeValue' } -tags 'tag1', 'tag2'
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $($Body | ConvertFrom-Json).tags -contains 'tag1'
+
+                } -Times 1 -Exactly -Scope It
 
             }
 

@@ -81,6 +81,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				Mock Set-Variable -MockWith { }
 
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
@@ -118,7 +122,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -PVWAAppName 'SomeApp' -newPassword $NewPass -UseClassicAPI
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					($Script:RequestBody) -ne $null
 
@@ -154,7 +158,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -UseClassicAPI -useRadiusAuthentication $true -OTP 987654 -OTPMode Append
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq 'SomePassword,987654'
 
@@ -166,7 +170,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq 'SomePassword,987654'
 
@@ -178,7 +182,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Challenge -RadiusChallenge Password
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq '987654'
 
@@ -190,7 +194,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append -OTPDelimiter '#'
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq 'SomePassword#987654'
 
@@ -202,7 +206,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append -OTPDelimiter $null
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq 'SomePassword987654'
 
@@ -214,7 +218,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type RADIUS -OTP 987654 -OTPMode Append -OTPDelimiter ''
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.password -eq 'SomePassword987654'
 
@@ -229,7 +233,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				New-PASSession -BaseURI 'https://P_URI' -type LDAP -Credential $Credentials -concurrentSession $true
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					$Script:RequestBody.concurrentSession -eq $true
 
@@ -480,10 +484,82 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'calls Get-PASSessionTimeout' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type LDAP
+				Assert-MockCalled Get-PASSessionTimeout -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets IdleTimeout from Get-PASSessionTimeout result' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type LDAP
+				$psPASSession.IdleTimeout | Should -Be '20'
+
+			}
+
+			It 'sets IdleTimeout to null on Get-PASSessionTimeout error' {
+				Mock Get-PASSessionTimeout -MockWith {
+					throw 'Some Error'
+				}
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -PVWAAppName 'SomeApp'
+				$psPASSession.IdleTimeout | Should -BeNullOrEmpty
+
+			}
+
 			It 'sets expected authorization header' {
 
 				$Credentials | New-PASSession -BaseURI 'https://P_URI'
 				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+
+			}
+
+			It 'falls back to the Credential username if Get-PASLoggedOnUser throws' {
+
+				Mock Get-PASLoggedOnUser -MockWith { throw 'Some Error' }
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI'
+
+				$psPASSession.User | Should -Be 'SomeUser'
+
+			}
+
+			It 'sets a null user if Get-PASLoggedOnUser throws and no Credential was used' {
+
+				Mock Get-PASLoggedOnUser -MockWith { throw 'Some Error' }
+
+				New-PASSession -BaseURI 'https://P_URI' -UseDefaultCredentials
+
+				$psPASSession.User | Should -BeNullOrEmpty
+
+			}
+
+			It 'sends expected body for PKIPN type' {
+
+				New-PASSession -BaseURI 'https://P_URI' -type PKIPN
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
+					($Script:RequestBody.secureMode -eq $true) -and ($Script:RequestBody.type -eq 'pkipn')
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends secondary auth request to expected endpoint for PKI type' {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'UserName' = 'SomeUser' } } -ParameterFilter { $Uri -eq 'https://P_URI/PasswordVault/api/Auth/PKI/Logon' }
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'CyberArkLogonResult' = 'SomeToken' } } -ParameterFilter { $Uri -eq 'https://P_URI/PasswordVault/api/Auth/LDAP/Logon' }
+
+				New-PASSession -BaseURI 'https://P_URI' -type PKI
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://P_URI/PasswordVault/api/Auth/LDAP/Logon'
+
+				} -Times 1 -Exactly -Scope It
 
 			}
 
@@ -521,6 +597,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
 				$psPASSession.ExternalVersion = '0.0'
@@ -541,7 +621,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-						$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 						$Script:RequestBody.password -eq 'SomePassword'
 
@@ -549,7 +629,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-						$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 						$Script:RequestBody.password -eq '987654'
 
@@ -563,7 +643,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-						$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 						$Script:RequestBody.password -eq '987654'
 
@@ -571,7 +651,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 					Assert-MockCalled Invoke-WebRequest -ParameterFilter {
 
-						$Script:RequestBody = $Body | ConvertFrom-Json
+						$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 						$Script:RequestBody.password -eq 'SomePassword'
 
@@ -659,6 +739,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Get-PASLoggedOnUser -MockWith {
 					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
 				if ($IsCoreCLR) {
@@ -775,6 +859,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				Mock Invoke-PASRestMethod -MockWith {
 					[PSCustomObject]@{
 						'CyberArkLogonResult' = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
@@ -883,6 +971,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				function New-IDPlatformToken {
 					[CmdletBinding()]
 					param($tenant_url,
@@ -932,6 +1024,15 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'throws expected message if IdentityCommand module is not available' {
+
+				Mock Import-Module -MockWith { throw 'Module not found' }
+
+				{ $Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault' -ServiceUser } |
+					Should -Throw 'Failed to import IdentityCommand: Install the IdentityCommand Module and try again.'
+
+			}
+
 			It 'sends request to expected tenant_url' {
 				$Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -ServiceUser
 				Assert-MockCalled New-IDPlatformToken -ParameterFilter {
@@ -964,6 +1065,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Get-PASLoggedOnUser -MockWith {
 					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
 				function New-IDPlatformToken {
@@ -1065,6 +1170,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				function New-IDSession {
 					[CmdletBinding()]
 					param($tenant_url,
@@ -1154,6 +1263,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					@{'UserName' = 'SomeUser' }
 				}
 
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
 				function New-IDSession {
 					[CmdletBinding()]
 					param($tenant_url,
@@ -1237,6 +1350,208 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'SharedServices-URL-SAML' {
+
+			BeforeEach {
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
+				function New-IDSession {
+					[CmdletBinding()]
+					param($tenant_url,
+						$SAMLResponse)
+				}
+				$mockResult = New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession
+
+				$mockGetWebSessionMethod = {
+					# count the invocation and store it on the mock object
+					# to avoid using script:scoped variables
+					$this.GetWebSessionInvoked++
+
+					# return the result object as the real method would
+					$mockResult
+				}
+
+				$mockIDSessionObject = [PSCustomObject] @{
+					GetWebSessionInvoked = 0
+					'Token'              = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				}
+
+				$mockIDSessionObject | Add-Member -MemberType ScriptMethod -Name GetWebSession -Value $mockGetWebSessionMethod
+				Mock New-IDSession { $mockIDSessionObject }
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '0.0'
+					}
+				}
+
+				Mock Get-Module -MockWith {}
+
+				Mock Import-Module -MockWith {}
+
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It 'sends request' {
+
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault' -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -Times 1 -Exactly -Scope It -ModuleName psPAS
+
+			}
+
+			It 'sends request to expected tenant_url' {
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -ParameterFilter {
+
+					$tenant_url -eq 'https://SomeIdentityPortal.id.cyberark.cloud'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends expected SAMLResponse' {
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -ParameterFilter {
+
+					$SAMLResponse -eq 'SomeSAMLResponse'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets expected default BaseURI' {
+
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://SomeIdentityPortal.privilegecloud.cyberark.cloud/' -SAMLResponse 'SomeSAMLResponse'
+				$Script:psPASSession.BaseURI | Should -Be 'https://SomeIdentityPortal.privilegecloud.cyberark.cloud/PasswordVault'
+
+			}
+
+			It 'sets expected custom BaseURI' {
+
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -SAMLResponse 'SomeSAMLResponse'
+				$Script:psPASSession.BaseURI | Should -Be 'https://Some.PCloud.Portal/PasswordVault'
+
+			}
+
+			It 'sets expected authorization header' {
+
+				New-PASSession -IdentityTenantURL 'https://SomeIdentityPortal.id.cyberark.cloud/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/' -SAMLResponse 'SomeSAMLResponse'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+
+			}
+
+		}
+
+		Context 'SharedServices-Subdomain-SAML' {
+
+			BeforeEach {
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
+				function New-IDSession {
+					[CmdletBinding()]
+					param($tenant_url,
+						$SAMLResponse)
+				}
+				$mockResult = New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession
+
+				$mockGetWebSessionMethod = {
+					# count the invocation and store it on the mock object
+					# to avoid using script:scoped variables
+					$this.GetWebSessionInvoked++
+
+					# return the result object as the real method would
+					$mockResult
+				}
+
+				$mockIDSessionObject = [PSCustomObject] @{
+					GetWebSessionInvoked = 0
+					'Token'              = 'AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+				}
+
+				$mockIDSessionObject | Add-Member -MemberType ScriptMethod -Name GetWebSession -Value $mockGetWebSessionMethod
+				Mock New-IDSession { $mockIDSessionObject }
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '0.0'
+					}
+				}
+
+				Mock Get-Module -MockWith {}
+
+				Mock Import-Module -MockWith {}
+
+				Mock Find-SharedServicesURL -MockWith {
+
+					[pscustomobject]@{
+						identity_user_portal = [pscustomobject]@{api = 'https://SomeSubDomain.id.cyberark.cloud' }
+						pcloud               = [pscustomobject]@{api = 'https://SomeSubDomain.privilegecloud.cyberark.cloud' }
+					}
+
+				}
+
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It 'sends request' {
+				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends request to expected tenant_url' {
+				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -ParameterFilter {
+
+					$tenant_url -eq 'https://SomeSubDomain.id.cyberark.cloud'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends expected SAMLResponse' {
+				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
+				Assert-MockCalled New-IDSession -ParameterFilter {
+
+					$SAMLResponse -eq 'SomeSAMLResponse'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sets expected BaseURI' {
+
+				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
+				$Script:psPASSession.BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
+
+			}
+
+			It 'sets expected authorization header' {
+				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+
+			}
+
+		}
+
 		Context 'Gen2 with FIDO2' {
 
 			BeforeEach {
@@ -1257,6 +1572,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Get-PASLoggedOnUser -MockWith {
 					@{'UserName' = 'TestUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
 				$psPASSession.ExternalVersion = '14.6'

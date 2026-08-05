@@ -8,6 +8,11 @@ function Get-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2ID'
 		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Safes'
+		)]
 		[int]$id,
 
 		[parameter(
@@ -20,6 +25,7 @@ function Get-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2-ExtendedDetails'
 		)]
+		[ValidateLength(1, 500)]
 		[string]$Search,
 
 		[parameter(
@@ -32,6 +38,27 @@ function Get-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2-ExtendedDetails'
 		)]
+		[ArgumentCompleter({
+				#Standard ArgumentCompleter parameters.
+				param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+				#Avoid PSScriptAnalyzer PSReviewUnusedParameter rule on standard ArgumentCompleter parameters.
+				$null = $parameterName, $commandAst, $fakeBoundParameters
+
+				#ask the API for valid user types
+				try {
+
+					$Module = (Get-Command $commandName -ErrorAction Stop).Module
+					$UserTypes = & $Module { Get-PASUserType -ErrorAction Stop }
+
+				}
+				catch { return }
+
+				$UserTypes.UserTypeName |
+				Where-Object { $_ -and ($_ -like "$wordToComplete*") } |
+				ForEach-Object { [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_) }
+
+			})]
 		[string]$UserType,
 
 		[parameter(
@@ -71,6 +98,13 @@ function Get-PASUser {
 			ParameterSetName = 'Gen2-ExtendedDetails'
 		)]
 		[boolean]$ComponentUser,
+
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Safes'
+		)]
+		[switch]$safes,
 
 		[parameter(
 			Mandatory = $false,
@@ -194,6 +228,20 @@ function Get-PASUser {
 
 			}
 
+			'Safes' {
+
+				#Not sure when this API was added....
+				Assert-VersionRequirement -RequiredVersion 12.2
+
+				#Create URL for request
+				$URI = "$($psPASSession.BaseURI)/API/Users/$id/safes"
+
+				$TypeName = 'psPAS.CyberArk.Vault.User.Safe'
+
+				break
+
+			}
+
 		}
 
 		#send request to web service
@@ -217,6 +265,13 @@ function Get-PASUser {
 				$result = $null
 
 			}
+
+		}
+
+		if ($PSCmdlet.ParameterSetName -eq 'Safes') {
+
+			#Safes endpoint returns object with Safes property
+			$result = $result.Safes
 
 		}
 

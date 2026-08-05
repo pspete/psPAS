@@ -37,7 +37,13 @@ function Publish-PASDiscoveredLocalAccount {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [boolean]$resetSecret
+        [boolean]$resetSecret,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string[]]$tags
 
     )
 
@@ -54,14 +60,6 @@ function Publish-PASDiscoveredLocalAccount {
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove id
-
-        #deal with defaultPassword SecureString
-        if ($PSBoundParameters.ContainsKey('secret')) {
-
-            #Include decoded password in request
-            $boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
-
-        }
 
         $boundParameters.keys | Where-Object { $coreAttributes -contains $_ } | ForEach-Object {
 
@@ -82,7 +80,19 @@ function Publish-PASDiscoveredLocalAccount {
 
         }
 
-        $Body = $boundParameters | Get-PASParameter -ParametersToRemove $coreAttributes | ConvertTo-Json
+        $boundParameters = $boundParameters | Get-PASParameter -ParametersToRemove $coreAttributes
+
+        #deal with secret SecureString
+        if ($PSBoundParameters.ContainsKey('secret')) {
+
+            #Include decoded password in request
+            $boundParameters['secret'] = $(ConvertTo-InsecureString -SecureString $secret)
+
+        }
+
+        #Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+        #call records a non-revealing type name instead of the literal request content.
+        $Body = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
 
         if ($PSCmdlet.ShouldProcess($id, 'Onboard Discovered Local Account')) {
 

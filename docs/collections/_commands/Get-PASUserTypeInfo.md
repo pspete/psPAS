@@ -33,6 +33,20 @@ Get-PASUserTypeInfo
 
 Output information about available user types
 
+### EXAMPLE 2
+```powershell
+$userTypes = Get-PASUserTypeInfo
+```
+
+Saves the available user type information in the $userTypes variable
+
+### EXAMPLE 3
+```powershell
+Get-PASUserTypeInfo | Where-Object { $_.UserTypeName -eq 'EPVUser' }
+```
+
+Returns information about only the EPVUser user type
+
 ## PARAMETERS
 
 ### CommonParameters

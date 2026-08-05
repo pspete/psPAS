@@ -30,6 +30,20 @@ Remove-PASPTAPrivilegedUser -ID 65b6aa31721d9b5f3a56ca7e
 
 Deletes user configuration matching ID
 
+### EXAMPLE 2
+```powershell
+Get-PASPTAPrivilegedUser | Where-Object { $_.user -eq 'Bob' } | Remove-PASPTAPrivilegedUser
+```
+
+Finds the privileged user configuration for Bob and removes it from PTA.
+
+### EXAMPLE 3
+```powershell
+Remove-PASPTAPrivilegedUser -ID 65b6aa31721d9b5f3a56ca7e -WhatIf
+```
+
+Shows what would happen if the user configuration matching ID was removed, without making the change.
+
 ## PARAMETERS
 
 ### -ID

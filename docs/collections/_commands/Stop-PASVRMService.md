@@ -28,11 +28,28 @@ Requires authentication with the PARAgent service credentials and supports WhatI
 
 ### Example 1
 ```powershell
-PS C:\> $password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
-PS C:\> Stop-PASVRMService -serviceName Vault -serverAddress vault.company.com -servicePassword $password
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Stop-PASVRMService -serviceName Vault -serverAddress vault.company.com -servicePassword $password
 ```
 
 Stops the Vault service on the specified server
+
+### Example 2
+```powershell
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Stop-PASVRMService -serviceName DR -serverAddress dr-vault.company.com -servicePassword $password -Confirm:$false
+```
+
+Stops the DR service on the specified server without prompting for confirmation
+
+### Example 3
+```powershell
+$password = ConvertTo-SecureString -String 'P@ssw0rd' -AsPlainText -Force
+Stop-PASVRMService -serviceName ENE -serverAddress vault.company.com -servicePassword $password -WhatIf
+```
+
+Shows what would happen if the ENE service was stopped, without actually stopping it.
+This service requires CyberArk version 15.2 or higher
 
 ## PARAMETERS
 
@@ -54,7 +71,9 @@ Accept wildcard characters: False
 
 ### -serviceName
 The name of the service to stop.
-Supported services: Vault, DR
+Supported services: Vault, DR, ENE
+
+The ENE service requires CyberArk version 15.2 or higher.
 
 ```yaml
 Type: String
@@ -155,3 +174,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[https://pspas.pspete.dev/commands/Stop-PASVRMService](https://pspas.pspete.dev/commands/Stop-PASVRMService)
+
+[https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-status-stop.htm](https://docs.cyberark.com/pam-self-hosted/latest/en/content/sdk/server-api-vrm-set-service-status-stop.htm)

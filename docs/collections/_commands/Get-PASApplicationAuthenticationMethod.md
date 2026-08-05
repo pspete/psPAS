@@ -32,6 +32,20 @@ Get-PASApplicationAuthenticationMethod -AppID NewApp
 
 Gets all authentication methods of application NewApp
 
+### EXAMPLE 2
+```
+Get-PASApplication -AppID NewApp | Get-PASApplicationAuthenticationMethod
+```
+
+Gets all authentication methods of application NewApp via the pipeline.
+
+### EXAMPLE 3
+```
+Get-PASApplication -Location "\Applications\Finance" -IncludeSublocations $true | Get-PASApplicationAuthenticationMethod
+```
+
+Gets the authentication methods for every application found under the Finance location and its sublocations.
+
 ## PARAMETERS
 
 ### -AppID

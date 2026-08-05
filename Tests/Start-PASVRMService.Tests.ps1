@@ -99,7 +99,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					($Script:RequestBody.serviceName) -ne $null
 
@@ -111,6 +111,32 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '1.0'
 				{ Start-PASVRMService -serviceName DR -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'accepts ENE as a serviceName value' {
+				$psPASSession.ExternalVersion = '15.2'
+				{ Start-PASVRMService -serviceName ENE -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false } | Should -Not -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'throws for ENE serviceName if 15.2 version requirement not met' {
+				$psPASSession.ExternalVersion = '15.1'
+				{ Start-PASVRMService -serviceName ENE -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+		}
+
+		Context 'Output' {
+
+			It 'returns a result when one is provided by the API' {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{'Success' = $true } }
+
+				$result = Start-PASVRMService -serviceName DR -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false
+
+				$result | Should -Not -BeNullOrEmpty
+
 			}
 
 		}

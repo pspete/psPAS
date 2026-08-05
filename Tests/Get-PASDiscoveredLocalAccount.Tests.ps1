@@ -108,6 +108,61 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'sends expected query & filter' {
+
+                Get-PASDiscoveredLocalAccount -search 'SomeSearch' -isPrivileged $true
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    ($URI -match 'search=SomeSearch') -and ($URI -match 'filter=isPrivileged')
+
+                } -Times 1 -Scope It
+
+            }
+
+        }
+
+        Context 'Pagination' {
+
+            BeforeEach {
+
+                $psPASSession.ExternalVersion = '0.0'
+
+                Mock Assert-VersionRequirement -MockWith {}
+
+                Mock Invoke-PASRestMethod -MockWith {
+
+                    if ($script:iteration -lt 1) {
+
+                        $script:iteration++
+
+                        [pscustomobject]@{
+                            'items'      = @([pscustomobject]@{'Prop1' = 'Val1' }, [pscustomobject]@{'Prop1' = 'Val2' })
+                            'nextCursor' = 'api/discovered-accounts?offset=50&limit=50'
+                        }
+
+                    } else {
+
+                        [pscustomobject]@{
+                            'items' = @([pscustomobject]@{'Prop1' = 'Val3' })
+                        }
+
+                    }
+
+                }
+
+                $script:iteration = 0
+
+            }
+
+            It 'follows nextCursor and returns all pages of results' {
+
+                $response = Get-PASDiscoveredLocalAccount -search 'SomeSearch'
+
+                $response.count | Should -Be 3
+
+            }
+
         }
 
     }

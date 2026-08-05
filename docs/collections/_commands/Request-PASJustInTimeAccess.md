@@ -31,6 +31,20 @@ Request-PASJustInTimeAccess -AccountID 36_3
 
 Requests JIT access on the server for which the account with id 36_3 is a local account with local admin membership.
 
+### EXAMPLE 2
+```
+Get-PASAccount -id 36_3 | Request-PASJustInTimeAccess
+```
+
+Requests JIT access using the account object returned by Get-PASAccount.
+
+### EXAMPLE 3
+```
+'36_3', '44_9' | ForEach-Object { Request-PASJustInTimeAccess -AccountID $_ }
+```
+
+Requests JIT access for each of the specified local admin accounts.
+
 ## PARAMETERS
 
 ### -AccountID

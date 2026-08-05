@@ -25,17 +25,31 @@ Returns connection data necessary to monitor an active PSM session.
 
 ### EXAMPLE 1
 ```
-Connect-PASPSMSession -LiveSessionId $SessionUUID -ConnectionMethod RDP
+Connect-PASPSMSession -SessionId $SessionUUID -ConnectionMethod RDP
 ```
 
 Returns parameters to connect to Live PSM Session via RDP.
 
 ### EXAMPLE 2
 ```
-Connect-PASPSMSession -LiveSessionId $SessionUUID -ConnectionMethod PSMGW
+Connect-PASPSMSession -SessionId $SessionUUID -ConnectionMethod PSMGW
 ```
 
 Returns parameters to connect to Live PSM Session via HTML5 GW.
+
+### EXAMPLE 3
+```
+[pscustomobject]@{SessionId = $SessionUUID; ConnectionMethod = "RDP"} | Connect-PASPSMSession
+```
+
+Returns parameters to connect to Live PSM Session via RDP, using pipeline input.
+
+### EXAMPLE 4
+```
+Get-PASPSMSession -liveSessionId $SessionUUID | Select-Object @{N = "SessionId"; E = { $_.liveSessionId } } | Connect-PASPSMSession -ConnectionMethod PSMGW
+```
+
+Gets the active PSM Session with the given ID, and returns parameters to connect to it via HTML5 GW.
 
 ## PARAMETERS
 

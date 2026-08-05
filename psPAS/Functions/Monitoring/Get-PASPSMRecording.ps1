@@ -35,6 +35,7 @@ function Get-PASPSMRecording {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'byQuery'
 		)]
+		[ValidateLength(1, 500)]
 		[string]$Search,
 
 		[parameter(
@@ -140,36 +141,28 @@ function Get-PASPSMRecording {
 		#send request to PAS web service
 		$result = Invoke-PASRestMethod -Uri $URI -Method GET
 
-		$Total = $result.Total
+		if ($null -ne $result) {
 
-		if ($Total -gt 0) {
+			switch ($PSCmdlet.ParameterSetName) {
 
-			#Set events as output collection
-			$Recordings = [Collections.Generic.List[Object]]::New(@($result.Recordings))
+				'byRecordingID' {
 
-			#Split Request URL into baseURI & any query string value
-			$URLString = $URI.Split('?')
-			$URI = $URLString[0]
-			$queryString = $URLString[1]
+					$Output = $result
 
-			for ( $Offset = $Limit ; $Offset -lt $Total ; $Offset += $Limit ) {
-
-				#While more recordings to return, create nextLink query value
-				$nextLink = "OffSet=$Offset"
-
-				if ($null -ne $queryString) {
-
-					#If original request contained a queryString, concatenate with nextLink value.
-					$nextLink = "$queryString&$nextLink"
+					break
 
 				}
-				$result = (Invoke-PASRestMethod -Uri "$URI`?$nextLink" -Method GET).Recordings
 
-				#Request nextLink. Add recordingss to output collection.
-				$Null = $Recordings.AddRange($result)
+				'byQuery' {
+
+					#API only provides a Total value; page via Get-NextLink's offset support
+					$Output = $result | Get-NextLink -RequestUri $URI
+
+					break
+
+				}
+
 			}
-
-			$Output = $Recordings
 
 		}
 

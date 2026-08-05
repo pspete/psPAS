@@ -17,7 +17,7 @@ Adds a new privileged command rule to an account.
 ```
 Add-PASAccountACL [-AccountPolicyId] <String> [-AccountAddress] <String> [-AccountUserName] <String>
  [-Command] <String> [-CommandGroup] <Boolean> [-PermissionType] <String> [[-Restrictions] <String>]
- [-UserName] <String> [<CommonParameters>]
+ [-UserName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,6 +34,29 @@ Add-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerA.domain.com -A
 ```
 
 This will add a new Privileged Command Rule to root for user TestUser
+
+### EXAMPLE 2
+```
+Add-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerB.domain.com -AccountUserName oracle `
+-Command "/usr/local/bin/backup.sh" -CommandGroup $false -PermissionType Allow -Restrictions "*" -UserName dba_user
+```
+
+Allows dba_user to run the backup.sh command against the oracle account on ServerB.domain.com, with no additional restrictions.
+
+### EXAMPLE 3
+```
+Add-PASAccountACL -AccountPolicyID UNIXSSH -AccountAddress ServerA.domain.com -AccountUserName root `
+-Command NetworkCommands -CommandGroup $true -PermissionType Allow -UserName TestUser
+```
+
+Adds a rule allowing TestUser to run all commands in the NetworkCommands command group against the root account on ServerA.domain.com.
+
+### EXAMPLE 4
+```
+Get-PASAccount -Keywords root -Safe UnixSafe | Add-PASAccountACL -AccountUserName root -Command reboot -CommandGroup $false -PermissionType Deny -UserName TestUser
+```
+
+Denies TestUser from running the reboot command against the root account found by Get-PASAccount, using the account's PolicyID and Address values passed down the pipeline.
 
 ## PARAMETERS
 
@@ -152,6 +175,36 @@ Aliases:
 
 Required: True
 Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

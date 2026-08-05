@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+	<Type>
+		<Name>psPAS.CyberArk.Vault.Session</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>GetRemainingSessionTime</Name>
+				<Script>
+					(Get-PASSession).SessionTimeRemaining
+				</Script>
+			</ScriptMethod>
+			<ScriptMethod>
+				<Name>Refresh</Name>
+				<Script>
+					Get-PASLoggedOnUser | Out-Null
+					(Get-PASSession).SessionTimeRemaining
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+</Types>

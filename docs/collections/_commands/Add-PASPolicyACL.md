@@ -16,7 +16,7 @@ Adds a new privileged command rule
 
 ```
 Add-PASPolicyACL [-Command] <String> [-CommandGroup] <Boolean> [-PermissionType] <String> [-PolicyId] <String>
- [[-Restrictions] <String>] [-UserName] <String> [<CommonParameters>]
+ [[-Restrictions] <String>] [-UserName] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,6 +32,27 @@ Add-PASPolicyACL -Command "chmod" -CommandGroup $false -PermissionType Allow -Po
 ```
 
 Adds Rule to UNIXSSH platform
+
+### EXAMPLE 2
+```
+Add-PASPolicyACL -Command "rm -rf /" -CommandGroup $false -PermissionType Deny -PolicyId UNIXSSH -Restrictions "*" -UserName "*"
+```
+
+Denies all users from running the "rm -rf /" command on any account under the UNIXSSH platform.
+
+### EXAMPLE 3
+```
+Add-PASPolicyACL -Command NetworkCommands -CommandGroup $true -PermissionType Allow -PolicyId UNIXSSH -UserName opsteam
+```
+
+Allows opsteam to run all commands in the NetworkCommands command group on accounts under the UNIXSSH platform.
+
+### EXAMPLE 4
+```
+[PSCustomObject]@{PolicyId = 'UNIXSSH'; Command = 'shutdown'; CommandGroup = $false; PermissionType = 'Deny'; UserName = 'user1' } | Add-PASPolicyACL
+```
+
+Adds the same rule using pipeline input, since every parameter accepts values by property name.
 
 ## PARAMETERS
 
@@ -124,6 +145,36 @@ Required: True
 Position: 6
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

@@ -46,7 +46,7 @@ can run this web service.
 
 ### Example 1
 ```powershell
-PS C:\> Register-PASFIDO2Device -UserId 57
+Register-PASFIDO2Device -UserId 57
 ```
 
 Registers a new FIDO2 device for the user whose ID is `57`.
@@ -55,7 +55,7 @@ behalf of other users.
 
 ### Example 2
 ```powershell
-PS C:\> Register-PASFIDO2Device
+Register-PASFIDO2Device
 ```
 
 Registers a new FIDO2 device for the user implied by the current session, using the admin
@@ -63,7 +63,7 @@ registration endpoint.
 
 ### Example 3
 ```powershell
-PS C:\> Register-PASFIDO2Device -OwnDevice
+Register-PASFIDO2Device -OwnDevice
 ```
 
 Registers a new FIDO2 device for the user that is currently logged in, using the self-service

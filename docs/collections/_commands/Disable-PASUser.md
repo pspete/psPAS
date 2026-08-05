@@ -30,6 +30,27 @@ Disable-PASUser -id 1234
 
 Disables the vault user with id 1234
 
+### EXAMPLE 2
+```powershell
+Get-PASUser -search Bob | Disable-PASUser
+```
+
+Finds vault users matching the search term "Bob" and disables each matching account, using the id value supplied via the pipeline
+
+### EXAMPLE 3
+```powershell
+Disable-PASUser -id 1234 -WhatIf
+```
+
+Shows what would happen if the vault user with id 1234 was disabled, without making the change
+
+### EXAMPLE 4
+```powershell
+1234,1235,1236 | ForEach-Object { Disable-PASUser -id $_ }
+```
+
+Disables each of the vault users with the ids 1234, 1235 & 1236
+
 ## PARAMETERS
 
 ### -id

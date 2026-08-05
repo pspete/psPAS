@@ -40,6 +40,26 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
+		[ArgumentCompleter({
+				#Standard ArgumentCompleter parameters.
+				param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+				#Avoid PSScriptAnalyzer PSReviewUnusedParameter rule on standard ArgumentCompleter parameters.
+				$null = $parameterName, $commandAst, $fakeBoundParameters
+
+				#ask the API for valid user types
+				try {
+
+					$Module = (Get-Command $commandName -ErrorAction Stop).Module
+					$UserTypes = & $Module { Get-PASUserType -ErrorAction Stop }
+
+				} catch { return }
+
+				$UserTypes.UserTypeName |
+					Where-Object { $_ -and ($_ -like "$wordToComplete*") } |
+					ForEach-Object { [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_) }
+
+		})]
 		[string]$userType,
 
 		[parameter(
@@ -55,8 +75,26 @@ function Set-PASUser {
 			ParameterSetName = 'Gen2'
 		)]
 		[AllowEmptyCollection()]
-		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
-			'EVD', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI', 'IBVSDK')]
+		[ArgumentCompleter({
+				#Standard ArgumentCompleter parameters.
+				param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+				#Avoid PSScriptAnalyzer PSReviewUnusedParameter rule on standard ArgumentCompleter parameters.
+				$null = $parameterName, $commandAst, $fakeBoundParameters
+
+				#ask the API for valid client ids
+				try {
+
+					$Module = (Get-Command $commandName -ErrorAction Stop).Module
+					$ClientIDs = & $Module { Get-PASClientID -ErrorAction Stop }
+
+				} catch { return }
+
+				$ClientIDs |
+					Where-Object { $_ -and ($_ -like "$wordToComplete*") } |
+					ForEach-Object { [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_) }
+
+		})]
 		[string[]]$unAuthorizedInterfaces,
 
 		[parameter(
@@ -107,6 +145,7 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
+		[ValidateLength(1, 511)]
 		[string]$distinguishedName,
 
 		[parameter(
@@ -155,6 +194,7 @@ function Set-PASUser {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1'
 		)]
+		[ValidateLength(1, 128)]
 		[string]$Location,
 
 		[parameter(
@@ -510,7 +550,9 @@ function Set-PASUser {
 		}
 
 		#Construct Request Body
-		$body = $boundParameters | ConvertTo-Json -Depth 4
+		#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+		#call records a non-revealing type name instead of the literal request content.
+		$body = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json -Depth 4))
 
 		if ($PSCmdlet.ShouldProcess($UserName, 'Update User Properties')) {
 			#send request to web service

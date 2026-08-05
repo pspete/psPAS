@@ -28,11 +28,32 @@ API is not documented, so this help file may not be 100% accurate
 
 ### Example 1
 ```powershell
-PS C:\> Set-PASPTASMTP -host smtp.domain.com -protocol TCP -port 25 -sender 'PTA@domain.com' `
+Set-PASPTASMTP -host smtp.domain.com -protocol TCP -port 25 -sender 'PTA@domain.com' `
  -recipients 'security_team@domain.com' -AlertToEmailScoreThreshold 70
 ```
 
 Configures PTA SMTP settings
+
+### Example 2
+```powershell
+Set-PASPTASMTP -host smtp.cyberark.local -protocol NONE -port 25 -sender 'pta-alerts@cyberark.local' -recipients 'soc-team@cyberark.local' -AlertToEmailScoreThreshold 80
+```
+
+Configures PTA to send alert emails for events scoring 80 or higher via an unauthenticated, unencrypted SMTP relay
+
+### Example 3
+```powershell
+Set-PASPTASMTP -host smtp.cyberark.local -protocol STARTTLS -port 587 -sender 'pta-alerts@cyberark.local' -recipients 'soc-team@cyberark.local','ciso@cyberark.local' -accountId 34_5 -CertificateFile C:\Certs\smtp.cer -AlertToEmailScoreThreshold 60
+```
+
+Configures PTA SMTP settings to use STARTTLS with the specified certificate, authenticating using the vaulted account 34_5, and sends alert emails to two recipients for events scoring 60 or higher
+
+### Example 4
+```powershell
+Set-PASPTASMTP -host smtp.cyberark.local -protocol SSL -port 465 -sender 'pta-alerts@cyberark.local' -recipients 'soc-team@cyberark.local' -CertificateFile C:\Certs\smtp.cer -AlertToEmailScoreThreshold 75 -WhatIf
+```
+
+Shows what would happen if the PTA SMTP configuration were updated to use SSL on port 465, without making the change
 
 ## PARAMETERS
 

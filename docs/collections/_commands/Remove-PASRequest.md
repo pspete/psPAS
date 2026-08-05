@@ -31,10 +31,24 @@ Reports received that function works in 9.9 also.
 
 ### EXAMPLE 1
 ```
-"
+Remove-PASRequest -RequestID TargetSafe_15
 ```
 
-Deletes Request \<ID\>
+Deletes request TargetSafe_15 from the Vault.
+
+### EXAMPLE 2
+```
+Remove-PASRequest -RequestID TargetSafe_15 -WhatIf
+```
+
+Shows what would happen if the request was deleted, without actually deleting it.
+
+### EXAMPLE 3
+```
+'TargetSafe_15', 'TargetSafe_16' | ForEach-Object { [PSCustomObject]@{RequestID = $_ } } | Remove-PASRequest
+```
+
+Deletes multiple requests by passing each RequestID down the pipeline.
 
 ## PARAMETERS
 

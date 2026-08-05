@@ -45,36 +45,33 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
 
-		BeforeEach {
-			Mock Invoke-PASRestMethod -MockWith {
-
-				New-Object Byte[] 512
-
-			}
-
-			Mock Out-PASFile -MockWith { }
-
-			$response = Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"
-		}
-
 		Context 'Mandatory Parameters' {
 
-			$Parameters = @{Parameter = 'PlatformID' },
-			@{Parameter = 'path' }
+			$Parameters = @{Parameter = 'path' }
 
 			It 'specifies parameter <Parameter> as mandatory' -TestCases $Parameters {
 
 				param($Parameter)
 
-				(Get-Command Export-PASPlatform).Parameters["$Parameter"].Attributes.Mandatory | Should -Be $true
+				(Get-Command Export-PASPlatform).Parameters["$Parameter"].Attributes.Mandatory | Select-Object -Unique | Should -Be $true
 
 			}
 
 		}
 
+		Context 'Input - PlatformID' {
 
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
 
-		Context 'Input' {
+					New-Object Byte[] 512
+
+				}
+
+				Mock Out-PASFile -MockWith { }
+
+				$response = Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"
+			}
 
 			It 'throws if path is invalid' {
 				{ Export-PASPlatform -PlatformID SomePlatform -path A:\test.txt } | Should -Throw
@@ -105,6 +102,127 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'throws error if version requirement not met' {
 				$psPASSession.ExternalVersion = '1.0'
 				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+			}
+
+		}
+
+		Context 'Input - RotationalGroupID' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+
+					New-Object Byte[] 512
+
+				}
+
+				Mock Out-PASFile -MockWith { }
+
+				$response = Export-PASPlatform -RotationalGroupID SomeGroup -path "$env:Temp\testExport.zip"
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Scope It -Times 1 -Exactly
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Platforms/RotationalGroups/SomeGroup/Export"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
+		Context 'Input - DependentID' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+
+					New-Object Byte[] 512
+
+				}
+
+				Mock Out-PASFile -MockWith { }
+
+				$response = Export-PASPlatform -DependentID 1 -path "$env:Temp\testExport.zip"
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Scope It -Times 1 -Exactly
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Platforms/Dependents/1/Export"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+		}
+
+		Context 'Input - GroupPlatformID' {
+
+			BeforeEach {
+				Mock Invoke-PASRestMethod -MockWith {
+
+					New-Object Byte[] 512
+
+				}
+
+				Mock Out-PASFile -MockWith { }
+
+				$psPASSession.ExternalVersion = '12.2'
+				$response = Export-PASPlatform -GroupPlatformID SomeGroupPlatform -path "$env:Temp\testExport.zip"
+			}
+
+			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Scope It -Times 1 -Exactly
+
+			}
+
+			It 'sends request to expected endpoint' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/API/Platforms/Groups/SomeGroupPlatform/Export"
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses expected method' {
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws error if version requirement not met' {
+				$psPASSession.ExternalVersion = '1.0'
+				{ Export-PASPlatform -GroupPlatformID SomeGroupPlatform -path "$env:Temp\testExport.zip" } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
 			}
 

@@ -1,6 +1,6 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASPersonalAdminAccount {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
 
         [parameter(
@@ -23,24 +23,32 @@ function Add-PASPersonalAdminAccount {
 
     )
 
-    begin { }#begin
+    begin { 
+
+        Assert-VersionRequirement -PrivilegeCloud
+
+    }#begin
 
     process {
 
         #Get all parameters that will be sent in the request
         $boundParameters = $PSBoundParameters | Get-PASParameter
 
-        Assert-VersionRequirement -RequiredVersion 12.6
-
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/api/Accounts/PersonalAdminAccount"
 
-        $Account = New-PASAccountObject @boundParameters -PersonalAdminAccount
+        $Account = New-PASAccountObject @boundParameters -PersonalAdminAccount -WhatIf:$false
 
-        $Body = $Account | ConvertTo-Json
+        #Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+        #call records a non-revealing type name instead of the literal request content.
+        $Body = [System.Text.Encoding]::UTF8.GetBytes($($Account | ConvertTo-Json))
 
         #send request to PAS web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+        if ($PSCmdlet.ShouldProcess($userName, 'Add Personal Admin Account')) {
+
+            $result = Invoke-PASRestMethod -Uri $URI -Method POST -Body $Body
+
+        }
 
         if ($null -ne $result) {
 

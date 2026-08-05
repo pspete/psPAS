@@ -88,6 +88,9 @@ function Close-PASSession {
 		$psPASSession.WebSession = $null
 		$psPASSession.User = $null
 		$psPASSession.StartTime = $null
+		$psPASSession.IdleTimeout = $null
+		$psPASSession.SessionTimeRemaining = $null
+		$psPASSession.SessionWarningThreshold = 5
 
 
 	}#end

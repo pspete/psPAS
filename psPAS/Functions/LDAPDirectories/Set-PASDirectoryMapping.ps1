@@ -19,6 +19,7 @@ function Set-PASDirectoryMapping {
 			Mandatory = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
+		[ValidateLength(1, 28)]
 		[string]$MappingName,
 
 		[parameter(
@@ -75,8 +76,26 @@ function Set-PASDirectoryMapping {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[AllowEmptyCollection()]
-		[ValidateSet('PIMSU', 'PSM', 'PSMP', 'PVWA', 'WINCLIENT', 'PTA', 'PACLI', 'NAPI', 'XAPI', 'HTTPGW',
-			'EVD', 'CPM', 'PVWAApp', 'PSMApp', 'AppPrv', 'AIMApp', 'PSMPApp', 'GUI')]
+		[ArgumentCompleter({
+				#Standard ArgumentCompleter parameters.
+				param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+				#Avoid PSScriptAnalyzer PSReviewUnusedParameter rule on standard ArgumentCompleter parameters.
+				$null = $parameterName, $commandAst, $fakeBoundParameters
+
+				#ask the API for valid client ids
+				try {
+
+					$Module = (Get-Command $commandName -ErrorAction Stop).Module
+					$ClientIDs = & $Module { Get-PASClientID -ErrorAction Stop }
+
+				} catch { return }
+
+				$ClientIDs |
+					Where-Object { $_ -and ($_ -like "$wordToComplete*") } |
+					ForEach-Object { [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_) }
+
+		})]
 		[string[]]$AuthorizedInterfaces,
 
 		[parameter(

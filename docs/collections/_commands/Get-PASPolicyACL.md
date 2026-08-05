@@ -32,6 +32,20 @@ Get-PASPolicyACL -PolicyID unixssh
 
 Lists rules for UNIXSSH platform.
 
+### EXAMPLE 2
+```
+'UNIXSSH', 'WINDOMAIN' | ForEach-Object { Get-PASPolicyACL -PolicyID $_ }
+```
+
+Lists the privileged command rules defined for both the UNIXSSH and WINDOMAIN platforms.
+
+### EXAMPLE 3
+```
+Get-PASPolicyACL -PolicyID UNIXSSH | Where-Object PermissionType -eq Deny
+```
+
+Returns only the "Deny" rules configured for the UNIXSSH platform.
+
 ## PARAMETERS
 
 ### -PolicyID

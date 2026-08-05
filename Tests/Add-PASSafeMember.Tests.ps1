@@ -146,6 +146,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'does not send an additional request when WhatIf is used' {
+
+				$InputObj | Add-PASSafeMember -MembershipExpirationDate '12/31/18' -UseGen1API -WhatIf
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'sends request to expected endpoint' {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
@@ -259,6 +267,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			}
 
 			It 'sends request' {
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'does not send an additional request when WhatIf is used' {
+
+				$InputObj | Add-PASSafeMember -MembershipExpirationDate '12/31/18' -WhatIf
 
 				Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
 
@@ -532,6 +548,49 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'outputs object with expected typename' {
 
 				$response | Get-Member | Select-Object -ExpandProperty typename -Unique | Should -Be psPAS.CyberArk.Vault.Safe.Member.Gen2
+
+			}
+
+		}
+
+		Context 'Permission Templates' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith { [PSCustomObject]@{} }
+
+			}
+
+			$Templates = @{Template = 'ConnectOnly' },
+			@{Template = 'ReadOnly' },
+			@{Template = 'Approver' },
+			@{Template = 'AccountsManager' },
+			@{Template = 'Full' }
+
+			It 'sends the <Template> permission set in the request body' -TestCases $Templates {
+
+				param($Template)
+
+				$Params = @{SafeName = 'SomeSafe'; MemberName = 'SomeUser' }
+				$Params[$Template] = $true
+
+				Add-PASSafeMember @Params
+
+				$TemplateParams = @{$Template = $true }
+				$ExpectedPermissions = ConvertTo-SortedPermission @TemplateParams
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+					$true
+
+				} -Times 1 -Exactly -Scope It
+
+				foreach ($key in $ExpectedPermissions.Keys) {
+
+					$Script:RequestBody.Permissions.$key | Should -Be $ExpectedPermissions[$key]
+
+				}
 
 			}
 

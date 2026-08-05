@@ -21,7 +21,8 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-lastLogonDateTime <DateTime>] [-lastPasswordSetDateTime <DateTime>] [-passwordNeverExpires <Boolean>]
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
- [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-SID <String>] [<CommonParameters>]
+ [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-SID <String>]
+ [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### UnixSSHKey
@@ -33,7 +34,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-uid <String>] [-gid <String>]
  -fingerprint <String> [-size <Int32>] [-path <String>] [-format <String>] [-comment <String>]
- [-encryption <String>] [<CommonParameters>]
+ [-encryption <String>] [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Unix
@@ -44,7 +45,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-uid <String>] [-gid <String>]
- [<CommonParameters>]
+ [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### AWS
@@ -55,7 +56,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-awsAccountID <String>]
- [-awsAccessKeyID <String>] [<CommonParameters>]
+ [-awsAccessKeyID <String>] [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Dependency
@@ -66,7 +67,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-Dependencies <Hashtable[]>]
- [<CommonParameters>]
+ [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Azure
@@ -77,7 +78,7 @@ Add-PASDiscoveredAccount -UserName <String> -Address <String> -discoveryDate <Da
  [-OSVersion <String>] [-privileged <Boolean>] [-privilegedCriteria <String>] [-UserDisplayName <String>]
  [-description <String>] [-passwordExpirationDateTime <DateTime>] [-osFamily <String>]
  [-additionalProperties <Hashtable>] [-organizationalUnit <String>] [-activeDirectoryID <String>]
- [<CommonParameters>]
+ [-AllowAccountDuplications <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -121,6 +122,27 @@ Add-PASDiscoveredAccount -UserName ServiceUser -Address 1.2.3.4 -discoveryDate (
 ```
 
 Adds or updates matching pending account with defined dependencies.
+
+### EXAMPLE 4
+```
+Add-PASDiscoveredAccount -UserName UnixUser -Address unix.domain.com -discoveryDate (Get-Date) -AccountEnabled $true -platformType Unix -uid 1001 -gid 1001
+```
+
+Adds matching Unix discovered account as pending account, using the Unix parameter set.
+
+### EXAMPLE 5
+```
+Add-PASDiscoveredAccount -UserName SSHUser -Address unix.domain.com -discoveryDate (Get-Date) -AccountEnabled $true -platformType "Unix SSH Key" -uid 1001 -gid 1001 -fingerprint "AA:BB:CC:DD:EE:FF" -path "/home/SSHUser/.ssh/id_rsa"
+```
+
+Adds matching discovered SSH key as pending account, using the UnixSSHKey parameter set.
+
+### EXAMPLE 6
+```
+Add-PASDiscoveredAccount -UserName AzureUser -Address azure.domain.com -discoveryDate (Get-Date) -AccountEnabled $true -platformType Azure -activeDirectoryID 00000000-0000-0000-0000-000000000000
+```
+
+Adds matching Azure discovered account as pending account, using the Azure parameter set.
 
 ## PARAMETERS
 
@@ -652,6 +674,51 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -AllowAccountDuplications
+Used when AccountDuplicationEnforcementLevel is configured. Default is True
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

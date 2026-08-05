@@ -370,7 +370,7 @@ function New-PASRequest {
 		}
 
 		#Create body of request
-		$body = $Request | ConvertTo-Json -Depth 3
+		$body = $Request | ConvertTo-Json -Depth 5
 
 		if ($PSCmdlet.ShouldProcess($Target, 'Request Account Access')) {
 

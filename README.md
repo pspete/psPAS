@@ -6,23 +6,21 @@
 
 # **psPAS: PowerShell Module for the Idira (CyberArk) API**
 
-Administer Idira (CyberArk) PAS with PowerShell!
+**The complete PowerShell interface to Idira (CyberArk) Privileged Access Security** — one consistent, pipeline-native module for Privilege Cloud (SaaS) and Privileged Access Manager Self-Hosted alike.
 
-Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
+Full documentation: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ---
 
 ## Module Status
 
-| Master Branch               | Latest Build               | CodeFactor                 | Coverage                     | PowerShell Gallery        | License                      |
-| --------------------------- | -------------------------- | -------------------------- | ---------------------------- | ------------------------- | ---------------------------- |
-| [![appveyor][]][av-site]    | [![tests][]][tests-site]   | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![psgallery][]][ps-site] | [![license][]][license-link] |
-| [![release][]][github-site] | [![github][]][installlink] |                            | [![coveralls][]][cv-site]    | [![downloads][]][ps-site] |                              |
+| Master Branch               | Latest Build               | PowerShell Gallery        | CodeFactor                 | Coverage                     | License                      |
+| --------------------------- | -------------------------- | ------------------------- | -------------------------- | ---------------------------- | ---------------------------- |
+| [![appveyor][]][av-site]    | [![tests][]][tests-site]   | [![psgallery][]][ps-site] | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![license][]][license-link] |
+| [![release][]][github-site] | [![github][]][installlink] | [![downloads][]][ps-site] |                            |                              |                              |
 
 [appveyor]: https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true
 [av-site]: https://ci.appveyor.com/project/pspete/pspas/branch/master
-[coveralls]: https://coveralls.io/repos/github/pspete/psPAS/badge.svg
-[cv-site]: https://coveralls.io/github/pspete/psPAS
 [psgallery]: https://img.shields.io/powershellgallery/v/psPAS.svg
 [ps-site]: https://www.powershellgallery.com/packages/psPAS
 [license]: https://img.shields.io/github/license/pspete/psPAS.svg
@@ -41,17 +39,28 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ---
 
+## Why psPAS
+
+- **First-class Privilege Cloud / ISPSS support** — authenticate as an Identity or Service user (via the companion [IdentityCommand](https://github.com/pspete/IdentityCommand) module) and use the same `psPAS` module as self-hosted PVWA. Some commands are Privilege Cloud-only, some self-hosted-only — `psPAS` enforces that automatically instead of leaving you to work it out. See [Authenticate](#authenticate).
+- **Complete API coverage** — Over 250 commands spanning every major area of Idira: Accounts, Safes, Users & Directories, Platforms, Authentication, PSM, Privileged Threat Analytics, Vault Remote Manager, Reports and more. See [psPAS Functions](#pspas-functions).
+- **Trusted at scale** — 230,000+ downloads on the PowerShell Gallery and counting (see the live badge above).
+- **Built for the PowerShell pipeline, not just the REST API** — commands accept and emit typed objects, so `Get-PASSafe | Get-PASSafeMember` (and much longer chains) just work, instead of you gluing `Invoke-RestMethod` calls and JSON parsing together by hand.
+- **Tested, not just written** — every public function ships with a Pester test and is gated by PSScriptAnalyzer in CI; nothing reaches the PowerShell Gallery without passing both.
+- **In active use and development since 2017** — regular releases, a maintained [changelog](CHANGELOG.md), and ongoing contributions/sponsorship — see [Acknowledgements](#acknowledgements).
+
+![Logo][Logo]
+
 - [Usage](#usage)
+  - [Quick Start](#quick-start)
   - [Authenticate](#authenticate)
-  - [Basic Operations](#basic-operations)
-  - [Advanced Examples](#advanced-examples)
-  - [Sample Scripts](#sample-scripts)
+  - [Working with the Pipeline](#working-with-the-pipeline)
+  - [More Examples](#more-examples)
 - [psPAS Functions](#pspas-functions)
 - [Installation](#installation)
   - [Prerequisites](#prerequisites)
   - [Install Options](#install-options)
   - [Verification](#verification)
-- [Sponsorship](#sponsorship)
+- [Sponsors](#sponsors)
 - [Changelog](#changelog)
 - [Author](#author)
 - [License](#license)
@@ -61,17 +70,66 @@ Docs: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ## Usage
 
-![Logo][Logo]
+### Quick Start
+
+```powershell
+Install-Module -Name psPAS -Scope CurrentUser
+
+$cred = Get-Credential
+New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com
+
+Get-PASSafe -search Finance | Get-PASSafeMember
+
+UserName     SafeName      Permissions
+--------     --------      -----------
+FinanceAdmin FinanceSafe01 @{useAccounts=True; retrieveAccounts=True; listAccounts=True;...
+
+Close-PASSession
+```
+
+Everything else in `psPAS` builds on this pattern: authenticate once with `New-PASSession`, then pipe `psPAS` commands together like any other PowerShell objects.
 
 ### Authenticate
 
 _Everything begins with a **Logon**:_
 
-To submit a logon request to the Idira (CyberArk) API, use the psPAS `New-PASSession` command.
+To submit a logon request to the Idira API, use the psPAS `New-PASSession` command.
 
-All subsequent operations are carried out by `psPAS` using the input data provided for the `New-PASSession` request (URL, Certificate), as well as data received from the API after successful authentication (Authentication Token, PVWA Version).
+All subsequent operations are carried out by `psPAS` using the input data provided for the `New-PASSession` request (URL, Certificate), as well as data received from the API after successful authentication (Authentication Token, PVWA Version).
 
-#### Idira (CyberArk) Authentication
+Most new Idira deployments today are Privilege Cloud (SaaS), so that's the first option below — self-hosted PVWA is just as fully supported and follows straight after.
+
+#### Privilege Cloud / ISPSS (SaaS)
+
+**Privilege Cloud authentication flows require the pspete `IdentityCommand` module, available from the [Powershell Gallery](https://www.powershellgallery.com/packages/IdentityCommand) & [GitHub](https://github.com/pspete/IdentityCommand).** `psPAS` uses it to handle the ISPSS logon; from there it's the same module used against self-hosted PVWA — some commands are Privilege Cloud-only, some self-hosted-only, and `psPAS` enforces that automatically rather than letting the API reject an unsupported call.
+
+##### Identity User
+
+Provide Identity User credentials and tenant details for authentication to Idira for Privilege Cloud:
+
+```
+#using URL
+New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL https://SomeTenant.privilegecloud.cyberark.cloud -Credential $Cred -IdentityUser
+```
+
+```
+#using subdomain
+New-PASSession -TenantSubdomain SomeTenantName -Credential $Cred -IdentityUser
+```
+
+##### Service User
+
+Provide tenant ID and non-interactive API User credentials for authentication via Idira Identity for Privilege Cloud:
+
+```
+New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $ServiceUserCreds -ServiceUser
+```
+
+Consult the vendor documentation for guidance on setting up a dedicated API Service user for non-interactive API use.
+
+#### Self-Hosted PVWA
+
+##### Local User Authentication
 
 - Use a PowerShell credential object containing a valid vault username and password.
 
@@ -87,7 +145,7 @@ Password for user safeadmin: **********
 New-PASSession -Credential $cred -BaseURI https://pvwa.somedomain.com
 ```
 
-#### LDAP Authentication
+##### LDAP Authentication
 
 - Specify LDAP credentials allowed to authenticate to the vault.
 
@@ -109,7 +167,7 @@ UserName    Source UserTypeName AgentUser Expired Disabled Suspended
 xApprover_1 LDAP   EPVUser      False     False   False    False
 ```
 
-#### RADIUS Authentication
+##### RADIUS Authentication
 
 ```powershell
 $cred = Get-Credential
@@ -129,7 +187,7 @@ UserName Source UserTypeName AgentUser Expired Disabled Suspended
 DuoUser  LDAP   EPVUser      False     False   False    False
 ```
 
-#### SAML Authentication
+##### SAML Authentication
 
 SAML SSO authentication using IWA and ADFS can be performed
 
@@ -152,7 +210,7 @@ $loginResponse = New-SAMLInteractive -LoginIDP $loginURL
 New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLResponse $loginResponse
 ```
 
-#### Certificate Authentication
+##### Certificate Authentication
 
 - Where PVWA/IIS requires client certificates, 'psPAS' will use any specified certificates for the duration of the session.
 
@@ -180,1110 +238,95 @@ $Cert = "0E199489C57E666115666D6E9990C2ACABDB6EDB"
 New-PASSession -UseSharedAuthentication -BaseURI https://pvwa.somedomain.com -CertificateThumbprint $Cert
 ```
 
-#### Shared Services Authentication
+### Working with the Pipeline
 
-**Privilege Cloud Shared Services authentication flows require the pspete `IdentityCommand` module, available from the [Powershell Gallery](https://www.powershellgallery.com/packages/IdentityCommand) & [GitHub](https://github.com/pspete/IdentityCommand).**
-
-##### Identity User
-
-Provide Identity User credentials and tenant details for authentication to Idira (CyberArk) Identity for Privilege Cloud Shared Services:
-
-```
-#using URL
-New-PASSession -IdentityTenantURL https://SomeTenantName.id.cyberark.cloud -PrivilegeCloudURL https://SomeTenant.privilegecloud.cyberark.cloud -Credential $Cred -IdentityUser
-```
-
-```
-#using subdomain
-New-PASSession -TenantSubdomain SomeTenantName -Credential $Cred -IdentityUser
-```
-
-##### Service User
-
-Provide tenant ID and non-interactive API User credentials for authentication via Idira (CyberArk) Identity for Privilege Cloud Shared Services:
-
-```
-New-PASSession -TenantSubdomain YourPrivilegeCloudTenantID -Credential $ServiceUserCreds -ServiceUser
-```
-
-Consult the vendor documentation for guidance on setting up a dedicated API Service user for non-interactive API use.
-
-### Basic Operations
-
-![Logo][Logo]
-
-#### Search
-
-##### Safes
-
-- Get information relating to Safes you have access to:
+`psPAS` commands return typed objects, so standard PowerShell cmdlets and multi-command chains work exactly as you'd expect:
 
 ```powershell
-Get-PASSafe -search _YZO
-
-SafeName           ManagingCPM     NumberOfDaysRetention NumberOfVersionsRetention Description
---------           -----------     --------------------- ------------------------- -----------
-1_TestSafe_096_YZO PasswordManager                       3                         TestSafe: 1_TestSafe_096_YZO
-1_TestSafe_100_YZO PasswordManager                       3                         TestSafe: 1_TestSafe_100_YZO
-3_TestSafe_058_YZO PasswordManager                       3                         TestSafe: 3_TestSafe_058_YZO
-3_TestSafe_068_YZO PasswordManager                       3                         TestSafe: 3_TestSafe_068_YZO
-3_TestSafe_069_YZO PasswordManager                       3                         TestSafe: 3_TestSafe_069_YZO
-2_TestSafe_090_YZO PasswordManager                       3                         TestSafe: 2_TestSafe_090_YZO
-1_TestSafe_067_YZO PasswordManager                       3                         TestSafe: 1_TestSafe_067_YZO
-```
-
-## Safe Members
-
-- Find Safe Members:
-
-```powershell
-Get-PASSafeMember -SafeName 1_TestSafe_067_YZO -search Usr
-
-UserName                     SafeName           Permissions
---------                     --------           -----------
-ACC-G-1_TestSafe_067_YZO-Usr 1_TestSafe_067_YZO @{useAccounts=True; retrieveAccounts=True; listAccounts=True; addAccounts=False;.....
-```
-
-##### Users
-
-- Query for Vault Users:
-
-```powershell
-Get-PASUser -Search xap
-
-ID  UserName    Source UserType ComponentUser Location
---  --------    ------ -------- ------------- --------
-657 xApprover_A LDAP   EPVUser  False         \psPETE\Users
-658 xApprover_1 LDAP   EPVUser  False         \psPETE\Users
-659 xApprover_B LDAP   EPVUser  False         \psPETE\Users
-660 xApprover_2 LDAP   EPVUser  False         \psPETE\Users
-661 xApprover_C LDAP   EPVUser  False         \psPETE\Users
-662 xApprover_3 LDAP   EPVUser  False         \psPETE\Users
-```
-
-##### Accounts
-
-- Return Account data:
-
-```powershell
-Get-PASAccount -SafeName "3_TestSafe_028_XYJ" -search sbwudlov
-
-AccountID                 : 286_4
-Safe                      : 3_TestSafe_028_XYJ
-address                   : SOMEDOMAIN.COM
-userName                  : sbwudlov
-name                      : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-sbwudlov
-platformId                : Z_WINDOMAIN_OFF
-secretType                : password
-platformAccountProperties : @{LogonDomain = SOMEDOMAIN }
-secretManagement          : @{automaticManagementEnabled = True; lastModifiedTime = 1559864222 }
-createdTime               : 06/06/2019 23:37:02
-```
-
-###### 1st Gen API
-
-- The `keywords` & `safe` parameters of `Get-PASAccount` force use of the 1st gen API:
-
-```powershell
-Get-PASAccount -Safe 3_TestSafe_028_XYJ
-WARNING: 2 matching accounts found. Only the first result will be returned
-
-AccountID          : 286_3
-Safe               : 3_TestSafe_028_XYJ
-Folder             : Root
-Name               : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-kmgrsebf
-UserName           : kmgrsebf
-PlatformID         : Z_WINDOMAIN_OFF
-DeviceType         : Operating System
-Address            : SOMEDOMAIN.COM
-InternalProperties : @{CreationMethod = PVWA }
-```
-
-- Only details of the first found account will be returned.
-- More results can be returned by specifying alternative parameters to avoid sending the request via the 1st gen API
-
-```powershell
-PS>Get-PASAccount -SafeName "3_TestSafe_028_XYJ"
-
-AccountID                 : 286_3
-Safe                      : 3_TestSafe_028_XYJ
-address                   : SOMEDOMAIN.COM
-userName                  : kmgrsebf
-name                      : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-kmgrsebf
-platformId                : Z_WINDOMAIN_OFF
-secretType                : password
-platformAccountProperties : @{LogonDomain = SOMEDOMAIN }
-secretManagement          : @{automaticManagementEnabled = True; lastModifiedTime = 1559864221 }
-createdTime               : 06/06/2019 23:37:01
-
-AccountID                 : 286_4
-Safe                      : 3_TestSafe_028_XYJ
-address                   : SOMEDOMAIN.COM
-userName                  : sbwudlov
-name                      : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-sbwudlov
-platformId                : Z_WINDOMAIN_OFF
-secretType                : password
-platformAccountProperties : @{LogonDomain = SOMEDOMAIN }
-secretManagement          : @{automaticManagementEnabled = True; lastModifiedTime = 1559864222 }
-createdTime               : 06/06/2019 23:37:02
-```
-
-![Logo][Logo]
-
-#### Administration
-
-##### Add An Account
-
-- Add an account to manage:
-
-```powershell
-#Convert Password to SecureString
-$Password = ConvertTo-SecureString -String "Secret1337$" -AsPlainText -Force
-
-#Additional account details
-$platformAccountProperties = @{
-  "LOGONDOMAIN"="domain.com"
-  "Notes"="Demo Account. Owner:psPete"
-  "Classification"="1F"
-}
-
-#Add Account
-Add-PASAccount -secretType Password -secret $Password -SafeName "YourSafe" -PlatformID "YourPlatform" `
--Address "domain" -Username SomeUsername -platformAccountProperties $platformAccountProperties
-```
-
-##### Create Safes
-
-- Simple safe creation:
-
-```powershell
-Add-PASSafe -SafeName NewSafe -Description "New Safe" -ManagingCPM PasswordManager -NumberOfVersionsRetention 10
-
-SafeName ManagingCPM     NumberOfDaysRetention NumberOfVersionsRetention Description
--------- -----------     --------------------- ------------------------- -----------
-NewSafe  PasswordManager                       10                        New Safe
-```
-
-##### Add Safe Members
-
-- Consistent safe membership:
-
-```powershell
-Add-PASSafeMember -SafeName NewSafe -MemberName NewMember -UseAccounts $false -ListAccounts $true `
-	-RetrieveAccounts $false -ViewAuditLog $true -ViewSafeMembers $true
-
-UserName  SafeName Permissions
---------  -------- -----------
-NewMember NewSafe  @{useAccounts=False; retrieveAccounts=False; listAccounts=True; addAccounts=False;...
-```
-
-##### Update Accounts
-
-- Update values for individual account properties:
-
-```powershell
-Set-PASAccount -AccountID 286_4 -op replace -path /address -value NEWDOMAIN.COM
-
-AccountID                 : 286_4
-Safe                      : 3_TestSafe_028_XYJ
-address                   : NEWDOMAIN.COM
-userName                  : sbwudlov
-name                      : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-sbwudlov
-platformId                : Z_WINDOMAIN_OFF
-secretType                : password
-platformAccountProperties : @{LogonDomain=SOMEDOMAIN}
-secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=1559864222}
-createdTime               : 06/06/2019 23:37:02
-
-Set-PASAccount -AccountID 286_4 -op replace -path /platformAccountProperties/LogonDomain -value NEWDOMAIN
-
-AccountID                 : 286_4
-Safe                      : 3_TestSafe_028_XYJ
-address                   : NEWDOMAIN.COM
-userName                  : sbwudlov
-name                      : Operating System-Z_WINDOMAIN_OFF-SOMEDOMAIN.COM-sbwudlov
-platformId                : Z_WINDOMAIN_OFF
-secretType                : password
-platformAccountProperties : @{LogonDomain=NEWDOMAIN}
-secretManagement          : @{automaticManagementEnabled=True; lastModifiedTime=1559864222}
-createdTime               : 06/06/2019 23:37:02
-```
-
-![Logo][Logo]
-
-##### CPM Operations
-
-###### Verify
-
-- Verify passwords
-
-```powershell
-# immediate verification
-Invoke-PASCPMOperation -AccountID $ID -VerifyTask
-```
-
-###### Change
-
-- Change passwords for accounts or account groups
-
-```powershell
-# immediate change
-Invoke-PASCPMOperation -AccountID $ID -ChangeTask
-
-# immediate change to a specific password value
-Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ChangeImmediately $true -NewCredentials $SecureString
-
-# change password in the Vault only
-Invoke-PASCPMOperation -AccountID $ID -ChangeTask -NewCredentials $SecureString
-
-# change password for account group
-Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ChangeEntireGroup $true
-
-# change password for account group to a specific password value
-Invoke-PASCPMOperation -AccountID $ID -ChangeTask -ChangeEntireGroup $true -NewCredentials $SecureString
-```
-
-###### Reconcile
-
-- Reconcile passwords
-
-```powershell
-# immediate reconcile
-Invoke-PASCPMOperation -AccountID $ID -ReconcileTask
-```
-
-##### Import a Connection Component
-
-- Import Custom Connection Components:
-
-```powershell
-Import-PASConnectionComponent -ImportFile C:\Temp\ConnectionComponent.zip
-```
-
-##### Platforms
-
-- Import & Export of CPM Platforms:
-
-```powershell
-#Import a Platform
-Import-PASPlatform -ImportFile C:\Temp\Platform.zip
-
-#Export a Platform
-Export-PASPlatform -PlatformID "Some-SSH-Platform" -Path C:\Temp
-```
-
-![Logo][Logo]
-
-#### Pipeline Operations
-
-- Work with the PowerShell pipeline:
-
-```powershell
-#Find directory groups assigned to safes
-Get-PASSafe -search YZO | Get-PASSafeMember -memberType group -includePredefinedUsers $false |
+# Find directory groups assigned to Safes
+Get-PASSafe -search Finance | Get-PASSafeMember -memberType group -includePredefinedUsers $false |
     Where-Object { Get-PASGroup -search $_.UserName -groupType Directory }
 
-UserName                     SafeName           Permissions
---------                     --------           -----------
-ACC-G-1_TestSafe_096_YZO-Usr 1_TestSafe_096_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-1_TestSafe_096_YZO-Adm 1_TestSafe_096_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-1_TestSafe_100_YZO-Usr 1_TestSafe_100_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-1_TestSafe_100_YZO-Adm 1_TestSafe_100_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-3_TestSafe_058_YZO-Usr 3_TestSafe_058_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-3_TestSafe_058_YZO-Adm 3_TestSafe_058_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-3_TestSafe_068_YZO-Usr 3_TestSafe_068_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-3_TestSafe_068_YZO-Adm 3_TestSafe_068_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-3_TestSafe_069_YZO-Usr 3_TestSafe_069_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-3_TestSafe_069_YZO-Adm 3_TestSafe_069_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-2_TestSafe_090_YZO-Usr 2_TestSafe_090_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-2_TestSafe_090_YZO-Adm 2_TestSafe_090_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-1_TestSafe_067_YZO-Usr 1_TestSafe_067_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-1_TestSafe_067_YZO-Adm 1_TestSafe_067_YZO @{useAccounts=True; retrieveAccounts=True; lis...
-
+UserName                SafeName      Permissions
+--------                --------      -----------
+ACC-G-FinanceSafe01-Usr FinanceSafe01 @{useAccounts=True; retrieveAccounts=True; listAccounts=True;...
+ACC-G-FinanceSafe01-Adm FinanceSafe01 @{useAccounts=True; retrieveAccounts=True; listAccounts=True;...
 ```
 
-- Multiple `psPAS` commands can be used together, along with standard PowerShell CmdLets:
-
-```powershell
-#Add all "admin" users in the root location to the PVWAMonitor group
-Get-PASUser -UserType EPVUser -Search Admin | Where-Object { $_.location -eq "\" } |
-Add-PASGroupMember -GroupName PVWAMonitor
-
-#Find an account, then find the members of the account's safe.
-Get-PASAccount -id 283_3 | Get-PASSafeMember
-
-UserName                     SafeName           Permissions
---------                     --------           -----------
-SafeAdmin                    3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
-PSMAppUsers                  3_TestSafe_100_OWZ @{useAccounts=False; retrieveAccounts=False; lis...
-PasswordManager              3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
-SafeAdmin3                   3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-3_TestSafe_100_OWZ-Usr 3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
-ACC-G-3_TestSafe_100_OWZ-Adm 3_TestSafe_100_OWZ @{useAccounts=True; retrieveAccounts=True; lis...
-Prov_ZZSRV01                 3_TestSafe_100_OWZ @{useAccounts=False; retrieveAccounts=True; lis...
-psPAS                        3_TestSafe_100_OWZ @{useAccounts=False; retrieveAccounts=True; lis...
-```
-
-### Advanced Examples
-
-![Logo][Logo]
-
-#### Bulk Operations
-
-The standard features of PowerShell which allow creation of and iterations through collections of objects, can be used to perform bulk operations:
-
-##### Example 1 - On-board Multiple Accounts
-
-```powershell
-$Accounts = Import-Csv -Path C:\Temp\Accounts.csv
-
-New-PASSession -Credential $creds -BaseURI https://your.pvwa.url
-
-foreach($Account in $Accounts){
-
-    $Password = ConvertTo-SecureString -String $Account.Password -AsPlainText -Force
-
-    Add-PASAccount -secretType Password `
-    -secret $Password `
-    -platformAccountProperties @{"LOGONDOMAIN"=$Account.LogonDomain} `
-    -SafeName $Account.SafeName `
-    -PlatformID $Account.PlatformID `
-    -Address $Account.Address `
-    -Username $Account.Username
-
-}
-
-Close-PASSession
-```
-
-##### Example 2 - Delete Multiple Safes
-
-```powershell
-#Specify Vault Logon Credentials
-$LogonCredential = Get-Credential
-
-#Logon
-New-PASSession -Credential $LogonCredential -BaseURI https://your.pvwa.url
-
-$Safes = Get-PASSafe -search TestSafe
-
-#Delete Safes
-foreach ($Safe in $Safes){
-
-  Remove-PASSafe -SafeName $Safe.SafeName -WhatIf
-
-}
-
-#Logoff
-Close-PASSession
-```
-
-##### Example 3 - Move a List of Users to a New Location
-
-```powershell
-#Vault Logon Credentials
-$LogonCredential = Get-Credential
-
-#Logon
-New-PASSession -Credential $LogonCredential -BaseURI https://your.pvwa.url
-
-#get list of users
-$users = Get-Content .\userlist.txt
-
-#move users
-$users | foreach{
-
-  Set-PASUser -UserName $_ -Location "\New\Location\Path" -WhatIf
-
-}
-
-#Logoff
-Close-PASSession
-```
-
-![Logo][Logo]
-
-#### Safe Permissions
-
-- Define Safe Roles and assign to safe members:
-
-```powershell
-$Role1 = [PSCustomObject]@{
-  UseAccounts                            = $true
-  ListAccounts                           = $true
-  ViewAuditLog                           = $false
-  ViewSafeMembers                        = $false
-}
-
-$Role2 = [PSCustomObject]@{
-  UseAccounts                            = $false
-  ListAccounts                           = $true
-  RetrieveAccounts                       = $false
-  AddAccounts                            = $true
-  UpdateAccountContent                   = $true
-  UpdateAccountProperties                = $true
-  InitiateCPMAccountManagementOperations = $true
-  SpecifyNextAccountContent              = $false
-  RenameAccounts                         = $true
-  DeleteAccounts                         = $true
-  UnlockAccounts                         = $true
-  ManageSafe                             = $true
-  ManageSafeMembers                      = $true
-  BackupSafe                             = $false
-  ViewAuditLog                           = $true
-  ViewSafeMembers                        = $true
-  requestsAuthorizationLevel1            = $false
-  requestsAuthorizationLevel2            = $false
-  AccessWithoutConfirmation              = $true
-  CreateFolders                          = $true
-  DeleteFolders                          = $true
-  MoveAccountsAndFolders                 = $true
-}
-
-$Role1 | Add-PASSafeMember -SafeName NewSafe -MemberName a032485 -SearchIn Vault
-
-UserName SafeName Permissions
--------- -------- -----------
-a032485  NewSafe  @{useAccounts=True; retrieveAccounts=False; listAccounts=True;...
-
-$Role2 | Add-PASSafeMember -SafeName NewSafe -MemberName SafeAdmin1 -SearchIn Vault
-
-UserName   SafeName Permissions
---------   -------- -----------
-SafeAdmin1 NewSafe  @{useAccounts=False; retrieveAccounts=False; listAccounts=Tr...
-```
-
-![Logo][Logo]
-
-#### PSM Sessions
-
-##### Terminate all Active PSM Sessions on a PSM Server
-
-```powershell
-#Find Active Sessions for a PSM Server IP
-#Terminate the Sessions
-Get-PASPSMSession | Where-Object{
-  ($_.RawProperties.ProviderID -eq $(Get-PASComponentDetail -ComponentID SessionManagement |
-    Where-Object{$_.ComponentIP -eq "192.168.60.20"} |
-    Select -ExpandProperty ComponentUserName))
-  -and ($_.IsLive) -and ($_.CanTerminate)} | Stop-PASPSMSession
-```
-
-![Logo][Logo]
-
-#### Updating Multiple Properties of an Account
-
-- Multiple updates can be performed in a single request:
-
-```powershell
-[array]$operations += @{"op"="remove";"path"="/platformAccountProperties/LogonDomain"}
-[array]$operations += @{"op"="replace";"path"="/name";"value"="SomeNewName"}
-[array]$operations += @{"op"="replace";"path"="/address";"value"="domain.co.uk"}
-
-Set-PASAccount -AccountID 286_4 -operations $operations
-
-AccountID        : 286_4
-Safe             : 3_TestSafe_028_XYJ
-address          : domain.co.uk
-userName         : sbwudlov
-name             : SomeNewName
-platformId       : Z_WINDOMAIN_OFF
-secretType       : password
-secretManagement : @{automaticManagementEnabled=True; lastModifiedTime=1559864222}
-createdTime      : 06/06/2019 23:37:02
-```
-
-![Logo][Logo]
-
-#### Using Methods
-
-Methods present on objects returned from psPAS functions can be leveraged to get the data you need with ease.
-
-- The `psPAS.CyberArk.Vault.Safe` object returned by `Get-PASSafe` has a ScriptMethod (`SafeMembers()`), which will run a query for the members of the safe:
-
-```powershell
-#List all safes where AppUser is not a member
-Get-PASSafe | Where-Object{ ($_.safemembers() | Select-Object -ExpandProperty UserName) -notcontains "AppUser"}
-```
-
-- Retrieved credentials can be immediately converted into Secure Strings or into a PsCredential object:
-
-```powershell
-#Returns a Secure String
-(Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToSecureString()
-
-#Returns a PsCredential Object
-(Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToPsCredential()
-
-#Returns a PsCredential Object with a custom username (to include a domain for example)
-(Get-PASAccount -id 330_5 | Get-PASAccountPassword).ToPsCredential("MyDomain\MyAccount")
-```
-
-![Logo][Logo]
-
-#### API Sessions
-
-- If actions are required to be performed under the context of different user accounts, it is possible to work with different authenticated sessions:
-
-```powershell
-#Start first session
-$VaultAdmin = Get-Credential
-
-PowerShell credential request
-Enter your credentials.
-User: VaultAdmin
-Password for user VaultAdmin: **********
-
-
-New-PASSession -Credential $VaultAdmin -BaseURI https://pvwa.somedomain.com
-
-Get-PASLoggedOnUser
-
-UserName   Source   UserTypeName AgentUser Expired Disabled Suspended
---------   ------   ------------ --------- ------- -------- ---------
-VaultAdmin Internal EPVUser      False     False   False    False
-
-#Save first session data
-$FirstSession = Get-PASSession
-
-#Start second session
-$SafeAdmin = Get-Credential
-
-PowerShell credential request
-Enter your credentials.
-User: SafeAdmin
-Password for user SafeAdmin: **********
-
-
-New-PASSession -Credential $SafeAdmin -BaseURI https://pvwa.somedomain.com
-
-Get-PASLoggedOnUser
-
-UserName  Source   UserTypeName AgentUser Expired Disabled Suspended
---------  ------   ------------ --------- ------- -------- ---------
-SafeAdmin Internal EPVUser      False     False   False    False
-
-#Save second session data
-$SecondSession = Get-PASSession
-
-#Switch back to first session
-Use-PASSession -Session $FirstSession
-
-Get-PASLoggedOnUser
-
-UserName   Source   UserTypeName AgentUser Expired Disabled Suspended
---------   ------   ------------ --------- ------- -------- ---------
-VaultAdmin Internal EPVUser      False     False   False    False
-
-#End first session
-Close-PASSession
-
-#Switch to second session
-Use-PASSession -Session $SecondSession
-
-Get-PASLoggedOnUser
-
-UserName  Source   UserTypeName AgentUser Expired Disabled Suspended
---------  ------   ------------ --------- ------- -------- ---------
-SafeAdmin Internal EPVUser      False     False   False    False
-
-#End second session
-Close-PASSession
-```
-
-### Sample Scripts
-
-A selection of psPAS sample scripts can be found in the [psPAS-Examples](https://github.com/pspete/psPAS-Examples) repository.
+Three ordinary `psPAS` commands and a standard `Where-Object` — no manual JSON or REST calls in sight.
+
+### More Examples
+
+Rather than duplicate a manual's worth of code in this file, worked examples for common tasks live in the [psPAS Module Guide][docs-guide], each with the same real request/response output style as above:
+
+- [Search][docs-search] — finding Safes, Safe Members, Users and Accounts
+- [Administration][docs-admin] — adding accounts, Safes and Safe Members, importing platforms & connection components
+- [CPM Operations][docs-cpm] — verify, change & reconcile tasks
+- [Bulk Operations][docs-bulk] — onboarding/removing accounts and Safes in bulk from a CSV
+- [Safe Permissions][docs-permissions] — defining reusable Safe permission "roles" and applying them
+- [PSM Sessions][docs-psm] — finding, monitoring and terminating live sessions
+- [Update Accounts][docs-update] — single & multi-property JSON patch updates
+- [Methods][docs-methods] — using the ScriptMethods attached to psPAS output objects (e.g. `Get-PASSafe`'s `SafeMembers()`, or converting a retrieved password straight to a `PSCredential`)
+- [API Sessions][docs-sessions] — working with more than one authenticated session at once
+
+A larger collection of ready-to-run scripts is maintained in the [psPAS-Examples](https://github.com/pspete/psPAS-Examples) repository.
+
+[docs-guide]: https://pspas.pspete.dev/docs/authentication/
+[docs-search]: https://pspas.pspete.dev/docs/search/
+[docs-admin]: https://pspas.pspete.dev/docs/administration/
+[docs-cpm]: https://pspas.pspete.dev/docs/cpm-operations/
+[docs-bulk]: https://pspas.pspete.dev/docs/bulk-operations/
+[docs-permissions]: https://pspas.pspete.dev/docs/safe-permissions/
+[docs-psm]: https://pspas.pspete.dev/docs/psm-sessions/
+[docs-update]: https://pspas.pspete.dev/docs/update-accounts/
+[docs-methods]: https://pspas.pspete.dev/docs/methods/
+[docs-sessions]: https://pspas.pspete.dev/docs/api-sessions/
 
 ![Logo][Logo]
 
 ## psPAS Functions
 
-This section lists the commands available in psPAS as well as any relevant version requirements.
+`psPAS` includes over 250 commands, grouped below by the area of Idira they cover:
 
-Depending on your version of Idira (CyberArk), different psPAS commands and parameters are available.
+| Category                      | Commands | Covers                                                                                                                                                 |
+| ----------------------------- | :------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Accounts & Secrets            |    55    | Onboard, retrieve, rotate, link & audit privileged accounts; CPM verify/change/reconcile; JIT access; discovered & dependent accounts; discovery scans |
+| Privileged Threat Analytics   |    31    | Security events, risky command rules, remediation & PTA configuration                                                                                  |
+| Users, Groups & Directories   |    27    | Vault users and groups, LDAP directory configuration and mappings                                                                                      |
+| Authentication & Sessions     |    25    | Every logon flow (CyberArk, LDAP, RADIUS, SAML, PKI, OIDC, Shared Services), session timeout/idle tracking, FIDO2 & SSH keys, OAuth Identity Providers |
+| Platforms & Onboarding        |    22    | Import/export/copy/rename CPM platforms, master policy, automatic onboarding rules                                                                     |
+| System, Server & Integrations |    17    | System health, server info, custom ticketing, IP allow lists, BYOK                                                                                     |
+| PSM Session Monitoring        |    12    | Live & recorded session activity, suspend/resume/terminate                                                                                             |
+| Safes & Safe Members          |    9     | Safe lifecycle and Safe membership/permissions                                                                                                         |
+| Vault Remote Manager          |    9     | Self-hosted Vault/DR service control, status & failover                                                                                                |
+| UI Customization              |    9     | Custom UI themes                                                                                                                                       |
+| Reports                       |    8     | Available reports, schedules & exports                                                                                                                 |
+| Access Requests               |    7     | Dual-control request/approve/deny workflow                                                                                                             |
+| ACLs (Account & Policy)       |    6     | OPM privileged command rules                                                                                                                           |
+| Applications (AAM)            |    6     | Application Access Manager identities & authentication methods                                                                                         |
+| Account Groups                |    5     | Grouping accounts for coordinated password changes                                                                                                     |
+| Connections                   |    4     | Connection Components & PSM Servers                                                                                                                    |
 
-The most recent psPAS version should work with your particular Idira (CyberArk) version and be able to be used with it.
+Full detail for every command — parameters, examples, and the minimum Idira (CyberArk) version required — is in the [online Command Reference](https://pspas.pspete.dev/commands/), or straight from PowerShell once the module is installed:
 
-The version requirements for certain parameters are described in greater detail in the command's documentation.
+```powershell
+# List every command in the module
+Get-Command -Module psPAS
 
-The module will take steps to verify that your version of Idira (CyberArk) meets any psPAS command's minimum version requirement.
+# Full help, including examples, for one command
+Get-Help Get-PASAccount -Full
+```
 
-If version requirement criteria are not met, operations may be prevented.
-
-To learn more about the parameters that may be used and the required version, consult the output of the 'Get-Help' command for the 'psPAS' functions.
-
-Click the below dropdown to view the current list of psPAS functions and their minimum version requirements:
-
-<details>
-  <Summary> List of Functions </summary>
-
-| **Function Name**                                                                          | **CyberArk Version** | **Description**                                              |
-| ------------------------------------------------------------------------------------------ | -------------------- | :----------------------------------------------------------- |
-| [`New-PASSession`][New-PASSession]                                                         | **9.0**              | Authenticates a user to Idira (CyberArk) Vault               |
-| [`Close-PASSession`][Close-PASSession]                                                     | **9.0**              | Logoff from Idira (CyberArk) Vault.                          |
-| [`Get-PASSession`][Get-PASSession]                                                         | **---**              | Get `psPAS` Session Data.                                    |
-| [`Use-PASSession`][Use-PASSession]                                                         | **---**              | Set `psPAS` Session Data.                                    |
-| [`Add-PASPublicSSHKey`][Add-PASPublicSSHKey]                                               | **9.6**              | Adds an authorised public SSH key for a user.                |
-| [`Get-PASPublicSSHKey`][Get-PASPublicSSHKey]                                               | **9.6**              | Retrieves a user's SSH Keys.                                 |
-| [`Remove-PASPublicSSHKey`][Remove-PASPublicSSHKey]                                         | **9.6**              | Deletes a Public SSH Key from a user                         |
-| [`Add-PASAccountACL`][Add-PASAccountACL]                                                   | **9.0**              | Adds a new privileged command rule to an account.            |
-| [`Get-PASAccountACL`][Get-PASAccountACL]                                                   | **9.0**              | Lists privileged commands rule for an account                |
-| [`Remove-PASAccountACL`][Remove-PASAccountACL]                                             | **9.0**              | Deletes privileged commands rule from an account             |
-| [`Add-PASAccountGroupMember`][Add-PASAccountGroupMember]                                   | **9.95**             | Adds an account as a member of an account group.             |
-| [`Get-PASAccountGroup`][Get-PASAccountGroup]                                               | **9.10**             | Returns account groups in a Safe.                            |
-| [`Get-PASAccountGroupMember`][Get-PASAccountGroupMember]                                   | **9.10**             | Returns members of an account group.                         |
-| [`New-PASAccountGroup`][New-PASAccountGroup]                                               | **9.95**             | Adds a new account group                                     |
-| [`Remove-PASAccountGroupMember`][Remove-PASAccountGroupMember]                             | **9.10**             | Deletes a member of an account group                         |
-| [`Add-PASAccount`][Add-PASAccount]                                                         | **9.0**              | Adds a new account.                                          |
-| [`Add-PASPendingAccount`][Add-PASPendingAccount]                                           | **9.7**              | Adds discovered account or SSH key as a pending account.     |
-| [`Get-PASAccount`][Get-PASAccount]                                                         | **9.3**              | Returns information about accounts.                          |
-| [`Get-PASAccountActivity`][Get-PASAccountActivity]                                         | **9.7**              | Returns activities for an account.                           |
-| [`Get-PASAccountPassword`][Get-PASAccountPassword]                                         | **9.7**              | Returns password for an account.                             |
-| [`Remove-PASAccount`][Remove-PASAccount]                                                   | **9.3**              | Deletes an account                                           |
-| [`Set-PASAccount`][Set-PASAccount]                                                         | **9.5**              | Updates details of an account.                               |
-| [`Invoke-PASCPMOperation`][Invoke-PASCPMOperation]                                         | **9.7**              | Invoke CPM verify, change & reconcile tasks.                 |
-| [`Unlock-PASAccount`][Unlock-PASAccount]                                                   | **9.10**             | Checks in an exclusive-use account.                          |
-| [`Add-PASApplication`][Add-PASApplication]                                                 | **9.1**              | Adds a new application                                       |
-| [`Add-PASApplicationAuthenticationMethod`][Add-PASApplicationAuthenticationMethod]         | **9.1**              | Add authentication method to an application                  |
-| [`Get-PASApplication`][Get-PASApplication]                                                 | **9.1**              | Returns details of applications                              |
-| [`Get-PASApplicationAuthenticationMethod`][Get-PASApplicationAuthenticationMethod]         | **9.1**              | Returns application authentication methods                   |
-| [`Remove-PASApplication`][Remove-PASApplication]                                           | **9.1**              | Deletes an application                                       |
-| [`Remove-PASApplicationAuthenticationMethod`][Remove-PASApplicationAuthenticationMethod]   | **9.1**              | Delete auth method from an application                       |
-| [`Import-PASConnectionComponent`][Import-PASConnectionComponent]                           | **10.3**             | Imports a Connection Component                               |
-| [`New-PASPSMSession`][New-PASPSMSession]                                                   | **9.10**             | Get required parameters to connect through PSM               |
-| [`Get-PASPSMRecording`][Get-PASPSMRecording]                                               | **9.10**             | Get details of PSM Recording                                 |
-| [`Get-PASPSMSession`][Get-PASPSMSession]                                                   | **9.10**             | Get details of PSM Sessions                                  |
-| [`Resume-PASPSMSession`][Resume-PASPSMSession]                                             | **10.2**             | Resumes a Suspended PSM Session.                             |
-| [`Stop-PASPSMSession`][Stop-PASPSMSession]                                                 | **10.1**             | Terminates a PSM Session.                                    |
-| [`Suspend-PASPSMSession`][Suspend-PASPSMSession]                                           | **10.2**             | Suspends a PSM Session.                                      |
-| [`Get-PASOnboardingRule`][Get-PASOnboardingRule]                                           | **9.7**              | Gets automatic on-boarding rules                             |
-| [`New-PASOnboardingRule`][New-PASOnboardingRule]                                           | **9.7**              | Adds a new on-boarding rule                                  |
-| [`Remove-PASOnboardingRule`][Remove-PASOnboardingRule]                                     | **9.7**              | Deletes an automatic on-boarding rule                        |
-| [`Get-PASPlatform`][Get-PASPlatform]                                                       | **9.10**             | Retrieves details of a specified platform.                   |
-| [`Import-PASPlatform`][Import-PASPlatform]                                                 | **10.2**             | Import a new platform                                        |
-| [`Export-PASPlatform`][Export-PASPlatform]                                                 | **10.4**             | Export a platform                                            |
-| [`Add-PASPolicyACL`][Add-PASPolicyACL]                                                     | **9.0**              | Adds a new privileged command rule                           |
-| [`Get-PASPolicyACL`][Get-PASPolicyACL]                                                     | **9.0**              | Lists OPM Rules for a policy                                 |
-| [`Remove-PASPolicyACL`][Remove-PASPolicyACL]                                               | **9.0**              | Delete privileged commands from policy                       |
-| [`Approve-PASRequest`][Approve-PASRequest]                                                 | **9.10**             | Confirm a single request                                     |
-| [`Deny-PASRequest`][Deny-PASRequest]                                                       | **9.10**             | Reject a single request                                      |
-| [`Get-PASRequest`][Get-PASRequest]                                                         | **9.10**             | List requests                                                |
-| [`Get-PASRequestDetail`][Get-PASRequestDetail]                                             | **9.10**             | Get request details                                          |
-| [`New-PASRequest`][New-PASRequest]                                                         | **9.10**             | Creates an access request for an account                     |
-| [`Remove-PASRequest`][Remove-PASRequest]                                                   | **9.10**             | Deletes a request                                            |
-| [`Add-PASSafeMember`][Add-PASSafeMember]                                                   | **9.3**              | Adds a Safe Member to a safe                                 |
-| [`Get-PASSafeMember`][Get-PASSafeMember]                                                   | **9.7**              | Lists the members of a Safe                                  |
-| [`Remove-PASSafeMember`][Remove-PASSafeMember]                                             | **9.3**              | Removes a member from a safe                                 |
-| [`Set-PASSafeMember`][Set-PASSafeMember]                                                   | **9.3**              | Updates a Safe Member's Permissions                          |
-| [`Add-PASSafe`][Add-PASSafe]                                                               | **9.2**              | Adds a new safe                                              |
-| [`Get-PASSafe`][Get-PASSafe]                                                               | **9.7**              | Returns safe details                                         |
-| [`Remove-PASSafe`][Remove-PASSafe]                                                         | **9.3**              | Deletes a safe                                               |
-| [`Set-PASSafe`][Set-PASSafe]                                                               | **9.3**              | Updates a safe                                               |
-| [`Get-PASSafeShareLogo`][Get-PASSafeShareLogo]                                             | **9.7**              | Returns details of SafeShare Logo                            |
-| [`Get-PASServer`][Get-PASServer]                                                           | **9.7**              | Returns details of the Web Service Server                    |
-| [`Get-PASServerWebService`][Get-PASServerWebService]                                       | **9.7**              | Returns details of the Web Service                           |
-| [`Get-PASComponentDetail`][Get-PASComponentDetail]                                         | **10.1**             | Returns details about component instances.                   |
-| [`Get-PASComponentSummary`][Get-PASComponentSummary]                                       | **10.1**             | Returns consolidated information about components.           |
-| [`Add-PASGroupMember`][Add-PASGroupMember]                                                 | **9.7**              | Adds a user as a group member                                |
-| [`Get-PASLoggedOnUser`][Get-PASLoggedOnUser]                                               | **9.7**              | Returns details of the logged on user                        |
-| [`Get-PASUserLoginInfo`][Get-PASUserLoginInfo]                                             | **10.4**             | Returns login details of the current user                    |
-| [`Get-PASUser`][Get-PASUser]                                                               | **9.7**              | Returns details of a user                                    |
-| [`New-PASUser`][New-PASUser]                                                               | **9.7**              | Creates a new user                                           |
-| [`Remove-PASUser`][Remove-PASUser]                                                         | **9.7**              | Deletes a user                                               |
-| [`Set-PASUser`][Set-PASUser]                                                               | **9.7**              | Updates a user                                               |
-| [`Unblock-PASUser`][Unblock-PASUser]                                                       | **9.7**              | Activates a suspended user                                   |
-| [`Get-PASDirectory`][Get-PASDirectory]                                                     | **10.4**             | Get configured LDAP directories                              |
-| [`Add-PASDirectory`][Add-PASDirectory]                                                     | **10.4**             | Add a new LDAP directory                                     |
-| [`New-PASDirectoryMapping`][New-PASDirectoryMapping]                                       | **10.4**             | Create a new LDAP directory mapping                          |
-| [`Add-PASPTARule`][Add-PASPTARule]                                                         | **10.4**             | Add a new Risky Commandrule to PTA                           |
-| [`Get-PASPTAEvent`][Get-PASPTAEvent]                                                       | **10.3**             | Get security events from PTA                                 |
-| [`Set-PASPTAEvent`][Set-PASPTAEvent]                                                       | **11.3**             | Set PTA security event status                                |
-| [`Get-PASPTARemediation`][Get-PASPTARemediation]                                           | **10.4**             | Get automatic response config from PTA                       |
-| [`Get-PASPTARule`][Get-PASPTARule]                                                         | **10.4**             | List Risky Command rules from PTA                            |
-| [`Set-PASPTARemediation`][Set-PASPTARemediation]                                           | **10.4**             | Update automaticresponse config in PTA                       |
-| [`Set-PASPTARule`][Set-PASPTARule]                                                         | **10.4**             | Update a Risky Commandrule in PTA                            |
-| [`Get-PASAccountDetail`][Get-PASAccountDetail]                                             | **10.4**             | Returns information about accounts.                          |
-| [`Get-PASGroup`][Get-PASGroup]                                                             | **10.5**             | Return group information                                     |
-| [`Remove-PASGroupMember`][Remove-PASGroupMember]                                           | **10.5**             | Remove group members                                         |
-| [`Set-PASOnboardingRule`][Set-PASOnboardingRule]                                           | **10.5**             | Update Onboarding Rules                                      |
-| [`Add-PASDiscoveredAccount`][Add-PASDiscoveredAccount]                                     | **10.5**             | Add discovered accounts to the Accounts Feed                 |
-| [`Connect-PASPSMSession`][Connect-PASPSMSession]                                           | **10.5**             | Get required parameters to connect to a PSM Session          |
-| [`Get-PASPSMSessionActivity`][Get-PASPSMSessionActivity]                                   | **10.6**             | Get activity details from an active PSM Session.             |
-| [`Get-PASPSMSessionProperty`][Get-PASPSMSessionProperty]                                   | **10.6**             | Get property details from an active PSM Session.             |
-| [`Get-PASPSMRecordingActivity`][Get-PASPSMRecordingActivity]                               | **10.6**             | Get activity details from a PSM Recording.                   |
-| [`Get-PASPSMRecordingProperty`][Get-PASPSMRecordingProperty]                               | **10.6**             | Get property details from a PSM Recording.                   |
-| [`Export-PASPSMRecording`][Export-PASPSMRecording]                                         | **10.6**             | Save PSM Session Recording to a file.                        |
-| [`Request-PASJustInTimeAccess`][Request-PASJustInTimeAccess]                               | **10.6**             | Request temporary access to a server.                        |
-| [`Revoke-PASJustInTimeAccess`][Revoke-PASJustInTimeAccess]                                 | **12.0**             | Revoke temporary server access.                              |
-| [`Get-PASDirectoryMapping`][Get-PASDirectoryMapping]                                       | **10.7**             | Get details of configured directory mappings.                |
-| [`Set-PASDirectoryMapping`][Set-PASDirectoryMapping]                                       | **10.7**             | Update a configured directory mapping.                       |
-| [`Remove-PASDirectory`][Remove-PASDirectory]                                               | **10.7**             | Delete a directory configuration.                            |
-| [`Find-PASSafe`][Find-PASSafe]                                                             | **10.1** - **11.7**  | List or Search Safes by name.                                |
-| [`Set-PASDirectoryMappingOrder`][Set-PASDirectoryMappingOrder]                             | **10.10**            | Reorder Directory Mappings                                   |
-| [`Set-PASUserPassword`][Set-PASUserPassword]                                               | **10.10**            | Reset a User's Password                                      |
-| [`New-PASGroup`][New-PASGroup]                                                             | **11.1**             | Create a new Idira (CyberArk) group                          |
-| [`Get-PASPlatformSafe`][Get-PASPlatformSafe]                                               | **11.1**             | List details for all platforms                               |
-| [`Remove-PASDirectoryMapping`][Remove-PASDirectoryMapping]                                 | **11.1**             | Deletes a Directory Mapping                                  |
-| [`Enable-PASCPMAutoManagement`][Enable-PASCPMAutoManagement]                               | **10.4**             | Enables Automatic CPM Management for an account              |
-| [`Disable-PASCPMAutoManagement`][Disable-PASCPMAutoManagement]                             | **10.4**             | Disables Automatic CPM Management for an account             |
-| [`Test-PASPSMRecording`][Test-PASPSMRecording]                                             | **11.2**             | Determine validity of PSM Session Recording                  |
-| [`Copy-PASPlatform`][Copy-PASPlatform]                                                     | **11.4**             | Duplicate a platform                                         |
-| [`Enable-PASPlatform`][Enable-PASPlatform]                                                 | **11.4**             | Enable a platform                                            |
-| [`Disable-PASPlatform`][Disable-PASPlatform]                                               | **11.4**             | Disable a platform                                           |
-| [`Remove-PASPlatform`][Remove-PASPlatform]                                                 | **11.4**             | Delete a platform                                            |
-| [`Remove-PASGroup`][Remove-PASGroup]                                                       | **11.5**             | Delete a user group                                          |
-| [`Get-PASAllowedReferrer`][Get-PASAllowedReferrer]                                         | **11.5**             | List PVWA Allowed Referrer                                   |
-| [`Add-PASAllowedReferrer`][Add-PASAllowedReferrer]                                         | **11.5**             | Add PVWA Allowed Referrer                                    |
-| [`Get-PASAccountSSHKey`][Get-PASAccountSSHKey]                                             | **11.5**             | Get Private SSH Key value of Account                         |
-| [`Get-PASAuthenticationMethod`][Get-PASAuthenticationMethod]                               | **11.5**             | List authentication methods                                  |
-| [`Add-PASAuthenticationMethod`][Add-PASAuthenticationMethod]                               | **11.5**             | Add authentication method                                    |
-| [`Set-PASAuthenticationMethod`][Set-PASAuthenticationMethod]                               | **11.5**             | Update authentication method                                 |
-| [`Get-PASConnectionComponent`][Get-PASConnectionComponent]                                 | **11.5**             | List configured connection components                        |
-| [`Get-PASPSMServer`][Get-PASPSMServer]                                                     | **11.5**             | List configured PSM Servers                                  |
-| [`Get-PASPlatformPSMConfig`][Get-PASPlatformPSMConfig]                                     | **11.5**             | List Platform PSM configuration                              |
-| [`Set-PASPlatformPSMConfig`][Set-PASPlatformPSMConfig]                                     | **11.5**             | Update Platform PSM configuration                            |
-| [`Start-PASAccountImportJob`][Start-PASAccountImportJob]                                   | **11.6**             | Add multiple accounts to existing Safes.                     |
-| [`Get-PASAccountImportJob`][Get-PASAccountImportJob]                                       | **11.6**             | Get status of account import                                 |
-| [`New-PASAccountObject`][New-PASAccountObject]                                             | **---**              | Format an object to include in an import list                |
-| [`Get-PASDiscoveredAccount`][Get-PASDiscoveredAccount]                                     | **11.6**             | List discovered accounts                                     |
-| [`Add-PASOpenIDConnectProvider`][Add-PASOpenIDConnectProvider]                             | **11.7**             | Adds an OIDC Authentication Provider                         |
-| [`Get-PASOpenIDConnectProvider`][Get-PASOpenIDConnectProvider]                             | **11.7**             | Gets details of configured OIDC Authentication Providers     |
-| [`Remove-PASOpenIDConnectProvider`][Remove-PASOpenIDConnectProvider]                       | **11.7**             | Deletes an OIDC Authentication Provider                      |
-| [`Set-PASOpenIDConnectProvider`][Set-PASOpenIDConnectProvider]                             | **11.7**             | Updates an OIDC Authentication Provider                      |
-| [`Remove-PASAuthenticationMethod`][Remove-PASAuthenticationMethod]                         | **11.7**             | Delete an authentication method                              |
-| [`Clear-PASDiscoveredAccountList`][Clear-PASDiscoveredAccountList]                         | **12.1**             | Clear all discovered accounts from the pending account list  |
-| [`Get-PASAccountPasswordVersion`][Get-PASAccountPasswordVersion]                           | **12.1**             | Get details of previous password versions                    |
-| [`New-PASAccountPassword`][New-PASAccountPassword]                                         | **12.0**             | Generate new password values based on platform policy        |
-| [`Set-PASLinkedAccount`][Set-PASLinkedAccount]                                             | **12.1**             | Associate logon and reconcile accounts                       |
-| [`Clear-PASLinkedAccount`][Clear-PASLinkedAccount]                                         | **12.2**             | Clear associated linked accounts                             |
-| [`Clear-PASPrivateSSHKey`][Clear-PASPrivateSSHKey]                                         | **12.1**             | Remove all MFA caching SSH Keys                              |
-| [`New-PASPrivateSSHKey`][New-PASPrivateSSHKey]                                             | **12.1**             | Generate MFA caching SSH Keys                                |
-| [`Remove-PASPrivateSSHKey`][Remove-PASPrivateSSHKey]                                       | **12.1**             | Delete MFA caching SSH Keys                                  |
-| [`Set-PASGroup`][Set-PASGroup]                                                             | **12.0**             | Update Idira (CyberArk) groups                               |
-| [`Get-PASPlatformSummary`][Get-PASPlatformSummary]                                         | **12.2**             | Get information on platform system types                     |
-| [`Enable-PASUser`][Enable-PASUser]                                                         | **12.6**             | Enable Idira (CyberArk) Users                                |
-| [`Disable-PASUser`][Disable-PASUser]                                                       | **12.6**             | Disable Idira (CyberArk) Users                               |
-| [`Publish-PASDiscoveredAccount`][Publish-PASDiscoveredAccount]                             | **12.6**             | Onboard Discovered Accounts                                  |
-| [`Get-PASLinkedAccount`][Get-PASLinkedAccount]                                             | **12.2**             | Get details of linked accounts                               |
-| [`Get-PASLinkedGroup`][Get-PASLinkedGroup]                                                 | **12.2**             | Get details of linked groups                                 |
-| [`Add-PASPersonalAdminAccount`][Add-PASPersonalAdminAccount]                               | **12.6**             | Add Personal Admin Account (Privilege Cloud Only).           |
-| [`Get-PASPTAGlobalCatalog`][Get-PASPTAGlobalCatalog]                                       | **13.0**             | Get Global Catalog connectivity details for PTA.             |
-| [`Add-PASPTAGlobalCatalog`][Add-PASPTAGlobalCatalog]                                       | **13.0**             | Add Global Catalog connectivity details to PTA.              |
-| [`Get-PASUserTypeInfo`][Get-PASUserTypeInfo]                                               | **13.2**             | Get User Type Info                                           |
-| [`Get-PASPTARiskEvent`][Get-PASPTARiskEvent]                                               | **13.2**             | Get PTA Risk Events                                          |
-| [`Set-PASPTARiskEvent`][Set-PASPTARiskEvent]                                               | **13.2**             | Update PTA Risk Events                                       |
-| [`Get-PASPTARiskSummary`][Get-PASPTARiskSummary]                                           | **13.2**             | Get PTA Risk Summary                                         |
-| [`New-PASRequestObject`][New-PASRequestObject]                                             | **---**              | Format an object to include in an request list               |
-| [`Add-PASPTAIncludedTarget`][Add-PASPTAIncludedTarget]                                     | **14.0**             | Includes a PTA Monitored Target                              |
-| [`Add-PASPTAExcludedTarget`][Add-PASPTAExcludedTarget]                                     | **14.0**             | Excludes a PTA Monitored Target                              |
-| [`Add-PASPTAPrivilegedGroup`][Add-PASPTAPrivilegedGroup]                                   | **14.0**             | Configures a PTA Privileged Group                            |
-| [`Add-PASPTAPrivilegedUser`][Add-PASPTAPrivilegedUser]                                     | **14.0**             | Configures a PTA Privileged User                             |
-| [`Get-PASPTAExcludedTarget`][Get-PASPTAExcludedTarget]                                     | **14.0**             | Get PTA Excluded Target                                      |
-| [`Get-PASPTAIncludedTarget`][Get-PASPTAIncludedTarget]                                     | **14.0**             | Get PTA Included target                                      |
-| [`Get-PASPTAPrivilegedGroup`][Get-PASPTAPrivilegedGroup]                                   | **14.0**             | Get PTA Privileged Group                                     |
-| [`Get-PASPTAPrivilegedUser`][Get-PASPTAPrivilegedUser]                                     | **14.0**             | Get PTA Privileged User                                      |
-| [`Remove-PASPTAExcludedTarget`][Remove-PASPTAExcludedTarget]                               | **14.0**             | Remove PTA Excluded Target                                   |
-| [`Remove-PASPTAIncludedTarget`][Remove-PASPTAIncludedTarget]                               | **14.0**             | Remove PTA Included Target                                   |
-| [`Remove-PASPTAPrivilegedGroup`][Remove-PASPTAPrivilegedGroup]                             | **14.0**             | Remove PTA Privileged Group                                  |
-| [`Remove-PASPTAPrivilegedUser`][Remove-PASPTAPrivilegedUser]                               | **14.0**             | Remove PTA Privileged User                                   |
-| [`Set-PASIPAllowList`][Set-PASIPAllowList]                                                 | **P Cloud Only**     | Set P Cloud IP Allow List                                    |
-| [`Get-PASIPAllowList`][Get-PASIPAllowList]                                                 | **P Cloud Only**     | Get P Cloud IP Allow List                                    |
-| [`Get-PASBYOKConfig`][Get-PASBYOKConfig]                                                   | **P Cloud Only**     | Get P Cloud BYOK Config                                      |
-| [`Publish-PASDiscoveredLocalAccount`][Publish-PASDiscoveredLocalAccount]                   | **P Cloud Only**     | Publish P Cloud Discovered Local Account                     |
-| [`Remove-PASDiscoveredLocalAccount`][Remove-PASDiscoveredLocalAccount]                     | **P Cloud Only**     | Delete P Cloud Discovered Local Account                      |
-| [`Get-PASDiscoveredLocalAccountActivity`][Get-PASDiscoveredLocalAccountActivity]           | **P Cloud Only**     | Get P Cloud Discovered Local Account Activity                |
-| [`Get-PASDiscoveredLocalAccount`][Get-PASDiscoveredLocalAccount]                           | **P Cloud Only**     | Get P Cloud Discovered Local Account                         |
-| [`Clear-PASDiscoveredLocalAccount`][Clear-PASDiscoveredLocalAccount]                       | **P Cloud Only**     | Clear all P Cloud Discovered Local Accounts                  |
-| [`Add-PASDiscoveredLocalAccount`][Add-PASDiscoveredLocalAccount]                           | **P Cloud Only**     | Add P Cloud Discovered Local Account                         |
-| [`Enable-PASTheme`][Enable-PASTheme]                                                       | **14.6**             | Activate a custom UI theme                                   |
-| [`Remove-PASTheme`][Remove-PASTheme]                                                       | **14.6**             | Delete a custom UI theme                                     |
-| [`Import-PASThemeImage`][Import-PASThemeImage]                                             | **14.6**             | Import image for use in a custom UI theme                    |
-| [`Export-PASThemeImage`][Export-PASThemeImage]                                             | **14.6**             | Export image used in a custom UI theme                       |
-| [`Reset-PASTheme`][Reset-PASTheme]                                                         | **14.6**             | Reset the UI theme to default                                |
-| [`Publish-PASTheme`][Publish-PASTheme]                                                     | **14.6**             | Change draft status of a custom UI theme                     |
-| [`Get-PASTheme`][Get-PASTheme]                                                             | **14.6**             | Return details of custom UI themes                           |
-| [`New-PASTheme`][New-PASTheme]                                                             | **14.6**             | Create a new custom UI theme                                 |
-| [`Set-PASTheme`][Set-PASTheme]                                                             | **14.6**             | Update a custom UI theme                                     |
-| [`Get-PASStoredPlatform`][Get-PASStoredPlatform]                                           | **14.6**             | Get details of platforms stored in memory                    |
-| [`Remove-PASStoredPlatform`][Remove-PASStoredPlatform]                                     | **14.6**             | Delete stored platform from memory                           |
-| [`Get-PASUserLicenseReport`][Get-PASUserLicenseReport]                                     | **14.6**             | Return Privilege Cloud user license usage                    |
-| [`Get-PASReport`][Get-PASReport]                                                           | **14.6**             | List reports available to your user                          |
-| [`Get-PASReportSchedule`][Get-PASReportSchedule]                                           | **14.6**             | List report schedules                                        |
-| [`New-PASReportSchedule`][New-PASReportSchedule]                                           | **14.6**             | Create a scheduled report                                    |
-| [`Export-PASReport`][Export-PASReport]                                                     | **14.6**             | Export an available report                                   |
-| [`Add-PASUserAllowedAuthenticationMethod`][Add-PASUserAllowedAuthenticationMethod]         | **14.4**             | Add allowed authentication methods to users                  |
-| [`Remove-PASUserAllowedAuthenticationMethod`][Remove-PASUserAllowedAuthenticationMethod]   | **14.4**             | Remove allowed authentication methods from users             |
-| [`Remove-PASFIDO2Device`][Remove-PASFIDO2Device]                                           | **14.6**             | Remove configured FIDO2 device from a user                   |
-| [`Get-PASMasterPolicy`][Get-PASMasterPolicy]                                               | **14.6**             | List Master Policy settings                                  |
-| [`Set-PASMasterPolicy`][Set-PASMasterPolicy]                                               | **14.6**             | Update Master Policy settings                                |
-| [`Add-PASDependentAccount`][Add-PASDependentAccount]                                       | **14.6**             | Add a new dependent account                                  |
-| [`Remove-PASDependentAccount`][Remove-PASDependentAccount]                                 | **14.6**             | Delete dependent account                                     |
-| [`Resume-PASDependentAccount`][Resume-PASDependentAccount]                                 | **14.6**             | Resume password management of dependent account              |
-| [`Get-PASDependentAccount`][Get-PASDependentAccount]                                       | **14.6**             | List details of dependent accounts                           |
-| [`Sync-PASDependentAccount`][Sync-PASDependentAccount]                                     | **14.6**             | Synchronize dependent account password                       |
-| [`Set-PASDependentAccount`][Set-PASDependentAccount]                                       | **14.6**             | Update a dependent account                                   |
-| [`Remove-PASPTASecurityConfigurationProperty`][Remove-PASPTASecurityConfigurationProperty] | **14.6**             | Delete PTA security configuration property                   |
-| [`Reset-PASPTASecurityConfigurationProperty`][Reset-PASPTASecurityConfigurationProperty]   | **14.6**             | Reset PTA security configuration property                    |
-| [`Reset-PASPTASecurityConfigurationCategory`][Reset-PASPTASecurityConfigurationCategory]   | **14.6**             | Reset PTA security configuration category                    |
-| [`Get-PASPTASecurityConfigurationCategory`][Get-PASPTASecurityConfigurationCategory]       | **14.6**             | Return PTA security configuration categories                 |
-| [`Add-PASPTASyslog`][Add-PASPTASyslog]                                                     | **14.6**             | Add syslog configuration to PTA                              |
-| [`Remove-PASPTASyslog`][Remove-PASPTASyslog]                                               | **14.6**             | Remove syslog configuration from PTA                         |
-| [`Set-PASPTASMTP`][Set-PASPTASMTP]                                                         | **14.4**             | Add SMTP configuration to PTA                                |
-| [`Get-PASAccountSearchProperty`][Get-PASAccountSearchProperty]                             | **14.6**             | List configured account search properties                    |
-| [`Register-PASFIDO2Device`][Register-PASFIDO2Device]                                       | **14.6**             | Registers a new FIDO2 device for a user                      |
-| [`Rename-PASPlatform`][Rename-PASPlatform]                                                 | **15.0**             | Renames a target platform                                    |
-| [`Get-PASVRMServiceConfig`][Get-PASVRMServiceConfig]                                       | **15.0**             | Gets Vault Remote Manager service configuration              |
-| [`Get-PASVRMServiceConfigParameter`][Get-PASVRMServiceConfigParameter]                     | **15.0**             | Gets a specific Vault Remote Manager configuration parameter |
-| [`Get-PASVRMServiceStatus`][Get-PASVRMServiceStatus]                                       | **15.0**             | Gets the operational status of a Vault service               |
-| [`Get-PASVRMDRSystemHealth`][Get-PASVRMDRSystemHealth]                                     | **15.0**             | Gets DR system health, including replication status          |
-| [`Set-PASVRMServiceConfig`][Set-PASVRMServiceConfig]                                       | **15.0**             | Sets Vault Remote Manager configuration parameters           |
-| [`Start-PASVRMService`][Start-PASVRMService]                                               | **15.0**             | Starts a Vault or DR service                                 |
-| [`Stop-PASVRMService`][Stop-PASVRMService]                                                 | **15.0**             | Stops a Vault or DR service                                  |
-| [`Restart-PASVRMService`][Restart-PASVRMService]                                           | **15.0**             | Restarts a Vault or DR service                               |
-| [`Invoke-PASVRMFailover`][Invoke-PASVRMFailover]                                           | **15.0**             | Initiates DR failover to the DR site                         |
-| [`Clear-PASDependentLinkedAccount`][Clear-PASDependentLinkedAccount]                       | **P Cloud Only**     | Clears a linked account from a dependent account             |
-| [`Set-PASDependentLinkedAccount`][Set-PASDependentLinkedAccount]                           | **P Cloud Only**     | Sets a linked account for a dependent account                |
-| [`Import-PASTicketingSystem`][Import-PASTicketingSystem]                                   | **P Cloud Only**     | Imports a ticketing system into Privilege Cloud              |
-| [`Export-PASTicketingSystemLog`][Export-PASTicketingSystemLog]                             | **P Cloud Only**     | Exports ticketing system logs from Privilege Cloud           |
-
-[Enable-PASTheme]: /psPAS/Functions/Theme/Enable-PASTheme
-[Remove-PASTheme]: /psPAS/Functions/Theme/Remove-PASTheme
-[Import-PASThemeImage]: /psPAS/Functions/Theme/Import-PASThemeImage
-[Export-PASThemeImage]: /psPAS/Functions/Theme/Export-PASThemeImage
-[Reset-PASTheme]: /psPAS/Functions/Theme/Reset-PASTheme
-[Publish-PASTheme]: /psPAS/Functions/Theme/Publish-PASTheme
-[Get-PASTheme]: /psPAS/Functions/Theme/Get-PASTheme
-[New-PASTheme]: /psPAS/Functions/Theme/New-PASTheme
-[Set-PASTheme]: /psPAS/Functions/Theme/Set-PASTheme
-[Get-PASStoredPlatform]: /psPAS/Functions/Platforms/Get-PASStoredPlatform
-[Remove-PASStoredPlatform]: /psPAS/Functions/Platforms/Remove-PASStoredPlatform
-[Get-PASUserLicenseReport]: /psPAS/Functions/Reports/Get-PASUserLicenseReport
-[Get-PASReport]: /psPAS/Functions/Reports/Get-PASReport
-[Get-PASReportSchedule]: /psPAS/Functions/Reports/Get-PASReportSchedule
-[New-PASReportSchedule]: /psPAS/Functions/Reports/New-PASReportSchedule
-[Export-PASReport]: /psPAS/Functions/Reports/Export-PASReport
-[Add-PASUserAllowedAuthenticationMethod]: /psPAS/Functions/Users/Add-PASUserAllowedAuthenticationMethod
-[Remove-PASUserAllowedAuthenticationMethod]: /psPAS/Functions/Users/Remove-PASUserAllowedAuthenticationMethod
-[Remove-PASFIDO2Device]: /psPAS/Functions/Users/Remove-PASFIDO2Device
-[Get-PASMasterPolicy]: /psPAS/Functions/Policy/Get-PASMasterPolicy
-[Set-PASMasterPolicy]: /psPAS/Functions/Policy/Set-PASMasterPolicy
-[Add-PASDependentAccount]: /psPAS/Functions/Accounts/Add-PASDependentAccount
-[Remove-PASDependentAccount]: /psPAS/Functions/Accounts/Remove-PASDependentAccount
-[Resume-PASDependentAccount]: /psPAS/Functions/Accounts/Resume-PASDependentAccount
-[Get-PASDependentAccount]: /psPAS/Functions/Accounts/Get-PASDependentAccount
-[Sync-PASDependentAccount]: /psPAS/Functions/Accounts/Sync-PASDependentAccount
-[Set-PASDependentAccount]: /psPAS/Functions/Accounts/Set-PASDependentAccount
-[Remove-PASPTASecurityConfigurationProperty]: /psPAS/Functions/PTA/Remove-PASPTASecurityConfigurationProperty
-[Reset-PASPTASecurityConfigurationProperty]: /psPAS/Functions/PTA/Reset-PASPTASecurityConfigurationProperty
-[Reset-PASPTASecurityConfigurationCategory]: /psPAS/Functions/PTA/Reset-PASPTASecurityConfigurationCategory
-[Get-PASPTASecurityConfigurationCategory]: /psPAS/Functions/PTA/Get-PASPTASecurityConfigurationCategory
-[Add-PASPTASyslog]: /psPAS/Functions/PTA/Add-PASPTASyslog
-[Remove-PASPTASyslog]: /psPAS/Functions/PTA/Remove-PASPTASyslog
-[Set-PASPTASMTP]: /psPAS/Functions/PTA/Set-PASPTASMTP
-[Get-PASAccountSearchProperty]: /psPAS/Functions/Accounts/Get-PASAccountSearchProperty
-[Get-PASIPAllowList]: /psPAS/Functions/IPALlowList/Get-PASIPAllowList
-[Set-PASIPAllowList]: /psPAS/Functions/IPALlowList/Set-PASIPAllowList
-[Get-PASBYOKConfig]: /psPAS/Functions/BYOK/Get-PASBYOKConfig
-[Publish-PASDiscoveredLocalAccount]: /psPAS/Functions/Accounts/Publish-PASDiscoveredLocalAccount
-[Get-PASDiscoveredLocalAccountActivity]: /psPAS/Functions/Accounts/Get-PASDiscoveredLocalAccountActivity
-[Get-PASDiscoveredLocalAccount]: /psPAS/Functions/Accounts/Get-PASDiscoveredLocalAccount
-[Clear-PASDiscoveredLocalAccount]: /psPAS/Functions/Accounts/Clear-PASDiscoveredLocalAccount
-[Add-PASDiscoveredLocalAccount]: /psPAS/Functions/Accounts/Add-PASDiscoveredLocalAccount
-[Remove-PASDiscoveredLocalAccount]: /psPAS/Functions/Accounts/Remove-PASDiscoveredLocalAccount
-[Add-PASPTAExcludedTarget]: /psPAS/Functions/EventSecurity/Add-PASPTAExcludedTarget.ps1
-[Add-PASPTAIncludedTarget]: /psPAS/Functions/EventSecurity/Add-PASPTAIncludedTarget.ps1
-[Add-PASPTAPrivilegedGroup]: /psPAS/Functions/EventSecurity/Add-PASPTAPrivilegedGroup.ps1
-[Add-PASPTAPrivilegedUser]: /psPAS/Functions/EventSecurity/Add-PASPTAPrivilegedUser.ps1
-[Get-PASPTAExcludedTarget]: /psPAS/Functions/EventSecurity/Get-PASPTAExcludedTarget.ps1
-[Get-PASPTAIncludedTarget]: /psPAS/Functions/EventSecurity/Get-PASPTAIncludedTarget.ps1
-[Get-PASPTAPrivilegedGroup]: /psPAS/Functions/EventSecurity/Get-PASPTAPrivilegedGroup.ps1
-[Get-PASPTAPrivilegedUser]: /psPAS/Functions/EventSecurity/Get-PASPTAPrivilegedUser.ps1
-[Remove-PASPTAExcludedTarget]: /psPAS/Functions/EventSecurity/Remove-PASPTAExcludedTarget.ps1
-[Remove-PASPTAIncludedTarget]: /psPAS/Functions/EventSecurity/Remove-PASPTAIncludedTarget.ps1
-[Remove-PASPTAPrivilegedGroup]: /psPAS/Functions/EventSecurity/Remove-PASPTAPrivilegedGroup.ps1
-[Remove-PASPTAPrivilegedUser]: /psPAS/Functions/EventSecurity/Remove-PASPTAPrivilegedUser.ps1
-[New-PASRequestObject]: /psPAS/Functions/Requests/New-PASRequestObject.ps1
-[Get-PASUserTypeInfo]: /psPAS/Functions/User/Get-PASUserTypeInfo.ps1
-[Get-PASPTARiskEvent]: /psPAS/Functions/EventSecurity/Get-PASPTARiskEvent.ps1
-[Set-PASPTARiskEvent]: /psPAS/Functions/EventSecurity/Set-PASPTARiskEvent.ps1
-[Get-PASPTARiskSummary]: /psPAS/Functions/EventSecurity/Get-PASPTARiskSummary.ps1
-[Get-PASPTAGlobalCatalog]: /psPAS/Functions/EventSecurity/Get-PASPTAGlobalCatalog.ps1
-[Add-PASPTAGlobalCatalog]: /psPAS/Functions/EventSecurity/Add-PASPTAGlobalCatalog.ps1
-[Disable-PASUser]: /psPAS/Functions/User/Disable-PASUser.ps1
-[Enable-PASUser]: /psPAS/Functions/User/Enable-PASUser.ps1
-[Get-PASLinkedAccount]: /psPAS/Functions/Accounts/Get-PASLinkedAccount.ps1
-[Get-PASLinkedGroup]: /psPAS/Functions/Accounts/Get-PASLinkedGroup.ps1
-[Add-PASPersonalAdminAccount]: /psPAS/Functions/Accounts/Add-PASPersonalAdminAccount.ps1
-[Publish-PASDiscoveredAccount]: /psPAS/Functions/Accounts/Publish-PASDiscoveredAccount.ps1
-[Get-PASPlatformSummary]: /psPAS/Functions/Platforms/Get-PASPlatformSummary.ps1
-[Add-PASOpenIDConnectProvider]: /psPAS/Functions/Authentication/Add-PASOpenIDConnectProvider.ps1
-[Get-PASOpenIDConnectProvider]: /psPAS/Functions/Authentication/Get-PASOpenIDConnectProvider.ps1
-[Remove-PASOpenIDConnectProvider]: /psPAS/Functions/Authentication/Remove-PASOpenIDConnectProvider.ps1
-[Set-PASOpenIDConnectProvider]: /psPAS/Functions/Authentication/Set-PASOpenIDConnectProvider.ps1
-[Remove-PASAuthenticationMethod]: /psPAS/Functions/Authentication/Remove-PASAuthenticationMethod.ps1
-[Get-PASDiscoveredAccount]: /psPAS/Functions/Accounts/Get-PASDiscoveredAccount.ps1
-[Start-PASAccountImportJob]: /psPAS/Functions/Accounts/Start-PASAccountImportJob.ps1
-[Get-PASAccountImportJob]: /psPAS/Functions/Accounts/Get-PASAccountImportJob.ps1
-[New-PASAccountObject]: /psPAS/Functions/Accounts/New-PASAccountObject.ps1
-[Get-PASAllowedReferrer]: /psPAS/Functions/General/Get-PASAllowedReferrer.ps1
-[Add-PASAllowedReferrer]: /psPAS/Functions/General/Add-PASAllowedReferrer.ps1
-[Get-PASAccountSSHKey]: /psPAS/Functions/Accounts/Get-PASAccountSSHKey.ps1
-[Get-PASAuthenticationMethod]: /psPAS/Functions/Authentication/Get-PASAuthenticationMethod.ps1
-[Add-PASAuthenticationMethod]: /psPAS/Functions/Authentication/Add-PASAuthenticationMethod.ps1
-[Set-PASAuthenticationMethod]: /psPAS/Functions/Authentication/Set-PASAuthenticationMethod.ps1
-[Get-PASConnectionComponent]: /psPAS/Functions/Connections/Get-PASConnectionComponent.ps1
-[Get-PASPSMServer]: /psPAS/Functions/Connections/Get-PASPSMServer.ps1
-[Get-PASPlatformPSMConfig]: /psPAS/Functions/Platforms/Get-PASPlatformPSMConfig.ps1
-[Set-PASPlatformPSMConfig]: /psPAS/Functions/Platforms/Set-PASPlatformPSMConfig.ps1
-[New-PASSession]: /psPAS/Functions/Authentication/New-PASSession.ps1
-[Close-PASSession]: /psPAS/Functions/Authentication/Close-PASSession.ps1
-[Get-PASSession]: /psPAS/Functions/Authentication/Get-PASSession.ps1
-[Use-PASSession]: /psPAS/Functions/Authentication/Use-PASSession.ps1
-[Add-PASPublicSSHKey]: /psPAS/Functions/Authentication/Add-PASPublicSSHKey.ps1
-[Get-PASPublicSSHKey]: /psPAS/Functions/Authentication/Get-PASPublicSSHKey.ps1
-[Remove-PASPublicSSHKey]: /psPAS/Functions/Authentication/Remove-PASPublicSSHKey.ps1
-[Add-PASAccountACL]: /psPAS/Functions/AccountACL/Add-PASAccountACL.ps1
-[Get-PASAccountACL]: /psPAS/Functions/AccountACL/Get-PASAccountACL.ps1
-[Remove-PASAccountACL]: /psPAS/Functions/AccountACL/Remove-PASAccountACL.ps1
-[Add-PASAccountGroupMember]: /psPAS/Functions/AccountGroups/Add-PASAccountGroupMember.ps1
-[Get-PASAccountGroup]: /psPAS/Functions/AccountGroups/Get-PASAccountGroup.ps1
-[Get-PASAccountGroupMember]: /psPAS/Functions/AccountGroups/Get-PASAccountGroupMember.ps1
-[New-PASAccountGroup]: /psPAS/Functions/AccountGroups/New-PASAccountGroup.ps1
-[Remove-PASAccountGroupMember]: /psPAS/Functions/AccountGroups/Remove-PASAccountGroupMember.ps1
-[Add-PASAccount]: /psPAS/Functions/Accounts/Add-PASAccount.ps1
-[Add-PASPendingAccount]: /psPAS/Functions/Accounts/Add-PASPendingAccount.ps1
-[Get-PASAccount]: /psPAS/Functions/Accounts/Get-PASAccount.ps1
-[Get-PASAccountDetail]: /psPAS/Functions/Accounts/Get-PASAccountDetail.ps1
-[Get-PASAccountActivity]: /psPAS/Functions/Accounts/Get-PASAccountActivity.ps1
-[Get-PASAccountPassword]: /psPAS/Functions/Accounts/Get-PASAccountPassword.ps1
-[Remove-PASAccount]: /psPAS/Functions/Accounts/Remove-PASAccount.ps1
-[Set-PASAccount]: /psPAS/Functions/Accounts/Set-PASAccount.ps1
-[Unlock-PASAccount]: /psPAS/Functions/Accounts/Unlock-PASAccount.ps1
-[Add-PASApplication]: /psPAS/Functions/Applications/Add-PASApplication.ps1
-[Add-PASApplicationAuthenticationMethod]: /psPAS/Functions/Applications/Add-PASApplicationAuthenticationMethod.ps1
-[Get-PASApplication]: /psPAS/Functions/Applications/Get-PASApplication.ps1
-[Get-PASApplicationAuthenticationMethod]: /psPAS/Functions/Applications/Get-PASApplicationAuthenticationMethod.ps1
-[Remove-PASApplication]: /psPAS/Functions/Applications/Remove-PASApplication.ps1
-[Remove-PASApplicationAuthenticationMethod]: /psPAS/Functions/Applications/Remove-PASApplicationAuthenticationMethod.ps1
-[Import-PASConnectionComponent]: /psPAS/Functions/Connections/Import-PASConnectionComponent.ps1
-[New-PASPSMSession]: /psPAS/Functions/Connections/New-PASPSMSession.ps1
-[Get-PASPSMRecording]: /psPAS/Functions/Monitoring/Get-PASPSMRecording.ps1
-[Get-PASPSMSession]: /psPAS/Functions/Monitoring/Get-PASPSMSession.ps1
-[Resume-PASPSMSession]: /psPAS/Functions/Monitoring/Resume-PASPSMSession.ps1
-[Stop-PASPSMSession]: /psPAS/Functions/Monitoring/Stop-PASPSMSession.ps1
-[Suspend-PASPSMSession]: /psPAS/Functions/Monitoring/Suspend-PASPSMSession.ps1
-[Get-PASOnboardingRule]: /psPAS/Functions/OnboardingRules/Get-PASOnboardingRule.ps1
-[New-PASOnboardingRule]: /psPAS/Functions/OnboardingRules/New-PASOnboardingRule.ps1
-[Remove-PASOnboardingRule]: /psPAS/Functions/OnboardingRules/Remove-PASOnboardingRule.ps1
-[Get-PASPlatform]: /psPAS/Functions/Platforms/Get-PASPlatform.ps1
-[Import-PASPlatform]: /psPAS/Functions/Platforms/Import-PASPlatform.ps1
-[Export-PASPlatform]: /psPAS/Functions/Platforms/Export-PASPlatform.ps1
-[Add-PASPolicyACL]: /psPAS/Functions/PolicyACL/Add-PASPolicyACL.ps1
-[Get-PASPolicyACL]: /psPAS/Functions/PolicyACL/Get-PASPolicyACL.ps1
-[Remove-PASPolicyACL]: /psPAS/Functions/PolicyACL/Remove-PASPolicyACL.ps1
-[Approve-PASRequest]: /psPAS/Functions/Requests/Approve-PASRequest.ps1
-[Deny-PASRequest]: /psPAS/Functions/Requests/Deny-PASRequest.ps1
-[Get-PASRequest]: /psPAS/Functions/Requests/Get-PASRequest.ps1
-[Get-PASRequestDetail]: /psPAS/Functions/Requests/Get-PASRequestDetail.ps1
-[New-PASRequest]: /psPAS/Functions/Requests/New-PASRequest.ps1
-[Remove-PASRequest]: /psPAS/Functions/Requests/Remove-PASRequest.ps1
-[Add-PASSafeMember]: /psPAS/Functions/SafeMembers/Add-PASSafeMember.ps1
-[Get-PASSafeMember]: /psPAS/Functions/SafeMembers/Get-PASSafeMember.ps1
-[Remove-PASSafeMember]: /psPAS/Functions/SafeMembers/Remove-PASSafeMember.ps1
-[Set-PASSafeMember]: /psPAS/Functions/SafeMembers/Set-PASSafeMember.ps1
-[Add-PASSafe]: /psPAS/Functions/Safes/Add-PASSafe.ps1
-[Get-PASSafe]: /psPAS/Functions/Safes/Get-PASSafe.ps1
-[Remove-PASSafe]: /psPAS/Functions/Safes/Remove-PASSafe.ps1
-[Set-PASSafe]: /psPAS/Functions/Safes/Set-PASSafe.ps1
-[Get-PASSafeShareLogo]: /psPAS/Functions/ServerWebServices/Get-PASSafeShareLogo.ps1
-[Get-PASServer]: /psPAS/Functions/ServerWebServices/Get-PASServer.ps1
-[Get-PASServerWebService]: /psPAS/Functions/ServerWebServices/Get-PASServerWebService.ps1
-[Get-PASComponentDetail]: /psPAS/Functions/SystemHealth/Get-PASComponentDetail.ps1
-[Get-PASComponentSummary]: /psPAS/Functions/SystemHealth/Get-PASComponentSummary.ps1
-[Add-PASGroupMember]: /psPAS/Functions/User/Add-PASGroupMember.ps1
-[Get-PASLoggedOnUser]: /psPAS/Functions/User/Get-PASLoggedOnUser.ps1
-[Get-PASUserLoginInfo]: /psPAS/Functions/User/Get-PASUserLoginInfo.ps1
-[Get-PASUser]: /psPAS/Functions/User/Get-PASUser.ps1
-[New-PASUser]: /psPAS/Functions/User/New-PASUser.ps1
-[Remove-PASUser]: /psPAS/Functions/User/Remove-PASUser.ps1
-[Set-PASUser]: /psPAS/Functions/User/Set-PASUser.ps1
-[Unblock-PASUser]: /psPAS/Functions/User/Unblock-PASUser.ps1
-[Get-PASDirectory]: /psPAS/Functions/LDAPDirectories/Get-PASDirectory.ps1
-[Add-PASDirectory]: /psPAS/Functions/LDAPDirectories/Add-PASDirectory.ps1
-[New-PASDirectoryMapping]: /psPAS/Functions/LDAPDirectories/New-PASDirectoryMapping.ps1
-[Add-PASPTARule]: /psPAS/Functions/EventSecurity/Add-PASPTARule.ps1
-[Get-PASPTAEvent]: /psPAS/Functions/EventSecurity/Get-PASPTAEvent.ps1
-[Set-PASPTAEvent]: /psPAS/Functions/EventSecurity/Set-PASPTAEvent.ps1
-[Get-PASPTARemediation]: /psPAS/Functions/EventSecurity/Get-PASPTARemediation.ps1
-[Get-PASPTARule]: /psPAS/Functions/EventSecurity/Get-PASPTARule.ps1
-[Set-PASPTARemediation]: /psPAS/Functions/EventSecurity/Set-PASPTARemediation.ps1
-[Set-PASPTARule]: /psPAS/Functions/EventSecurity/Set-PASPTARule.ps1
-[Get-PASGroup]: /psPAS/Functions/User/Get-PASGroup.ps1
-[Remove-PASGroupMember]: /psPAS/Functions/User/Remove-PASGroupMember.ps1
-[Set-PASOnboardingRule]: /psPAS/Functions/OnboardingRules/Set-PASOnboardingRule.ps1
-[Add-PASDiscoveredAccount]: /psPAS/Functions/Accounts/Add-PASDiscoveredAccount.ps1
-[Connect-PASPSMSession]: /psPAS/Functions/Monitoring/Connect-PASPSMSession.ps1
-[Get-PASPSMSessionActivity]: /psPAS/Functions/Monitoring/Get-PASPSMSessionActivity.ps1
-[Get-PASPSMSessionProperty]: /psPAS/Functions/Monitoring/Get-PASPSMSessionProperty.ps1
-[Get-PASPSMRecordingActivity]: /psPAS/Functions/Monitoring/Get-PASPSMRecordingActivity.ps1
-[Get-PASPSMRecordingProperty]: /psPAS/Functions/Monitoring/Get-PASPSMRecordingProperty.ps1
-[Export-PASPSMRecording]: /psPAS/Functions/Monitoring/Export-PASPSMRecording.ps1
-[Request-PASJustInTimeAccess]: /psPAS/Functions/Accounts/Request-PASJustInTimeAccess.ps1
-[Revoke-PASJustInTimeAccess]: /psPAS/Functions/Accounts/Revoke-PASJustInTimeAccess.ps1
-[Get-PASDirectoryMapping]: /psPAS/Functions/LDAPDirectories/Get-PASDirectoryMapping.ps1
-[Set-PASDirectoryMapping]: /psPAS/Functions/LDAPDirectories/Set-PASDirectoryMapping.ps1
-[Remove-PASDirectory]: /psPAS/Functions/LDAPDirectories/Remove-PASDirectory.ps1
-[Find-PASSafe]: /psPAS/Functions/Safes/Find-PASSafe.ps1
-[Invoke-PASCPMOperation]: /psPAS/Functions/Accounts/Invoke-PASCPMOperation.ps1
-[Set-PASDirectoryMappingOrder]: /psPAS/Functions/LDAPDirectories/Set-PASDirectoryMappingOrder.ps1
-[Set-PASUserPassword]: /psPAS/Functions/User/Set-PASUserPassword.ps1
-[Disable-PASCPMAutoManagement]: /psPAS/Functions/Accounts/Disable-PASCPMAutoManagement.ps1
-[Enable-PASCPMAutoManagement]: /psPAS/Functions/Accounts/Enable-PASCPMAutoManagement.ps1
-[Remove-PASDirectoryMapping]: /psPAS/Functions/LDAPDirectories/Remove-PASDirectoryMapping.ps1
-[Get-PASPlatformSafe]: /psPAS/Functions/Platforms/Get-PASPlatformSafe.ps1
-[New-PASGroup]: /psPAS/Functions/User/New-PASGroup.ps1
-[Test-PASPSMRecording]: /psPAS/Functions/Monitoring/Test-PASPSMRecording.ps1
-[Copy-PASPlatform]: psPAS/Functions/Platforms/Copy-PASPlatform.ps1
-[Disable-PASPlatform]: psPAS/Functions/Platforms/Disable-PASPlatform.ps1
-[Enable-PASPlatform]: psPAS/Functions/Platforms/Enable-PASPlatform.ps1
-[Remove-PASPlatform]: psPAS/Functions/Platforms/Remove-PASPlatform.ps1
-[Remove-PASGroup]: psPAS/Functions/User/Remove-PASGroup.ps1
-[Clear-PASDiscoveredAccountList]: /psPAS/Functions/Accounts/Clear-PASDiscoveredAccountList.ps1
-[Get-PASAccountPasswordVersion]: /psPAS/Functions/Accounts/Get-PASAccountPasswordVersion.ps1
-[New-PASAccountPassword]: /psPAS/Functions/Accounts/New-PASAccountPassword.ps1
-[Set-PASLinkedAccount]: /psPAS/Functions/Accounts/Set-PASLinkedAccount.ps1
-[Clear-PASLinkedAccount]: /psPAS/Functions/Accounts/Clear-PASLinkedAccount.ps1
-[Clear-PASPrivateSSHKey]: /psPAS/Functions/Authentication/Clear-PASPrivateSSHKey.ps1
-[New-PASPrivateSSHKey]: /psPAS/Functions/Authentication/New-PASPrivateSSHKey.ps1
-[Remove-PASPrivateSSHKey]: /psPAS/Functions/Authentication/Remove-PASPrivateSSHKey.ps1
-[Set-PASGroup]: /psPAS/Functions/User/Set-PASGroup.ps1
-[Register-PASFIDO2Device]: /psPAS/Functions/Authentication/Register-PASFIDO2Device.ps1
-[Rename-PASPlatform]: /psPAS/Functions/Platforms/Rename-PASPlatform.ps1
-[Get-PASVRMServiceConfig]: /psPAS/Functions/VaultRemoteManager/Get-PASVRMServiceConfig.ps1
-[Get-PASVRMServiceConfigParameter]: /psPAS/Functions/VaultRemoteManager/Get-PASVRMServiceConfigParameter.ps1
-[Get-PASVRMServiceStatus]: /psPAS/Functions/VaultRemoteManager/Get-PASVRMServiceStatus.ps1
-[Get-PASVRMDRSystemHealth]: /psPAS/Functions/VaultRemoteManager/Get-PASVRMDRSystemHealth.ps1
-[Set-PASVRMServiceConfig]: /psPAS/Functions/VaultRemoteManager/Set-PASVRMServiceConfig.ps1
-[Start-PASVRMService]: /psPAS/Functions/VaultRemoteManager/Start-PASVRMService.ps1
-[Stop-PASVRMService]: /psPAS/Functions/VaultRemoteManager/Stop-PASVRMService.ps1
-[Restart-PASVRMService]: /psPAS/Functions/VaultRemoteManager/Restart-PASVRMService.ps1
-[Invoke-PASVRMFailover]: /psPAS/Functions/VaultRemoteManager/Invoke-PASVRMFailover.ps1
-[Clear-PASDependentLinkedAccount]: /psPAS/Functions/Accounts/Clear-PASDependentLinkedAccount.ps1
-[Set-PASDependentLinkedAccount]: /psPAS/Functions/Accounts/Set-PASDependentLinkedAccount.ps1
-[Import-PASTicketingSystem]: /psPAS/Functions/CustomTicketingSystem/Import-PASTicketingSystem.ps1
-[Export-PASTicketingSystemLog]: /psPAS/Functions/CustomTicketingSystem/Export-PASTicketingSystemLog.ps1
-
-</details>
-
-## Installation
+Version requirements are enforced at runtime too — if your Idira version doesn't support a parameter you've supplied, `psPAS` tells you before the request is sent rather than letting the API reject it.
 
 ![Logo][Logo]
+
+## Installation
 
 ### Prerequisites
 
 - PowerShell Core, or Windows Powershell v5 (minimum)
-- Idira (CyberArk) PAS REST API/PVWA Web Service (available and accessible over HTTPS using TLS 1.2 and TLS 1.3)
+- Idira REST API/PVWA Web Service (available and accessible over HTTPS using TLS 1.2 and TLS 1.3)
 - A user who can authenticate and has the necessary Vault/Safe permissions.
 
 ### Install Options
@@ -1310,7 +353,7 @@ Install-Module -Name psPAS -Scope CurrentUser
 
 The module files can be manually copied to one of your PowerShell module directories.
 
-Use the following command to get the paths to your local PowerShell module folders:
+Use the following command to get the paths to your local PowerShell module folders:
 
 ```powershell
 
@@ -1318,7 +361,7 @@ $env:PSModulePath.split(';')
 
 ```
 
-The module files must be placed in one of the listed directories, in a folder called `psPAS`.
+The module files must be placed in one of the listed directories, in a folder called `psPAS`.
 
 More: [about_PSModulePath](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_psmodulepath)
 
@@ -1343,7 +386,7 @@ The module files are available to download using a variety of methods:
   - Unblock & Extract the archive
   - Copy the `psPAS` (`\<Archive Root>\psPAS-master\psPAS`) folder to your "Powershell Modules" directory of choice.
 
-#### Verification
+### Verification
 
 Validate Install:
 
@@ -1428,7 +471,7 @@ for the high effort contributions to the project
 for the unofficial API documentation, general API wizardry & knowledge sharing.
 
 **Jesse McWilliams**
-([JesseMcWilliamss](https://github.com/JesseMcWilliams))
+([JesseMcWilliamss](https://github.com/JesseMcWilliamss))
 For the information needed to add PKIPN authentication into `New-PASSession`
 
 **Wojciech Ossowski**

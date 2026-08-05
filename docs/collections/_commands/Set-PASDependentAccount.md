@@ -28,12 +28,33 @@ Requires the Update account properties permission for the Account.
 
 ### Example 1
 ```powershell
-PS C:\> Set-PASDependentAccount -accountId 123_45 -dependentAccountId 123_560 -name SomeNewName
+Set-PASDependentAccount -accountId 123_45 -dependentAccountId 123_560 -name SomeNewName
  -platformAccountProperties @{"Property"="Value"} -automaticManagementEnabled $false
  -manualManagementReason "Some Reason"
 ```
 
 Updates the Dependent Account with the specified values
+
+### Example 2
+```powershell
+Set-PASDependentAccount -accountId 123_45 -dependentAccountId 123_560 -automaticManagementEnabled $false -manualManagementReason "Awaiting maintenance window"
+```
+
+Disables automatic management of the dependent account and records the reason for the change, leaving the other values unchanged.
+
+### Example 3
+```powershell
+Set-PASDependentAccount -accountId 123_45 -dependentAccountId 123_560 -platformAccountProperties @{"address"="1.2.3.4";"servicename"="test"}
+```
+
+Updates only the platform account properties of the dependent account.
+
+### Example 4
+```powershell
+Set-PASDependentAccount -accountId 123_45 -dependentAccountId 123_560 -name SomeNewName -WhatIf
+```
+
+Shows what would happen if the dependent account was renamed, without making the change.
 
 ## PARAMETERS
 

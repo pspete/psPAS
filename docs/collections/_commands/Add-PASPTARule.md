@@ -17,7 +17,7 @@ Adds a new Risky Activity rule to PTA
 ```
 Add-PASPTARule [-category] <String> [-regex] <String> [-score] <Int32> [-description] <String>
  [-response] <String> [-active] <Boolean> [-vaultUsersMode <String>] [-vaultUsersList <String[]>]
- [-machinesMode <String>] [-machinesList <String[]>] [<CommonParameters>]
+ [-machinesMode <String>] [-machinesList <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,6 +36,27 @@ Add-PASPTARule -category KEYSTROKES -regex '(*.)risky command(.*)' -score 60 -de
 ```
 
 Adds a new rule to PTA, scoped to exclude listed users, and include listed machines
+
+### EXAMPLE 3
+```
+[PSCustomObject]@{
+    category    = 'SQL'
+    regex       = '(.*)DROP TABLE(.*)'
+    score       = 90
+    description = 'Detects DROP TABLE statements'
+    response    = 'TERMINATE'
+    active      = $true
+} | Add-PASPTARule
+```
+
+Adds a new PTA rule using property values from the piped object.
+
+### EXAMPLE 4
+```
+Add-PASPTARule -category WINDOWS -regex '(*.)net user(.*)' -score 45 -description "Local user account creation" -response SUSPEND -active $true -machinesMode EXCLUDE -machinesList DC01,DC02
+```
+
+Adds a new rule to PTA, scoped to exclude the listed machines from detection.
 
 ## PARAMETERS
 
@@ -206,6 +227,36 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

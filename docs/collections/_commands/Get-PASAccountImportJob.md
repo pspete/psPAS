@@ -41,6 +41,13 @@ Get-PASAccountImportJob -id 4
 
 Returns status details of user's account upload job with id of 4
 
+### EXAMPLE 3
+```
+[PSCustomObject]@{id = 7} | Get-PASAccountImportJob
+```
+
+Returns status details of user's account upload job with id of 7, using pipeline input
+
 ## PARAMETERS
 
 ### -id

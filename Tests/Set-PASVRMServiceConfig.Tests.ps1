@@ -106,7 +106,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					$Script:RequestBody = $Body | ConvertFrom-Json
+					$Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
 					($Script:RequestBody.parameters) -ne $null
 
@@ -118,6 +118,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.ExternalVersion = '1.0'
 				{ Set-PASVRMServiceConfig -parameters $params -serviceName DR -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
+			}
+
+			It 'throws error if an invalid parameter name is specified' {
+
+				{ Set-PASVRMServiceConfig -parameters @{'NotAValidKey' = '30' } -serviceName DR -serverAddress '192.168.1.1' -servicePassword $SecurePassword -Confirm:$false } | Should -Throw '*Invalid parameter name(s)*'
+
 			}
 
 		}

@@ -63,6 +63,12 @@ function New-PASSession {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-Subdomain-ServiceUser'
 		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-Subdomain-SAML'
+		)]
 		[string]$TenantSubdomain,
 
 		[parameter(
@@ -127,6 +133,12 @@ function New-PASSession {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-ServiceUser'
 		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-URL-SAML'
+		)]
 		[string]$IdentityTenantURL,
 
 		[Parameter(
@@ -140,6 +152,12 @@ function New-PASSession {
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-ServiceUser'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-URL-SAML'
 		)]
 		[string]$PrivilegeCloudURL,
 
@@ -231,6 +249,18 @@ function New-PASSession {
 			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1SAML'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-Subdomain-SAML'
+		)]
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'ISPSS-URL-SAML'
 		)]
 		[Alias('SAMLToken')]
 		[String]$SAMLResponse,
@@ -488,6 +518,18 @@ function New-PASSession {
 				break
 			}
 
+			( { $PSItem -match '^ISPSS-.*-SAML$' } ) {
+
+				#SAMLAuth for New-IDSession
+				$LogonRequest['Uri'] = $IdentityTenantURL
+				$LogonRequest['SAMLResponse'] = $SAMLResponse
+
+				#URL for P Cloud API Operations
+				$Uri = "${PrivilegeCloudURL}/$PVWAAppName"
+
+				break
+			}
+
 			'integrated' {
 
 				$LogonRequest['Uri'] = "$Uri/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
@@ -636,7 +678,9 @@ function New-PASSession {
 				}
 
 				#Construct Request Body
-				$LogonRequest['Body'] = $boundParameters | ConvertTo-Json
+				#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+				#call records a non-revealing type name instead of the literal request content.
+				$LogonRequest['Body'] = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
 
 				break
 
@@ -659,6 +703,11 @@ function New-PASSession {
 					( { $PSItem -match '^ISPSS-.*-IdentityUser$' } ) {
 						#Perform Identity User Authentication using IdentityCommand module
 						$PASSession = New-IDSession -tenant_url $LogonRequest['Uri'] -Credential $LogonRequest['Credential']
+						break
+					}
+					( { $PSItem -match '^ISPSS-.*-SAML$' } ) {
+						#Perform Identity User Authentication using IdentityCommand module
+						$PASSession = New-IDSession -tenant_url $LogonRequest['Uri'] -SAMLResponse $LogonRequest['SAMLResponse']
 						break
 					}
 					( { $PSItem -match '^ISPSS-.*-ServiceUser$' } ) {
@@ -851,13 +900,22 @@ function New-PASSession {
 
 					} finally {
 
+						#Note: must not be named $Username - that collides (case-insensitively) with the
+						#-UserName parameter, and re-triggers its [ValidateNotNullOrEmpty()] on assignment.
 						if ($null -ne $User) {
-							$Username = $User | Select-Object -ExpandProperty UserName
-						} else { $Username = $User }
+							$ResolvedUsername = $User | Select-Object -ExpandProperty UserName
+						} else { $ResolvedUsername = $User }
 
-						$psPASSession.User = $Username
+						$psPASSession.User = $ResolvedUsername
 
 					}
+
+					try {
+
+						#Get the idle session timeout (minutes) configured on the server.
+						$psPASSession.IdleTimeout = Get-PASSessionTimeout -ErrorAction Stop | Select-Object -ExpandProperty Timeout
+
+					} catch { $psPASSession.IdleTimeout = $null }
 
 				}
 

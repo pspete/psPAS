@@ -1,6 +1,6 @@
 ﻿# .ExternalHelp psPAS-help.xml
 function Add-PASDiscoveredLocalAccount {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
             Mandatory = $true,
@@ -31,7 +31,13 @@ function Add-PASDiscoveredLocalAccount {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [string]$source
+        [string]$source,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string[]]$tags
     )
 
     begin {
@@ -54,7 +60,11 @@ function Add-PASDiscoveredLocalAccount {
         $Body = $boundParameters | ConvertTo-Json
 
         #send request to PAS web service
-        $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
+        if ($PSCmdlet.ShouldProcess($source, 'Add Discovered Local Account')) {
+
+            $result = Invoke-PASRestMethod -Uri $URI -Method PUT -Body $Body
+
+        }
 
         if ($null -ne $result) {
 

@@ -32,6 +32,20 @@ Remove-PASOnboardingRule -RuleID 5
 
 Removes specified on-boarding rule.
 
+### EXAMPLE 2
+```
+Get-PASOnboardingRule | Where-Object { $_.RuleName -eq 'Legacy Windows Rule' } | Remove-PASOnboardingRule
+```
+
+Finds the on-boarding rule named "Legacy Windows Rule" and removes it via the pipeline.
+
+### EXAMPLE 3
+```
+Remove-PASOnboardingRule -RuleID 5 -WhatIf
+```
+
+Shows what would happen if the on-boarding rule with ID 5 was removed, without actually removing it.
+
 ## PARAMETERS
 
 ### -RuleID

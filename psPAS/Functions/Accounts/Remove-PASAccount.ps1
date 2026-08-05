@@ -1,7 +1,7 @@
 # .ExternalHelp psPAS-help.xml
 function Remove-PASAccount {
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = 'False Positive')]
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Default')]
 	param(
 		[parameter(
 			Mandatory = $true,
@@ -17,7 +17,14 @@ function Remove-PASAccount {
 			ParameterSetName = 'Gen1'
 		)]
 		[Alias('UseClassicAPI')]
-		[switch]$UseGen1API
+		[switch]$UseGen1API,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Default'
+		)]
+		[boolean]$DeleteSSHKey
 	)
 
 	begin {
@@ -41,6 +48,33 @@ function Remove-PASAccount {
 
 				#Create URL for request (Version 10.4 onwards)
 				$URI = "$($psPASSession.BaseURI)/api/Accounts/$AccountID"
+
+				if ($PSBoundParameters.ContainsKey('DeleteSSHKey')) {
+
+					if (Test-IsISPSS) {
+
+						#Privilege Cloud parameter name
+						$QueryParameters = @{'deleteOnlyPrivateSshKey' = $DeleteSSHKey }
+
+					} else {
+
+						#Self-Hosted parameter name, requires 15.2
+						Assert-VersionRequirement -RequiredVersion 15.2
+
+						$QueryParameters = @{'deleteSshKeyFromVaultAndTarget' = $DeleteSSHKey }
+
+					}
+
+					$queryString = $QueryParameters | ConvertTo-QueryString
+
+					if ($null -ne $queryString) {
+
+						#Build URL from base URL
+						$URI = "$URI`?$queryString"
+
+					}
+
+				}
 
 			}
 

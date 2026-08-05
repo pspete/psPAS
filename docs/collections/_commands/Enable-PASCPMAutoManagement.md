@@ -15,7 +15,7 @@ Enables an account for Automatic CPM Management.
 ## SYNTAX
 
 ```
-Enable-PASCPMAutoManagement [-AccountID] <String> [<CommonParameters>]
+Enable-PASCPMAutoManagement [-AccountID] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,6 +37,20 @@ Enable-PASCPMAutoManagement -AccountID 543_2
 Sets automaticManagementEnabled to $true & clears any value set for manualManagementReason
 on account with ID 543_2
 
+### EXAMPLE 2
+```
+Get-PASAccount -id 543_2 | Enable-PASCPMAutoManagement
+```
+
+Gets the specified account and enables it for automatic CPM management, using the account ID from the pipeline.
+
+### EXAMPLE 3
+```
+Get-PASAccount -search "Administrator" | Enable-PASCPMAutoManagement
+```
+
+Enables automatic CPM management for every account returned by the search.
+
 ## PARAMETERS
 
 ### -AccountID
@@ -51,6 +65,36 @@ Required: True
 Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

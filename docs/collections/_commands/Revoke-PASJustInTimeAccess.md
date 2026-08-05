@@ -15,7 +15,7 @@ Revoke JIT access to a target Windows machine
 ## SYNTAX
 
 ```
-Revoke-PASJustInTimeAccess [-AccountID] <String> [<CommonParameters>]
+Revoke-PASJustInTimeAccess [-AccountID] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,6 +31,20 @@ Revoke-PASJustInTimeAccess -AccountID 36_3
 
 Revokes JIT access on the server for which the account with id 36_3 is a local account with local admin membership.
 
+### EXAMPLE 2
+```
+Get-PASAccount -id 36_3 | Revoke-PASJustInTimeAccess
+```
+
+Revokes JIT access using the account object returned by Get-PASAccount.
+
+### EXAMPLE 3
+```
+'36_3', '44_9' | ForEach-Object { Revoke-PASJustInTimeAccess -AccountID $_ }
+```
+
+Revokes JIT access for each of the specified local admin accounts.
+
 ## PARAMETERS
 
 ### -AccountID
@@ -45,6 +59,36 @@ Required: True
 Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

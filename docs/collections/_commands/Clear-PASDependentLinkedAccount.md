@@ -14,9 +14,16 @@ Clears a linked account from a dependent account
 
 ## SYNTAX
 
+### SaaS
 ```
 Clear-PASDependentLinkedAccount [-AccountID] <String> [-dependentAccountId] <String>
  [-extraPasswordIndex] <Int32> [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### SelfHosted
+```
+Clear-PASDependentLinkedAccount [-AccountID] <String> [-dependentAccountId] <String> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,13 +32,39 @@ Unlink an account from a dependent account
 
 ## EXAMPLES
 
-### Example 1
+### Example 1 - Privilege Cloud
 
 ```powershell
-PS C:\> Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2 -extraPasswordIndex 1
+Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2 -extraPasswordIndex 1
 ```
 
 Clears linked account index 1 from dependent account 32_2
+
+### Example 2 - Self-Hosted
+
+```powershell
+Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2
+```
+
+Clears the linked account from dependent account 32_2
+
+Requires Self-Hosted CyberArk PAS v15.2 or greater.
+
+### Example 3 - WhatIf
+
+```powershell
+Clear-PASDependentLinkedAccount -AccountID 32_1 -dependentAccountId 32_2 -WhatIf
+```
+
+Shows what would happen if the linked account were cleared from dependent account 32_2, but does not perform the action.
+
+### Example 4 - Pipeline Input
+
+```powershell
+Get-PASAccount -id 32_1 | Clear-PASDependentLinkedAccount -dependentAccountId 32_2 -extraPasswordIndex 1
+```
+
+Clears linked account index 1 from dependent account 32_2, using pipeline input from Get-PASAccount for the parent account ID.
 
 ## PARAMETERS
 
@@ -69,11 +102,12 @@ Accept wildcard characters: False
 
 ### -extraPasswordIndex
 
-The index of the account to unlink from the dependent account
+The index of the account to unlink from the dependent account.
+Used for Privilege Cloud environments.
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: SaaS
 Aliases:
 
 Required: True

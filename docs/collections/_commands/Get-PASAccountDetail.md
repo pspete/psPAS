@@ -1,7 +1,7 @@
 ---
 external help file: psPAS-help.xml
 Module Name: psPAS
-online version: https://pspas.pspete.dev/commands/Get-PASAccountActivity
+online version: https://pspas.pspete.dev/commands/Get-PASAccountDetail
 schema: 2.0.0
 title: Get-PASAccountDetail
 ---
@@ -25,10 +25,32 @@ Gets extended details of an account, including data on compliance, activities, d
 
 ### EXAMPLE 1
 ```powershell
-PS C:\> Get-PASAccountDetail -id 123_45
+Get-PASAccountDetail -id 123_45
 ```
 
 Displays extended details of account with id 123_45
+
+### EXAMPLE 2
+```powershell
+Get-PASAccount -id 123_45 | Get-PASAccountDetail
+```
+
+Gets the extended account details for the account returned by Get-PASAccount, using the id from the pipeline.
+
+### EXAMPLE 3
+```powershell
+Get-PASAccount -search "Administrator" | Get-PASAccountDetail
+```
+
+Gets extended account details, including compliance, activity and dependency information, for every account matching the search.
+
+### EXAMPLE 4
+```powershell
+$Detail = Get-PASAccountDetail -id 123_45
+$Detail | Format-List *
+```
+
+Retrieves the extended account overview and displays all returned properties.
 
 ## PARAMETERS
 
@@ -61,6 +83,6 @@ It is assumed to require minimum version of 10.4.
 
 ## RELATED LINKS
 
-[https://pspas.pspete.dev/commands/Get-PASAccountActivity](https://pspas.pspete.dev/commands/Get-PASAccountActivity)
+[https://pspas.pspete.dev/commands/Get-PASAccountDetail](https://pspas.pspete.dev/commands/Get-PASAccountDetail)
 
 [https://documenter.getpostman.com/view/998920/RzZ9Gz1U#d20c01c2-f7fc-4717-bf10-d8c51cb11411](https://documenter.getpostman.com/view/998920/RzZ9Gz1U#d20c01c2-f7fc-4717-bf10-d8c51cb11411)

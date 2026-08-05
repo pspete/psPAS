@@ -14,7 +14,8 @@ Add a specific account from the list of discovered local endpoint accounts to th
 
 ```
 Add-PASDiscoveredLocalAccount [-type] <String> [-identifiers] <Hashtable> [[-isPrivileged] <Boolean>]
- [[-customProperties] <Hashtable>] [[-source] <String>] [<CommonParameters>]
+ [[-customProperties] <Hashtable>] [[-source] <String>] [-tags <String[]>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,6 +39,31 @@ Add-PASDiscoveredLocalAccount -type windows -identifiers @{'username'='administr
 ```
 
 Adds the specified local account as a discovered local account.
+
+### EXAMPLE 2
+```
+Add-PASDiscoveredLocalAccount -type mac -identifiers @{'username'='root'; 'address'='mac01.pspete.dev'} -isPrivileged $true -source EPM
+```
+
+Adds the specified local Mac account, flagged as privileged, attributing the discovery to the EPM source.
+
+### EXAMPLE 3
+```
+Add-PASDiscoveredLocalAccount -type unix -identifiers @{'username'='oracle'; 'address'='unixsrv01.pspete.dev'} -customProperties @{'Department'='Finance'; 'Owner'='Bob'}
+```
+
+Adds the specified local Unix account, including additional custom properties.
+
+### EXAMPLE 4
+```
+$Accounts = @(
+    [pscustomobject]@{type = 'windows'; identifiers = @{'username' = 'svc-web'; 'address' = 'web01.pspete.dev'} }
+    [pscustomobject]@{type = 'windows'; identifiers = @{'username' = 'svc-sql'; 'address' = 'sql01.pspete.dev'} }
+)
+$Accounts | Add-PASDiscoveredLocalAccount
+```
+
+Adds multiple discovered local accounts, piping objects with type and identifiers properties.
 
 ## PARAMETERS
 
@@ -116,6 +142,51 @@ Required: False
 Position: 5
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -tags
+List of tag(s) assigned to the discovered account by the scan definition.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

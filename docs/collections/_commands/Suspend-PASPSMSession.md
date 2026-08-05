@@ -29,7 +29,21 @@ preventing further interaction in the session until it is resumed by Resume-PASP
 Suspend-PASPSMSession -LiveSessionId $SessionUUID
 ```
 
-Terminates Live PSM Session identified by the session UUID.
+Suspends the Live PSM Session identified by the session UUID.
+
+### EXAMPLE 2
+```
+Get-PASPSMSession -liveSessionId $SessionUUID | Suspend-PASPSMSession
+```
+
+Gets the Live PSM Session identified by the session UUID, and suspends it. The LiveSessionId is passed via the pipeline.
+
+### EXAMPLE 3
+```
+Suspend-PASPSMSession -SessionGuid $SessionUUID -WhatIf
+```
+
+Shows what would happen if the Live PSM Session identified by the session UUID were suspended, without actually suspending it.
 
 ## PARAMETERS
 

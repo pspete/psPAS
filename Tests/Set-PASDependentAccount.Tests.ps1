@@ -134,6 +134,12 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             }
 
+            It 'does not throw when name is not specified' {
+
+                { $InputObj | Set-PASDependentAccount } | Should -Not -Throw
+
+            }
+
         }
 
     }

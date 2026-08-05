@@ -24,37 +24,43 @@ Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
  [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-requestsAuthorizationLevel1 <Boolean>]
  [-requestsAuthorizationLevel2 <Boolean>] [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>]
- [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [-memberType <String>] [<CommonParameters>]
+ [-DeleteFolders <Boolean>] [-MoveAccountsAndFolders <Boolean>] [-memberType <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### Full
 ```
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-Full] [<CommonParameters>]
+ [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-Full] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### AccountsManager
 ```
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-AccountsManager] [<CommonParameters>]
+ [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-AccountsManager] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### Approver
 ```
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-Approver] [<CommonParameters>]
+ [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-Approver] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### ReadOnly
 ```
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-ReadOnly] [<CommonParameters>]
+ [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-ReadOnly] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### ConnectOnly
 ```
 Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
- [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-ConnectOnly] [<CommonParameters>]
+ [-MembershipExpirationDate <DateTime>] [-memberType <String>] [-ConnectOnly] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### Gen1
@@ -67,7 +73,7 @@ Add-PASSafeMember -SafeName <String> -MemberName <String> [-SearchIn <String>]
  [-UnlockAccounts <Boolean>] [-ManageSafe <Boolean>] [-ManageSafeMembers <Boolean>] [-BackupSafe <Boolean>]
  [-ViewAuditLog <Boolean>] [-ViewSafeMembers <Boolean>] [-RequestsAuthorizationLevel <Int32>]
  [-AccessWithoutConfirmation <Boolean>] [-CreateFolders <Boolean>] [-DeleteFolders <Boolean>]
- [-MoveAccountsAndFolders <Boolean>] [-UseGen1API] [<CommonParameters>]
+ [-MoveAccountsAndFolders <Boolean>] [-UseGen1API] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -143,6 +149,41 @@ PS > $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn Va
 ```
 
 Grant User23 UseAccounts, RetrieveAccounts & ListAccounts using the Gen1 API
+
+### EXAMPLE 5
+```
+Add-PASSafeMember -SafeName NewSafe -MemberName User24 -SearchIn Vault -Full
+```
+
+Adds User24 to NewSafe with the predefined "Full" role.
+
+### EXAMPLE 6
+```
+Add-PASSafeMember -SafeName NewSafe -MemberName User25 -SearchIn Vault -AccountsManager
+```
+
+Adds User25 to NewSafe with the predefined "Accounts Manager" role.
+
+### EXAMPLE 7
+```
+Add-PASSafeMember -SafeName NewSafe -MemberName User26 -SearchIn Vault -Approver
+```
+
+Adds User26 to NewSafe with the predefined "Approver" role.
+
+### EXAMPLE 8
+```
+Add-PASSafeMember -SafeName NewSafe -MemberName User27 -SearchIn Vault -ReadOnly
+```
+
+Adds User27 to NewSafe with the predefined "Read Only" role.
+
+### EXAMPLE 9
+```
+Add-PASSafeMember -SafeName NewSafe -MemberName User28 -SearchIn Vault -ConnectOnly
+```
+
+Adds User28 to NewSafe with the predefined "Connect Only" role.
 
 ## PARAMETERS
 
@@ -732,6 +773,36 @@ Parameter Sets: ReadOnly
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

@@ -173,6 +173,25 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'processes NextLink preserving the original query string' {
+                Mock Invoke-PASRestMethod -MockWith {
+                    [PSCustomObject]@{
+                        'totalEntities' = 799
+                        'totalpages'    = 10
+                        'entities'      = @([PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }, [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' }, [PSCustomObject]@{'Prop1' = 'Val1'; 'Prop2' = 'Val2' })
+                    }
+                }
+                $psPASSession.ExternalVersion = '13.2'
+                Get-PASPTARiskEvent -type RISK_RISKY_SPN
+                $psPASSession.ExternalVersion = '0.0'
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -match 'filter=type' -and $URI -match 'page='
+
+                } -Times 9 -Exactly -Scope It
+
+            }
+
         }
 
     }

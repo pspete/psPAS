@@ -1,25 +1,53 @@
 # .ExternalHelp psPAS-help.xml
 function Set-PASPTAEvent {
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = '11.3')]
 	param(
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = '11.3'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = '14.0'
 		)]
 		[string]$EventID,
 
 		[parameter(
 			Mandatory = $false,
-			ValueFromPipelinebyPropertyName = $true
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = '11.3'
+		)]
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = '14.0'
 		)]
 		[ValidateSet('OPEN', 'CLOSED')]
-		[string]$mStatus
+		[string]$mStatus,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = '14.0'
+		)]
+		[ValidateSet('HANDLED', 'NOTREAL', 'OTHER', 'NONE')]
+		[string]$closeReason,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = '14.0'
+		)]
+		[ValidateLength(0, 100)]
+		[string]$reasonText
 
 	)
 
 	begin {
 		Assert-VersionRequirement -SelfHosted
-		Assert-VersionRequirement -RequiredVersion 11.3
+		Assert-VersionRequirement -RequiredVersion $PSCmdlet.ParameterSetName
 	}#begin
 
 	process {

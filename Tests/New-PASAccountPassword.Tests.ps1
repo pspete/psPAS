@@ -131,6 +131,20 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'falls back to the raw password value if it cannot be unescaped' {
+
+                Mock Invoke-PASRestMethod -MockWith {
+                    [PSCustomObject]@{
+                        'password' = 'Some\Password'
+                    }
+                }
+
+                $InvalidEscapeResponse = New-PASAccountPassword -AccountID 12_3
+
+                $InvalidEscapeResponse.Password | Should -Be 'Some\Password'
+
+            }
+
         }
 
     }

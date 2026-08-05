@@ -108,6 +108,12 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 $psPASSession.ExternalVersion = '0.0'
             }
 
+            It 'throws error if version 15.0 requirement not met for a non-default PolicyId' {
+                $psPASSession.ExternalVersion = '14.9'
+                { $InputObject | Set-PASMasterPolicy -PolicyId 2 } | Should -Throw
+                $psPASSession.ExternalVersion = '0.0'
+            }
+
         }
 
         Context 'Output' {

@@ -62,7 +62,7 @@ function Set-PASSafe {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1-NumberOfVersionsRetention'
 		)]
-		[ValidateRange(1, 999)]
+		[ValidateRange(0, 999)]
 		[int]$NumberOfVersionsRetention,
 
 		[Parameter(
@@ -77,6 +77,20 @@ function Set-PASSafe {
 		)]
 		[ValidateRange(0, 3650)]
 		[int]$NumberOfDaysRetention,
+
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-NumberOfDaysRetention'
+		)]
+		[Parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'Gen2-NumberOfVersionsRetention'
+		)]
+		[ValidateNotNullOrEmpty()]
+		[ValidateRange(1, 2000000000)]
+		[int]$Quota,
 
 		[parameter(
 			Mandatory = $true,
@@ -103,7 +117,7 @@ function Set-PASSafe {
 		$SafeObject = Get-PASSafe -SafeName $SafeName
 		if ($null -ne $SafeObject) {
 			Format-PutRequestObject -InputObject $SafeObject -boundParameters $BoundParameters -ParametersToKeep ManagingCPM, location, Description,
-			NumberOfVersionsRetention, NumberOfDaysRetention
+			NumberOfVersionsRetention, NumberOfDaysRetention, Quota
 		}
 
 		switch ($PSBoundParameters.Keys) {
@@ -116,7 +130,13 @@ function Set-PASSafe {
 			'NumberOfVersionsRetention' {
 				$BoundParameters.Remove('NumberOfDaysRetention')
 			}
+			'Quota' {
+				Assert-VersionRequirement -SelfHosted
+				Assert-VersionRequirement -RequiredVersion 15.2
+				continue
+			}
 		}
+
 
 		switch ($PSCmdlet.ParameterSetName) {
 
@@ -125,6 +145,14 @@ function Set-PASSafe {
 				Assert-VersionRequirement -RequiredVersion 12.2
 
 				$typename = "$typename.Gen2"
+
+				# Convert quota values with an MB suffix to numeric values in the request body
+				if ($BoundParameters.ContainsKey('Quota')) {
+					$quotaValue = $BoundParameters['Quota']
+					if ($quotaValue -is [string]) {
+						$BoundParameters['Quota'] = [int]$Matches.value
+					}
+				}
 
 				#Create URL for Request
 				$URI = "$($psPASSession.BaseURI)/api/Safes/$($SafeName | Get-EscapedString)"
@@ -155,6 +183,7 @@ function Set-PASSafe {
 			}
 
 		}
+
 
 		if ($PSCmdlet.ShouldProcess($SafeName, 'Update Safe Properties')) {
 

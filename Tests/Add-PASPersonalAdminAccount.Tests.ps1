@@ -21,7 +21,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
         $Script:RequestBody = $null
         $psPASSession = [ordered]@{
-			BaseURI            = 'https://SomeURL/SomeApp'
+			BaseURI            = 'https://SomeURL.cyberark.cloud/SomeApp'
 			User               = $null
 			ExternalVersion    = [System.Version]'0.0'
 			WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
@@ -60,6 +60,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 }
 
                 $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud/SomeApp'
 
             }
 
@@ -68,6 +69,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 $InputObj | Add-PASPersonalAdminAccount
 
                 Assert-MockCalled Invoke-PASRestMethod -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'does not send request when WhatIf is used' {
+
+                $InputObj | Add-PASPersonalAdminAccount -WhatIf
+
+                Assert-MockCalled Invoke-PASRestMethod -Times 0 -Exactly -Scope It
 
             }
 
@@ -97,17 +106,17 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json) -ne $null
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json) -ne $null
 
                 } -Times 1 -Exactly -Scope It
 
             }
 
-            It 'throws error if version requirement not met' {
+            It 'throws error if not Privilege Cloud' {
 
-                $psPASSession.ExternalVersion = '1.0'
+                $psPASSession.BaseURI = 'https://SomeURL/SomeApp'
                 { $InputObj | Add-PASPersonalAdminAccount } | Should -Throw
-                $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud/SomeApp'
 
             }
 
@@ -134,6 +143,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                     'secret'   = $secureString
                 }
                 $psPASSession.ExternalVersion = '0.0'
+                $psPASSession.BaseURI = 'https://SomeURL.cyberark.cloud/SomeApp'
 
             }
 
@@ -158,7 +168,12 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 
         }
-        #>
+
+        AfterAll {
+
+            $psPASSession.BaseURI = 'https://SomeURL/SomeApp'
+
+        }
     }
 
 

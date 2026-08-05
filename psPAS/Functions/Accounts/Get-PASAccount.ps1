@@ -15,6 +15,7 @@ function Get-PASAccount {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Query'
 		)]
+		[ValidateLength(1, 500)]
 		[string]$search,
 
 		[parameter(
@@ -41,7 +42,7 @@ function Get-PASAccount {
 			'AccessedByUsers', 'ModifiedByUsers', 'ModifiedByCPM', 'DisabledPasswordByUser',
 			'DisabledPasswordByCPM', 'ScheduledForChange', 'ScheduledForVerify', 'ScheduledForReconcile',
 			'SuccessfullyReconciled', 'FailedChange', 'FailedVerify', 'FailedReconcile', 'LockedOrNew',
-			'Locked', 'Favorites')]
+			'Locked', 'Favorites', 'DeleteInsightStatus')]
 		[string]$savedFilter,
 
 		[parameter(
@@ -104,8 +105,8 @@ function Get-PASAccount {
 		if ($PSCmdlet.ParameterSetName -eq 'Gen2Query' -and
 			$script:psPASSession.ExternalVersion -ge [version]'14.4' -and [string]::IsNullOrEmpty($psPASSession.ApiURI)) {
 
-			# Get available search properties from the API
-			$SearchProperties = Get-PASAccountSearchProperty
+			# Get available search properties from the API (cached against the session)
+			$SearchProperties = Get-PASAccountSearchPropertyCache
 			$paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
 			# List of existing static parameters to avoid duplicates
@@ -139,7 +140,7 @@ function Get-PASAccount {
 
 		# Add dynamic search properties to the filter parameters list for Gen2 14.4+ and Self Hosted (no ApiURI)
 		if ($PSCmdlet.ParameterSetName -match 'Gen2' -and $psPASSession.ExternalVersion -ge [version]'14.4' -and [string]::IsNullOrEmpty($psPASSession.ApiURI)) {
-			$SearchProperties = Get-PASAccountSearchProperty
+			$SearchProperties = Get-PASAccountSearchPropertyCache
 			# Build lookup for validation of supported operators
 			$SearchPropertyLookup = @{}
 			foreach ($property in $SearchProperties) {
@@ -175,6 +176,11 @@ function Get-PASAccount {
 					( { $PSItem.ContainsKey('savedFilter') }) {
 						#check required version
 						Assert-VersionRequirement -RequiredVersion 12.6
+
+						if ($savedFilter -eq 'DeleteInsightStatus') {
+							#DeleteInsightStatus is only applicable to Privilege Cloud
+							Assert-VersionRequirement -PrivilegeCloud
+						}
 
 					}
 
@@ -304,8 +310,8 @@ function Get-PASAccount {
 
 									$InternalProps |
 
-									#Add each property name and value as object property of $InternalProps
-									Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
+										#Add each property name and value as object property of $InternalProps
+										Add-ObjectDetail -PropertyToAdd @{$InternalProperties[$int].key = $InternalProperties[$int].value } -Passthru $false
 
 								}
 

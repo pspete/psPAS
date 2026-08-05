@@ -69,7 +69,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 Set-PASPTARiskEvent -ID 1234 -Status CLOSED
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -match "$($Script:psPASSession.BaseURI)/api/pta/API/Risks/RisksEvents/1234"
+                    $URI -match "$($Script:psPASSession.BaseURI)/api/pta/API/Risks/RiskEvents/1234"
 
                 } -Times 1 -Exactly -Scope It
 

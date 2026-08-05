@@ -30,6 +30,28 @@ Set-PASUserPassword -id 123 -NewPassword $SecureString
 
 Resets password on account with id 123
 
+### EXAMPLE 2
+```
+Get-PASUser -search Bob | Set-PASUserPassword -NewPassword $SecureString
+```
+
+Finds vault users matching the search term "Bob" and resets the password on each matching account to the value held in $SecureString, using the id value supplied via the pipeline
+
+### EXAMPLE 3
+```
+Set-PASUserPassword -id 123 -NewPassword $SecureString -WhatIf
+```
+
+Shows what would happen if the password was reset for the user with id 123, without making the change
+
+### EXAMPLE 4
+```
+$NewPassword = ConvertTo-SecureString "NewComplexPassw0rd!" -AsPlainText -Force
+Set-PASUserPassword -id 123 -NewPassword $NewPassword
+```
+
+Creates a new secure string password value and resets the password for the user with id 123
+
 ## PARAMETERS
 
 ### -id

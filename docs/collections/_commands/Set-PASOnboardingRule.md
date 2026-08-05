@@ -34,6 +34,27 @@ Set-PASOnboardingRule -Id 1 -TargetPlatformId WINDOMAIN -TargetSafeName SafeName
 
 Updates Onboarding Rule with ID 1
 
+### EXAMPLE 2
+```
+Set-PASOnboardingRule -Id 1 -RuleDescription "Updated to include cyberark.local addresses"
+```
+
+Updates only the description of on-boarding rule 1; all other existing properties of the rule are preserved.
+
+### EXAMPLE 3
+```
+Get-PASOnboardingRule | Where-Object { $_.RuleName -eq 'Unix Root Accounts' } | Set-PASOnboardingRule -AccountCategoryFilter Privileged
+```
+
+Finds the "Unix Root Accounts" rule and updates it, via the pipeline, to only match privileged accounts.
+
+### EXAMPLE 4
+```
+Set-PASOnboardingRule -Id 1 -TargetSafeName NewSafeName -WhatIf
+```
+
+Shows what would happen if the target safe for on-boarding rule 1 was changed, without actually updating the rule.
+
 ## PARAMETERS
 
 ### -Id

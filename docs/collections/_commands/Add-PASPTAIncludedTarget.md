@@ -30,6 +30,27 @@ Add-PASPTAIncludedTarget -cidr 192.168.60.10/24
 
 Adds 192.168.60.10/24 as an included target in PTA administration
 
+### EXAMPLE 2
+```powershell
+[PSCustomObject]@{cidr = '10.20.0.0/16'} | Add-PASPTAIncludedTarget
+```
+
+Adds 10.20.0.0/16 as an included target using pipeline input
+
+### EXAMPLE 3
+```powershell
+Add-PASPTAIncludedTarget -cidr 192.168.0.0/16 -WhatIf
+```
+
+Shows what would happen if 192.168.0.0/16 were added as an included target, without making the change
+
+### EXAMPLE 4
+```powershell
+Import-Csv .\included-targets.csv | Add-PASPTAIncludedTarget
+```
+
+Reads a list of CIDR values from a CSV file with a "cidr" column and adds each one as an included target in PTA administration
+
 ## PARAMETERS
 
 ### -cidr

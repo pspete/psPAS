@@ -53,12 +53,12 @@ function Set-PASPTARiskEvent {
     process {
 
         #Create request URL
-        $URI = "$($psPASSession.BaseURI)/api/pta/API/Risks/RisksEvents/$ID"
+        $URI = "$($psPASSession.BaseURI)/api/pta/API/Risks/RiskEvents/$ID"
 
         #Get Parameters to include in request
         $Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove ID | ConvertTo-Json
 
-        if ($PSCmdlet.ShouldProcess($EventID, 'Update Event Status')) {
+        if ($PSCmdlet.ShouldProcess($ID, 'Update Event Status')) {
 
             #Send request to web service
             $result = Invoke-PASRestMethod -Uri $URI -Method PATCH -Body $Body

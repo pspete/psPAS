@@ -17,15 +17,15 @@ Updates a safe in the Vault
 ### Gen2-NumberOfDaysRetention (Default)
 ```
 Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-location <String>]
- [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfDaysRetention <Int32>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfDaysRetention <Int32>] [-Quota <Int32>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen2-NumberOfVersionsRetention
 ```
 Set-PASSafe -SafeName <String> [-NewSafeName <String>] [-Description <String>] [-location <String>]
- [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfVersionsRetention <Int32>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-OLACEnabled <Boolean>] [-ManagingCPM <String>] [-NumberOfVersionsRetention <Int32>] [-Quota <Int32>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Gen1-NumberOfVersionsRetention
@@ -63,6 +63,22 @@ Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfDaysRetention
 ```
 
 Updates description and number of days retention on SAFE using Gen1 API
+
+### EXAMPLE 3
+```
+Set-PASSafe -SafeName SAFE -Quota 500
+```
+
+Updates the size quota (in MB) of SAFE
+
+Minimum required version 15.2 (Self-Hosted)
+
+### EXAMPLE 4
+```
+Set-PASSafe -SafeName SAFE -Description "New-Description" -NumberOfVersionsRetention 10 -UseGen1API
+```
+
+Updates description and version retention on SAFE using Gen1 API
 
 ## PARAMETERS
 
@@ -246,6 +262,23 @@ Parameter Sets: Gen1-NumberOfVersionsRetention, Gen1-NumberOfDaysRetention
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Quota
+The size quota, in MB, allocated to the safe.
+
+Requires CyberArk Self-Hosted version 15.2 or higher.
+
+```yaml
+Type: Int32
+Parameter Sets: Gen2-NumberOfDaysRetention, Gen2-NumberOfVersionsRetention
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

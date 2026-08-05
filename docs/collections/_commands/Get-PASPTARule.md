@@ -30,6 +30,20 @@ Get-PASPTARule
 
 Returns all risky activities rules from PTA
 
+### EXAMPLE 2
+```
+Get-PASPTARule | Format-Table -AutoSize
+```
+
+Displays the risky activities rules configured in PTA in table format.
+
+### EXAMPLE 3
+```
+Get-PASPTARule | ConvertTo-Json -Depth 5
+```
+
+Returns the risky activities rules from PTA as a JSON formatted string.
+
 ## PARAMETERS
 
 ### CommonParameters

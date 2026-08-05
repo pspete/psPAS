@@ -137,6 +137,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'does not send request when WhatIf is used' {
+
+				$InputObj | Add-PASAccount -WhatIf
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 0 -Exactly -Scope It
+
+			}
+
+			It 'does not send request when WhatIf is used - V10 ParameterSet' {
+
+				{ $InputObjV10 | Add-PASAccount -WhatIf } | Should -Not -Throw
+
+				Assert-MockCalled Invoke-PASRestMethod -Times 0 -Exactly -Scope It
+
+			}
+
 			It 'sends request to expected endpoint - V9 ParameterSet' {
 
 				$InputObj | Add-PASAccount
@@ -175,7 +191,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account) -ne $null
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Select-Object -ExpandProperty Account) -ne $null
 
 				} -Times 1 -Exactly -Scope It
 
@@ -186,7 +202,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$InputObj | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account | Get-Member -MemberType NoteProperty).length -eq 11
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Select-Object -ExpandProperty Account | Get-Member -MemberType NoteProperty).length -eq 11
 				} -Times 1 -Exactly -Scope It
 			}
 
@@ -195,7 +211,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty Account | Select-Object -ExpandProperty Properties).count -eq 10
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Select-Object -ExpandProperty Account | Select-Object -ExpandProperty Properties).count -eq 10
 
 				} -Times 1 -Exactly -Scope It
 			}
@@ -206,7 +222,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json) -ne $null
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json) -ne $null
 
 				} -Times 1 -Exactly -Scope It
 
@@ -217,7 +233,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$InputObjV10 | Add-PASAccount
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-					($Body | ConvertFrom-Json | Get-Member -MemberType NoteProperty).length -eq 7
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Get-Member -MemberType NoteProperty).length -eq 7
 				} -Times 1 -Exactly -Scope It
 
 			}
@@ -227,7 +243,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty remoteMachinesAccess | Get-Member -MemberType NoteProperty).length -eq 2
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Select-Object -ExpandProperty remoteMachinesAccess | Get-Member -MemberType NoteProperty).length -eq 2
 
 				} -Times 1 -Exactly -Scope It
 
@@ -239,7 +255,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-					($Body | ConvertFrom-Json | Select-Object -ExpandProperty secretManagement | Get-Member -MemberType NoteProperty).length -eq 1
+					([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json | Select-Object -ExpandProperty secretManagement | Get-Member -MemberType NoteProperty).length -eq 1
 
 				} -Times 1 -Exactly -Scope It
 
@@ -249,6 +265,30 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$psPASSession.ExternalVersion = '1.0'
 				{ $InputObjV10 | Add-PASAccount } | Should -Throw
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'includes AllowAccountDuplications in the request endpoint' {
+
+				$psPASSession.ExternalVersion = '14.6'
+
+				$InputObjV10 | Add-PASAccount -AllowAccountDuplications $true
+
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq "$($Script:psPASSession.BaseURI)/api/Accounts?AllowAccountDuplications=True"
+
+				} -Times 1 -Exactly -Scope It
+
+				$psPASSession.ExternalVersion = '0.0'
+
+			}
+
+			It 'throws error if version 14.6 requirement not met for AllowAccountDuplications' {
+
+				$psPASSession.ExternalVersion = '14.5'
+				{ $InputObjV10 | Add-PASAccount -AllowAccountDuplications $true } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
 
 			}
