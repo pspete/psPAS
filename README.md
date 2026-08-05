@@ -286,26 +286,26 @@ A larger collection of ready-to-run scripts is maintained in the [psPAS-Examples
 
 ## psPAS Functions
 
-`psPAS` currently exports 251 commands, grouped below by the area of Idira they cover:
+`psPAS` includes over 250 commands, grouped below by the area of Idira they cover:
 
-| Category                      | Commands | Covers                                                                                                                                |
-| ----------------------------- | :------: | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Accounts & Secrets            |    54    | Onboard, retrieve, rotate, link & audit privileged accounts; CPM verify/change/reconcile; JIT access; discovered & dependent accounts; discovery scans |
-| Privileged Threat Analytics   |    31    | Security events, risky command rules, remediation & PTA configuration                                                                 |
-| Users, Groups & Directories   |    27    | Vault users and groups, LDAP directory configuration and mappings                                                                     |
+| Category                      | Commands | Covers                                                                                                                                                 |
+| ----------------------------- | :------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Accounts & Secrets            |    55    | Onboard, retrieve, rotate, link & audit privileged accounts; CPM verify/change/reconcile; JIT access; discovered & dependent accounts; discovery scans |
+| Privileged Threat Analytics   |    31    | Security events, risky command rules, remediation & PTA configuration                                                                                  |
+| Users, Groups & Directories   |    27    | Vault users and groups, LDAP directory configuration and mappings                                                                                      |
 | Authentication & Sessions     |    25    | Every logon flow (CyberArk, LDAP, RADIUS, SAML, PKI, OIDC, Shared Services), session timeout/idle tracking, FIDO2 & SSH keys, OAuth Identity Providers |
-| Platforms & Onboarding        |    22    | Import/export/copy/rename CPM platforms, master policy, automatic onboarding rules                                                    |
-| System, Server & Integrations |    17    | System health, server info, custom ticketing, IP allow lists, BYOK                                                                    |
-| PSM Session Monitoring        |    12    | Live & recorded session activity, suspend/resume/terminate                                                                            |
-| Safes & Safe Members          |    9     | Safe lifecycle and Safe membership/permissions                                                                                        |
-| Vault Remote Manager          |    9     | Self-hosted Vault/DR service control, status & failover                                                                               |
-| UI Customization              |    9     | Custom UI themes                                                                                                                      |
-| Reports                       |    8     | Available reports, schedules & exports                                                                                                |
-| Access Requests               |    7     | Dual-control request/approve/deny workflow                                                                                            |
-| ACLs (Account & Policy)       |    6     | OPM privileged command rules                                                                                                          |
-| Applications (AAM)            |    6     | Application Access Manager identities & authentication methods                                                                        |
-| Account Groups                |    5     | Grouping accounts for coordinated password changes                                                                                    |
-| Connections                   |    4     | Connection Components & PSM Servers                                                                                                   |
+| Platforms & Onboarding        |    22    | Import/export/copy/rename CPM platforms, master policy, automatic onboarding rules                                                                     |
+| System, Server & Integrations |    17    | System health, server info, custom ticketing, IP allow lists, BYOK                                                                                     |
+| PSM Session Monitoring        |    12    | Live & recorded session activity, suspend/resume/terminate                                                                                             |
+| Safes & Safe Members          |    9     | Safe lifecycle and Safe membership/permissions                                                                                                         |
+| Vault Remote Manager          |    9     | Self-hosted Vault/DR service control, status & failover                                                                                                |
+| UI Customization              |    9     | Custom UI themes                                                                                                                                       |
+| Reports                       |    8     | Available reports, schedules & exports                                                                                                                 |
+| Access Requests               |    7     | Dual-control request/approve/deny workflow                                                                                                             |
+| ACLs (Account & Policy)       |    6     | OPM privileged command rules                                                                                                                           |
+| Applications (AAM)            |    6     | Application Access Manager identities & authentication methods                                                                                         |
+| Account Groups                |    5     | Grouping accounts for coordinated password changes                                                                                                     |
+| Connections                   |    4     | Connection Components & PSM Servers                                                                                                                    |
 
 Full detail for every command — parameters, examples, and the minimum Idira (CyberArk) version required — is in the [online Command Reference](https://pspas.pspete.dev/commands/), or straight from PowerShell once the module is installed:
 

@@ -16,39 +16,6 @@ tags:
 
 In this article we will delve into the structure of psPAS commands.
 
-```plantuml
-@startuml
-title Anatomy of a psPAS Command
-
-participant "Module Command" as Command
-participant "Assert-VersionRequirement" as Version
-participant "Invoke-PASRestMethod" as Invoke
-participant "Invoke-WebRequest" as Web
-participant "Get-PASResponse" as Response
-participant "Add-ObjectDetail" as Detail
-
-note over Command: Parse Parameters
-
-Command -> Version: Check Version
-Version --> Command
-
-note over Command: Make URL
-
-Command -> Invoke: Construct Request
-Invoke -> Web: Send Request
-Web --> Invoke: API Response
-note over Invoke: Error Handling
-Invoke -> Response: Response Value
-Response --> Invoke: PowerShell Object
-Invoke --> Command: Result
-
-Command -> Detail: Format Result
-Detail --> Command: Typed Object
-
-note over Command: Output Results
-@enduml
-```
-
 ![alt]({{ site.url }}{{ site.baseurl }}/assets/images/Anatomy-of-a-psPAS-Command/Overview.png){: .half .align-center}
 
 Every request made by a psPAS command to the CyberArk API passes through the same sequence of steps, whether the command is retrieving a single account, onboarding a new safe member, or invoking a CPM operation:
@@ -134,38 +101,6 @@ Together `Compare-MinimumVersion` & `Compare-MaximumVersion` provide the logical
 `Get-ParentFunction` lets us get some meaningful information back to a user when reporting any kind of issue with version dependant functionality. Specific version requirements could be based on invocation of an arbitrary psPAS command, this function was developed to let us provide the name of the psPAS function, and any specific parameterset, behind any reported error condition.
 When the helper function is invoked, it exists in a child scope of the `Assert-VersionRequirement` function, which itself exists in a child scope of the parent psPAS function. `Get-ParentFunction` retrieves the variable values for `$MyInvocation` & `$PSCmdLet` from the scope of the parent function so that the parent function name and the name of the parameterset used can be reflected in any error message.
 
-```plantuml
-@startuml
-title Assert-VersionRequirement
-
-participant "Module Command" as Command
-participant "Assert-VersionRequirement" as Assert
-participant "Get-ParentFunction" as Parent
-participant "Compare-MinimumVersion" as MinVer
-participant "Compare-MaximumVersion" as MaxVer
-
-Command -> Assert: RequiredVersion / MaximumVersion /\nPrivilegeCloud / SelfHosted
-Assert -> Parent: Get calling command details
-Parent --> Assert: FunctionName, ParameterSetName
-
-alt RequiredVersion
-	Assert -> MinVer: ExternalVersion, RequiredVersion
-	MinVer --> Assert: True / False
-else MaximumVersion
-	Assert -> MaxVer: ExternalVersion, MaximumVersion
-	MaxVer --> Assert: True / False
-else PrivilegeCloud / SelfHosted
-	note over Assert: Compare BaseURI to\ncyberark.cloud
-end
-
-alt Requirement not met
-	Assert -> Command: Throw terminating error
-else Requirement met
-	Assert --> Command: Nothing returned
-end
-@enduml
-```
-
 ![alt]({{ site.url }}{{ site.baseurl }}/assets/images/Anatomy-of-a-psPAS-Command/VersionCheck.png){: .half .align-center}
 
 This all matters because a psPAS release and a CyberArk solution release move independently of each other. A user may install the latest version of the module against an older, self-hosted environment that predates a parameter's minimum required version, or may hold on to an older psPAS release long after CyberArk has retired the API behaviour a newer command depends on. `Assert-VersionRequirement` is what lets a single command body cope with either situation consistently - rather than every function needing its own bespoke version-gating logic, an unsupported parameter or parameterset combination is always reported back the same way, with the offending command, parameterset, and version requirement named in the error.
@@ -221,31 +156,6 @@ With the right values isolated, two more helpers turn them into strings that bel
 - `ConvertTo-QueryString` takes a hashtable and joins each key/value pair as `Key=Value`, joining multiple pairs with `&`, escaping each value with `Get-EscapedString` along the way. This is what produces the `?key=value&key=value` portion of a request URL.
 - `ConvertTo-FilterString` takes a hashtable and instead produces a single `filter` key, joining `Key eq Value` pairs together with `AND` (or `OR`, for API versions that support a `-LogicalOperator`). A `modificationTime` key is treated specially, converted to unix time and compared with `gte` instead of `eq`, matching how the CyberArk API expects date-based filtering to be expressed.
 
-```plantuml
-@startuml
-title Get Parameters
-
-participant "Module Command" as Command
-participant "Get-PASParameter" as Param
-participant "ConvertTo-FilterString" as Filter
-participant "ConvertTo-QueryString" as Query
-
-Command -> Param: $PSBoundParameters\n(ParametersToKeep)
-Param --> Command: Filter Parameters
-
-Command -> Filter: Filter Parameters
-Filter --> Command: filter
-
-Command -> Param: $PSBoundParameters\n(ParametersToRemove)
-Param --> Command: Body / Query Parameters
-
-Command -> Query: Body/Query Parameters + filter
-Query --> Command: Query String
-
-note over Command: Request URL
-@enduml
-```
-
 ![alt]({{ site.url }}{{ site.baseurl }}/assets/images/Anatomy-of-a-psPAS-Command/GetParameters.png){: .half .align-center}
 
 **`Get-PASAccount`** uses both together - the filter string produced by `ConvertTo-FilterString` is folded back into the same hashtable that `ConvertTo-QueryString` then serialises, so a search against several filterable properties and a `sort`/`limit` value ends up in the same query string:
@@ -282,35 +192,6 @@ With a URL (and, for anything other than a `GET`, a body) built, the request is 
 $result = Invoke-PASRestMethod -Uri $URI -Method GET -TimeoutSec $TimeoutSec
 ```
 
-```plantuml
-@startuml
-title Invoke-PASRestMethod
-
-participant "Module Command" as Command
-participant "Invoke-PASRestMethod" as Invoke
-participant "Invoke-WebRequest" as Web
-participant "Get-PASResponse" as Response
-
-Command -> Invoke: URI, Method, Body
-note over Invoke: Apply Module Defaults\n(ContentType, TLS 1.2, WebSession)
-
-Invoke -> Web: API Request
-
-alt Success (2xx)
-	Web --> Invoke: API Response
-	Invoke -> Response: Response Value
-	Response --> Invoke: PowerShell Object
-	Invoke --> Command: Result
-else Failure
-	Web --> Invoke: Exception
-	note over Invoke: Normalise Gen1 / Gen2 /\nPrivilege Cloud error shape
-	Invoke -> Command: Throw terminating error
-end
-
-note over Invoke: Update $psPASSession\n(LastCommand, LastError)
-@enduml
-```
-
 ![alt]({{ site.url }}{{ site.baseurl }}/assets/images/Anatomy-of-a-psPAS-Command/CommandInvocation.png){: .half .align-center}
 
 `Invoke-PASRestMethod` also owns all of the module's error handling. CyberArk's API doesn't return errors in a single consistent shape - the legacy Gen1 `PIMServices.svc` endpoints, the Gen2 `/api/...` endpoints, and Privilege Cloud's `cyberark.cloud` shared-services endpoints all describe failures slightly differently. Rather than every command needing to know how to unpick each of these, `Invoke-PASRestMethod` catches the exception `Invoke-WebRequest` throws, works out which shape it's dealing with, and re-throws a single normalised terminating error containing an `ErrorMessage` and an `ErrorID`/`ErrorCode`, regardless of which flavour of API produced it. A `System.UriFormatException` - typically meaning `$psPASSession.BaseURI` was never set - is caught separately and rewritten into a nudge to run `New-PASSession`.
@@ -331,35 +212,6 @@ Some API responses represent more results than fit in a single page. `Get-NextLi
 
 - A `nextLink` or `nextCursor` property, alongside a `value`/`items` collection - the function repeatedly requests the next link/cursor and accumulates results until none remain.
 - A `totalCount`/`Total` property with no link/cursor property at all - instead, the function pages through results by repeatedly requesting the original URI with an incrementing `offset` query parameter, until the reported total number of results has been collected.
-
-```plantuml
-@startuml
-title Format Output
-
-participant "Invoke-PASRestMethod" as Invoke
-participant "Get-PASResponse" as Response
-participant "Module Command" as Command
-participant "Get-NextLink" as NextLink
-participant "Add-ObjectDetail" as Detail
-
-Invoke -> Response: WebResponseObject
-note over Response: Check Content-Type
-Response --> Invoke: PowerShell Object / Byte Array
-Invoke --> Command: Result
-
-opt Paged Result
-	Command -> NextLink: Result
-	loop nextLink / nextCursor / offset remaining
-		NextLink -> Invoke: GET Request
-		Invoke --> NextLink: Page Result
-	end
-	NextLink --> Command: Complete Result Set
-end
-
-Command -> Detail: Result
-Detail --> Command: Typed Object
-@enduml
-```
 
 ![alt]({{ site.url }}{{ site.baseurl }}/assets/images/Anatomy-of-a-psPAS-Command/FormatOutput.png){: .half .align-center}
 

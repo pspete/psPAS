@@ -56,8 +56,8 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
 - `Hide-PASDiscoveredLocalAccount`, `Restore-PASDiscoveredLocalAccount`, `Set-PASDiscoveredLocalAccount`
   - New functions to ignore/restore/edit Privilege Cloud discovered local accounts
   - Requires Privilege Cloud
-- `Get-PASDiscoveryScan`, `Remove-PASDiscoveryScan`, `Stop-PASDiscoveryScan`
-  - New functions to retrieve, delete, and stop discovery scans
+- `Get-PASDiscoveryScan`, `Remove-PASDiscoveryScan`, `Stop-PASDiscoveryScan`, `Add-PASDiscoveryScan`
+  - New functions to retrieve, delete, add, and stop discovery scans
   - Requires Idira 12.2+ Self-Hosted
 - `Get-PASReportActivity`
   - New function to get the list of activity groups available for reports
@@ -76,7 +76,7 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
 
 - `Get-PASPlatform`
   - Breaking change: removes the `PlatformType` parameter/parameter set
-  - The "Get Platforms" API is now additionally called by default, with its results merged into those of the legacy platform details endpoint, so the shape of the returned `Details` differs from previous versions, but the command is hopefully less confusing to run.
+  - The "Get Platforms" API is now additionally called by default, with its results merged into those of the legacy platform details endpoint, so the shape of the returned results differ from previous versions, but the command is hopefully less confusing to run.
   - Adds a `target-details` parameter set exposing the new "Get target platform settings" API
     - Requires Idira 15.2+ Self-Hosted
   - Replaces a `ValidateSet` with an `ArgumentCompleter` for target scope values
