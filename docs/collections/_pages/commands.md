@@ -263,6 +263,7 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 | [Initiate DR failover][Initiate DR failover]                                                         | [Invoke-PASVRMFailover][Invoke-PASVRMFailover]                                           |
 | [Import Ticketing System][Import Ticketing System]                                                   | [Import-PASTicketingSystem][Import-PASTicketingSystem]                                   |
 | [Export Ticketing System Logs][Export Ticketing System Logs]                                         | [Export-PASTicketingSystemLog][Export-PASTicketingSystemLog]                             |
+| [Add Discovery Scan][Add Discovery Scan]                                                             | [Add-PASDiscoveryScan][Add-PASDiscoveryScan]                                           |
 | [Get Discovery Scans][Get Discovery Scans]                                                           | [Get-PASDiscoveryScan][Get-PASDiscoveryScan]                                           |
 | [Stop Discovery Scan][Stop Discovery Scan]                                                           | [Stop-PASDiscoveryScan][Stop-PASDiscoveryScan]                                           |
 | [Remove Discovery Scan][Remove Discovery Scan]                                                       | [Remove-PASDiscoveryScan][Remove-PASDiscoveryScan]                                       |
@@ -701,6 +702,8 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Resume CPM auto management]: https://pspas.pspete.dev/commands/Resume-PASCPMAutoManagement
 [Cancel CPM task]: https://pspas.pspete.dev/commands/Stop-PASCPMTask
 [Generate platform secret]: https://pspas.pspete.dev/commands/New-PASPlatformSecret
+[Add Discovery Scan]: https://pspas.pspete.dev/commands/Add-PASDiscoveryScan
+[Add-PASDiscoveryScan]: https://pspas.pspete.dev/commands/Add-PASDiscoveryScan
 [Get Discovery Scans]: https://pspas.pspete.dev/commands/Get-PASDiscoveryScan
 [Stop Discovery Scan]: https://pspas.pspete.dev/commands/Stop-PASDiscoveryScan
 [Remove-PASDiscoveryScan]: https://pspas.pspete.dev/commands/Remove-PASDiscoveryScan

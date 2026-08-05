@@ -334,6 +334,7 @@
 		'Remove-PASOAuthProvider',
 		'Test-PASDiscoveredLocalAccount',
 		'New-PASDiscoveredAccountObject',
+		'Add-PASDiscoveryScan',
 		'Stop-PASDiscoveryScan',
 		'Remove-PASDiscoveryScan',
 		'Get-PASDiscoveryScan',
