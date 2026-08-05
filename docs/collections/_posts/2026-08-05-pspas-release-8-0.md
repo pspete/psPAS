@@ -90,8 +90,9 @@ psPAS 8.0.0 is the module's biggest release in a while, bringing coverage for a 
 - **Bulk operations** - `Resume-PASCPMAutoManagement`, `Invoke-PASCPMOperation`, `Clear-PASLinkedAccount`, `Set-PASLinkedAccount`, `Resume-PASDependentAccount`, `Stop-PASCPMTask` and `Unlock-PASAccount` gain or extend support for sending a single bulk request instead of one call per account.
 - **Security hardening** - secret-bearing request bodies across `New-PASSession`, `New-PASUser`, `Set-PASUser`, `Add-PASAccount` and others now convert and decode secrets as late as possible, reducing the window in which plaintext could be captured by PowerShell's parameter-binding trace or Module Logging.
 - **`-WhatIf`/`-Confirm` support** lands on a large batch of previously non-`ShouldProcess` state-changing commands (`Add-PASAccount`, `Add-PASSafe`, `Add-PASSafeMember`, `Enable-`/`Disable-PASCPMAutoManagement`, and more).
+- **Argument completers** - tab-completion is added or extended in several places: `Get-PASPlatform` swaps a `ValidateSet` for an `ArgumentCompleter` on target scope values; `New-PASUser`/`Set-PASUser`/`New-PASDirectoryMapping`/`Set-PASDirectoryMapping` gain completers for `AuthorizedInterfaces`/`unAuthorizedInterfaces` sourced from the environment's licensed client IDs; `New-PASUser`/`Set-PASUser`/`Get-PASUser` gain a `UserType` completer sourced from the environment's configured user types; and `Set-PASAccount` gains one for `Path`. In each case the values are pulled live from the connected environment rather than hard-coded, so completions are accurate for your environment's configuration.
 
-As always, huge thanks to [JP-Consulting](https://github.com/johannesconsulting) for another large wave of contributions across this release. The full breakdown of additions, updates and fixes follows below.
+As always, huge thanks to [JP-Consulting](https://github.com/johannesconsulting) for another large wave of contributions across this release. The full breakdown of additions, updates and fixes follows below:
 
 ### Added
 
