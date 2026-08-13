@@ -15,14 +15,14 @@ This resumes automatic management of one or more dependent accounts by the CPM.
 ## SYNTAX
 
 ```
-Resume-PASDependentAccount [-AccountID] <String[]> [-dependentAccountId] <String[]> [-WhatIf] [-Confirm]
+Resume-PASDependentAccount [-AccountID] <String> [-dependentAccountId] <String[]> [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Resumes automatic management of a dependent account by the Central Password Manager (CPM).
 
-When more than one value is supplied for `-AccountID`, a bulk resume request is sent.
+When more than one value is supplied for `-dependentAccountId`, a bulk resume request is sent.
 Bulk resume requires CyberArk version 15.0 or later. Single-account resume requires version 14.6 or later.
 
 ## EXAMPLES
@@ -45,11 +45,11 @@ the main account retrieved by Get-PASAccount.
 
 ### Example 3
 ```powershell
-Resume-PASDependentAccount -AccountID "123_456", "456_789" -dependentAccountId "22_2"
+Resume-PASDependentAccount -AccountID "123_456" -dependentAccountId "22_2", "33_3"
 ```
 
-Resumes automatic CPM management for dependent account "22_2" against the main accounts
-"123_456" and "456_789" in a single bulk request.
+Resumes automatic CPM management for dependent accounts "22_2" and "33_3", both associated
+with the main account "123_456", in a single bulk request.
 
 ## PARAMETERS
 
@@ -57,10 +57,8 @@ Resumes automatic CPM management for dependent account "22_2" against the main a
 The unique ID of the main privileged account that has the dependent account associated with it.
 This parameter accepts pipeline input and can be aliased as 'id'.
 
-When more than one value is supplied, a bulk resume request is sent.
-
 ```yaml
-Type: String[]
+Type: String
 Parameter Sets: (All)
 Aliases: id
 
@@ -74,6 +72,8 @@ Accept wildcard characters: False
 ### -dependentAccountId
 The unique ID of the dependent account for which automatic CPM management should be resumed.
 This parameter accepts pipeline input and can be aliased as 'dependentid'.
+
+When more than one value is supplied, a bulk resume request is sent.
 
 ```yaml
 Type: String[]
@@ -128,7 +128,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 Single-account operations require CyberArk version 14.6 or later.
-Bulk operations require CyberArk version 15.0 or later and are triggered when `-AccountID` contains more than one value.
+Bulk operations require CyberArk version 15.0 or later and are triggered when `-dependentAccountId` contains more than one value.
 
 ## RELATED LINKS
 

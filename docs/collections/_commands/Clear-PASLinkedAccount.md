@@ -15,7 +15,7 @@ Clears one or more linked account associations.
 ## SYNTAX
 
 ```
-Clear-PASLinkedAccount [-AccountID] <String[]> [-extraPasswordIndex] <Int32[]> [-WhatIf] [-Confirm]
+Clear-PASLinkedAccount [-AccountID] <String[]> [-extraPasswordIndex] <Int32> [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -86,7 +86,7 @@ The linked account's extra password index.
 The index can be for a Reconcile account, Logon account, or other linked account that is defined in the Platform configuration.
 
 ```yaml
-Type: Int32[]
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 

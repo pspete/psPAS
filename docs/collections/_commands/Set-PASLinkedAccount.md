@@ -15,8 +15,8 @@ Associates one or more linked accounts to existing accounts.
 ## SYNTAX
 
 ```
-Set-PASLinkedAccount [-AccountID] <String[]> [-safe] <String[]> [-extraPasswordIndex] <String[]>
- [-name] <String[]> [-folder] <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-PASLinkedAccount [-AccountID] <String[]> [-safe] <String> [-extraPasswordIndex] <String> [-name] <String>
+ [-folder] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -86,7 +86,7 @@ Accept wildcard characters: False
 The Safe in which the linked account is stored.
 
 ```yaml
-Type: String[]
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -101,7 +101,7 @@ Accept wildcard characters: False
 The linked account's extra password index (1,2, or 3).
 
 ```yaml
-Type: String[]
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -116,7 +116,7 @@ Accept wildcard characters: False
 The accountname of the linked account.
 
 ```yaml
-Type: String[]
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -131,7 +131,7 @@ Accept wildcard characters: False
 The folder in which the linked account is stored in it's safe.
 
 ```yaml
-Type: String[]
+Type: String
 Parameter Sets: (All)
 Aliases:
 

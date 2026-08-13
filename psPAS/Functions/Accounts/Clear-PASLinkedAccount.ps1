@@ -13,7 +13,7 @@ function Clear-PASLinkedAccount {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [int[]]$extraPasswordIndex
+        [int]$extraPasswordIndex
 
     )
 

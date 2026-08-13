@@ -15,26 +15,26 @@ function Set-PASLinkedAccount {
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateLength(1, 28)]
-		[string[]]$safe,
+		[string]$safe,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[ValidateSet('1', '2', '3')]
-		[string[]]$extraPasswordIndex,
+		[string]$extraPasswordIndex,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string[]]$name,
+		[string]$name,
 
 		[parameter(
 			Mandatory = $true,
 			ValueFromPipelinebyPropertyName = $true
 		)]
-		[string[]]$folder
+		[string]$folder
 
 	)
 
