@@ -6501,17 +6501,6 @@ Add-PASDiscoveryScan -scanType ActiveDirectory -scanCredentials $scanCredentials
           <maml:para>Creates a scheduled Active Directory discovery scan.</maml:para>
         </dev:remarks>
       </command:example>
-      <command:example>
-        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>$scanCredentials = @{ username = 'root'; password = 'P@ssw0rd' }
-$csvFile = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("address`nlinux.example.com"))
-
-Add-PASDiscoveryScan -scanType CsvFile -scanCredentials $scanCredentials -csvFile $csvFile `
-    -fileName 'linux.csv' -discoveryName 'Linux discovery' -managingScanner PasswordManager</dev:code>
-        <dev:remarks>
-          <maml:para>Creates a CSV-file discovery scan, which can be used for Linux targets.</maml:para>
-        </dev:remarks>
-      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -13718,9 +13707,9 @@ Add-PASUserAllowedAuthenticationMethod -userIds $userIds -allowedAuthenticationM
             <maml:para>The linked account's extra password index.</maml:para>
             <maml:para>The index can be for a Reconcile account, Logon account, or other linked account that is defined in the Platform configuration.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
-            <maml:name>Int32[]</maml:name>
+            <maml:name>Int32</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
@@ -13769,9 +13758,9 @@ Add-PASUserAllowedAuthenticationMethod -userIds $userIds -allowedAuthenticationM
           <maml:para>The linked account's extra password index.</maml:para>
           <maml:para>The index can be for a Reconcile account, Logon account, or other linked account that is defined in the Platform configuration.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
-          <maml:name>Int32[]</maml:name>
+          <maml:name>Int32</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
@@ -50244,7 +50233,7 @@ Restart-PASVRMService -serviceName Vault -serverAddress vault.company.com -servi
     </command:details>
     <maml:description>
       <maml:para>Resumes automatic management of a dependent account by the Central Password Manager (CPM).</maml:para>
-      <maml:para>When more than one value is supplied for `-AccountID`, a bulk resume request is sent. Bulk resume requires CyberArk version 15.0 or later. Single-account resume requires version 14.6 or later.</maml:para>
+      <maml:para>When more than one value is supplied for `-dependentAccountId`, a bulk resume request is sent. Bulk resume requires CyberArk version 15.0 or later. Single-account resume requires version 14.6 or later.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -50253,11 +50242,10 @@ Restart-PASVRMService -serviceName Vault -serverAddress vault.company.com -servi
           <maml:name>AccountID</maml:name>
           <maml:description>
             <maml:para>The unique ID of the main privileged account that has the dependent account associated with it. This parameter accepts pipeline input and can be aliased as 'id'.</maml:para>
-            <maml:para>When more than one value is supplied, a bulk resume request is sent.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>String[]</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -50266,6 +50254,7 @@ Restart-PASVRMService -serviceName Vault -serverAddress vault.company.com -servi
           <maml:name>dependentAccountId</maml:name>
           <maml:description>
             <maml:para>The unique ID of the dependent account for which automatic CPM management should be resumed. This parameter accepts pipeline input and can be aliased as 'dependentid'.</maml:para>
+            <maml:para>When more than one value is supplied, a bulk resume request is sent.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -50303,11 +50292,10 @@ Restart-PASVRMService -serviceName Vault -serverAddress vault.company.com -servi
         <maml:name>AccountID</maml:name>
         <maml:description>
           <maml:para>The unique ID of the main privileged account that has the dependent account associated with it. This parameter accepts pipeline input and can be aliased as 'id'.</maml:para>
-          <maml:para>When more than one value is supplied, a bulk resume request is sent.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
-          <maml:name>String[]</maml:name>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -50316,6 +50304,7 @@ Restart-PASVRMService -serviceName Vault -serverAddress vault.company.com -servi
         <maml:name>dependentAccountId</maml:name>
         <maml:description>
           <maml:para>The unique ID of the dependent account for which automatic CPM management should be resumed. This parameter accepts pipeline input and can be aliased as 'dependentid'.</maml:para>
+          <maml:para>When more than one value is supplied, a bulk resume request is sent.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -50353,7 +50342,7 @@ Restart-PASVRMService -serviceName Vault -serverAddress vault.company.com -servi
     <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Single-account operations require CyberArk version 14.6 or later. Bulk operations require CyberArk version 15.0 or later and are triggered when `-AccountID` contains more than one value.</maml:para>
+        <maml:para>Single-account operations require CyberArk version 14.6 or later. Bulk operations require CyberArk version 15.0 or later and are triggered when `-dependentAccountId` contains more than one value.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -50373,9 +50362,9 @@ Restart-PASVRMService -serviceName Vault -serverAddress vault.company.com -servi
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 3 --------------------------</maml:title>
-        <dev:code>Resume-PASDependentAccount -AccountID "123_456", "456_789" -dependentAccountId "22_2"</dev:code>
+        <dev:code>Resume-PASDependentAccount -AccountID "123_456" -dependentAccountId "22_2", "33_3"</dev:code>
         <dev:remarks>
-          <maml:para>Resumes automatic CPM management for dependent account "22_2" against the main accounts "123_456" and "456_789" in a single bulk request.</maml:para>
+          <maml:para>Resumes automatic CPM management for dependent accounts "22_2" and "33_3", both associated with the main account "123_456", in a single bulk request.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -53562,9 +53551,9 @@ $current | Set-PASIPAllowList</dev:code>
           <maml:description>
             <maml:para>The Safe in which the linked account is stored.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>String[]</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -53574,9 +53563,9 @@ $current | Set-PASIPAllowList</dev:code>
           <maml:description>
             <maml:para>The linked account's extra password index (1,2, or 3).</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>String[]</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -53586,9 +53575,9 @@ $current | Set-PASIPAllowList</dev:code>
           <maml:description>
             <maml:para>The accountname of the linked account.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>String[]</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -53598,9 +53587,9 @@ $current | Set-PASIPAllowList</dev:code>
           <maml:description>
             <maml:para>The folder in which the linked account is stored in it's safe.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>String[]</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -53648,9 +53637,9 @@ $current | Set-PASIPAllowList</dev:code>
         <maml:description>
           <maml:para>The Safe in which the linked account is stored.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
-          <maml:name>String[]</maml:name>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -53660,9 +53649,9 @@ $current | Set-PASIPAllowList</dev:code>
         <maml:description>
           <maml:para>The linked account's extra password index (1,2, or 3).</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
-          <maml:name>String[]</maml:name>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -53672,9 +53661,9 @@ $current | Set-PASIPAllowList</dev:code>
         <maml:description>
           <maml:para>The accountname of the linked account.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
-          <maml:name>String[]</maml:name>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -53684,9 +53673,9 @@ $current | Set-PASIPAllowList</dev:code>
         <maml:description>
           <maml:para>The folder in which the linked account is stored in it's safe.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
-          <maml:name>String[]</maml:name>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>

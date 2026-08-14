@@ -19,6 +19,24 @@
 
 - N/A
 
+## [8.0.3]
+
+### Added
+
+- N/A
+
+### Updated
+
+- N/A
+
+### Fixed
+
+- `Set-PASLinkedAccount`, `Clear-PASLinkedAccount`, `Resume-PASDependentAccount`
+  - Fixes a regression introduced in 8.0.0's bulk operation support, where the `safe`/`extraPasswordIndex`/`name`/`folder`/`dependentAccountId` parameters were incorrectly changed to accept multiple values.
+  - This caused request bodies to send these values as JSON arrays instead of the single scalar values the API expects, resulting in `PASWS168E`/invalid parameter errors even for standard, non-bulk usage.
+  - `Set-PASLinkedAccount`/`Clear-PASLinkedAccount` bulk requests continue to be driven by supplying more than one `-AccountID`.
+  - `Resume-PASDependentAccount` bulk requests are now correctly driven by supplying more than one `-dependentAccountId` for a single `-AccountID`, reflecting that a dependent account can only ever belong to one source account.
+
 ## [8.0.0]
 
 **[JP-Consulting](https://github.com/johannesconsulting) continues their streak with more amazing contributions**

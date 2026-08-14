@@ -121,7 +121,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					$Script:RequestBodyRaw = $Body
 				}
 
-				$response = Resume-PASDependentAccount -AccountID '11_1', '33_3' -dependentAccountId '22_2'
+				$response = Resume-PASDependentAccount -AccountID '11_1' -dependentAccountId '22_2', '33_3'
 
 			}
 
@@ -165,12 +165,15 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$Script:RequestBody.BulkItems.Count | Should -Be 2
 				$Script:RequestBody.BulkItems[0].AccountID | Should -Be '11_1'
 				$Script:RequestBody.BulkItems[0].dependentAccountId | Should -Be '22_2'
+				$Script:RequestBody.BulkItems[0].AccountID | Should -Not -BeOfType [array]
+				$Script:RequestBody.BulkItems[1].AccountID | Should -Be '11_1'
+				$Script:RequestBody.BulkItems[1].dependentAccountId | Should -Be '33_3'
 
 			}
 
 			It 'throws error if bulk version requirement not met' {
 				$psPASSession.ExternalVersion = '14.9'
-				{ Resume-PASDependentAccount -AccountID '11_1', '33_3' -dependentAccountId '22_2' } | Should -Throw
+				{ Resume-PASDependentAccount -AccountID '11_1' -dependentAccountId '22_2', '33_3' } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
 			}
 

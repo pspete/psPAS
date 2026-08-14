@@ -140,6 +140,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 $Script:RequestBody.BulkItems.Count | Should -Be 2
                 $Script:RequestBody.BulkItems[0].AccountID | Should -Be '12_34'
                 $Script:RequestBody.BulkItems[0].extraPasswordIndex | Should -Be 2
+                $Script:RequestBody.BulkItems[0].extraPasswordIndex | Should -Not -BeOfType [array]
 
             }
 

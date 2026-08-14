@@ -7,7 +7,7 @@ function Resume-PASDependentAccount {
             ValueFromPipelinebyPropertyName = $true
         )]
         [Alias('id')]
-        [string[]]$AccountID,
+        [string]$AccountID,
 
         [parameter(
             Mandatory = $true,
@@ -25,7 +25,7 @@ function Resume-PASDependentAccount {
         # Variable to track if we are doing bulk confirmation
         $BulkConfirmation = $false
 
-        $boundInput = $PSBoundParameters['AccountID']
+        $boundInput = $PSBoundParameters['dependentAccountId']
 
         if (Test-IsMultiValue -Value $boundInput) {
 
@@ -50,11 +50,11 @@ function Resume-PASDependentAccount {
 
             #Create body of request
             $Body = @{'BulkItems' = [System.Collections.Generic.List[object]]::new() }
-            $AccountID | ForEach-Object {
+            $dependentAccountId | ForEach-Object {
                 $Body.BulkItems.Add(
                     @{
-                        AccountID          = $PSItem
-                        dependentAccountId = $dependentAccountId
+                        AccountID          = $AccountID
+                        dependentAccountId = $PSItem
                     }
                 )
             }

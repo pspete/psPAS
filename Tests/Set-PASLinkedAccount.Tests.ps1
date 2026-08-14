@@ -97,6 +97,20 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'sends request with scalar (non-array) body values' {
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $ParsedBody = $Body | ConvertFrom-Json
+                    (-not ($ParsedBody.safe -is [array])) -and
+                    (-not ($ParsedBody.extraPasswordIndex -is [array])) -and
+                    (-not ($ParsedBody.name -is [array])) -and
+                    (-not ($ParsedBody.folder -is [array]))
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
             It 'throws error if version requirement not met' {
                 $psPASSession.ExternalVersion = '1.0'
                 { $InputObject | Set-PASLinkedAccount } | Should -Throw
@@ -160,6 +174,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 $Script:RequestBody.BulkItems[0].extraPasswordIndex | Should -Be '1'
                 $Script:RequestBody.BulkItems[0].name | Should -Be 'SomeAccountName'
                 $Script:RequestBody.BulkItems[0].folder | Should -Be 'SomeFolder'
+                $Script:RequestBody.BulkItems[0].safe | Should -Not -BeOfType [array]
+                $Script:RequestBody.BulkItems[0].extraPasswordIndex | Should -Not -BeOfType [array]
+                $Script:RequestBody.BulkItems[0].name | Should -Not -BeOfType [array]
+                $Script:RequestBody.BulkItems[0].folder | Should -Not -BeOfType [array]
 
             }
 
