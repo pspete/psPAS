@@ -35,13 +35,13 @@ function Sync-PASDependentAccount {
             $BulkConfirmation = $true
         }
 
-        $Request = @{
-            Method = 'POST'
-        }
-
     }#begin
 
     process {
+
+        $Request = @{
+            Method = 'POST'
+        }
 
         #Create URL for Request
         $URI = "$($psPASSession.BaseURI)/API/Accounts/$AccountID/dependentAccounts"

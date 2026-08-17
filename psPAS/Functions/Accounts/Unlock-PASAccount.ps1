@@ -41,13 +41,13 @@ function Unlock-PASAccount {
 			$BulkConfirmation = $true
 		}
 
-		$Request = @{
-			Method = 'POST'
-		}
-
 	}#begin
 
 	process {
+
+		$Request = @{
+			Method = 'POST'
+		}
 
 		switch ($PSCmdlet.ParameterSetName) {
 

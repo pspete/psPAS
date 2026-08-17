@@ -55,13 +55,13 @@ function Set-PASLinkedAccount {
 			$BulkConfirmation = $true
 		}
 
-		$Request = @{
-			Method = 'POST'
-		}
-
 	}#begin
 
 	process {
+
+		$Request = @{
+			Method = 'POST'
+		}
 
 		if ($BulkConfirmation) {
 
