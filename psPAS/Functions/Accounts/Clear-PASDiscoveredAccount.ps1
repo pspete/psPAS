@@ -21,9 +21,7 @@ function Clear-PASDiscoveredAccount {
         if (Test-IsMultiValue -Value $boundInput) {
 
             $BulkConfirmation = $true
-            $Request = @{
-                Method = 'POST'
-            }
+
         }
 
     }#begin
@@ -31,6 +29,10 @@ function Clear-PASDiscoveredAccount {
     process {
 
         if ($BulkConfirmation) {
+
+            $Request = @{
+                Method = 'POST'
+            }
 
             #Create URL for Request
             $URI = "$($psPASSession.BaseURI)/api/DiscoveredAccounts/Delete/Bulk"
