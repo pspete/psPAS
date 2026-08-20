@@ -56,8 +56,6 @@ commands:
         url: /commands/Add-PASUserAllowedAuthenticationMethod
       - title: "Remove-PASUserAllowedAuthenticationMethod"
         url: /commands/Remove-PASUserAllowedAuthenticationMethod
-      - title: "Register-PASFIDO2Device"
-        url: /commands/Register-PASFIDO2Device
       - title: "Add-PASOAuthProvider"
         url: /commands/Add-PASOAuthProvider
       - title: "Get-PASOAuthProvider"

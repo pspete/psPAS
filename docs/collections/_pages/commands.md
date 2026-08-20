@@ -233,7 +233,6 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 | [Add Allowed Authentication Methods][Add Allowed Authentication Methods]                             | [Add-PASUserAllowedAuthenticationMethod][Add-PASUserAllowedAuthenticationMethod]         |
 | [Remove Allowed Authentication Methods][Remove Allowed Authentication Methods]                       | [Remove-PASUserAllowedAuthenticationMethod][Remove-PASUserAllowedAuthenticationMethod]   |
 | [Remove FIDO2 Device][Remove FIDO2 Device]                                                           | [Remove-PASFIDO2Device][Remove-PASFIDO2Device]                                           |
-| [Register FIDO2 Device][Register FIDO2 Device]                                                       | [Register-PASFIDO2Device][Register-PASFIDO2Device]                                       |
 | [Get Master Policy Settings][Get Master Policy Settings]                                             | [Get-PASMasterPolicy][Get-PASMasterPolicy]                                               |
 | [Update Master Policy Settings][Update Master Policy Settings]                                       | [Set-PASMasterPolicy][Set-PASMasterPolicy]                                               |
 | [Add Dependent Account][Add Dependent Account]                                                       | [Add-PASDependentAccount][Add-PASDependentAccount]                                       |
@@ -305,7 +304,6 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Add-PASUserAllowedAuthenticationMethod]: /psPAS/Functions/Users/Add-PASUserAllowedAuthenticationMethod
 [Remove-PASUserAllowedAuthenticationMethod]: /psPAS/Functions/Users/Remove-PASUserAllowedAuthenticationMethod
 [Remove-PASFIDO2Device]: /psPAS/Functions/Users/Remove-PASFIDO2Device
-[Register-PASFIDO2Device]: /psPAS/Functions/Authentication/Register-PASFIDO2Device
 [Get-PASMasterPolicy]: /psPAS/Functions/Policy/Get-PASMasterPolicy
 [Set-PASMasterPolicy]: /psPAS/Functions/Policy/Set-PASMasterPolicy
 [Add-PASDependentAccount]: /psPAS/Functions/Accounts/Add-PASDependentAccount
@@ -507,7 +505,6 @@ A psPAS command may not appear in the below list due to it not being explicitly 
 [Add Allowed Authentication Methods]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddAllowedAuthenticationMethods.htm
 [Remove Allowed Authentication Methods]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemoveAllowedAuthenticationMethods.htm
 [Remove FIDO2 Device]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/RemoveFIDO2Device.htm
-[Register FIDO2 Device]: https://docs.cyberark.com/pam-self-hosted/latest/en/content/webservices/fido2-register.htm
 [Get Master Policy Settings]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/GetMasterPolicy.htm
 [Update Master Policy Settings]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/UpdateMasterPolicy.htm
 [Add Dependent Account]: https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/WebServices/AddDependentAccount.htm

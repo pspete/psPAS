@@ -5,7 +5,7 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v9.0...
 
-## [unreleased]
+## [8.0.11]
 
 ### Added
 
@@ -15,9 +15,21 @@
 
 - N/A
 
+### Removed
+
+- `Invoke-FIDO2Authentication` (private), `Invoke-FIDO2MakeCredential` (private), `Register-PASFIDO2Device`
+  - Removes the FIDO2/WebAuthn security key functionality added in 7.3.0: `New-PASSession -type FIDO2` (and its `-UserName` parameter) and the `Register-PASFIDO2Device` command
+  - Windows Defender flags `Invoke-FIDO2Authentication.ps1`'s inline P/Invoke wrapper around `webauthn.dll`, which quarantines the file and causes `Install-Module psPAS` to fail outright for any user with Defender enabled, regardless of whether FIDO2 auth is used
+  - Confirmed the same file content is affected identically across the 7.3.0, 8.0.0, and 8.0.3 releases; see [#653](https://github.com/pspete/psPAS/issues/653)
+  - FIDO2 support may return with a restructured implementation once the detection is resolved or a non-triggering implementation is found
+
 ### Fixed
 
-- N/A
+- `Clear-PASLinkedAccount`, `Set-PASLinkedAccount`, `Resume-PASCPMAutoManagement`, `Resume-PASDependentAccount`, `Stop-PASCPMTask`, `Sync-PASDependentAccount`, `Unlock-PASAccount`
+  - Fixes request-state leaking across pipeline iterations: the request object/method was built once in `begin{}` and only partially updated per pipeline item in `process{}`, so a branch that didn't set every key could leave a prior item's values (e.g. `Method`) on the request sent for the next item
+  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
+- `Get-PASSafeMember`, `Import-PASPlatform`, `Clear-PASDiscoveredAccount`
+  - Fixes the same class of pipeline request-state leak: the request object is now built fresh inside `process{}` for every pipeline item instead of once in `begin{}`
 
 ## [8.0.3]
 

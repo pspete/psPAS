@@ -282,7 +282,6 @@ If version requirement criteria are not met, operations may be prevented.
 | [`Rename-PASPlatform`][Rename-PASPlatform]                                                 | **15.0**                                                                                                      | Renames a target platform                                        |
 | [`Resume-PASCPMAutoManagement`][Resume-PASCPMAutoManagement]                               | **15.2**                                                                                                      | Resumes CPM auto management for one or more accounts             |
 | [`Stop-PASCPMTask`][Stop-PASCPMTask]                                                       | **15.2**                                                                                                      | Cancels a pending CPM task for one or more accounts              |
-| [`Register-PASFIDO2Device`][Register-PASFIDO2Device]                                       | **14.6**                                                                                                      | Registers a new FIDO2 device for a user                          |
 
 [Enable-PASTheme]: /commands/Enable-PASTheme
 [Remove-PASTheme]: /commands/Remove-PASTheme
@@ -535,7 +534,6 @@ If version requirement criteria are not met, operations may be prevented.
 [Rename-PASPlatform]: /commands/Rename-PASPlatform
 [Resume-PASCPMAutoManagement]: /commands/Resume-PASCPMAutoManagement
 [Stop-PASCPMTask]: /commands/Stop-PASCPMTask
-[Register-PASFIDO2Device]: /commands/Register-PASFIDO2Device
 
 ## Notes
 

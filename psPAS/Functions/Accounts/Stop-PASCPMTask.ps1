@@ -31,13 +31,13 @@ function Stop-PASCPMTask {
             $BulkConfirmation = $true
         }
 
-        $Request = @{
-            Method = 'POST'
-        }
-
     }#begin
 
     process {
+
+        $Request = @{
+            Method = 'POST'
+        }
 
         if ($PSBoundParameters.ContainsKey('dependentAccountid')) {
 

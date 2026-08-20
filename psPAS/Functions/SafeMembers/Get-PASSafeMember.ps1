@@ -117,12 +117,12 @@ function Get-PASSafeMember {
 
 	begin {
 
-		$Request = @{ }
-		$Method = 'GET'
-
 	}#begin
 
 	process {
+
+		$Request = @{ }
+		$Method = 'GET'
 
 		switch ($PSCmdlet.ParameterSetName) {
 
