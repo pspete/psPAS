@@ -34,13 +34,13 @@ function Clear-PASLinkedAccount {
             $BulkConfirmation = $true
         }
 
-        $Request = @{
-            Method = 'DELETE'
-        }
-
     }#begin
 
     process {
+
+        $Request = @{
+            Method = 'DELETE'
+        }
 
         if ($BulkConfirmation) {
 
