@@ -17,10 +17,9 @@ Authenticates a user to Idira (CyberArk) Vault/API.
 
 ### Gen2 (Default)
 ```
-New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-UserName <String>]
- [-newPassword <SecureString>] [-type <String>] [-concurrentSession <Boolean>] [-PVWAAppName <String>]
- [-SkipVersionCheck] [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+New-PASSession [-Credential <PSCredential>] -BaseURI <String> [-newPassword <SecureString>] [-type <String>]
+ [-concurrentSession <Boolean>] [-PVWAAppName <String>] [-SkipVersionCheck] [-Certificate <X509Certificate>]
+ [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ISPSS-URL-ServiceUser
@@ -400,14 +399,6 @@ New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain
 
 Authenticates to a CyberArk Vault using SAML authentication & Gen1 API.
 
-### EXAMPLE 27
-
-```
-New-PASSession -BaseURI https://pvwa.company.com -type FIDO2 -UserName administrator
-```
-
-Authenticates to CyberArk using FIDO2/WebAuthn hardware security key authentication.
-
 ## PARAMETERS
 
 ### -Credential
@@ -558,7 +549,6 @@ Valid values are:
 - RADIUS
 - PKI
 - PKIPN
-- FIDO2 (Minimum version required 14.4)
 
 ```yaml
 Type: String
@@ -955,24 +945,6 @@ Parameter Sets: ISPSS-URL-ServiceUser, ISPSS-Subdomain-ServiceUser
 Aliases:
 
 Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -UserName
-
-The username for FIDO2 authentication.
-When using `-type FIDO2`, specify the username with this parameter (required).
-The username identifies the user and their registered security keys.
-
-```yaml
-Type: String
-Parameter Sets: Gen2
-Aliases:
-
-Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

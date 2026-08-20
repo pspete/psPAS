@@ -258,16 +258,6 @@ For testing against a host using a self-signed certificate, certificate validati
 New-PASSession -Credential $cred -BaseURI $url -SkipCertificateCheck
 ```
 
-### FIDO2 Authentication
-
-Authenticate using a FIDO2/WebAuthn hardware security key:
-
-```powershell
-New-PASSession -BaseURI https://pvwa.somedomain.com -type FIDO2 -UserName administrator
-```
-
-Minimum version required 14.4. A security key must already be registered for the user — see `Register-PASFIDO2Device`.
-
 ### Gen1 API
 
 For self-hosted environments running versions earlier than 10.4, the `-UseGen1API` switch forces the older Gen1 API endpoint to be used for the logon request. It's available alongside the local user, RADIUS and SAML flows:
