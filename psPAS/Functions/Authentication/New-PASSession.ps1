@@ -495,6 +495,12 @@ function New-PASSession {
 				$IdentityTenantURL = $SharedServicesURLs | Select-Object -ExpandProperty identity_user_portal | Select-Object -ExpandProperty api
 				$PrivilegeCloudURL = $SharedServicesURLs | Select-Object -ExpandProperty pcloud | Select-Object -ExpandProperty api
 
+				#Ensure URLs are in expected format
+				#Remove trailing space and PasswordVault (if provided in PrivilegeCloudURL)
+				$IdentityTenantURL = $IdentityTenantURL -replace '/$', ''
+				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/$', ''
+				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/PasswordVault$', ''
+
 			}
 
 			( { $PSItem -match '^ISPSS-.*-.*User$' } ) {

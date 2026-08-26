@@ -1153,6 +1153,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sets expected BaseURI with no double slash when discovery URL has a trailing slash' {
+
+				Mock Find-SharedServicesURL -MockWith {
+
+					[pscustomobject]@{
+						identity_user_portal = [pscustomobject]@{api = 'https://SomeSubDomain.id.cyberark.cloud/' }
+						pcloud               = [pscustomobject]@{api = 'https://SomeSubDomain.privilegecloud.cyberark.cloud/' }
+					}
+
+				}
+
+				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain -ServiceUser
+				$Script:psPASSession.BaseURI | Should -Be 'https://SomeSubDomain.privilegecloud.cyberark.cloud/PasswordVault'
+
+			}
+
 			It 'sets expected authorization header' {
 
 				$Credentials | New-PASSession -TenantSubdomain SomeSubDomain -ServiceUser
