@@ -158,6 +158,7 @@
 		'Export-PASPlatform',
 		'Get-PASUserLoginInfo',
 		'Get-PASDirectory',
+		'Get-PASDirectoryID',
 		'Add-PASDirectory',
 		'New-PASDirectoryMapping',
 		'Get-PASPTAEvent',
