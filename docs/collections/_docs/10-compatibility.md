@@ -107,6 +107,7 @@ If version requirement criteria are not met, operations may be prevented.
 | [`Set-PASUser`][Set-PASUser]                                                               | **9.7** ([Notes](#set-pasuser))                                                                               | Updates a user                                                   |
 | [`Unblock-PASUser`][Unblock-PASUser]                                                       | **9.7** ([Notes](#unblock-pasuser))                                                                           | Activates a suspended user                                       |
 | [`Get-PASDirectory`][Get-PASDirectory]                                                     | **10.4** ([Notes](#get-pasdirectory))                                                                         | Get configured LDAP directories                                  |
+| [`Get-PASDirectoryID`][Get-PASDirectoryID]                                                 | **---**                                                                                                       | Get directory IDs for use as the Add-PASSafeMember SearchIn value |
 | [`Add-PASDirectory`][Add-PASDirectory]                                                     | **10.4** ([Notes](#add-pasdirectory))                                                                         | Add a new LDAP directory                                         |
 | [`New-PASDirectoryMapping`][New-PASDirectoryMapping]                                       | **10.4** ([Notes](#new-pasdirectorymapping))                                                                  | Create a new LDAP directory mapping                              |
 | [`Add-PASPTARule`][Add-PASPTARule]                                                         | **10.4**                                                                                                      | Add a new Risky Commandrule to PTA                               |
@@ -456,6 +457,7 @@ If version requirement criteria are not met, operations may be prevented.
 [Set-PASUser]: /commands/Set-PASUser
 [Unblock-PASUser]: /commands/Unblock-PASUser
 [Get-PASDirectory]: /commands/Get-PASDirectory
+[Get-PASDirectoryID]: /commands/Get-PASDirectoryID
 [Add-PASDirectory]: /commands/Add-PASDirectory
 [New-PASDirectoryMapping]: /commands/New-PASDirectoryMapping
 [Add-PASPTARule]: /commands/Add-PASPTARule

@@ -54,7 +54,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					'IdentityMemberTypes'  = @('User', 'Group', 'Role')
 					'Directories'          = @(
 						[PSCustomObject]@{'Name' = 'Idira Cloud Directory'; 'ID' = '09B9A9B0-6CE8-465F-AB03-65766D33B05E' },
-						[PSCustomObject]@{'Name' = 'Active Directory: ad.cyberiam.com'; 'ID' = '77dac292-a38e-76c4-9eaa-d25e196c428d' }
+						[PSCustomObject]@{'Name' = 'Active Directory: ad.SomeDomain.com'; 'ID' = '77dac292-a38e-76c4-9eaa-d25e196c428d' }
 					)
 				}
 			}

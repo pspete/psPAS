@@ -313,6 +313,8 @@ commands:
         url: /commands/Add-PASDirectory
       - title: "Get-PASDirectory"
         url: /commands/Get-PASDirectory
+      - title: "Get-PASDirectoryID"
+        url: /commands/Get-PASDirectoryID
       - title: "Remove-PASDirectory"
         url: /commands/Remove-PASDirectory
       - title: "Get-PASDirectoryMapping"

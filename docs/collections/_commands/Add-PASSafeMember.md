@@ -185,6 +185,22 @@ Add-PASSafeMember -SafeName NewSafe -MemberName User28 -SearchIn Vault -ConnectO
 
 Adds User28 to NewSafe with the predefined "Connect Only" role.
 
+### EXAMPLE 10
+```
+$DirectoryID = Get-PASDirectoryID -Name "Active Directory: ad.SomeDomain.com" | Select-Object -ExpandProperty ID
+
+Add-PASSafeMember -SafeName Windows_Domain_Safe -MemberName anADGroup -SearchIn $DirectoryID -MemberType Group `
+-UseAccounts $true -RetrieveAccounts $true -ListAccounts $true
+```
+
+Adds the AD Group *anADGroup* to *Windows_Domain_Safe* with Use, Retrieve & List permissions.
+
+On Privilege Cloud, SearchIn must be the directory ID rather than a directory name - Get-PASDirectoryID resolves
+this from the directory's friendly name. MemberType must always be specified alongside a Privilege Cloud SearchIn
+value.
+
+Minimum required version 12.6
+
 ## PARAMETERS
 
 ### -SafeName
@@ -229,6 +245,10 @@ rather than a directory name - see Get-PASDirectoryID.
 
 Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while
 inserting the required ID value onto the command line.
+
+A plain Tab press cycles straight through the ID values with no names shown, since PSReadLine's default Tab
+behaviour only ever inserts the completion value. Press Ctrl+Space (PSReadLine's list/menu completion) instead
+to see the directory names alongside the values as you choose one - much easier to work with than the GUIDs.
 
 ```yaml
 Type: String

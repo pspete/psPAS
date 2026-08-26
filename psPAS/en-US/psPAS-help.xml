@@ -11136,6 +11136,7 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
             <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
             <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
+            <maml:para>A plain Tab press cycles straight through the ID values with no names shown, since PSReadLine's default Tab behaviour only ever inserts the completion value. Press Ctrl+Space (PSReadLine's list/menu completion) instead to see the directory names alongside the values as you choose one - much easier to work with than the GUIDs.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -11513,6 +11514,7 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
             <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
             <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
+            <maml:para>A plain Tab press cycles straight through the ID values with no names shown, since PSReadLine's default Tab behaviour only ever inserts the completion value. Press Ctrl+Space (PSReadLine's list/menu completion) instead to see the directory names alongside the values as you choose one - much easier to work with than the GUIDs.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -11878,6 +11880,7 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
             <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
             <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
+            <maml:para>A plain Tab press cycles straight through the ID values with no names shown, since PSReadLine's default Tab behaviour only ever inserts the completion value. Press Ctrl+Space (PSReadLine's list/menu completion) instead to see the directory names alongside the values as you choose one - much easier to work with than the GUIDs.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -11980,6 +11983,7 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
             <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
             <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
+            <maml:para>A plain Tab press cycles straight through the ID values with no names shown, since PSReadLine's default Tab behaviour only ever inserts the completion value. Press Ctrl+Space (PSReadLine's list/menu completion) instead to see the directory names alongside the values as you choose one - much easier to work with than the GUIDs.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -12082,6 +12086,7 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
             <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
             <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
+            <maml:para>A plain Tab press cycles straight through the ID values with no names shown, since PSReadLine's default Tab behaviour only ever inserts the completion value. Press Ctrl+Space (PSReadLine's list/menu completion) instead to see the directory names alongside the values as you choose one - much easier to work with than the GUIDs.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -12184,6 +12189,7 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
             <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
             <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
+            <maml:para>A plain Tab press cycles straight through the ID values with no names shown, since PSReadLine's default Tab behaviour only ever inserts the completion value. Press Ctrl+Space (PSReadLine's list/menu completion) instead to see the directory names alongside the values as you choose one - much easier to work with than the GUIDs.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -12286,6 +12292,7 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
             <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
             <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
+            <maml:para>A plain Tab press cycles straight through the ID values with no names shown, since PSReadLine's default Tab behaviour only ever inserts the completion value. Press Ctrl+Space (PSReadLine's list/menu completion) instead to see the directory names alongside the values as you choose one - much easier to work with than the GUIDs.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -12388,6 +12395,7 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
           <maml:para>in which to search for the member to add to the safe.</maml:para>
           <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
           <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
+          <maml:para>A plain Tab press cycles straight through the ID values with no names shown, since PSReadLine's default Tab behaviour only ever inserts the completion value. Press Ctrl+Space (PSReadLine's list/menu completion) instead to see the directory names alongside the values as you choose one - much easier to work with than the GUIDs.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -12914,6 +12922,18 @@ PS &gt; $Role | Add-PASSafeMember -SafeName NewSafe -MemberName User23 -SearchIn
         <dev:code>Add-PASSafeMember -SafeName NewSafe -MemberName User28 -SearchIn Vault -ConnectOnly</dev:code>
         <dev:remarks>
           <maml:para>Adds User28 to NewSafe with the predefined "Connect Only" role.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 10 --------------------------</maml:title>
+        <dev:code>$DirectoryID = Get-PASDirectoryID -Name "Active Directory: ad.SomeDomain.com" | Select-Object -ExpandProperty ID
+
+Add-PASSafeMember -SafeName Windows_Domain_Safe -MemberName anADGroup -SearchIn $DirectoryID -MemberType Group `
+-UseAccounts $true -RetrieveAccounts $true -ListAccounts $true</dev:code>
+        <dev:remarks>
+          <maml:para>Adds the AD Group anADGroup to Windows_Domain_Safe with Use, Retrieve &amp; List permissions.</maml:para>
+          <maml:para>On Privilege Cloud, SearchIn must be the directory ID rather than a directory name - Get-PASDirectoryID resolves this from the directory's friendly name. MemberType must always be specified alongside a Privilege Cloud SearchIn value.</maml:para>
+          <maml:para>Minimum required version 12.6</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
