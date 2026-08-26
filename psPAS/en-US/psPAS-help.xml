@@ -11134,6 +11134,8 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
           <maml:description>
             <maml:para>The Vault or Domain, defined in the vault,</maml:para>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
+            <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
+            <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -11509,6 +11511,8 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
           <maml:description>
             <maml:para>The Vault or Domain, defined in the vault,</maml:para>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
+            <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
+            <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -11872,6 +11876,8 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
           <maml:description>
             <maml:para>The Vault or Domain, defined in the vault,</maml:para>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
+            <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
+            <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -11972,6 +11978,8 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
           <maml:description>
             <maml:para>The Vault or Domain, defined in the vault,</maml:para>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
+            <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
+            <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -12072,6 +12080,8 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
           <maml:description>
             <maml:para>The Vault or Domain, defined in the vault,</maml:para>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
+            <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
+            <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -12172,6 +12182,8 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
           <maml:description>
             <maml:para>The Vault or Domain, defined in the vault,</maml:para>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
+            <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
+            <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -12272,6 +12284,8 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
           <maml:description>
             <maml:para>The Vault or Domain, defined in the vault,</maml:para>
             <maml:para>in which to search for the member to add to the safe.</maml:para>
+            <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
+            <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -12372,6 +12386,8 @@ Add-PASPublicSSHKey -UserName Bob -PublicSSHKey $Key</dev:code>
         <maml:description>
           <maml:para>The Vault or Domain, defined in the vault,</maml:para>
           <maml:para>in which to search for the member to add to the safe.</maml:para>
+          <maml:para>On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform, rather than a directory name - see Get-PASDirectoryID.</maml:para>
+          <maml:para>Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while inserting the required ID value onto the command line.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -20632,6 +20648,90 @@ $Detail | Format-List *</dev:code>
       <maml:navigationLink>
         <maml:linkText>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/LDAP_Get_directory_details.htm</maml:linkText>
         <maml:uri>https://docs.cyberark.com/Product-Doc/OnlineHelp/PAS/Latest/en/Content/SDK/LDAP_Get_directory_details.htm</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-PASDirectoryID</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>PASDirectoryID</command:noun>
+      <maml:description>
+        <maml:para>Lists the directories available for use as the SearchIn value with Add-PASSafeMember</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>In Privilege Cloud, directories are not directly integrated with Privilege Cloud, they are integrated with the underlying CyberArk Identity Platform.</maml:para>
+      <maml:para>Because of this, the value required for the SearchIn parameter of Add-PASSafeMember is the GUID of the relevant directory as known to Identity, rather than a directory name, and this value is not otherwise exposed anywhere in the CyberArk UI.</maml:para>
+      <maml:para>This function returns the directories available for use as the SearchIn value, resolving the required GUID for a given directory name.</maml:para>
+      <maml:para>This also works against a self-hosted Vault - there, the same request instead returns the SearchIn value already expected by Add-PASSafeMember on self-hosted (the mapped directory's own name), rather than a GUID.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-PASDirectoryID</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="DomainName">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The name of a directory to return the details of.</maml:para>
+            <maml:para>Accepts wildcards.</maml:para>
+            <maml:para>Supports tab completion, which will query the available directories and offer their names as suggestions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="DomainName">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The name of a directory to return the details of.</maml:para>
+          <maml:para>Accepts wildcards.</maml:para>
+          <maml:para>Supports tab completion, which will query the available directories and offer their names as suggestions.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Get-PASDirectoryID</dev:code>
+        <dev:remarks>
+          <maml:para>Returns all directories available for use as the SearchIn value with Add-PASSafeMember</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Get-PASDirectoryID -Name "Active Directory: SomeDomain.com"</dev:code>
+        <dev:remarks>
+          <maml:para>Returns the directory matching the specified name</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://pspas.pspete.dev/commands/Get-PASDirectoryID</maml:linkText>
+        <maml:uri>https://pspas.pspete.dev/commands/Get-PASDirectoryID</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://community.cyberark.com/s/article/PCloud-Adding-AD-Group-as-Safe-Member-via-Rest-API</maml:linkText>
+        <maml:uri>https://community.cyberark.com/s/article/PCloud-Adding-AD-Group-as-Safe-Member-via-Rest-API</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
