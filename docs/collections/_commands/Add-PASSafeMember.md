@@ -224,6 +224,12 @@ The Vault or Domain, defined in the vault,
 
 in which to search for the member to add to the safe.
 
+On Privilege Cloud, this must be the ID of the directory as known to the underlying CyberArk Identity platform,
+rather than a directory name - see Get-PASDirectoryID.
+
+Supports tab completion: queries Get-PASDirectoryID and offers directory names in the completion list, while
+inserting the required ID value onto the command line.
+
 ```yaml
 Type: String
 Parameter Sets: (All)
