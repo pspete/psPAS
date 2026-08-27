@@ -83,9 +83,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 $Response = @{
                     'LogonRequest' = @{
-                        'Body'   = [PSCustomObject]@{
-                            'Password' = 'SomePasswordValue'
-                        } | ConvertTo-Json
+                        #New-PASSession provides Body as raw UTF8 bytes
+                        'Body'   = [System.Text.Encoding]::UTF8.GetBytes(
+                            ([PSCustomObject]@{
+                                'username' = 'SomeUser'
+                                'password' = 'SomePasswordValue'
+                            } | ConvertTo-Json)
+                        )
                         'Method' = 'POST'
                         'URI'    = 'Value'
                     }
@@ -109,9 +113,25 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                     Send-RADIUSResponse @Response
                     Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                        $Script:RequestBody = $Body | ConvertFrom-Json
+                        $Script:RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
 
                         $Script:RequestBody.password -eq '123456'
+
+                    } -Times 5 -Exactly -Scope It
+
+                } Else { Set-ItResult -Inconclusive }
+            }
+
+            It 'sends a single username/password pair (not one per body byte)' {
+                if ($IsCoreCLR) {
+                    Send-RADIUSResponse @Response
+                    Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                        $RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
+
+                        (@($RequestBody).Count -eq 1) -and
+                        ($RequestBody.username -eq 'SomeUser') -and
+                        ($RequestBody.password -eq '123456')
 
                     } -Times 5 -Exactly -Scope It
 
