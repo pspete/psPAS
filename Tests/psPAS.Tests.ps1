@@ -38,6 +38,14 @@ Describe 'Module' -Tag 'Consistency' {
 
 	$Rules = Get-ScriptAnalyzerRule -Severity Warning, Error
 
+	#Run PSScriptAnalyzer once per file (all Warning/Error rules at once) rather than once per file *per rule*.
+	#The per-rule It blocks below then just filter this precomputed result set - same assertions, a fraction
+	#of the parser invocations.
+	$AnalyzerResults = @{ }
+	foreach ($Script in $Scripts) {
+		$AnalyzerResults[$Script.FullName] = @(Invoke-ScriptAnalyzer -Path $Script.FullName -Severity Warning, Error)
+	}
+
 	Context $ManifestPath -Tag Manifest {
 
 		It 'has a valid manifest' -TestCases @{ManifestPath = $ManifestPath } {
@@ -213,11 +221,11 @@ Describe 'Module' -Tag 'Consistency' {
 						It 'passes rule: <RuleName>' -Tag $rule -TestCases @{
 							'RuleName' = $rule.RuleName
 							'FileName' = $script.Name
-							'FilePath' = $script.FullName
+							'Findings' = $AnalyzerResults[$script.FullName]
 						} {
-							param($RuleName, $FileName, $FilePath)
+							param($RuleName, $FileName, $Findings)
 
-							Invoke-ScriptAnalyzer -Path $FilePath -IncludeRule $RuleName | Should -BeNullOrEmpty
+							@($Findings | Where-Object { $_.RuleName -eq $RuleName }) | Should -BeNullOrEmpty
 
 						}
 
