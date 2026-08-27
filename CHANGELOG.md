@@ -5,6 +5,24 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v9.0...
 
+### Added
+
+- `Get-PASDirectoryID`
+  - Resolves the directory ID value required by `Add-PASSafeMember -SearchIn` on Privilege Cloud, given a directory's friendly name - this value isn't otherwise exposed anywhere in the CyberArk UI
+  - Also works against a self-hosted Vault, returning the directory name itself as its ID, matching what self-hosted `-SearchIn` already expects
+  - `-Name` parameter supports tab completion
+
+### Updated
+
+- `Add-PASSafeMember`
+  - `-SearchIn` now supports tab completion via `Get-PASDirectoryID`: displays directory names in the completion list while inserting the required ID value
+  - Docs: added an example resolving `-SearchIn` via `Get-PASDirectoryID` for Privilege Cloud
+
+### Fixed
+
+- `New-PASSession`
+  - Fixes a double-slash appearing in request URIs (e.g. `.../cyberark.cloud//PasswordVault/...`) when authenticating via `-TenantSubdomain` - the Privilege Cloud/Identity URLs returned by Shared Services discovery weren't having a trailing slash stripped before being combined with the PVWA application name
+
 ## [8.0.11]
 
 ### Added
