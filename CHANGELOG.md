@@ -21,6 +21,7 @@
 ### Fixed
 
 - `New-PASSession`
+  - Fixes RADIUS secondary/challenge authentication failing after the `8.0.x` change that sends logon request bodies as raw UTF8 bytes: `Send-RADIUSResponse` still treated the body as a JSON string, so the byte array was enumerated one byte at a time - producing a request body containing the `username`/OTP pair repeated once per body byte (with a null `username`). The body is now decoded back to a string before the OTP is applied.
   - Fixes a double-slash appearing in request URIs (e.g. `.../cyberark.cloud//PasswordVault/...`) when authenticating via `-TenantSubdomain` - the Privilege Cloud/Identity URLs returned by Shared Services discovery weren't having a trailing slash stripped before being combined with the PVWA application name
 
 ## [8.0.11]
