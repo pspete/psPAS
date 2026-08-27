@@ -31,15 +31,18 @@ $res = $result | ConvertTo-Pester4Result
 Write-Host 'Uploading Test Results.'
 $null = (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", $(Resolve-Path .\TestResults.xml))
 
-if ($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq 'Pete Maan') {
+if (($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq 'Pete Maan') -and -not [string]::IsNullOrWhiteSpace($env:CODECOV_TOKEN)) {
+
+	#CODECOV_TOKEN is a secure variable and is not exposed to pull request builds - skip the upload rather than
+	#invoking the CLI with an empty -t value (which shifts every following argument and fails the command).
 
 	Write-Host 'Publishing Code Coverage'
 
 	try {
 		$ProgressPreference = 'SilentlyContinue'
 		$null = Invoke-WebRequest -Uri 'https://cli.codecov.io/latest/windows/codecov.exe' -OutFile codecov.exe
-		.\codecov.exe --disable-telem upload-process --disable-search --fail-on-error -t ${env:CODECOV_TOKEN} -n 'appveyor' -f coverage.xml
-		.\codecov.exe --disable-telem do-upload --disable-search --fail-on-error -t ${env:CODECOV_TOKEN} --report-type test_results -f TestResults.xml
+		.\codecov.exe --disable-telem upload-process --disable-search --fail-on-error -t "$env:CODECOV_TOKEN" -n 'appveyor' -f coverage.xml
+		.\codecov.exe --disable-telem do-upload --disable-search --fail-on-error -t "$env:CODECOV_TOKEN" --report-type test_results -f TestResults.xml
 	} catch {
 		Write-Warning "Code coverage upload failed: $_"
 	}

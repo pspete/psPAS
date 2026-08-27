@@ -36,7 +36,14 @@ Describe 'Module' -Tag 'Consistency' {
 
 	$Scripts = Get-ChildItem $ModulePath -Include *.ps1 -Recurse
 
-	$Rules = Get-ScriptAnalyzerRule -Severity Warning, Error
+	#Run PSScriptAnalyzer once per file, covering every Warning/Error rule in a single invocation, rather than
+	#once per file *per rule* (~50 invocations/file, each re-parsing the file). The single It block per file
+	#below asserts against this precomputed result set - same coverage of rules, a fraction of the parser
+	#invocations and test-framework overhead.
+	$AnalyzerResults = @{ }
+	foreach ($Script in $Scripts) {
+		$AnalyzerResults[$Script.FullName] = @(Invoke-ScriptAnalyzer -Path $Script.FullName -Severity Warning, Error)
+	}
 
 	Context $ManifestPath -Tag Manifest {
 
@@ -206,22 +213,17 @@ Describe 'Module' -Tag 'Consistency' {
 
 			Foreach ($Script in $scripts) {
 
-				Context $Script.Name -Tag "$($Script.BaseName)", "$($Script.Name)" {
+				It 'passes all Warning/Error rules: <FileName>' -Tag "$($Script.BaseName)", "$($Script.Name)" -TestCases @{
+					'FileName' = $Script.Name
+					'Findings' = $AnalyzerResults[$Script.FullName]
+				} {
+					param($FileName, $Findings)
 
-					Foreach ($rule in $rules) {
-
-						It 'passes rule: <RuleName>' -Tag $rule -TestCases @{
-							'RuleName' = $rule.RuleName
-							'FileName' = $script.Name
-							'FilePath' = $script.FullName
-						} {
-							param($RuleName, $FileName, $FilePath)
-
-							Invoke-ScriptAnalyzer -Path $FilePath -IncludeRule $RuleName | Should -BeNullOrEmpty
-
-						}
-
-					}
+					$Findings | Should -BeNullOrEmpty -Because (
+						'PSScriptAnalyzer reported: ' + (($Findings | ForEach-Object {
+									'{0} (line {1})' -f $_.RuleName, $_.Extent.StartLineNumber
+								}) -join '; ')
+					)
 
 				}
 
