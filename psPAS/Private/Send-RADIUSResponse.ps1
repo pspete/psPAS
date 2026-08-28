@@ -65,9 +65,20 @@ function Send-RADIUSResponse {
         }
 
         #Construct Request Body with $OTP value as RADIUS response
-        $Body = $LogonRequest['Body'] | ConvertFrom-Json | Select-Object username
+        #New-PASSession (and this function on recursion) provides Body as raw UTF8 bytes;
+        #decode back to a string before parsing so the JSON isn't enumerated byte-by-byte.
+        $RawBody = $LogonRequest['Body']
+        if ($RawBody -is [byte[]]) {
+
+            $RawBody = [System.Text.Encoding]::UTF8.GetString($RawBody)
+
+        }
+        $Body = $RawBody | ConvertFrom-Json | Select-Object username
         $Body | Add-Member -MemberType NoteProperty -Name 'Password' -Value $OTP -Force
-        $LogonRequest['Body'] = $Body | ConvertTo-Json
+
+        #Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
+        #call records a non-revealing type name instead of the literal request content.
+        $LogonRequest['Body'] = [System.Text.Encoding]::UTF8.GetBytes($($Body | ConvertTo-Json))
 
         try {
 

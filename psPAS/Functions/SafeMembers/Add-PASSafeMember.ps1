@@ -115,6 +115,35 @@ function Add-PASSafeMember {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Full'
 		)]
+		[ArgumentCompleter({
+				#Standard ArgumentCompleter parameters.
+				param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+				#Avoid PSScriptAnalyzer PSReviewUnusedParameter rule on standard ArgumentCompleter parameters.
+				$null = $parameterName, $commandAst, $fakeBoundParameters
+
+				#strip any quote the user has already started typing
+				$wordToComplete = $wordToComplete.Trim("'`"")
+
+				#ask the API for the available directories
+				try {
+
+					$Module = (Get-Command $commandName -ErrorAction Stop).Module
+					$Directories = & $Module { Get-PASDirectoryID -ErrorAction Stop }
+
+				} catch { return }
+
+				$Directories |
+					Where-Object { ($_.Name -like "$wordToComplete*") -or ($_.ID -like "$wordToComplete*") } |
+					ForEach-Object {
+
+						#SearchIn requires the directory ID, but the directory Name is what's recognisable - insert
+						#the ID while displaying the Name in the completion list, so the right value ends up on the command line
+						[System.Management.Automation.CompletionResult]::new("'$($_.ID -replace "'", "''")'", $_.Name, 'ParameterValue', "$($_.Name) ($($_.ID))")
+
+					}
+
+			})]
 		[string]$SearchIn,
 
 		[parameter(

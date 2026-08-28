@@ -596,6 +596,48 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'SearchIn ArgumentCompleter' {
+
+			It 'provides ArgumentCompleter for SearchIn parameter' {
+
+				(Get-Command Add-PASSafeMember).Parameters['SearchIn'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Should -Not -BeNullOrEmpty
+
+			}
+
+			It 'inserts the directory ID while displaying the directory Name' {
+
+				Mock Get-PASDirectoryID -MockWith {
+					[pscustomobject]@{Name = 'Active Directory: ad.SomeDomain.com'; ID = '77dac292-a38e-76c4-9eaa-d25e196c428d' },
+					[pscustomobject]@{Name = 'Active Directory: SomeOtherDomain.com'; ID = '37babddc-b4c3-4d01-8704-d59da59d2228' }
+				}
+
+				$Completer = (Get-Command Add-PASSafeMember).Parameters['SearchIn'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Select-Object -ExpandProperty ScriptBlock
+
+				$Result = & $Completer -commandName 'Add-PASSafeMember' -parameterName 'SearchIn' -wordToComplete 'Active Directory: ad' -commandAst $null -fakeBoundParameters @{}
+
+				$Result.CompletionText | Should -Be "'77dac292-a38e-76c4-9eaa-d25e196c428d'"
+				$Result.ListItemText | Should -Be 'Active Directory: ad.SomeDomain.com'
+
+			}
+
+			It 'returns nothing if Get-PASDirectoryID throws' {
+
+				Mock Get-PASDirectoryID -MockWith { throw 'Some Error' }
+
+				$Completer = (Get-Command Add-PASSafeMember).Parameters['SearchIn'].Attributes |
+				Where-Object { $_ -is [System.Management.Automation.ArgumentCompleterAttribute] } |
+				Select-Object -ExpandProperty ScriptBlock
+
+				{ & $Completer -commandName 'Add-PASSafeMember' -parameterName 'SearchIn' -wordToComplete '' -commandAst $null -fakeBoundParameters @{} } | Should -Not -Throw
+
+			}
+
+		}
+
 	}
 
 }
