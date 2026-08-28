@@ -5,6 +5,8 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v9.0...
 
+## [8.0.20]
+
 ### Added
 
 - `Get-PASDirectoryID`
