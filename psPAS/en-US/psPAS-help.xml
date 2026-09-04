@@ -39378,6 +39378,123 @@ New-PASRequest -BulkItems $Requests</dev:code>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-PASSession</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>BaseURI</maml:name>
+          <maml:description>
+            <maml:para>A string containing the base web address to send the request to.</maml:para>
+            <maml:para>Pass the PVWA HTTP address.</maml:para>
+            <maml:para>Do not include "/PasswordVault/"</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>PVWAAppName</maml:name>
+          <maml:description>
+            <maml:para>The name of the CyberArk PVWA Virtual Directory.</maml:para>
+            <maml:para>Defaults to PasswordVault</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>PasswordVault</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>SkipVersionCheck</maml:name>
+          <maml:description>
+            <maml:para>If the SkipVersionCheck switch is specified, Get-PASServer will not be called after successfully authenticating.</maml:para>
+            <maml:para>Get-PASServer is not supported before version 9.7.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Certificate</maml:name>
+          <maml:description>
+            <maml:para>See Invoke-WebRequest</maml:para>
+            <maml:para>Specifies the client certificate that is used for a secure web request.</maml:para>
+            <maml:para>Enter a variable that contains a certificate or a command or expression that gets the certificate.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate</command:parameterValue>
+          <dev:type>
+            <maml:name>X509Certificate</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>See Invoke-WebRequest</maml:para>
+            <maml:para>The thumbprint of the certificate to use for client certificate authentication.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>SkipCertificateCheck</maml:name>
+          <maml:description>
+            <maml:para>Skips certificate validation checks.</maml:para>
+            <maml:para>Using this parameter is not secure and is not recommended.</maml:para>
+            <maml:para>This switch is only intended to be used against known hosts using a self-signed certificate for testing purposes.</maml:para>
+            <maml:para>Use at your own risk.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="OAuth">
+          <maml:name>AccessToken</maml:name>
+          <maml:description>
+            <maml:para>The OAuth 2.0 / Entra ID access token formatted as a SecureString. Used for bearer token authentication to CyberArk PAM REST API (v15.2+).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
+          <dev:type>
+            <maml:name>SecureString</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
@@ -39752,6 +39869,18 @@ New-PASRequest -BulkItems $Requests</dev:code>
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="OAuth">
+        <maml:name>AccessToken</maml:name>
+        <maml:description>
+          <maml:para>The OAuth 2.0 / Entra ID access token formatted as a SecureString. Used for bearer token authentication to CyberArk PAM REST API (v15.2+).</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
+        <dev:type>
+          <maml:name>SecureString</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -39985,6 +40114,14 @@ New-PASSession -SAMLAuth -concurrentSession $true -BaseURI $baseURL -SAMLRespons
         <dev:code>New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain.com</dev:code>
         <dev:remarks>
           <maml:para>Authenticates to a CyberArk Vault using SAML authentication &amp; Gen1 API.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 27 --------------------------</maml:title>
+        <dev:code>$Token = ConvertTo-SecureString 'eyJhbGciOiJSUzI1Ni...' -AsPlainText -Force
+New-PASSession -BaseURI https://pvwa.company.com -AccessToken $Token</dev:code>
+        <dev:remarks>
+          <maml:para>Authenticates to CyberArk PAM REST API using an OAuth 2.0 / Entra ID Bearer access token.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

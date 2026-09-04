@@ -1568,6 +1568,102 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		}
 
+		Context 'OAuth' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith { }
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '15.2'
+					}
+				}
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
+				$AccessToken = ConvertTo-SecureString 'SomeAccessToken' -AsPlainText -Force
+
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It 'does not send a logon request' {
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken
+				Assert-MockCalled Invoke-PASRestMethod -Times 0 -Exactly -Scope It
+
+			}
+
+			It 'sets expected BaseURI' {
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken
+				$Script:psPASSession.BaseURI | Should -Be 'https://P_URI/PasswordVault'
+
+			}
+
+			It 'sets expected authorization header' {
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer SomeAccessToken'
+
+			}
+
+			It 'sets expected X-CA-Authentication-Type header' {
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken
+				$psPASSession.WebSession.Headers['X-CA-Authentication-Type'] | Should -Be 'OAuth'
+
+			}
+
+			It 'strips redundant Bearer prefix from provided token' {
+
+				$PrefixedToken = ConvertTo-SecureString 'Bearer SomeAccessToken' -AsPlainText -Force
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $PrefixedToken
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer SomeAccessToken'
+
+			}
+
+			It 'calls Get-PASServer' {
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken
+				Assert-MockCalled Get-PASServer -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws if version requirement is not met' {
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '15.0'
+					}
+				}
+
+				{ New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken } | Should -Throw
+
+			}
+
+			It 'skips version check' {
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken -SkipVersionCheck
+				Assert-MockCalled Get-PASServer -Times 0 -Exactly -Scope It
+
+			}
+
+			It 'throws when used against Privilege Cloud' {
+
+				{ New-PASSession -BaseURI 'https://SomeSubDomain.privilegecloud.cyberark.cloud' -AccessToken $AccessToken } | Should -Throw
+
+			}
+
+		}
+
 	}
 
 }
