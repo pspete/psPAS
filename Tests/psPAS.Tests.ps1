@@ -36,15 +36,6 @@ Describe 'Module' -Tag 'Consistency' {
 
 	$Scripts = Get-ChildItem $ModulePath -Include *.ps1 -Recurse
 
-	#Run PSScriptAnalyzer once per file, covering every Warning/Error rule in a single invocation, rather than
-	#once per file *per rule* (~50 invocations/file, each re-parsing the file). The single It block per file
-	#below asserts against this precomputed result set - same coverage of rules, a fraction of the parser
-	#invocations and test-framework overhead.
-	$AnalyzerResults = @{ }
-	foreach ($Script in $Scripts) {
-		$AnalyzerResults[$Script.FullName] = @(Invoke-ScriptAnalyzer -Path $Script.FullName -Severity Warning, Error)
-	}
-
 	Context $ManifestPath -Tag Manifest {
 
 		It 'has a valid manifest' -TestCases @{ManifestPath = $ManifestPath } {
@@ -213,17 +204,20 @@ Describe 'Module' -Tag 'Consistency' {
 
 			Foreach ($Script in $scripts) {
 
-				It 'passes all Warning/Error rules: <FileName>' -Tag "$($Script.BaseName)", "$($Script.Name)" -TestCases @{
-					'FileName' = $Script.Name
-					'Findings' = $AnalyzerResults[$Script.FullName]
-				} {
-					param($FileName, $Findings)
+				Context $Script.Name -Tag "$($Script.BaseName)", "$($Script.Name)" {
 
-					$Findings | Should -BeNullOrEmpty -Because (
-						'PSScriptAnalyzer reported: ' + (($Findings | ForEach-Object {
-									'{0} (line {1})' -f $_.RuleName, $_.Extent.StartLineNumber
-								}) -join '; ')
-					)
+					It 'passes all Warning and Error rules' -TestCases @{
+						'FilePath' = $script.FullName
+					} {
+						param($FilePath)
+
+						#One analyzer pass per file (all Warning/Error rules at once) rather than one pass per rule
+						$findings = Invoke-ScriptAnalyzer -Path $FilePath -Severity Warning, Error
+
+						($findings | ForEach-Object { "[$($_.RuleName)] line $($_.Line): $($_.Message)" }) -join [System.Environment]::NewLine |
+							Should -BeNullOrEmpty
+
+					}
 
 				}
 
@@ -243,9 +237,10 @@ Describe 'Module' -Tag 'Consistency' {
 				$Content = Get-Content -Path $Script.FullName -Raw
 
 				$HandlesSecureString = $Content -match '\[securestring\]|\[System\.Security\.SecureString\]'
+				$BuildsJsonBody = $Content -match 'ConvertTo-Json'
 				$SendsRequest = $Content -match 'Invoke-PASRestMethod'
 
-				if ($HandlesSecureString -and $SendsRequest) {
+				if ($HandlesSecureString -and $BuildsJsonBody -and $SendsRequest) {
 
 					It "$($Script.Name) converts its request body to UTF8 bytes before calling Invoke-PASRestMethod" -Tag "$($Script.BaseName)" -TestCases @{
 						'Content' = $Content

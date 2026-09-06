@@ -1,5 +1,10 @@
 <#---------------------------------
 Update version number on GitHub to match build version
+
+Requires these plain (non-secret) environment variables to be set in appveyor.yml:
+  git_user_name      - e.g. 'Pete Maan'
+  github_repo_owner  - e.g. 'pspete'
+(github_email and access_token remain secure variables)
 ---------------------------------#>
 
 
@@ -23,7 +28,7 @@ if (-not ($ENV:APPVEYOR_PULL_REQUEST_NUMBER)) {
 			git config --global credential.helper store
 			Add-Content "$HOME\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
 			git config --global user.email "$($env:github_email)"
-			git config --global user.name "Pete Maan"
+			git config --global user.name "$($env:git_user_name)"
 
 			git checkout -q $($ENV:APPVEYOR_REPO_BRANCH)
 
@@ -55,7 +60,7 @@ if (-not ($ENV:APPVEYOR_PULL_REQUEST_NUMBER)) {
 			$token = $env:access_token
 			$uploadFilePath = Resolve-Path "..\$($env:APPVEYOR_PROJECT_NAME)-v$($env:APPVEYOR_BUILD_VERSION).zip"
 			$releaseName = "v$($env:APPVEYOR_BUILD_VERSION)"
-			$repo = "pspete/$env:APPVEYOR_PROJECT_NAME"
+			$repo = "$($env:github_repo_owner)/$env:APPVEYOR_PROJECT_NAME"
 
 			$headers = @{
 				"Authorization" = "token $token"
