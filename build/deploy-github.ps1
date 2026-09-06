@@ -53,7 +53,7 @@ if (-not ($ENV:APPVEYOR_PULL_REQUEST_NUMBER)) {
 
 		Write-Host "Deploy Process: GitHub Release" -ForegroundColor Yellow
 
-		If ($env:APPVEYOR_BUILD_VERSION -ge "1.0.0") {
+		If ([version]$env:APPVEYOR_BUILD_VERSION -ge [version]"1.0.0") {
 
 			<# Create New Release     #>
 
