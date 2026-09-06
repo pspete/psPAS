@@ -1,2 +1,5 @@
 .vscode/*
 CLAUDE.md
+coverage.xml
+TestResults.xml
+codecov.exe
