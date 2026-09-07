@@ -80,6 +80,13 @@ New-PASSession -TenantSubdomain <String> -SAMLResponse <String> [-PVWAAppName <S
  [-Confirm] [<CommonParameters>]
 ```
 
+### OAuth
+```
+New-PASSession -BaseURI <String> -AccessToken <SecureString> [-PVWAAppName <String>] [-SkipVersionCheck]
+ [-Certificate <X509Certificate>] [-CertificateThumbprint <String>] [-SkipCertificateCheck] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
+```
+
 ### integrated
 ```
 New-PASSession -BaseURI <String> [-UseDefaultCredentials] [-concurrentSession <Boolean>]
@@ -399,6 +406,15 @@ New-PASSession -SAMLResponse $SAMLToken -UseGen1API -BaseURI https://PVWA.domain
 
 Authenticates to a CyberArk Vault using SAML authentication & Gen1 API.
 
+### EXAMPLE 27
+
+```
+$Token = ConvertTo-SecureString 'eyJhbGciOiJSUzI1Ni...' -AsPlainText -Force
+New-PASSession -BaseURI https://pvwa.company.com -AccessToken $Token
+```
+
+Authenticates to CyberArk PAM REST API using an OAuth 2.0 / Entra ID Bearer access token.
+
 ## PARAMETERS
 
 ### -Credential
@@ -696,7 +712,7 @@ Do not include "/PasswordVault/"
 
 ```yaml
 Type: String
-Parameter Sets: Gen2, Gen1Radius, Gen1, Gen2Radius, integrated, shared, Gen2SAML, Gen1SAML
+Parameter Sets: Gen2, Gen1Radius, Gen1, Gen2Radius, OAuth, integrated, shared, Gen2SAML, Gen1SAML
 Aliases:
 
 Required: True
@@ -948,6 +964,23 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -AccessToken
+
+The OAuth 2.0 / Entra ID access token formatted as a SecureString.
+Used for bearer token authentication to CyberArk PAM REST API (v15.2+).
+
+```yaml
+Type: SecureString
+Parameter Sets: OAuth
+Aliases: OAuth
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 

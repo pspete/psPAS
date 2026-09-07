@@ -119,6 +119,12 @@ function New-PASSession {
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'integrated'
 		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $false,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'OAuth'
+		)]
 		[string]$BaseURI,
 
 		[Parameter(
@@ -255,6 +261,16 @@ function New-PASSession {
 		)]
 		[Alias('SAMLToken')]
 		[String]$SAMLResponse,
+
+		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'OAuth'
+		)]
+		[Alias('OAuth')]
+		[ValidateNotNullOrEmpty()]
+		[SecureString]$AccessToken,
 
 		[Parameter(
 			Mandatory = $True,
@@ -586,6 +602,52 @@ function New-PASSession {
 
 			}
 
+			'OAuth' {
+
+				#BaseURI required in module scope for Assert-VersionRequirement
+				$psPASSession.BaseURI = $Uri
+				Assert-VersionRequirement -SelfHosted
+
+				if ($SkipCertificateCheck) {
+					if (-not (Test-IsCoreCLR)) {
+						Skip-CertificateCheck
+					} else {
+						$Script:SkipCertificateCheck = $true
+					}
+				}
+
+				# Create WebSession
+				$WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+				if ($Certificate) {
+					$WebSession.Certificates.Add($Certificate) | Out-Null
+				}
+
+				if ($CertificateThumbprint) {
+					#Resolve certificate from the store and add to WebSession
+					$ClientCertificate = Get-ChildItem -Path 'Cert:\CurrentUser\My', 'Cert:\LocalMachine\My' |
+						Where-Object { $PSItem.Thumbprint -eq $CertificateThumbprint } | Select-Object -First 1
+
+					if ($null -ne $ClientCertificate) {
+						$WebSession.Certificates.Add($ClientCertificate) | Out-Null
+					} else {
+						throw "No certificate with thumbprint $CertificateThumbprint found in Cert:\CurrentUser\My or Cert:\LocalMachine\My"
+					}
+				}
+
+				# Securely decode AccessToken and strip any redundant 'Bearer ' prefix
+				$TokenString = (ConvertTo-InsecureString -SecureString $AccessToken) -replace '^Bearer\s+', ''
+
+				# Set required CyberArk OAuth headers
+				$WebSession.Headers['Authorization'] = "Bearer $TokenString"
+				$WebSession.Headers['X-CA-Authentication-Type'] = 'OAuth'
+
+				$psPASSession.WebSession = $WebSession
+				$LogonRequest['Uri'] = $Uri
+				break
+
+			}
+
 			( { $PSItem -match '^Gen2' } ) {
 
 				$LogonRequest['Uri'] = "$Uri/api/Auth/$type/Logon"
@@ -702,6 +764,11 @@ function New-PASSession {
 					( { $PSItem -match '^ISPSS-.*-ServiceUser$' } ) {
 						#Perform Identity User Authentication using IdentityCommand module
 						$PASSession = New-IDPlatformToken -tenant_url $LogonRequest['Uri'] -Credential $LogonRequest['Credential']
+						break
+					}
+					'OAuth' {
+						#OAuth uses Bearer token directly with WebSession
+						$PASSession = $TokenString
 						break
 					}
 					default {
@@ -826,6 +893,13 @@ function New-PASSession {
 
 						}
 
+						( { $PSCmdlet.ParameterSetName -eq 'OAuth' } ) {
+
+							#OAuth 2.0 Bearer Token
+							$CyberArkLogonResult = "Bearer $TokenString"
+
+						}
+
 						default {
 
 							if ($PASSession.length -ge 180) {
@@ -868,6 +942,12 @@ function New-PASSession {
 
 					#Version information available in module scope.
 					$psPASSession.ExternalVersion = $Version
+
+					if ($PSCmdlet.ParameterSetName -eq 'OAuth' -and -not $SkipVersionCheck) {
+
+						Assert-VersionRequirement -RequiredVersion 15.2
+
+					}
 
 					try {
 
