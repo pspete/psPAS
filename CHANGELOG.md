@@ -21,6 +21,15 @@
     enabled had it stripped. TLS 1.2 is now added only where an explicit legacy protocol is set, and
     is combined with the protocols already permitted.
 
+- `Test-IsISPSS` no longer misidentifies self-hosted sessions as ISPSS.
+  - `New-PASSession` set `$psPASSession.ApiURI` from the unbound `-PrivilegeCloudURL` parameter,
+    which PowerShell binds to `""` rather than `$null` on a self-hosted logon. `Test-IsISPSS` tests
+    `$null -ne $psPASSession.ApiURI`, and `$null -ne ""` is `$true`, so self-hosted sessions were
+    always treated as ISPSS. `ApiURI` is now only set on ISPSS logons.
+  - Affected `Get-PASDependentAccount`, `Add-PASDependentAccount`, `Set-PASDependentAccount`,
+    `Remove-PASDependentAccount` and `Remove-PASAccount`, which sent the ISPSS URL segment against
+    self-hosted PVWA and received a 404. (#665)
+
 ## [8.0.20]
 
 ### Added

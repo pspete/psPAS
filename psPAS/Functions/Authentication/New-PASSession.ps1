@@ -846,7 +846,17 @@ function New-PASSession {
 					$psPASSession.BaseURI = $Uri
 
 					#API URL for non PasswordVault operations
-					$psPASSession.ApiURI = $PrivilegeCloudURL
+					#$PrivilegeCloudURL is an unbound [string] parameter for self-hosted logons, which
+					#PowerShell binds to "" rather than $null, so it cannot be assigned as-is here
+					if ($PrivilegeCloudURL) {
+
+						$psPASSession.ApiURI = $PrivilegeCloudURL
+
+					} else {
+
+						$psPASSession.ApiURI = $null
+
+					}
 
 					#Auth token added to WebSession
 					$psPASSession.WebSession.Headers['Authorization'] = [string]$CyberArkLogonResult
