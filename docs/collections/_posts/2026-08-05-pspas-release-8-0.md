@@ -79,6 +79,9 @@ tags:
   - Get-PASSafeMember
   - Import-PASPlatform
   - Clear-PASDiscoveredAccount
+  - Get-PASDirectoryID
+  - Add-PASSafeMember
+  - New-PASSession
 ---
 
 ## [8.0.31]
