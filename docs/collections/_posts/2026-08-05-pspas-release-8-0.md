@@ -1,6 +1,6 @@
 ---
 title: "psPAS Release 8.0"
-date: 2026-08-20 00:00:00
+date: 2026-09-22 00:00:00
 tags:
   - Release Notes
   - Set-PASPlatform
@@ -80,6 +80,52 @@ tags:
   - Import-PASPlatform
   - Clear-PASDiscoveredAccount
 ---
+
+## [8.0.31]
+
+### Fixed
+
+- `Invoke-PASRestMethod` and `Get-PASSAMLResponse` no longer downgrade the TLS configuration of the
+  session.
+  - On PowerShell Core, `-SslProtocol TLS12` is no longer set. `WebSslProtocol` is a flags enum, so
+    it permitted TLS 1.2 and nothing else, excluding TLS 1.3. The connection now negotiates the
+    strongest protocol both ends support.
+  - On Windows PowerShell, a `SystemDefault` security protocol is left untouched rather than being
+    replaced with TLS 1.2 only. The previous guard tested `SystemDefault -match 'Tls12'`, which is
+    false, so a process on .NET Framework 4.7 or above - where `SystemDefault` is both the default
+    and the correct value - was pinned to TLS 1.2 on its first request, and a process with TLS 1.3
+    enabled had it stripped. TLS 1.2 is now added only where an explicit legacy protocol is set, and
+    is combined with the protocols already permitted.
+
+- `Test-IsISPSS` no longer misidentifies self-hosted sessions as ISPSS.
+  - `New-PASSession` set `$psPASSession.ApiURI` from the unbound `-PrivilegeCloudURL` parameter,
+    which PowerShell binds to `""` rather than `$null` on a self-hosted logon. `Test-IsISPSS` tests
+    `$null -ne $psPASSession.ApiURI`, and `$null -ne ""` is `$true`, so self-hosted sessions were
+    always treated as ISPSS. `ApiURI` is now only set on ISPSS logons.
+  - Affected `Get-PASDependentAccount`, `Add-PASDependentAccount`, `Set-PASDependentAccount`,
+    `Remove-PASDependentAccount` and `Remove-PASAccount`, which sent the ISPSS URL segment against
+    self-hosted PVWA and received a 404. (#665)
+
+## [8.0.20]
+
+### Added
+
+- `Get-PASDirectoryID`
+  - Resolves the directory ID value required by `Add-PASSafeMember -SearchIn` on Privilege Cloud, given a directory's friendly name - this value isn't otherwise exposed anywhere in the CyberArk UI
+  - Also works against a self-hosted Vault, returning the directory name itself as its ID, matching what self-hosted `-SearchIn` already expects
+  - `-Name` parameter supports tab completion
+
+### Updated
+
+- `Add-PASSafeMember`
+  - `-SearchIn` now supports tab completion via `Get-PASDirectoryID`: displays directory names in the completion list while inserting the required ID value
+  - Docs: added an example resolving `-SearchIn` via `Get-PASDirectoryID` for Privilege Cloud
+
+### Fixed
+
+- `New-PASSession`
+  - Fixes RADIUS secondary/challenge authentication failing after the `8.0.x` change that sends logon request bodies as raw UTF8 bytes: `Send-RADIUSResponse` still treated the body as a JSON string, so the byte array was enumerated one byte at a time - producing a request body containing the `username`/OTP pair repeated once per body byte (with a null `username`). The body is now decoded back to a string before the OTP is applied.
+  - Fixes a double-slash appearing in request URIs (e.g. `.../cyberark.cloud//PasswordVault/...`) when authenticating via `-TenantSubdomain` - the Privilege Cloud/Identity URLs returned by Shared Services discovery weren't having a trailing slash stripped before being combined with the PVWA application name
 
 ## [8.0.11]
 

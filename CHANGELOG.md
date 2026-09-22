@@ -7,6 +7,10 @@
 
 ## [Unreleased]
 
+-N/A
+
+## [8.0.31]
+
 ### Fixed
 
 - `Invoke-PASRestMethod` and `Get-PASSAMLResponse` no longer downgrade the TLS configuration of the
