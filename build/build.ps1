@@ -49,7 +49,7 @@ Else {
 		Copy-Item -Path $ReleaseSource\* -Recurse -Destination $($Directory.Fullname) -Force -ErrorAction Stop
 
 
-		If ((-not ($ENV:APPVEYOR_PULL_REQUEST_NUMBER)) -and (($ENV:APPVEYOR_REPO_BRANCH -eq 'master') -and ($ENV:APPVEYOR_BUILD_VERSION -ge "1.0.0"))) {
+		If ((-not ($ENV:APPVEYOR_PULL_REQUEST_NUMBER)) -and (($ENV:APPVEYOR_REPO_BRANCH -eq 'master') -and ([version]$ENV:APPVEYOR_BUILD_VERSION -ge [version]"1.0.0"))) {
 
 			If (($ENV:sig_key) -and ($ENV:PfxSecure)) {
 

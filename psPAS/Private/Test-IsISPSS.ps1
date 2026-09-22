@@ -15,7 +15,7 @@ Returns "$false" if run against self-hosted
 
 #>
 
-    if ($null -ne $psPASSession.ApiURI) {
+    if (-not [string]::IsNullOrEmpty($psPASSession.ApiURI)) {
 
         #$psPASSession.ApiURI is only set if authenticated against ISPSS
         $true

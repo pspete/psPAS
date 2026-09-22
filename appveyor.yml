@@ -3,6 +3,11 @@ version: 8.0.{build}
 
 environment:
   #GIT_TRACE: 1
+  # Plain (non-secret) config:
+  git_user_name: 'Pete Maan'
+  github_repo_owner: 'pspete'
+
+  # Secure variables:
   access_token:
     secure: nXh9mZ0YD5M116yhStlR/Tzg+Kf+D6CUpNP+tIlWdNTVxNjVzT2vzl8wOD8kvtOiSORSWDsyvKZVx2+IsA0A1X05ohYwmkXQIF9TaPHiHtFmym8Y5btpRO/2AaWMfmIJ
   psgallery_key:

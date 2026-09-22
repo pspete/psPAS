@@ -34,24 +34,25 @@ https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
 
 			if ($PSCmdlet.ShouldProcess($Uri, 'SAML Auth')) {
 
-				#If Tls12 Security Protocol is available
-				if (([Net.SecurityProtocolType].GetEnumNames() -contains 'Tls12') -and
+				#A SecurityProtocol of SystemDefault (0) lets Schannel negotiate the strongest
+				#protocol both ends support and is left untouched. Only a process pinned to explicit
+				#legacy protocols needs TLS 1.2 adding, combined with those already permitted.
+				if (-not (Test-IsCoreCLR)) {
 
-					#And Tls12 is not already in use
-					(-not ([System.Net.ServicePointManager]::SecurityProtocol -match 'Tls12'))) {
+					$SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol
 
-					[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+					if (([int]$SecurityProtocol -ne 0) -and
+						([Net.SecurityProtocolType].GetEnumNames() -contains 'Tls12') -and
+						(-not ($SecurityProtocol.HasFlag([Net.SecurityProtocolType]::Tls12)))) {
+
+						[Net.ServicePointManager]::SecurityProtocol = $SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+
+					}
 
 				}
 
 				$Request = @{}
 
-				#Use TLS 1.2
-				if (Test-IsCoreCLR) {
-
-					$Request.Add('SslProtocol', 'TLS12')
-
-				}
 				$Request['Uri'] = $Uri
 				$Request['MaximumRedirection'] = 0
 				$Request['ErrorAction'] = 'SilentlyContinue'
@@ -61,12 +62,6 @@ https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
 
 				$Request = @{}
 
-				#Use TLS 1.2
-				if (Test-IsCoreCLR) {
-
-					$Request.Add('SslProtocol', 'TLS12')
-
-				}
 				$Request['Uri'] = $($WebResponse.links.href)
 				$Request['MaximumRedirection'] = 1
 				$Request['UseDefaultCredentials'] = $true

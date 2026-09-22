@@ -12,7 +12,7 @@ if (-not ($ENV:APPVEYOR_PULL_REQUEST_NUMBER)) {
 	<#---------------------------------#>
 	<# If Not a PR                     #>
 	<#---------------------------------#>
-	If (($ENV:APPVEYOR_REPO_BRANCH -eq 'master') -and ($env:APPVEYOR_BUILD_VERSION -ge "1.0.0")) {
+	If (($ENV:APPVEYOR_REPO_BRANCH -eq 'master') -and ([version]$env:APPVEYOR_BUILD_VERSION -ge [version]"1.0.0")) {
 
 		<# Master Branch     #>
 		<# Version 1.0+     #>

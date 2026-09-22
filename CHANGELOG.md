@@ -5,6 +5,35 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v9.0...
 
+## [Unreleased]
+
+-N/A
+
+## [8.0.31]
+
+### Fixed
+
+- `Invoke-PASRestMethod` and `Get-PASSAMLResponse` no longer downgrade the TLS configuration of the
+  session.
+  - On PowerShell Core, `-SslProtocol TLS12` is no longer set. `WebSslProtocol` is a flags enum, so
+    it permitted TLS 1.2 and nothing else, excluding TLS 1.3. The connection now negotiates the
+    strongest protocol both ends support.
+  - On Windows PowerShell, a `SystemDefault` security protocol is left untouched rather than being
+    replaced with TLS 1.2 only. The previous guard tested `SystemDefault -match 'Tls12'`, which is
+    false, so a process on .NET Framework 4.7 or above - where `SystemDefault` is both the default
+    and the correct value - was pinned to TLS 1.2 on its first request, and a process with TLS 1.3
+    enabled had it stripped. TLS 1.2 is now added only where an explicit legacy protocol is set, and
+    is combined with the protocols already permitted.
+
+- `Test-IsISPSS` no longer misidentifies self-hosted sessions as ISPSS.
+  - `New-PASSession` set `$psPASSession.ApiURI` from the unbound `-PrivilegeCloudURL` parameter,
+    which PowerShell binds to `""` rather than `$null` on a self-hosted logon. `Test-IsISPSS` tests
+    `$null -ne $psPASSession.ApiURI`, and `$null -ne ""` is `$true`, so self-hosted sessions were
+    always treated as ISPSS. `ApiURI` is now only set on ISPSS logons.
+  - Affected `Get-PASDependentAccount`, `Add-PASDependentAccount`, `Set-PASDependentAccount`,
+    `Remove-PASDependentAccount` and `Remove-PASAccount`, which sent the ISPSS URL segment against
+    self-hosted PVWA and received a 404. (#665)
+
 ## [8.0.20]
 
 ### Added
