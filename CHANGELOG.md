@@ -7,7 +7,11 @@
 
 ## [Unreleased]
 
--N/A
+### Added
+
+- OAuth Support
+  - `New-PASSession` now supports OAuth authentication for self-hosted implementations
+  - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!!
 
 ## [8.0.31]
 
