@@ -408,8 +408,10 @@ function New-PASSession {
 					}
 					'^OAuth$' {
 
-						#Snapshot the WebSession about to be replaced, so a rejected token/version can restore it
-						$PreviousWebSession = $psPASSession.WebSession
+						#Snapshot the current session, so a rejected token or unsupported version can restore it
+						$PreviousSession = @{}
+						'BaseURI', 'ApiURI', 'WebSession', 'ExternalVersion', 'User', 'StartTime', 'IdleTimeout' |
+							ForEach-Object { $PreviousSession[$PSItem] = $psPASSession[$PSItem] }
 
 						$psPASSession.WebSession = Get-PASOAuthWebSession -AccessToken $AccessToken -Certificate $Certificate -CertificateThumbprint $CertificateThumbprint -SkipCertificateCheck:$SkipCertificateCheck
 
@@ -562,16 +564,6 @@ function New-PASSession {
 
 					}
 
-					if ($IsOAuth) {
-						#Snapshot prior connection details - a rejected token or unsupported version must not
-						#clobber a previously-working session with one that was never actually validated.
-						#WebSession itself was already replaced above (outside this finally block), so its
-						#prior value was captured there, in $PreviousWebSession
-						$PreviousBaseURI = $psPASSession.BaseURI
-						$PreviousApiURI = $psPASSession.ApiURI
-						$PreviousExternalVersion = $psPASSession.ExternalVersion
-					}
-
 					try {
 
 						#Record Session Start Time
@@ -614,10 +606,7 @@ function New-PASSession {
 					} catch {
 
 						if ($IsOAuth) {
-							$psPASSession.BaseURI = $PreviousBaseURI
-							$psPASSession.ApiURI = $PreviousApiURI
-							$psPASSession.WebSession = $PreviousWebSession
-							$psPASSession.ExternalVersion = $PreviousExternalVersion
+							$PreviousSession.Keys | ForEach-Object { $psPASSession[$PSItem] = $PreviousSession[$PSItem] }
 						}
 
 						throw

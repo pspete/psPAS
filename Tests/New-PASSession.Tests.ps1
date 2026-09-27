@@ -1730,6 +1730,23 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'restores previous User, StartTime and IdleTimeout if Get-PASLoggedOnUser fails' {
+
+				Mock Get-PASLoggedOnUser -MockWith { throw 'Unauthorized' }
+
+				$StartTime = (Get-Date).AddHours(-1)
+				$psPASSession.User = 'ExistingUser'
+				$psPASSession.StartTime = $StartTime
+				$psPASSession.IdleTimeout = 30
+
+				{ New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken } | Should -Throw
+
+				$psPASSession.User | Should -Be 'ExistingUser'
+				$psPASSession.StartTime | Should -Be $StartTime
+				$psPASSession.IdleTimeout | Should -Be 30
+
+			}
+
 		}
 
 	}
