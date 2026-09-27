@@ -604,45 +604,10 @@ function New-PASSession {
 
 			'OAuth' {
 
-				#BaseURI required in module scope for Assert-VersionRequirement
-				$psPASSession.BaseURI = $Uri
-				Assert-VersionRequirement -SelfHosted
-
-				if ($SkipCertificateCheck) {
-					if (-not (Test-IsCoreCLR)) {
-						Skip-CertificateCheck
-					} else {
-						$Script:SkipCertificateCheck = $true
-					}
+				if ($Uri -match 'cyberark.cloud') {
+					throw 'New-PASSession (using ParameterSet: OAuth) is only applicable for Self-Hosted Implementations'
 				}
 
-				# Create WebSession
-				$WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-
-				if ($Certificate) {
-					$WebSession.Certificates.Add($Certificate) | Out-Null
-				}
-
-				if ($CertificateThumbprint) {
-					#Resolve certificate from the store and add to WebSession
-					$ClientCertificate = Get-ChildItem -Path 'Cert:\CurrentUser\My', 'Cert:\LocalMachine\My' |
-						Where-Object { $PSItem.Thumbprint -eq $CertificateThumbprint } | Select-Object -First 1
-
-					if ($null -ne $ClientCertificate) {
-						$WebSession.Certificates.Add($ClientCertificate) | Out-Null
-					} else {
-						throw "No certificate with thumbprint $CertificateThumbprint found in Cert:\CurrentUser\My or Cert:\LocalMachine\My"
-					}
-				}
-
-				# Securely decode AccessToken and strip any redundant 'Bearer ' prefix
-				$TokenString = (ConvertTo-InsecureString -SecureString $AccessToken) -replace '^Bearer\s+', ''
-
-				# Set required CyberArk OAuth headers
-				$WebSession.Headers['Authorization'] = "Bearer $TokenString"
-				$WebSession.Headers['X-CA-Authentication-Type'] = 'OAuth'
-
-				$psPASSession.WebSession = $WebSession
 				$LogonRequest['Uri'] = $Uri
 				break
 
@@ -767,6 +732,46 @@ function New-PASSession {
 						break
 					}
 					'OAuth' {
+
+						#Snapshot the WebSession about to be replaced, so a rejected token/version can restore it
+						$PreviousWebSession = $psPASSession.WebSession
+
+						if ($SkipCertificateCheck) {
+							if (-not (Test-IsCoreCLR)) {
+								Skip-CertificateCheck
+							} else {
+								$Script:SkipCertificateCheck = $true
+							}
+						}
+
+						# Create WebSession
+						$WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+						if ($Certificate) {
+							$WebSession.Certificates.Add($Certificate) | Out-Null
+						}
+
+						if ($CertificateThumbprint) {
+							#Resolve certificate from the store and add to WebSession
+							$ClientCertificate = Get-ChildItem -Path 'Cert:\CurrentUser\My', 'Cert:\LocalMachine\My' |
+								Where-Object { $PSItem.Thumbprint -eq $CertificateThumbprint } | Select-Object -First 1
+
+							if ($null -ne $ClientCertificate) {
+								$WebSession.Certificates.Add($ClientCertificate) | Out-Null
+							} else {
+								throw "No certificate with thumbprint $CertificateThumbprint found in Cert:\CurrentUser\My or Cert:\LocalMachine\My"
+							}
+						}
+
+						# Securely decode AccessToken and strip any redundant 'Bearer ' prefix
+						$TokenString = (ConvertTo-InsecureString -SecureString $AccessToken) -replace '^Bearer\s+', ''
+
+						# Set required CyberArk OAuth headers
+						$WebSession.Headers['Authorization'] = "Bearer $TokenString"
+						$WebSession.Headers['X-CA-Authentication-Type'] = 'OAuth'
+
+						$psPASSession.WebSession = $WebSession
+
 						#OAuth uses Bearer token directly with WebSession
 						$PASSession = $TokenString
 						break
@@ -916,6 +921,15 @@ function New-PASSession {
 					#Record Session Start Time
 					$psPASSession.StartTime = Get-Date
 
+					if ($PSCmdlet.ParameterSetName -eq 'OAuth') {
+						#Snapshot prior connection details - a rejected token or unsupported version must not
+						#clobber a previously-working session with one that was never actually validated.
+						#WebSession itself was already replaced above (outside this finally block), so its
+						#prior value was captured there, in $PreviousWebSession
+						$PreviousBaseURI = $psPASSession.BaseURI
+						$PreviousApiURI = $psPASSession.ApiURI
+					}
+
 					#BaseURI set in Module Scope
 					$psPASSession.BaseURI = $Uri
 
@@ -932,9 +946,6 @@ function New-PASSession {
 
 					}
 
-					#Auth token added to WebSession
-					$psPASSession.WebSession.Headers['Authorization'] = [string]$CyberArkLogonResult
-
 					#Initial Value for Version variable
 					[System.Version]$Version = '0.0'
 
@@ -948,16 +959,26 @@ function New-PASSession {
 
 						} catch { [System.Version]$Version = '0.0' }
 
+						if ($PSCmdlet.ParameterSetName -eq 'OAuth') {
+
+							try {
+								Assert-VersionRequirement -ExternalVersion $Version -RequiredVersion 15.2
+							} catch {
+								$psPASSession.BaseURI = $PreviousBaseURI
+								$psPASSession.ApiURI = $PreviousApiURI
+								$psPASSession.WebSession = $PreviousWebSession
+								throw
+							}
+
+						}
+
 					}
 
 					#Version information available in module scope.
 					$psPASSession.ExternalVersion = $Version
 
-					if ($PSCmdlet.ParameterSetName -eq 'OAuth' -and -not $SkipVersionCheck) {
-
-						Assert-VersionRequirement -RequiredVersion 15.2
-
-					}
+					#Auth token added to WebSession
+					$psPASSession.WebSession.Headers['Authorization'] = [string]$CyberArkLogonResult
 
 					try {
 
@@ -965,6 +986,15 @@ function New-PASSession {
 						$User = Get-PASLoggedOnUser -ErrorAction Stop
 
 					} catch {
+
+						if ($PSCmdlet.ParameterSetName -eq 'OAuth') {
+							#For OAuth there is no prior logon call - this is the only server-side confirmation
+							#that the supplied AccessToken was actually accepted, so it must not be swallowed
+							$psPASSession.BaseURI = $PreviousBaseURI
+							$psPASSession.ApiURI = $PreviousApiURI
+							$psPASSession.WebSession = $PreviousWebSession
+							throw
+						}
 
 						if ($PSBoundParameters.ContainsKey('Credential')) {
 							$User = $Credential

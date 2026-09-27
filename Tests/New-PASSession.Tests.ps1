@@ -1662,6 +1662,52 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'does not mutate the session when -WhatIf is used' {
+
+				$psPASSession.BaseURI = 'https://ExistingSession'
+				$psPASSession.WebSession.Headers['Authorization'] = 'Bearer ExistingToken'
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken -WhatIf
+
+				$psPASSession.BaseURI | Should -Be 'https://ExistingSession'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer ExistingToken'
+
+			}
+
+			It 'restores previous BaseURI and ApiURI if version requirement is not met' {
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '15.0'
+					}
+				}
+
+				$psPASSession.BaseURI = 'https://ExistingSession'
+				$psPASSession.ApiURI = 'https://ExistingApiURI'
+
+				{ New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken } | Should -Throw
+
+				$psPASSession.BaseURI | Should -Be 'https://ExistingSession'
+				$psPASSession.ApiURI | Should -Be 'https://ExistingApiURI'
+
+			}
+
+			It 'throws and restores previous session if Get-PASLoggedOnUser fails' {
+
+				Mock Get-PASLoggedOnUser -MockWith { throw 'Unauthorized' }
+
+				$psPASSession.BaseURI = 'https://ExistingSession'
+				$psPASSession.ApiURI = 'https://ExistingApiURI'
+				$psPASSession.WebSession.Headers['Authorization'] = 'Bearer ExistingToken'
+
+				{ New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken } | Should -Throw
+
+				$psPASSession.BaseURI | Should -Be 'https://ExistingSession'
+				$psPASSession.ApiURI | Should -Be 'https://ExistingApiURI'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer ExistingToken'
+
+			}
+
 		}
 
 	}
