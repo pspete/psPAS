@@ -928,6 +928,7 @@ function New-PASSession {
 						#prior value was captured there, in $PreviousWebSession
 						$PreviousBaseURI = $psPASSession.BaseURI
 						$PreviousApiURI = $psPASSession.ApiURI
+						$PreviousExternalVersion = $psPASSession.ExternalVersion
 					}
 
 					#BaseURI set in Module Scope
@@ -993,6 +994,7 @@ function New-PASSession {
 							$psPASSession.BaseURI = $PreviousBaseURI
 							$psPASSession.ApiURI = $PreviousApiURI
 							$psPASSession.WebSession = $PreviousWebSession
+							$psPASSession.ExternalVersion = $PreviousExternalVersion
 							throw
 						}
 

@@ -1699,12 +1699,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				$psPASSession.BaseURI = 'https://ExistingSession'
 				$psPASSession.ApiURI = 'https://ExistingApiURI'
 				$psPASSession.WebSession.Headers['Authorization'] = 'Bearer ExistingToken'
+				$psPASSession.ExternalVersion = '14.0'
 
 				{ New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken } | Should -Throw
 
 				$psPASSession.BaseURI | Should -Be 'https://ExistingSession'
 				$psPASSession.ApiURI | Should -Be 'https://ExistingApiURI'
 				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer ExistingToken'
+				$psPASSession.ExternalVersion | Should -Be '14.0'
 
 			}
 
