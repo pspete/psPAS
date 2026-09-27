@@ -59,6 +59,10 @@ function Get-PASOAuthWebSession {
 
 		$WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
+		if ($Certificate -or $CertificateThumbprint) {
+			$WebSession.Certificates = New-Object System.Security.Cryptography.X509Certificates.X509CertificateCollection
+		}
+
 		if ($Certificate) {
 			$WebSession.Certificates.Add($Certificate) | Out-Null
 		}
