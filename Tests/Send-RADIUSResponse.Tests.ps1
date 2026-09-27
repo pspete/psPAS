@@ -122,6 +122,29 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 } Else { Set-ItResult -Inconclusive }
             }
 
+            It 'sends provided OTP without prompting' {
+                if ($IsCoreCLR) {
+                    Send-RADIUSResponse @Response -OTP $(ConvertTo-SecureString '987654' -AsPlainText -Force)
+                    Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                        $RequestBody = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
+
+                        $RequestBody.password -eq '987654'
+
+                    } -Times 1 -Exactly -Scope It
+                    Assert-MockCalled Read-Host -Times 4 -Exactly -Scope It
+
+                } Else { Set-ItResult -Inconclusive }
+            }
+
+            It 'prompts for OTP if OTP value is passcode' {
+                if ($IsCoreCLR) {
+                    Send-RADIUSResponse @Response -OTP $(ConvertTo-SecureString 'passcode' -AsPlainText -Force)
+                    Assert-MockCalled Read-Host -Times 5 -Exactly -Scope It
+
+                } Else { Set-ItResult -Inconclusive }
+            }
+
             It 'sends a single username/password pair (not one per body byte)' {
                 if ($IsCoreCLR) {
                     Send-RADIUSResponse @Response
