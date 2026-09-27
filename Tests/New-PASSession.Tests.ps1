@@ -85,8 +85,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
-				Mock Set-Variable -MockWith { }
-
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
 				$NewPass = ConvertTo-SecureString 'SomeNewPassword' -AsPlainText -Force
@@ -460,6 +458,31 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'includes expected piped credential for Windows Auth' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type Windows
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Credential -eq $Credentials
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses piped BaseURI and PVWAAppName values' {
+
+				[PSCustomObject]@{
+					BaseURI     = 'https://Piped_URI'
+					PVWAAppName = 'PipedApp'
+				} | New-PASSession -Credential $Credentials
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://Piped_URI/PipedApp/api/Auth/CyberArk/Logon'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'ExternalVersion has expected value on Get-PASServer error' {
 				Mock Get-PASServer -MockWith {
 					throw 'Some Error'
@@ -778,7 +801,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock -CommandName Invoke-PASRestMethod { return @{UserName = 'AUserName' } } -ParameterFilter { $Uri -eq 'https://P_URI/PasswordVault/api/Auth/Windows/Logon' }
 
-				Mock Set-Variable -MockWith { }
 				Mock Get-Variable -MockWith { }
 				Mock Get-PASServer -MockWith {
 					[PSCustomObject]@{
@@ -874,8 +896,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 						ExternalVersion = '6.6.6'
 					}
 				}
-
-				Mock Set-Variable -MockWith { }
 
 				$psPASSession.ExternalVersion = '0.0'
 				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
@@ -1029,7 +1049,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Mock Import-Module -MockWith { throw 'Module not found' }
 
 				{ $Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault' -ServiceUser } |
-					Should -Throw 'Failed to import IdentityCommand: Install the IdentityCommand Module and try again.'
+					Should -Throw 'Failed to import IdentityCommand: Install the IdentityCommand Module and try again. Module not found'
 
 			}
 

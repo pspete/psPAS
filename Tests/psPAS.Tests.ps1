@@ -227,8 +227,8 @@ Describe 'Module' -Tag 'Consistency' {
 
 		Context 'Secure Value Handling' -Tag 'SecureValueHandling' {
 
-			#Any function which decodes a SecureString parameter to plain text and sends a request body via
-			#Invoke-PASRestMethod must convert that body to UTF8 bytes (not a String) before the call, so that
+			#Any function which handles a SecureString or PSCredential value and builds a JSON request body
+			#must convert that body to UTF8 bytes (not a String) before it is passed on, so that
 			#Windows PowerShell ParameterBinding/Module Logging cannot capture the plaintext value.
 			#See https://github.com/pspete/psPAS/issues/602
 
@@ -236,18 +236,45 @@ Describe 'Module' -Tag 'Consistency' {
 
 				$Content = Get-Content -Path $Script.FullName -Raw
 
-				$HandlesSecureString = $Content -match '\[securestring\]|\[System\.Security\.SecureString\]'
+				$HandlesSecureString = $Content -match '\[securestring\]|\[System\.Security\.SecureString\]|ConvertTo-InsecureString|GetNetworkCredential\(\)'
 				$BuildsJsonBody = $Content -match 'ConvertTo-Json'
-				$SendsRequest = $Content -match 'Invoke-PASRestMethod'
 
-				if ($HandlesSecureString -and $BuildsJsonBody -and $SendsRequest) {
+				if ($HandlesSecureString -and $BuildsJsonBody) {
 
-					It "$($Script.Name) converts its request body to UTF8 bytes before calling Invoke-PASRestMethod" -Tag "$($Script.BaseName)" -TestCases @{
+					It "$($Script.Name) converts its request body to UTF8 bytes" -Tag "$($Script.BaseName)" -TestCases @{
 						'Content' = $Content
 					} {
 						param($Content)
 
 						$Content | Should -Match '\[System\.Text\.Encoding\]::UTF8\.GetBytes\('
+
+					}
+
+				}
+
+			}
+
+			#Secret values passed between module functions must be typed PSCredential or SecureString,
+			#as ParameterBinding/Module Logging records String and Object parameter values as plain text.
+			#Get-PASRadiusCredential -OTP receives the value bound to the public New-PASSession -OTP parameter.
+			$Exempt = @('Get-PASRadiusCredential.ps1:OTP')
+
+			Foreach ($Script in ($Scripts | Where-Object { $PSItem.Directory.Name -eq 'Private' })) {
+
+				$Ast = [System.Management.Automation.Language.Parser]::ParseFile($Script.FullName, [ref]$null, [ref]$null)
+
+				$SecretParameters = $Ast.FindAll( { $args[0] -is [System.Management.Automation.Language.ParameterAst] }, $true) |
+					Where-Object { $PSItem.Name.VariablePath.UserPath -match '(Password|Token|Secret|Credential|OTP)$' } |
+					Where-Object { "$($Script.Name):$($PSItem.Name.VariablePath.UserPath)" -notin $Exempt }
+
+				Foreach ($Parameter in $SecretParameters) {
+
+					It "$($Script.Name) parameter $($Parameter.Name) is typed PSCredential or SecureString" -Tag "$($Script.BaseName)" -TestCases @{
+						'Type' = $Parameter.StaticType
+					} {
+						param($Type)
+
+						$Type | Should -BeIn @([PSCredential], [SecureString])
 
 					}
 
