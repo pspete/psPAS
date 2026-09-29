@@ -7,6 +7,10 @@
 
 ## [Unreleased]
 
+- N/A
+
+## [8.1.44]
+
 ### Added
 
 - OAuth Support
