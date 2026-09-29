@@ -35,7 +35,7 @@ function Send-RADIUSResponse {
         [parameter(
             Mandatory = $false,
             ValueFromPipelineByPropertyName = $true)]
-        [string]$OTP
+        [SecureString]$OTP
     )
 
     begin {
@@ -47,10 +47,16 @@ function Send-RADIUSResponse {
 
     process {
 
+        if ($PSBoundParameters.ContainsKey('OTP')) {
+
+            $Response = ConvertTo-InsecureString -SecureString $OTP
+
+        }
+
         #OTP value has not yet been provided.
         #Initial RADIUS auth attempt will trigger notification of OTP for user to provide.
         #?"passcode" remains an option for backward compatibility.
-        if ((-not ($PSBoundParameters.ContainsKey('OTP'))) -or ($PSBoundParameters['OTP'] -match 'passcode')) {
+        if ((-not ($PSBoundParameters.ContainsKey('OTP'))) -or ($Response -match 'passcode')) {
 
             if ($null -ne $Message) {
 
@@ -60,11 +66,11 @@ function Send-RADIUSResponse {
             }
 
             #Prompt user for OTP or Challenge Response
-            $OTP = $(Read-Host -Prompt $Prompt)
+            $Response = $(Read-Host -Prompt $Prompt)
 
         }
 
-        #Construct Request Body with $OTP value as RADIUS response
+        #Construct Request Body with $Response value as RADIUS response
         #New-PASSession (and this function on recursion) provides Body as raw UTF8 bytes;
         #decode back to a string before parsing so the JSON isn't enumerated byte-by-byte.
         $RawBody = $LogonRequest['Body']
@@ -74,7 +80,7 @@ function Send-RADIUSResponse {
 
         }
         $Body = $RawBody | ConvertFrom-Json | Select-Object username
-        $Body | Add-Member -MemberType NoteProperty -Name 'Password' -Value $OTP -Force
+        $Body | Add-Member -MemberType NoteProperty -Name 'Password' -Value $Response -Force
 
         #Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
         #call records a non-revealing type name instead of the literal request content.

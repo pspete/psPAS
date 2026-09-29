@@ -3,7 +3,6 @@ function New-PASSession {
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Gen2')]
 	param(
 		[parameter(
-			Mandatory = $false,
 			ValueFromPipeline = $true,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
@@ -53,19 +52,16 @@ function New-PASSession {
 
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-Subdomain-IdentityUser'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-Subdomain-ServiceUser'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-Subdomain-SAML'
 		)]
@@ -73,69 +69,63 @@ function New-PASSession {
 
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
 		)]
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1'
 		)]
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Radius'
 		)]
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1SAML'
 		)]
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2SAML'
 		)]
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'shared'
 		)]
 		[parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'integrated'
+		)]
+		[parameter(
+			Mandatory = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'OAuth'
 		)]
 		[string]$BaseURI,
 
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-IdentityUser'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-ServiceUser'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-SAML'
 		)]
@@ -143,19 +133,16 @@ function New-PASSession {
 
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-IdentityUser'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-ServiceUser'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-SAML'
 		)]
@@ -163,13 +150,11 @@ function New-PASSession {
 
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-Subdomain-IdentityUser'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-IdentityUser'
 		)]
@@ -177,13 +162,11 @@ function New-PASSession {
 
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-Subdomain-ServiceUser'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-ServiceUser'
 		)]
@@ -208,48 +191,37 @@ function New-PASSession {
 		[switch]$UseGen1API,
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1'
 		)]
 		[SecureString]$newPassword,
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2SAML'
 		)]
 		[switch]$SAMLAuth,
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2SAML'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1SAML'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-Subdomain-SAML'
 		)]
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'ISPSS-URL-SAML'
 		)]
@@ -257,8 +229,17 @@ function New-PASSession {
 		[String]$SAMLResponse,
 
 		[Parameter(
+			Mandatory = $true,
+			ValueFromPipeline = $true,
+			ValueFromPipelinebyPropertyName = $true,
+			ParameterSetName = 'OAuth'
+		)]
+		[Alias('OAuth')]
+		[ValidateNotNullOrEmpty()]
+		[SecureString]$AccessToken,
+
+		[Parameter(
 			Mandatory = $True,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'shared'
 		)]
@@ -266,21 +247,16 @@ function New-PASSession {
 
 		[Parameter(
 			Mandatory = $true,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
 		)]
 		[bool]$useRadiusAuthentication,
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Radius'
 		)]
@@ -288,28 +264,20 @@ function New-PASSession {
 		[string]$type = 'CyberArk',
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Radius'
 		)]
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
 		)]
 		[string]$OTP,
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Radius'
 		)]
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
 		)]
@@ -317,14 +285,10 @@ function New-PASSession {
 		[string]$OTPMode,
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Radius'
 		)]
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
 		)]
@@ -332,14 +296,10 @@ function New-PASSession {
 		[string]$OTPDelimiter,
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Radius'
 		)]
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
 		)]
@@ -347,48 +307,34 @@ function New-PASSession {
 		[string]$RadiusChallenge,
 
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'integrated'
 		)]
 		[switch]$UseDefaultCredentials,
 
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2'
 		)]
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2Radius'
 		)]
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'integrated'
 		)]
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen2SAML'
 		)]
 		[Boolean]$concurrentSession,
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1'
 		)]
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true,
 			ParameterSetName = 'Gen1Radius'
 		)]
@@ -396,312 +342,81 @@ function New-PASSession {
 		[int]$connectionNumber,
 
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[string]$PVWAAppName = 'PasswordVault',
 
 		[Parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
 		[switch]$SkipVersionCheck,
 
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
 		[X509Certificate]$Certificate,
 
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $false
 		)]
 		[string]$CertificateThumbprint,
 
 		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $false,
 			ValueFromPipelinebyPropertyName = $true
 		)]
 		[switch]$SkipCertificateCheck
 
 	)
 
-	begin {
-
-		if ($baseURI) {
-
-			#Ensure URL is in expected format
-			#Remove trailing space and PasswordVault if provided in BaseUri
-			$baseURI = $baseURI -replace '/$', ''
-			$baseURI = $baseURI -replace '/PasswordVault$', ''
-			#Build URL
-			$Uri = "$baseURI/$PVWAAppName"
-
-		}
-
-		#Hashtable to hold Logon Request
-		$LogonRequest = @{ }
-
-		#Define Logon Request Parameters
-		$LogonRequest['Method'] = 'POST'
-		$LogonRequest['SessionVariable'] = 'PASSession'
-		$LogonRequest['UseDefaultCredentials'] = $UseDefaultCredentials.IsPresent
-		$LogonRequest['SkipCertificateCheck'] = $SkipCertificateCheck.IsPresent
-
-		if ($PSBoundParameters['type'] -eq 'Windows') {
-
-			$LogonRequest['Credential'] = $Credential
-
-		}
-
-		if ($CertificateThumbprint) {
-
-			$LogonRequest['CertificateThumbprint'] = $CertificateThumbprint
-
-		}
-
-		if ($Certificate) {
-
-			$LogonRequest['Certificate'] = $Certificate
-
-		}
-
-	}#begin
+	begin { }#begin
 
 	process {
 
-		switch ($PSCmdlet.ParameterSetName) {
+		#Resolve PAS and Identity URLs
+		$TargetParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep BaseURI, IdentityTenantURL, PrivilegeCloudURL, TenantSubdomain
+		$Target = Resolve-PASLogonTarget @TargetParameters -PVWAAppName $PVWAAppName
+		$Uri = $Target.Uri
 
-			( { $PSItem -match '^ISPSS-URL' } ) {
+		if ($PSCmdlet.ParameterSetName -eq 'shared') {
 
-				#Ensure URLs are in expected format
-				#Remove trailing space and PasswordVault (if provided in PrivilegeCloudURL)
-				$IdentityTenantURL = $IdentityTenantURL -replace '/$', ''
-				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/$', ''
-				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/PasswordVault$', ''
-
-			}
-
-			( { $PSItem -match '^ISPSS-SubDomain' } ) {
-
-				$SharedServicesURLs = Find-SharedServicesURL -subdomain $TenantSubdomain
-
-				$IdentityTenantURL = $SharedServicesURLs | Select-Object -ExpandProperty identity_user_portal | Select-Object -ExpandProperty api
-				$PrivilegeCloudURL = $SharedServicesURLs | Select-Object -ExpandProperty pcloud | Select-Object -ExpandProperty api
-
-				#Ensure URLs are in expected format
-				#Remove trailing space and PasswordVault (if provided in PrivilegeCloudURL)
-				$IdentityTenantURL = $IdentityTenantURL -replace '/$', ''
-				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/$', ''
-				$PrivilegeCloudURL = $PrivilegeCloudURL -replace '/PasswordVault$', ''
-
-			}
-
-			( { $PSItem -match '^ISPSS-.*-.*User$' } ) {
-
-				#IdentityUser/ServiceUser LogonRequest for New-IDSession/New-IDPlatformToken
-				$LogonRequest['Uri'] = $IdentityTenantURL
-				$LogonRequest['Credential'] = $Credential
-
-				#URL for P Cloud API Operations
-				$Uri = "${PrivilegeCloudURL}/$PVWAAppName"
-
-				break
-			}
-
-			( { $PSItem -match '^ISPSS-.*-SAML$' } ) {
-
-				#SAMLAuth for New-IDSession
-				$LogonRequest['Uri'] = $IdentityTenantURL
-				$LogonRequest['SAMLResponse'] = $SAMLResponse
-
-				#URL for P Cloud API Operations
-				$Uri = "${PrivilegeCloudURL}/$PVWAAppName"
-
-				break
-			}
-
-			'integrated' {
-
-				$LogonRequest['Uri'] = "$Uri/api/Auth/Windows/Logon"  #hardcode Windows for integrated auth
-
-				#Construct Request Body
-				#The only expected parameter should be concurrentSessions
-				$LogonRequest['Body'] = $PSBoundParameters | Get-PASParameter -ParametersToKeep concurrentSession | ConvertTo-Json
-
-				break
-
-			}
-
-			'shared' {
-
-				Assert-VersionRequirement -SelfHosted
-
-				$LogonRequest['Uri'] = "$Uri/WebServices/auth/Shared/RestfulAuthenticationService.svc/Logon"
-				break
-
-			}
-
-			'Gen1SAML' {
-
-				$LogonRequest['Uri'] = "$Uri/WebServices/auth/SAML/SAMLAuthenticationService.svc/Logon"
-
-				#add token to header
-				$LogonRequest['Headers'] = @{'Authorization' = $SAMLResponse }
-				break
-
-			}
-
-			'Gen2SAML' {
-
-				#*For SAML auth
-				#The only expected parameter should be concurrentSession & SAMLResponse
-				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep concurrentSession, SAMLResponse
-
-				#add required parameters
-				$boundParameters.Add('apiUse', $true)
-
-				if ( -not ($PSBoundParameters.ContainsKey('SAMLResponse'))) {
-
-					#If no SAMLResponse provided
-					#Get SAML Response from IdP
-					#*https://gist.github.com/infamousjoeg/b44faa299ec3de65bdd1d3b8474b0649
-					$SAMLResponse = Get-PASSAMLResponse -URL $Uri
-
-					#add SAMLResponse to boundParameters
-					$boundParameters.Add('SAMLResponse', $SAMLResponse)
-
-				}
-
-				$LogonRequest['Body'] = $boundParameters
-				$LogonRequest['ContentType'] = 'application/x-www-form-urlencoded'
-				$LogonRequest['Uri'] = "$Uri/api/auth/SAML/Logon"
-				break
-
-			}
-
-			( { $PSItem -match '^Gen2' } ) {
-
-				$LogonRequest['Uri'] = "$Uri/api/Auth/$type/Logon"
-
-			}
-
-			( { $PSItem -match '^Gen1' } ) {
-
-				$LogonRequest['Uri'] = "$Uri/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon"
-
-			}
-
-			( { $PSItem -match '^Gen' } ) {
-
-
-				#Get request parameters
-				$boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove Credential, SkipVersionCheck, SkipCertificateCheck,
-				UseDefaultCredentials, CertificateThumbprint, BaseURI, PVWAAppName, OTP, type, OTPMode, OTPDelimiter, RadiusChallenge, Certificate
-
-				#deal with newPassword SecureString
-				if ($PSBoundParameters.ContainsKey('newPassword')) {
-
-					#Include decoded password in request
-					$boundParameters['newPassword'] = $(ConvertTo-InsecureString -SecureString $newPassword)
-
-				}
-
-				if ($type -ne 'PKIPN') {
-
-					if ($PSBoundParameters.Keys.Contains('Credential')) {
-						#Add user name from credential object
-						$boundParameters['username'] = $($Credential.UserName)
-						#Add decoded password value from credential object
-						$boundParameters['password'] = $($Credential.GetNetworkCredential().Password)
-					}
-
-				} else {
-					#PKIPN Auth
-					$boundParameters['secureMode'] = $true
-					$boundParameters['type'] = 'pkipn'
-				}
-
-				#RADIUS Auth
-				if ($PSCmdlet.ParameterSetName -match 'Radius$') {
-
-					#OTP in Append Mode
-					if (($PSBoundParameters.ContainsKey('OTP')) -and ($PSBoundParameters['OTPMode'] -eq 'Append')) {
-
-						if ($PSBoundParameters.ContainsKey('OTPDelimiter')) {
-
-							#Use specified delimiter to append OTP
-							$Delimiter = $OTPDelimiter
-
-						} else {
-
-							#delimit with comma by default
-							$Delimiter = ','
-
-						}
-
-						#Append OTP to password
-						$boundParameters['password'] = "$($boundParameters['password'])$Delimiter$OTP"
-
-					}
-
-					#RADIUS Challenge Mode
-					elseif (($PSBoundParameters.ContainsKey('OTP')) -and ($PSBoundParameters['OTPMode'] -eq 'Challenge')) {
-
-						if ($RadiusChallenge -eq 'Password') {
-
-							#Send OTP first + then Password
-							$boundParameters['password'] = $OTP
-							$($Credential.GetNetworkCredential().Password) | Set-Variable -Name OTP
-
-						}
-
-					}
-
-				}
-
-				#Construct Request Body
-				#Send as raw UTF8 bytes rather than a String so ParameterBinding/module logging of this
-				#call records a non-revealing type name instead of the literal request content.
-				$LogonRequest['Body'] = [System.Text.Encoding]::UTF8.GetBytes($($boundParameters | ConvertTo-Json))
-
-				break
-
-			}
+			Assert-VersionRequirement -SelfHosted
 
 		}
+
+		$LogonRequest = Get-PASLogonRequest -ParameterSetName $PSCmdlet.ParameterSetName -Uri $Uri -IdentityTenantURL $Target.IdentityTenantURL -BoundParameters $PSBoundParameters
 
 		if ($PSCmdlet.ShouldProcess($LogonRequest['Uri'], 'Logon')) {
 
 			try {
 
-				switch ($PSCmdlet.ParameterSetName) {
-					( { $PSItem -match '^ISPSS' } ) {
-						#Check IdentityCommand module available
-						if (-not (Get-Module IdentityCommand)) {
-							try { Import-Module IdentityCommand -ErrorAction Stop }
-							catch { throw 'Failed to import IdentityCommand: Install the IdentityCommand Module and try again.' }
-						}
-					}
-					( { $PSItem -match '^ISPSS-.*-IdentityUser$' } ) {
+				switch -Regex ($PSCmdlet.ParameterSetName) {
+
+					'^ISPSS-.*-IdentityUser$' {
 						#Perform Identity User Authentication using IdentityCommand module
-						$PASSession = New-IDSession -tenant_url $LogonRequest['Uri'] -Credential $LogonRequest['Credential']
+						$PASSession = Invoke-PASIdentityLogon -TenantURL $LogonRequest['Uri'] -Credential $LogonRequest['Credential']
 						break
 					}
-					( { $PSItem -match '^ISPSS-.*-SAML$' } ) {
-						#Perform Identity User Authentication using IdentityCommand module
-						$PASSession = New-IDSession -tenant_url $LogonRequest['Uri'] -SAMLResponse $LogonRequest['SAMLResponse']
+					'^ISPSS-.*-SAML$' {
+						#Perform Identity User SAML Authentication using IdentityCommand module
+						$PASSession = Invoke-PASIdentityLogon -TenantURL $LogonRequest['Uri'] -SAMLResponse $LogonRequest['SAMLResponse']
 						break
 					}
-					( { $PSItem -match '^ISPSS-.*-ServiceUser$' } ) {
-						#Perform Identity User Authentication using IdentityCommand module
-						$PASSession = New-IDPlatformToken -tenant_url $LogonRequest['Uri'] -Credential $LogonRequest['Credential']
+					'^ISPSS-.*-ServiceUser$' {
+						#Perform Service User Authentication using IdentityCommand module
+						$PASSession = Invoke-PASIdentityLogon -TenantURL $LogonRequest['Uri'] -Credential $LogonRequest['Credential'] -ServiceUser
+						break
+					}
+					'^OAuth$' {
+
+						#Snapshot the current session, so a rejected token or unsupported version can restore it
+						$PreviousSession = @{}
+						'BaseURI', 'ApiURI', 'WebSession', 'ExternalVersion', 'User', 'StartTime', 'IdleTimeout' |
+							ForEach-Object { $PreviousSession[$PSItem] = $psPASSession[$PSItem] }
+
+						$psPASSession.WebSession = Get-PASOAuthWebSession -AccessToken $AccessToken -Certificate $Certificate -CertificateThumbprint $CertificateThumbprint -SkipCertificateCheck:$SkipCertificateCheck
+
+						#OAuth uses Bearer token directly with WebSession
+						$PASSession = $psPASSession.WebSession.Headers['Authorization']
 						break
 					}
 					default {
@@ -769,8 +484,9 @@ function New-PASSession {
 					#Include any OTP value provided in the RADIUS Response
 					if ($PSBoundParameters.ContainsKey('OTP')) {
 
-						#!If $RadiusChallenge = Password, $OTP will be password value
-						$RADIUSResponse['OTP'] = $OTP
+						#!If $RadiusChallenge = Password, OTP will be password value
+						$RadiusParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep Credential, OTP, OTPMode, OTPDelimiter, RadiusChallenge
+						$RADIUSResponse['OTP'] = [System.Net.NetworkCredential]::new('', (Get-PASRadiusCredential @RadiusParameters).OTP).SecurePassword
 
 					}
 
@@ -783,6 +499,8 @@ function New-PASSession {
 
 				#If Logon Result
 				if ($PASSession) {
+
+					$IsOAuth = $PSCmdlet.ParameterSetName -eq 'OAuth'
 
 					switch ($PASSession) {
 
@@ -826,6 +544,13 @@ function New-PASSession {
 
 						}
 
+						( { $IsOAuth } ) {
+
+							#OAuth 2.0 Bearer Token, set in WebSession by Get-PASOAuthWebSession
+							$CyberArkLogonResult = $PASSession
+
+						}
+
 						default {
 
 							if ($PASSession.length -ge 180) {
@@ -839,77 +564,54 @@ function New-PASSession {
 
 					}
 
-					#Record Session Start Time
-					$psPASSession.StartTime = Get-Date
-
-					#BaseURI set in Module Scope
-					$psPASSession.BaseURI = $Uri
-
-					#API URL for non PasswordVault operations
-					#$PrivilegeCloudURL is an unbound [string] parameter for self-hosted logons, which
-					#PowerShell binds to "" rather than $null, so it cannot be assigned as-is here
-					if ($PrivilegeCloudURL) {
-
-						$psPASSession.ApiURI = $PrivilegeCloudURL
-
-					} else {
-
-						$psPASSession.ApiURI = $null
-
-					}
-
-					#Auth token added to WebSession
-					$psPASSession.WebSession.Headers['Authorization'] = [string]$CyberArkLogonResult
-
-					#Initial Value for Version variable
-					[System.Version]$Version = '0.0'
-
-					if ( -not ($SkipVersionCheck)) {
-
-						try {
-
-							#Get CyberArk ExternalVersion number.
-							[System.Version]$Version = Get-PASServer -ErrorAction Stop |
-								Select-Object -ExpandProperty ExternalVersion
-
-						} catch { [System.Version]$Version = '0.0' }
-
-					}
-
-					#Version information available in module scope.
-					$psPASSession.ExternalVersion = $Version
-
 					try {
 
-						#Get Authenticated User.
-						$User = Get-PASLoggedOnUser -ErrorAction Stop
+						#Record Session Start Time
+						$psPASSession.StartTime = Get-Date
+
+						#BaseURI set in Module Scope
+						$psPASSession.BaseURI = $Uri
+
+						#API URL for non PasswordVault operations
+						$psPASSession.ApiURI = $Target.ApiURI
+
+						#Initial Value for Version variable
+						[System.Version]$Version = '0.0'
+
+						if ( -not ($SkipVersionCheck)) {
+
+							try {
+
+								#Get CyberArk ExternalVersion number.
+								[System.Version]$Version = Get-PASServer -ErrorAction Stop |
+									Select-Object -ExpandProperty ExternalVersion
+
+							} catch { [System.Version]$Version = '0.0' }
+
+							if ($IsOAuth) {
+
+								Assert-VersionRequirement -ExternalVersion $Version -RequiredVersion 15.2
+
+							}
+
+						}
+
+						#Auth token added to WebSession
+						$psPASSession.WebSession.Headers['Authorization'] = [string]$CyberArkLogonResult
+
+						#For OAuth there is no prior logon call - resolving the authenticated user is the only
+						#server-side confirmation that the supplied AccessToken was actually accepted
+						Initialize-PASSession -ExternalVersion $Version -Credential $Credential -RequireUser:$IsOAuth
 
 					} catch {
 
-						if ($PSBoundParameters.ContainsKey('Credential')) {
-							$User = $Credential
-						} else {
-							$User = $null
+						if ($IsOAuth) {
+							$PreviousSession.Keys | ForEach-Object { $psPASSession[$PSItem] = $PreviousSession[$PSItem] }
 						}
 
-					} finally {
-
-						#Note: must not be named $Username - that collides (case-insensitively) with the
-						#-UserName parameter, and re-triggers its [ValidateNotNullOrEmpty()] on assignment.
-						if ($null -ne $User) {
-							$ResolvedUsername = $User | Select-Object -ExpandProperty UserName
-						} else { $ResolvedUsername = $User }
-
-						$psPASSession.User = $ResolvedUsername
+						throw
 
 					}
-
-					try {
-
-						#Get the idle session timeout (minutes) configured on the server.
-						$psPASSession.IdleTimeout = Get-PASSessionTimeout -ErrorAction Stop | Select-Object -ExpandProperty Timeout
-
-					} catch { $psPASSession.IdleTimeout = $null }
 
 				}
 

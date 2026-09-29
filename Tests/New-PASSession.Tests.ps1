@@ -85,8 +85,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 					[PSCustomObject]@{'Timeout' = '20' }
 				}
 
-				Mock Set-Variable -MockWith { }
-
 				$Credentials = New-Object System.Management.Automation.PSCredential ('SomeUser', $(ConvertTo-SecureString 'SomePassword' -AsPlainText -Force))
 
 				$NewPass = ConvertTo-SecureString 'SomeNewPassword' -AsPlainText -Force
@@ -460,6 +458,31 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'includes expected piped credential for Windows Auth' {
+
+				$Credentials | New-PASSession -BaseURI 'https://P_URI' -type Windows
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Credential -eq $Credentials
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'uses piped BaseURI and PVWAAppName values' {
+
+				[PSCustomObject]@{
+					BaseURI     = 'https://Piped_URI'
+					PVWAAppName = 'PipedApp'
+				} | New-PASSession -Credential $Credentials
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$URI -eq 'https://Piped_URI/PipedApp/api/Auth/CyberArk/Logon'
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'ExternalVersion has expected value on Get-PASServer error' {
 				Mock Get-PASServer -MockWith {
 					throw 'Some Error'
@@ -778,7 +801,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock -CommandName Invoke-PASRestMethod { return @{UserName = 'AUserName' } } -ParameterFilter { $Uri -eq 'https://P_URI/PasswordVault/api/Auth/Windows/Logon' }
 
-				Mock Set-Variable -MockWith { }
 				Mock Get-Variable -MockWith { }
 				Mock Get-PASServer -MockWith {
 					[PSCustomObject]@{
@@ -874,8 +896,6 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 						ExternalVersion = '6.6.6'
 					}
 				}
-
-				Mock Set-Variable -MockWith { }
 
 				$psPASSession.ExternalVersion = '0.0'
 				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
@@ -1029,7 +1049,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Mock Import-Module -MockWith { throw 'Module not found' }
 
 				{ $Credentials | New-PASSession -IdentityTenantURL 'https://Some.Identity.Portal/' -PrivilegeCloudURL 'https://Some.PCloud.Portal/PasswordVault' -ServiceUser } |
-					Should -Throw 'Failed to import IdentityCommand: Install the IdentityCommand Module and try again.'
+					Should -Throw 'Failed to import IdentityCommand: Install the IdentityCommand Module and try again. Module not found'
 
 			}
 
@@ -1563,6 +1583,167 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			It 'sets expected authorization header' {
 				New-PASSession -TenantSubdomain SomeSubDomain -SAMLResponse 'SomeSAMLResponse'
 				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer AAAAAAA\\\REEEAAAAALLLLYYYYY\\\\LOOOOONNNNGGGGG\\\ACCCCCEEEEEEEESSSSSSS\\\\\\TTTTTOOOOOKKKKKEEEEEN'
+
+			}
+
+		}
+
+		Context 'OAuth' {
+
+			BeforeEach {
+
+				Mock Invoke-PASRestMethod -MockWith { }
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '15.2'
+					}
+				}
+
+				Mock Get-PASLoggedOnUser -MockWith {
+					@{'UserName' = 'SomeUser' }
+				}
+
+				Mock Get-PASSessionTimeout -MockWith {
+					[PSCustomObject]@{'Timeout' = '20' }
+				}
+
+				$AccessToken = ConvertTo-SecureString 'SomeAccessToken' -AsPlainText -Force
+
+				$psPASSession.ExternalVersion = '0.0'
+				$psPASSession.WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+
+			}
+
+			It 'does not send a logon request' {
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken
+				Assert-MockCalled Invoke-PASRestMethod -Times 0 -Exactly -Scope It
+
+			}
+
+			It 'sets expected BaseURI' {
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken
+				$Script:psPASSession.BaseURI | Should -Be 'https://P_URI/PasswordVault'
+
+			}
+
+			It 'sets expected authorization header' {
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer SomeAccessToken'
+
+			}
+
+			It 'sets expected X-CA-Authentication-Type header' {
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken
+				$psPASSession.WebSession.Headers['X-CA-Authentication-Type'] | Should -Be 'OAuth'
+
+			}
+
+			It 'strips redundant Bearer prefix from provided token' {
+
+				$PrefixedToken = ConvertTo-SecureString 'Bearer SomeAccessToken' -AsPlainText -Force
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $PrefixedToken
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer SomeAccessToken'
+
+			}
+
+			It 'calls Get-PASServer' {
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken
+				Assert-MockCalled Get-PASServer -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'throws if version requirement is not met' {
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '15.0'
+					}
+				}
+
+				{ New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken } | Should -Throw
+
+			}
+
+			It 'skips version check' {
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken -SkipVersionCheck
+				Assert-MockCalled Get-PASServer -Times 0 -Exactly -Scope It
+
+			}
+
+			It 'throws when used against Privilege Cloud' {
+
+				{ New-PASSession -BaseURI 'https://SomeSubDomain.privilegecloud.cyberark.cloud' -AccessToken $AccessToken } | Should -Throw
+
+			}
+
+			It 'does not mutate the session when -WhatIf is used' {
+
+				$psPASSession.BaseURI = 'https://ExistingSession'
+				$psPASSession.WebSession.Headers['Authorization'] = 'Bearer ExistingToken'
+
+				New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken -WhatIf
+
+				$psPASSession.BaseURI | Should -Be 'https://ExistingSession'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer ExistingToken'
+
+			}
+
+			It 'restores previous BaseURI and ApiURI if version requirement is not met' {
+
+				Mock Get-PASServer -MockWith {
+					[PSCustomObject]@{
+						ExternalVersion = '15.0'
+					}
+				}
+
+				$psPASSession.BaseURI = 'https://ExistingSession'
+				$psPASSession.ApiURI = 'https://ExistingApiURI'
+
+				{ New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken } | Should -Throw
+
+				$psPASSession.BaseURI | Should -Be 'https://ExistingSession'
+				$psPASSession.ApiURI | Should -Be 'https://ExistingApiURI'
+
+			}
+
+			It 'throws and restores previous session if Get-PASLoggedOnUser fails' {
+
+				Mock Get-PASLoggedOnUser -MockWith { throw 'Unauthorized' }
+
+				$psPASSession.BaseURI = 'https://ExistingSession'
+				$psPASSession.ApiURI = 'https://ExistingApiURI'
+				$psPASSession.WebSession.Headers['Authorization'] = 'Bearer ExistingToken'
+				$psPASSession.ExternalVersion = '14.0'
+
+				{ New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken } | Should -Throw
+
+				$psPASSession.BaseURI | Should -Be 'https://ExistingSession'
+				$psPASSession.ApiURI | Should -Be 'https://ExistingApiURI'
+				$psPASSession.WebSession.Headers['Authorization'] | Should -Be 'Bearer ExistingToken'
+				$psPASSession.ExternalVersion | Should -Be '14.0'
+
+			}
+
+			It 'restores previous User, StartTime and IdleTimeout if Get-PASLoggedOnUser fails' {
+
+				Mock Get-PASLoggedOnUser -MockWith { throw 'Unauthorized' }
+
+				$StartTime = (Get-Date).AddHours(-1)
+				$psPASSession.User = 'ExistingUser'
+				$psPASSession.StartTime = $StartTime
+				$psPASSession.IdleTimeout = 30
+
+				{ New-PASSession -BaseURI 'https://P_URI' -AccessToken $AccessToken } | Should -Throw
+
+				$psPASSession.User | Should -Be 'ExistingUser'
+				$psPASSession.StartTime | Should -Be $StartTime
+				$psPASSession.IdleTimeout | Should -Be 30
 
 			}
 
