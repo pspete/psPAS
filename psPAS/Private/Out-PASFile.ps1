@@ -14,7 +14,7 @@ function Out-PASFile {
 	Output folder, or full destination file path, for the file.
 	If the path's leaf component includes a file extension, it is treated as the exact file to save to;
 	otherwise it is treated as an output folder and a suggested filename is appended.
-	Defaults to $ENV:TEMP
+	Defaults to the temp folder ([System.IO.Path]::GetTempPath())
 
 	.EXAMPLE
 	Out-PASFile -InputObject $result
@@ -42,7 +42,7 @@ function Out-PASFile {
 		if (-not ($Path)) {
 
 			#Default to TEMP if path not provided
-			$Path = [Environment]::GetEnvironmentVariable('Temp')
+			$Path = [System.IO.Path]::GetTempPath()
 
 		}
 

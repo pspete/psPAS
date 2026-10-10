@@ -30,10 +30,6 @@ Formats input as: "Key=Value&Key=Value"
 
 #>
 	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'FilterList', Justification = 'False Positive')]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'NoEscape', Justification = 'False Positive')]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Delimiter', Justification = 'False Positive')]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Base64Encode', Justification = 'False Positive')]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'URLEncode', Justification = 'False Positive')]
 	[CmdletBinding()]
 	[OutputType('System.String')]
 	param(

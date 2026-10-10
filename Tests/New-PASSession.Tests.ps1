@@ -78,7 +78,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {
@@ -433,7 +433,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
-			It 'includes expected certificate in request' {
+			It 'includes expected certificate in request' -Skip:([System.Environment]::OSVersion.Platform -ne 'Win32NT') {
 
 				$certificate = Get-ChildItem -Path Cert:\CurrentUser\My\ | Select-Object -First 1
 				New-PASSession -BaseURI 'https://P_URI' -UseSharedAuthentication -Certificate $certificate
@@ -617,7 +617,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {
@@ -761,7 +761,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {
@@ -878,7 +878,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {
@@ -988,7 +988,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {
@@ -1084,7 +1084,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {
@@ -1203,7 +1203,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {
@@ -1296,7 +1296,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {
@@ -1391,7 +1391,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {
@@ -1492,7 +1492,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 			BeforeEach {
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {
@@ -1601,7 +1601,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				Mock Get-PASLoggedOnUser -MockWith {
-					@{'UserName' = 'SomeUser' }
+					[PSCustomObject]@{'UserName' = 'SomeUser' }
 				}
 
 				Mock Get-PASSessionTimeout -MockWith {

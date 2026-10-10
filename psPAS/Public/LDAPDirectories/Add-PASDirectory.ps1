@@ -1,6 +1,5 @@
 # .ExternalHelp psPAS-help.xml
 function Add-PASDirectory {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlaintextForPassword', '', Justification = "It's a path to password object")]
 	[CmdletBinding(DefaultParameterSetName = '10.4', SupportsShouldProcess)]
 	param(
 		[parameter(

@@ -1,0 +1,265 @@
+# Build, test and release the psPAS PowerShell module.
+#
+# Repository secrets (Settings > Secrets and variables > Actions), mapped into steps via env:
+#   CODECOV_TOKEN  - Codecov upload token
+#   access_token   - GitHub fine-grained token, Contents read/write (version commit + GitHub Release)
+#   git_email      - commit author email for the version commit (mapped to env github_email; secret names cannot start with GITHUB_)
+#   psgallery_key  - PowerShell Gallery API key
+
+name: CI
+
+on:
+  push:
+    branches:
+    - '**'
+    paths:
+    - 'psPAS/**'
+    - 'Tests/**'
+  # PRs also run on CHANGELOG.md and workflow edits: the CHANGELOG decides the release version.
+  pull_request:
+    branches:
+    - main
+    - master
+    - vNext
+    paths:
+    - 'psPAS/**'
+    - 'Tests/**'
+    - CHANGELOG.md
+    - '.github/workflows/ci.yml'
+  # Manual runs ignore path filters.
+  workflow_dispatch:
+
+# One run at a time per ref, so release version commits cannot race.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  MODULE_NAME: psPAS
+  # pspete.Build tag or branch cloned into ./build by each job.
+  BUILD_REF: v1
+  MODULE_GUID: '11c880d2-1430-4bd2-b6e8-f324741b460b'
+  GIT_USER_NAME: 'Pete Maan'
+  RELEASE_VERSION_GATE: '8.2.0'
+  # Stable release notes are written to a post per major.minor version in this folder; empty for none.
+  RELEASE_NOTES_PATH: 'docs/collections/_posts'
+  # vNext releases are prereleases: <version>-preview<n>.
+  PRERELEASE_LABEL: ${{ github.ref == 'refs/heads/vNext' && 'preview' || '' }}
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  test:
+    name: Test Source (Code Coverage)
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v7
+    - name: Get Build Scripts
+      run: git clone --depth 1 --branch $env:BUILD_REF https://github.com/pspete/pspete.Build build
+    # CurrentUser modules are cached; install.ps1 skips those found.
+    # The key rolls monthly so newer module versions are picked up.
+    - name: Cache Month
+      id: month
+      run: '"month=$(Get-Date -Format yyyy-MM)" >> $env:GITHUB_OUTPUT'
+    - name: Cache Modules
+      uses: actions/cache@v6
+      with:
+        path: ~/Documents/PowerShell/Modules
+        key: psmodules-test-${{ steps.month.outputs.month }}
+    - name: Install Dependencies
+      run: ./build/install.ps1
+    # External help is the committed platyPS 0.14 xml; help.ps1 (PlatyPS 1.x) is not used.
+    #- name: Update External Help
+    #  run: ./build/help.ps1 -ModuleName $env:MODULE_NAME
+    - name: Test Source
+      run: ./build/test.ps1 -CodeCoverage -ModuleGuid $env:MODULE_GUID
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    - name: Upload Test Results
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: test-results-source
+        path: TestResults.xml
+        overwrite: true
+
+  changelog:
+    name: CHANGELOG Entry
+    if: github.event_name == 'pull_request'
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v7
+    - name: Get Build Scripts
+      run: git clone --depth 1 --branch $env:BUILD_REF https://github.com/pspete/pspete.Build build
+    - name: Check Unreleased Notes
+      run: ./build/changelog.ps1
+
+  # Build and built module tests run for main/master/vNext and PRs (the pull_request trigger only includes main/master/vNext).
+  build:
+    name: Build
+    if: >-
+      github.event_name == 'pull_request' ||
+      contains(fromJSON('["refs/heads/main", "refs/heads/master", "refs/heads/vNext"]'), github.ref)
+    runs-on: windows-latest
+    outputs:
+      moduleVersion: ${{ steps.version.outputs.moduleVersion }}
+      releaseVersion: ${{ steps.version.outputs.releaseVersion }}
+    steps:
+    - uses: actions/checkout@v7
+    - name: Get Build Scripts
+      run: git clone --depth 1 --branch $env:BUILD_REF https://github.com/pspete/pspete.Build build
+    # moduleVersion is the manifest ModuleVersion (package folder name); releaseVersion adds any prerelease label.
+    - name: Set Module Version
+      id: version
+      run: |
+        $Version = ./build/version.ps1 -ModuleName $env:MODULE_NAME -PrereleaseLabel "$env:PRERELEASE_LABEL"
+        $ModuleVersion = ($Version -split '-')[0]
+        "moduleVersion=$ModuleVersion" >> $env:GITHUB_OUTPUT
+        "releaseVersion=$Version" >> $env:GITHUB_OUTPUT
+        "### $env:MODULE_NAME $Version" >> $env:GITHUB_STEP_SUMMARY
+    # External help is the committed platyPS 0.14 xml; help.ps1 (PlatyPS 1.x) is not used.
+    #- name: Update External Help
+    #  run: ./build/help.ps1 -ModuleName $env:MODULE_NAME
+    - name: Build Module
+      run: >-
+        ./build/build.ps1
+        -ModuleName $env:MODULE_NAME
+        -BuildVersion '${{ steps.version.outputs.releaseVersion }}'
+        -OutputFolder "$env:RUNNER_TEMP/staging"
+    - name: Upload Built Module
+      uses: actions/upload-artifact@v7
+      with:
+        name: module
+        path: ${{ runner.temp }}/staging/${{ env.MODULE_NAME }}
+        overwrite: true
+
+  test-module:
+    name: Test Built Module (${{ matrix.name }})
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - name: PowerShell
+          os: windows-latest
+          shell: pwsh
+          modules: ~/Documents/PowerShell/Modules
+        - name: WindowsPowerShell
+          os: windows-latest
+          shell: powershell
+          modules: ~/Documents/WindowsPowerShell/Modules
+        - name: Linux
+          os: ubuntu-latest
+          shell: pwsh
+          modules: ~/.local/share/powershell/Modules
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+    steps:
+    - uses: actions/checkout@v7
+    - name: Remove Module Source
+      run: Remove-Item -Path "./$env:MODULE_NAME" -Recurse -Force
+    - name: Get Build Scripts
+      run: git clone --depth 1 --branch $env:BUILD_REF https://github.com/pspete/pspete.Build build
+    - name: Download Built Module
+      uses: actions/download-artifact@v8
+      with:
+        name: module
+        path: ${{ env.MODULE_NAME }}
+    # CurrentUser modules are cached per leg; install.ps1 skips those found, including the PSResourceGet bootstrap on 5.1.
+    # The key rolls monthly so newer module versions are picked up.
+    - name: Cache Month
+      id: month
+      run: '"month=$(Get-Date -Format yyyy-MM)" >> $env:GITHUB_OUTPUT'
+    - name: Cache Modules
+      uses: actions/cache@v6
+      with:
+        path: ${{ matrix.modules }}
+        key: psmodules-${{ matrix.name }}-${{ steps.month.outputs.month }}
+    - name: Install Dependencies
+      run: ./build/install.ps1
+    - name: Test Built Module
+      run: ./build/test.ps1 -ModuleGuid $env:MODULE_GUID
+    - name: Upload Test Results
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: test-results-${{ matrix.name }}
+        path: TestResults.xml
+        overwrite: true
+
+  # Release runs only for pushes and manual runs on main/master (stable) and vNext (prerelease), never for PRs.
+  release:
+    name: Release
+    needs:
+    - test
+    - build
+    - test-module
+    if: >-
+      github.event_name != 'pull_request' &&
+      contains(fromJSON('["refs/heads/main", "refs/heads/master", "refs/heads/vNext"]'), github.ref)
+    runs-on: windows-latest
+    env:
+      MODULE_VERSION: ${{ needs.build.outputs.moduleVersion }}
+      RELEASE_VERSION: ${{ needs.build.outputs.releaseVersion }}
+    steps:
+    # deploy-github.ps1 pushes with access_token; the checkout token must not override it.
+    - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
+    - name: Get Build Scripts
+      run: git clone --depth 1 --branch $env:BUILD_REF https://github.com/pspete/pspete.Build build
+    - name: Download Built Module
+      uses: actions/download-artifact@v8
+      with:
+        name: module
+        path: ${{ runner.temp }}/Package/${{ env.MODULE_NAME }}/${{ env.MODULE_VERSION }}
+
+    # Code signing of the packaged module goes here, before it is archived and published.
+
+    - name: Archive Module
+      run: >-
+        Compress-Archive
+        -Path "$env:RUNNER_TEMP/Package/$env:MODULE_NAME"
+        -DestinationPath "$env:RUNNER_TEMP/$env:MODULE_NAME-v$env:RELEASE_VERSION.zip"
+        -Force
+    - name: Upload Module Package
+      uses: actions/upload-artifact@v7
+      with:
+        name: package
+        path: ${{ runner.temp }}/${{ env.MODULE_NAME }}-v${{ env.RELEASE_VERSION }}.zip
+        overwrite: true
+    - name: Deploy to GitHub
+      run: >-
+        ./build/deploy-github.ps1
+        -ModuleName $env:MODULE_NAME
+        -Version $env:RELEASE_VERSION
+        -Branch '${{ github.ref_name }}'
+        -Repository '${{ github.repository }}'
+        -ModulePath "$env:RUNNER_TEMP/Package/$env:MODULE_NAME/$env:MODULE_VERSION"
+        -ArchivePath "$env:RUNNER_TEMP/$env:MODULE_NAME-v$env:RELEASE_VERSION.zip"
+        -ReleaseVersionGate $env:RELEASE_VERSION_GATE
+        -GitUserName $env:GIT_USER_NAME
+        -ReleaseNotesPath $env:RELEASE_NOTES_PATH
+      env:
+        access_token: ${{ secrets.access_token }}
+        github_email: ${{ secrets.git_email }}
+    # The commit message is passed via env so quotes in it cannot break the command line.
+    - name: Deploy to PowerShell Gallery
+      run: >-
+        ./build/deploy-psgallery.ps1
+        -ModuleName $env:MODULE_NAME
+        -Version $env:RELEASE_VERSION
+        -Branch '${{ github.ref_name }}'
+        -ModulePath "$env:RUNNER_TEMP/Package/$env:MODULE_NAME/$env:MODULE_VERSION"
+        -ReleaseVersionGate $env:RELEASE_VERSION_GATE
+        -CommitMessage $env:COMMIT_MESSAGE
+      env:
+        psgallery_key: ${{ secrets.psgallery_key }}
+        COMMIT_MESSAGE: ${{ github.event.head_commit.message }}

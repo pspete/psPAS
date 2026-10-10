@@ -191,7 +191,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$Result = ConvertTo-SortedPermission -ConnectOnly
-				$Result.Keys | Should -BeExactly $Expected.Keys
+				@($Result.Keys) | Should -BeExactly @($Expected.Keys)
 				foreach ($key in $Expected.Keys) { $Result[$key] | Should -Be $Expected[$key] }
 
 			}
@@ -234,7 +234,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$Result = ConvertTo-SortedPermission -ReadOnly
-				$Result.Keys | Should -BeExactly $Expected.Keys
+				@($Result.Keys) | Should -BeExactly @($Expected.Keys)
 				foreach ($key in $Expected.Keys) { $Result[$key] | Should -Be $Expected[$key] }
 
 			}
@@ -277,7 +277,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$Result = ConvertTo-SortedPermission -Approver
-				$Result.Keys | Should -BeExactly $Expected.Keys
+				@($Result.Keys) | Should -BeExactly @($Expected.Keys)
 				foreach ($key in $Expected.Keys) { $Result[$key] | Should -Be $Expected[$key] }
 
 			}
@@ -320,7 +320,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$Result = ConvertTo-SortedPermission -AccountsManager
-				$Result.Keys | Should -BeExactly $Expected.Keys
+				@($Result.Keys) | Should -BeExactly @($Expected.Keys)
 				foreach ($key in $Expected.Keys) { $Result[$key] | Should -Be $Expected[$key] }
 
 			}
@@ -363,7 +363,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				}
 
 				$Result = ConvertTo-SortedPermission -Full
-				$Result.Keys | Should -BeExactly $Expected.Keys
+				@($Result.Keys) | Should -BeExactly @($Expected.Keys)
 				foreach ($key in $Expected.Keys) { $Result[$key] | Should -Be $Expected[$key] }
 
 			}

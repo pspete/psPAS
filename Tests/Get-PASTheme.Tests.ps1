@@ -50,7 +50,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             BeforeEach {
 
                 Mock Invoke-PASRestMethod -MockWith {
-                    Write-Output @{
+                    [PSCustomObject]@{
                         'CustomThemes' = @{'Certain' = 'Stuff' }
                         'OtherThemes'  = @{'Another' = 'Thing' }
                         'ActiveTheme'  = 'ActiveThemeValue'
@@ -155,7 +155,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 $psPASSession.ExternalVersion = '0.0'
 
                 Mock Invoke-PASRestMethod -MockWith {
-                    Write-Output @{
+                    [PSCustomObject]@{
                         'CustomThemes' = @{'Certain' = 'Stuff' }
                         'OtherThemes'  = @{'Another' = 'Thing' }
                         'ActiveTheme'  = 'ActiveThemeValue'

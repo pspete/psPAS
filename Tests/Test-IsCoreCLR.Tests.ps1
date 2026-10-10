@@ -48,12 +48,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 		Context 'General' {
 
-			It 'returns true when run from PowerShell Core' {
+			It 'returns true only when run from PowerShell Core' {
 
-				#Note: the $false branch (Windows PowerShell 5.1, non-Core) cannot be exercised here -
-				#$PSEdition is a genuine read-only constant that cannot be overridden even with
-				#Set-Variable -Force, and CI only ever runs this suite under pwsh (Core).
-				Test-IsCoreCLR | Should -Be $IsCoreCLR
+				#$PSEdition is a read-only constant, so each branch is only exercised on its own edition.
+				Test-IsCoreCLR | Should -Be ($PSVersionTable.PSEdition -eq 'Core')
 
 			}
 

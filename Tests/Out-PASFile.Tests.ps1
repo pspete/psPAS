@@ -63,7 +63,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'does not throw' {
 
-				{ Out-PASFile -InputObject $Object -Path 'C:\Temp' } | Should -Not -Throw
+				{ Out-PASFile -InputObject $Object -Path $TestDrive } | Should -Not -Throw
 
 			}
 
@@ -92,9 +92,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Test-Path -MockWith { $true } -ParameterFilter { $PathType -eq 'Container' }
 
-				Out-PASFile -InputObject $Object -Path 'C:\Temp\test.avi'
+				Out-PASFile -InputObject $Object -Path (Join-Path $TestDrive 'test.avi')
 
-				Assert-MockCalled Set-Content -ParameterFilter { $Path -eq 'C:\Temp\test.avi' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Set-Content -ParameterFilter { $Path -eq (Join-Path $TestDrive 'test.avi') } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -102,9 +102,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Test-Path -MockWith { $false } -ParameterFilter { $PathType -eq 'Container' }
 
-				Out-PASFile -InputObject $Object -Path 'C:\Temp\test.avi'
+				Out-PASFile -InputObject $Object -Path (Join-Path $TestDrive 'test.avi')
 
-				Assert-MockCalled Set-Content -ParameterFilter { $Path -eq 'C:\Temp\test.avi' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Set-Content -ParameterFilter { $Path -eq (Join-Path $TestDrive 'test.avi') } -Times 1 -Exactly -Scope It
 
 			}
 
@@ -128,10 +128,10 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'writes the UTF8 byte representation of the string content' {
 
-				Out-PASFile -InputObject $Object -Path 'C:\Temp\test.pem'
+				Out-PASFile -InputObject $Object -Path (Join-Path $TestDrive 'test.pem')
 
 				Assert-MockCalled Set-Content -ParameterFilter {
-					($Path -eq 'C:\Temp\test.pem') -and
+					($Path -eq (Join-Path $TestDrive 'test.pem')) -and
 					(-not (Compare-Object $Value ([System.Text.Encoding]::UTF8.GetBytes('Some File Content'))))
 				} -Times 1 -Exactly -Scope It
 
@@ -157,9 +157,9 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'appends the suggested filename when the path has no file extension' {
 
-				Out-PASFile -InputObject $Object -Path 'C:\Temp'
+				Out-PASFile -InputObject $Object -Path $TestDrive
 
-				Assert-MockCalled Set-Content -ParameterFilter { $Path -eq 'C:\Temp\FILENAME.zip' } -Times 1 -Exactly -Scope It
+				Assert-MockCalled Set-Content -ParameterFilter { $Path -eq (Join-Path $TestDrive 'FILENAME.zip') } -Times 1 -Exactly -Scope It
 
 			}
 
