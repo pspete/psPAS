@@ -62,7 +62,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 'days'     = 1
                 'username' = 'SomeID'
-                'path'     = 'C:\SomePath'
+                'path'     = [System.IO.Path]::GetTempPath()
 
             }
 
@@ -90,7 +90,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             It 'sends request to expected endpoint when no arguments are specified' {
 
-                Export-PASTicketingSystemLog -path C:\
+                Export-PASTicketingSystemLog -path ([System.IO.Path]::GetTempPath())
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 

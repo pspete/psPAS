@@ -1,198 +1,44 @@
-#Requires -Modules Pester, PSScriptAnalyzer
+﻿#Requires -Modules Pester
 <#
 .SYNOPSIS
-    Tests module for consistency, expected structures, settings, components & files.
+    Tests psPAS-specific conventions across the module.
 .EXAMPLE
     Invoke-Pester
 .NOTES
-    A generic set of tests to apply to a module
+    The generic module tests come from pspete.Build (build/tests/Module.Tests.ps1).
+    The built module is a single psm1 with no Public or Private folder, so Secure Value Handling finds no scripts to check against it.
 #>
 
 Describe 'Module' -Tag 'Consistency' {
 
-	#Get Current Directory
-	$Here = Split-Path -Parent $PSCommandPath
+	$ModuleName = 'psPAS'
 
-	#Assume ModuleName from Repository Root folder
-	$ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
-
-	#Resolve Path to Module Directory
-	$ModulePath = Resolve-Path "$Here\..\$ModuleName"
-
-	#Define Path to Module Manifest
-	$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
-
-	Get-Module -Name $ModuleName -All | Remove-Module -Force -ErrorAction Ignore
-
-	$Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru | Where-Object { $_.Name -eq $ModuleName }
-
-	#Get Public Function Names
-	$PublicFunctions = Get-ChildItem "$ModulePath\Functions" -Include *.ps1 -Recurse | Select-Object -ExpandProperty BaseName
-
-	#Get Exported Function Names
-	$ExportedFunctions = $Module.ExportedFunctions.Values.name
-
-	$ExportedAliases = $Module.ExportedAliases.Values.name
+	$ModulePath = Join-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) $ModuleName
 
 	$Scripts = Get-ChildItem $ModulePath -Include *.ps1 -Recurse
 
-	Context $ManifestPath -Tag Manifest {
+	Context 'Secure Value Handling' -Tag 'SecureValueHandling' {
 
-		It 'has a valid manifest' -TestCases @{ManifestPath = $ManifestPath } {
-			param($ManifestPath)
-			{ $null = Test-ModuleManifest -Path $ManifestPath -ErrorAction Stop -WarningAction SilentlyContinue } |
-				Should -Not -Throw
+		#Any function which handles a SecureString or PSCredential value and builds a JSON request body
+		#must convert that body to UTF8 bytes (not a String) before it is passed on, so that
+		#Windows PowerShell ParameterBinding/Module Logging cannot capture the plaintext value.
+		#See https://github.com/pspete/psPAS/issues/602
 
-		}
+		Foreach ($Script in $Scripts) {
 
-		It 'specifies valid root module' -TestCases @{RootModule = $Module.RootModule ; ModuleName = $ModuleName } {
-			param($RootModule, $ModuleName)
-			$RootModule | Should -Be "$ModuleName.psm1"
+			$Content = Get-Content -Path $Script.FullName -Raw
 
-		}
+			$HandlesSecureString = $Content -match '\[securestring\]|\[System\.Security\.SecureString\]|ConvertTo-InsecureString|GetNetworkCredential\(\)'
+			$BuildsJsonBody = $Content -match 'ConvertTo-Json'
 
-		It 'has a valid description' -TestCases @{Description = $Module.Description } {
-			param($Description)
-			$Description | Should -Not -BeNullOrEmpty
+			if ($HandlesSecureString -and $BuildsJsonBody) {
 
-		}
+				It "$($Script.Name) converts its request body to UTF8 bytes" -Tag "$($Script.BaseName)" -TestCases @{
+					'Content' = $Content
+				} {
+					param($Content)
 
-		It 'has a valid guid' -TestCases @{Guid = $Module.Guid } {
-			param($Guid)
-			$Guid | Should -Be '11c880d2-1430-4bd2-b6e8-f324741b460b'
-
-		}
-
-		It 'has a valid copyright' -TestCases @{Copyright = $Module.Copyright } {
-			param($Copyright)
-			$Copyright | Should -Not -BeNullOrEmpty
-
-		}
-
-		Context 'Files To Process' -Tag 'FilesToProcess' {
-
-			foreach ($file in ($Module.ExportedFormatFiles)) {
-				Context $file -Tag 'FormatData' {
-					It 'exists' -TestCases @{
-						'File' = $file
-					} {
-						param($File)
-						$File | Should -Exist
-					}
-
-					It 'is valid' -TestCases @{
-						'File' = $file
-					} {
-						param($File)
-						{ Update-FormatData -AppendPath $File -ErrorAction Stop -WarningAction SilentlyContinue } | Should -Not -Throw
-					}
-
-				}
-
-				foreach ($file in ($Module.ExportedTypeFiles)) {
-					Context $file -Tag 'TypeData' {
-						It 'exists' -TestCases @{
-							'File' = $file
-						} {
-							param($File)
-							$File | Should -Exist
-						}
-
-						It 'is valid' -TestCases @{
-							'File' = $file
-						} {
-							param($File)
-							{ Update-TypeData -AppendPath $File -ErrorAction Stop -WarningAction SilentlyContinue } | Should -Not -Throw
-						}
-
-					}
-				}
-			}
-		}
-
-		Context 'Exported Function Analysis' -Tag 'Functions' {
-
-			It 'exports the expected number of functions' {
-
-				($PublicFunctions | Measure-Object | Select-Object -ExpandProperty Count) |
-
-					Should -Be ($ExportedFunctions | Measure-Object | Select-Object -ExpandProperty Count)
-
-				}
-
-				foreach ($ExportedFunction in $ExportedFunctions) {
-
-					Context "$ExportedFunction" -Tag "$ExportedFunction" {
-						It 'is public' -TestCases @{
-							'ExportedFunction' = $ExportedFunction
-							'PublicFunctions'  = $PublicFunctions
-						} {
-							param($ExportedFunction, $PublicFunctions)
-							$PublicFunctions | Should -Contain $ExportedFunction
-						}
-
-						It 'has a related pester tests file' -TestCases @{
-							'ExportedFunction' = $ExportedFunction
-							'Here'             = $here
-						} {
-							param($ExportedFunction, $here)
-							Test-Path (Join-Path $here "$ExportedFunction.Tests.ps1") | Should -Be $true
-						}
-
-						Context Help -Tag 'Help' {
-
-							$help = Get-Help $ExportedFunction -Full
-
-							It 'has synopsis' -TestCases @{ 'Help' = $help } {
-								param($help)
-								$help.synopsis | Should -Not -BeNullOrEmpty
-
-							}
-
-							It 'has description' -TestCases @{ 'Help' = $help } {
-								param($help)
-								$help.description | Should -Not -BeNullOrEmpty
-
-							}
-
-							It 'has example code' -TestCases @{ 'Help' = $help } {
-								param($help)
-								$help.examples.example.code | Should -Not -BeNullOrEmpty
-
-							}
-
-							[array]$HelpParameters = $help.parameters.parameter | Where-Object name -NotIn @('WhatIf', 'Confirm')
-
-							foreach ($HelpParameter in $HelpParameters) {
-
-								It 'has description of parameter <name>' -Tag "$($HelpParameter.name)" -TestCases @{
-									'description' = $HelpParameter.description
-									'name'        = $HelpParameter.name
-								} {
-									param($description, $name)
-									$description | Should -Not -BeNullOrEmpty
-								}
-
-							}
-
-						}
-					}
-
-				}
-
-			}
-
-			Context 'Exported Alias Analysis' -Tag Alias {
-
-				foreach ($Alias in $ExportedAliases) {
-
-					It '<Alias> resolves to public function' -Tag $Alias -TestCases @{
-						'Alias'           = $Alias
-						'PublicFunctions' = $PublicFunctions
-					} {
-						param($Alias, $PublicFunctions)
-						$PublicFunctions | Should -Contain $((Get-Alias $Alias).ResolvedCommand.Name)
-					}
+					$Content | Should -Match '\[System\.Text\.Encoding\]::UTF8\.GetBytes\('
 
 				}
 
@@ -200,83 +46,27 @@ Describe 'Module' -Tag 'Consistency' {
 
 		}
 
-		Context 'PSScriptAnalyzer Analysis' -Tag 'PSScriptAnalyzer' {
+		#Secret values passed between module functions must be typed PSCredential or SecureString,
+		#as ParameterBinding/Module Logging records String and Object parameter values as plain text.
+		#Get-PASRadiusCredential -OTP receives the value bound to the public New-PASSession -OTP parameter.
+		$Exempt = @('Get-PASRadiusCredential.ps1:OTP')
 
-			Foreach ($Script in $scripts) {
+		Foreach ($Script in ($Scripts | Where-Object { $PSItem.Directory.Name -eq 'Private' })) {
 
-				Context $Script.Name -Tag "$($Script.BaseName)", "$($Script.Name)" {
+			$Ast = [System.Management.Automation.Language.Parser]::ParseFile($Script.FullName, [ref]$null, [ref]$null)
 
-					It 'passes all Warning and Error rules' -TestCases @{
-						'FilePath' = $script.FullName
-					} {
-						param($FilePath)
+			$SecretParameters = $Ast.FindAll( { $args[0] -is [System.Management.Automation.Language.ParameterAst] }, $true) |
+				Where-Object { $PSItem.Name.VariablePath.UserPath -match '(Password|Token|Secret|Credential|OTP)$' } |
+				Where-Object { "$($Script.Name):$($PSItem.Name.VariablePath.UserPath)" -notin $Exempt }
 
-						#One analyzer pass per file (all Warning/Error rules at once) rather than one pass per rule
-						$findings = Invoke-ScriptAnalyzer -Path $FilePath -Severity Warning, Error
+			Foreach ($Parameter in $SecretParameters) {
 
-						($findings | ForEach-Object { "[$($_.RuleName)] line $($_.Line): $($_.Message)" }) -join [System.Environment]::NewLine |
-							Should -BeNullOrEmpty
+				It "$($Script.Name) parameter $($Parameter.Name) is typed PSCredential or SecureString" -Tag "$($Script.BaseName)" -TestCases @{
+					'Type' = $Parameter.StaticType
+				} {
+					param($Type)
 
-					}
-
-				}
-
-			}
-
-		}
-
-		Context 'Secure Value Handling' -Tag 'SecureValueHandling' {
-
-			#Any function which handles a SecureString or PSCredential value and builds a JSON request body
-			#must convert that body to UTF8 bytes (not a String) before it is passed on, so that
-			#Windows PowerShell ParameterBinding/Module Logging cannot capture the plaintext value.
-			#See https://github.com/pspete/psPAS/issues/602
-
-			Foreach ($Script in $Scripts) {
-
-				$Content = Get-Content -Path $Script.FullName -Raw
-
-				$HandlesSecureString = $Content -match '\[securestring\]|\[System\.Security\.SecureString\]|ConvertTo-InsecureString|GetNetworkCredential\(\)'
-				$BuildsJsonBody = $Content -match 'ConvertTo-Json'
-
-				if ($HandlesSecureString -and $BuildsJsonBody) {
-
-					It "$($Script.Name) converts its request body to UTF8 bytes" -Tag "$($Script.BaseName)" -TestCases @{
-						'Content' = $Content
-					} {
-						param($Content)
-
-						$Content | Should -Match '\[System\.Text\.Encoding\]::UTF8\.GetBytes\('
-
-					}
-
-				}
-
-			}
-
-			#Secret values passed between module functions must be typed PSCredential or SecureString,
-			#as ParameterBinding/Module Logging records String and Object parameter values as plain text.
-			#Get-PASRadiusCredential -OTP receives the value bound to the public New-PASSession -OTP parameter.
-			$Exempt = @('Get-PASRadiusCredential.ps1:OTP')
-
-			Foreach ($Script in ($Scripts | Where-Object { $PSItem.Directory.Name -eq 'Private' })) {
-
-				$Ast = [System.Management.Automation.Language.Parser]::ParseFile($Script.FullName, [ref]$null, [ref]$null)
-
-				$SecretParameters = $Ast.FindAll( { $args[0] -is [System.Management.Automation.Language.ParameterAst] }, $true) |
-					Where-Object { $PSItem.Name.VariablePath.UserPath -match '(Password|Token|Secret|Credential|OTP)$' } |
-					Where-Object { "$($Script.Name):$($PSItem.Name.VariablePath.UserPath)" -notin $Exempt }
-
-				Foreach ($Parameter in $SecretParameters) {
-
-					It "$($Script.Name) parameter $($Parameter.Name) is typed PSCredential or SecureString" -Tag "$($Script.BaseName)" -TestCases @{
-						'Type' = $Parameter.StaticType
-					} {
-						param($Type)
-
-						$Type | Should -BeIn @([PSCredential], [SecureString])
-
-					}
+					$Type | Should -BeIn @([PSCredential], [SecureString])
 
 				}
 
@@ -285,3 +75,5 @@ Describe 'Module' -Tag 'Consistency' {
 		}
 
 	}
+
+}

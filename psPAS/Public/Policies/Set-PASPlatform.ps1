@@ -1,6 +1,5 @@
 # .ExternalHelp psPAS-help.xml
 function Set-PASPlatform {
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '', Justification = 'Settings matches the API endpoint terminology')]
     [CmdletBinding(SupportsShouldProcess)]
     param(
 

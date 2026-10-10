@@ -73,7 +73,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$InputObj = [pscustomobject]@{
 					'RecordingID' = 'SomeID'
-					'path'        = "$env:Temp"
+					'path'        = "$([System.IO.Path]::GetTempPath())"
 
 				}
 
@@ -89,7 +89,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$InputObj = [pscustomobject]@{
 					'RecordingID' = 'SomeID'
-					'path'        = "$env:Temp\test.avi"
+					'path'        = "$([System.IO.Path]::GetTempPath())test.avi"
 
 				}
 

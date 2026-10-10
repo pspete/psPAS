@@ -1,6 +1,5 @@
 # .ExternalHelp psPAS-help.xml
 function Remove-PASAccount {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'UseGen1API', Justification = 'False Positive')]
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Default')]
 	param(
 		[parameter(

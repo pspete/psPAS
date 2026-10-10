@@ -53,7 +53,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 }
 
                 #Create a 512b file to test with
-                $file = [System.IO.File]::Create("$env:Temp\SomeFile.png")
+                $file = [System.IO.File]::Create("$([System.IO.Path]::GetTempPath())SomeFile.png")
                 $file.SetLength(0.5kb)
                 $file.Close()
 
@@ -147,7 +147,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 }
 
                 #Create a 512b file to test with
-                $file = [System.IO.File]::Create("$env:Temp\SomeFile.png")
+                $file = [System.IO.File]::Create("$([System.IO.Path]::GetTempPath())SomeFile.png")
                 $file.SetLength(0.5kb)
                 $file.Close()
 

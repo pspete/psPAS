@@ -90,7 +90,7 @@ function Set-PASPTARule {
 		#Get all parameters that will be sent in the request
 		$boundParameters = $PSBoundParameters | Get-PASParameter
 
-		$PTARule = (Get-PASPTARule).Where({ $PSitem.ID -eq $id })
+		$PTARule = @(Get-PASPTARule).Where({ $PSitem.ID -eq $id })
 		if ($null -ne $PTARule) {
 			Format-PutRequestObject -InputObject $PTARule -boundParameters $BoundParameters -ParametersToRemove mode, list
 		}

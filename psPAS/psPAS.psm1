@@ -1,4 +1,5 @@
-﻿<#
+﻿#region Loader
+<#
 .SYNOPSIS
 
 .DESCRIPTION
@@ -16,21 +17,8 @@ param(
 
 )
 
-#Enum Flag values for Directory Mapping Authorizations
-[Flags()]enum Authorizations{
-	AddUpdateUsers = 1
-	AddSafes = 2
-	AddNetworkAreas = 4
-	ManageServerFileCategories = 16
-	AuditUsers = 32
-	BackupAllSafes = 512
-	RestoreAllSafes = 1024
-	ResetUsersPasswords = 8388608
-	ActivateUsers = 16777216
-}
-
 #Get function files
-Get-ChildItem $PSScriptRoot\ -Recurse -Include '*.ps1' -Exclude '*.ps1xml' |
+Get-ChildItem -Path "$PSScriptRoot\Private", "$PSScriptRoot\Public" -Recurse -Filter '*.ps1' |
 
 	ForEach-Object {
 
@@ -54,6 +42,20 @@ Get-ChildItem $PSScriptRoot\ -Recurse -Include '*.ps1' -Exclude '*.ps1xml' |
 		}
 
 	}
+#endregion Loader
+
+#Enum Flag values for Directory Mapping Authorizations
+[Flags()]enum Authorizations{
+	AddUpdateUsers = 1
+	AddSafes = 2
+	AddNetworkAreas = 4
+	ManageServerFileCategories = 16
+	AuditUsers = 32
+	BackupAllSafes = 512
+	RestoreAllSafes = 1024
+	ResetUsersPasswords = 8388608
+	ActivateUsers = 16777216
+}
 
 # Script scope session object for session data
 $psPASSession = [ordered]@{

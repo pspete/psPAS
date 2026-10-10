@@ -160,7 +160,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             BeforeAll {
 
-                $Script:CertTestDrive = Join-Path $env:TEMP "psPASTests_$([guid]::NewGuid().Guid)"
+                $Script:CertTestDrive = Join-Path ([System.IO.Path]::GetTempPath()) "psPASTests_$([guid]::NewGuid().Guid)"
                 New-Item -ItemType Directory -Path $Script:CertTestDrive -Force | Out-Null
 
             }
@@ -217,7 +217,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                     #Body is a JSON array of {key, value} pairs, not a flat object
                     $ExpectedBase64 = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes('SomeCertificateContent'))
-                    $SmtpDetails = ($Body | ConvertFrom-Json | Where-Object key -eq 'SMTPConnectivityDetails').value
+                    $SmtpDetails = (($Body | ConvertFrom-Json) | Where-Object key -eq 'SMTPConnectivityDetails').value
                     $SmtpDetails.certificate -eq $ExpectedBase64
 
                 } -Times 1 -Exactly -Scope It
@@ -231,7 +231,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
                     #Body is a JSON array of {key, value} pairs, not a flat object
-                    $SmtpDetails = ($Body | ConvertFrom-Json | Where-Object key -eq 'SMTPConnectivityDetails').value
+                    $SmtpDetails = (($Body | ConvertFrom-Json) | Where-Object key -eq 'SMTPConnectivityDetails').value
                     $SmtpDetails.authenticationMethod.accountId -eq 'SomeAccountID123'
 
                 } -Times 1 -Exactly -Scope It

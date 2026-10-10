@@ -70,7 +70,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Out-PASFile -MockWith { }
 
-				$response = Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip"
+				$response = Export-PASPlatform -PlatformID SomePlatform -path "$([System.IO.Path]::GetTempPath())testExport.zip"
 			}
 
 			It 'throws if path is invalid' {
@@ -101,7 +101,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'throws error if version requirement not met' {
 				$psPASSession.ExternalVersion = '1.0'
-				{ Export-PASPlatform -PlatformID SomePlatform -path "$env:Temp\testExport.zip" } | Should -Throw
+				{ Export-PASPlatform -PlatformID SomePlatform -path "$([System.IO.Path]::GetTempPath())testExport.zip" } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
@@ -118,7 +118,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Out-PASFile -MockWith { }
 
-				$response = Export-PASPlatform -RotationalGroupID SomeGroup -path "$env:Temp\testExport.zip"
+				$response = Export-PASPlatform -RotationalGroupID SomeGroup -path "$([System.IO.Path]::GetTempPath())testExport.zip"
 			}
 
 			It 'sends request' {
@@ -156,7 +156,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				Mock Out-PASFile -MockWith { }
 
-				$response = Export-PASPlatform -DependentID 1 -path "$env:Temp\testExport.zip"
+				$response = Export-PASPlatform -DependentID 1 -path "$([System.IO.Path]::GetTempPath())testExport.zip"
 			}
 
 			It 'sends request' {
@@ -195,7 +195,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 				Mock Out-PASFile -MockWith { }
 
 				$psPASSession.ExternalVersion = '12.2'
-				$response = Export-PASPlatform -GroupPlatformID SomeGroupPlatform -path "$env:Temp\testExport.zip"
+				$response = Export-PASPlatform -GroupPlatformID SomeGroupPlatform -path "$([System.IO.Path]::GetTempPath())testExport.zip"
 			}
 
 			It 'sends request' {
@@ -222,7 +222,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			It 'throws error if version requirement not met' {
 				$psPASSession.ExternalVersion = '1.0'
-				{ Export-PASPlatform -GroupPlatformID SomeGroupPlatform -path "$env:Temp\testExport.zip" } | Should -Throw
+				{ Export-PASPlatform -GroupPlatformID SomeGroupPlatform -path "$([System.IO.Path]::GetTempPath())testExport.zip" } | Should -Throw
 				$psPASSession.ExternalVersion = '0.0'
 			}
 
