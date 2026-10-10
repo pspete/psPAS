@@ -1,7 +1,5 @@
 # .ExternalHelp psPAS-help.xml
 function Unlock-PASAccount {
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'CheckIn', Justification = 'Parameter used for ParameterSet function logic')]
-	[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Unlock', Justification = 'Parameter used for ParameterSet function logic')]
 	[CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'CheckIn')]
 	param(
 		[parameter(

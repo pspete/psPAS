@@ -125,7 +125,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 				$response = Get-PASDirectoryID -Name 'Idira Cloud Directory'
 
-				$response.Count | Should -Be 1
+				@($response).Count | Should -Be 1
 				$response.ID | Should -Be '09B9A9B0-6CE8-465F-AB03-65766D33B05E'
 
 			}

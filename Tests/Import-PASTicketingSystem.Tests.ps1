@@ -57,13 +57,13 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             }
 
             #Create a 512b file to test with
-            $file = [System.IO.File]::Create("$env:Temp\testPlatform.zip")
+            $file = [System.IO.File]::Create("$([System.IO.Path]::GetTempPath())testPlatform.zip")
             $file.SetLength(0.5kb)
             $file.Close()
 
             $InputObject = [PSCustomObject]@{
 
-                'importFile' = "$env:Temp\testPlatform.zip"
+                'importFile' = "$([System.IO.Path]::GetTempPath())testPlatform.zip"
 
             }
 

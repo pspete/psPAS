@@ -5,11 +5,29 @@
 - Continued development to encompass any new documented features of the CyberArk API.
 - psPAS v9.0...
 
-## [Unreleased]
+## Unreleased
 
-- N/A
+### Added
 
-## [8.1.44]
+- Faster module import
+  - psPAS is now published as a single built `psPAS.psm1`, instead of loading each of its ~300 function files at import.
+  - Format and type files are merged into one `psPAS.Format.ps1xml` and one `psPAS.Types.ps1xml`.
+  - Import time drops from ~530 ms to ~190 ms on PowerShell 7, and from ~550 ms to ~140 ms on Windows PowerShell 5.1.
+
+### Updated
+
+- Build, test and release move from AppVeyor to GitHub Actions, using [pspete.Build](https://github.com/pspete/pspete.Build).
+  - Tests run against the built module on Windows PowerShell 5.1, PowerShell 7 on Windows, and PowerShell 7 on Linux.
+- Removed PSScriptAnalyzer suppressions that no longer match any finding.
+
+### Fixed
+
+- `Set-PASPTARule`
+  - Fixed an error on Windows PowerShell 5.1 when `Get-PASPTARule` returns a single rule.
+- Saving files on Linux and macOS
+  - `Get-PASAccountSSHKey` and `New-PASPSMSession` now save to the system temp folder when no `-Path` is given. Previously they failed, because `$env:TEMP` is not set on those systems.
+
+## [8.1.44] - 2026-09-29
 
 ### Added
 
@@ -33,7 +51,7 @@
   - With `-OTPMode Challenge -RadiusChallenge Password`, the password sent as the RADIUS challenge response
     is no longer recorded as plain text by PowerShell module logging.
 
-## [8.0.31]
+## [8.0.31] - 2026-09-22
 
 ### Fixed
 
@@ -58,7 +76,7 @@
     `Remove-PASDependentAccount` and `Remove-PASAccount`, which sent the ISPSS URL segment against
     self-hosted PVWA and received a 404. (#665)
 
-## [8.0.20]
+## [8.0.20] - 2026-08-28
 
 ### Added
 
@@ -79,7 +97,7 @@
   - Fixes RADIUS secondary/challenge authentication failing after the `8.0.x` change that sends logon request bodies as raw UTF8 bytes: `Send-RADIUSResponse` still treated the body as a JSON string, so the byte array was enumerated one byte at a time - producing a request body containing the `username`/OTP pair repeated once per body byte (with a null `username`). The body is now decoded back to a string before the OTP is applied.
   - Fixes a double-slash appearing in request URIs (e.g. `.../cyberark.cloud//PasswordVault/...`) when authenticating via `-TenantSubdomain` - the Privilege Cloud/Identity URLs returned by Shared Services discovery weren't having a trailing slash stripped before being combined with the PVWA application name
 
-## [8.0.11]
+## [8.0.11] - 2026-08-20
 
 ### Added
 
@@ -105,7 +123,7 @@
 - `Get-PASSafeMember`, `Import-PASPlatform`, `Clear-PASDiscoveredAccount`
   - Fixes the same class of pipeline request-state leak: the request object is now built fresh inside `process{}` for every pipeline item instead of once in `begin{}`
 
-## [8.0.3]
+## [8.0.3] - 2026-08-14
 
 ### Added
 
@@ -123,7 +141,7 @@
   - `Set-PASLinkedAccount`/`Clear-PASLinkedAccount` bulk requests continue to be driven by supplying more than one `-AccountID`.
   - `Resume-PASDependentAccount` bulk requests are now correctly driven by supplying more than one `-dependentAccountId` for a single `-AccountID`, reflecting that a dependent account can only ever belong to one source account.
 
-## [8.0.0]
+## [8.0.0] - 2026-08-05
 
 **[JP-Consulting](https://github.com/johannesconsulting) continues their streak with more amazing contributions**
 
@@ -281,7 +299,7 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
 - `Get-PASAccount`
   - Fixes an issue where dynamic search-property lookups performed against Idira 14.4+ (to build search parameters) could overwrite `LastCommand`/`LastCommandResult` in the session; results are now read from a cache instead of calling `Get-PASAccountSearchProperty` directly, and internal helper calls no longer clobber session state
 
-## [7.3.0]
+## [7.3.0] - 2026-07-19
 
 **More recognition to [JP-Consulting](https://github.com/johannesconsulting) for the help on this release and ongoing project sponsorship**
 
@@ -336,7 +354,7 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
 - `ConvertTo-FilterString`
   - Defaults `LogicalOperator` to `AND` to avoid sending filters with an empty logical operator
 
-## [7.0.242]
+## [7.0.242] - 2025-10-01
 
 ### Added
 
@@ -353,7 +371,7 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
 
 - N/A
 
-## [7.0.232]
+## [7.0.232] - 2025-09-15
 
 ### Added
 
@@ -382,7 +400,7 @@ _Update includes almost all updates for the 15.2, Idira Self-Hosted & latest Pri
 - `Get-PASPTASecurityConfigurationCategory`
   - Fixes issue where URI for request may not be set on command execution.
 
-## [7.0.209]
+## [7.0.209] - 2025-09-09
 
 **Special shout out to [JP-Consulting](https://github.com/johannesconsulting) for the help on this release**
 
@@ -533,7 +551,7 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
   - Corrects the URLs used by the commands
   - Thanks [JP-Consulting](https://github.com/johannesconsulting)!!!
 
-## [6.4.85]
+## [6.4.85] - 2024-06-04
 
 ### Added
 
@@ -549,7 +567,7 @@ _Update includes almost all updates for the 14.2, 14.4 & 14.6 CyberArk Self-Host
   - Adds logic to not attempt conversion to unix time if expiry date is not a valid datetime object, this resolves an issue where an error was raised when updating an account with an existing value for the `expirydate` property
   - Adds logic to not apply time zone offset when specifying Unix epoch time to remove an expiry date from an account which could previously result in an invalid time value in non-GMT time zones.
 
-## [6.4.80]
+## [6.4.80] - 2024-05-01
 
 Includes a general update across multiple module commands to ensure commands which are specific to self-hosted implementations are not able to be run against Privilege Cloud, and any commands which are specific to Privilege Cloud are not able to be run against a Self-Hosted solution.
 
@@ -586,7 +604,7 @@ Includes a general update across multiple module commands to ensure commands whi
 - `Get-PASPSMSession`
   - Fixes result paging issue
 
-## **6.3.78**
+## [6.3.78] - 2024-03-21
 
 ### Added
 
@@ -676,7 +694,7 @@ Includes a general update across multiple module commands to ensure commands whi
 
 - N/A
 
-## **6.2.68**
+## [6.2.68] - 2024-02-20
 
 ### Added
 
@@ -704,7 +722,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - Standardises name of `ID` parameter.
   - Adds `GroupID` alias to `ID` parameter.
 
-## **6.1.62**
+## [6.1.62] - 2024-02-07
 
 ### Added
 
@@ -734,7 +752,7 @@ Includes a general update across multiple module commands to ensure commands whi
 - ISPSS Error Handling
   - Fixes issue where error returned from ISPSS solution may not be handled properly
 
-## **6.1.50**
+## [6.1.50] - 2024-02-01
 
 ### Module update to cover all CyberArk 14.0 API features
 
@@ -788,7 +806,7 @@ Includes a general update across multiple module commands to ensure commands whi
 - `Invoke-PASRestMethod`
   - Avoids potential error condition when handling errors in ISPSS environments
 
-## **6.0.30**
+## [6.0.30] - 2023-11-13
 
 ### Added
 
@@ -807,7 +825,7 @@ Includes a general update across multiple module commands to ensure commands whi
 - `Set-PASPTAEvent` & `Set-PASPTARiskEvent`
   - Fixes issue where websession object and auth header were not being sent with the request
 
-## **6.0.21**
+## [6.0.21] - 2023-10-08
 
 ### Added
 
@@ -822,7 +840,7 @@ Includes a general update across multiple module commands to ensure commands whi
 - Debug Trace Output
   - Resolves condition where authentication password value might be revealed in debug trace output in a scenario where `Set-PSDebug -Trace 2` is active in the console host.
 
-## **6.0.18**
+## [6.0.18] - 2023-10-05
 
 ### Added
 
@@ -848,13 +866,13 @@ Includes a general update across multiple module commands to ensure commands whi
 - `Get-PASAccount`
   - Resolves issue where, if number of results of a `SavedFilter` are greater than the page size (either default or set via the `limit` parameter), only the URL of the first request sent would include the SavedFilter value.
 
-## **6.0.4**
+## [6.0.4] - 2023-09-06
 
 - Updated
   - `Add-PASSafeMember`
     - Adds 'Role' to acceptable values in ParameterSet for `memberType` parameter
 
-## **6.0.0**
+## [6.0.0] - 2023-08-22
 
 - Update & Breaking Change
   - `New-PASSession`
@@ -865,7 +883,7 @@ Includes a general update across multiple module commands to ensure commands whi
     - Service User authentication for Shared Services introduced in recent previous versions requires installation of `IdentityCommand` module and specification of additional attribute.
     - See [the docs](https://pspas.pspete.dev/docs/authentication/#shared-services-authentication) & [New-PASSession](https://pspas.pspete.dev/commands/New-PASSession) for full details.
 
-## **5.6.135 (July 31st 2023)**
+## [5.6.135] - 2023-07-31
 
 ### Module update to cover all CyberArk 13.2 API features
 
@@ -902,7 +920,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Get-PASRequest`
     - Adds `id` parameter to support get status bulk request actions.
 
-## **5.5.110 (March 7th 2023)**
+## [5.5.110] - 2023-03-07
 
 ### Module update to cover all CyberArk 13.0 API features
 
@@ -927,7 +945,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - Documentation update
     - Correct version requirement information for the `Get-PASAccount` `searchType` parameter.
 
-## **5.4.101 (November 20th 2022)**
+## [5.4.101] - 2022-11-20
 
 - Fix `Get-PASSafeMember`
   - Corrects format of URL value when returning many safe members
@@ -936,7 +954,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - Additional example added to `Get-PASAccount` help file
     - Thanks [rorobig](https://github.com/rorobig)!
 
-## **5.4.94 (September 26th 2022)**
+## [5.4.94] - 2022-09-26
 
 - Breaking Changes
   - `Get-PASAccount`
@@ -964,7 +982,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - Documentation
     - General updates throughout.
 
-## **5.3.76 (August 17th 2022)**
+## [5.3.76] - 2022-08-17
 
 - Updates
   - Set-PASUser / New-PASUser
@@ -975,7 +993,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - Reverts Gen1 specific URL update introduced in last release for "_user_" type commands.
     - Removes forward slash (/) to end of request URL
 
-## **5.3.69 (July 26th 2022)**
+## [5.3.69] - 2022-07-26
 
 ### Module update to cover all CyberArk 12.6 API features
 
@@ -996,19 +1014,19 @@ Includes a general update across multiple module commands to ensure commands whi
   - Updates URL formatting to include a forward slash (/) to end of URL for functions which may include a dot (.) via provided parameter values.
   - Updated documentation and help text.
 
-## **5.2.59 (November 7th 2021)**
+## [5.2.59] - 2021-11-07
 
 - Fix
   - Resolves issue where `Get-PASSafeMember` would fail with error when using Gen2 API and specifying `MemberName` parameter.
   - Resolves issue where `Set-PASSafe` would fail with error when using Gen2 API.
     - (Thanks [alexR148](https://github.com/alexR148)!).
 
-## **5.2.54 (July 28th 2021)**
+## [5.2.54] - 2021-07-28
 
 - Fix
   - Added `Request-PASJustInTimeAccess` as Exported Function in `psPAS.psd1`.
 
-## **5.2.52 (July 27th 2021)**
+## [5.2.52] - 2021-07-27
 
 ### Module update to cover all CyberArk 12.2 API features
 
@@ -1073,13 +1091,13 @@ Includes a general update across multiple module commands to ensure commands whi
   - Alias Removal
     - Removed alias values for previously depreciated command names
 
-## **5.1.44 (July 13th 2021)**
+## [5.1.44] - 2021-07-13
 
 - Updates
   - `Get-PASGroup`
     - Added `includeMembers` parameter based on [this article](https://cyberark-customers.force.com/s/article/PVWA-REST-Get-groups-API-does-not-return-members).
 
-## **5.1.37 (June 28th 2021)**
+## [5.1.37] - 2021-06-28
 
 - Updates
   - Resolves issue where the `ConvertTo-UnixTime` helper function provided invalid values when the culture was not 'en-US'.
@@ -1091,7 +1109,7 @@ Includes a general update across multiple module commands to ensure commands whi
     - Added `UserName` parameter & `ToPsCredential()` Method to enable return of Credential Object.
       - (Thanks [zamothh](https://github.com/zamothh)!)
 
-## **5.1.21 (June 7th 2021)**
+## [5.1.21] - 2021-06-07
 
 - Updates
   - `Get-PASSession`
@@ -1103,7 +1121,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Get-PASPlatform`
     - Fixes issue where expected output was not displayed when using the `platforms` parameterset.
 
-## **5.1.16** (May 23rd 2021)
+## [5.1.16] - 2021-05-23
 
 - Updates
   - `New-PASSession`
@@ -1114,7 +1132,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Add-PASSafeMember`
     - Fixes issue where some permissions may not be applied when piping object into function and using the Gen2 API.
 
-## **5.0.0** (April 11th 2021)
+## [5.0.0] - 2021-04-11
 
 ### Module update to cover all CyberArk 12.0 & 12.1 API features
 
@@ -1175,13 +1193,13 @@ Includes a general update across multiple module commands to ensure commands whi
     - Removed depreciated Parameter `offset`
     - Removed depreciated Parameter `limit`
 
-## **4.5.90** (November 25th 2020)
+## [4.5.90] - 2020-11-25
 
 - Fixes
   - `Set-PASAccount`
     - Fix issue where JSON was not formatted as required when attempting to execute multiple operations in a single request.
 
-## **4.5.87** (November 25th 2020)
+## [4.5.87] - 2020-11-25
 
 ### Module update to cover all CyberArk 11.7 API features
 
@@ -1208,7 +1226,7 @@ Includes a general update across multiple module commands to ensure commands whi
     - Fix issue where `concurrentSession` body was not sent with request when using integrated authentication.
   - Replaced comment based help with external help.
 
-## **4.4.71** (August 24th 2020)
+## [4.4.71] - 2020-08-24
 
 ### Module update to cover all CyberArk 11.6 API features
 
@@ -1231,7 +1249,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Set-PASUser`
     - Updated to remove repeated code
 
-## **4.3.65** (August 20th 2020)
+## [4.3.65] - 2020-08-20
 
 - Fixes
   - `Get-PASAccount`
@@ -1239,7 +1257,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Get-PASApplicationAuthenticationMethod`
     - Adds properties `Subject`, `Issuer` & `SubjectAlternativeName` to output view.
 
-## **4.3.62** (August 14th 2020)
+## [4.3.62] - 2020-08-14
 
 - Updated Functions
   - `New-PASRequest`
@@ -1264,7 +1282,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - Fixed issue where json displayed in debug output may not have been valid.
   - Updates to codebase and refactored functions to remove repeated code.
 
-## **4.2.26** (July 27th 2020)
+## [4.2.26] - 2020-07-27
 
 ### Module update to cover all CyberArk 11.5 API features
 
@@ -1328,7 +1346,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Add-PASDiscoveredAccount`
     - Fixed potential issue with date values converted into UNIXTimeStamp.
 
-## **4.1.11** (July 14th 2020)
+## [4.1.11] - 2020-07-14
 
 ### Module update to cover CyberArk 11.5 API features
 
@@ -1376,7 +1394,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - Documentation updated.
   - Duplicated code for creating the query portion of a URL replaced with new helper function internal to the module.
 
-## **4.0.0** (July 1st 2020)
+## [4.0.0] - 2020-07-01
 
 ### Module update to cover CyberArk 11.4 API features
 
@@ -1402,7 +1420,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Add-PASSafeMember` & `Set-PASSafeMember`
     - Update ensures json body of request is always sent with the permission properties statically ordered.
 
-## 3.5.8 (April 2nd 2020)
+## [3.5.8] - 2020-04-02
 
 - Changes minimum required PowerShell version to 5.1
 - Updates + Fixes
@@ -1414,7 +1432,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Get-PASSafeMember`
     - Updated help text to clarify `MemberName` parameter and expected failure conditions due to request method (`PUT` instead of `GET`)
 
-## 3.5.0 (March 15th 2020)
+## [3.5.0] - 2020-03-15
 
 ### Module update to cover CyberArk 11.3
 
@@ -1431,7 +1449,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Add-PASApplicationAuthenticationMethod`
     - Added support for configuring Certificate Attribute authentication method
 
-## 3.4.100 (January 27th 2020)
+## [3.4.100] - 2020-01-27
 
 ### Module update to cover CyberArk 11.2 API features
 
@@ -1466,7 +1484,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - All functions help text updated to include link to function documentation on <https://pspas.pspete.dev>
   - Corrections & updates to documentation on <https://pspas.pspete.dev>
 
-## 3.3.88 (December 13th 2019)
+## [3.3.88] - 2019-12-13
 
 ### Module update to cover CyberArk 11.1 API features
 
@@ -1513,28 +1531,28 @@ Includes a general update across multiple module commands to ensure commands whi
   - Error Reporting
     - Added more verbose error messages.
 
-## 3.2.37 (Sept 17th 2019)
+## [3.2.37] - 2019-09-17
 
 - Update Format for `psPAS.CyberArk.Vault.User`
   - Change default displayed properties when searching users with V10 API.
 
-## 3.2.34 (Sept 11th 2019)
+## [3.2.34] - 2019-09-11
 
 - Minor updates to Help Text.
   - Clarified version requirements for parameters & api capabilities.
 
-## 3.2.32 (Sept 5th 2019)
+## [3.2.32] - 2019-09-05
 
 - Fixes
   - `Add-PASSafeMember`
     - Update validation of MemberName parameter to not accept values containing `&` symbol.
 
-## 3.2.30 (Sept 1st 2019)
+## [3.2.30] - 2019-09-01
 
 - Update
   - Raise minimum required PowerShell version to 5.0.
 
-## 3.2.27 (Sept 1st 2019)
+## [3.2.27] - 2019-09-01
 
 - Updates
   - `New-PASSession`
@@ -1545,19 +1563,19 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Get-PASAccountPassword`
     - Parameter name corrected to `TicketingSystem` from `TicketingSystemName`
 
-## 3.1.13 (July 19th 2019)
+## [3.1.13] - 2019-07-19
 
 - Fixes
   - `New-PASSession`
     - Fixes issue where authentication token was not available to other module functions after authenticating via the v10 API endpoint from CyberArk v9.X.
 
-## 3.1.10 (July 16th 2019)
+## [3.1.10] - 2019-07-16
 
 - Fixes
   - `Set-PASAccount`
     - Fixes non-terminating error when not piping an object into the function and using the Classic API.
 
-## 3.1.7 (July 13th 2019)
+## [3.1.7] - 2019-07-13
 
 - Updates
   - `Add-PASSafeMember`
@@ -1565,7 +1583,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Get-PASSafeMember`
     - Updated help text to detail permission name equivalents returned from the API.
 
-## 3.1.0 (July 7th 2019)
+## [3.1.0] - 2019-07-07
 
 ### Module update to cover CyberArk 10.10 API features
 
@@ -1584,7 +1602,7 @@ Includes a general update across multiple module commands to ensure commands whi
   - `Unblock-PASUser`
     - Added parameter `id` for 10.10 API endpoint
 
-## **3.0.0** (July 1st 2019)
+## [3.0.0] - 2019-07-01
 
 _2 years since first commit Anniversary Edition_
 
@@ -1657,14 +1675,14 @@ _2 years since first commit Anniversary Edition_
 - Other
   - Improvements to exception handling and error reporting.
 
-## 2.6.17 (May 16th 2019)
+## [2.6.17] - 2019-05-16
 
 - Fix
   - `Add-PASDirectory`
     - Parameter `SSLConnect` added (required if adding LDAPS hosts)
     - Thanks (again) [jmk-foofus](https://github.com/jmk-foofus)!
 
-## 2.6.15 (May 2nd 2019)
+## [2.6.15] - 2019-05-02
 
 ### Module update to cover CyberArk 10.9 API features
 
@@ -1674,7 +1692,7 @@ _2 years since first commit Anniversary Edition_
   - `Get-PASUser`
     - Added support for the updated Get Users API method for v10.9
 
-## 2.5.11 (April 30th 2019)
+## [2.5.11] - 2019-04-30
 
 - Updates
   - `Get-PASSafeMember`
@@ -1695,13 +1713,13 @@ _2 years since first commit Anniversary Edition_
   - `Unlock-PASAccount`
     - Added Alias `id` to `AccountID` parameter
 
-## 2.5.6 (April 11th 2019)
+## [2.5.6] - 2019-04-11
 
 - Fix
   - `Add-PASApplication`
     - Parameter `BusinessOwnerPhone` changed to `[string]` type
 
-## 2.5.2 (April 6th 2019)
+## [2.5.2] - 2019-04-06
 
 - Updated Functions (Thanks [steveredden](https://github.com/steveredden)!)
   - `Get-PASAccount`
@@ -1710,7 +1728,7 @@ _2 years since first commit Anniversary Edition_
   - `Get-PASSafe`
     - TimeoutSec parameter added
 
-## 2.5.0 (March 28th 2019)
+## [2.5.0] - 2019-03-28
 
 ### Module update to cover CyberArk 10.7 API features
 
@@ -1733,7 +1751,7 @@ _2 years since first commit Anniversary Edition_
 - Other Updates
   - Updated comment based help content based on user feedback.
 
-## 2.4.8 (February 16th 2019)
+## [2.4.8] - 2019-02-16
 
 - Updated Functions / Bug Fix / Breaking Change
   - `Close-PASSession`
@@ -1747,13 +1765,13 @@ _2 years since first commit Anniversary Edition_
   - `New-PASSession`
     - Fixed unexpected element in request body when specifying UseDefaultCredentials with Windows Authentication.
 
-## 2.4.3 (February 15th 2019)
+## [2.4.3] - 2019-02-15
 
 - Bug Fix
   - Remove debug output which could contain plaintext passwords.
     - Thanks [karrth](https://github.com/karrth)!
 
-## 2.4.0 (February 1st 2019)
+## [2.4.0] - 2019-02-01
 
 ### Module update to cover CyberArk 10.6 API features
 
@@ -1778,13 +1796,13 @@ _2 years since first commit Anniversary Edition_
   - `Get-PASPSMConnectionParameter`
     - Added support for RDP File output
 
-## 2.3.6 (December 2nd 2018)
+## [2.3.6] - 2018-12-02
 
 - Fixed
   - `Invoke-PASRestMethod`
     - Specify "UseBasicParsing" on each request to prevent issues when run on machines which do not have IE available and initialized.
 
-## 2.3.0 (November 1st 2018)
+## [2.3.0] - 2018-11-01
 
 ### Module update to cover CyberArk 10.5 API features
 
@@ -1811,14 +1829,14 @@ _2 years since first commit Anniversary Edition_
 - Bug Fixes
   - Use of TLS 1.2 Protocol enforced when using PSCore
 
-## 2.2.22 (October 21st 2018)
+## [2.2.22] - 2018-10-21
 
 - Update
   - `New-PASSession`
     - Option added to use Windows integrated authentication with default credentials
       - Thanks [steveredden](https://github.com/steveredden)!
 
-## 2.2.10 (September 23rd 2018)
+## [2.2.10] - 2018-09-23
 
 - Bug Fix
   - `Get-PASAccountPassword`
@@ -1826,20 +1844,20 @@ _2 years since first commit Anniversary Edition_
   - `Get-PASAccount`
     - Validation added to `limit` parameter.
 
-## 2.2.2 (September 12th 2018)
+## [2.2.2] - 2018-09-12
 
 - Bug Fix
   - `Get-PASAccountPassword`
     - Backward compatibility for retrieving password values from CyberArk version 9 restored.
 
-## 2.2.0 (July 27th 2018)
+## [2.2.0] - 2018-07-27
 
 - Bug Fix
   - `Export-PASPlatform`
     - Exported files were invalid, now fixed.
     - Thanks [jmk-foofus](https://github.com/jmk-foofus)!
 
-## 2.1.0 (July 18th 2018)
+## [2.1.0] - 2018-07-18
 
 - New Functions
   - `Get-PASPTAEvent` - function added, returns security events from PTA.
@@ -1849,13 +1867,13 @@ _2 years since first commit Anniversary Edition_
   - `Set-PASPTARule` - function added, updates a rule in PTA.
   - `Set-PASPTARemediation` - function added, updates automatic remediation.settings in PTA.
 
-## 2.0.4 (July 8th 2018)
+## [2.0.4] - 2018-07-08
 
 - Updated Function
   - `Set-PASAccount`, updated to support new 10.4 API features.
     - Thanks [Assaf](https://github.com/AssafMiron)!
 
-## 2.0.0 (July 1st 2018)
+## [2.0.0] - 2018-07-01
 
 _The 1 year since first commit anniversary edition_
 
@@ -1907,7 +1925,7 @@ _The 1 year since first commit anniversary edition_
   - PSCore:
     - All testing via Appveyor has now been transitioned to, and is performed in, PSCore.
 
-## 1.3.0 (June 5 2018)
+## [1.3.0] - 2018-06-05
 
 ### Module update to cover CyberArk 10.3 API features ~~(part 1)~~
 
@@ -1922,20 +1940,20 @@ _The 1 year since first commit anniversary edition_
   - Build, Test, Deploy process updated to run in PowerShell Core instead of Windows PowerShell 5
   - Removed about_psPAS_Versions.help.txt - an unhelpful help file.
 
-## 1.2.5 (April 28 2018)
+## [1.2.5] - 2018-04-28
 
 - Bug Fix:
   - Fix added to specify `-SkipHeaderValidation` on `Invoke-WebRequest` if using PowerShell Core.
     - Thanks [Serge](https://github.com/SNikalaichyk)!
 
-## 1.2.3 (April 17 2018)
+## [1.2.3] - 2018-04-17
 
 - Bug Fixes:
   - `New-PASSession`, `New-PASSAMLSession` & `New-PASSharedSession`
     prevented from providing output (except error message) in the
     event of a failure
 
-## 1.2.0 (March 16 2018)
+## [1.2.0] - 2018-03-16
 
 ### Module updated to cover CyberArk 10.2 API features
 
@@ -1952,7 +1970,7 @@ _The 1 year since first commit anniversary edition_
 
 - Attained 100% Code Coverage in the Tests for the module.
 
-## 1.1.8 (March 09 2018)
+## [1.1.8] - 2018-03-09
 
 - Bug Fixes:
   - `Add-PASAccountGroupMember` now sends AccountID with request.
@@ -1962,6 +1980,6 @@ _The 1 year since first commit anniversary edition_
     parameters updated to allow specification of alternate PVWA application name
     (in-line with the rest of the module's functions).
 
-## 1.0.6 (February 12 2018)
+## [1.0.6] - 2018-02-12
 
 Published to [PowerShell Gallery](http://powershellgallery.com/packages/psPAS)

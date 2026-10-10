@@ -14,19 +14,19 @@ Full documentation: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 
 ## Module Status
 
-| Master Branch               | Latest Build               | PowerShell Gallery        | CodeFactor                 | Coverage                     | License                      |
+| Master Branch               | Dev Branch                 | PowerShell Gallery        | CodeFactor                 | Coverage                     | License                      |
 | --------------------------- | -------------------------- | ------------------------- | -------------------------- | ---------------------------- | ---------------------------- |
-| [![appveyor][]][av-site]    | [![tests][]][tests-site]   | [![psgallery][]][ps-site] | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![license][]][license-link] |
+| [![build][]][build-site]    | [![dev][]][dev-site]       | [![psgallery][]][ps-site] | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![license][]][license-link] |
 | [![release][]][github-site] | [![github][]][installlink] | [![downloads][]][ps-site] |                            |                              |                              |
 
-[appveyor]: https://ci.appveyor.com/api/projects/status/j45hbplm4dq4vfye/branch/master?svg=true
-[av-site]: https://ci.appveyor.com/project/pspete/pspas/branch/master
+[build]: https://github.com/pspete/psPAS/actions/workflows/ci.yml/badge.svg?branch=master&event=push
+[build-site]: https://github.com/pspete/psPAS/actions/workflows/ci.yml?query=branch%3Amaster
 [psgallery]: https://img.shields.io/powershellgallery/v/psPAS.svg
 [ps-site]: https://www.powershellgallery.com/packages/psPAS
 [license]: https://img.shields.io/github/license/pspete/psPAS.svg
 [license-link]: https://github.com/pspete/psPAS/blob/master/LICENSE.md
-[tests]: https://img.shields.io/appveyor/tests/pspete/pspas.svg
-[tests-site]: https://ci.appveyor.com/project/pspete/pspas
+[dev]: https://github.com/pspete/psPAS/actions/workflows/ci.yml/badge.svg?branch=dev&event=push
+[dev-site]: https://github.com/pspete/psPAS/actions/workflows/ci.yml?query=branch%3Adev
 [downloads]: https://img.shields.io/powershellgallery/dt/pspas.svg?color=blue
 [cf-site]: https://www.codefactor.io/repository/github/pspete/pspas
 [codefactor]: https://www.codefactor.io/repository/github/pspete/pspas/badge

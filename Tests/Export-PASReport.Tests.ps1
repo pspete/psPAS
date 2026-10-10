@@ -60,7 +60,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
                 FileName     = 'SomeReport'
                 Type         = 'SomeType'
                 ReportFormat = 'XLS'
-                path         = "$env:Temp\testExport.zip"
+                path         = "$([System.IO.Path]::GetTempPath())testExport.zip"
             }
             $response = Export-PASReport @InputObj
         }
@@ -134,7 +134,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Mock Invoke-PASRestMethod -MockWith { New-Object Byte[] 512 }
 
-                Export-PASReport -Safe SomeSafe -Folder SomeFolder -FileName SomeReport -Type SomeType -ReportFormat XLSX -path "$env:Temp\testExportXlsx.zip"
+                Export-PASReport -Safe SomeSafe -Folder SomeFolder -FileName SomeReport -Type SomeType -ReportFormat XLSX -path "$([System.IO.Path]::GetTempPath())testExportXlsx.zip"
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
@@ -148,7 +148,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Mock Invoke-PASRestMethod -MockWith { "Name,Value`r`nSomeName,SomeValue" }
 
-                $CsvPath = Join-Path $env:Temp "psPASTests_$([guid]::NewGuid().Guid).csv"
+                $CsvPath = Join-Path ([System.IO.Path]::GetTempPath()) "psPASTests_$([guid]::NewGuid().Guid).csv"
 
                 try {
 

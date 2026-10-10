@@ -170,7 +170,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
             BeforeAll {
 
-                $Script:SyslogCertTestDrive = Join-Path $env:TEMP "psPASTests_$([guid]::NewGuid().Guid)"
+                $Script:SyslogCertTestDrive = Join-Path ([System.IO.Path]::GetTempPath()) "psPASTests_$([guid]::NewGuid().Guid)"
                 New-Item -ItemType Directory -Path $Script:SyslogCertTestDrive -Force | Out-Null
 
             }
