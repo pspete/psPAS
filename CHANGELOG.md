@@ -7,6 +7,10 @@
 
 ## Unreleased
 
+- N/A
+
+## [8.2.0] - 2026-10-10
+
 ### Added
 
 - Faster module import
