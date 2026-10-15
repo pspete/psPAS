@@ -168,6 +168,10 @@ commands:
         url: /commands/Add-PASDiscoveredLocalAccount
       - title: "Remove-PASDiscoveredLocalAccount"
         url: /commands/Remove-PASDiscoveredLocalAccount
+      - title: "Get-PASRemediationRuleSet"
+        url: /commands/Get-PASRemediationRuleSet
+      - title: "Remove-PASRemediationRuleSet"
+        url: /commands/Remove-PASRemediationRuleSet
       - title: "Get-PASAccountSearchProperty"
         url: /commands/Get-PASAccountSearchProperty
       - title: "Get-PASLinkedGroup"

@@ -273,6 +273,8 @@
 		'Set-PASDiscoveredLocalAccount',
 		'Hide-PASDiscoveredLocalAccount',
 		'Restore-PASDiscoveredLocalAccount',
+		'Get-PASRemediationRuleSet',
+		'Remove-PASRemediationRuleSet',
 		'Enable-PASTheme',
 		'Remove-PASTheme',
 		'Get-PASStoredPlatform',

@@ -7,7 +7,12 @@
 
 ## Unreleased
 
-- N/A
+### Added
+
+- `Get-PASRemediationRuleSet`
+  - Privilege Cloud only command to get remediation rule sets for discovered accounts
+- `Remove-PASRemediationRuleSet`
+  - Privilege Cloud only command to delete a remediation rule set
 
 ## [8.2.0] - 2026-10-10
 
