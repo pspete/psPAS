@@ -213,6 +213,8 @@ If version requirement criteria are not met, operations may be prevented.
 | [`Get-PASDiscoveredLocalAccount`][Get-PASDiscoveredLocalAccount]                           | **P Cloud Only**                                                                                              | Get P Cloud Discovered Local Account                             |
 | [`Clear-PASDiscoveredLocalAccount`][Clear-PASDiscoveredLocalAccount]                       | **P Cloud Only**                                                                                              | Clear all P Cloud Discovered Local Accounts                      |
 | [`Add-PASDiscoveredLocalAccount`][Add-PASDiscoveredLocalAccount]                           | **P Cloud Only**                                                                                              | Add P Cloud Discovered Local Account                             |
+| [`Get-PASRemediationRuleSet`][Get-PASRemediationRuleSet]                                   | **P Cloud Only**                                                                                              | Get P Cloud Remediation Rule Set                                 |
+| [`Remove-PASRemediationRuleSet`][Remove-PASRemediationRuleSet]                             | **P Cloud Only**                                                                                              | Delete P Cloud Remediation Rule Set                              |
 | [`Enable-PASTheme`][Enable-PASTheme]                                                       | **14.6**                                                                                                      | Activate a custom UI theme                                       |
 | [`Remove-PASTheme`][Remove-PASTheme]                                                       | **14.6**                                                                                                      | Delete a custom UI theme                                         |
 | [`Import-PASThemeImage`][Import-PASThemeImage]                                             | **14.6**                                                                                                      | Import an image for use in a custom UI theme                     |
@@ -329,6 +331,8 @@ If version requirement criteria are not met, operations may be prevented.
 [Clear-PASDiscoveredLocalAccount]: /commands/Clear-PASDiscoveredLocalAccount
 [Add-PASDiscoveredLocalAccount]: /commands/Add-PASDiscoveredLocalAccount
 [Remove-PASDiscoveredLocalAccount]: /commands/Remove-PASDiscoveredLocalAccount
+[Get-PASRemediationRuleSet]: /commands/Get-PASRemediationRuleSet
+[Remove-PASRemediationRuleSet]: /commands/Remove-PASRemediationRuleSet
 [Add-PASPTAExcludedTarget]: /commands/Add-PASPTAExcludedTarget
 [Add-PASPTAIncludedTarget]: /commands/Add-PASPTAIncludedTarget
 [Add-PASPTAPrivilegedGroup]: /commands/Add-PASPTAPrivilegedGroup
