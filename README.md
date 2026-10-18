@@ -17,7 +17,7 @@ Full documentation: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 | Master Branch               | Dev Branch                 | PowerShell Gallery        | CodeFactor                 | Coverage                     | License                      |
 | --------------------------- | -------------------------- | ------------------------- | -------------------------- | ---------------------------- | ---------------------------- |
 | [![build][]][build-site]    | [![dev][]][dev-site]       | [![psgallery][]][ps-site] | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![license][]][license-link] |
-| [![release][]][github-site] | [![github][]][installlink] | [![downloads][]][ps-site] |                            |                              |                              |
+|                             |                            | [![downloads][]][ps-site] |                            |                              |                              |
 
 [build]: https://github.com/pspete/psPAS/actions/workflows/ci.yml/badge.svg?branch=master&event=push
 [build-site]: https://github.com/pspete/psPAS/actions/workflows/ci.yml?query=branch%3Amaster
@@ -32,10 +32,6 @@ Full documentation: [https://pspas.pspete.dev](https://pspas.pspete.dev)
 [codefactor]: https://www.codefactor.io/repository/github/pspete/pspas/badge
 [codecov]: https://codecov.io/gh/pspete/psPAS/branch/master/graph/badge.svg
 [codecov-link]: https://codecov.io/gh/pspete/psPAS
-[github]: https://img.shields.io/github/downloads/pspete/psPAS/total?color=brightgreen
-[github-site]: https://github.com/pspete/psPAS/releases/latest
-[release]: https://img.shields.io/github/v/release/pspete/psPAS?color=brightgreen
-[installlink]: https://github.com/pspete/psPAS#install-options
 
 ---
 
