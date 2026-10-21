@@ -71,6 +71,62 @@
 			</ListControl>
 		</View>
 		<View>
+			<Name>psPAS.CyberArk.Vault.Account.V10</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Account.V10</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Label>AccountID</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Safe</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>Managed</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>createdTime</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<ScriptBlock>$_.id</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>$_.safeName</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>userName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>address</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>platformId</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>$_.secretManagement.automaticManagementEnabled</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.createdTime)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>name</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
 			<Name>psPAS.CyberArk.Vault.Account</Name>
 			<ViewSelectedBy>
 				<TypeName>psPAS.CyberArk.Vault.Account</TypeName>

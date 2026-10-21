@@ -117,5 +117,49 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Task</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Task</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>recurrence</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>startTime</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>subType</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>$_.schedule.recurrence.type</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>$_.schedule.startTime</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>keepTaskDefinition</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>id</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

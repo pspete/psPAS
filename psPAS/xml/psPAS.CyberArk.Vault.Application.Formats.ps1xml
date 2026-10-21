@@ -127,5 +127,41 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.ApplicationAuth</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.ApplicationAuth</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>AppID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AuthID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AuthType</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AuthValue</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Comment</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

@@ -13,6 +13,31 @@
   - Privilege Cloud only command to get remediation rule sets for discovered accounts
 - `Remove-PASRemediationRuleSet`
   - Privilege Cloud only command to delete a remediation rule set
+- `Get-PASAccount`
+  - Table view for `Format-Table` output, ordered with AccountID first and createdTime as a date. List view remains the default.
+- `Get-PASPTARule`
+  - Table view for `Format-Table` output. List view remains the default.
+- `Get-PASPTAEvent`
+  - Table view for `Format-Table` output, summarising the accounts and commands from the event audits, with times as dates. List view remains the default.
+- `Get-PASApplicationAuthenticationMethod`
+  - Table view for `Format-Table` output. List view remains the default.
+- `Get-PASReportActivity`
+  - Default table view, listing activity names in place of the raw activities array.
+- `Get-PASOnboardingRule`
+  - Table view for `Format-Table` output, showing target or decision platform and safe, and CreationTime as a date. List view remains the default.
+- `Get-PASReport`
+  - Table view for `Format-Table` output. List view remains the default.
+- `Get-PASReportTask`
+  - Table view for `Format-Table` output, including schedule recurrence and start time. List view remains the default.
+- `Get-PASPSMRecordingProperty`
+  - Table view for `Format-Table` output. List view remains the default.
+- `Get-PASPSMSessionProperty`
+  - Table view for `Format-Table` output, including monitor, suspend and terminate permissions. List view remains the default.
+
+### Fixed
+
+- `Get-PASPSMSession`, `Get-PASPSMRecording`, `Get-PASPSMSessionProperty`, `Get-PASPSMRecordingProperty`
+  - End is now blank for live sessions, instead of showing 01/01/1970.
 
 ## [8.2.0] - 2026-10-10
 

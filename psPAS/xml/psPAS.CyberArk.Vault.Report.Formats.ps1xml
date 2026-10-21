@@ -81,5 +81,79 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Report.ActivityGroup</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Report.ActivityGroup</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>activities</Label>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>displayName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>activityGroup</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>$_.activities.name -join ', '</ScriptBlock>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Report</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Report</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>status</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>records</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>size</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>createdAt</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>createdBy</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>type</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

@@ -80,6 +80,46 @@
 			</ListControl>
 		</View>
 		<View>
+			<Name>psPAS.CyberArk.Vault.PTA.Rule</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PTA.Rule</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>id</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>category</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>score</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>response</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>active</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>description</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
 			<Name>psPAS.CyberArk.Vault.PTA.Remediation</Name>
 			<ViewSelectedBy>
 				<TypeName>psPAS.CyberArk.Vault.PTA.Remediation</TypeName>
@@ -172,6 +212,62 @@
 					</ListEntry>
 				</ListEntries>
 			</ListControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.PTA.Event</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PTA.Event</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>account</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>command</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>createTime</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>lastUpdateTime</Label>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>id</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>type</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>score</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>mStatus</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>($_.audits.account.accountAsStr | Select-Object -Unique) -join &apos;, &apos;</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>($_.audits.psmCommand | Select-Object -Unique) -join &apos;, &apos;</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.createTime/1000)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.lastUpdateTime/1000)</ScriptBlock>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
 		</View>
 	</ViewDefinitions>
 </Configuration>

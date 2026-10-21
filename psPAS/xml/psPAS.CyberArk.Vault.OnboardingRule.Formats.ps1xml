@@ -89,5 +89,63 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.OnboardingRule</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.OnboardingRule</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>PlatformID</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>SafeName</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>CreationTime</Label>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>RuleId</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>RuleName</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>if($_.TargetPlatformId){$_.TargetPlatformId}else{$_.DecisionPlatformId}</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>if($_.TargetSafeName){$_.TargetSafeName}else{$_.DecisionSafeName}</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>SystemTypeFilter</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AccountCategoryFilter</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AddressFilter</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>RulePrecedence</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.CreationTime)</ScriptBlock>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

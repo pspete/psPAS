@@ -50,7 +50,7 @@
 							</TableColumnItem>
 							<TableColumnItem>
 								<ScriptBlock>
-									(get-date 1/1/1970).addseconds($_.End)
+									if($_.End){(get-date 1/1/1970).addseconds($_.End)}
 								</ScriptBlock>
 							</TableColumnItem>
 						</TableColumnItems>
@@ -126,7 +126,7 @@
 							</ListItem>
 							<ListItem>
 								<Label>End</Label>
-								<ScriptBlock>(get-date 1/1/1970).addseconds($_.End)</ScriptBlock>
+								<ScriptBlock>if($_.End){(get-date 1/1/1970).addseconds($_.End)}</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>Duration</PropertyName>
@@ -265,7 +265,7 @@
 							</ListItem>
 							<ListItem>
 								<Label>End</Label>
-								<ScriptBlock>(get-date 1/1/1970).addseconds($_.End)</ScriptBlock>
+								<ScriptBlock>if($_.End){(get-date 1/1/1970).addseconds($_.End)}</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>Duration</PropertyName>
@@ -392,7 +392,7 @@
 							</ListItem>
 							<ListItem>
 								<Label>End</Label>
-								<ScriptBlock>(get-date 1/1/1970).addseconds($_.End)</ScriptBlock>
+								<ScriptBlock>if($_.End){(get-date 1/1/1970).addseconds($_.End)}</ScriptBlock>
 							</ListItem>
 							<ListItem>
 								<PropertyName>Duration</PropertyName>
@@ -476,6 +476,122 @@
 					</ListEntry>
 				</ListEntries>
 			</ListControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.PSM.Recording.Property</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PSM.Recording.Property</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>Start</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>SessionID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>User</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AccountUsername</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AccountAddress</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AccountPlatformID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Protocol</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.Start)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Duration</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>RiskScore</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.PSM.Session.Property</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.PSM.Session.Property</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>Start</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>SessionID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>User</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AccountUsername</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AccountAddress</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>AccountPlatformID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Protocol</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.Start)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Duration</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>CanMonitor</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>CanSuspend</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>CanTerminate</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
 		</View>
 	</ViewDefinitions>
 </Configuration>
