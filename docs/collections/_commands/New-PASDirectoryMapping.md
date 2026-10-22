@@ -19,7 +19,8 @@ New-PASDirectoryMapping [-DirectoryName] <String> [-MappingName] <String> [-LDAP
  [-DomainGroups] <String[]> [[-VaultGroups] <String[]>] [[-Location] <String>] [[-LDAPQuery] <String>]
  [[-MappingAuthorizations] <Authorizations>] [[-UserActivityLogPeriod] <Int32>] [-UsedQuota <Int32>]
  [-AuthorizedInterfaces <String[]>] [-EnableENEWhenDisconnected <Boolean>]
- [-allowedAuthenticationMethods <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-allowedAuthenticationMethods <String[]>] [-AuthenticationMethod <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,6 +55,13 @@ New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=CO
 
 Creates a new LDAP directory mapping in the Vault with the following authorizations:
 AddUpdateUsers, AddSafes, BackupAllSafes
+
+### EXAMPLE 4
+```
+New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName RadiusUsers -AuthenticationMethod AuthTypeRadius
+```
+
+Creates a new LDAP directory mapping in the Vault, with RADIUS authentication configured for mapped users.
 
 ## PARAMETERS
 
@@ -297,6 +305,28 @@ Requires 14.4
 Type: String[]
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -AuthenticationMethod
+The authentication method for users created by the mapping.
+
+If not specified, AuthTypeLDAP is used.
+
+The authentication method cannot be changed after the mapping is created.
+
+AuthTypeNTAuth and AuthTypeSecurID require the relevant authentication method to be configured on the Vault.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: AuthTypeLDAP, AuthTypeRadius, AuthTypeNTAuth, AuthTypeSecurID
 
 Required: False
 Position: Named

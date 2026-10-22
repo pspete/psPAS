@@ -103,7 +103,14 @@ function New-PASDirectoryMapping {
 		)]
 		[AllowEmptyCollection()]
 		[ValidateSet('SAML', 'PKI', 'PKIPN', 'FIDO', 'WINDOWS')]
-		[string[]]$allowedAuthenticationMethods
+		[string[]]$allowedAuthenticationMethods,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateSet('AuthTypeLDAP', 'AuthTypeRadius', 'AuthTypeNTAuth', 'AuthTypeSecurID')]
+		[string]$AuthenticationMethod
 
 	)
 
@@ -123,6 +130,14 @@ function New-PASDirectoryMapping {
 
 				#Transform MappingAuthorizations
 				$boundParameters.Add('MappingAuthorizations', [array][int]$MappingAuthorizations)
+				continue
+
+			}
+
+			'AuthenticationMethod' {
+
+				#API expects an array
+				$boundParameters['AuthenticationMethod'] = [array]$AuthenticationMethod
 				continue
 
 			}

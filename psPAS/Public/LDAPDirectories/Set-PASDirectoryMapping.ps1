@@ -110,7 +110,27 @@ function Set-PASDirectoryMapping {
 		)]
 		[AllowEmptyCollection()]
 		[ValidateSet('SAML', 'PKI', 'PKIPN', 'FIDO', 'WINDOWS')]
-		[string[]]$allowedAuthenticationMethods
+		[string[]]$allowedAuthenticationMethods,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[boolean]$DisableUser,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateRange(0, 24)]
+		[int]$LogonFromHour,
+
+		[parameter(
+			Mandatory = $false,
+			ValueFromPipelinebyPropertyName = $true
+		)]
+		[ValidateRange(0, 24)]
+		[int]$LogonToHour
 
 	)
 
@@ -170,7 +190,7 @@ function Set-PASDirectoryMapping {
 		$DirectoryMapping = Get-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID
 		if ($null -ne $DirectoryMapping) {
 			Format-PutRequestObject -InputObject $DirectoryMapping -boundParameters $BoundParameters -ParametersToRemove MappingID, DirectoryMappingOrder,
-			LogonToHour, LogonFromHour, UserExpiration, DisableUser, UserType, AuthenticationMethod
+			UserExpiration, UserType, AuthenticationMethod
 		}
 
 		$boundParameters['DomainGroups'] = $boundParameters['DomainGroups'] -as [array]

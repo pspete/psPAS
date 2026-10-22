@@ -33,6 +33,11 @@
   - Table view for `Format-Table` output. List view remains the default.
 - `Get-PASPSMSessionProperty`
   - Table view for `Format-Table` output, including monitor, suspend and terminate permissions. List view remains the default.
+- `New-PASDirectoryMapping`
+  - Adds `AuthenticationMethod` parameter, to set the authentication method (`AuthTypeLDAP`, `AuthTypeRadius`, `AuthTypeNTAuth` or `AuthTypeSecurID`) for users created by the mapping.
+- `Set-PASDirectoryMapping`
+  - Adds `DisableUser`, `LogonFromHour` & `LogonToHour` parameters.
+  - Existing `DisableUser`, `LogonFromHour` & `LogonToHour` values are now retained in update requests, instead of being removed.
 
 ### Fixed
 

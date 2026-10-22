@@ -33024,6 +33024,27 @@ New-PASAccountObject -userName SomeAccount2 -address 10.0.0.10 -platformID UnixS
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>AuthenticationMethod</maml:name>
+          <maml:description>
+            <maml:para>The authentication method for users created by the mapping.</maml:para>
+            <maml:para>If not specified, AuthTypeLDAP is used.</maml:para>
+            <maml:para>The authentication method cannot be changed after the mapping is created.</maml:para>
+            <maml:para>AuthTypeNTAuth and AuthTypeSecurID require the relevant authentication method to be configured on the Vault.</maml:para>
+          </maml:description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">AuthTypeLDAP</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">AuthTypeRadius</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">AuthTypeNTAuth</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">AuthTypeSecurID</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -33216,6 +33237,21 @@ New-PASAccountObject -userName SomeAccount2 -address 10.0.0.10 -platformID UnixS
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>AuthenticationMethod</maml:name>
+        <maml:description>
+          <maml:para>The authentication method for users created by the mapping.</maml:para>
+          <maml:para>If not specified, AuthTypeLDAP is used.</maml:para>
+          <maml:para>The authentication method cannot be changed after the mapping is created.</maml:para>
+          <maml:para>AuthTypeNTAuth and AuthTypeSecurID require the relevant authentication method to be configured on the Vault.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -33244,6 +33280,13 @@ New-PASAccountObject -userName SomeAccount2 -address 10.0.0.10 -platformID UnixS
         <dev:code>New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName Map1 -MappingAuthorizations AddUpdateUsers, AddSafes, BackupAllSafes</dev:code>
         <dev:remarks>
           <maml:para>Creates a new LDAP directory mapping in the Vault with the following authorizations: AddUpdateUsers, AddSafes, BackupAllSafes</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>New-PASDirectoryMapping -DirectoryName "domain.com" -LDAPBranch "DC=DOMAIN,DC=COM" -DomainGroups ADGroup -MappingName RadiusUsers -AuthenticationMethod AuthTypeRadius</dev:code>
+        <dev:remarks>
+          <maml:para>Creates a new LDAP directory mapping in the Vault, with RADIUS authentication configured for mapped users.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -52722,6 +52765,7 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
     <maml:description>
       <maml:para>Updates a directory mapping.</maml:para>
       <maml:para>Membership of the Vault Admins group required.</maml:para>
+      <maml:para>The authentication method of a mapping cannot be updated.</maml:para>
       <maml:para>Minimum required version 10.7</maml:para>
     </maml:description>
     <command:syntax>
@@ -52943,6 +52987,42 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>DisableUser</maml:name>
+          <maml:description>
+            <maml:para>Whether users created by the mapping are disabled.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>LogonFromHour</maml:name>
+          <maml:description>
+            <maml:para>The hour from which users created by the mapping can log on (0-24).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>LogonToHour</maml:name>
+          <maml:description>
+            <maml:para>The hour until which users created by the mapping can log on (0-24).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -53153,6 +53233,42 @@ Set-PASAccount -AccountID 29_3 -operations $actions</dev:code>
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>DisableUser</maml:name>
+        <maml:description>
+          <maml:para>Whether users created by the mapping are disabled.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>LogonFromHour</maml:name>
+        <maml:description>
+          <maml:para>The hour from which users created by the mapping can log on (0-24).</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>LogonToHour</maml:name>
+        <maml:description>
+          <maml:para>The hour until which users created by the mapping can log on (0-24).</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes />
     <command:returnValues />
@@ -53188,6 +53304,14 @@ Set-PASDirectoryMapping -DirectoryName $Directory -MappingAuthorizations AddUpda
         <dev:remarks>
           <maml:para>Sets UserActivityLogPeriod for the mapping to 365</maml:para>
           <maml:para>Minimum required version 10.10</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -LogonFromHour 8 -LogonToHour 18</dev:code>
+        <dev:remarks>
+          <maml:para>Restricts logon for users created by the mapping to between 08:00 and 18:00</maml:para>
+          <maml:para>Minimum required version 10.7</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

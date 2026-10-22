@@ -19,13 +19,16 @@ Set-PASDirectoryMapping [-DirectoryName] <String> [-MappingID] <String> [[-Mappi
  [[-LDAPBranch] <String>] [[-DomainGroups] <String[]>] [[-VaultGroups] <String[]>] [[-Location] <String>]
  [[-LDAPQuery] <String>] [[-MappingAuthorizations] <Authorizations>] [[-UserActivityLogPeriod] <Int32>]
  [-UsedQuota <Int32>] [-AuthorizedInterfaces <String[]>] [-EnableENEWhenDisconnected <Boolean>]
- [-allowedAuthenticationMethods <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-allowedAuthenticationMethods <String[]>] [-DisableUser <Boolean>] [-LogonFromHour <Int32>]
+ [-LogonToHour <Int32>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Updates a directory mapping.
 
 Membership of the Vault Admins group required.
+
+The authentication method of a mapping cannot be updated.
 
 Minimum required version 10.7
 
@@ -61,6 +64,15 @@ Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -Map
 Sets UserActivityLogPeriod for the mapping to 365
 
 Minimum required version 10.10
+
+### EXAMPLE 4
+```
+Set-PASDirectoryMapping -DirectoryName $DirectoryName -MappingID $MappingID -LogonFromHour 8 -LogonToHour 18
+```
+
+Restricts logon for users created by the mapping to between 08:00 and 18:00
+
+Minimum required version 10.7
 
 ## PARAMETERS
 
@@ -320,6 +332,51 @@ Requires 14.4
 
 ```yaml
 Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -DisableUser
+Whether users created by the mapping are disabled.
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -LogonFromHour
+The hour from which users created by the mapping can log on (0-24).
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -LogonToHour
+The hour until which users created by the mapping can log on (0-24).
+
+```yaml
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 

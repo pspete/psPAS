@@ -85,6 +85,46 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'includes existing DisableUser and logon hours in request' {
+				Mock Get-PASDirectoryMapping -MockWith {
+					[PSCustomObject]@{
+						'MappingName'          = 'SomeName'
+						'DisableUser'          = $true
+						'LogonFromHour'        = 2
+						'LogonToHour'          = 20
+						'AuthenticationMethod' = @('AuthTypeLDAP')
+						'UserType'             = 'EPVUser'
+					}
+				}
+				$InputObj | Set-PASDirectoryMapping
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					if ($Method -ne 'PUT') { return $false }
+					$Script:RequestBody = $Body | ConvertFrom-Json
+					($Script:RequestBody.DisableUser -eq $true) -and
+					($Script:RequestBody.LogonFromHour -eq 2) -and
+					($Script:RequestBody.LogonToHour -eq 20) -and
+					($null -eq $Script:RequestBody.AuthenticationMethod) -and
+					($null -eq $Script:RequestBody.UserType)
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
+			It 'sends DisableUser and logon hour values' {
+				$InputObj | Set-PASDirectoryMapping -DisableUser $false -LogonFromHour 8 -LogonToHour 18
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					if ($Method -ne 'PUT') { return $false }
+					$Script:RequestBody = $Body | ConvertFrom-Json
+					($Script:RequestBody.DisableUser -eq $false) -and
+					($Script:RequestBody.LogonFromHour -eq 8) -and
+					($Script:RequestBody.LogonToHour -eq 18)
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'throws error if version requirement not met' {
 				$psPASSession.ExternalVersion = '1.0'
 				{ $InputObj | Set-PASDirectoryMapping } | Should -Throw
@@ -151,4 +191,4 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 	}
 
-}
+}

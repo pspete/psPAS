@@ -104,6 +104,17 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 			}
 
+			It 'sends AuthenticationMethod as an array' {
+				$InputObj | New-PASDirectoryMapping -AuthenticationMethod AuthTypeRadius
+				Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+					$Script:RequestBody = $Body | ConvertFrom-Json
+					($Script:RequestBody.AuthenticationMethod -is [array]) -and ($Script:RequestBody.AuthenticationMethod[0] -eq 'AuthTypeRadius')
+
+				} -Times 1 -Exactly -Scope It
+
+			}
+
 			It 'throws error if version requirement not met' {
 				$psPASSession.ExternalVersion = '1.0'
 				{ $InputObj | New-PASDirectoryMapping -MappingAuthorizations RestoreAllSafes, BackupAllSafes } | Should -Throw
