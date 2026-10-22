@@ -53,7 +53,7 @@ function Set-PASPTARiskEvent {
     process {
 
         #Create request URL
-        $URI = "$($psPASSession.BaseURI)/api/pta/API/Risks/RiskEvents/$ID"
+        $URI = "$($psPASSession.BaseURI)/api/pta/API/Risks/RisksEvents/$ID"
 
         #Get Parameters to include in request
         $Body = $PSBoundParameters | Get-PASParameter -ParametersToRemove ID | ConvertTo-Json

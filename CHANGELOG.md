@@ -40,6 +40,8 @@
   - End is now blank for live sessions, instead of showing 01/01/1970.
 - `Get-PASPTARiskEvent`, `Get-PASPTARiskSummary`
   - Removes trailing slash from request URLs, which caused a 404 response from PTA.
+- `Set-PASPTARiskEvent`
+  - Corrects request URL path from `RiskEvents` to `RisksEvents`, which caused a 404 response from PTA.
 
 ## [8.2.0] - 2026-10-10
 
