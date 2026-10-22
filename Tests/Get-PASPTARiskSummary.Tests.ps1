@@ -69,7 +69,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 Get-PASPTARiskSummary
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -match "$($Script:psPASSession.BaseURI)/API/pta/API/Risks/Summary/"
+                    $URI -match "$($Script:psPASSession.BaseURI)/API/pta/API/Risks/Summary$"
 
                 } -Times 1 -Exactly -Scope It
 

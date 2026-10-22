@@ -38,6 +38,8 @@
 
 - `Get-PASPSMSession`, `Get-PASPSMRecording`, `Get-PASPSMSessionProperty`, `Get-PASPSMRecordingProperty`
   - End is now blank for live sessions, instead of showing 01/01/1970.
+- `Get-PASPTARiskEvent`, `Get-PASPTARiskSummary`
+  - Removes trailing slash from request URLs, which caused a 404 response from PTA.
 
 ## [8.2.0] - 2026-10-10
 
@@ -824,7 +826,7 @@ Includes a general update across multiple module commands to ensure commands whi
 - `Get-PASAccountActivity`
   - Adds Gen2 replacement for deprecated Gen1 API.
   - Updates default operation to target Gen2 API.
-- `Get-PASPTARiskEvent`
+- `Get-PASPTARiskEvent`, `Get-PASPTARiskSummary`
   - New filter parameters `FromTime` & `ToTime`
   - Fixes output and result paging
 - `Set-PASPTARiskEvent`

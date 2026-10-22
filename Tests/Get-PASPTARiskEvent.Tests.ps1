@@ -69,7 +69,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 Get-PASPTARiskEvent
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
 
-                    $URI -match "$($Script:psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents/"
+                    $URI -match "$($Script:psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents$"
 
                 } -Times 1 -Exactly -Scope It
 
@@ -79,7 +79,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 Get-PASPTARiskEvent -FromTime (Get-Date -Year 1979 -Month 11 -Day 12 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0)
                 #311212800000 1674345600000
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-                    $URI -eq "$($Script:psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents/?filter=detectionTime%20BETWEEN%20%22311212800000%22%20TO%20%221674345600000%22"
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents?filter=detectionTime%20BETWEEN%20%22311212800000%22%20TO%20%221674345600000%22"
 
                 } -Times 1 -Exactly -Scope It
 
@@ -88,7 +88,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             It 'uses expected date filter - before date' {
                 Get-PASPTARiskEvent -ToTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) #1674345600000
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-                    $URI -eq "$($Script:psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents/?filter=detectionTime%20lte%20%221674345600000%22"
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents?filter=detectionTime%20lte%20%221674345600000%22"
 
                 } -Times 1 -Exactly -Scope It
             }
@@ -96,7 +96,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             It 'uses expected date filter - after date' {
                 Get-PASPTARiskEvent -FromTime (Get-Date -Year 2023 -Day 22 -Month 1 -Hour 0 -Minute 0 -Second 0 -Millisecond 0) #1674345600000
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
-                    $URI -eq "$($Script:psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents/?filter=detectionTime%20gte%20%221674345600000%22"
+                    $URI -eq "$($Script:psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents?filter=detectionTime%20gte%20%221674345600000%22"
 
                 } -Times 1 -Exactly -Scope It
             }

@@ -11,7 +11,7 @@ function Get-PASPTARiskSummary {
     process {
 
         #Create request URL
-        $URI = "$($psPASSession.BaseURI)/API/pta/API/Risks/Summary/"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/Risks/Summary"
 
         #Send request to web service
         $result = Invoke-PASRestMethod -Uri $URI -Method GET

@@ -80,7 +80,7 @@ function Get-PASPTARiskEvent {
     process {
 
         #Create request URL
-        $URI = "$($psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents/"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/Risks/RisksEvents"
 
         $filterParameters = $PSBoundParameters | Get-PASParameter -ParametersToKeep $Parameters
         $boundParameters = $PSBoundParameters | Get-PASParameter -ParametersToRemove @($Parameters + $TimeParameters)
