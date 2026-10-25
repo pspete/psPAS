@@ -370,5 +370,41 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.UserOrGroup</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.UserOrGroup</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>memberType</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>directorySource</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>email</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Id</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

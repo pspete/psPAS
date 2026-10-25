@@ -519,5 +519,156 @@
 				</ListEntries>
 			</ListControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Account.Approver</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Account.Approver</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>FullName</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Email</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>$_.AdditionalDetails.fullname</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>$_.AdditionalDetails.email</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Type</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Action</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Reason</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Account.Prerequisite</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Account.Prerequisite</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>Required</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>Reason</Label>
+								<ScriptBlock>$_.Reason.Required</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>DualControl</Label>
+								<ScriptBlock>$_.DualControl.Required</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>Ticketing</Label>
+								<ScriptBlock>$_.Ticketing.Required</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>Connection</Label>
+								<ScriptBlock>$_.Connection.Required</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>PreDefinedReasons</Label>
+								<ScriptBlock>$_.Reason.preDefinedReasons -join ", "</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>TotalConfirmers</Label>
+								<ScriptBlock>$_.DualControl.TotalConfirmers</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>TicketingSystems</Label>
+								<ScriptBlock>$_.Ticketing.TicketingSystems -join ", "</ScriptBlock>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Account.CPMActivity</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Account.CPMActivity</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Label>Date</Label>
+					</TableColumnHeader>
+					<TableColumnHeader />
+					<TableColumnHeader />
+					<TableColumnHeader />
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<ScriptBlock>(get-date 1/1/1970).addseconds($_.Date)</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>TaskType</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>FindReasons</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Description</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.DiscoveredAccount.OnboardSetting</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.DiscoveredAccount.OnboardSetting</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<Label>AvailableSafesForOnboard</Label>
+								<ScriptBlock>$_.AvailableSafesForOnboard.SafeName -join ", "</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>CanCreateSafes</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>CPMNames</Label>
+								<ScriptBlock>$_.CPMNames -join ", "</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>AccountDuplicationEnforcementLevel</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

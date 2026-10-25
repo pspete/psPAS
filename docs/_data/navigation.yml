@@ -97,6 +97,8 @@ commands:
         url: /commands/Stop-PASDiscoveryScan
       - title: "Remove-PASDiscoveryScan"
         url: /commands/Remove-PASDiscoveryScan
+      - title: "Get-PASDiscoveryScanSetting"
+        url: /commands/Get-PASDiscoveryScanSetting
 
   - title: "Accounts"
     children:
@@ -190,6 +192,16 @@ commands:
         url: /commands/Resume-PASCPMAutoManagement
       - title: "Stop-PASCPMTask"
         url: /commands/Stop-PASCPMTask
+      - title: "Get-PASAccountApprover"
+        url: /commands/Get-PASAccountApprover
+      - title: "Get-PASAccountPrerequisite"
+        url: /commands/Get-PASAccountPrerequisite
+      - title: "Get-PASAccountCPMActivity"
+        url: /commands/Get-PASAccountCPMActivity
+      - title: "Get-PASFavoriteAccount"
+        url: /commands/Get-PASFavoriteAccount
+      - title: "Get-PASDiscoveredAccountOnboardSetting"
+        url: /commands/Get-PASDiscoveredAccountOnboardSetting
 
   - title: "Dependent Accounts"
     children:
@@ -235,6 +247,8 @@ commands:
         url: /commands/Get-PASConnectionComponent
       - title: "Get-PASPSMServer"
         url: /commands/Get-PASPSMServer
+      - title: "Get-PASPSMSubnetRule"
+        url: /commands/Get-PASPSMSubnetRule
 
   - title: "Event Security"
     children:
@@ -331,6 +345,10 @@ commands:
         url: /commands/Set-PASDirectoryMappingOrder
       - title: "Remove-PASDirectoryMapping"
         url: /commands/Remove-PASDirectoryMapping
+      - title: "Get-PASDirectoryGroup"
+        url: /commands/Get-PASDirectoryGroup
+      - title: "Get-PASDirectoryGroupMember"
+        url: /commands/Get-PASDirectoryGroupMember
 
   - title: "Monitoring"
     children:
@@ -404,6 +422,8 @@ commands:
         url: /commands/New-PASPlatformSecret
       - title: "Set-PASPlatform"
         url: /commands/Set-PASPlatform
+      - title: "Get-PASPlatformProperty"
+        url: /commands/Get-PASPlatformProperty
 
   - title: "Policy ACL"
     children:
@@ -443,6 +463,10 @@ commands:
         url: /commands/Remove-PASSafe
       - title: "Set-PASSafe"
         url: /commands/Set-PASSafe
+      - title: "Get-PASSafeUsageMetric"
+        url: /commands/Get-PASSafeUsageMetric
+      - title: "Get-PASLocation"
+        url: /commands/Get-PASLocation
 
   - title: "Safe Members"
     children:
@@ -509,6 +533,10 @@ commands:
         url: /commands/Get-PASUserTypeInfo
       - title: "Remove-PASFIDO2Device"
         url: /commands/Remove-PASFIDO2Device
+      - title: "Find-PASUserOrGroup"
+        url: /commands/Find-PASUserOrGroup
+      - title: "Get-PASUserPreference"
+        url: /commands/Get-PASUserPreference
 
   - title: "Master Policy"
     children:
@@ -557,6 +585,8 @@ commands:
         url: /commands/Get-PASReportActivity
       - title: "Export-PASReport"
         url: /commands/Export-PASReport
+      - title: "Get-PASReportSetting"
+        url: /commands/Get-PASReportSetting
 
   - title: "UI Theme"
     children:

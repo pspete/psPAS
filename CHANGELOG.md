@@ -9,6 +9,44 @@
 
 ### Added
 
+- `Get-PASAccountApprover`
+  - Gets the approvers for an account
+  - Default table view, including approver full name and email.
+- `Get-PASAccountPrerequisite`
+  - Gets the access prerequisites for an account
+  - Default list view, summarising which prerequisites are required.
+- `Get-PASAccountCPMActivity`
+  - Gets CPM activities for an account
+  - Default table view, with Date as a date.
+- `Get-PASFavoriteAccount`
+  - Gets favorite accounts
+- `Get-PASDiscoveredAccountOnboardSetting`
+  - Gets discovered account onboarding settings
+  - Default list view, listing safe and CPM names in place of the raw arrays.
+- `Get-PASDiscoveryScanSetting`
+  - Gets discovery scan settings
+- `Get-PASPlatformProperty`
+  - Gets the account properties of a platform
+  - Default list view, listing required and optional property names. Table view for `Format-Table` output.
+- `Get-PASDirectoryGroup`
+  - Gets groups from an LDAP directory
+- `Get-PASDirectoryGroupMember`
+  - Gets members of an LDAP directory group
+  - Default table view, listing group names in place of the raw array.
+- `Find-PASUserOrGroup`
+  - Searches for users and groups
+  - Default table view.
+- `Get-PASUserPreference`
+  - Gets user preferences
+- `Get-PASSafeUsageMetric`
+  - Gets safe usage metrics
+- `Get-PASLocation`
+  - Gets vault locations
+- `Get-PASPSMSubnetRule`
+  - Gets PSM subnet rules
+- `Get-PASReportSetting`
+  - Gets report settings
+  - Default list view, listing activity groups in place of the raw delimited string.
 - `Get-PASRemediationRuleSet`
   - Privilege Cloud only command to get remediation rule sets for discovered accounts
 - `Remove-PASRemediationRuleSet`
