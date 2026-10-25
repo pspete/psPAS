@@ -19,7 +19,7 @@ function Reset-PASPTASecurityConfigurationCategory {
     process {
 
         #Create request URL
-        $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/properties/$($categoryKey | Get-EscapedString)/default"
+        $URI = "$($psPASSession.BaseURI)/API/pta/API/configuration/categories/$($categoryKey | Get-EscapedString)/default"
 
         if ($PSCmdlet.ShouldProcess($categoryKey, 'Reset PTA Security Configuration Category')) {
 

@@ -57,7 +57,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 }
             }
 
-            $response = Get-PASDirectoryGroup -DirectoryName 'SomeDomain' -Contains 'Some' -Limit 10 -IsSSLConnection $true -Verbose
+            $response = Get-PASDirectoryGroup -DirectoryName 'SomeDomain' -Contains 'Some' -Context 'OU=Groups,DC=domain,DC=com' -Limit 10 -IsSSLConnection $true -Verbose
         }
 
         Context 'Mandatory Parameters' {
@@ -92,6 +92,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'sends Context in query string' {
+
+                Assert-MockCalled Invoke-PASRestMethod -ParameterFilter {
+
+                    $URI -match 'Context=OU%3dGroups%2cDC%3ddomain%2cDC%3dcom'
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
             It 'uses expected method' {
 
                 Assert-MockCalled Invoke-PASRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
@@ -107,7 +117,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             It 'throws error if version requirement not met' {
 
                 $psPASSession.ExternalVersion = '1.0'
-                { Get-PASDirectoryGroup -DirectoryName 'SomeDomain' -Contains 'Some' -Limit 10 -IsSSLConnection $true -Verbose } | Should -Throw
+                { Get-PASDirectoryGroup -DirectoryName 'SomeDomain' -Contains 'Some' -Context 'OU=Groups,DC=domain,DC=com' -Limit 10 -IsSSLConnection $true -Verbose } | Should -Throw
                 $psPASSession.ExternalVersion = '0.0'
 
             }

@@ -85,6 +85,8 @@
   - Removes trailing slash from request URLs, which caused a 404 response from PTA.
 - `Set-PASPTARiskEvent`
   - Corrects request URL path from `RiskEvents` to `RisksEvents`, which caused a 404 response from PTA.
+- `Reset-PASPTASecurityConfigurationCategory`
+  - Corrects request URL path from `properties` to `categories`, so the category is reset instead of a property.
 
 ## [8.2.0] - 2026-10-10
 

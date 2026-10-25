@@ -14,7 +14,7 @@ Gets groups from an LDAP directory
 ## SYNTAX
 
 ```
-Get-PASDirectoryGroup -DirectoryName <String> [-Contains <String>] [-Limit <Int32>] [-IsSSLConnection <Boolean>] [<CommonParameters>]
+Get-PASDirectoryGroup -DirectoryName <String> [-Contains <String>] [-Context <String>] [-Limit <Int32>] [-IsSSLConnection <Boolean>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,6 +30,13 @@ Get-PASDirectoryGroup -DirectoryName domain.com -Contains Admins
 ```
 
 Gets groups with names containing Admins from the domain.com directory
+
+### EXAMPLE 2
+```powershell
+Get-PASDirectoryGroup -DirectoryName domain.com -Context 'OU=Groups,DC=domain,DC=com'
+```
+
+Gets groups from the Groups OU of the domain.com directory
 
 ## PARAMETERS
 
@@ -50,6 +57,21 @@ Accept wildcard characters: False
 
 ### -Contains
 Text which the group name must contain
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Context
+The distinguished name of the directory container to search for groups
 
 ```yaml
 Type: String

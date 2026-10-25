@@ -21085,6 +21085,18 @@ $Detail | Format-List *</dev:code>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>Context</maml:name>
+          <maml:description>
+            <maml:para>The distinguished name of the directory container to search for groups</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>Limit</maml:name>
           <maml:description>
             <maml:para>The maximum number of groups to return</maml:para>
@@ -21136,6 +21148,18 @@ $Detail | Format-List *</dev:code>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>Context</maml:name>
+        <maml:description>
+          <maml:para>The distinguished name of the directory container to search for groups</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>Limit</maml:name>
         <maml:description>
           <maml:para>The maximum number of groups to return</maml:para>
@@ -21173,6 +21197,13 @@ $Detail | Format-List *</dev:code>
         <dev:code>Get-PASDirectoryGroup -DirectoryName domain.com -Contains Admins</dev:code>
         <dev:remarks>
           <maml:para>Gets groups with names containing Admins from the domain.com directory</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Get-PASDirectoryGroup -DirectoryName domain.com -Context 'OU=Groups,DC=domain,DC=com'</dev:code>
+        <dev:remarks>
+          <maml:para>Gets groups from the Groups OU of the domain.com directory</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

@@ -19,6 +19,12 @@ function Get-PASDirectoryGroup {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [string]$Context,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
         [int]$Limit,
 
         [parameter(
