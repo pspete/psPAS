@@ -340,7 +340,22 @@
 		'Stop-PASDiscoveryScan',
 		'Remove-PASDiscoveryScan',
 		'Get-PASDiscoveryScan',
-		'Get-PASSessionTimeout'
+		'Get-PASSessionTimeout',
+		'Get-PASAccountApprover',
+		'Get-PASAccountPrerequisite',
+		'Get-PASAccountCPMActivity',
+		'Get-PASFavoriteAccount',
+		'Get-PASDiscoveredAccountOnboardSetting',
+		'Get-PASDiscoveryScanSetting',
+		'Get-PASPlatformProperty',
+		'Get-PASDirectoryGroup',
+		'Get-PASDirectoryGroupMember',
+		'Find-PASUserOrGroup',
+		'Get-PASUserPreference',
+		'Get-PASSafeUsageMetric',
+		'Get-PASLocation',
+		'Get-PASPSMSubnetRule',
+		'Get-PASReportSetting'
 	)
 
 	#AliasesToExport   = @()

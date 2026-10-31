@@ -347,5 +347,74 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Platform.Property</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Platform.Property</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>PlatformID</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>Required</Label>
+								<ScriptBlock>$_.Required.Name -join ", "</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<Label>Optional</Label>
+								<ScriptBlock>$_.Optional.Name -join ", "</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>IsSSHKey</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>IsSSHAgent</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>IsAmazonAccessKey</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>IsLimitDomainAccess</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Platform.Property</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Platform.Property</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader />
+					<TableColumnHeader>
+						<Label>Required</Label>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Label>Optional</Label>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>PlatformID</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>$_.Required.Name -join ", "</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<ScriptBlock>$_.Optional.Name -join ", "</ScriptBlock>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

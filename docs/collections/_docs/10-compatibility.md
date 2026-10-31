@@ -285,6 +285,21 @@ If version requirement criteria are not met, operations may be prevented.
 | [`Rename-PASPlatform`][Rename-PASPlatform]                                                 | **15.0**                                                                                                      | Renames a target platform                                        |
 | [`Resume-PASCPMAutoManagement`][Resume-PASCPMAutoManagement]                               | **15.2**                                                                                                      | Resumes CPM auto management for one or more accounts             |
 | [`Stop-PASCPMTask`][Stop-PASCPMTask]                                                       | **15.2**                                                                                                      | Cancels a pending CPM task for one or more accounts              |
+| [`Get-PASAccountApprover`][Get-PASAccountApprover]                                         | **15.2**                                                                                                      | Gets dual control approvers for an account                       |
+| [`Get-PASAccountPrerequisite`][Get-PASAccountPrerequisite]                                 | **15.2**                                                                                                      | Gets access prerequisites for an account                         |
+| [`Get-PASAccountCPMActivity`][Get-PASAccountCPMActivity]                                   | **15.2**                                                                                                      | Gets CPM activities for an account                               |
+| [`Get-PASFavoriteAccount`][Get-PASFavoriteAccount]                                         | **15.2**                                                                                                      | Gets favorite accounts of the current user                       |
+| [`Get-PASDiscoveredAccountOnboardSetting`][Get-PASDiscoveredAccountOnboardSetting]         | **15.2**                                                                                                      | Gets discovered account onboarding settings                      |
+| [`Get-PASDiscoveryScanSetting`][Get-PASDiscoveryScanSetting]                               | **15.2**                                                                                                      | Gets discovery scan settings                                     |
+| [`Get-PASPlatformProperty`][Get-PASPlatformProperty]                                       | **15.2**                                                                                                      | Gets the account properties of a platform                        |
+| [`Get-PASDirectoryGroup`][Get-PASDirectoryGroup]                                           | **15.2**                                                                                                      | Gets groups from an LDAP directory                               |
+| [`Get-PASDirectoryGroupMember`][Get-PASDirectoryGroupMember]                               | **15.2**                                                                                                      | Gets members of an LDAP directory group                          |
+| [`Find-PASUserOrGroup`][Find-PASUserOrGroup]                                               | **15.2**                                                                                                      | Searches for users and groups                                    |
+| [`Get-PASUserPreference`][Get-PASUserPreference]                                           | **15.2**                                                                                                      | Gets user preferences of the current user                        |
+| [`Get-PASSafeUsageMetric`][Get-PASSafeUsageMetric]                                         | **15.2**                                                                                                      | Gets safe usage metrics                                          |
+| [`Get-PASLocation`][Get-PASLocation]                                                       | **15.2**                                                                                                      | Gets vault locations                                             |
+| [`Get-PASPSMSubnetRule`][Get-PASPSMSubnetRule]                                             | **15.2**                                                                                                      | Gets PSM subnet rules                                            |
+| [`Get-PASReportSetting`][Get-PASReportSetting]                                             | **15.0**                                                                                                      | Gets default filter values for a report type                     |
 
 [Enable-PASTheme]: /commands/Enable-PASTheme
 [Remove-PASTheme]: /commands/Remove-PASTheme
@@ -540,6 +555,21 @@ If version requirement criteria are not met, operations may be prevented.
 [Rename-PASPlatform]: /commands/Rename-PASPlatform
 [Resume-PASCPMAutoManagement]: /commands/Resume-PASCPMAutoManagement
 [Stop-PASCPMTask]: /commands/Stop-PASCPMTask
+[Get-PASAccountApprover]: /commands/Get-PASAccountApprover
+[Get-PASAccountPrerequisite]: /commands/Get-PASAccountPrerequisite
+[Get-PASAccountCPMActivity]: /commands/Get-PASAccountCPMActivity
+[Get-PASFavoriteAccount]: /commands/Get-PASFavoriteAccount
+[Get-PASDiscoveredAccountOnboardSetting]: /commands/Get-PASDiscoveredAccountOnboardSetting
+[Get-PASDiscoveryScanSetting]: /commands/Get-PASDiscoveryScanSetting
+[Get-PASPlatformProperty]: /commands/Get-PASPlatformProperty
+[Get-PASDirectoryGroup]: /commands/Get-PASDirectoryGroup
+[Get-PASDirectoryGroupMember]: /commands/Get-PASDirectoryGroupMember
+[Find-PASUserOrGroup]: /commands/Find-PASUserOrGroup
+[Get-PASUserPreference]: /commands/Get-PASUserPreference
+[Get-PASSafeUsageMetric]: /commands/Get-PASSafeUsageMetric
+[Get-PASLocation]: /commands/Get-PASLocation
+[Get-PASPSMSubnetRule]: /commands/Get-PASPSMSubnetRule
+[Get-PASReportSetting]: /commands/Get-PASReportSetting
 
 ## Notes
 

@@ -155,5 +155,32 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		<View>
+			<Name>psPAS.CyberArk.Vault.Report.Setting</Name>
+			<ViewSelectedBy>
+				<TypeName>psPAS.CyberArk.Vault.Report.Setting</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>defaultHistory</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>defaultActivityGroups</Label>
+								<ScriptBlock>$_.defaultActivityGroups -split ';' -join ', '</ScriptBlock>
+							</ListItem>
+							<ListItem>
+								<PropertyName>location</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>includeSubLocations</PropertyName>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>
